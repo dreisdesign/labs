@@ -2,7 +2,7 @@
 
 This repository contains a collection of web development projects. Currently featuring:
 
-## Move Tracker
+## Tracker
 
 A lightweight, user-friendly web application for tracking activities with timestamps. Try it live at [https://dreisdesign.github.io/labs/tracker/](https://dreisdesign.github.io/labs/tracker/)
 
