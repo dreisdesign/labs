@@ -4,7 +4,6 @@ const trackButton = document.querySelector('.track-button');
 const resetButton = document.querySelector('.reset-button');
 const timestampList = document.getElementById('timestampList');
 const placeholderEntry = document.querySelector('.placeholder-entry');
-// const loadingTimestamps = document.getElementById('loadingTimestamps'); // Note: This element doesn't seem to be used
 const currentDateLabel = document.getElementById('currentDateLabel');
 const themeToggleButton = document.getElementById('themeToggle');
 

@@ -1,4 +1,7 @@
-/* File: /Users/danielreis/labs/main */
+/*
+ * Tracker - A simple activity tracking app
+ * main.css - Core styles and themes
+ */
 
 /* --- Base Variables (Light Mode Defaults) --- */
 :root {
@@ -6,7 +9,7 @@
     --color-secondary: #0d0b3f;
     --color-background: #c1c1ff;
     --color-surface: #fff;
-    --color-error: #4839a6;
+    --color-error: #b5005a;
     --color-on-primary: #fff;
     --color-on-background: #1C1B1F;
     --color-on-surface: #1C1B1F;
@@ -202,7 +205,7 @@ body {
     border: none;
     border-radius: 0;
     background: none;
-    color: var(--color-error);
+    color: var(--color-primary);
     cursor: pointer;
     text-align: center;
     box-shadow: none;

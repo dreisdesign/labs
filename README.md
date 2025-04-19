@@ -4,7 +4,7 @@ This repository contains a collection of web development projects. Currently fea
 
 ## Tracker
 
-A lightweight, user-friendly web application for tracking activities with timestamps. Try it live at [https://dreisdesign.github.io/labs/tracker/](https://dreisdesign.github.io/labs/tracker/)
+A simple activity tracking web application. Try it live at [https://dreisdesign.github.io/labs/tracker/](https://dreisdesign.github.io/labs/tracker/)
 
 ### Features
 
@@ -32,11 +32,17 @@ A lightweight, user-friendly web application for tracking activities with timest
 
 ```
 tracker/
-├── index.html        # Main HTML file
+├── index.html          # Main HTML file
 ├── js/
-│   └── main.js    # JavaScript functionality
-└── styles/
-    └── main   # Styling and animations
+│   └── main.js        # Core application logic
+├── styles/
+│   └── main.css       # Styling and themes
+├── site.webmanifest   # Progressive Web App manifest
+├── browserconfig.xml  # Windows tile configuration
+└── assets/           # Icons and images
+    ├── favicon.svg
+    ├── favicon.png
+    └── [other icon files]
 ```
 
 ### Features in Detail
