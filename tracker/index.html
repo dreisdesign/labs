@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Metadata and Title -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Move Tracker</title>
+    <!-- Link to CSS Stylesheet -->
+    <link rel="stylesheet" href="tracker.css">
+</head>
+
+<body>
+    <!-- Main application container -->
+    <div class="app">
+
+        <!-- Card displaying the total count -->
+        <div class="metric-card">
+            <div class="metric-label">Total Tracks</div>
+            <div class="metric-value" id="totalCount">0</div>
+        </div>
+
+        <!-- Button to track a new entry -->
+        <button class="track-button">Track</button>
+
+        <!-- Scrollable area for date and timestamps -->
+        <div id="mainContent">
+            <!-- Static date label container -->
+            <div id="currentDateLabel" class="imessage-date-label"></div>
+            <!-- Container for timestamp entries and placeholder -->
+            <div id="timestampList">
+                <!-- Placeholder shown when the list is empty -->
+                <div class="placeholder-entry">No entries yet</div>
+                <!-- Timestamp entries will be dynamically added here by JS -->
+            </div>
+            <!-- "Show all" button will be added here by JS if needed -->
+        </div>
+
+        <!-- Container for bottom action buttons -->
+        <div class="bottom-buttons">
+            <button class="reset-button">Reset</button>
+            <button id="themeToggle" class="theme-toggle-button">Theme</button>
+        </div>
+
+    </div> <!-- End .app -->
+
+    <!-- Link to JavaScript file -->
+    <script src="tracker.js"></script>
+</body>
+
+</html>

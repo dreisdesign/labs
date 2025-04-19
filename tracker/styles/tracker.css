@@ -1,0 +1,349 @@
+/* File: /Users/danielreis/Labs/tracker.css */
+
+/* --- Base Variables (Light Mode Defaults) --- */
+:root {
+    --color-primary: #2e2b74;
+    --color-secondary: #0d0b3f;
+    --color-background: #c1c1ff;
+    --color-surface: #fff;
+    --color-error: #4839a6;
+    --color-on-primary: #fff;
+    --color-on-background: #1C1B1F;
+    --color-on-surface: #1C1B1F;
+    --color-on-error: #fff;
+}
+
+/* --- Global Styles --- */
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: var(--color-background);
+    color: var(--color-on-background);
+    font-family: system-ui, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+}
+
+/* --- App Container --- */
+.app {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 4vw 0 5.5rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    position: relative;
+    min-height: 80vh;
+}
+
+/* --- Metric Card (Total Count) --- */
+.metric-card {
+    background: var(--color-surface);
+    border-radius: 1.2rem;
+    box-shadow: none;
+    padding: 2.5rem 1.5rem 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 80%;
+}
+
+.metric-label {
+    font-size: 1.2rem;
+    color: var(--color-on-surface);
+    margin-bottom: 0.7rem;
+    font-weight: 500;
+}
+
+.metric-value {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--color-primary);
+    line-height: 1.1;
+}
+
+/* --- Track Button --- */
+.track-button {
+    width: 100%;
+    padding: 1rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.7rem;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    cursor: pointer;
+    transition: background 0.2s;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.track-button:hover {
+    background: var(--color-secondary);
+}
+
+/* --- Main Content Area (Timestamp List) --- */
+#mainContent {
+    flex: 1 1 auto;
+    min-height: 60px;
+    max-height: calc(60vh - 120px);
+    overflow-y: auto;
+    margin-bottom: 2.5rem;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Timestamp List Container (Grid Layout) */
+#timestampList {
+    display: grid;
+    grid-template-rows: auto;
+    gap: 0.5rem;
+    position: relative;
+    padding-top: 0;
+    justify-items: center;
+}
+
+/* Individual Timestamp Entry */
+.time-entry {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 1.1rem;
+    color: var(--color-on-surface);
+    grid-column: 1;
+    width: fit-content;
+}
+
+.time-entry.new-entry {
+    animation: fadeInEntry 0.4s ease-out forwards;
+}
+
+/* Placeholder Text ("No entries yet") */
+.placeholder-entry {
+    color: var(--color-on-surface);
+    text-align: center;
+    font-size: 1rem;
+    padding: 1.5rem 0 0 0;
+    grid-row: 1;
+    grid-column: 1;
+    display: none;
+    width: 100%;
+    position: static;
+}
+
+/* Show placeholder only when list has 'is-empty' class */
+#timestampList.is-empty .placeholder-entry {
+    display: block;
+}
+
+/* Style the first entry when list is NOT empty */
+#timestampList:not(.is-empty) .time-entry:first-of-type {
+    grid-row: 1;
+    padding-top: 1.5rem;
+}
+
+/* Remove padding from subsequent entries */
+#timestampList:not(.is-empty) .time-entry:not(:first-of-type) {
+    padding-top: 0;
+}
+
+/* Date Label Above List */
+.imessage-date-label.always-date-label {
+    text-align: center;
+    width: 100%;
+    display: block;
+    font-size: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-on-surface);
+}
+
+/* --- Bottom Buttons (Reset, Theme) --- */
+
+/* Container for bottom buttons */
+.bottom-buttons {
+    position: absolute;
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    box-sizing: border-box;
+}
+
+/* Reset Button Styles */
+.reset-button {
+    width: auto;
+    margin: 2.5rem 0 0 0;
+    padding: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0;
+    background: none;
+    color: var(--color-error);
+    cursor: pointer;
+    text-align: center;
+    box-shadow: none;
+    transition: color 0.2s;
+}
+
+.reset-button:hover {
+    color: #a81d18;
+    text-decoration: underline;
+    background: none;
+}
+
+/* Theme Toggle Button Styles (matches Reset style but uses primary color) */
+.theme-toggle-button {
+    width: auto;
+    margin: 2.5rem 0 0 0;
+    padding: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0;
+    background: none;
+    color: var(--color-primary);
+    cursor: pointer;
+    text-align: center;
+    box-shadow: none;
+    transition: color 0.2s;
+}
+
+.theme-toggle-button:hover {
+    color: var(--color-secondary);
+    text-decoration: underline;
+    background: none;
+}
+
+/* Remove top margin for buttons inside the container */
+.bottom-buttons .reset-button,
+.bottom-buttons .theme-toggle-button {
+    margin: 0;
+}
+
+/* --- List Collapse Styles --- */
+.collapsed-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    text-decoration: underline;
+}
+
+/* --- Animations --- */
+
+/* Fade in new entry */
+@keyframes fadeInEntry {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+        /* Optional: slight slide-in */
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.time-entry.new-entry {
+    animation: fadeInEntry 0.4s ease-out forwards;
+}
+
+/* Pulse placeholder when reset is clicked on empty list */
+@keyframes pulsePlaceholder {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+.placeholder-entry.pulsing {
+    animation: pulsePlaceholder 0.6s ease-in-out;
+}
+
+/* Fade out entries when list is cleared */
+@keyframes fadeOutClear {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+#timestampList.clearing .time-entry {
+    animation: fadeOutClear 0.3s ease-out forwards;
+}
+
+/* --- Responsive Styles --- */
+@media (max-width: 600px) {
+    .app {
+        max-width: 98vw;
+        padding: 2vw 0 0 0;
+    }
+
+    .metric-card {
+        padding: 2rem 0.5rem 1.5rem 0.5rem;
+    }
+}
+
+/* --- Dark Mode Variable Overrides --- */
+body.dark-mode {
+    --color-primary: #9575CD;
+    /* Lighter purple for dark mode */
+    --color-secondary: #7E57C2;
+    /* Slightly darker purple */
+    --color-background: #121212;
+    /* Dark background */
+    --color-surface: #1E1E1E;
+    /* Slightly lighter surface for cards */
+    --color-error: #CF6679;
+    /* Lighter red/pink for errors */
+    --color-on-primary: #000;
+    /* Black text on lighter primary */
+    --color-on-background: #E0E0E0;
+    /* Light grey text on dark background */
+    --color-on-surface: #E0E0E0;
+    /* Light grey text on dark surface */
+    --color-on-error: #000;
+    /* Black text on lighter error color */
+}
