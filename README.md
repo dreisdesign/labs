@@ -34,9 +34,9 @@ A lightweight, user-friendly web application for tracking activities with timest
 tracker/
 ├── index.html        # Main HTML file
 ├── js/
-│   └── tracker.js    # JavaScript functionality
+│   └── main.js    # JavaScript functionality
 └── styles/
-    └── tracker.css   # Styling and animations
+    └── main   # Styling and animations
 ```
 
 ### Features in Detail
