@@ -1,4 +1,4 @@
-# Labs Projects
+# Labs
 
 This repository contains a collection of web development projects. Currently featuring:
 
