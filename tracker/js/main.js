@@ -9,12 +9,37 @@ const currentDateLabel = document.getElementById('currentDateLabel');
 const themeToggleButton = document.getElementById('themeToggle');
 
 // --- Constants and State Variables ---
-// const MAX_VISIBLE = 5; // Note: This constant doesn't seem to be used in the current collapse logic
-// let collapsed = true; // Note: This variable doesn't seem to be used
 
-// Load state from Local Storage or use defaults
-let totalCount = parseInt(localStorage.getItem('totalCount') || '0');
-let trackedEntries = JSON.parse(localStorage.getItem('trackedEntries') || '[]');
+// Load state from Local Storage or use defaults with validation
+let totalCount = 0;
+let trackedEntries = [];
+
+try {
+    const storedCount = localStorage.getItem('totalCount');
+    const storedEntries = localStorage.getItem('trackedEntries');
+
+    if (storedCount !== null) {
+        const parsed = parseInt(storedCount);
+        totalCount = !isNaN(parsed) && parsed >= 0 ? parsed : 0;
+    }
+
+    if (storedEntries) {
+        const parsed = JSON.parse(storedEntries);
+        if (Array.isArray(parsed)) {
+            trackedEntries = parsed.filter(entry =>
+                typeof entry === 'object' &&
+                entry !== null &&
+                typeof entry.date === 'number' &&
+                typeof entry.time === 'string'
+            );
+        }
+    }
+} catch (error) {
+    console.error('Error loading from localStorage:', error);
+    // Use defaults if there's an error
+    totalCount = 0;
+    trackedEntries = [];
+}
 
 // --- Utility Functions ---
 
@@ -28,7 +53,8 @@ function formatImessageDate(date) {
 function setCurrentDateLabel() {
     const today = new Date();
     const todayLabel = formatImessageDate(today);
-    currentDateLabel.innerHTML = `<b>${todayLabel}</b>`;
+    currentDateLabel.textContent = todayLabel;
+    currentDateLabel.style.fontWeight = 'bold';
 }
 
 // Updates the total count display and saves it to Local Storage
@@ -51,22 +77,26 @@ function renderTimestamps() {
     const existingEntries = timestampList.querySelectorAll('.time-entry');
     existingEntries.forEach(el => el.classList.remove('new-entry'));
 
-
     // Render each entry and insert it before the placeholder
     trackedEntries.forEach((entry, idx) => {
-        const entryDate = new Date(entry.date); // Not currently used for display within entry
         const entryDiv = document.createElement('div');
         entryDiv.className = 'time-entry';
 
-        // Add animation class ONLY to the newest entry (first after sort)
         if (idx === 0) {
             entryDiv.classList.add('new-entry');
         }
 
-        entryDiv.innerHTML = `
-            <div class="entry-checkbox">✔</div>
-            <div class="time">${entry.time}</div>
-        `;
+        const checkboxDiv = document.createElement('div');
+        checkboxDiv.className = 'entry-checkbox';
+        checkboxDiv.textContent = '✔';
+
+        const timeDiv = document.createElement('div');
+        timeDiv.className = 'time';
+        timeDiv.textContent = entry.time;
+
+        entryDiv.appendChild(checkboxDiv);
+        entryDiv.appendChild(timeDiv);
+
         timestampList.insertBefore(entryDiv, placeholderEntry);
     });
 
