@@ -136,7 +136,12 @@ function enableLabelEditing() {
     // Prevent re-triggering if already editable
     if (metricLabel.getAttribute('contenteditable') !== 'true') {
         metricLabel.contentEditable = true;
-        metricLabel.focus(); // Programmatic focus, helped by tabindex="-1"
+        // Use a tiny timeout to ensure focus works reliably in Safari
+        setTimeout(() => {
+            metricLabel.focus();
+            // Optional: Select text for easier editing (execCommand is deprecated, consider alternatives if needed)
+            // document.execCommand('selectAll', false, null);
+        }, 0); // 0ms delay is often enough
     }
 }
 
