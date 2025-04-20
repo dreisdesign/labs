@@ -80,6 +80,38 @@ function saveLabel() {
     }
 }
 
+function makeEditable() {
+    metricLabel.contentEditable = true;
+    metricLabel.focus();
+    // Place cursor at the end of the text
+    const range = document.createRange();
+    const selection = window.getSelection();
+    range.selectNodeContents(metricLabel);
+    range.collapse(false);
+    selection.removeAllRanges();
+    selection.addRange(range);
+}
+
+metricLabel.addEventListener('click', () => {
+    makeEditable();
+});
+
+metricLabel.addEventListener('blur', () => {
+    metricLabel.contentEditable = false;
+    saveLabel();
+});
+
+metricLabel.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        metricLabel.blur();
+    }
+    if (e.key === 'Escape') {
+        metricLabel.textContent = customLabel;
+        metricLabel.contentEditable = false;
+    }
+});
+
 // --- Core Rendering Logic ---
 
 // Renders the timestamp entries, handles empty state, and saves to Local Storage
@@ -256,29 +288,6 @@ resetButton.addEventListener('click', () => {
             timestampList.classList.remove('clearing'); // Remove animation class
             renderTimestamps(); // Render the now empty list
         }, 300); // Match fadeOutClear animation duration
-    }
-});
-
-metricLabel.addEventListener('click', () => {
-    if (metricLabel.getAttribute('contenteditable') !== 'true') {
-        metricLabel.contentEditable = true;
-        metricLabel.focus();
-    }
-});
-
-metricLabel.addEventListener('blur', () => {
-    metricLabel.contentEditable = false;
-    saveLabel();
-});
-
-metricLabel.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-        e.preventDefault();
-        metricLabel.blur();
-    }
-    if (e.key === 'Escape') {
-        metricLabel.textContent = customLabel;
-        metricLabel.contentEditable = false;
     }
 });
 
