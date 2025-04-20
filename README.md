@@ -14,6 +14,7 @@ A simple activity tracking web application. Try it live at [https://dreisdesign.
 - **Dark/Light Theme**: Toggle between dark and light modes for comfortable viewing
 - **Persistent Storage**: Data is saved locally in your browser
 - **Responsive Design**: Works seamlessly on both desktop and mobile devices
+- **Testing Mode**: Toggle minute-based grouping for testing (Ctrl/Cmd + Shift + T)
 - **Smooth Animations**: 
   - Fade-in animation for new entries
   - Fade-out animation when clearing the list
@@ -59,6 +60,13 @@ tracker/
 - Timestamp list with animations
 - Theme toggle for dark/light mode
 - Reset button for clearing data
+- Testing mode for minute-based grouping
+
+#### Time Management
+- Default day-based grouping for normal use
+- Minute-based grouping in testing mode
+- Keyboard shortcut (Ctrl/Cmd + Shift + T) to toggle modes
+- Detailed timestamps with date and time information
 
 #### Animations
 - New entries fade in from top
