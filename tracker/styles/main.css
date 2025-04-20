@@ -199,8 +199,21 @@ body.dark-mode .metric-label:hover {
     gap: 0.7rem;
     font-size: 1.1rem;
     color: var(--color-on-surface);
-    grid-column: 1;
-    width: fit-content;
+    width: 100%;
+    padding: 0.2rem 0;
+}
+
+.entry-checkbox {
+    flex-shrink: 0;
+    font-size: 1rem;
+}
+
+.time {
+    flex-grow: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .time-entry.new-entry {
@@ -236,15 +249,18 @@ body.dark-mode .metric-label:hover {
     padding-top: 0;
 }
 
-/* Date Label Above List */
-.imessage-date-label.always-date-label {
-    text-align: center;
+/* Date Header */
+.date-header {
+    color: var(--color-on-background);
+    font-weight: bold;
+    padding: 1rem 0 0.5rem 0;
     width: 100%;
-    display: block;
-    font-size: 1rem;
-    margin-top: 1.5rem;
-    margin-bottom: 0.5rem;
-    color: var(--color-on-surface);
+    text-align: left;
+}
+
+/* Remove the old date label styles since we're not using it anymore */
+.imessage-date-label {
+    display: none !important;
 }
 
 /* --- Bottom Buttons (Reset, Theme) --- */

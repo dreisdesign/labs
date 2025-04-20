@@ -10,6 +10,7 @@ const metricLabel = document.getElementById('metricLabel');
 const editLabelButton = document.querySelector('.edit-label-button');
 
 // --- Constants and State Variables ---
+let isTestingMode = false; // Add testing mode flag
 
 // Load state from Local Storage or use defaults with validation
 let totalCount = 0;
@@ -45,16 +46,59 @@ try {
 
 // --- Utility Functions ---
 
-// Formats a date object into "Weekday Month Day Year" string
-function formatImessageDate(date) {
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+// Compare if two dates are the same day
+function isSameDay(date1, date2) {
+    return (
+        date1.getFullYear() === date2.getFullYear() &&
+        date1.getMonth() === date2.getMonth() &&
+        date1.getDate() === date2.getDate()
+    );
+}
+
+// Compare if two dates are in the same group (day or minute depending on mode)
+function isSameGroup(date1, date2) {
+    if (isTestingMode) {
+        return (
+            date1.getFullYear() === date2.getFullYear() &&
+            date1.getMonth() === date2.getMonth() &&
+            date1.getDate() === date2.getDate() &&
+            date1.getHours() === date2.getHours() &&
+            date1.getMinutes() === date2.getMinutes()
+        );
+    }
+    return isSameDay(date1, date2);
+}
+
+// Format time with seconds
+function formatTime(date) {
+    return date.toLocaleTimeString(undefined, {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true
+    });
+}
+
+// Format group header based on mode
+function formatGroupHeader(date) {
+    if (isTestingMode) {
+        const dateStr = date.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+        const timeStr = date.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit', hour12: true });
+        return `${dateStr} ${timeStr}`;
+    }
+    return formatDateHeader(date);
+}
+
+// Format date header
+function formatDateHeader(date) {
+    const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
     return date.toLocaleDateString(undefined, options);
 }
 
 // Sets the current date in the dedicated header element
 function setCurrentDateLabel() {
     const today = new Date();
-    const todayLabel = formatImessageDate(today);
+    const todayLabel = formatDateHeader(today);
     currentDateLabel.textContent = todayLabel;
     currentDateLabel.style.fontWeight = 'bold';
 }
@@ -82,42 +126,49 @@ function saveLabel() {
 
 // --- Core Rendering Logic ---
 
-// Renders the timestamp entries, handles empty state, and saves to Local Storage
 function renderTimestamps() {
     // Sort entries: newest first
     trackedEntries.sort((a, b) => b.date - a.date);
 
-    // Clear existing time entries (leaves placeholder intact)
-    timestampList.querySelectorAll('.time-entry').forEach(el => el.remove());
+    // Clear existing time entries and date headers
+    timestampList.querySelectorAll('.time-entry, .date-header').forEach(el => el.remove());
 
-    // Remove animation class from any previous new entry
-    const existingEntries = timestampList.querySelectorAll('.time-entry');
-    existingEntries.forEach(el => el.classList.remove('new-entry'));
+    let lastDate = null;
 
-    // Render each entry and insert it before the placeholder
+    // Render each entry
     trackedEntries.forEach((entry, idx) => {
-        const entryDiv = document.createElement('div');
-        entryDiv.className = 'time-entry';
+        const entryDate = new Date(entry.date);
 
-        if (idx === 0) {
-            entryDiv.classList.add('new-entry');
+        // Check if we need a new group header
+        if (!lastDate || !isSameGroup(lastDate, entryDate)) {
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'date-header';
+            headerDiv.textContent = formatGroupHeader(entryDate);
+            timestampList.insertBefore(headerDiv, placeholderEntry);
+            lastDate = entryDate;
         }
 
+        // Create entry container
+        const entryDiv = document.createElement('div');
+        entryDiv.className = 'time-entry';
+        if (idx === 0) entryDiv.classList.add('new-entry');
+
+        // Create checkbox
         const checkboxDiv = document.createElement('div');
         checkboxDiv.className = 'entry-checkbox';
         checkboxDiv.textContent = '✔';
 
+        // Create time container
         const timeDiv = document.createElement('div');
         timeDiv.className = 'time';
-        timeDiv.textContent = entry.time;
+        timeDiv.textContent = formatTime(entryDate);
 
         entryDiv.appendChild(checkboxDiv);
         entryDiv.appendChild(timeDiv);
-
         timestampList.insertBefore(entryDiv, placeholderEntry);
     });
 
-    // Toggle placeholder visibility and list styling class
+    // Toggle placeholder visibility
     if (trackedEntries.length === 0) {
         placeholderEntry.style.display = 'block';
         timestampList.classList.add('is-empty');
@@ -128,60 +179,8 @@ function renderTimestamps() {
         timestampList.classList.add('has-entries');
     }
 
-    // Save the current state of entries to Local Storage
+    // Save entries to localStorage
     localStorage.setItem('trackedEntries', JSON.stringify(trackedEntries));
-
-    // --- Collapsing Logic (for long lists) ---
-    // Note: This logic might need review if MAX_VISIBLE constant is intended to be used
-    const mainContent = document.getElementById('mainContent');
-    let collapseToggle = document.getElementById('collapseToggle');
-    if (collapseToggle) collapseToggle.remove(); // Remove existing toggle if present
-
-    const entriesToCollapse = Array.from(timestampList.children).filter(e => e.classList.contains('time-entry'));
-
-    // Ensure all entries are visible for measurement
-    entriesToCollapse.forEach(e => e.style.display = '');
-
-    let needsCollapse = false;
-    let visibleCount = 0;
-    let totalHeight = 0;
-    const maxHeight = mainContent.clientHeight; // Max height of the scrollable area
-
-    // Check if total height exceeds available space
-    for (let i = 0; i < entriesToCollapse.length; i++) {
-        const el = entriesToCollapse[i];
-        // el.style.display = ''; // Already done above
-        totalHeight += el.getBoundingClientRect().height;
-        if (totalHeight > maxHeight) {
-            needsCollapse = true;
-            break;
-        }
-        visibleCount++;
-    }
-
-    // If collapsing is needed, hide overflowing entries and add toggle button
-    if (needsCollapse) {
-        let runningHeight = 0;
-        for (let i = 0; i < entriesToCollapse.length; i++) {
-            const el = entriesToCollapse[i];
-            runningHeight += el.getBoundingClientRect().height;
-            if (runningHeight > maxHeight) {
-                el.style.display = 'none'; // Hide entries that overflow
-            } else {
-                el.style.display = ''; // Ensure visible entries are displayed
-            }
-        }
-        // Add "Show all" button
-        const toggle = document.createElement('button');
-        toggle.id = 'collapseToggle';
-        toggle.className = 'collapse-toggle';
-        toggle.textContent = `Show all (${trackedEntries.length})`;
-        toggle.onclick = () => {
-            entriesToCollapse.forEach(e => e.style.display = ''); // Show all entries
-            toggle.style.display = 'none'; // Hide the toggle button
-        };
-        mainContent.appendChild(toggle); // Add button to the scrollable container
-    }
 }
 
 // --- Theme Handling ---
@@ -195,6 +194,46 @@ function applyTheme(theme) {
     }
     localStorage.setItem('theme', theme); // Persist theme choice
 }
+
+// --- Testing Functions ---
+function addTestEntry(dateString) {
+    const date = new Date(dateString);
+    trackedEntries.push({
+        date: date.getTime(),
+        time: date.toLocaleTimeString()
+    });
+    totalCount++;
+    updateTotalCount();
+    renderTimestamps();
+}
+
+// Function to add multiple test entries
+function addTestEntries() {
+    // Yesterday's entries
+    addTestEntry('2025-04-19 09:58:40');
+    addTestEntry('2025-04-19 09:59:03');
+
+    // Today's entries for comparison
+    addTestEntry('2025-04-20 06:52:19');
+    addTestEntry('2025-04-20 06:53:05');
+
+    renderTimestamps();
+}
+
+// Add testing mode toggle function
+function toggleTestingMode() {
+    isTestingMode = !isTestingMode;
+    renderTimestamps();
+    return isTestingMode;
+}
+
+// Add keyboard shortcut for testing mode (Ctrl/Cmd + Shift + T)
+document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'T') {
+        const enabled = toggleTestingMode();
+        console.log(`Testing mode ${enabled ? 'enabled' : 'disabled'}`);
+    }
+});
 
 // --- Event Listeners ---
 
