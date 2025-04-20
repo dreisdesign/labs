@@ -184,7 +184,7 @@ body.dark-mode .metric-label:hover {
 .time-entry {
     display: flex;
     align-items: center;
-    gap: 0.7rem;
+    gap: 1rem;
     font-size: 1.1rem;
     color: var(--color-on-surface);
     grid-column: 1;
@@ -193,6 +193,15 @@ body.dark-mode .metric-label:hover {
 
 .time-entry.new-entry {
     animation: fadeInEntry 0.4s ease-out forwards;
+}
+
+.time {
+    color: var(--color-on-surface);
+    opacity: 0.9;
+}
+
+.entry-checkbox {
+    min-width: 1.2rem;
 }
 
 /* Placeholder Text ("No entries yet") */

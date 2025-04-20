@@ -109,7 +109,10 @@ function renderTimestamps() {
 
         const timeDiv = document.createElement('div');
         timeDiv.className = 'time';
-        timeDiv.textContent = entry.time;
+        
+        // If entry has formattedDate use it, otherwise format the date from timestamp
+        const dateStr = entry.formattedDate || new Date(entry.date).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+        timeDiv.textContent = `${dateStr}, ${entry.time}`;
 
         entryDiv.appendChild(checkboxDiv);
         entryDiv.appendChild(timeDiv);
@@ -207,12 +210,13 @@ themeToggleButton.addEventListener('click', () => {
 // Adds a new timestamp entry object to the array
 function addTimestamp() {
     const now = new Date();
-    const timestamp = now.toLocaleTimeString(); // Format time as locale string
+    const timeStr = now.toLocaleTimeString();
+    const dateStr = now.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
     trackedEntries.push({
-        date: now.getTime(), // Store date as timestamp for sorting
-        time: timestamp
+        date: now.getTime(),
+        time: timeStr,
+        formattedDate: dateStr
     });
-    // Note: renderTimestamps() is called after this in the trackButton listener
 }
 
 // Handle click on the "Track" button
