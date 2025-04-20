@@ -7,10 +7,11 @@ const placeholderEntry = document.querySelector('.placeholder-entry');
 const currentDateLabel = document.getElementById('currentDateLabel');
 const themeToggleButton = document.getElementById('themeToggle');
 const metricLabel = document.getElementById('metricLabel');
-const editLabelButton = document.querySelector('.edit-label-button');
+const versionNumberElement = document.getElementById('versionNumber'); // Added missing selector
 
 // --- Constants and State Variables ---
 let isTestingMode = false; // Add testing mode flag
+let metricLabelText = localStorage.getItem('metricLabel') || 'Total'; // Load label or default
 
 // Load state from Local Storage or use defaults with validation
 let totalCount = 0;
@@ -109,6 +110,12 @@ function updateTotalCount() {
     localStorage.setItem('totalCount', totalCount);
 }
 
+// Updates the metric label display and saves it to Local Storage
+function updateMetricLabel() {
+    metricLabel.textContent = metricLabelText;
+    // Note: Saving happens in disableLabelEditing after confirming changes
+}
+
 // --- Label Editing Functions ---
 function initializeLabel() {
     metricLabel.textContent = customLabel;
@@ -123,6 +130,44 @@ function saveLabel() {
         metricLabel.textContent = customLabel;
     }
 }
+
+// Enable editing when the label or edit button is clicked
+function enableLabelEditing() {
+    // Prevent re-triggering if already editable
+    if (metricLabel.getAttribute('contenteditable') !== 'true') {
+        metricLabel.contentEditable = true;
+        metricLabel.focus(); // Programmatic focus, helped by tabindex="-1"
+    }
+}
+
+// Disable editing and save the new label
+function disableLabelEditing() {
+    metricLabel.contentEditable = false;
+    const newLabel = metricLabel.textContent.trim();
+    if (newLabel) {
+        metricLabelText = newLabel; // Update state variable
+        localStorage.setItem('metricLabel', metricLabelText); // Save to localStorage
+    } else {
+        // Revert if label is empty
+        metricLabel.textContent = metricLabelText;
+    }
+}
+
+// Add event listeners for label editing
+metricLabel.addEventListener('click', enableLabelEditing);
+
+metricLabel.addEventListener('blur', disableLabelEditing); // Save when focus is lost
+metricLabel.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault(); // Prevent newline in contenteditable
+        disableLabelEditing(); // Save and exit edit mode
+        metricLabel.blur(); // Explicitly blur to ensure state change
+    } else if (e.key === 'Escape') {
+        metricLabel.textContent = metricLabelText; // Revert changes
+        disableLabelEditing(); // Exit edit mode without saving current input
+        metricLabel.blur(); // Explicitly blur
+    }
+});
 
 // --- Core Rendering Logic ---
 
@@ -235,6 +280,18 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
+// --- Version Display --- //
+function displayVersion() {
+    // Check if element exists before setting text content
+    if (versionNumberElement) {
+        // Assuming the version is hardcoded or fetched elsewhere
+        // For now, let's use the text content from the HTML
+        // versionNumberElement.textContent = 'v1.0.1';
+    } else {
+        console.warn('Version number element not found.');
+    }
+}
+
 // --- Event Listeners ---
 
 // Toggle theme when button is clicked
@@ -294,32 +351,11 @@ resetButton.addEventListener('click', () => {
     }
 });
 
-metricLabel.addEventListener('click', () => {
-    if (metricLabel.getAttribute('contenteditable') !== 'true') {
-        metricLabel.contentEditable = true;
-        metricLabel.focus();
-    }
-});
-
-metricLabel.addEventListener('blur', () => {
-    metricLabel.contentEditable = false;
-    saveLabel();
-});
-
-metricLabel.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-        e.preventDefault();
-        metricLabel.blur();
-    }
-    if (e.key === 'Escape') {
-        metricLabel.textContent = customLabel;
-        metricLabel.contentEditable = false;
-    }
-});
-
 // --- Initial Page Load Setup ---
+displayVersion(); // Display the version number
 setCurrentDateLabel(); // Set the date header
 updateTotalCount(); // Display initial count from storage
+updateMetricLabel(); // Display initial label from storage
 renderTimestamps(); // Render initial list from storage
 initializeLabel(); // Initialize the label
 

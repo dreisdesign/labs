@@ -77,6 +77,7 @@ body {
     max-width: 80%;
 }
 
+/* Container for label and edit button */
 .metric-label-container {
     display: flex;
     align-items: center;

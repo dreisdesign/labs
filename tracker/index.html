@@ -37,7 +37,12 @@
 
         <!-- Card displaying the total count -->
         <div class="metric-card">
-            <div class="metric-label" id="metricLabel">Total</div>
+            <!-- Container for label -->
+            <div class="metric-label-container">
+                <!-- Add tabindex="-1" to allow programmatic focus -->
+                <div class="metric-label" id="metricLabel" tabindex="-1">Total</div>
+                <!-- Edit button removed -->
+            </div>
             <div class="metric-value" id="totalCount">0</div>
         </div>
 
