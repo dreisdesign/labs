@@ -175,8 +175,8 @@ body.dark-mode .metric-label:hover {
 #mainContent {
     flex: 1 1 auto;
     min-height: 60px;
-    max-height: calc(60vh - 120px);
-    overflow-y: auto;
+    /* max-height: calc(60vh - 120px); */ /* Remove or comment out max-height */
+    overflow-y: hidden; /* Change from auto/scroll to hidden */
     margin-bottom: 2.5rem;
     max-width: 400px;
     margin-left: auto;
