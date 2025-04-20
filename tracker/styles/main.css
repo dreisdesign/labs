@@ -16,6 +16,18 @@
     --color-on-error: #fff;
 }
 
+/* --- Version Number --- */
+.version-number {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    font-size: 0.8rem;
+    opacity: 0.6;
+    font-family: monospace;
+    color: var(--color-on-background);
+    z-index: 1000;
+}
+
 /* --- Global Styles --- */
 html,
 body {
