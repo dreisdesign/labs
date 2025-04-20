@@ -109,7 +109,7 @@ function renderTimestamps() {
 
         const timeDiv = document.createElement('div');
         timeDiv.className = 'time';
-        
+
         // If entry has formattedDate use it, otherwise format the date from timestamp
         const dateStr = entry.formattedDate || new Date(entry.date).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
         timeDiv.textContent = `${dateStr}, ${entry.time}`;
