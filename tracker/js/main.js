@@ -6,12 +6,15 @@ const timestampList = document.getElementById('timestampList');
 const placeholderEntry = document.querySelector('.placeholder-entry');
 const currentDateLabel = document.getElementById('currentDateLabel');
 const themeToggleButton = document.getElementById('themeToggle');
+const metricLabel = document.getElementById('metricLabel');
+const editLabelButton = document.querySelector('.edit-label-button');
 
 // --- Constants and State Variables ---
 
 // Load state from Local Storage or use defaults with validation
 let totalCount = 0;
 let trackedEntries = [];
+let customLabel = localStorage.getItem('customLabel') || 'Total';
 
 try {
     const storedCount = localStorage.getItem('totalCount');
@@ -60,6 +63,21 @@ function setCurrentDateLabel() {
 function updateTotalCount() {
     totalCountElement.textContent = totalCount;
     localStorage.setItem('totalCount', totalCount);
+}
+
+// --- Label Editing Functions ---
+function initializeLabel() {
+    metricLabel.textContent = customLabel;
+}
+
+function saveLabel() {
+    const newLabel = metricLabel.textContent.trim();
+    if (newLabel) {
+        customLabel = newLabel;
+        localStorage.setItem('customLabel', customLabel);
+    } else {
+        metricLabel.textContent = customLabel;
+    }
 }
 
 // --- Core Rendering Logic ---
@@ -237,10 +255,34 @@ resetButton.addEventListener('click', () => {
     }
 });
 
+metricLabel.addEventListener('click', () => {
+    if (metricLabel.getAttribute('contenteditable') !== 'true') {
+        metricLabel.contentEditable = true;
+        metricLabel.focus();
+    }
+});
+
+metricLabel.addEventListener('blur', () => {
+    metricLabel.contentEditable = false;
+    saveLabel();
+});
+
+metricLabel.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        metricLabel.blur();
+    }
+    if (e.key === 'Escape') {
+        metricLabel.textContent = customLabel;
+        metricLabel.contentEditable = false;
+    }
+});
+
 // --- Initial Page Load Setup ---
 setCurrentDateLabel(); // Set the date header
 updateTotalCount(); // Display initial count from storage
 renderTimestamps(); // Render initial list from storage
+initializeLabel(); // Initialize the label
 
 // Apply saved theme or default to light
 const savedTheme = localStorage.getItem('theme') || 'light';
