@@ -187,8 +187,7 @@ body.dark-mode .metric-label:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    scrollbar-gutter: stable;
-    /* Reserve space for scrollbar to prevent layout shift */
+
 }
 
 /* Timestamp List Container */
