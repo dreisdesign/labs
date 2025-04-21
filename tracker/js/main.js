@@ -10,17 +10,23 @@ const metricLabel = document.getElementById('metricLabel');
 const versionNumberElement = document.getElementById('versionNumber'); // Added missing selector
 
 // --- Constants and State Variables ---
-let isTestingMode = false; // Add testing mode flag
-let metricLabelText = localStorage.getItem('metricLabel') || 'Total'; // Load label or default
+const LS_KEYS = {
+    COUNT: 'totalCount',
+    ENTRIES: 'trackedEntries',
+    LABEL: 'metricLabel',
+    THEME: 'theme'
+};
+
+let isTestingMode = false;
+let metricLabelText = localStorage.getItem(LS_KEYS.LABEL) || 'Total';
 
 // Load state from Local Storage or use defaults with validation
 let totalCount = 0;
 let trackedEntries = [];
-let customLabel = localStorage.getItem('customLabel') || 'Total';
 
 try {
-    const storedCount = localStorage.getItem('totalCount');
-    const storedEntries = localStorage.getItem('trackedEntries');
+    const storedCount = localStorage.getItem(LS_KEYS.COUNT);
+    const storedEntries = localStorage.getItem(LS_KEYS.ENTRIES);
 
     if (storedCount !== null) {
         const parsed = parseInt(storedCount);
@@ -107,28 +113,17 @@ function setCurrentDateLabel() {
 // Updates the total count display and saves it to Local Storage
 function updateTotalCount() {
     totalCountElement.textContent = totalCount;
-    localStorage.setItem('totalCount', totalCount);
+    localStorage.setItem(LS_KEYS.COUNT, totalCount);
 }
 
-// Updates the metric label display and saves it to Local Storage
+// Updates the metric label display (saving happens in disableLabelEditing)
 function updateMetricLabel() {
     metricLabel.textContent = metricLabelText;
-    // Note: Saving happens in disableLabelEditing after confirming changes
 }
 
 // --- Label Editing Functions ---
 function initializeLabel() {
-    metricLabel.textContent = customLabel;
-}
-
-function saveLabel() {
-    const newLabel = metricLabel.textContent.trim();
-    if (newLabel) {
-        customLabel = newLabel;
-        localStorage.setItem('customLabel', customLabel);
-    } else {
-        metricLabel.textContent = customLabel;
-    }
+    metricLabel.textContent = metricLabelText; // Use metricLabelText directly
 }
 
 // Enable editing when the label or edit button is clicked
@@ -151,7 +146,7 @@ function disableLabelEditing() {
     const newLabel = metricLabel.textContent.trim();
     if (newLabel) {
         metricLabelText = newLabel; // Update state variable
-        localStorage.setItem('metricLabel', metricLabelText); // Save to localStorage
+        localStorage.setItem(LS_KEYS.LABEL, metricLabelText); // Save to localStorage using constant
     } else {
         // Revert if label is empty
         metricLabel.textContent = metricLabelText;
@@ -176,6 +171,8 @@ metricLabel.addEventListener('keydown', (e) => {
 
 // --- Core Rendering Logic ---
 
+const mainContent = document.getElementById('mainContent');
+
 function renderTimestamps() {
     // Sort entries: newest first
     trackedEntries.sort((a, b) => b.date - a.date);
@@ -185,7 +182,7 @@ function renderTimestamps() {
 
     let lastDate = null;
 
-    // Render each entry
+    // Render all entries (no limit)
     trackedEntries.forEach((entry, idx) => {
         const entryDate = new Date(entry.date);
 
@@ -230,7 +227,7 @@ function renderTimestamps() {
     }
 
     // Save entries to localStorage
-    localStorage.setItem('trackedEntries', JSON.stringify(trackedEntries));
+    localStorage.setItem(LS_KEYS.ENTRIES, JSON.stringify(trackedEntries));
 }
 
 // --- Theme Handling ---
@@ -242,7 +239,7 @@ function applyTheme(theme) {
     } else {
         document.body.classList.remove('dark-mode');
     }
-    localStorage.setItem('theme', theme); // Persist theme choice
+    localStorage.setItem(LS_KEYS.THEME, theme); // Persist theme choice using constant
 }
 
 // --- Testing Functions ---
@@ -291,7 +288,7 @@ function displayVersion() {
     if (versionNumberElement) {
         // Assuming the version is hardcoded or fetched elsewhere
         // For now, let's use the text content from the HTML
-        // versionNumberElement.textContent = 'v1.0.1';
+        // versionNumberElement.textContent = 'v1.0.2';
     } else {
         console.warn('Version number element not found.');
     }
@@ -345,9 +342,9 @@ resetButton.addEventListener('click', () => {
             // Clear data
             totalCount = 0;
             trackedEntries = [];
-            // Clear Local Storage
-            localStorage.removeItem('totalCount');
-            localStorage.removeItem('trackedEntries');
+            // Clear Local Storage using constants
+            localStorage.removeItem(LS_KEYS.COUNT);
+            localStorage.removeItem(LS_KEYS.ENTRIES);
             // Update UI
             updateTotalCount();
             timestampList.classList.remove('clearing'); // Remove animation class
@@ -365,5 +362,5 @@ renderTimestamps(); // Render initial list from storage
 initializeLabel(); // Initialize the label
 
 // Apply saved theme or default to light
-const savedTheme = localStorage.getItem('theme') || 'light';
+const savedTheme = localStorage.getItem(LS_KEYS.THEME) || 'light';
 applyTheme(savedTheme);

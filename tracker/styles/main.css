@@ -175,33 +175,47 @@ body.dark-mode .metric-label:hover {
 #mainContent {
     flex: 1 1 auto;
     min-height: 60px;
-    /* max-height: calc(60vh - 120px); */ /* Remove or comment out max-height */
-    overflow-y: hidden; /* Change from auto/scroll to hidden */
+    max-height: calc(60vh - 120px);
+    overflow-y: auto;
     margin-bottom: 2.5rem;
-    max-width: 400px;
+    max-width: 80%;
     margin-left: auto;
     margin-right: auto;
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    scrollbar-gutter: stable;
+    /* Reserve space for scrollbar to prevent layout shift */
 }
 
-/* Timestamp List Container (Grid Layout) */
+/* Timestamp List Container */
 #timestampList {
-    display: grid;
-    grid-template-rows: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Center children horizontally */
     gap: 0.5rem;
     position: relative;
     padding-top: 0;
-    justify-items: center;
+    width: 100%;
 }
 
 /* Individual Timestamp Entry */
 .time-entry {
-    display: flex;
+    display: inline-flex;
+    /* Change to inline-flex to wrap content */
     align-items: center;
     gap: 0.7rem;
     font-size: 1.1rem;
     color: var(--color-on-surface);
-    width: 100%;
     padding: 0.2rem 0;
+}
+
+.time-entry.new-entry {
+    animation: fadeInEntry 0.4s ease-out forwards;
 }
 
 .entry-checkbox {
@@ -210,15 +224,11 @@ body.dark-mode .metric-label:hover {
 }
 
 .time {
-    flex-grow: 1;
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-
-.time-entry.new-entry {
-    animation: fadeInEntry 0.4s ease-out forwards;
+    /* Removed flex-grow: 1 */
 }
 
 /* Placeholder Text ("No entries yet") */
@@ -227,21 +237,18 @@ body.dark-mode .metric-label:hover {
     text-align: center;
     font-size: 1rem;
     padding: 1.5rem 0 0 0;
-    grid-row: 1;
-    grid-column: 1;
     display: none;
-    width: 100%;
     position: static;
 }
 
 /* Show placeholder only when list has 'is-empty' class */
 #timestampList.is-empty .placeholder-entry {
-    display: block;
+    display: inline-block;
+    /* Change from block to inline-block for better centering */
 }
 
 /* Style the first entry when list is NOT empty */
 #timestampList:not(.is-empty) .time-entry:first-of-type {
-    grid-row: 1;
     padding-top: 1.5rem;
 }
 
@@ -255,8 +262,8 @@ body.dark-mode .metric-label:hover {
     color: var(--color-on-background);
     font-weight: bold;
     padding: 1rem 0 0.5rem 0;
-    width: 100%;
-    text-align: left;
+    text-align: center;
+    /* Keep text centered */
 }
 
 /* Remove the old date label styles since we're not using it anymore */
@@ -265,6 +272,29 @@ body.dark-mode .metric-label:hover {
 }
 
 /* --- Bottom Buttons (Reset, Theme) --- */
+
+/* Base styles for bottom buttons */
+.bottom-button-base {
+    width: auto;
+    margin: 0;
+    /* Remove top margin as it's handled by the container */
+    padding: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0;
+    background: none;
+    color: var(--color-primary);
+    cursor: pointer;
+    text-align: center;
+    box-shadow: none;
+    transition: color 0.2s;
+}
+
+.bottom-button-base:hover {
+    text-decoration: underline;
+    background: none;
+}
 
 /* Container for bottom buttons */
 .bottom-buttons {
@@ -283,55 +313,17 @@ body.dark-mode .metric-label:hover {
 }
 
 /* Reset Button Styles */
-.reset-button {
-    width: auto;
-    margin: 2.5rem 0 0 0;
-    padding: 0;
-    font-size: 1.1rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 0;
-    background: none;
-    color: var(--color-primary);
-    cursor: pointer;
-    text-align: center;
-    box-shadow: none;
-    transition: color 0.2s;
-}
-
 .reset-button:hover {
+    /* Inherits hover underline from base */
     color: #a81d18;
-    text-decoration: underline;
-    background: none;
+    /* Specific hover color */
 }
 
-/* Theme Toggle Button Styles (matches Reset style but uses primary color) */
-.theme-toggle-button {
-    width: auto;
-    margin: 2.5rem 0 0 0;
-    padding: 0;
-    font-size: 1.1rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 0;
-    background: none;
-    color: var(--color-primary);
-    cursor: pointer;
-    text-align: center;
-    box-shadow: none;
-    transition: color 0.2s;
-}
-
+/* Theme Toggle Button Styles */
 .theme-toggle-button:hover {
+    /* Inherits hover underline from base */
     color: var(--color-secondary);
-    text-decoration: underline;
-    background: none;
-}
-
-/* Remove top margin for buttons inside the container */
-.bottom-buttons .reset-button,
-.bottom-buttons .theme-toggle-button {
-    margin: 0;
+    /* Specific hover color */
 }
 
 /* --- List Collapse Styles --- */
@@ -350,6 +342,9 @@ body.dark-mode .metric-label:hover {
     cursor: pointer;
     margin-top: 0.5rem;
     text-decoration: underline;
+    padding: 0.5rem 0;
+    width: 100%;
+    text-align: center;
 }
 
 /* --- Animations --- */
