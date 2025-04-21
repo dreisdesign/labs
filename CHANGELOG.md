@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] - 2025-04-21
+
+### Added
+- Accessibility review and prep for improvements (color contrast, keyboard navigation, ARIA suggestions).
+- All color variables now use rgb/rgba (no hex codes).
+- Added 75% opacity variants for primary, secondary, and on-surface colors.
+- Scrollbar colors now use the 75% opacity primary color for better contrast and theme consistency.
+- Testing mode now groups by seconds (not minutes) for more granular testing.
+
+### Changed
+- README updated to document accessibility and color improvements.
+
 ## [1.0.1] - 2025-04-20
 
 ### Fixed

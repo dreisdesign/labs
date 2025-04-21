@@ -74,6 +74,14 @@ tracker/
 - Empty state placeholder pulses on reset
 - Smooth theme transition effects
 
+## Accessibility & UI Improvements
+
+- Color variables now use only rgb/rgba for clarity and accessibility.
+- Added 75% opacity variants for primary, secondary, and on-surface colors.
+- Scrollbar colors now use the 75% opacity primary color for better contrast and theme consistency.
+- Testing mode now groups by seconds (not minutes) for more granular testing.
+- Improved semantic HTML and keyboard accessibility (see changelog for details).
+
 ### Development
 
 To run this project locally:
