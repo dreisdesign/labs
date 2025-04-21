@@ -5,15 +5,27 @@
 
 /* --- Base Variables (Light Mode Defaults) --- */
 :root {
-    --color-primary: #2e2b74;
-    --color-secondary: #0d0b3f;
-    --color-background: #c1c1ff;
-    --color-surface: #fff;
-    --color-error: #b5005a;
-    --color-on-primary: #fff;
-    --color-on-background: #1C1B1F;
-    --color-on-surface: #1C1B1F;
-    --color-on-error: #fff;
+    --color-primary: rgb(46, 43, 116);
+    /* main purple */
+    --color-secondary: rgb(13, 11, 63);
+    /* dark purple */
+    --color-background: rgb(193, 193, 255);
+    /* light background */
+    --color-surface: rgb(255, 255, 255);
+    /* white surface */
+    --color-error: rgb(181, 0, 90);
+    /* error pink */
+    --color-on-primary: rgb(255, 255, 255);
+    /* white text on primary */
+    --color-on-background: rgb(28, 27, 31);
+    /* dark text */
+    --color-on-surface: rgb(28, 27, 31);
+    /* dark text */
+    --color-on-error: rgb(255, 255, 255);
+    /* white text on error */
+    --color-primary-75: rgba(46, 43, 116, 0.75);
+    --color-secondary-75: rgba(13, 11, 63, 0.75);
+    --color-on-surface-75: rgba(28, 27, 31, 0.75);
 }
 
 /* --- Version Number --- */
@@ -187,7 +199,21 @@ body.dark-mode .metric-label:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
+    scrollbar-gutter: stable;
+    padding-left: 16px;
+    scrollbar-color: var(--color-primary-75) var(--color-background);
+    /* For Firefox */
+}
 
+#mainContent::-webkit-scrollbar {
+    width: 12px;
+    background: var(--color-background);
+    position: absolute;
+}
+
+#mainContent::-webkit-scrollbar-thumb {
+    background: var(--color-primary-75);
+    border-radius: 6px;
 }
 
 /* Timestamp List Container */
@@ -412,23 +438,26 @@ body.dark-mode .metric-label:hover {
 
 /* --- Dark Mode Variable Overrides --- */
 body.dark-mode {
-    --color-primary: #9575CD;
-    /* Lighter purple for dark mode */
-    --color-secondary: #7E57C2;
-    /* Slightly darker purple */
-    --color-background: #121212;
-    /* Dark background */
-    --color-surface: #1E1E1E;
-    /* Slightly lighter surface for cards */
-    --color-error: #CF6679;
-    /* Lighter red/pink for errors */
-    --color-on-primary: #000;
-    /* Black text on lighter primary */
-    --color-on-background: #E0E0E0;
-    /* Light grey text on dark background */
-    --color-on-surface: #E0E0E0;
-    /* Light grey text on dark surface */
-    --color-on-error: #000;
-    /* Black text on lighter error color */
+    --color-primary: rgb(149, 117, 205);
+    /* lighter purple */
+    --color-secondary: rgb(126, 87, 194);
+    /* dark mode secondary */
+    --color-background: rgb(18, 18, 18);
+    /* dark background */
+    --color-surface: rgb(30, 30, 30);
+    /* dark surface */
+    --color-error: rgb(207, 102, 121);
+    /* light error */
+    --color-on-primary: rgb(0, 0, 0);
+    /* black text on light primary */
+    --color-on-background: rgb(224, 224, 224);
+    /* light text */
+    --color-on-surface: rgb(224, 224, 224);
+    /* light text */
+    --color-on-error: rgb(0, 0, 0);
+    /* black text on error */
     --icon-filter: invert(1);
+    --color-primary-75: rgba(149, 117, 205, 0.75);
+    --color-secondary-75: rgba(126, 87, 194, 0.75);
+    --color-on-surface-75: rgba(224, 224, 224, 0.75);
 }

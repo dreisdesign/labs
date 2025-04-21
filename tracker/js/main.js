@@ -62,7 +62,7 @@ function isSameDay(date1, date2) {
     );
 }
 
-// Compare if two dates are in the same group (day or minute depending on mode)
+// Compare if two dates are in the same group (day or second depending on mode)
 function isSameGroup(date1, date2) {
     if (isTestingMode) {
         return (
@@ -70,7 +70,8 @@ function isSameGroup(date1, date2) {
             date1.getMonth() === date2.getMonth() &&
             date1.getDate() === date2.getDate() &&
             date1.getHours() === date2.getHours() &&
-            date1.getMinutes() === date2.getMinutes()
+            date1.getMinutes() === date2.getMinutes() &&
+            date1.getSeconds() === date2.getSeconds()
         );
     }
     return isSameDay(date1, date2);
