@@ -103,8 +103,7 @@ cd labs
 
 ### Documentation
 
-- [Main CHANGELOG](CHANGELOG.md) - Project-wide changes and updates
-- [Tracker CHANGELOG](tracker/CHANGELOG.md) - Detailed changes specific to the Tracker component
+- [Changelog](tracker/CHANGELOG.md) - Detailed change history for this project
 
 ### Contributing
 
