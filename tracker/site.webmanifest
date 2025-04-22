@@ -15,6 +15,7 @@
     ],
     "theme_color": "rgb(193, 193, 255)",
     "background_color": "rgb(193, 193, 255)",
-    "display": "standalone",
+    "display": "fullscreen",
+    "orientation": "portrait",
     "start_url": "index.html"
 }

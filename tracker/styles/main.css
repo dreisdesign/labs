@@ -35,17 +35,43 @@
 
 /* iOS PWA Status Bar Adjustments */
 @supports (-webkit-touch-callout: none) {
+
+    /* Target iOS devices */
     html {
-        /* This ensures the background extends to the very top of the screen */
-        background: var(--color-background);
+        /* Force the background to extend to the status bar */
+        background-color: var(--color-background);
+        height: 100vh;
+        /* Important - ensures full viewport height coverage */
+        padding-top: env(safe-area-inset-top);
+        /* Add safe area padding at the top */
+        box-sizing: border-box;
+        position: fixed;
+        width: 100%;
+        overflow: hidden;
     }
 
-    /* Handle the status bar height in PWA mode */
     body {
-        /* Add padding to ensure content doesn't appear under the status bar */
-        padding-top: env(safe-area-inset-top);
-        /* Ensure the content is still centered properly */
-        min-height: calc(100vh - env(safe-area-inset-top));
+        /* Remove any fixed positioning to allow proper flow */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        /* Enable momentum scrolling */
+        margin: 0;
+        /* Need to maintain position context for app container */
+    }
+
+    .app {
+        /* Adjust padding to account for status bar */
+        padding-top: calc(env(safe-area-inset-top) + 4vw);
+    }
+
+    /* Fix version number position */
+    .version-number {
+        top: calc(env(safe-area-inset-top) + 1rem);
     }
 }
 
