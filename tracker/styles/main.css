@@ -79,7 +79,7 @@
     font-family: monospace;
     color: var(--color-on-background);
     z-index: 1000;
-    content: "v1.0.3";
+    content: "v1.0.4";
     /* Updated version number */
 }
 
@@ -239,6 +239,47 @@ body.dark-mode .metric-label:hover {
     margin-right: auto;
     min-height: 44px;
     /* Minimum touch target size */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    overflow: hidden;
+}
+
+/* Track button checkmark styling */
+.track-button-checkmark {
+    position: absolute;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.3s ease-out;
+}
+
+.checkmark-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    filter: var(--icon-filter, none);
+}
+
+/* Force the SVG path to use the correct color */
+.track-button .checkmark-icon path {
+    fill: var(--color-on-primary) !important;
+}
+
+/* For compatibility with some browsers that might not support direct path styling */
+.track-button.success .track-button-checkmark img {
+    filter: brightness(0) invert(1);
+}
+
+/* Success state for track button */
+.track-button.success .track-button-text {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.track-button.success .track-button-checkmark {
+    opacity: 1;
+    transform: scale(1);
 }
 
 .track-button:hover {
@@ -293,6 +334,12 @@ body.dark-mode .metric-label:hover {
     position: relative;
     padding-top: 0;
     width: 100%;
+    transition: padding-top 0.4s ease-out;
+}
+
+/* Add extra space at the top when entries exist */
+#timestampList.has-entries {
+    padding-top: 2rem;
 }
 
 /* Individual Timestamp Entry */
@@ -310,25 +357,68 @@ body.dark-mode .metric-label:hover {
 
 .time-entry.new-entry {
     animation: fadeInEntry 0.4s ease-out forwards;
+    position: relative;
+    padding-bottom: 0.8rem;
+    margin-bottom: 0.2rem;
 }
 
-.entry-checkbox {
-    flex-shrink: 0;
-    font-size: 1rem;
-    width: 20px;
-    height: 20px;
-    /* Improve checkbox visibility */
+.time-entry.new-entry::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    width: 100%;
+    height: 4px;
+    background-color: var(--color-primary-75);
+    opacity: 0.75;
+    animation: var(--line-animation, fadeInLineFirst) 0.6s ease-out forwards;
+    opacity: 0;
+    border-radius: 5px;
 }
 
-.time {
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    /* Removed flex-grow: 1 */
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    hyphens: auto;
+.time-entry.push-down {
+    animation: pushDownEntry 0.4s ease-out forwards;
+}
+
+/* Staggered animation delays for push-down effect */
+.time-entry.push-down-1 {
+    animation-delay: 0.05s;
+}
+
+.time-entry.push-down-2 {
+    animation-delay: 0.1s;
+}
+
+.time-entry.push-down-3 {
+    animation-delay: 0.15s;
+}
+
+.time-entry.push-down-4 {
+    animation-delay: 0.2s;
+}
+
+.time-entry.push-down-5 {
+    animation-delay: 0.25s;
+}
+
+.time-entry.push-down-6 {
+    animation-delay: 0.3s;
+}
+
+.time-entry.push-down-7 {
+    animation-delay: 0.35s;
+}
+
+.time-entry.push-down-8 {
+    animation-delay: 0.4s;
+}
+
+.time-entry.push-down-9 {
+    animation-delay: 0.45s;
+}
+
+.time-entry.push-down-10+ {
+    animation-delay: 0.5s;
 }
 
 /* Placeholder Text ("No entries yet") */
@@ -481,22 +571,134 @@ body.dark-mode .metric-label:hover {
 
 /* --- Animations --- */
 
-/* Fade in new entry */
+/* Fade in new entry with scale effect */
 @keyframes fadeInEntry {
-    from {
+    0% {
         opacity: 0;
-        transform: translateY(-10px);
-        /* Optional: slight slide-in */
+        transform: translateY(-10px) scale(1.15);
+        font-weight: 800;
     }
 
-    to {
+    70% {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1.15);
+        font-weight: 800;
+    }
+
+    90% {
+        font-weight: 800;
+    }
+
+    100% {
+        transform: translateY(0) scale(1);
+        font-weight: 600;
     }
 }
 
-.time-entry.new-entry {
-    animation: fadeInEntry 0.4s ease-out forwards;
+/* Line separator fade-in animation for first entry */
+@keyframes fadeInLineFirst {
+
+    0%,
+    30% {
+        opacity: 0;
+        width: 0%;
+        left: 10%;
+    }
+
+    100% {
+        opacity: 0.75;
+        width: 80%;
+        left: 10%;
+    }
+}
+
+/* Line separator animation for subsequent entries */
+@keyframes fadeInLineSubsequent {
+
+    /* Start with full line */
+    0% {
+        opacity: 0.75;
+        width: 80%;
+        left: 10%;
+    }
+
+    /* Wipe out from left to right */
+    30% {
+        opacity: 0.75;
+        width: 0%;
+        left: 90%;
+    }
+
+    /* Reset position to start left */
+    40% {
+        opacity: 0;
+        width: 0%;
+        left: 10%;
+    }
+
+    /* Wipe in from left to right */
+    100% {
+        opacity: 0.75;
+        width: 80%;
+        left: 10%;
+    }
+}
+
+/* Push down existing entries */
+@keyframes pushDownEntry {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(6px);
+    }
+}
+
+/* Animation for entries being pushed down */
+.time-entry.push-down {
+    animation: pushDownEntry 0.4s ease-out forwards;
+}
+
+/* Staggered animation delays for push-down effect */
+.time-entry.push-down-1 {
+    animation-delay: 0.05s;
+}
+
+.time-entry.push-down-2 {
+    animation-delay: 0.1s;
+}
+
+.time-entry.push-down-3 {
+    animation-delay: 0.15s;
+}
+
+.time-entry.push-down-4 {
+    animation-delay: 0.2s;
+}
+
+.time-entry.push-down-5 {
+    animation-delay: 0.25s;
+}
+
+.time-entry.push-down-6 {
+    animation-delay: 0.3s;
+}
+
+.time-entry.push-down-7 {
+    animation-delay: 0.35s;
+}
+
+.time-entry.push-down-8 {
+    animation-delay: 0.4s;
+}
+
+.time-entry.push-down-9 {
+    animation-delay: 0.45s;
+}
+
+.time-entry.push-down-10+ {
+    animation-delay: 0.5s;
 }
 
 /* Pulse placeholder when reset is clicked on empty list */

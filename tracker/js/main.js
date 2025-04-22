@@ -183,6 +183,9 @@ function renderTimestamps() {
 
     let lastDate = null;
 
+    // Determine if this is the first entry added (transition from empty to non-empty)
+    const isFirstEntry = trackedEntries.length === 1;
+
     // Render all entries (no limit)
     trackedEntries.forEach((entry, idx) => {
         const entryDate = new Date(entry.date);
@@ -199,7 +202,31 @@ function renderTimestamps() {
         // Create entry container
         const entryDiv = document.createElement('div');
         entryDiv.className = 'time-entry';
-        if (idx === 0) entryDiv.classList.add('new-entry');
+
+        // Add appropriate classes based on position
+        if (idx === 0) {
+            entryDiv.classList.add('new-entry');
+            entryDiv.style.position = 'relative';
+            entryDiv.style.paddingBottom = '0.8rem';
+            entryDiv.style.marginBottom = '0.2rem';
+
+            // Add appropriate line animation based on whether this is the first entry or not
+            if (isFirstEntry) {
+                entryDiv.style.setProperty('--line-animation', 'fadeInLineFirst');
+            } else {
+                entryDiv.style.setProperty('--line-animation', 'fadeInLineSubsequent');
+            }
+        } else {
+            // Apply staggered push-down animation with different delays
+            entryDiv.classList.add('push-down');
+
+            // Add specific delay class based on position
+            if (idx <= 9) {
+                entryDiv.classList.add(`push-down-${idx}`);
+            } else {
+                entryDiv.classList.add('push-down-10+');
+            }
+        }
 
         // Create checkbox
         const checkboxDiv = document.createElement('div');
@@ -327,12 +354,25 @@ function addTimestamp() {
     // Note: renderTimestamps() is called after this in the trackButton listener
 }
 
+// Show success state on track button
+function showTrackSuccess() {
+    trackButton.classList.add('success');
+
+    // Remove success state after animation completes
+    setTimeout(() => {
+        trackButton.classList.remove('success');
+    }, 1000); // 1 second duration
+}
+
 // Handle click on the "Track" button
 trackButton.addEventListener('click', () => {
     totalCount++;
     updateTotalCount(); // Update display and save count
     addTimestamp(); // Add new entry data
     renderTimestamps(); // Re-render the list and save entries
+
+    // Show the checkmark icon
+    showTrackSuccess();
 });
 
 // Handle click on the "Reset" button

@@ -14,7 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [1.0.0](#100) - Initial Release
 
 ## [Unreleased]
-<!-- Future changes that are not yet released will go here -->
+### Added
+- Track button now shows a checkmark icon animation when clicked
+- Most recent timestamp entry fades in at a larger size and animates to normal
+- Visual separator line below the most recent timestamp
+- Staggered animation for existing timestamps that creates a cascading effect
+- Enhanced visual feedback when tracking new entries
 
 ## [1.0.4]
 ### Added
