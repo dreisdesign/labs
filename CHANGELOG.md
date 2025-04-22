@@ -13,7 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [1.0.0](#100) - Initial Release
 
 ## [Unreleased]
-<!-- Future changes that are not yet released will go here -->
+### Added
+- iOS status bar coloring support for web app mode (when added to home screen)
+- PWA improvements with updated meta tags and manifest
 
 ## [1.0.3]
 ### Added

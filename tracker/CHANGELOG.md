@@ -13,7 +13,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [1.0.0](#100) - Initial Release
 
 ## [Unreleased]
-<!-- Future changes that are not yet released will go here -->
+### Added
+- iOS status bar coloring support for web app mode (when added to home screen)
+- Updated meta tags for improved PWA (Progressive Web App) experience
+- Added `apple-mobile-web-app-capable` and `apple-mobile-web-app-status-bar-style` meta tags
+- Media query support for theme-color meta tags to match light/dark mode
+
+### Changed
+- Updated site.webmanifest theme and background colors to match app color scheme
+- Enhanced app-like experience on iOS devices when added to home screen
 
 ## [1.0.3]
 ### Added

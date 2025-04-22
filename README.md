@@ -80,7 +80,8 @@ tracker/
 - Added 75% opacity variants for primary, secondary, and on-surface colors.
 - Scrollbar colors now use the 75% opacity primary color for better contrast and theme consistency.
 - Testing mode now groups by seconds (not minutes) for more granular testing.
-- Improved semantic HTML and keyboard accessibility (see changelog for details).
+- Improved semantic HTML and keyboard accessibility (see [changelog](CHANGELOG.md) for details).
+- Enhanced mobile experience with full PWA support including colored status bar on iOS.
 
 ### Development
 
@@ -99,6 +100,11 @@ cd labs
 3. Open the project in a web browser:
 - Open `index.html` in your browser
 - Or serve it using a local development server
+
+### Documentation
+
+- [Main CHANGELOG](CHANGELOG.md) - Project-wide changes and updates
+- [Tracker CHANGELOG](tracker/CHANGELOG.md) - Detailed changes specific to the Tracker component
 
 ### Contributing
 

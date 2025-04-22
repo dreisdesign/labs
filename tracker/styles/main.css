@@ -33,6 +33,22 @@
     --focus-outline-offset: 2px;
 }
 
+/* iOS PWA Status Bar Adjustments */
+@supports (-webkit-touch-callout: none) {
+    html {
+        /* This ensures the background extends to the very top of the screen */
+        background: var(--color-background);
+    }
+
+    /* Handle the status bar height in PWA mode */
+    body {
+        /* Add padding to ensure content doesn't appear under the status bar */
+        padding-top: env(safe-area-inset-top);
+        /* Ensure the content is still centered properly */
+        min-height: calc(100vh - env(safe-area-inset-top));
+    }
+}
+
 /* --- Version Number --- */
 .version-number {
     position: fixed;
