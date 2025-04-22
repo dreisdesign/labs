@@ -7,21 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Table of Contents
 - [Unreleased](#unreleased)
+- [1.0.4](#104) - PWA Enhancements
 - [1.0.3](#103) - Accessibility Implementation
 - [1.0.2](#102) - Accessibility Preparation
 - [1.0.1](#101) - Bug Fixes & Refinements
 - [1.0.0](#100) - Initial Release
 
 ## [Unreleased]
+<!-- Future changes that are not yet released will go here -->
+
+## [1.0.4]
 ### Added
 - iOS status bar coloring support for web app mode (when added to home screen)
+- Dynamic Safari tab bar coloring that changes with theme toggle
 - Updated meta tags for improved PWA (Progressive Web App) experience
 - Added `apple-mobile-web-app-capable` and `apple-mobile-web-app-status-bar-style` meta tags
-- Media query support for theme-color meta tags to match light/dark mode
+- Added `viewport-fit=cover` for proper handling of edge-to-edge iOS displays
+- JavaScript-based theme color adaptation for browser UI elements
 
 ### Changed
-- Updated site.webmanifest theme and background colors to match app color scheme
+- Updated site.webmanifest to use "fullscreen" display mode for better iOS integration
 - Enhanced app-like experience on iOS devices when added to home screen
+- Consolidated changelog files to a single source of truth
+- Improved theme switching with automatic browser UI color updates
+
+### Fixed
+- Fixed iOS status bar appearance when app is launched from home screen
+- Resolved theme color inconsistencies between browser and app modes
 
 ## [1.0.3]
 ### Added
