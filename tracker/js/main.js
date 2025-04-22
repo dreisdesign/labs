@@ -233,6 +233,16 @@ function renderTimestamps() {
 
 // --- Theme Handling ---
 
+// Updates theme-color meta tag for Safari tab bar
+function updateThemeColorMetaTag(theme) {
+    const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+    if (themeColorMeta) {
+        // Set the color based on current theme
+        const color = theme === 'dark' ? '#121212' : '#c1c1ff';
+        themeColorMeta.setAttribute('content', color);
+    }
+}
+
 // Applies the selected theme (light/dark) by adding/removing class on body
 function applyTheme(theme) {
     if (theme === 'dark') {
@@ -241,6 +251,9 @@ function applyTheme(theme) {
         document.body.classList.remove('dark-mode');
     }
     localStorage.setItem(LS_KEYS.THEME, theme); // Persist theme choice using constant
+
+    // Update theme color meta tag for Safari
+    updateThemeColorMetaTag(theme);
 }
 
 // --- Testing Functions ---
