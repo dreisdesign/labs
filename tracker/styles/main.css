@@ -26,6 +26,11 @@
     --color-primary-75: rgba(46, 43, 116, 0.75);
     --color-secondary-75: rgba(13, 11, 63, 0.75);
     --color-on-surface-75: rgba(28, 27, 31, 0.75);
+
+    /* Focus visible styles for accessibility */
+    --focus-outline-color: rgb(0, 95, 204);
+    --focus-outline-width: 3px;
+    --focus-outline-offset: 2px;
 }
 
 /* --- Version Number --- */
@@ -34,10 +39,13 @@
     top: 1rem;
     right: 1rem;
     font-size: 0.8rem;
-    opacity: 0.6;
+    opacity: 0.8;
+    /* Increased from 0.6 for better visibility */
     font-family: monospace;
     color: var(--color-on-background);
     z-index: 1000;
+    content: "v1.0.3";
+    /* Updated version number */
 }
 
 /* --- Global Styles --- */
@@ -49,6 +57,10 @@ body {
     background: var(--color-background);
     color: var(--color-on-background);
     font-family: system-ui, sans-serif;
+    font-size: 16px;
+    /* Ensure base font size is at least 16px */
+    line-height: 1.5;
+    /* Improve readability with proper line height */
 }
 
 body {
@@ -58,6 +70,12 @@ body {
     justify-content: center;
     align-items: center;
     padding: 0;
+}
+
+/* --- Global focus styles for keyboard navigation --- */
+:focus-visible {
+    outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    outline-offset: var(--focus-outline-offset);
 }
 
 /* --- App Container --- */
@@ -142,10 +160,17 @@ body.dark-mode .metric-label:hover {
     display: flex;
     align-items: center;
     justify-content: center;
+    min-height: 44px;
+    /* Minimum touch target size */
 }
 
 .edit-label-button:hover {
     opacity: 1;
+}
+
+.edit-label-button:focus-visible {
+    outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    outline-offset: var(--focus-outline-offset);
 }
 
 .edit-icon {
@@ -177,10 +202,17 @@ body.dark-mode .metric-label:hover {
     max-width: 80%;
     margin-left: auto;
     margin-right: auto;
+    min-height: 44px;
+    /* Minimum touch target size */
 }
 
 .track-button:hover {
     background: var(--color-secondary);
+}
+
+.track-button:focus-visible {
+    outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    outline-offset: var(--focus-outline-offset);
 }
 
 /* --- Main Content Area (Timestamp List) --- */
@@ -237,6 +269,8 @@ body.dark-mode .metric-label:hover {
     font-size: 1.1rem;
     color: var(--color-on-surface);
     padding: 0.2rem 0;
+    letter-spacing: 0.01em;
+    /* Slight letter spacing for better readability */
 }
 
 .time-entry.new-entry {
@@ -246,6 +280,9 @@ body.dark-mode .metric-label:hover {
 .entry-checkbox {
     flex-shrink: 0;
     font-size: 1rem;
+    width: 20px;
+    height: 20px;
+    /* Improve checkbox visibility */
 }
 
 .time {
@@ -254,6 +291,9 @@ body.dark-mode .metric-label:hover {
     text-overflow: ellipsis;
     white-space: nowrap;
     /* Removed flex-grow: 1 */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
 }
 
 /* Placeholder Text ("No entries yet") */
@@ -314,11 +354,19 @@ body.dark-mode .metric-label:hover {
     text-align: center;
     box-shadow: none;
     transition: color 0.2s;
+    min-height: 44px;
+    /* Minimum touch target size */
 }
 
 .bottom-button-base:hover {
     text-decoration: underline;
     background: none;
+    text-underline-offset: 0.2em;
+}
+
+.bottom-button-base:focus-visible {
+    outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    outline-offset: var(--focus-outline-offset);
 }
 
 /* Container for bottom buttons */
@@ -370,6 +418,30 @@ body.dark-mode .metric-label:hover {
     padding: 0.5rem 0;
     width: 100%;
     text-align: center;
+    min-height: 44px;
+    /* Minimum touch target size */
+    text-underline-offset: 0.2em;
+}
+
+.collapse-toggle:focus-visible {
+    outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    outline-offset: var(--focus-outline-offset);
+}
+
+/* --- Skip to content link for keyboard users --- */
+.skip-to-content {
+    position: absolute;
+    top: -999px;
+    left: 0;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    padding: 1rem;
+    z-index: 9999;
+    transition: top 0.3s;
+}
+
+.skip-to-content:focus {
+    top: 0;
 }
 
 /* --- Animations --- */
@@ -424,6 +496,21 @@ body.dark-mode .metric-label:hover {
     animation: fadeOutClear 0.3s ease-out forwards;
 }
 
+/* --- Reduced Motion Support --- */
+@media (prefers-reduced-motion: reduce) {
+
+    .time-entry.new-entry,
+    .placeholder-entry.pulsing,
+    #timestampList.clearing .time-entry {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    * {
+        transition-duration: 0.001ms !important;
+    }
+}
+
 /* --- Responsive Styles --- */
 @media (max-width: 600px) {
     .app {
@@ -433,6 +520,85 @@ body.dark-mode .metric-label:hover {
 
     .metric-card {
         padding: 2rem 0.5rem 1.5rem 0.5rem;
+    }
+}
+
+/* --- Additional Accessibility Enhancements --- */
+@media screen and (max-width: 767px) {
+
+    /* Increase touch targets on mobile */
+    .track-button,
+    .bottom-button-base,
+    .edit-label-button,
+    .collapse-toggle {
+        min-height: 48px;
+        /* Larger touch targets on mobile */
+        padding: 0.75rem;
+    }
+
+    /* Increase font size on mobile for better readability */
+    html,
+    body {
+        font-size: 16px;
+        /* Ensure base font size is maintained on mobile */
+    }
+
+    .metric-label {
+        font-size: 1.3rem;
+        /* Slightly larger labels on mobile */
+    }
+}
+
+/* High contrast mode support */
+@media (forced-colors: active) {
+    :root {
+        --focus-outline-color: CanvasText;
+    }
+
+    .track-button,
+    .bottom-button-base,
+    .edit-label-button,
+    .collapse-toggle {
+        border: 1px solid CanvasText;
+    }
+}
+
+/* Ensure proper focus state for any focusable elements not already covered */
+[tabindex]:focus-visible:not([tabindex="-1"]) {
+    outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    outline-offset: var(--focus-outline-offset);
+}
+
+/* Improved screen reader support with ARIA states */
+[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Print styles for better accessibility when printed */
+@media print {
+    body {
+        background: white;
+        color: black;
+        font-size: 12pt;
+    }
+
+    .track-button,
+    .bottom-buttons,
+    .edit-label-button {
+        display: none !important;
+    }
+
+    .app {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+    }
+
+    #mainContent {
+        max-height: none;
+        overflow: visible;
     }
 }
 
@@ -450,14 +616,20 @@ body.dark-mode {
     /* light error */
     --color-on-primary: rgb(0, 0, 0);
     /* black text on light primary */
-    --color-on-background: rgb(224, 224, 224);
+    --color-on-background: rgb(255, 255, 255);
+    /* Increased contrast from rgb(224, 224, 224) */
     /* light text */
-    --color-on-surface: rgb(224, 224, 224);
+    --color-on-surface: rgb(255, 255, 255);
+    /* Increased contrast from rgb(224, 224, 224) */
     /* light text */
     --color-on-error: rgb(0, 0, 0);
     /* black text on error */
     --icon-filter: invert(1);
     --color-primary-75: rgba(149, 117, 205, 0.75);
     --color-secondary-75: rgba(126, 87, 194, 0.75);
-    --color-on-surface-75: rgba(224, 224, 224, 0.75);
+    --color-on-surface-75: rgba(255, 255, 255, 0.75);
+    /* Increased contrast */
+
+    /* Different focus color for dark mode for better visibility */
+    --focus-outline-color: rgb(255, 213, 0);
 }

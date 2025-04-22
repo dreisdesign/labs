@@ -7,37 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Table of Contents
 - [Unreleased](#unreleased)
-- [1.0.3](#103) - Accessibility Implementation
 - [1.0.2](#102) - Accessibility Improvements
 - [1.0.1](#101) - Bug Fixes & Refinements
 - [1.0.0](#100) - Initial Release
 
 ## [Unreleased]
 <!-- Future changes that are not yet released will go here -->
-
-## [1.0.3]
-### Added
-- Skip to content link for keyboard users for better navigation
-- Support for prefers-reduced-motion media query to respect user motion preferences
-- Print styles for better document printing
-- High contrast mode support for Windows users with forced-colors
-- ARIA disabled state styling for better screen reader feedback
-
-### Changed
-- Improved color contrast throughout the application for better readability
-- Increased touch target sizes (minimum 44px height, 48px on mobile) for all interactive elements
-- Added visible focus indicators for keyboard navigation with distinct colors for light/dark mode
-- Standardized focus states across all interactive elements using `:focus-visible`
-- Improved text spacing and letter spacing for better readability
-- Added proper underline offset for text with underline decoration
-- Enhanced mobile accessibility with larger touch targets and font sizes
-
-### Fixed
-- Improved version number contrast and visibility
-- Enhanced checkbox visibility by setting explicit dimensions
-- Fixed potential focus trapping issues with proper focus states
-- Ensured color is not the only means of conveying information
-- Improved word wrapping and hyphenation for time entries
 
 ## [1.0.2]
 ### Added
