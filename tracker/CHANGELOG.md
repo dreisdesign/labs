@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Table of Contents
 - [Unreleased](#unreleased)
-- [1.0.4](#104) - 
+- [1.0.4](#104) - PWA Enhancements & UI Simplification
 - [1.0.3](#103) - Accessibility Implementation + PWA Enhancements
 - [1.0.2](#102) - Accessibility Preparation
 - [1.0.1](#101) - Bug Fixes & Refinements
@@ -15,7 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-<<<<<<< HEAD
 ### Changed
 - Simplified UI: Removed top date heading, removed date label within list, removed line under newest entry.
 - Removed all entry animations (grow-in, push-down) for simplicity.
@@ -57,10 +56,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Addressed potential double animation triggers on Track button.
 - Fixed iOS status bar appearance when app is launched from home screen
 - Resolved theme color inconsistencies between browser and app modes
-=======
-## [1.0.4]
-<!-- Add new changes here -->
->>>>>>> main
 
 ## [1.0.3]
 ### Added
