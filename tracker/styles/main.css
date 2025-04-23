@@ -120,7 +120,8 @@ body {
     width: 100%;
     max-width: 400px;
     margin: 0 auto;
-    padding: 4vw 0 5.5rem 0;
+    padding: 5.5rem 0 6rem 0;
+    /* Increased bottom padding to account for fixed footer */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -322,15 +323,9 @@ body.dark-mode .metric-label:hover {
 
 /* --- Main Content Area (Timestamp List) --- */
 #mainContent {
-    /* flex: 1 1 auto; Removed to use fixed height */
-    /* min-height: 60px; Removed */
-    /* max-height: calc(60vh - 120px); Removed */
     height: 60vh;
-    /* Set fixed height (e.g., 60% of viewport height) */
-    overflow-y: auto;
-    /* Ensure content scrolls if it exceeds the height */
+    overflow-y: scroll;
     margin-bottom: 1rem;
-    /* Adjust bottom margin as needed */
     max-width: 80%;
     margin-left: auto;
     margin-right: auto;
@@ -341,20 +336,17 @@ body.dark-mode .metric-label:hover {
     flex-direction: column;
     align-items: center;
     scrollbar-gutter: stable;
-    padding-left: 16px;
-    scrollbar-color: var(--color-primary-75) var(--color-background);
+    padding: 0;
+    scrollbar-width: thin;
     /* For Firefox */
+    scrollbar-color: var(--color-primary-75) var(--color-background);
 }
 
 #mainContent::-webkit-scrollbar {
     width: 12px;
     background: var(--color-background);
     position: absolute;
-}
-
-#mainContent::-webkit-scrollbar-thumb {
-    background: var(--color-primary-75);
-    border-radius: 6px;
+    -webkit-appearance: auto;
 }
 
 /* Timestamp List Container */
@@ -449,6 +441,40 @@ body.dark-mode .metric-label:hover {
 
 /* --- Bottom Buttons (Reset, Theme) --- */
 
+/* Container for bottom buttons wrapper */
+.bottom-buttons-wrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    background-color: var(--color-background);
+    transition: box-shadow 0.3s ease;
+    padding: 0.75rem 0;
+    z-index: 100;
+}
+
+.bottom-buttons-wrapper.shadow {
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+}
+
+body.dark-mode .bottom-buttons-wrapper.shadow {
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Container for bottom buttons */
+.bottom-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    box-sizing: border-box;
+    background-color: transparent;
+}
+
 /* Base styles for bottom buttons */
 .bottom-button-base {
     width: auto;
@@ -478,22 +504,6 @@ body.dark-mode .metric-label:hover {
 .bottom-button-base:focus-visible {
     outline: var(--focus-outline-width) solid var(--focus-outline-color);
     outline-offset: var(--focus-outline-offset);
-}
-
-/* Container for bottom buttons */
-.bottom-buttons {
-    position: absolute;
-    bottom: 1rem;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-between;
-    gap: 1.5rem;
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 0 1rem;
-    box-sizing: border-box;
 }
 
 /* Reset Button Styles */

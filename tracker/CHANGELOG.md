@@ -6,12 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Table of Contents
+- [Unreleased](#unreleased)
 - [1.0.5](#105) - UI Enhancements & Theme Toggle Update
 - [1.0.4](#104) - PWA Enhancements & UI Simplification
 - [1.0.3](#103) - Accessibility Implementation + PWA Enhancements
 - [1.0.2](#102) - Accessibility Preparation
 - [1.0.1](#101) - Bug Fixes & Refinements
 - [1.0.0](#100) - Initial Release
+
+## [Unreleased]
 
 ## [1.0.5] - 2025-04-23
 
@@ -21,6 +24,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added press-down effect (scale and darker background) to the Track button
 - Added mobile support for Track button press-down effect
 - Fixed placeholder text opacity to match 75% of the current theme's text color
+- Added full-width footer with drop shadow when scrolling
+- Made scrollbar permanently visible when content is scrollable
+
+### Fixed
+- Fixed drop shadow behavior on browser resize
+- Ensured footer shadow only shows when content is actually scrollable
 
 ## [1.0.4] - 2024-04-21
 

@@ -171,6 +171,26 @@ metricLabel.addEventListener('keydown', (e) => {
 
 const mainContent = document.getElementById('mainContent');
 
+// Add scroll handler for footer shadow
+const bottomButtonsWrapper = document.querySelector('.bottom-buttons-wrapper');
+
+// Update shadow based on scroll position
+function updateFooterShadow() {
+    if (mainContent.scrollHeight > mainContent.clientHeight &&
+        mainContent.scrollTop < (mainContent.scrollHeight - mainContent.clientHeight)) {
+        bottomButtonsWrapper.classList.add('shadow');
+    } else {
+        bottomButtonsWrapper.classList.remove('shadow');
+    }
+}
+
+// Listen for scroll events and window resize
+mainContent.addEventListener('scroll', updateFooterShadow);
+window.addEventListener('resize', updateFooterShadow);
+
+// Call on initial load and after content changes
+updateFooterShadow();
+
 function renderTimestamps() {
     // Sort entries: newest first
     trackedEntries.sort((a, b) => b.date - a.date);
@@ -234,6 +254,13 @@ function renderTimestamps() {
     // Save entries to localStorage
     localStorage.setItem(LS_KEYS.ENTRIES, JSON.stringify(trackedEntries));
 }
+
+// Update shadow after timestamps are rendered
+const originalRenderTimestamps = renderTimestamps;
+renderTimestamps = function () {
+    originalRenderTimestamps.apply(this, arguments);
+    updateFooterShadow();
+};
 
 // --- Theme Handling ---
 
