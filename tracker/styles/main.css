@@ -9,6 +9,8 @@
     /* main purple */
     --color-secondary: rgb(13, 11, 63);
     /* dark purple */
+    --color-primary-darker: rgb(25, 23, 80);
+    /* New darker primary */
     --color-background: rgb(193, 193, 255);
     /* light background */
     --color-surface: rgb(255, 255, 255);
@@ -123,7 +125,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
+    gap: 1.5rem;
     position: relative;
     min-height: 80vh;
 }
@@ -233,7 +235,7 @@ body.dark-mode .metric-label:hover {
     background: var(--color-primary);
     color: var(--color-on-primary);
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background-color 0.2s, transform 0.1s ease-out;
     max-width: 80%;
     margin-left: auto;
     margin-right: auto;
@@ -247,12 +249,49 @@ body.dark-mode .metric-label:hover {
     overflow: hidden;
 }
 
+/* Add active state for mouse down effect */
+.track-button:active {
+    background-color: var(--color-primary-darker);
+    transform: scale(0.95);
+    transition-duration: 0.05s;
+}
+
 /* Track button checkmark styling */
 .track-button-checkmark {
     position: absolute;
     opacity: 0;
-    transform: scale(0.5);
-    transition: all 0.3s ease-out;
+    transform: scale(0.5) rotate(-180deg);
+    /* Start rotated and scaled down */
+}
+
+/* Success state for track button */
+.track-button.success .track-button-text {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    /* Keep text transition */
+}
+
+.track-button.success .track-button-checkmark {
+    opacity: 1;
+    /* Will be set by animation */
+    transform: scale(1) rotate(0deg);
+    /* Final state set by animation */
+    animation: rollInCheckmark 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+    /* Apply roll-in animation */
+}
+
+/* Add keyframes for the roll-in animation */
+@keyframes rollInCheckmark {
+    from {
+        opacity: 0;
+        transform: scale(0.3) rotate(-180deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
 }
 
 .checkmark-icon {
@@ -271,17 +310,6 @@ body.dark-mode .metric-label:hover {
     filter: brightness(0) invert(1);
 }
 
-/* Success state for track button */
-.track-button.success .track-button-text {
-    opacity: 0;
-    transform: translateY(-10px);
-}
-
-.track-button.success .track-button-checkmark {
-    opacity: 1;
-    transform: scale(1);
-}
-
 .track-button:hover {
     background: var(--color-secondary);
 }
@@ -293,11 +321,15 @@ body.dark-mode .metric-label:hover {
 
 /* --- Main Content Area (Timestamp List) --- */
 #mainContent {
-    flex: 1 1 auto;
-    min-height: 60px;
-    max-height: calc(60vh - 120px);
+    /* flex: 1 1 auto; Removed to use fixed height */
+    /* min-height: 60px; Removed */
+    /* max-height: calc(60vh - 120px); Removed */
+    height: 60vh;
+    /* Set fixed height (e.g., 60% of viewport height) */
     overflow-y: auto;
-    margin-bottom: 2.5rem;
+    /* Ensure content scrolls if it exceeds the height */
+    margin-bottom: 1rem;
+    /* Adjust bottom margin as needed */
     max-width: 80%;
     margin-left: auto;
     margin-right: auto;
@@ -329,136 +361,87 @@ body.dark-mode .metric-label:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Center children horizontally */
     gap: 0.5rem;
     position: relative;
     padding-top: 0;
     width: 100%;
-    transition: padding-top 0.4s ease-out;
-}
-
-/* Add extra space at the top when entries exist */
-#timestampList.has-entries {
-    padding-top: 2rem;
+    transition: none;
 }
 
 /* Individual Timestamp Entry */
 .time-entry {
     display: inline-flex;
-    /* Change to inline-flex to wrap content */
     align-items: center;
     gap: 0.7rem;
     font-size: 1.1rem;
     color: var(--color-on-surface);
     padding: 0.2rem 0;
     letter-spacing: 0.01em;
-    /* Slight letter spacing for better readability */
+    margin-bottom: 0.3rem;
+    /* Consistent spacing between entries */
+    transition: none;
 }
 
+/* Style for the newest timestamp */
 .time-entry.new-entry {
-    animation: fadeInEntry 0.4s ease-out forwards;
-    position: relative;
-    padding-bottom: 0.8rem;
-    margin-bottom: 0.2rem;
+    font-weight: 600;
 }
 
+/* Remove line style */
 .time-entry.new-entry::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 10%;
-    width: 100%;
-    height: 4px;
-    background-color: var(--color-primary-75);
-    opacity: 0.75;
-    animation: var(--line-animation, fadeInLineFirst) 0.6s ease-out forwards;
-    opacity: 0;
-    border-radius: 5px;
-}
-
-.time-entry.push-down {
-    animation: pushDownEntry 0.4s ease-out forwards;
-}
-
-/* Staggered animation delays for push-down effect */
-.time-entry.push-down-1 {
-    animation-delay: 0.05s;
-}
-
-.time-entry.push-down-2 {
-    animation-delay: 0.1s;
-}
-
-.time-entry.push-down-3 {
-    animation-delay: 0.15s;
-}
-
-.time-entry.push-down-4 {
-    animation-delay: 0.2s;
-}
-
-.time-entry.push-down-5 {
-    animation-delay: 0.25s;
-}
-
-.time-entry.push-down-6 {
-    animation-delay: 0.3s;
-}
-
-.time-entry.push-down-7 {
-    animation-delay: 0.35s;
-}
-
-.time-entry.push-down-8 {
-    animation-delay: 0.4s;
-}
-
-.time-entry.push-down-9 {
-    animation-delay: 0.45s;
-}
-
-.time-entry.push-down-10+ {
-    animation-delay: 0.5s;
-}
-
-/* Placeholder Text ("No entries yet") */
-.placeholder-entry {
-    color: var(--color-on-surface);
-    text-align: center;
-    font-size: 1rem;
-    padding: 1.5rem 0 0 0;
     display: none;
-    position: static;
 }
 
-/* Show placeholder only when list has 'is-empty' class */
-#timestampList.is-empty .placeholder-entry {
-    display: inline-block;
-    /* Change from block to inline-block for better centering */
+/* Entry components styling */
+.time-entry .entry-checkbox {
+    min-width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--color-primary);
 }
 
-/* Style the first entry when list is NOT empty */
-#timestampList:not(.is-empty) .time-entry:first-of-type {
-    padding-top: 1.5rem;
+.time-entry .time {
+    flex: 1;
 }
 
-/* Remove padding from subsequent entries */
-#timestampList:not(.is-empty) .time-entry:not(:first-of-type) {
-    padding-top: 0;
+/* Display style for placeholder when list is empty */
+.placeholder-entry {
+    margin: 2rem 0;
+    color: var(--color-on-surface-75);
+    font-style: italic;
+    text-align: center;
+    display: block;
 }
 
-/* Date Header */
+/* Remove Pulse animation */
+.placeholder-entry.pulsing {
+    animation: none;
+}
+
+/* Animation: Date header styles */
 .date-header {
     color: var(--color-on-background);
-    font-weight: bold;
-    padding: 1rem 0 0.5rem 0;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.8;
+    letter-spacing: 0.02em;
+    width: 100%;
     text-align: center;
-    /* Keep text centered */
 }
 
-/* Remove the old date label styles since we're not using it anymore */
-.imessage-date-label {
-    display: none !important;
+/* Remove Clearing animation style */
+#timestampList.clearing .time-entry {
+    animation: none;
+}
+
+/* Remove Ready for new animation style */
+#timestampList.timestamps-ready-for-new .time-entry.new-entry {
+    font-weight: 600;
+    transition: none;
 }
 
 /* --- Bottom Buttons (Reset, Theme) --- */
@@ -571,181 +554,9 @@ body.dark-mode .metric-label:hover {
 
 /* --- Animations --- */
 
-/* Fade in new entry with scale effect */
-@keyframes fadeInEntry {
-    0% {
-        opacity: 0;
-        transform: translateY(-10px) scale(1.15);
-        font-weight: 800;
-    }
-
-    70% {
-        opacity: 1;
-        transform: translateY(0) scale(1.15);
-        font-weight: 800;
-    }
-
-    90% {
-        font-weight: 800;
-    }
-
-    100% {
-        transform: translateY(0) scale(1);
-        font-weight: 600;
-    }
-}
-
-/* Line separator fade-in animation for first entry */
-@keyframes fadeInLineFirst {
-
-    0%,
-    30% {
-        opacity: 0;
-        width: 0%;
-        left: 10%;
-    }
-
-    100% {
-        opacity: 0.75;
-        width: 80%;
-        left: 10%;
-    }
-}
-
-/* Line separator animation for subsequent entries */
-@keyframes fadeInLineSubsequent {
-
-    /* Start with full line */
-    0% {
-        opacity: 0.75;
-        width: 80%;
-        left: 10%;
-    }
-
-    /* Wipe out from left to right */
-    30% {
-        opacity: 0.75;
-        width: 0%;
-        left: 90%;
-    }
-
-    /* Reset position to start left */
-    40% {
-        opacity: 0;
-        width: 0%;
-        left: 10%;
-    }
-
-    /* Wipe in from left to right */
-    100% {
-        opacity: 0.75;
-        width: 80%;
-        left: 10%;
-    }
-}
-
-/* Push down existing entries */
-@keyframes pushDownEntry {
-    from {
-        transform: translateY(0);
-    }
-
-    to {
-        transform: translateY(6px);
-    }
-}
-
-/* Animation for entries being pushed down */
-.time-entry.push-down {
-    animation: pushDownEntry 0.4s ease-out forwards;
-}
-
-/* Staggered animation delays for push-down effect */
-.time-entry.push-down-1 {
-    animation-delay: 0.05s;
-}
-
-.time-entry.push-down-2 {
-    animation-delay: 0.1s;
-}
-
-.time-entry.push-down-3 {
-    animation-delay: 0.15s;
-}
-
-.time-entry.push-down-4 {
-    animation-delay: 0.2s;
-}
-
-.time-entry.push-down-5 {
-    animation-delay: 0.25s;
-}
-
-.time-entry.push-down-6 {
-    animation-delay: 0.3s;
-}
-
-.time-entry.push-down-7 {
-    animation-delay: 0.35s;
-}
-
-.time-entry.push-down-8 {
-    animation-delay: 0.4s;
-}
-
-.time-entry.push-down-9 {
-    animation-delay: 0.45s;
-}
-
-.time-entry.push-down-10+ {
-    animation-delay: 0.5s;
-}
-
-/* Pulse placeholder when reset is clicked on empty list */
-@keyframes pulsePlaceholder {
-
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.3;
-    }
-}
-
-.placeholder-entry.pulsing {
-    animation: pulsePlaceholder 0.6s ease-in-out;
-}
-
-/* Fade out entries when list is cleared */
-@keyframes fadeOutClear {
-    from {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0;
-    }
-}
-
-#timestampList.clearing .time-entry {
-    animation: fadeOutClear 0.3s ease-out forwards;
-}
-
-/* --- Reduced Motion Support --- */
+/* Reduced Motion Support --- */
 @media (prefers-reduced-motion: reduce) {
-
-    .time-entry.new-entry,
-    .placeholder-entry.pulsing,
-    #timestampList.clearing .time-entry {
-        animation: none !important;
-        transition: none !important;
-    }
-
-    * {
-        transition-duration: 0.001ms !important;
-    }
+    /* Remove animation overrides */
 }
 
 /* --- Responsive Styles --- */
@@ -845,6 +656,8 @@ body.dark-mode {
     /* lighter purple */
     --color-secondary: rgb(126, 87, 194);
     /* dark mode secondary */
+    --color-primary-darker: rgb(110, 85, 160);
+    /* New darker primary for dark mode */
     --color-background: rgb(18, 18, 18);
     /* dark background */
     --color-surface: rgb(30, 30, 30);
@@ -869,4 +682,9 @@ body.dark-mode {
 
     /* Different focus color for dark mode for better visibility */
     --focus-outline-color: rgb(255, 213, 0);
+}
+
+/* Remove the old date label styles since we're not using it anymore */
+.imessage-date-label {
+    display: none !important;
 }

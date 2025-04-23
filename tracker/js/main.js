@@ -4,7 +4,7 @@ const trackButton = document.querySelector('.track-button');
 const resetButton = document.querySelector('.reset-button');
 const timestampList = document.getElementById('timestampList');
 const placeholderEntry = document.querySelector('.placeholder-entry');
-const currentDateLabel = document.getElementById('currentDateLabel');
+// Remove pageDateHeading selector
 const themeToggleButton = document.getElementById('themeToggle');
 const metricLabel = document.getElementById('metricLabel');
 const versionNumberElement = document.getElementById('versionNumber'); // Added missing selector
@@ -65,6 +65,7 @@ function isSameDay(date1, date2) {
 // Compare if two dates are in the same group (day or second depending on mode)
 function isSameGroup(date1, date2) {
     if (isTestingMode) {
+        // Group by second in testing mode
         return (
             date1.getFullYear() === date2.getFullYear() &&
             date1.getMonth() === date2.getMonth() &&
@@ -74,6 +75,7 @@ function isSameGroup(date1, date2) {
             date1.getSeconds() === date2.getSeconds()
         );
     }
+    // Default: Group by day
     return isSameDay(date1, date2);
 }
 
@@ -90,25 +92,19 @@ function formatTime(date) {
 // Format group header based on mode
 function formatGroupHeader(date) {
     if (isTestingMode) {
-        const dateStr = date.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
-        const timeStr = date.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit', hour12: true });
-        return `${dateStr} ${timeStr}`;
+        // Show Date and Time (down to the second) for testing headers
+        const dateStr = date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+        const timeStr = date.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
+        return `${dateStr}, ${timeStr}`;
     }
-    return formatDateHeader(date);
+    // Default: Show full date for normal headers
+    return formatDateHeader(date); // formatDateHeader already formats the full date
 }
 
-// Format date header
+// Format date header (Simplified for just the heading)
 function formatDateHeader(date) {
     const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
     return date.toLocaleDateString(undefined, options);
-}
-
-// Sets the current date in the dedicated header element
-function setCurrentDateLabel() {
-    const today = new Date();
-    const todayLabel = formatDateHeader(today);
-    currentDateLabel.textContent = todayLabel;
-    currentDateLabel.style.fontWeight = 'bold';
 }
 
 // Updates the total count display and saves it to Local Storage
@@ -179,53 +175,33 @@ function renderTimestamps() {
     trackedEntries.sort((a, b) => b.date - a.date);
 
     // Clear existing time entries and date headers
-    timestampList.querySelectorAll('.time-entry, .date-header').forEach(el => el.remove());
+    timestampList.querySelectorAll('.time-entry, .date-header, .timestamps-spacer').forEach(el => el.remove());
 
     let lastDate = null;
-
-    // Determine if this is the first entry added (transition from empty to non-empty)
-    const isFirstEntry = trackedEntries.length === 1;
+    let dateHeaderAdded = new Set(); // Track date headers we've already created
 
     // Render all entries (no limit)
     trackedEntries.forEach((entry, idx) => {
         const entryDate = new Date(entry.date);
+        const dateKey = formatGroupHeader(entryDate); // Use formatted date as key
 
-        // Check if we need a new group header
-        if (!lastDate || !isSameGroup(lastDate, entryDate)) {
+        // Check if we need a new group header (only add if we haven't seen this date yet)
+        if ((!lastDate || !isSameGroup(lastDate, entryDate)) && !dateHeaderAdded.has(dateKey)) {
             const headerDiv = document.createElement('div');
             headerDiv.className = 'date-header';
-            headerDiv.textContent = formatGroupHeader(entryDate);
+            headerDiv.textContent = dateKey;
             timestampList.insertBefore(headerDiv, placeholderEntry);
             lastDate = entryDate;
+            dateHeaderAdded.add(dateKey); // Mark this date as added
         }
 
         // Create entry container
         const entryDiv = document.createElement('div');
         entryDiv.className = 'time-entry';
 
-        // Add appropriate classes based on position
+        // Add new-entry class for potential styling, but without the line/animation
         if (idx === 0) {
             entryDiv.classList.add('new-entry');
-            entryDiv.style.position = 'relative';
-            entryDiv.style.paddingBottom = '0.8rem';
-            entryDiv.style.marginBottom = '0.2rem';
-
-            // Add appropriate line animation based on whether this is the first entry or not
-            if (isFirstEntry) {
-                entryDiv.style.setProperty('--line-animation', 'fadeInLineFirst');
-            } else {
-                entryDiv.style.setProperty('--line-animation', 'fadeInLineSubsequent');
-            }
-        } else {
-            // Apply staggered push-down animation with different delays
-            entryDiv.classList.add('push-down');
-
-            // Add specific delay class based on position
-            if (idx <= 9) {
-                entryDiv.classList.add(`push-down-${idx}`);
-            } else {
-                entryDiv.classList.add('push-down-10+');
-            }
         }
 
         // Create checkbox
@@ -297,15 +273,33 @@ function addTestEntry(dateString) {
 
 // Function to add multiple test entries
 function addTestEntries() {
-    // Yesterday's entries
-    addTestEntry('2025-04-19 09:58:40');
-    addTestEntry('2025-04-19 09:59:03');
+    const now = new Date(); // Base time for test entries
 
-    // Today's entries for comparison
-    addTestEntry('2025-04-20 06:52:19');
-    addTestEntry('2025-04-20 06:53:05');
+    // Helper to create date offsets easily
+    const createDate = (offsetSeconds) => {
+        const d = new Date(now);
+        d.setSeconds(d.getSeconds() + offsetSeconds);
+        return d.toISOString(); // Use ISO string for consistency
+    };
 
-    renderTimestamps();
+    // Clear existing test entries first if needed
+    // trackedEntries = [];
+    // totalCount = 0;
+
+    // Add entries simulating different seconds within the same minute/hour/day
+    addTestEntry(createDate(-125)); // ~2 minutes ago
+    addTestEntry(createDate(-120)); // ~2 minutes ago (different second)
+    addTestEntry(createDate(-65));  // ~1 minute ago
+    addTestEntry(createDate(-5));   // 5 seconds ago
+    addTestEntry(createDate(-2));   // 2 seconds ago
+    addTestEntry(createDate(0));    // Now
+
+    // Example of an entry from a different day (if needed for testing headers)
+    // const yesterday = new Date(now);
+    // yesterday.setDate(yesterday.getDate() - 1);
+    // addTestEntry(yesterday.toISOString());
+
+    renderTimestamps(); // Re-render after adding all test entries
 }
 
 // Add testing mode toggle function
@@ -322,6 +316,23 @@ document.addEventListener('keydown', (e) => {
         console.log(`Testing mode ${enabled ? 'enabled' : 'disabled'}`);
     }
 });
+
+// Function to add a new timestamp entry
+function addTimestamp() {
+    const now = new Date();
+    trackedEntries.push({
+        date: now.getTime(),
+        time: formatTime(now)
+    });
+}
+
+// Function to show the track success checkmark animation
+function showTrackSuccess() {
+    trackButton.classList.add('success');
+    setTimeout(() => {
+        trackButton.classList.remove('success');
+    }, 800); // Reduced duration from 1500ms to 800ms
+}
 
 // --- Version Display --- //
 function displayVersion() {
@@ -343,73 +354,50 @@ themeToggleButton.addEventListener('click', () => {
     applyTheme(currentTheme);
 });
 
-// Adds a new timestamp entry object to the array
-function addTimestamp() {
-    const now = new Date();
-    const timestamp = now.toLocaleTimeString(); // Format time as locale string
-    trackedEntries.push({
-        date: now.getTime(), // Store date as timestamp for sorting
-        time: timestamp
-    });
-    // Note: renderTimestamps() is called after this in the trackButton listener
-}
-
-// Show success state on track button
-function showTrackSuccess() {
-    trackButton.classList.add('success');
-
-    // Remove success state after animation completes
-    setTimeout(() => {
-        trackButton.classList.remove('success');
-    }, 1000); // 1 second duration
-}
-
-// Handle click on the "Track" button
+// Simplified click handler for track button
 trackButton.addEventListener('click', () => {
+    // Add new timestamp data
     totalCount++;
-    updateTotalCount(); // Update display and save count
-    addTimestamp(); // Add new entry data
-    renderTimestamps(); // Re-render the list and save entries
+    updateTotalCount();
+    addTimestamp();
+
+    // Force scroll to top to see the new entry
+    mainContent.scrollTop = 0;
 
     // Show the checkmark icon
     showTrackSuccess();
+
+    // Render timestamps to update the UI
+    renderTimestamps();
 });
 
-// Handle click on the "Reset" button
+// Simplified click handler for reset button
 resetButton.addEventListener('click', () => {
-    // If list is already empty, pulse the placeholder
+    // If list is already empty, do nothing or provide minimal feedback
     if (trackedEntries.length === 0) {
-        console.log("Reset clicked - List is empty, attempting to pulse placeholder.");
-        if (placeholderEntry.style.display !== 'block') {
-            placeholderEntry.style.display = 'block';
-        }
-        placeholderEntry.classList.add('pulsing');
-        setTimeout(() => {
-            console.log("Removing pulsing class.");
-            placeholderEntry.classList.remove('pulsing');
-        }, 600); // Match pulse animation duration
-    } else {
-        // If list has entries, fade them out before clearing
-        console.log("Reset clicked - Clearing entries.");
-        timestampList.classList.add('clearing');
-        setTimeout(() => {
-            // Clear data
-            totalCount = 0;
-            trackedEntries = [];
-            // Clear Local Storage using constants
-            localStorage.removeItem(LS_KEYS.COUNT);
-            localStorage.removeItem(LS_KEYS.ENTRIES);
-            // Update UI
-            updateTotalCount();
-            timestampList.classList.remove('clearing'); // Remove animation class
-            renderTimestamps(); // Render the now empty list
-        }, 300); // Match fadeOutClear animation duration
+        console.log("Reset clicked - List is already empty.");
+        // Optionally add a subtle visual cue like a brief button disabled state or border change
+        resetButton.disabled = true;
+        setTimeout(() => { resetButton.disabled = false; }, 300);
+        return; // Exit early
     }
+
+    // If list has entries, clear immediately without animation
+    console.log("Reset clicked - Clearing entries.");
+    // Clear data
+    totalCount = 0;
+    trackedEntries = [];
+    // Clear Local Storage using constants
+    localStorage.removeItem(LS_KEYS.COUNT);
+    localStorage.removeItem(LS_KEYS.ENTRIES);
+    // Update UI
+    updateTotalCount();
+    renderTimestamps(); // Render the now empty list
 });
 
 // --- Initial Page Load Setup ---
 displayVersion(); // Display the version number
-setCurrentDateLabel(); // Set the date header
+// Remove setPageDateHeading call
 updateTotalCount(); // Display initial count from storage
 updateMetricLabel(); // Display initial label from storage
 renderTimestamps(); // Render initial list from storage

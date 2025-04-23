@@ -14,14 +14,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [1.0.0](#100) - Initial Release
 
 ## [Unreleased]
-### Added
-- Track button now shows a checkmark icon animation when clicked
-- Most recent timestamp entry fades in at a larger size and animates to normal
-- Visual separator line below the most recent timestamp
-- Staggered animation for existing timestamps that creates a cascading effect
-- Enhanced visual feedback when tracking new entries
 
-## [1.0.4]
+### Changed
+- Simplified UI: Removed top date heading, removed date label within list, removed line under newest entry.
+- Removed all entry animations (grow-in, push-down) for simplicity.
+- Replaced entry animations with a fixed-height scrollable list area (`#mainContent`) to prevent layout shifts.
+- Updated testing mode to group entries by day (like normal mode) instead of by second.
+- Added roll-in animation for the checkmark icon on the Track button.
+- Added press-down effect (scale and darker background) to the Track button.
+
+### Fixed
+- Adjusted CSS animations attempting to fix gap issue (though ultimately removed animations).
+
+## [1.0.4] - 2024-04-21
+
 ### Added
 - iOS status bar coloring support for web app mode (when added to home screen)
 - Dynamic Safari tab bar coloring that changes with theme toggle
@@ -31,12 +37,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - JavaScript-based theme color adaptation for browser UI elements
 
 ### Changed
-- Updated site.webmanifest to use "fullscreen" display mode for better iOS integration
-- Enhanced app-like experience on iOS devices when added to home screen
-- Consolidated changelog files to a single source of truth
-- Improved theme switching with automatic browser UI color updates
+- Updated version number display in HTML and CSS.
+- Adjusted iOS PWA status bar padding and version number positioning.
+- Improved metric label editing UX: focus on click, save on blur/enter, revert on escape.
+- Added checkmark success animation to Track button.
+- Added pulsing animation to placeholder text when Reset is clicked on an empty list.
+- Added fade-out animation when clearing entries with Reset button.
+- Improved theme toggle persistence and meta tag update.
+- Refactored JS for clarity, added constants for localStorage keys.
+- Added basic testing mode (Ctrl/Cmd+Shift+T) to add sample entries.
+- Improved accessibility: focus styles, skip link, touch targets, ARIA states.
+- Added print styles.
 
 ### Fixed
+- Ensured placeholder text displays correctly when list becomes empty.
+- Prevented potential errors by validating data loaded from localStorage.
+- Fixed label editing focus issues, especially on Safari.
+- Addressed potential double animation triggers on Track button.
 - Fixed iOS status bar appearance when app is launched from home screen
 - Resolved theme color inconsistencies between browser and app modes
 
@@ -87,35 +104,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Resolved issue where clicking the metric label required two clicks to become editable in Safari
 - Removed extraneous edit button (pencil icon) that was incorrectly added to the HTML
 
-## [1.0.0]
-### Added
-- Initial release of tracking functionality (523c9fe to 5dffbe6):
-  - Timestamp tracking functionality with a list display
-  - Display of the current date above the timestamp list
-  - Persistence of tracked entries and total count using Local Storage
-  - Automatic dark/light theme switching based on system preference (`prefers-color-scheme`)
-  - Manual theme toggle button (Light/Dark) with preference saved to Local Storage
-  - Fade-in animation for newly added timestamp entries
-  - Fade-out animation when resetting the timestamp list
-  - Pulse animation for "No entries yet" text when resetting an already empty list
-- Version number display (f1ad953)
-- Testing mode with time-based grouping (3a10037)
-- Editable title feature (b909ca1)
-- Basic documentation:
-  - `README.md` file (088300e)
-  - `.gitignore` file to exclude specific files like `chat.log`
-  - `CHANGELOG.md` file to track project changes
+## [1.0.0] - 2024-04-20
 
-### Changed
-- Date format: "Weekday Month Day Year" (e.g., "Saturday April 19 2025")
-- Timestamp list entries centered horizontally
-- Reset and Theme buttons positioned at the bottom
-- Theme toggle button styled to match the Reset button
-- Added comments to JS, CSS, and HTML for better maintainability
-- Checkbox character changed to ✔
-
-### Fixed
-- Initial `ReferenceError: trackedEntries is not defined`
-- Multiple layout issues with timestamp entries and placeholders
-- Ensured the date label remains fixed at the top during scrolling or adding entries
-- Corrected `.gitignore` pattern to properly ignore `tracker/chat.log`
+- Initial release.

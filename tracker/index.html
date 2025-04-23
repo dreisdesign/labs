@@ -5,7 +5,7 @@
     <!-- Metadata and Title -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Tracker</title>
+    <title>Today's Activity</title>
 
     <!-- iOS Web App Settings -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -35,7 +35,7 @@
 
 <body>
     <!-- Version number display -->
-    <div class="version-number">v1.0.3</div>
+    <div class="version-number">v1.0.4</div>
 
     <!-- Main application container -->
     <div class="app">
@@ -52,12 +52,15 @@
         </div>
 
         <!-- Button to track a new entry -->
-        <button class="track-button">Track</button>
+        <button class="track-button">
+            <span class="track-button-text">Track</span>
+            <span class="track-button-checkmark">
+                <img src="assets/icons/icons/300/fill/check_circle.svg" alt="Success" class="checkmark-icon">
+            </span>
+        </button>
 
         <!-- Scrollable area for date and timestamps -->
         <div id="mainContent">
-            <!-- Static date label container -->
-            <div id="currentDateLabel" class="imessage-date-label always-date-label"></div>
             <!-- Container for timestamp entries and placeholder -->
             <div id="timestampList">
                 <!-- Placeholder shown when the list is empty -->
