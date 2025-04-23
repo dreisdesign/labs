@@ -6,8 +6,9 @@ const timestampList = document.getElementById('timestampList');
 const placeholderEntry = document.querySelector('.placeholder-entry');
 // Remove pageDateHeading selector
 const themeToggleButton = document.getElementById('themeToggle');
+const themeIconSpan = document.getElementById('themeIconSpan'); // Update selector to span
 const metricLabel = document.getElementById('metricLabel');
-const versionNumberElement = document.getElementById('versionNumber'); // Added missing selector
+const versionNumberElement = document.querySelector('.version-number'); // Changed getElementById to querySelector by class
 
 // --- Constants and State Variables ---
 const LS_KEYS = {
@@ -236,13 +237,20 @@ function renderTimestamps() {
 
 // --- Theme Handling ---
 
-// Updates theme-color meta tag for Safari tab bar
-function updateThemeColorMetaTag(theme) {
+// Updates theme-color meta tag and the theme icon mask
+function updateThemeVisuals(theme) {
     const themeColorMeta = document.querySelector('meta[name="theme-color"]');
     if (themeColorMeta) {
-        // Set the color based on current theme
         const color = theme === 'dark' ? '#121212' : '#c1c1ff';
         themeColorMeta.setAttribute('content', color);
+    }
+    // Update the mask image and button aria-label based on the theme
+    if (themeIconSpan && themeToggleButton) {
+        const iconPath = theme === 'dark' ? 'assets/icons/mode=dark.svg' : 'assets/icons/mode=light.svg'; // Swapped icons
+        themeIconSpan.style.webkitMaskImage = `url('${iconPath}')`;
+        themeIconSpan.style.maskImage = `url('${iconPath}')`;
+        const nextTheme = theme === 'dark' ? 'Light' : 'Dark';
+        themeToggleButton.setAttribute('aria-label', `Switch to ${nextTheme} Mode`);
     }
 }
 
@@ -255,8 +263,8 @@ function applyTheme(theme) {
     }
     localStorage.setItem(LS_KEYS.THEME, theme); // Persist theme choice using constant
 
-    // Update theme color meta tag for Safari
-    updateThemeColorMetaTag(theme);
+    // Update theme color meta tag and icon
+    updateThemeVisuals(theme);
 }
 
 // --- Testing Functions ---
@@ -354,7 +362,23 @@ themeToggleButton.addEventListener('click', () => {
     applyTheme(currentTheme);
 });
 
-// Simplified click handler for track button
+// --- Track Button Touch/Click Handling ---
+
+// Add touchstart listener to apply pressed style
+trackButton.addEventListener('touchstart', (e) => {
+    // Prevent triggering mouse events simultaneously on some devices
+    // e.preventDefault(); 
+    trackButton.classList.add('button-pressed');
+}, { passive: true }); // Use passive: true if preventDefault is not needed, for better scroll performance
+
+// Add touchend/touchcancel listeners to remove pressed style
+const removePressedState = () => {
+    trackButton.classList.remove('button-pressed');
+};
+trackButton.addEventListener('touchend', removePressedState);
+trackButton.addEventListener('touchcancel', removePressedState);
+
+// Simplified click handler for track button (handles both mouse clicks and taps after touchend)
 trackButton.addEventListener('click', () => {
     // Add new timestamp data
     totalCount++;
@@ -405,4 +429,4 @@ initializeLabel(); // Initialize the label
 
 // Apply saved theme or default to light
 const savedTheme = localStorage.getItem(LS_KEYS.THEME) || 'light';
-applyTheme(savedTheme);
+applyTheme(savedTheme); // This will now also set the initial icon

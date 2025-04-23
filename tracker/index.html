@@ -8,7 +8,7 @@
     <title>Today's Activity</title>
 
     <!-- iOS Web App Settings -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Tracker">
 
@@ -35,7 +35,7 @@
 
 <body>
     <!-- Version number display -->
-    <div class="version-number">v1.0.4</div>
+    <div class="version-number">v1.0.5</div>
 
     <!-- Main application container -->
     <div class="app">
@@ -73,7 +73,9 @@
         <!-- Container for bottom action buttons -->
         <div class="bottom-buttons">
             <button class="reset-button bottom-button-base" id="resetButton">Reset</button>
-            <button id="themeToggle" class="theme-toggle-button bottom-button-base">Theme</button>
+            <button id="themeToggle" class="theme-toggle-button bottom-button-base" aria-label="Toggle Theme">
+                <span id="themeIconSpan"></span> <!-- Replaced img with span for masking -->
+            </button>
         </div>
 
     </div> <!-- End .app -->

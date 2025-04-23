@@ -19,7 +19,7 @@
     /* error pink */
     --color-on-primary: rgb(255, 255, 255);
     /* white text on primary */
-    --color-on-background: rgb(28, 27, 31);
+    --color-on-background: rgb(22, 10, 56);
     /* dark text */
     --color-on-surface: rgb(28, 27, 31);
     /* dark text */
@@ -81,7 +81,7 @@
     font-family: monospace;
     color: var(--color-on-background);
     z-index: 1000;
-    content: "v1.0.4";
+    content: "v1.0.5";
     /* Updated version number */
 }
 
@@ -250,7 +250,8 @@ body.dark-mode .metric-label:hover {
 }
 
 /* Add active state for mouse down effect */
-.track-button:active {
+.track-button:active,
+.track-button.button-pressed {
     background-color: var(--color-primary-darker);
     transform: scale(0.95);
     transition-duration: 0.05s;
@@ -410,7 +411,9 @@ body.dark-mode .metric-label:hover {
 /* Display style for placeholder when list is empty */
 .placeholder-entry {
     margin: 2rem 0;
-    color: var(--color-on-surface-75);
+    color: var(--color-on-background);
+    opacity: 0.75;
+    /* Use opacity instead of the -75 variable */
     font-style: italic;
     text-align: center;
     display: block;
@@ -501,10 +504,46 @@ body.dark-mode .metric-label:hover {
 }
 
 /* Theme Toggle Button Styles */
+.theme-toggle-button {
+    padding: 0.5rem;
+    /* Keep padding consistent */
+    line-height: 1;
+    /* Ensure button height is based on icon */
+}
+
 .theme-toggle-button:hover {
-    /* Inherits hover underline from base */
-    color: var(--color-secondary);
-    /* Specific hover color */
+    text-decoration: none;
+    /* Remove underline on hover for icon button */
+    background-color: rgba(0, 0, 0, 0.05);
+    /* Optional: subtle background hover */
+    border-radius: 4px;
+}
+
+body.dark-mode .theme-toggle-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* New styles for the span acting as the icon */
+#themeIconSpan {
+    display: inline-block;
+    width: 2.75rem;
+    /* Match approx height of 1.1rem font */
+    height: 2.75rem;
+    /* Match approx height of 1.1rem font */
+    background-color: var(--color-on-background);
+    opacity: 0.75;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    /* Mask image is set by JS */
+}
+
+/* Override icon color in dark mode to match reset button */
+body.dark-mode #themeIconSpan {
+    background-color: var(--color-primary);
 }
 
 /* --- List Collapse Styles --- */

@@ -6,25 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Table of Contents
-- [Unreleased](#unreleased)
+- [1.0.5](#105) - UI Enhancements & Theme Toggle Update
 - [1.0.4](#104) - PWA Enhancements & UI Simplification
 - [1.0.3](#103) - Accessibility Implementation + PWA Enhancements
 - [1.0.2](#102) - Accessibility Preparation
 - [1.0.1](#101) - Bug Fixes & Refinements
 - [1.0.0](#100) - Initial Release
 
-## [Unreleased]
+## [1.0.5] - 2025-04-23
 
 ### Changed
-- Simplified UI: Removed top date heading, removed date label within list, removed line under newest entry.
-- Removed all entry animations (grow-in, push-down) for simplicity.
-- Replaced entry animations with a fixed-height scrollable list area (`#mainContent`) to prevent layout shifts.
-- Updated testing mode to group entries by day (like normal mode) instead of by second.
-- Added roll-in animation for the checkmark icon on the Track button.
-- Added press-down effect (scale and darker background) to the Track button.
-
-### Fixed
-- Adjusted CSS animations attempting to fix gap issue (though ultimately removed animations).
+- Replaced text-based theme toggle with icon button using dark/light mode icons
+- Enhanced theme toggle icon size and colors to match button text styles
+- Added press-down effect (scale and darker background) to the Track button
+- Added mobile support for Track button press-down effect
+- Fixed placeholder text opacity to match 75% of the current theme's text color
 
 ## [1.0.4] - 2024-04-21
 
@@ -48,6 +44,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added basic testing mode (Ctrl/Cmd+Shift+T) to add sample entries.
 - Improved accessibility: focus styles, skip link, touch targets, ARIA states.
 - Added print styles.
+- Simplified UI: Removed top date heading, removed date label within list, removed line under newest entry
+- Removed all entry animations (grow-in, push-down) for simplicity
+- Replaced entry animations with a fixed-height scrollable list area (`#mainContent`) to prevent layout shifts
+- Updated testing mode to group entries by day (like normal mode) instead of by second
+- Added roll-in animation for the checkmark icon on the Track button
 
 ### Fixed
 - Ensured placeholder text displays correctly when list becomes empty.
@@ -56,6 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Addressed potential double animation triggers on Track button.
 - Fixed iOS status bar appearance when app is launched from home screen
 - Resolved theme color inconsistencies between browser and app modes
+- Adjusted CSS animations attempting to fix gap issue (though ultimately removed animations)
 
 ## [1.0.3]
 ### Added
