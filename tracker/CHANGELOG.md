@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Updated theme toggle hover effect: removed background color change in favor of 1.25x scale transform
+- Made theme toggle icon use the same hover color as the track button for consistency
+
 ## [1.0.5] - 2025-04-23
 
 ### Changed

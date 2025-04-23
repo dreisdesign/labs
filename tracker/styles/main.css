@@ -516,30 +516,23 @@ body.dark-mode .bottom-buttons-wrapper.shadow {
 /* Theme Toggle Button Styles */
 .theme-toggle-button {
     padding: 0.5rem;
-    /* Keep padding consistent */
     line-height: 1;
-    /* Ensure button height is based on icon */
 }
 
 .theme-toggle-button:hover {
     text-decoration: none;
-    /* Remove underline on hover for icon button */
-    background-color: rgba(0, 0, 0, 0.05);
-    /* Optional: subtle background hover */
-    border-radius: 4px;
+    /* Remove background hover effect */
 }
 
 body.dark-mode .theme-toggle-button:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    /* Remove background hover effect */
 }
 
 /* New styles for the span acting as the icon */
 #themeIconSpan {
     display: inline-block;
     width: 2.75rem;
-    /* Match approx height of 1.1rem font */
     height: 2.75rem;
-    /* Match approx height of 1.1rem font */
     background-color: var(--color-on-background);
     opacity: 0.75;
     mask-size: contain;
@@ -548,12 +541,24 @@ body.dark-mode .theme-toggle-button:hover {
     -webkit-mask-size: contain;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
-    /* Mask image is set by JS */
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    /* Add transition */
 }
 
 /* Override icon color in dark mode to match reset button */
 body.dark-mode #themeIconSpan {
     background-color: var(--color-primary);
+}
+
+/* Add hover effects to the icon */
+.theme-toggle-button:hover #themeIconSpan {
+    transform: scale(1.25);
+    background-color: var(--color-secondary);
+}
+
+body.dark-mode .theme-toggle-button:hover #themeIconSpan {
+    background-color: var(--color-secondary);
+    /* Use same hover color as track button */
 }
 
 /* --- List Collapse Styles --- */
