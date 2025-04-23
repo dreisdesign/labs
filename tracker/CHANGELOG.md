@@ -7,14 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Table of Contents
 - [Unreleased](#unreleased)
-- [1.0.4](#104) - PWA Enhancements
-- [1.0.3](#103) - Accessibility Implementation
+- [1.0.4](#104) - 
+- [1.0.3](#103) - Accessibility Implementation + PWA Enhancements
 - [1.0.2](#102) - Accessibility Preparation
 - [1.0.1](#101) - Bug Fixes & Refinements
 - [1.0.0](#100) - Initial Release
 
 ## [Unreleased]
 
+<<<<<<< HEAD
 ### Changed
 - Simplified UI: Removed top date heading, removed date label within list, removed line under newest entry.
 - Removed all entry animations (grow-in, push-down) for simplicity.
@@ -56,6 +57,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Addressed potential double animation triggers on Track button.
 - Fixed iOS status bar appearance when app is launched from home screen
 - Resolved theme color inconsistencies between browser and app modes
+=======
+## [1.0.4]
+<!-- Add new changes here -->
+>>>>>>> main
 
 ## [1.0.3]
 ### Added
@@ -64,6 +69,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Print styles for better document printing
 - High contrast mode support for Windows users with forced-colors
 - ARIA disabled state styling for better screen reader feedback
+- iOS status bar coloring support for web app mode (when added to home screen)
+- Dynamic Safari tab bar coloring that changes with theme toggle
+- Updated meta tags for improved PWA (Progressive Web App) experience
+- Added `apple-mobile-web-app-capable` and `apple-mobile-web-app-status-bar-style` meta tags
+- Added `viewport-fit=cover` for proper handling of edge-to-edge iOS displays
+- JavaScript-based theme color adaptation for browser UI elements
 
 ### Changed
 - Improved color contrast throughout the application for better readability
@@ -73,6 +84,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved text spacing and letter spacing for better readability
 - Added proper underline offset for text with underline decoration
 - Enhanced mobile accessibility with larger touch targets and font sizes
+- Updated site.webmanifest to use "fullscreen" display mode for better iOS integration
+- Enhanced app-like experience on iOS devices when added to home screen
+- Consolidated changelog files to a single source of truth
+- Improved theme switching with automatic browser UI color updates
 
 ### Fixed
 - Improved version number contrast and visibility
@@ -80,6 +95,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed potential focus trapping issues with proper focus states
 - Ensured color is not the only means of conveying information
 - Improved word wrapping and hyphenation for time entries
+- Fixed iOS status bar appearance when app is launched from home screen
+- Resolved theme color inconsistencies between browser and app modes
 
 ## [1.0.2]
 ### Changed
