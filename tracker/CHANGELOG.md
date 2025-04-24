@@ -19,6 +19,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.9] - 2025-04-24
 
+### Added
+- Smooth theme transitions for all UI components with optimized timing
+- Enhanced timestamp entry animations with scale and fade effects
+- Added pressed state animations for interactive elements
+- Improved theme toggle button with scale and color transitions
+
+### Changed
+- Updated CSS transitions for smoother color changes across components
+- Optimized animation timings for better user experience
+- Improved visual feedback on button interactions
+- Enhanced overall UI responsiveness with subtle animations
 
 ## [1.0.8] - 2025-04-24
 
