@@ -101,6 +101,30 @@ cd labs
 - Open `index.html` in your browser
 - Or serve it using a local development server
 
+### Version Management
+
+The project includes a version management script that helps automate the development workflow:
+
+```bash
+./tracker/scripts/create-feature.sh
+```
+
+This script will:
+1. Create a new feature branch (e.g., feature/v1.0.7)
+2. Update version numbers in relevant files
+3. Add a new section in the changelog
+4. Stage the changes for commit
+
+Example workflow:
+1. Run the script to start a new feature
+2. Make your changes
+3. Commit and merge when ready
+
+The script automatically manages:
+- Version numbers in index.html and styles/main.css
+- Changelog entries with proper dating
+- Git branch creation and management
+
 ### Documentation
 
 - [Changelog](tracker/CHANGELOG.md) - Detailed change history for this project
