@@ -265,7 +265,7 @@ renderTimestamps = function () {
 // --- Theme Handling ---
 
 // Updates theme-color meta tag and the theme icon mask
-function updateThemeVisuals(theme) {
+function updateThemeVisuals(theme, isPressing = false) {
     const themeColorMeta = document.querySelector('meta[name="theme-color"]');
     if (themeColorMeta) {
         const color = theme === 'dark' ? '#121212' : '#c1c1ff';
@@ -273,7 +273,14 @@ function updateThemeVisuals(theme) {
     }
     // Update the mask image and button aria-label based on the theme
     if (themeIconSpan && themeToggleButton) {
-        const iconPath = theme === 'dark' ? 'assets/icons/mode=dark.svg' : 'assets/icons/mode=light.svg'; // Swapped icons
+        let iconPath;
+        if (isPressing) {
+            // Use transition icons during press
+            iconPath = theme === 'dark' ? 'assets/icons/mode=light-to-dark.svg' : 'assets/icons/mode=dark-to-light.svg';
+        } else {
+            // Use regular icons when not pressing
+            iconPath = theme === 'dark' ? 'assets/icons/mode=dark.svg' : 'assets/icons/mode=light.svg';
+        }
         themeIconSpan.style.webkitMaskImage = `url('${iconPath}')`;
         themeIconSpan.style.maskImage = `url('${iconPath}')`;
         const nextTheme = theme === 'dark' ? 'Light' : 'Dark';
@@ -383,10 +390,42 @@ function displayVersion() {
 
 // --- Event Listeners ---
 
-// Toggle theme when button is clicked
-themeToggleButton.addEventListener('click', () => {
+// Theme toggle press handlers for mouse and touch
+themeToggleButton.addEventListener('mousedown', () => {
     const currentTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
-    applyTheme(currentTheme);
+    updateThemeVisuals(currentTheme, true);
+});
+
+themeToggleButton.addEventListener('mouseup', () => {
+    const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+    updateThemeVisuals(currentTheme);
+});
+
+themeToggleButton.addEventListener('mouseleave', () => {
+    const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+    updateThemeVisuals(currentTheme);
+});
+
+// Add touch support for theme toggle transitions
+themeToggleButton.addEventListener('touchstart', () => {
+    const currentTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+    updateThemeVisuals(currentTheme, true);
+}, { passive: true });
+
+themeToggleButton.addEventListener('touchend', () => {
+    const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+    updateThemeVisuals(currentTheme);
+});
+
+themeToggleButton.addEventListener('touchcancel', () => {
+    const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+    updateThemeVisuals(currentTheme);
+});
+
+// Update click handler to use regular icon after theme change
+themeToggleButton.addEventListener('click', () => {
+    const newTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+    applyTheme(newTheme);
 });
 
 // --- Track Button Touch/Click Handling ---

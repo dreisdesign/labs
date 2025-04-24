@@ -81,7 +81,7 @@
     font-family: monospace;
     color: var(--color-on-background);
     z-index: 1000;
-    content: "v1.0.5";
+    content: "v1.0.6";
     /* Updated version number */
 }
 
@@ -452,6 +452,7 @@ body.dark-mode .metric-label:hover {
     transition: box-shadow 0.3s ease;
     padding: 0.75rem 0;
     z-index: 100;
+    border-radius: 100px 100px 0 0;
 }
 
 .bottom-buttons-wrapper.shadow {
@@ -524,15 +525,11 @@ body.dark-mode .bottom-buttons-wrapper.shadow {
     /* Remove background hover effect */
 }
 
-body.dark-mode .theme-toggle-button:hover {
-    /* Remove background hover effect */
-}
-
 /* New styles for the span acting as the icon */
 #themeIconSpan {
     display: inline-block;
-    width: 2.75rem;
-    height: 2.75rem;
+    width: 3.5rem;
+    height: 3.55rem;
     background-color: var(--color-on-background);
     opacity: 0.75;
     mask-size: contain;

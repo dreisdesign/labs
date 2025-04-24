@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- Added transitional theme icons for button press states (light-to-dark and dark-to-light)
+- Added touch support for theme toggle transitional states
 - Updated theme toggle hover effect: removed background color change in favor of 1.25x scale transform
 - Made theme toggle icon use the same hover color as the track button for consistency
 
