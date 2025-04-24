@@ -191,46 +191,63 @@ window.addEventListener('resize', updateFooterShadow);
 // Call on initial load and after content changes
 updateFooterShadow();
 
-function renderTimestamps() {
+// Function to apply animations to timestamps
+function applyTimestampAnimations(isTracking = false) {
+    // Force reflow before adding the tracking-animation class
+    timestampList.offsetHeight;
+
+    // Add tracking animation class if needed
+    if (isTracking) {
+        timestampList.classList.add('tracking-animation');
+    } else {
+        timestampList.classList.remove('tracking-animation');
+    }
+}
+
+// Function to render timestamps with proper animation timing
+function renderTimestamps(isTracking = false) {
     // Sort entries: newest first
     trackedEntries.sort((a, b) => b.date - a.date);
 
     // Clear existing time entries and date headers
-    timestampList.querySelectorAll('.time-entry, .date-header, .timestamps-spacer').forEach(el => el.remove());
+    timestampList.querySelectorAll('.time-entry, .date-header').forEach(el => el.remove());
 
     let lastDate = null;
-    let dateHeaderAdded = new Set(); // Track date headers we've already created
+    let dateHeaderAdded = new Set();
 
-    // Render all entries (no limit)
+    // Render all entries
     trackedEntries.forEach((entry, idx) => {
         const entryDate = new Date(entry.date);
-        const dateKey = formatGroupHeader(entryDate); // Use formatted date as key
+        const dateKey = formatGroupHeader(entryDate);
 
-        // Check if we need a new group header (only add if we haven't seen this date yet)
+        // Add date header if needed
         if ((!lastDate || !isSameGroup(lastDate, entryDate)) && !dateHeaderAdded.has(dateKey)) {
             const headerDiv = document.createElement('div');
             headerDiv.className = 'date-header';
             headerDiv.textContent = dateKey;
             timestampList.insertBefore(headerDiv, placeholderEntry);
             lastDate = entryDate;
-            dateHeaderAdded.add(dateKey); // Mark this date as added
+            dateHeaderAdded.add(dateKey);
         }
 
         // Create entry container
         const entryDiv = document.createElement('div');
         entryDiv.className = 'time-entry';
 
-        // Add new-entry class for potential styling, but without the line/animation
-        if (idx === 0) {
+        if (idx === 0 && isTracking) {
             entryDiv.classList.add('new-entry');
+            // Show new entry immediately
+            requestAnimationFrame(() => {
+                entryDiv.style.opacity = '1';
+                entryDiv.style.transform = 'scale(1)';
+            });
         }
 
-        // Create checkbox
+        // Create checkbox and time elements
         const checkboxDiv = document.createElement('div');
         checkboxDiv.className = 'entry-checkbox';
         checkboxDiv.textContent = '✔';
 
-        // Create time container
         const timeDiv = document.createElement('div');
         timeDiv.className = 'time';
         timeDiv.textContent = formatTime(entryDate);
@@ -253,14 +270,10 @@ function renderTimestamps() {
 
     // Save entries to localStorage
     localStorage.setItem(LS_KEYS.ENTRIES, JSON.stringify(trackedEntries));
-}
 
-// Update shadow after timestamps are rendered
-const originalRenderTimestamps = renderTimestamps;
-renderTimestamps = function () {
-    originalRenderTimestamps.apply(this, arguments);
+    // Update shadow after rendering
     updateFooterShadow();
-};
+}
 
 // --- Theme Handling ---
 
@@ -271,18 +284,18 @@ function updateThemeVisuals(theme, isPressing = false) {
         const color = theme === 'dark' ? '#121212' : '#c1c1ff';
         themeColorMeta.setAttribute('content', color);
     }
-    // Update the mask image and button aria-label based on the theme
     if (themeIconSpan && themeToggleButton) {
         let iconPath;
         if (isPressing) {
-            // Use transition icons during press
             iconPath = theme === 'dark' ? 'assets/icons/mode=light-to-dark.svg' : 'assets/icons/mode=dark-to-light.svg';
         } else {
-            // Use regular icons when not pressing
             iconPath = theme === 'dark' ? 'assets/icons/mode=dark.svg' : 'assets/icons/mode=light.svg';
         }
         themeIconSpan.style.webkitMaskImage = `url('${iconPath}')`;
         themeIconSpan.style.maskImage = `url('${iconPath}')`;
+
+        // Apply color changes with transitions
+        themeIconSpan.style.transition = 'transform 0.2s ease, background-color 0.3s ease';
         const nextTheme = theme === 'dark' ? 'Light' : 'Dark';
         themeToggleButton.setAttribute('aria-label', `Switch to ${nextTheme} Mode`);
     }
@@ -295,10 +308,13 @@ function applyTheme(theme) {
     } else {
         document.body.classList.remove('dark-mode');
     }
-    localStorage.setItem(LS_KEYS.THEME, theme); // Persist theme choice using constant
-
-    // Update theme color meta tag and icon
+    localStorage.setItem(LS_KEYS.THEME, theme);
     updateThemeVisuals(theme);
+
+    // Trigger animations after theme change
+    requestAnimationFrame(() => {
+        applyTimestampAnimations();
+    });
 }
 
 // --- Testing Functions ---
@@ -394,32 +410,38 @@ function displayVersion() {
 themeToggleButton.addEventListener('mousedown', () => {
     const currentTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
     updateThemeVisuals(currentTheme, true);
+    themeToggleButton.classList.add('button-pressed');
 });
 
 themeToggleButton.addEventListener('mouseup', () => {
     const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
     updateThemeVisuals(currentTheme);
+    themeToggleButton.classList.remove('button-pressed');
 });
 
 themeToggleButton.addEventListener('mouseleave', () => {
     const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
     updateThemeVisuals(currentTheme);
+    themeToggleButton.classList.remove('button-pressed');
 });
 
 // Add touch support for theme toggle transitions
 themeToggleButton.addEventListener('touchstart', () => {
     const currentTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
     updateThemeVisuals(currentTheme, true);
+    themeToggleButton.classList.add('button-pressed');
 }, { passive: true });
 
 themeToggleButton.addEventListener('touchend', () => {
     const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
     updateThemeVisuals(currentTheme);
+    themeToggleButton.classList.remove('button-pressed');
 });
 
 themeToggleButton.addEventListener('touchcancel', () => {
     const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
     updateThemeVisuals(currentTheme);
+    themeToggleButton.classList.remove('button-pressed');
 });
 
 // Update click handler to use regular icon after theme change
@@ -444,7 +466,7 @@ const removePressedState = () => {
 trackButton.addEventListener('touchend', removePressedState);
 trackButton.addEventListener('touchcancel', removePressedState);
 
-// Simplified click handler for track button (handles both mouse clicks and taps after touchend)
+// Simplified click handler for track button
 trackButton.addEventListener('click', () => {
     // Add new timestamp data
     totalCount++;
@@ -457,8 +479,8 @@ trackButton.addEventListener('click', () => {
     // Show the checkmark icon
     showTrackSuccess();
 
-    // Render timestamps to update the UI
-    renderTimestamps();
+    // Render timestamps with tracking animation
+    renderTimestamps(true);
 });
 
 // Simplified click handler for reset button
@@ -486,13 +508,12 @@ resetButton.addEventListener('click', () => {
 });
 
 // --- Initial Page Load Setup ---
-displayVersion(); // Display the version number
-// Remove setPageDateHeading call
-updateTotalCount(); // Display initial count from storage
-updateMetricLabel(); // Display initial label from storage
-renderTimestamps(); // Render initial list from storage
-initializeLabel(); // Initialize the label
+displayVersion();
+updateTotalCount();
+updateMetricLabel();
+renderTimestamps();
+initializeLabel();
 
-// Apply saved theme or default to light
+// Apply saved theme or default to light, and trigger initial animations
 const savedTheme = localStorage.getItem(LS_KEYS.THEME) || 'light';
-applyTheme(savedTheme); // This will now also set the initial icon
+applyTheme(savedTheme);

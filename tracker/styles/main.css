@@ -80,7 +80,7 @@
     font-family: monospace;
     color: var(--color-on-background);
     z-index: 1000;
-    content: "v1.0.7";
+    content: "v1.0.9";
     /* Updated version number */
 }
 
@@ -94,9 +94,27 @@ body {
     color: var(--color-on-background);
     font-family: system-ui, sans-serif;
     font-size: 16px;
-    /* Ensure base font size is at least 16px */
     line-height: 1.5;
-    /* Improve readability with proper line height */
+    /* Add smooth transitions for theme changes */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Add transitions to elements that change with theme */
+.metric-card,
+.time-entry,
+.date-header,
+.placeholder-entry,
+.bottom-buttons-wrapper,
+.metric-value,
+.metric-label,
+#mainContent,
+#mainContent::-webkit-scrollbar,
+.version-number {
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
 }
 
 body {
@@ -360,33 +378,54 @@ body.dark-mode .metric-label:hover {
     transition: none;
 }
 
-/* Individual Timestamp Entry */
+/* --- Base animation timing --- */
+
+/* Pop-in animation */
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Date header - always visible immediately */
+.date-header {
+    color: var(--color-on-background);
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    opacity: 1;
+    animation: none;
+}
+
+/* Time entry base styles */
 .time-entry {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 0.7rem;
-    font-size: 1.1rem;
-    color: var(--color-on-surface);
-    padding: 0.2rem 0;
-    letter-spacing: 0.01em;
-    margin-bottom: 0.3rem;
-    /* Consistent spacing between entries */
-    transition: none;
+    padding: 0.75rem;
+    background: var(--color-surface);
+    border-radius: 0.7rem;
+    width: 100%;
+    box-sizing: border-box;
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
 }
 
-/* Style for the newest timestamp */
 .time-entry.new-entry {
-    font-weight: 600;
-}
-
-/* Remove line style */
-.time-entry.new-entry::after {
-    display: none;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
 }
 
 /* Entry components styling */
 .time-entry .entry-checkbox {
-    min-width: 24px;
+    flex: 0 0 24px;
     height: 24px;
     display: flex;
     align-items: center;
@@ -397,6 +436,7 @@ body.dark-mode .metric-label:hover {
 
 .time-entry .time {
     flex: 1;
+    text-align: center;
 }
 
 /* Display style for placeholder when list is empty */
@@ -413,18 +453,6 @@ body.dark-mode .metric-label:hover {
 /* Remove Pulse animation */
 .placeholder-entry.pulsing {
     animation: none;
-}
-
-/* Animation: Date header styles */
-.date-header {
-    color: var(--color-on-background);
-    font-size: 0.9rem;
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-    opacity: 0.8;
-    letter-spacing: 0.02em;
-    width: 100%;
-    text-align: center;
 }
 
 /* Remove Clearing animation style */
@@ -448,7 +476,7 @@ body.dark-mode .metric-label:hover {
     right: 0;
     width: 100vw;
     background-color: var(--color-background);
-    transition: box-shadow 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
     padding: 0.75rem 0;
     z-index: 100;
     border-radius: 100px 100px 0 0;
@@ -524,6 +552,12 @@ body.dark-mode .bottom-buttons-wrapper.shadow {
     /* Remove background hover effect */
 }
 
+.theme-toggle-button:active,
+.theme-toggle-button.button-pressed {
+    transform: scale(0.95);
+    transition-duration: 0.05s;
+}
+
 /* New styles for the span acting as the icon */
 #themeIconSpan {
     display: inline-block;
@@ -537,6 +571,7 @@ body.dark-mode .bottom-buttons-wrapper.shadow {
     -webkit-mask-size: contain;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
+    transform-origin: center;
     transition: transform 0.2s ease, background-color 0.2s ease;
     /* Add transition */
 }

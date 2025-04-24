@@ -17,6 +17,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.9] - 2025-04-24
+
+
+## [1.0.8] - 2025-04-24
+
+### Added
+- Smooth fade transition when switching between light and dark themes
+- Enhanced theme transitions for all UI elements including backgrounds, text, and icons
+- Added scale-down effect to theme toggle button to match track button behavior
+
 ## [1.0.7] - 2025-04-24
 
 
