@@ -311,7 +311,7 @@ function renderTimestamps(isTracking = false) {
                 entryDiv.classList.add('new-entry');
                 newTimeEntryEl = entryDiv;
                 entryDiv.style.opacity = '0';
-                entryDiv.style.transform = 'scale(0.95)';
+                entryDiv.style.transform = 'scale(0.5)'; // Start at 0.5x scale
                 requestAnimationFrame(() => {
                     entryDiv.style.transition = 'opacity 0.3s, transform 0.3s';
                     entryDiv.style.opacity = '1';
