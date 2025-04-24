@@ -80,7 +80,7 @@
     font-family: monospace;
     color: var(--color-on-background);
     z-index: 1000;
-    content: "v1.0.6";
+    content: "v1.0.7";
     /* Updated version number */
 }
 
