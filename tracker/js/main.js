@@ -522,6 +522,13 @@ themeToggleButton.addEventListener('click', () => {
 
 // --- Track Button Click Handler (simplified for new structure) ---
 trackButton.addEventListener('click', () => {
+    // 1. Record positions BEFORE render
+    const prevEls = Array.from(timestampList.querySelectorAll('.date-header, .time-entry'));
+    const prevRects = new Map();
+    prevEls.forEach(el => {
+        prevRects.set(el.textContent + el.className, el.getBoundingClientRect());
+    });
+    // 2. Update state and render
     totalCount++;
     updateTotalCount();
     addTimestamp();
@@ -529,6 +536,8 @@ trackButton.addEventListener('click', () => {
     showTrackSuccess();
     renderTimestamps(true);
     setInitialEntryOpacities();
+    // 3. Animate
+    playFLIPAnimation(prevRects);
 });
 
 // Simplified click handler for reset button
@@ -615,5 +624,27 @@ function setInitialEntryOpacities() {
     // Re-enable transitions
     allEntries.forEach(entry => {
         entry.style.transition = '';
+    });
+}
+
+// FLIP Animation for smooth entry addition
+function playFLIPAnimation(prevRects) {
+    // 2. After render, record new positions and animate
+    const newEls = Array.from(timestampList.querySelectorAll('.date-header, .time-entry'));
+    newEls.forEach(el => {
+        const key = el.textContent + el.className;
+        const prevRect = prevRects.get(key);
+        if (prevRect) {
+            const newRect = el.getBoundingClientRect();
+            const deltaY = prevRect.top - newRect.top;
+            if (Math.abs(deltaY) > 0.5) {
+                el.style.transition = 'none';
+                el.style.transform = `translateY(${deltaY}px)`;
+                // Force reflow
+                void el.offsetHeight;
+                el.style.transition = 'transform 0.35s cubic-bezier(0.4,0.7,0.4,1.2)';
+                el.style.transform = '';
+            }
+        }
     });
 }
