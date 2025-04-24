@@ -32,19 +32,44 @@ sed -i '' "s/v$current_version/v$new_version/" "$TRACKER_DIR/index.html"
 # Update version in styles/main.css
 sed -i '' "s/v$current_version/v$new_version/" "$TRACKER_DIR/styles/main.css"
 
-# Add new version section to CHANGELOG.md
-awk -v ver="$new_version" -v date="$today" '
+# Read the feature description from user input
+echo -n "Enter a short description for this feature (e.g. 'Theme Toggle Enhancements'): "
+read -r feature_description
+
+# Add new version section to CHANGELOG.md and update table of contents
+awk -v ver="$new_version" -v date="$today" -v desc="$feature_description" '
+BEGIN { 
+    table_updated = 0;
+    print_line = 1;
+}
+/^## Table of Contents/ {
+    print;
+    while (getline line) {
+        if (line ~ /^-/) {
+            if (!table_updated && line !~ /\[Unreleased\]/) {
+                # Add new version entry right after Unreleased
+                link = ver;
+                gsub(/\./, "", link);
+                printf("- [%s](#%s) - %s\n", ver, link, desc);
+                table_updated = 1;
+            }
+        }
+        print line;
+        if (line !~ /^-/) break;
+    }
+    next;
+}
 /^## \[Unreleased\]/ {
     print $0 "\n";
     print "## [" ver "] - " date "\n";
-    next
+    next;
 }
-{ print }
+{ if (print_line) print }
 ' "$TRACKER_DIR/CHANGELOG.md" > "$TRACKER_DIR/CHANGELOG.md.tmp" && mv "$TRACKER_DIR/CHANGELOG.md.tmp" "$TRACKER_DIR/CHANGELOG.md"
 
 echo "✓ Created feature branch feature/v$new_version"
 echo "✓ Updated version numbers in files"
-echo "✓ Added new version section to changelog"
+echo "✓ Added new version section to changelog with description"
 echo ""
 echo "Next steps:"
 echo "1. Make your changes"
