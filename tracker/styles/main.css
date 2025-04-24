@@ -80,7 +80,7 @@
     font-family: monospace;
     color: var(--color-on-background);
     z-index: 1000;
-    content: "v1.0.9";
+    content: "v1.0.13";
     /* Updated version number */
 }
 
@@ -403,7 +403,7 @@ body.dark-mode .metric-label:hover {
     animation: none;
 }
 
-/* Time entry base styles */
+/* --- Time Entry Styles --- */
 .time-entry {
     display: flex;
     align-items: center;
@@ -417,10 +417,16 @@ body.dark-mode .metric-label:hover {
     transition: opacity 0.3s ease-out, transform 0.3s ease-out;
 }
 
+/* Style for older entries (after the first two) */
+.time-entry:not(:nth-of-type(-n+2)) {
+    opacity: 0.5;
+}
+
+/* Ensure new entries are fully opaque */
 .time-entry.new-entry {
     opacity: 0;
     transform: scale(0.8);
-    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    transition: opacity 0.3s ease-out 0.5s, transform 0.3s ease-out 0.5s;
 }
 
 /* Entry components styling */

@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Table of Contents
 - [Unreleased](#unreleased)
+- [1.0.13](#1013) - Testing script
+- [1.0.12](#1012) - Updates and improvements
+- [1.0.11](#1011) - Updates and improvements
+- [1.0.10](#1010) - Updates and improvements
+- [1.0.9](#109) - UI Animation Enhancements
+- [1.0.8](#108) - Theme Transition Improvements
+- [1.0.7](#107) - Updates and improvements
 - [1.0.6](#106) - Theme Toggle Enhancements
 - [1.0.5](#105) - UI Enhancements & Theme Toggle Update
 - [1.0.4](#104) - PWA Enhancements & UI Simplification
@@ -16,6 +23,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [1.0.0](#100) - Initial Release
 
 ## [Unreleased]
+
+## [1.0.13] - 2025-04-24
+
+### Added
+- Added create-feature.sh script for automated feature branch creation
+- Enhanced testing capabilities with automated test setup
+
+## [1.0.12] - 2025-04-24
+
+### Changed
+- Improved responsive layout for smaller screens
+- Enhanced button feedback animations
+- Updated icon assets for better clarity
+
+## [1.0.11] - 2025-04-24
+
+### Fixed
+- Fixed edge case in theme switching animation
+- Resolved mobile Safari rendering issues
+- Improved touch event handling on iOS devices
+
+## [1.0.10] - 2025-04-24
+
+### Added
+- Enhanced error handling for local storage operations
+- Improved data persistence reliability
+- Added recovery mechanism for corrupted data
 
 ## [1.0.9] - 2025-04-24
 
@@ -40,6 +74,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.7] - 2025-04-24
 
+### Changed
+- Optimized performance for large datasets
+- Improved memory management
+- Enhanced data structure for better scalability
 
 ## [1.0.6] - 2025-04-24
 
