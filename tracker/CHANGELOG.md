@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Table of Contents
 - [Unreleased](#unreleased)
+- [1.0.6](#106) - Theme Toggle Enhancements
 - [1.0.5](#105) - UI Enhancements & Theme Toggle Update
 - [1.0.4](#104) - PWA Enhancements & UI Simplification
 - [1.0.3](#103) - Accessibility Implementation + PWA Enhancements
@@ -15,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [1.0.0](#100) - Initial Release
 
 ## [Unreleased]
+
+## [1.0.6] - 2025-04-24
 
 ### Changed
 - Added transitional theme icons for button press states (light-to-dark and dark-to-light)

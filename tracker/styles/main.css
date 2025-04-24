@@ -77,7 +77,6 @@
     right: 1rem;
     font-size: 0.8rem;
     opacity: 0.8;
-    /* Increased from 0.6 for better visibility */
     font-family: monospace;
     color: var(--color-on-background);
     z-index: 1000;
