@@ -54,6 +54,19 @@ try {
 
 // --- Utility Functions ---
 
+// Debounce function
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
 // Compare if two dates are the same day
 function isSameDay(date1, date2) {
     return (
@@ -184,12 +197,48 @@ function updateFooterShadow() {
     }
 }
 
-// Listen for scroll events and window resize
-mainContent.addEventListener('scroll', updateFooterShadow);
-window.addEventListener('resize', updateFooterShadow);
+// Function to update opacity based on viewport visibility
+function updateVisibleEntryOpacities() {
+    const containerRect = mainContent.getBoundingClientRect();
+    const allEntries = Array.from(timestampList.querySelectorAll('.time-entry'));
 
-// Call on initial load and after content changes
-updateFooterShadow();
+    const visibleEntries = allEntries.filter(entry => {
+        const entryRect = entry.getBoundingClientRect();
+        // Check if entry is vertically within the container's viewport
+        return (
+            entryRect.top < containerRect.bottom &&
+            entryRect.bottom > containerRect.top
+        );
+    });
+
+    const visibleCount = visibleEntries.length;
+    const minOpacity = 0.2;
+    const maxOpacity = 1.0;
+
+    // Calculate opacity step based on the number of visible items
+    const step = visibleCount > 1 ? (maxOpacity - minOpacity) / (visibleCount - 1) : 0;
+
+    allEntries.forEach(entry => {
+        const index = visibleEntries.indexOf(entry);
+        if (index !== -1) {
+            // Entry is visible
+            let targetOpacity = maxOpacity - (index * step);
+            // Clamp opacity between min and max
+            targetOpacity = Math.max(minOpacity, Math.min(maxOpacity, targetOpacity));
+            entry.style.opacity = targetOpacity;
+        } else {
+            // Entry is not visible, set to minimum opacity
+            entry.style.opacity = minOpacity;
+        }
+    });
+}
+
+// Debounced version of the opacity update function
+const debouncedUpdateOpacities = debounce(updateVisibleEntryOpacities, 50); // Adjust wait time (ms) as needed
+
+// Listen for scroll events on the container and window resize
+mainContent.addEventListener('scroll', debouncedUpdateOpacities);
+window.addEventListener('resize', debouncedUpdateOpacities);
 
 // Function to apply animations to timestamps
 function applyTimestampAnimations(isTracking = false) {
@@ -236,9 +285,8 @@ function renderTimestamps(isTracking = false) {
 
         if (idx === 0 && isTracking) {
             entryDiv.classList.add('new-entry');
-            // Show new entry immediately
+            // Animate scale, opacity is handled by updateVisibleEntryOpacities
             requestAnimationFrame(() => {
-                entryDiv.style.opacity = '1';
                 entryDiv.style.transform = 'scale(1)';
             });
         }
@@ -271,8 +319,10 @@ function renderTimestamps(isTracking = false) {
     // Save entries to localStorage
     localStorage.setItem(LS_KEYS.ENTRIES, JSON.stringify(trackedEntries));
 
-    // Update shadow after rendering
+    // Update shadow and opacities after rendering
     updateFooterShadow();
+    // Use requestAnimationFrame to ensure layout is stable before calculating opacities
+    requestAnimationFrame(updateVisibleEntryOpacities);
 }
 
 // --- Theme Handling ---
@@ -511,9 +561,12 @@ resetButton.addEventListener('click', () => {
 displayVersion();
 updateTotalCount();
 updateMetricLabel();
-renderTimestamps();
+renderTimestamps(); // This now calls updateVisibleEntryOpacities indirectly
 initializeLabel();
 
 // Apply saved theme or default to light, and trigger initial animations
 const savedTheme = localStorage.getItem(LS_KEYS.THEME) || 'light';
 applyTheme(savedTheme);
+
+// Initial opacity calculation after everything is set up
+requestAnimationFrame(updateVisibleEntryOpacities);

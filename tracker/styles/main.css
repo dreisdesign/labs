@@ -412,21 +412,21 @@ body.dark-mode .metric-label:hover {
     border-radius: 0.7rem;
     width: 100%;
     box-sizing: border-box;
+    /* Opacity will be handled by JavaScript */
     opacity: 1;
+    /* Default to 1, JS will override */
     transform: scale(1);
     transition: opacity 0.3s ease-out, transform 0.3s ease-out;
 }
 
-/* Style for older entries (after the first two) */
-.time-entry:not(:nth-of-type(-n+2)) {
-    opacity: 0.5;
-}
-
-/* Ensure new entries are fully opaque */
+/* Ensure new entries start with the correct initial animation state */
 .time-entry.new-entry {
     opacity: 0;
+    /* Start transparent for animation */
     transform: scale(0.8);
-    transition: opacity 0.3s ease-out 0.5s, transform 0.3s ease-out 0.5s;
+    /* Transition remains, JS will set final opacity */
+    transition: opacity 0.3s ease-out 0.1s, transform 0.3s ease-out 0.1s;
+    /* Adjusted delay */
 }
 
 /* Entry components styling */
