@@ -19,6 +19,7 @@ const LS_KEYS = {
 };
 
 let isTestingMode = false;
+let isAnimating = false;
 let metricLabelText = localStorage.getItem(LS_KEYS.LABEL) || 'Total';
 
 // Load state from Local Storage or use defaults with validation
@@ -305,13 +306,26 @@ function renderTimestamps(isTracking = false) {
         group.entries.forEach((entry, entryIdx) => {
             const entryDiv = document.createElement('div');
             entryDiv.className = 'time-entry';
-            // Animate new entry if it's the newest
+            entryDiv.setAttribute('data-key', entry.date); // Use timestamp as unique key
             if (groupIdx === 0 && entryIdx === 0 && isTracking) {
                 entryDiv.classList.add('new-entry');
                 newTimeEntryEl = entryDiv;
+                entryDiv.style.opacity = '0';
+                entryDiv.style.transform = 'scale(0.95)';
                 requestAnimationFrame(() => {
+                    entryDiv.style.transition = 'opacity 0.3s, transform 0.3s';
+                    entryDiv.style.opacity = '1';
                     entryDiv.style.transform = 'scale(1)';
                 });
+                setTimeout(() => {
+                    entryDiv.classList.remove('new-entry');
+                    entryDiv.style.transition = '';
+                }, 350);
+            } else {
+                // All other entries: set opacity instantly, no transition
+                entryDiv.style.transition = 'none';
+                entryDiv.style.opacity = '1';
+                entryDiv.style.transform = 'scale(1)';
             }
             const checkboxDiv = document.createElement('div');
             checkboxDiv.className = 'entry-checkbox';
@@ -341,6 +355,7 @@ function renderTimestamps(isTracking = false) {
     // Save entries to localStorage
     localStorage.setItem(LS_KEYS.ENTRIES, JSON.stringify(trackedEntries));
     updateFooterShadow();
+    // After rendering, set correct opacities for all entries
     requestAnimationFrame(updateVisibleEntryOpacities);
     return { newDateGroupEl, newTimeEntryEl };
 }
@@ -522,11 +537,20 @@ themeToggleButton.addEventListener('click', () => {
 
 // --- Track Button Click Handler (simplified for new structure) ---
 trackButton.addEventListener('click', () => {
+    if (trackButton.disabled || isAnimating) return; // Prevent double click or animation overlap
+    trackButton.disabled = true;
+    isAnimating = true;
     // 1. Record positions BEFORE render
     const prevEls = Array.from(timestampList.querySelectorAll('.date-header, .time-entry'));
     const prevRects = new Map();
     prevEls.forEach(el => {
-        prevRects.set(el.textContent + el.className, el.getBoundingClientRect());
+        let key;
+        if (el.classList.contains('time-entry')) {
+            key = el.getAttribute('data-key');
+        } else {
+            key = el.textContent + el.className;
+        }
+        prevRects.set(key, el.getBoundingClientRect());
     });
     // 2. Update state and render
     totalCount++;
@@ -538,6 +562,11 @@ trackButton.addEventListener('click', () => {
     setInitialEntryOpacities();
     // 3. Animate
     playFLIPAnimation(prevRects);
+    // 4. Re-enable after animation and ensure .new-entry is removed
+    setTimeout(() => {
+        trackButton.disabled = false;
+        isAnimating = false;
+    }, 450); // Slightly longer than animation duration to ensure DOM is stable
 });
 
 // Simplified click handler for reset button
@@ -629,10 +658,15 @@ function setInitialEntryOpacities() {
 
 // FLIP Animation for smooth entry addition
 function playFLIPAnimation(prevRects) {
-    // 2. After render, record new positions and animate
     const newEls = Array.from(timestampList.querySelectorAll('.date-header, .time-entry'));
     newEls.forEach(el => {
-        const key = el.textContent + el.className;
+        if (el.classList.contains('new-entry')) return; // Skip new entry for FLIP
+        let key;
+        if (el.classList.contains('time-entry')) {
+            key = el.getAttribute('data-key');
+        } else {
+            key = el.textContent + el.className;
+        }
         const prevRect = prevRects.get(key);
         if (prevRect) {
             const newRect = el.getBoundingClientRect();
