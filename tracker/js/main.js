@@ -528,6 +528,7 @@ trackButton.addEventListener('click', () => {
     mainContent.scrollTop = 0;
     showTrackSuccess();
     renderTimestamps(true);
+    setInitialEntryOpacities();
 });
 
 // Simplified click handler for reset button
@@ -558,7 +559,8 @@ resetButton.addEventListener('click', () => {
 displayVersion();
 updateTotalCount();
 updateMetricLabel();
-renderTimestamps(); // This now calls updateVisibleEntryOpacities indirectly
+renderTimestamps();
+setInitialEntryOpacities();
 initializeLabel();
 
 // Apply saved theme or default to light, and trigger initial animations
@@ -567,3 +569,51 @@ applyTheme(savedTheme);
 
 // Initial opacity calculation after everything is set up
 requestAnimationFrame(updateVisibleEntryOpacities);
+
+// Function to set the correct opacity for all .time-entry elements immediately after rendering, with transitions disabled, to prevent flash. Call this function after renderTimestamps on page load and after tracking.
+function setInitialEntryOpacities() {
+    const allEntries = Array.from(timestampList.querySelectorAll('.time-entry'));
+    const containerRect = mainContent.getBoundingClientRect();
+    const visibleEntries = allEntries.filter(entry => {
+        const entryRect = entry.getBoundingClientRect();
+        return (
+            entryRect.top < containerRect.bottom &&
+            entryRect.bottom > containerRect.top
+        );
+    });
+    const visibleCount = visibleEntries.length;
+    const minOpacity = 0.2;
+    const maxOpacity = 1.0;
+    const secondOpacity = 0.7;
+    visibleEntries.forEach((entry, index) => {
+        let targetOpacity;
+        if (index === 0) {
+            targetOpacity = maxOpacity;
+        } else if (index === 1) {
+            targetOpacity = secondOpacity;
+        } else {
+            const remaining = visibleCount - 2;
+            if (remaining > 0) {
+                const step = (secondOpacity - minOpacity) / remaining;
+                targetOpacity = secondOpacity - (index - 1) * step;
+                targetOpacity = Math.max(minOpacity, targetOpacity);
+            } else {
+                targetOpacity = minOpacity;
+            }
+        }
+        entry.style.transition = 'none';
+        entry.style.opacity = targetOpacity;
+    });
+    allEntries.forEach(entry => {
+        if (!visibleEntries.includes(entry)) {
+            entry.style.transition = 'none';
+            entry.style.opacity = minOpacity;
+        }
+    });
+    // Force reflow
+    void timestampList.offsetHeight;
+    // Re-enable transitions
+    allEntries.forEach(entry => {
+        entry.style.transition = '';
+    });
+}
