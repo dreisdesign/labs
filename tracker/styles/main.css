@@ -401,6 +401,7 @@ body.dark-mode .metric-label:hover {
     margin-bottom: 0.5rem;
     opacity: 1;
     animation: none;
+    text-align: center;
 }
 
 /* --- Time Entry Styles --- */
@@ -778,4 +779,22 @@ body.dark-mode {
 /* Remove the old date label styles since we're not using it anymore */
 .imessage-date-label {
     display: none !important;
+}
+
+/* --- Date Group Styles for Nested Structure --- */
+.date-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 0.5rem;
+    animation: none;
+}
+
+.date-group.new-date-group {
+    animation: popIn 0.35s cubic-bezier(0.4, 0.7, 0.4, 1.2);
+}
+
+.date-group .time-entry+.time-entry {
+    margin-top: 0.5rem;
 }

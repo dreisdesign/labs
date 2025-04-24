@@ -79,14 +79,14 @@ function isSameDay(date1, date2) {
 // Compare if two dates are in the same group (day or second depending on mode)
 function isSameGroup(date1, date2) {
     if (isTestingMode) {
-        // Group by second in testing mode
+        // Group by 10-second intervals in testing mode
         return (
             date1.getFullYear() === date2.getFullYear() &&
             date1.getMonth() === date2.getMonth() &&
             date1.getDate() === date2.getDate() &&
             date1.getHours() === date2.getHours() &&
             date1.getMinutes() === date2.getMinutes() &&
-            date1.getSeconds() === date2.getSeconds()
+            Math.floor(date1.getSeconds() / 10) === Math.floor(date2.getSeconds() / 10)
         );
     }
     // Default: Group by day
@@ -106,10 +106,19 @@ function formatTime(date) {
 // Format group header based on mode
 function formatGroupHeader(date) {
     if (isTestingMode) {
-        // Show Date and Time (down to the second) for testing headers
+        // Show Date and 10-second range for testing headers
         const dateStr = date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-        const timeStr = date.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
-        return `${dateStr}, ${timeStr}`;
+        const hour = date.getHours();
+        const minute = date.getMinutes();
+        const startSec = Math.floor(date.getSeconds() / 10) * 10;
+        const endSec = startSec + 9;
+        const startTime = new Date(date);
+        startTime.setSeconds(startSec);
+        const endTime = new Date(date);
+        endTime.setSeconds(endSec);
+        const timeStr = startTime.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
+        const endTimeStr = endTime.toLocaleTimeString(undefined, { second: '2-digit', hour12: true });
+        return `${dateStr}, ${timeStr}–${endTimeStr}`;
     }
     // Default: Show full date for normal headers
     return formatDateHeader(date); // formatDateHeader already formats the full date
@@ -214,27 +223,25 @@ function updateVisibleEntryOpacities() {
     const visibleCount = visibleEntries.length;
     const minOpacity = 0.2;
     const maxOpacity = 1.0;
-    const secondOpacity = 0.8; // Specific opacity for second item
+    const secondOpacity = 0.7;
 
-    // Apply opacities based on position in the visible set
     visibleEntries.forEach((entry, index) => {
         let targetOpacity;
         if (index === 0) {
-            // First visible entry is always 100%
             targetOpacity = maxOpacity;
         } else if (index === 1) {
-            // Second visible entry is specifically 80%
             targetOpacity = secondOpacity;
-        } else if (index >= 2) {
-            // Position 3 and beyond: Linear distribution from 60% to 20%
-            // Calculate step for remaining entries (position 3 and beyond)
-            const remainingCount = Math.max(1, visibleCount - 2); // Avoid divide by zero
-            const remainingStep = (secondOpacity - minOpacity) / remainingCount;
-            targetOpacity = secondOpacity - (index - 1) * remainingStep;
-            // Ensure we don't go below minimum opacity
-            targetOpacity = Math.max(minOpacity, targetOpacity);
+        } else {
+            // Fill linearly between 80% and 20% for remaining entries
+            const remaining = visibleCount - 2;
+            if (remaining > 0) {
+                const step = (secondOpacity - minOpacity) / remaining;
+                targetOpacity = secondOpacity - (index - 1) * step;
+                targetOpacity = Math.max(minOpacity, targetOpacity);
+            } else {
+                targetOpacity = minOpacity;
+            }
         }
-
         entry.style.opacity = targetOpacity;
     });
 
@@ -253,76 +260,78 @@ const debouncedUpdateOpacities = debounce(updateVisibleEntryOpacities, 50); // A
 mainContent.addEventListener('scroll', debouncedUpdateOpacities);
 window.addEventListener('resize', debouncedUpdateOpacities);
 
-// Function to apply animations to timestamps
-function applyTimestampAnimations(isTracking = false) {
-    // Force reflow before adding the tracking-animation class
-    timestampList.offsetHeight;
-
-    // Add tracking animation class if needed
-    if (isTracking) {
-        timestampList.classList.add('tracking-animation');
-    } else {
-        timestampList.classList.remove('tracking-animation');
-    }
+// Function to group entries by date (returns array of {dateKey, date, entries})
+function groupEntriesByDate(entries) {
+    const groups = [];
+    let lastKey = null;
+    let lastGroup = null;
+    entries.forEach(entry => {
+        const entryDate = new Date(entry.date);
+        const dateKey = formatGroupHeader(entryDate);
+        if (dateKey !== lastKey) {
+            lastGroup = { dateKey, date: entryDate, entries: [] };
+            groups.push(lastGroup);
+            lastKey = dateKey;
+        }
+        lastGroup.entries.push(entry);
+    });
+    return groups;
 }
 
-// Function to render timestamps with proper animation timing
+// Refactored renderTimestamps for nested .date-group structure
 function renderTimestamps(isTracking = false) {
     // Sort entries: newest first
     trackedEntries.sort((a, b) => b.date - a.date);
+    timestampList.innerHTML = '';
 
-    // Clear existing time entries and date headers
-    timestampList.querySelectorAll('.time-entry, .date-header').forEach(el => el.remove());
+    const groups = groupEntriesByDate(trackedEntries);
+    let newDateGroupEl = null;
+    let newTimeEntryEl = null;
 
-    let lastDate = null;
-    let dateHeaderAdded = new Set();
-
-    // Render all entries
-    trackedEntries.forEach((entry, idx) => {
-        const entryDate = new Date(entry.date);
-        const dateKey = formatGroupHeader(entryDate);
-
-        // Add date header if needed
-        if ((!lastDate || !isSameGroup(lastDate, entryDate)) && !dateHeaderAdded.has(dateKey)) {
-            const headerDiv = document.createElement('div');
-            headerDiv.className = 'date-header';
-            headerDiv.textContent = dateKey;
-            timestampList.insertBefore(headerDiv, placeholderEntry);
-            lastDate = entryDate;
-            dateHeaderAdded.add(dateKey);
+    groups.forEach((group, groupIdx) => {
+        const groupDiv = document.createElement('div');
+        groupDiv.className = 'date-group';
+        // Animate new group if it's the newest and isTracking
+        if (groupIdx === 0 && isTracking && group.entries.length === 1) {
+            groupDiv.classList.add('new-date-group');
+            newDateGroupEl = groupDiv;
         }
 
-        // Create entry container
-        const entryDiv = document.createElement('div');
-        entryDiv.className = 'time-entry';
+        const headerDiv = document.createElement('div');
+        headerDiv.className = 'date-header';
+        headerDiv.textContent = group.dateKey;
+        groupDiv.appendChild(headerDiv);
 
-        if (idx === 0 && isTracking) {
-            entryDiv.classList.add('new-entry');
-            // Animate scale, opacity is handled by updateVisibleEntryOpacities
-            requestAnimationFrame(() => {
-                entryDiv.style.transform = 'scale(1)';
-            });
-        }
-
-        // Create checkbox and time elements
-        const checkboxDiv = document.createElement('div');
-        checkboxDiv.className = 'entry-checkbox';
-        checkboxDiv.textContent = '✔';
-
-        const timeDiv = document.createElement('div');
-        timeDiv.className = 'time';
-        timeDiv.textContent = formatTime(entryDate);
-
-        entryDiv.appendChild(checkboxDiv);
-        entryDiv.appendChild(timeDiv);
-        timestampList.insertBefore(entryDiv, placeholderEntry);
+        group.entries.forEach((entry, entryIdx) => {
+            const entryDiv = document.createElement('div');
+            entryDiv.className = 'time-entry';
+            // Animate new entry if it's the newest
+            if (groupIdx === 0 && entryIdx === 0 && isTracking) {
+                entryDiv.classList.add('new-entry');
+                newTimeEntryEl = entryDiv;
+                requestAnimationFrame(() => {
+                    entryDiv.style.transform = 'scale(1)';
+                });
+            }
+            const checkboxDiv = document.createElement('div');
+            checkboxDiv.className = 'entry-checkbox';
+            checkboxDiv.textContent = '✔';
+            const timeDiv = document.createElement('div');
+            timeDiv.className = 'time';
+            timeDiv.textContent = formatTime(new Date(entry.date));
+            entryDiv.appendChild(checkboxDiv);
+            entryDiv.appendChild(timeDiv);
+            groupDiv.appendChild(entryDiv);
+        });
+        timestampList.appendChild(groupDiv);
     });
 
-    // Toggle placeholder visibility
+    // Add placeholder if empty
     if (trackedEntries.length === 0) {
         placeholderEntry.style.display = 'block';
         timestampList.classList.add('is-empty');
         timestampList.classList.remove('has-entries');
+        timestampList.appendChild(placeholderEntry);
     } else {
         placeholderEntry.style.display = 'none';
         timestampList.classList.remove('is-empty');
@@ -331,11 +340,9 @@ function renderTimestamps(isTracking = false) {
 
     // Save entries to localStorage
     localStorage.setItem(LS_KEYS.ENTRIES, JSON.stringify(trackedEntries));
-
-    // Update shadow and opacities after rendering
     updateFooterShadow();
-    // Use requestAnimationFrame to ensure layout is stable before calculating opacities
     requestAnimationFrame(updateVisibleEntryOpacities);
+    return { newDateGroupEl, newTimeEntryEl };
 }
 
 // --- Theme Handling ---
@@ -513,95 +520,14 @@ themeToggleButton.addEventListener('click', () => {
     applyTheme(newTheme);
 });
 
-// --- Track Button Touch/Click Handling ---
-
-// Add touchstart listener to apply pressed style
-trackButton.addEventListener('touchstart', (e) => {
-    // Prevent triggering mouse events simultaneously on some devices
-    // e.preventDefault(); 
-    trackButton.classList.add('button-pressed');
-}, { passive: true }); // Use passive: true if preventDefault is not needed, for better scroll performance
-
-// Add touchend/touchcancel listeners to remove pressed style
-const removePressedState = () => {
-    trackButton.classList.remove('button-pressed');
-};
-trackButton.addEventListener('touchend', removePressedState);
-trackButton.addEventListener('touchcancel', removePressedState);
-
-// FLIP Animation for Track Button Click
+// --- Track Button Click Handler (simplified for new structure) ---
 trackButton.addEventListener('click', () => {
-    // 1. First: Record positions of existing elements and their current opacities
-    const existingEntries = Array.from(timestampList.querySelectorAll('.time-entry'));
-    const firstPositions = existingEntries.map(el => ({
-        element: el,
-        top: el.getBoundingClientRect().top,
-        opacity: parseFloat(el.style.opacity || 1) // Capture current opacity
-    }));
-
-    // Add new timestamp data
     totalCount++;
     updateTotalCount();
-    addTimestamp(); // Adds to trackedEntries array
-
-    // Force scroll to top BEFORE rendering to avoid jumpiness
+    addTimestamp();
     mainContent.scrollTop = 0;
-
-    // Show the checkmark icon
     showTrackSuccess();
-
-    // 2. Last: Render the list including the new item (which gets .new-entry class)
-    const newEntryElement = renderTimestamps(true); // isTracking=true
-
-    // Find all the newly rendered entries (except the newest one)
-    const newlyRenderedEntries = Array.from(timestampList.querySelectorAll('.time-entry:not(.new-entry)'));
-
-    // 3. Invert: Move old elements back to their original positions and shift opacities
-    for (let i = 0; i < Math.min(firstPositions.length, newlyRenderedEntries.length); i++) {
-        const pos = firstPositions[i];
-        const element = newlyRenderedEntries[i]; // Match with corresponding newly rendered element
-
-        // Shift opacity: entry gets opacity of entry above it (or 0.8 if it's now the second)
-        if (i === 0) {
-            // Former top entry becomes second entry with 80% opacity
-            element.style.opacity = "0.8";
-        } else if (i < firstPositions.length - 1) {
-            // Middle entries shift down one position
-            element.style.opacity = firstPositions[i - 1].opacity.toString();
-        } else {
-            // Last visible entry takes the opacity of the entry above it
-            // or minimum opacity if it would go too low
-            const shiftedOpacity = Math.max(0.2, firstPositions[i - 1].opacity);
-            element.style.opacity = shiftedOpacity.toString();
-        }
-
-        // Apply transform for sliding animation
-        const lastTop = element.getBoundingClientRect().top;
-        const deltaY = pos.top - lastTop;
-
-        // Only apply transform if position actually changed
-        if (Math.abs(deltaY) > 0.5) { // Use a small threshold for floating point errors
-            element.style.transition = 'none'; // Disable transition temporarily
-            element.style.transform = `translateY(${deltaY}px)`;
-        }
-    }
-
-    // Make sure the new entry has 100% opacity
-    if (newEntryElement) {
-        // After animation completes the opacity will be 1
-        // Initial opacity 0 is set via CSS .new-entry class
-    }
-
-    // 4. Play: Animate elements to their final positions
-    requestAnimationFrame(() => {
-        newlyRenderedEntries.forEach(element => {
-            // Re-enable transitions and clear transform to animate to final position
-            if (element.style.transform !== '') {
-                element.style.transition = ''; // Re-enable CSS transition
-                element.style.transform = ''; // Animate back to natural position
-            }
-        });
-    });
+    renderTimestamps(true);
 });
 
 // Simplified click handler for reset button
