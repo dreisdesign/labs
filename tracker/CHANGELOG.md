@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Table of Contents
 - [Unreleased](#unreleased)
+- [1.0.14](#1014) - Gradual Opacity Animation
 - [1.0.13](#1013) - Testing script
 - [1.0.12](#1012) - Updates and improvements
 - [1.0.11](#1011) - Updates and improvements
@@ -23,6 +24,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [1.0.0](#100) - Initial Release
 
 ## [Unreleased]
+
+## [1.0.14] - 2025-04-24
+
+### Added
+- Added gradual opacity effect for timestamps in the viewport
+- New entries appear with smooth pop-in animation starting at 1.5x scale
+- Implemented sliding animation for existing timestamps when adding new ones
+- Opacity values shift down with entries (100%, 80%, 60%, 40%, 20%)
 
 ## [1.0.13] - 2025-04-24
 

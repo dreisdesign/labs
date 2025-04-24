@@ -214,20 +214,33 @@ function updateVisibleEntryOpacities() {
     const visibleCount = visibleEntries.length;
     const minOpacity = 0.2;
     const maxOpacity = 1.0;
+    const secondOpacity = 0.8; // Specific opacity for second item
 
-    // Calculate opacity step based on the number of visible items
-    const step = visibleCount > 1 ? (maxOpacity - minOpacity) / (visibleCount - 1) : 0;
+    // Apply opacities based on position in the visible set
+    visibleEntries.forEach((entry, index) => {
+        let targetOpacity;
+        if (index === 0) {
+            // First visible entry is always 100%
+            targetOpacity = maxOpacity;
+        } else if (index === 1) {
+            // Second visible entry is specifically 80%
+            targetOpacity = secondOpacity;
+        } else if (index >= 2) {
+            // Position 3 and beyond: Linear distribution from 60% to 20%
+            // Calculate step for remaining entries (position 3 and beyond)
+            const remainingCount = Math.max(1, visibleCount - 2); // Avoid divide by zero
+            const remainingStep = (secondOpacity - minOpacity) / remainingCount;
+            targetOpacity = secondOpacity - (index - 1) * remainingStep;
+            // Ensure we don't go below minimum opacity
+            targetOpacity = Math.max(minOpacity, targetOpacity);
+        }
 
+        entry.style.opacity = targetOpacity;
+    });
+
+    // Entries not in viewport get minimum opacity
     allEntries.forEach(entry => {
-        const index = visibleEntries.indexOf(entry);
-        if (index !== -1) {
-            // Entry is visible
-            let targetOpacity = maxOpacity - (index * step);
-            // Clamp opacity between min and max
-            targetOpacity = Math.max(minOpacity, Math.min(maxOpacity, targetOpacity));
-            entry.style.opacity = targetOpacity;
-        } else {
-            // Entry is not visible, set to minimum opacity
+        if (!visibleEntries.includes(entry)) {
             entry.style.opacity = minOpacity;
         }
     });
@@ -516,21 +529,79 @@ const removePressedState = () => {
 trackButton.addEventListener('touchend', removePressedState);
 trackButton.addEventListener('touchcancel', removePressedState);
 
-// Simplified click handler for track button
+// FLIP Animation for Track Button Click
 trackButton.addEventListener('click', () => {
+    // 1. First: Record positions of existing elements and their current opacities
+    const existingEntries = Array.from(timestampList.querySelectorAll('.time-entry'));
+    const firstPositions = existingEntries.map(el => ({
+        element: el,
+        top: el.getBoundingClientRect().top,
+        opacity: parseFloat(el.style.opacity || 1) // Capture current opacity
+    }));
+
     // Add new timestamp data
     totalCount++;
     updateTotalCount();
-    addTimestamp();
+    addTimestamp(); // Adds to trackedEntries array
 
-    // Force scroll to top to see the new entry
+    // Force scroll to top BEFORE rendering to avoid jumpiness
     mainContent.scrollTop = 0;
 
     // Show the checkmark icon
     showTrackSuccess();
 
-    // Render timestamps with tracking animation
-    renderTimestamps(true);
+    // 2. Last: Render the list including the new item (which gets .new-entry class)
+    const newEntryElement = renderTimestamps(true); // isTracking=true
+
+    // Find all the newly rendered entries (except the newest one)
+    const newlyRenderedEntries = Array.from(timestampList.querySelectorAll('.time-entry:not(.new-entry)'));
+
+    // 3. Invert: Move old elements back to their original positions and shift opacities
+    for (let i = 0; i < Math.min(firstPositions.length, newlyRenderedEntries.length); i++) {
+        const pos = firstPositions[i];
+        const element = newlyRenderedEntries[i]; // Match with corresponding newly rendered element
+
+        // Shift opacity: entry gets opacity of entry above it (or 0.8 if it's now the second)
+        if (i === 0) {
+            // Former top entry becomes second entry with 80% opacity
+            element.style.opacity = "0.8";
+        } else if (i < firstPositions.length - 1) {
+            // Middle entries shift down one position
+            element.style.opacity = firstPositions[i - 1].opacity.toString();
+        } else {
+            // Last visible entry takes the opacity of the entry above it
+            // or minimum opacity if it would go too low
+            const shiftedOpacity = Math.max(0.2, firstPositions[i - 1].opacity);
+            element.style.opacity = shiftedOpacity.toString();
+        }
+
+        // Apply transform for sliding animation
+        const lastTop = element.getBoundingClientRect().top;
+        const deltaY = pos.top - lastTop;
+
+        // Only apply transform if position actually changed
+        if (Math.abs(deltaY) > 0.5) { // Use a small threshold for floating point errors
+            element.style.transition = 'none'; // Disable transition temporarily
+            element.style.transform = `translateY(${deltaY}px)`;
+        }
+    }
+
+    // Make sure the new entry has 100% opacity
+    if (newEntryElement) {
+        // After animation completes the opacity will be 1
+        // Initial opacity 0 is set via CSS .new-entry class
+    }
+
+    // 4. Play: Animate elements to their final positions
+    requestAnimationFrame(() => {
+        newlyRenderedEntries.forEach(element => {
+            // Re-enable transitions and clear transform to animate to final position
+            if (element.style.transform !== '') {
+                element.style.transition = ''; // Re-enable CSS transition
+                element.style.transform = ''; // Animate back to natural position
+            }
+        });
+    });
 });
 
 // Simplified click handler for reset button
