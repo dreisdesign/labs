@@ -342,7 +342,11 @@ body.dark-mode .metric-label:hover {
 /* --- Main Content Area (Timestamp List) --- */
 #mainContent {
     flex: 1 1 auto;
-    overflow-y: auto;
+    overflow-y: scroll !important;
+    min-height: 200px;
+    height: 100%;
+    max-height: 100vh;
+    /* Prevent collapse */
     max-width: 400px;
     width: 100%;
     margin: 0 auto;
@@ -351,15 +355,25 @@ body.dark-mode .metric-label:hover {
     align-items: center;
     box-sizing: border-box;
     padding-bottom: 7rem;
+    /* Ensure content is not overlapped by footer */
     background: transparent;
     min-height: 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-primary-75) var(--color-background);
 }
 
 #mainContent::-webkit-scrollbar {
     width: 12px;
     background: var(--color-background);
-    position: absolute;
-    -webkit-appearance: auto;
+}
+
+#mainContent::-webkit-scrollbar-thumb {
+    background: var(--color-primary-75);
+    border-radius: 6px;
+}
+
+#mainContent::-webkit-scrollbar-track {
+    background: var(--color-background);
 }
 
 /* Timestamp List Container */
@@ -511,6 +525,8 @@ body.dark-mode .metric-label:hover {
     box-sizing: border-box;
     background-color: transparent;
     pointer-events: auto;
+    position: relative;
+    z-index: 101;
 }
 
 /* Base styles for bottom buttons */

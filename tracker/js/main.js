@@ -209,10 +209,47 @@ function updateFooterShadow() {
 
 // Function to update opacity based on viewport visibility
 function updateVisibleEntryOpacities() {
+    const containerRect = mainContent.getBoundingClientRect();
     const allEntries = Array.from(timestampList.querySelectorAll('.time-entry'));
-    allEntries.forEach((entry, index) => {
-        if (!entry.classList.contains('new-entry')) {
-            entry.style.opacity = (index === 0) ? '1' : '0.5';
+
+    const visibleEntries = allEntries.filter(entry => {
+        const entryRect = entry.getBoundingClientRect();
+        // Check if entry is vertically within the container's viewport
+        return (
+            entryRect.top < containerRect.bottom &&
+            entryRect.bottom > containerRect.top
+        );
+    });
+
+    const visibleCount = visibleEntries.length;
+    const minOpacity = 0.2;
+    const maxOpacity = 1.0;
+    const secondOpacity = 0.7;
+
+    visibleEntries.forEach((entry, index) => {
+        let targetOpacity;
+        if (index === 0) {
+            targetOpacity = maxOpacity;
+        } else if (index === 1) {
+            targetOpacity = secondOpacity;
+        } else {
+            // Fill linearly between 0.7 and 0.2 for remaining entries
+            const remaining = visibleCount - 2;
+            if (remaining > 0) {
+                const step = (secondOpacity - minOpacity) / remaining;
+                targetOpacity = secondOpacity - (index - 1) * step;
+                targetOpacity = Math.max(minOpacity, targetOpacity);
+            } else {
+                targetOpacity = minOpacity;
+            }
+        }
+        entry.style.opacity = targetOpacity;
+    });
+
+    // Entries not in viewport get minimum opacity
+    allEntries.forEach(entry => {
+        if (!visibleEntries.includes(entry)) {
+            entry.style.opacity = minOpacity;
         }
     });
 }
