@@ -55,19 +55,6 @@ try {
 
 // --- Utility Functions ---
 
-// Debounce function
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
 // Compare if two dates are the same day
 function isSameDay(date1, date2) {
     return (
@@ -254,18 +241,35 @@ function updateVisibleEntryOpacities() {
     });
 }
 
-// Debounced version of the opacity update function
-const debouncedUpdateOpacities = debounce(updateVisibleEntryOpacities, 50); // Adjust wait time (ms) as needed
+// Throttle function
+function throttle(func, limit) {
+    let inThrottle;
+    return function () {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+}
 
-// Listen for scroll events on the container and window resize
-mainContent.addEventListener('scroll', debouncedUpdateOpacities);
-window.addEventListener('resize', debouncedUpdateOpacities);
+// Replace debounced function with throttled version for smoother scrolling
+const throttledUpdateOpacities = throttle(updateVisibleEntryOpacities, 16); // ~60fps
 
-// Function to group entries by date (returns array of {dateKey, date, entries})
+// Listen for scroll events using the throttled function
+mainContent.addEventListener('scroll', throttledUpdateOpacities);
+window.addEventListener('resize', throttledUpdateOpacities);
+
+// --- Grouping and Rendering Entries ---
+
+// Group entries by date for organized display
 function groupEntriesByDate(entries) {
     const groups = [];
-    let lastKey = null;
+    let lastKey = '';
     let lastGroup = null;
+
     entries.forEach(entry => {
         const entryDate = new Date(entry.date);
         const dateKey = formatGroupHeader(entryDate);
@@ -606,41 +610,9 @@ requestAnimationFrame(updateVisibleEntryOpacities);
 // Function to set the correct opacity for all .time-entry elements immediately after rendering, with transitions disabled, to prevent flash. Call this function after renderTimestamps on page load and after tracking.
 function setInitialEntryOpacities() {
     const allEntries = Array.from(timestampList.querySelectorAll('.time-entry'));
-    const containerRect = mainContent.getBoundingClientRect();
-    const visibleEntries = allEntries.filter(entry => {
-        const entryRect = entry.getBoundingClientRect();
-        return (
-            entryRect.top < containerRect.bottom &&
-            entryRect.bottom > containerRect.top
-        );
-    });
-    const visibleCount = visibleEntries.length;
-    const minOpacity = 0.2;
-    const maxOpacity = 1.0;
-    const secondOpacity = 0.7;
-    visibleEntries.forEach((entry, index) => {
-        let targetOpacity;
-        if (index === 0) {
-            targetOpacity = maxOpacity;
-        } else if (index === 1) {
-            targetOpacity = secondOpacity;
-        } else {
-            const remaining = visibleCount - 2;
-            if (remaining > 0) {
-                const step = (secondOpacity - minOpacity) / remaining;
-                targetOpacity = secondOpacity - (index - 1) * step;
-                targetOpacity = Math.max(minOpacity, targetOpacity);
-            } else {
-                targetOpacity = minOpacity;
-            }
-        }
-        entry.style.transition = 'none';
-        entry.style.opacity = targetOpacity;
-    });
     allEntries.forEach(entry => {
-        if (!visibleEntries.includes(entry)) {
-            entry.style.transition = 'none';
-            entry.style.opacity = minOpacity;
+        if (!entry.classList.contains('new-entry')) {
+            entry.style.opacity = '1';
         }
     });
     // Force reflow

@@ -430,7 +430,7 @@ body.dark-mode .metric-label:hover {
     opacity: 1;
     /* Default to 1, JS will override */
     transform: scale(1);
-    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    transition: transform 0.3s ease-out, opacity 0.05s ease-out;
 }
 
 /* Ensure new entries start with the correct initial animation state */
