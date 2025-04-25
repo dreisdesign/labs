@@ -39,38 +39,25 @@
 
     <!-- Main application container -->
     <div class="app">
-
-        <!-- Card displaying the total count -->
+        <!-- Metric card and track button OUTSIDE scrollable area -->
         <div class="metric-card">
-            <!-- Container for label -->
             <div class="metric-label-container">
-                <!-- Add tabindex="-1" to allow programmatic focus -->
                 <div class="metric-label" id="metricLabel" tabindex="-1">Total</div>
-                <!-- Edit button removed -->
             </div>
             <div class="metric-value" id="totalCount">0</div>
         </div>
-
-        <!-- Button to track a new entry -->
         <button class="track-button">
             <span class="track-button-text">Track</span>
             <span class="track-button-checkmark">
                 <img src="assets/icons/icons/300/fill/check_circle.svg" alt="Success" class="checkmark-icon">
             </span>
         </button>
-
-        <!-- Scrollable area for date and timestamps -->
+        <!-- Only the timestamp list is scrollable -->
         <div id="mainContent">
-            <!-- Container for timestamp entries and placeholder -->
             <div id="timestampList">
-                <!-- Placeholder shown when the list is empty -->
                 <div class="placeholder-entry">No entries yet</div>
-                <!-- Timestamp entries will be dynamically added here by JS -->
             </div>
-            <!-- "Show all" button will be added here by JS if needed -->
         </div>
-
-        <!-- Container for bottom action buttons -->
         <div class="bottom-buttons-wrapper">
             <div class="bottom-buttons">
                 <button class="reset-button bottom-button-base" id="resetButton">Reset</button>
@@ -79,7 +66,6 @@
                 </button>
             </div>
         </div>
-
     </div> <!-- End .app -->
 
     <!-- Link to JavaScript file -->

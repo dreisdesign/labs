@@ -135,18 +135,19 @@ body {
 
 /* --- App Container --- */
 .app {
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 5.5rem 0 6rem 0;
-    /* Increased bottom padding to account for fixed footer */
     display: flex;
     flex-direction: column;
+    height: 100vh;
+    max-width: 400px;
+    width: 100vw;
+    margin: 0 auto;
+    padding: 0;
     align-items: center;
-    justify-content: center;
-    gap: 1.5rem;
+    justify-content: flex-start;
+    gap: 0;
     position: relative;
-    min-height: 80vh;
+    min-height: unset;
+    background: transparent;
 }
 
 /* --- Metric Card (Total Count) --- */
@@ -161,6 +162,8 @@ body {
     text-align: center;
     width: 100%;
     max-width: 80%;
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
 }
 
 /* Container for label and edit button */
@@ -245,6 +248,8 @@ body.dark-mode .metric-label:hover {
 
 /* --- Track Button --- */
 .track-button {
+    margin-bottom: 1.5rem;
+    max-width: 400px;
     width: 100%;
     padding: 1rem 0;
     font-size: 1.1rem;
@@ -255,11 +260,6 @@ body.dark-mode .metric-label:hover {
     color: var(--color-on-primary);
     cursor: pointer;
     transition: background-color 0.2s, transform 0.1s ease-out;
-    max-width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    min-height: 44px;
-    /* Minimum touch target size */
     position: relative;
     display: flex;
     align-items: center;
@@ -341,23 +341,18 @@ body.dark-mode .metric-label:hover {
 
 /* --- Main Content Area (Timestamp List) --- */
 #mainContent {
-    height: 60vh;
-    overflow-y: scroll;
-    margin-bottom: 1rem;
-    max-width: 80%;
-    margin-left: auto;
-    margin-right: auto;
+    flex: 1 1 auto;
+    overflow-y: auto;
+    max-width: 400px;
     width: 100%;
-    position: relative;
-    box-sizing: border-box;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    scrollbar-gutter: stable;
-    padding: 0;
-    scrollbar-width: thin;
-    /* For Firefox */
-    scrollbar-color: var(--color-primary-75) var(--color-background);
+    box-sizing: border-box;
+    padding-bottom: 6rem;
+    background: transparent;
+    min-height: 0;
 }
 
 #mainContent::-webkit-scrollbar {
@@ -413,6 +408,9 @@ body.dark-mode .metric-label:hover {
     background: var(--color-surface);
     border-radius: 0.7rem;
     width: 100%;
+    max-width: 100%;
+    min-height: unset;
+    height: auto;
     box-sizing: border-box;
     /* Opacity will be handled by JavaScript */
     opacity: 1;
@@ -483,19 +481,23 @@ body.dark-mode .metric-label:hover {
     left: 0;
     right: 0;
     width: 100vw;
-    background-color: var(--color-background);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.3);
+    /* semi-transparent for blur */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s;
     padding: 0.75rem 0;
     z-index: 100;
     border-radius: 100px 100px 0 0;
+    box-shadow: none !important;
+    border-top: 2px solid rgba(46, 43, 116, 0.15);
+    /* subtle border instead of shadow */
+    pointer-events: auto;
 }
 
 .bottom-buttons-wrapper.shadow {
-    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
-}
-
-body.dark-mode .bottom-buttons-wrapper.shadow {
-    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.4);
+    box-shadow: none !important;
+    border-top: 2px solid rgba(46, 43, 116, 0.15);
 }
 
 /* Container for bottom buttons */
@@ -509,6 +511,7 @@ body.dark-mode .bottom-buttons-wrapper.shadow {
     padding: 0 1rem;
     box-sizing: border-box;
     background-color: transparent;
+    pointer-events: auto;
 }
 
 /* Base styles for bottom buttons */
