@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Table of Contents
 - [Unreleased](#unreleased)
+- [1.1.2](#112) - Footer enhancements
 - [1.1.1](#111) - Footer enhancements
 - [1.1](#11) - Animation & Grouping Improvements
 - [1.0.14](#1014) - Gradual Opacity Animation
@@ -26,6 +27,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [1.0.0](#100) - Initial Release
 
 ## [Unreleased]
+
+## [1.1.2] - 2025-04-25
+
 
 ## [1.1.1] - 2025-04-25
 
