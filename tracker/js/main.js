@@ -196,67 +196,98 @@ function updateFooterShadow() {
 
 // Function to update opacity based on viewport visibility
 function updateVisibleEntryOpacities() {
-    const containerRect = mainContent.getBoundingClientRect();
-    const allEntries = Array.from(timestampList.querySelectorAll('.time-entry'));
+    requestAnimationFrame(() => {
+        const containerRect = mainContent.getBoundingClientRect();
+        const allEntries = Array.from(timestampList.querySelectorAll('.time-entry'));
 
-    const visibleEntries = allEntries.filter(entry => {
-        const entryRect = entry.getBoundingClientRect();
-        // Check if entry is vertically within the container's viewport
-        return (
-            entryRect.top < containerRect.bottom &&
-            entryRect.bottom > containerRect.top
-        );
-    });
+        if (allEntries.length === 0) return;
 
-    const visibleCount = visibleEntries.length;
-    const minOpacity = 0.2;
-    const maxOpacity = 1.0;
-    const secondOpacity = 0.7;
+        const minOpacity = 0.1;       // Minimum opacity is 10%
+        const maxOpacity = 1.0;       // First entry gets 100% opacity
+        const secondOpacity = 0.75;   // Second entry gets 75% opacity
+        const opacityStep = 0.05;     // Each subsequent entry decreases by 5%
+        const scrolledOpacity = 0.6;  // Scrolled away from top: all entries at 60% opacity
 
-    visibleEntries.forEach((entry, index) => {
-        let targetOpacity;
-        if (index === 0) {
-            targetOpacity = maxOpacity;
-        } else if (index === 1) {
-            targetOpacity = secondOpacity;
+        // Check if we're at the top with the most recent entry visible
+        const mostRecentEntry = allEntries[0]; // First entry is most recent
+        const mostRecentRect = mostRecentEntry.getBoundingClientRect();
+        const isAtTop = mostRecentRect.top >= containerRect.top - 10; // Allow slight offset
+
+        if (isAtTop) {
+            // We're at the top, use gradual opacity
+            const visibleEntries = allEntries.filter(entry => {
+                const entryRect = entry.getBoundingClientRect();
+                return (
+                    entryRect.top < containerRect.bottom &&
+                    entryRect.bottom > containerRect.top
+                );
+            });
+
+            visibleEntries.forEach((entry, index) => {
+                let targetOpacity;
+                if (index === 0) {
+                    targetOpacity = maxOpacity;  // First entry: 100%
+                } else if (index === 1) {
+                    targetOpacity = secondOpacity; // Second entry: 75%
+                } else {
+                    // If we have 16+ entries, calculate opacity based on position
+                    if (visibleEntries.length >= 16) {
+                        // Calculate opacity by distributing between 75% and 10% for entries after the second
+                        const totalRemaining = visibleEntries.length - 2;
+                        const position = index - 1; // Position after the second entry (index = 2 means position = 1)
+                        const opacityRange = secondOpacity - minOpacity; // Range from 75% to 10%
+
+                        // Calculate opacity proportionally based on position
+                        targetOpacity = secondOpacity - (opacityRange * (position / totalRemaining));
+                    } else {
+                        // For fewer than 16 entries, decrease by 5% for each entry starting at 70%
+                        targetOpacity = secondOpacity - ((index - 1) * opacityStep);
+                    }
+
+                    // Don't go below minimum opacity of 10%
+                    targetOpacity = Math.max(minOpacity, targetOpacity);
+                }
+                entry.style.opacity = targetOpacity;
+            });
+
+            // Entries not in viewport get minimum opacity of 10%
+            allEntries.forEach(entry => {
+                if (!visibleEntries.includes(entry)) {
+                    entry.style.opacity = minOpacity;
+                }
+            });
         } else {
-            // Fill linearly between 0.7 and 0.2 for remaining entries
-            const remaining = visibleCount - 2;
-            if (remaining > 0) {
-                const step = (secondOpacity - minOpacity) / remaining;
-                targetOpacity = secondOpacity - (index - 1) * step;
-                targetOpacity = Math.max(minOpacity, targetOpacity);
-            } else {
-                targetOpacity = minOpacity;
-            }
-        }
-        entry.style.opacity = targetOpacity;
-    });
-
-    // Entries not in viewport get minimum opacity
-    allEntries.forEach(entry => {
-        if (!visibleEntries.includes(entry)) {
-            entry.style.opacity = minOpacity;
+            // We've scrolled away from top, all visible entries get 60% opacity
+            allEntries.forEach(entry => {
+                const entryRect = entry.getBoundingClientRect();
+                if (entryRect.bottom > containerRect.top && entryRect.top < containerRect.bottom) {
+                    // Entry is visible in viewport
+                    entry.style.opacity = scrolledOpacity;
+                } else {
+                    // Entry is not visible
+                    entry.style.opacity = minOpacity;
+                }
+            });
         }
     });
 }
 
-// Throttle function
-function throttle(func, limit) {
-    let inThrottle;
+// More efficient throttle that uses requestAnimationFrame
+function rafThrottle(callback) {
+    let requestId = null;
+
     return function () {
-        const args = arguments;
-        const context = this;
-        if (!inThrottle) {
-            func.apply(context, args);
-            inThrottle = true;
-            setTimeout(() => inThrottle = false, limit);
+        if (requestId === null) {
+            requestId = requestAnimationFrame(() => {
+                callback();
+                requestId = null;
+            });
         }
     };
 }
 
-// Replace debounced function with throttled version for smoother scrolling
-const throttledUpdateOpacities = throttle(updateVisibleEntryOpacities, 16); // ~60fps
+// Replace current throttle with RAF-based throttle
+const throttledUpdateOpacities = rafThrottle(updateVisibleEntryOpacities);
 
 // Listen for scroll events using the throttled function
 mainContent.addEventListener('scroll', throttledUpdateOpacities);

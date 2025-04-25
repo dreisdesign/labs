@@ -430,17 +430,15 @@ body.dark-mode .metric-label:hover {
     opacity: 1;
     /* Default to 1, JS will override */
     transform: scale(1);
-    transition: transform 0.3s ease-out, opacity 0.05s ease-out;
+    transition: transform 0.3s ease-out, opacity 0.15s ease-out;
 }
 
 /* Ensure new entries start with the correct initial animation state */
 .time-entry.new-entry {
     opacity: 0;
-    /* Start transparent for animation */
     transform: scale(.95);
-    /* Transition remains, JS will set final opacity */
-    transition: opacity 0.3s ease-out 0.1s, transform 0.3s ease-out 0.1s;
-    /* Adjusted delay */
+    /* Remove transition to prevent flash */
+    transition: none;
 }
 
 /* Entry components styling */
