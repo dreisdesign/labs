@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Table of Contents
 - [Unreleased](#unreleased)
+- [1.1](#11) - Animation & Grouping Improvements
 - [1.0.14](#1014) - Gradual Opacity Animation
 - [1.0.13](#1013) - Testing script
 - [1.0.12](#1012) - Updates and improvements
@@ -24,6 +25,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [1.0.0](#100) - Initial Release
 
 ## [Unreleased]
+
+## [1.1] - 2025-04-25
+
+### Changed
+- Improved FLIP animation logic for time entries and date headers: all items now slide smoothly and in order when a new entry is added.
+- Newest entry card now pops in from 0.5x scale to 1x scale for a more dramatic effect.
+- Only the newest entry animates opacity/scale; all others have their opacity set instantly, preventing random fade-in bugs and visual gaps.
+- Grouping in testing mode now uses 10-second intervals, with group headers showing the correct range.
+- Date headers are now centered and spacing between entries within a group is improved.
+- Track button is disabled during animation to prevent overlapping or out-of-order animations.
+- Improved opacity logic: most recent entry is 100%, next is 70%, and the rest fill linearly down to 20%.
+- Fixed animation mapping by using a unique data-key for each entry, ensuring correct sliding behavior.
 
 ## [1.0.14] - 2025-04-24
 
