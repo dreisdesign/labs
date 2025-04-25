@@ -70,7 +70,12 @@ BEGIN {
 echo "✓ Created feature branch feature/v$new_version"
 echo "✓ Updated version numbers in files"
 echo "✓ Added new version section to changelog with description"
+
+echo "Committing version bump and changelog update..."
+git add "$TRACKER_DIR/index.html" "$TRACKER_DIR/styles/main.css" "$TRACKER_DIR/CHANGELOG.md"
+git commit -m "chore: start feature v$new_version - $feature_description"
+echo "✓ Commit complete. You now have a clean starting point for your feature branch."
 echo ""
 echo "Next steps:"
 echo "1. Make your changes"
-echo "2. Stage and commit the version updates"
+echo "2. Stage and commit your feature work"
