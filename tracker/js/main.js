@@ -395,11 +395,6 @@ function applyTheme(theme) {
     }
     localStorage.setItem(LS_KEYS.THEME, theme);
     updateThemeVisuals(theme);
-
-    // Trigger animations after theme change
-    requestAnimationFrame(() => {
-        applyTimestampAnimations();
-    });
 }
 
 // --- Testing Functions ---
