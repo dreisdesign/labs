@@ -210,10 +210,9 @@ function updateFooterShadow() {
 // Function to update opacity based on viewport visibility
 function updateVisibleEntryOpacities() {
     const allEntries = Array.from(timestampList.querySelectorAll('.time-entry'));
-    allEntries.forEach(entry => {
-        // Only animate opacity for new-entry, all others are always fully visible
+    allEntries.forEach((entry, index) => {
         if (!entry.classList.contains('new-entry')) {
-            entry.style.opacity = '1';
+            entry.style.opacity = (index === 0) ? '1' : '0.5';
         }
     });
 }
