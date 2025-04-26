@@ -2,6 +2,7 @@
 const totalCountElement = document.getElementById('totalCount');
 const trackButton = document.querySelector('.track-button');
 const resetButton = document.querySelector('.reset-button');
+const undoButton = document.getElementById('undoButton');
 const timestampList = document.getElementById('timestampList');
 const placeholderEntry = document.querySelector('.placeholder-entry');
 // Remove pageDateHeading selector
@@ -21,6 +22,14 @@ const LS_KEYS = {
 let isTestingMode = false;
 let isAnimating = false;
 let metricLabelText = localStorage.getItem(LS_KEYS.LABEL) || 'Total';
+
+// Backup variables to support undo functionality
+let backupTotalCount = 0;
+let backupTrackedEntries = [];
+let undoTimerId = null;
+let countdownInterval = null;
+let countdownValue = 5; // Starting countdown value
+let resetPending = false; // Flag to track if a reset is waiting for countdown
 
 // Load state from Local Storage or use defaults with validation
 let totalCount = 0;
@@ -610,18 +619,103 @@ resetButton.addEventListener('click', () => {
         return; // Exit early
     }
 
-    // If list has entries, clear immediately without animation
-    console.log("Reset clicked - Clearing entries.");
-    // Clear data
-    totalCount = 0;
-    trackedEntries = [];
-    // Clear Local Storage using constants
-    localStorage.removeItem(LS_KEYS.COUNT);
-    localStorage.removeItem(LS_KEYS.ENTRIES);
-    // Update UI
-    updateTotalCount();
-    renderTimestamps(); // Render the now empty list
+    // Backup the current data
+    backupCurrentData();
+
+    // Set the reset pending flag
+    resetPending = true;
+
+    // Show the reset warning countdown
+    showResetCountdown();
 });
+
+// --- Undo Functionality ---
+
+// Function to create a backup of the current data before reset
+function backupCurrentData() {
+    backupTotalCount = totalCount;
+    // Deep copy the trackedEntries array to avoid reference issues
+    backupTrackedEntries = JSON.parse(JSON.stringify(trackedEntries));
+}
+
+// Function to restore data from backup
+function restoreFromBackup() {
+    totalCount = backupTotalCount;
+    trackedEntries = backupTrackedEntries;
+
+    // Update UI and local storage
+    updateTotalCount();
+    localStorage.setItem(LS_KEYS.ENTRIES, JSON.stringify(trackedEntries));
+    renderTimestamps();
+
+    // Hide the undo button
+    hideUndoButton();
+}
+
+// Function to show the undo button and set the timer for auto-hiding
+function showUndoButton() {
+    // Reset countdown value
+    countdownValue = 5;
+
+    // Clear any existing timers
+    if (undoTimerId) {
+        clearTimeout(undoTimerId);
+    }
+    if (countdownInterval) {
+        clearInterval(countdownInterval);
+    }
+
+    // Set the initial button text with countdown
+    undoButton.textContent = `Undo (${countdownValue})`;
+
+    // First set the initial position (below viewport)
+    undoButton.classList.remove('show');
+    undoButton.classList.remove('hidden');
+
+    // Force browser to recognize the initial state before animating
+    void undoButton.offsetHeight;
+
+    // Add the show class which triggers the slide-in animation
+    undoButton.classList.add('show');
+
+    // Start the countdown interval
+    countdownInterval = setInterval(() => {
+        countdownValue--;
+        undoButton.textContent = `Undo (${countdownValue})`;
+
+        if (countdownValue <= 0) {
+            clearInterval(countdownInterval);
+            hideUndoButton();
+        }
+    }, 1000);
+
+    // Set a timer to hide the button after 5 seconds
+    undoTimerId = setTimeout(() => {
+        hideUndoButton();
+    }, 5000);
+}
+
+// Function to hide the undo button
+function hideUndoButton() {
+    // Clear any remaining intervals
+    if (countdownInterval) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+    }
+
+    // Remove the show class first to start the fade-out
+    undoButton.classList.remove('show');
+
+    // After the transition completes, add the hidden class
+    setTimeout(() => {
+        undoButton.classList.add('hidden');
+    }, 500); // Match with the CSS transition duration
+
+    if (undoTimerId) {
+        clearTimeout(undoTimerId);
+        undoTimerId = null;
+    }
+}
 
 // --- Initial Page Load Setup ---
 displayVersion();
@@ -679,4 +773,80 @@ function playFLIPAnimation(prevRects) {
             }
         }
     });
+}
+
+// Add click handler for the undo button
+undoButton.addEventListener('click', () => {
+    restoreFromBackup();
+    console.log("Undo clicked - Restored previous entries.");
+});
+
+// Function to display the reset countdown and handle reset after completion
+function showResetCountdown() {
+    // Reset countdown value
+    countdownValue = 5;
+
+    // Set button text to show it's a reset countdown
+    undoButton.textContent = `Cancel (${countdownValue})`;
+
+    // Clear any existing timers
+    if (undoTimerId) {
+        clearTimeout(undoTimerId);
+    }
+    if (countdownInterval) {
+        clearInterval(countdownInterval);
+    }
+
+    // First set the initial position (below viewport)
+    undoButton.classList.remove('show');
+    undoButton.classList.remove('hidden');
+
+    // Force browser to recognize the initial state before animating
+    void undoButton.offsetHeight;
+
+    // Add the show class which triggers the slide-in animation
+    undoButton.classList.add('show');
+
+    // Start the countdown interval
+    countdownInterval = setInterval(() => {
+        countdownValue--;
+        undoButton.textContent = `Cancel (${countdownValue})`;
+
+        if (countdownValue <= 0) {
+            // When countdown reaches zero, perform the actual reset
+            performReset();
+            clearInterval(countdownInterval);
+            hideUndoButton();
+        }
+    }, 1000);
+
+    // Set a timer as a backup to ensure reset happens
+    undoTimerId = setTimeout(() => {
+        if (resetPending) {
+            performReset();
+        }
+        hideUndoButton();
+    }, 5000);
+}
+
+// Function to actually perform the reset operation
+function performReset() {
+    if (!resetPending) return; // Safety check
+
+    console.log("Performing reset after countdown");
+
+    // Clear data
+    totalCount = 0;
+    trackedEntries = [];
+
+    // Clear Local Storage
+    localStorage.removeItem(LS_KEYS.COUNT);
+    localStorage.removeItem(LS_KEYS.ENTRIES);
+
+    // Update UI
+    updateTotalCount();
+    renderTimestamps(); // Render the now empty list
+
+    // Reset the flag
+    resetPending = false;
 }

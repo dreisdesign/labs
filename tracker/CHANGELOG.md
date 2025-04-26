@@ -31,6 +31,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.3] - 2025-04-25
 
+### Added
+- Added reset countdown functionality that delays reset operation for 5 seconds
+- Implemented cancel button that appears when reset is clicked, allowing users to cancel the reset operation
+- Enhanced reset UX with animated button that slides in from the bottom of the screen
+- Added visual countdown timer showing seconds remaining before reset completes
+
+### Changed
+- Modified reset button to trigger a confirmation flow instead of immediate data clearing
+- Improved feedback during reset operation with countdown timer
 
 ## [1.1.2] - 2025-04-25
 
