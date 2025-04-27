@@ -39,19 +39,13 @@
 
     <!-- Main application container -->
     <div class="app">
-        <!-- Metric card and track button OUTSIDE scrollable area -->
+        <!-- Metric card OUTSIDE scrollable area -->
         <div class="metric-card">
             <div class="metric-label-container">
                 <div class="metric-label" id="metricLabel" tabindex="-1">Total</div>
             </div>
             <div class="metric-value" id="totalCount">0</div>
         </div>
-        <button class="track-button">
-            <span class="track-button-text">Track</span>
-            <span class="track-button-checkmark">
-                <img src="assets/icons/icons/300/fill/check_circle.svg" alt="Success" class="checkmark-icon">
-            </span>
-        </button>
         <!-- Only the timestamp list is scrollable -->
         <div id="mainContent">
             <div id="timestampList">
@@ -62,6 +56,12 @@
         <button class="undo-button hidden" id="undoButton">Undo</button>
         <div class="bottom-buttons-wrapper">
             <div class="bottom-buttons">
+                <button class="track-button bottom-track-button">
+                    <span class="track-button-text">Track</span>
+                    <span class="track-button-checkmark">
+                        <img src="assets/icons/icons/300/fill/check_circle.svg" alt="Success" class="checkmark-icon">
+                    </span>
+                </button>
                 <button class="reset-button bottom-button-base" id="resetButton">Reset</button>
                 <button id="themeToggle" class="theme-toggle-button bottom-button-base" aria-label="Toggle Theme">
                     <span id="themeIconSpan"></span>

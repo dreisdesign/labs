@@ -515,7 +515,8 @@ body.dark-mode .metric-label:hover {
 /* Container for bottom buttons */
 .bottom-buttons {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    /* Changed from space-between */
     gap: 1.5rem;
     width: 100%;
     max-width: 400px;
