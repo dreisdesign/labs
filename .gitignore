@@ -18,3 +18,7 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Chat logs
+tracker/_chat.log
+tracker/chat.log
