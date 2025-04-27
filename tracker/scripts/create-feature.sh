@@ -15,12 +15,34 @@ fi
 # Split version into components
 IFS='.' read -r major minor patch <<< "$current_version"
 
-# Increment patch version
-new_patch=$((patch + 1))
-new_version="$major.$minor.$new_patch"
+echo "Current version: $current_version"
+
+# Ask for the type of update
+echo "What type of update is this? (Select a number)"
+echo "1. PATCH: Backwards-compatible bug fixes (v$major.$minor.$((patch + 1)))"
+echo "2. MINOR: Backwards-compatible new features (v$major.$((minor + 1)).0)"
+echo "3. MAJOR: Incompatible API changes (v$((major + 1)).0.0)"
+read -r update_type
+
+# Set new version based on the update type
+case $update_type in
+    1)
+        new_version="$major.$minor.$((patch + 1))"
+        ;;
+    2)
+        new_version="$major.$((minor + 1)).0"
+        ;;
+    3)
+        new_version="$((major + 1)).0.0"
+        ;;
+    *)
+        echo "Invalid choice. Defaulting to patch update."
+        new_version="$major.$minor.$((patch + 1))"
+        ;;
+esac
+
 today=$(date +%Y-%m-%d)
 
-echo "Current version: $current_version"
 echo "New version: $new_version"
 
 # Create new feature branch
