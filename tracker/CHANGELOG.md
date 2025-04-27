@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Table of Contents
 - [Unreleased](#unreleased)
+- [1.2.0](#120) - Consolidated feature menu
 - [1.1.3](#113) - Ability to undo
 - [1.1.2](#112) - Footer enhancements
 - [1.1.1](#111) - Footer enhancements
@@ -28,6 +29,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [1.0.0](#100) - Initial Release
 
 ## [Unreleased]
+
+## [1.2.0] - 2025-04-27
+
 
 ## [1.1.3] - 2025-04-25
 
