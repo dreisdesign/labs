@@ -140,7 +140,8 @@ body {
     flex-direction: column;
     height: 100vh;
     max-width: 400px;
-    width: 100vw;
+    width: 100%;
+    /* Changed from 100vw */
     margin: 0 auto;
     padding: 0;
     align-items: center;
@@ -493,7 +494,8 @@ body.dark-mode .metric-label:hover {
     bottom: 0;
     left: 0;
     right: 0;
-    width: 100vw;
+    width: 100%;
+    /* Changed from 100vw */
     background-color: rgba(0, 0, 0, 0.1);
     /* semi-transparent for blur */
     backdrop-filter: blur(25px);
