@@ -106,7 +106,7 @@ cd labs
 The project includes a version management script that helps automate the development workflow:
 
 ```bash
-./tracker/scripts/create-feature.sh
+./tracker/scripts/prepare-version-update.sh
 ```
 
 This script will:
