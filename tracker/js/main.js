@@ -5,11 +5,13 @@ const resetButton = document.querySelector('.reset-button');
 const undoButton = document.getElementById('undoButton');
 const timestampList = document.getElementById('timestampList');
 const placeholderEntry = document.querySelector('.placeholder-entry');
-// Remove pageDateHeading selector
 const themeToggleButton = document.getElementById('themeToggle');
-const themeIconSpan = document.getElementById('themeIconSpan'); // Update selector to span
+const themeIconSpan = document.getElementById('themeIconSpan');
 const metricLabel = document.getElementById('metricLabel');
-const versionNumberElement = document.querySelector('.version-number'); // Changed getElementById to querySelector by class
+const versionNumberElement = document.querySelector('.version-number');
+const settingsButton = document.getElementById('settingsButton'); // Added
+const settingsOverlay = document.getElementById('settingsOverlay'); // Added
+const closeSettingsButton = document.getElementById('closeSettingsButton'); // Added
 
 // --- Constants and State Variables ---
 const LS_KEYS = {
@@ -574,148 +576,25 @@ themeToggleButton.addEventListener('click', () => {
     applyTheme(newTheme);
 });
 
-// --- Track Button Click Handler (simplified for new structure) ---
-trackButton.addEventListener('click', () => {
-    if (trackButton.disabled || isAnimating) return; // Prevent double click or animation overlap
-    trackButton.disabled = true;
-    isAnimating = true;
-    // 1. Record positions BEFORE render
-    const prevEls = Array.from(timestampList.querySelectorAll('.date-header, .time-entry'));
-    const prevRects = new Map();
-    prevEls.forEach(el => {
-        let key;
-        if (el.classList.contains('time-entry')) {
-            key = el.getAttribute('data-key');
-        } else {
-            key = el.textContent + el.className;
-        }
-        prevRects.set(key, el.getBoundingClientRect());
-    });
-    // 2. Update state and render
-    totalCount++;
-    updateTotalCount();
-    addTimestamp();
-    mainContent.scrollTop = 0;
-    showTrackSuccess();
-    renderTimestamps(true);
-    setInitialEntryOpacities();
-    // 3. Animate
-    playFLIPAnimation(prevRects);
-    // 4. Re-enable after animation and ensure .new-entry is removed
-    setTimeout(() => {
-        trackButton.disabled = false;
-        isAnimating = false;
-    }, 450); // Slightly longer than animation duration to ensure DOM is stable
+// --- Settings Menu Logic ---
+
+// Open Settings Overlay
+settingsButton.addEventListener('click', () => {
+    settingsOverlay.classList.remove('hidden');
 });
 
-// Simplified click handler for reset button
-resetButton.addEventListener('click', () => {
-    // If list is already empty, do nothing or provide minimal feedback
-    if (trackedEntries.length === 0) {
-        console.log("Reset clicked - List is already empty.");
-        // Optionally add a subtle visual cue like a brief button disabled state or border change
-        resetButton.disabled = true;
-        setTimeout(() => { resetButton.disabled = false; }, 300);
-        return; // Exit early
-    }
-
-    // Backup the current data
-    backupCurrentData();
-
-    // Set the reset pending flag
-    resetPending = true;
-
-    // Show the reset warning countdown
-    showResetCountdown();
+// Close Settings Overlay (using the close button)
+closeSettingsButton.addEventListener('click', () => {
+    settingsOverlay.classList.add('hidden');
 });
 
-// --- Undo Functionality ---
-
-// Function to create a backup of the current data before reset
-function backupCurrentData() {
-    backupTotalCount = totalCount;
-    // Deep copy the trackedEntries array to avoid reference issues
-    backupTrackedEntries = JSON.parse(JSON.stringify(trackedEntries));
-}
-
-// Function to restore data from backup
-function restoreFromBackup() {
-    totalCount = backupTotalCount;
-    trackedEntries = backupTrackedEntries;
-
-    // Update UI and local storage
-    updateTotalCount();
-    localStorage.setItem(LS_KEYS.ENTRIES, JSON.stringify(trackedEntries));
-    renderTimestamps();
-
-    // Hide the undo button
-    hideUndoButton();
-}
-
-// Function to show the undo button and set the timer for auto-hiding
-function showUndoButton() {
-    // Reset countdown value
-    countdownValue = 5;
-
-    // Clear any existing timers
-    if (undoTimerId) {
-        clearTimeout(undoTimerId);
+// Close Settings Overlay (clicking outside the content)
+settingsOverlay.addEventListener('click', (event) => {
+    // Check if the click is directly on the overlay background
+    if (event.target === settingsOverlay) {
+        settingsOverlay.classList.add('hidden');
     }
-    if (countdownInterval) {
-        clearInterval(countdownInterval);
-    }
-
-    // Set the initial button text with countdown
-    undoButton.textContent = `Undo (${countdownValue})`;
-
-    // First set the initial position (below viewport)
-    undoButton.classList.remove('show');
-    undoButton.classList.remove('hidden');
-
-    // Force browser to recognize the initial state before animating
-    void undoButton.offsetHeight;
-
-    // Add the show class which triggers the slide-in animation
-    undoButton.classList.add('show');
-
-    // Start the countdown interval
-    countdownInterval = setInterval(() => {
-        countdownValue--;
-        undoButton.textContent = `Undo (${countdownValue})`;
-
-        if (countdownValue <= 0) {
-            clearInterval(countdownInterval);
-            hideUndoButton();
-        }
-    }, 1000);
-
-    // Set a timer to hide the button after 5 seconds
-    undoTimerId = setTimeout(() => {
-        hideUndoButton();
-    }, 5000);
-}
-
-// Function to hide the undo button
-function hideUndoButton() {
-    // Clear any remaining intervals
-    if (countdownInterval) {
-        clearInterval(countdownInterval);
-        countdownInterval = null;
-    }
-
-    // Remove the show class first to start the fade-out
-    undoButton.classList.remove('show');
-
-    // After the transition completes, add the hidden class
-    setTimeout(() => {
-        undoButton.classList.add('hidden');
-    }, 500); // Match with the CSS transition duration
-
-    if (undoTimerId) {
-        clearTimeout(undoTimerId);
-        undoTimerId = null;
-    }
-}
+});
 
 // --- Initial Page Load Setup ---
 displayVersion();
@@ -777,12 +656,14 @@ function playFLIPAnimation(prevRects) {
 
 // Add click handler for the undo button
 undoButton.addEventListener('click', () => {
+    console.log("Undo/Cancel button clicked."); // Added log
     restoreFromBackup();
-    console.log("Undo clicked - Restored previous entries.");
+    // console.log("Undo clicked - Restored previous entries."); // Original log moved into restoreFromBackup
 });
 
 // Function to display the reset countdown and handle reset after completion
 function showResetCountdown() {
+    console.log("showResetCountdown started."); // Added log
     // Reset countdown value
     countdownValue = 5;
 
@@ -810,9 +691,11 @@ function showResetCountdown() {
     // Start the countdown interval
     countdownInterval = setInterval(() => {
         countdownValue--;
+        console.log(`Countdown: ${countdownValue}`); // Added log
         undoButton.textContent = `Cancel (${countdownValue})`;
 
         if (countdownValue <= 0) {
+            console.log("Countdown finished, calling performReset."); // Added log
             // When countdown reaches zero, perform the actual reset
             performReset();
             clearInterval(countdownInterval);
@@ -822,7 +705,9 @@ function showResetCountdown() {
 
     // Set a timer as a backup to ensure reset happens
     undoTimerId = setTimeout(() => {
+        console.log("Undo timer expired."); // Added log
         if (resetPending) {
+            console.log("Reset was pending, calling performReset from timer."); // Added log
             performReset();
         }
         hideUndoButton();
@@ -831,7 +716,10 @@ function showResetCountdown() {
 
 // Function to actually perform the reset operation
 function performReset() {
-    if (!resetPending) return; // Safety check
+    if (!resetPending) {
+        console.log("performReset called but resetPending is false. Aborting."); // Added log
+        return; // Safety check
+    }
 
     console.log("Performing reset after countdown");
 
@@ -842,11 +730,136 @@ function performReset() {
     // Clear Local Storage
     localStorage.removeItem(LS_KEYS.COUNT);
     localStorage.removeItem(LS_KEYS.ENTRIES);
+    console.log("Local storage cleared."); // Added log
 
     // Update UI
     updateTotalCount();
     renderTimestamps(); // Render the now empty list
+    console.log("UI updated after reset."); // Added log
 
     // Reset the flag
     resetPending = false;
 }
+
+// Function to backup current data before reset
+function backupCurrentData() {
+    backupTotalCount = totalCount;
+    // Deep copy the array of objects to prevent mutation issues
+    backupTrackedEntries = JSON.parse(JSON.stringify(trackedEntries));
+    console.log("Data backed up for potential undo.");
+}
+
+// Function to restore data from backup
+function restoreFromBackup() {
+    console.log("Restoring data from backup..."); // Added log
+    totalCount = backupTotalCount;
+    // Deep copy back if needed, though direct assignment might be okay if backup isn't mutated elsewhere
+    trackedEntries = JSON.parse(JSON.stringify(backupTrackedEntries));
+
+    updateTotalCount();
+    renderTimestamps(); // Re-render with restored data
+    hideUndoButton(); // Hide the undo/cancel button
+    resetPending = false; // Ensure reset is no longer pending
+    console.log("Data restored from backup.");
+}
+
+// Function to hide the undo button
+function hideUndoButton() {
+    console.log("hideUndoButton called."); // Added log
+    // Clear any pending timers associated with the undo process
+    if (undoTimerId) {
+        console.log("Clearing undoTimerId."); // Added log
+        clearTimeout(undoTimerId);
+        undoTimerId = null;
+    }
+    if (countdownInterval) {
+        console.log("Clearing countdownInterval."); // Added log
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+    }
+
+    // Remove the show class to trigger the slide-out animation
+    undoButton.classList.remove('show');
+
+    // Reset the pending flag if the action was cancelled
+    if (resetPending) {
+        console.log("Reset was pending, setting resetPending to false in hideUndoButton."); // Added log
+        resetPending = false;
+    }
+
+    // Optional: Add a small delay before setting visibility to hidden
+    // to allow the animation to complete smoothly.
+    // setTimeout(() => {
+    //     if (!undoButton.classList.contains('show')) { // Check if it wasn't shown again
+    //         undoButton.classList.add('hidden');
+    //     }
+    // }, 500); // Match transition duration
+}
+
+// --- Track Button Click Handler ---
+trackButton.addEventListener('click', () => {
+    if (trackButton.disabled || isAnimating) return; // Prevent double click or animation overlap
+    trackButton.disabled = true;
+    isAnimating = true;
+
+    // 1. Record positions BEFORE render
+    const prevEls = Array.from(timestampList.querySelectorAll('.date-header, .time-entry'));
+    const prevRects = new Map();
+    prevEls.forEach(el => {
+        let key;
+        if (el.classList.contains('time-entry')) {
+            key = el.getAttribute('data-key');
+        } else {
+            // Use text content + class name for header uniqueness
+            key = el.textContent + el.className;
+        }
+        if (key) { // Ensure key is not null/undefined
+            prevRects.set(key, el.getBoundingClientRect());
+        }
+    });
+
+    // 2. Update state and render
+    totalCount++;
+    updateTotalCount();
+    addTimestamp();
+    mainContent.scrollTop = 0; // Scroll to top to see new entry
+    showTrackSuccess();
+    const { newTimeEntryEl } = renderTimestamps(true); // Pass true for tracking animation
+    setInitialEntryOpacities(); // Set initial opacities correctly
+
+    // 3. Animate using FLIP
+    playFLIPAnimation(prevRects);
+
+    // 4. Re-enable after animation and ensure .new-entry styles are managed
+    setTimeout(() => {
+        trackButton.disabled = false;
+        isAnimating = false;
+        // Ensure the new-entry class is removed if the animation timeout didn't catch it
+        if (newTimeEntryEl && newTimeEntryEl.classList.contains('new-entry')) {
+            newTimeEntryEl.classList.remove('new-entry');
+            newTimeEntryEl.style.transition = ''; // Clear inline transition
+        }
+    }, 450); // Slightly longer than animation duration
+});
+
+// --- Reset Button Click Handler ---
+resetButton.addEventListener('click', () => {
+    console.log("Reset button clicked."); // Added log
+    // If list is already empty, do nothing or provide minimal feedback
+    if (trackedEntries.length === 0) {
+        console.log("Reset clicked - List is already empty.");
+        resetButton.disabled = true;
+        setTimeout(() => { resetButton.disabled = false; }, 300);
+        return; // Exit early
+    }
+
+    // Backup the current data
+    backupCurrentData();
+
+    // Set the reset pending flag
+    resetPending = true;
+    console.log("Set resetPending = true"); // Added log
+
+    // Show the reset warning countdown
+    showResetCountdown();
+});

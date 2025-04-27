@@ -867,3 +867,2127 @@ body.dark-mode {
     /* Use visibility instead of display for animation */
     opacity: 0;
 }
+
+/* --- Settings Menu Overlay --- */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.overlay-content {
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 350px;
+    transform: scale(1);
+    transition: transform 0.3s ease;
+}
+
+.overlay.hidden .overlay-content {
+    transform: scale(0.95);
+}
+
+.overlay-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    /* Subtle separator */
+    padding-bottom: 0.75rem;
+}
+
+body.dark-mode .overlay-header {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.overlay-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: var(--color-primary);
+}
+
+body.dark-mode .overlay-header h2 {
+    color: var(--color-primary);
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--color-on-surface);
+    opacity: 0.7;
+    cursor: pointer;
+    padding: 0 0.5rem;
+    line-height: 1;
+    transition: opacity 0.2s;
+}
+
+.close-button:hover {
+    opacity: 1;
+}
+
+.overlay-body {
+    /* Styles for the main content area of the overlay */
+    padding-top: 0.5rem;
+}
+
+/* --- Settings Button --- */
+.settings-button {
+    padding: 0.5rem;
+    line-height: 1;
+}
+
+.settings-button:hover {
+    text-decoration: none;
+    /* Remove underline hover from base */
+}
+
+.settings-icon {
+    width: 1.5rem;
+    /* Adjust size as needed */
+    height: 1.5rem;
+    vertical-align: middle;
+    opacity: 0.7;
+    transition: opacity 0.2s, transform 0.2s ease;
+    filter: var(--icon-filter, none);
+    /* Apply dark mode filter if needed */
+}
+
+.settings-button:hover .settings-icon {
+    opacity: 1;
+    transform: scale(1.1) rotate(15deg);
+}
+
+/* --- List Collapse Styles --- */
+.collapsed-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    text-decoration: underline;
+    padding: 0.5rem 0;
+    width: 100%;
+    text-align: center;
+    min-height: 44px;
+    /* Minimum touch target size */
+    text-underline-offset: 0.2em;
+}
+
+.collapse-toggle:focus-visible {
+    outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    outline-offset: var(--focus-outline-offset);
+}
+
+/* --- Skip to content link for keyboard users --- */
+.skip-to-content {
+    position: absolute;
+    top: -999px;
+    left: 0;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    padding: 1rem;
+    z-index: 9999;
+    transition: top 0.3s;
+}
+
+.skip-to-content:focus {
+    top: 0;
+}
+
+/* --- Animations --- */
+
+/* Reduced Motion Support --- */
+@media (prefers-reduced-motion: reduce) {
+    /* Remove animation overrides */
+}
+
+/* --- Responsive Styles --- */
+@media (max-width: 600px) {
+    .app {
+        max-width: 98vw;
+        padding: 2vw 0 0 0;
+    }
+
+    .metric-card {
+        padding: 2rem 0.5rem 1.5rem 0.5rem;
+    }
+}
+
+/* --- Additional Accessibility Enhancements --- */
+@media screen and (max-width: 767px) {
+
+    /* Increase touch targets on mobile */
+    .track-button,
+    .bottom-button-base,
+    .edit-label-button,
+    .collapse-toggle {
+        min-height: 48px;
+        /* Larger touch targets on mobile */
+        padding: 0.75rem;
+    }
+
+    /* Increase font size on mobile for better readability */
+    html,
+    body {
+        font-size: 16px;
+        /* Ensure base font size is maintained on mobile */
+    }
+
+    .metric-label {
+        font-size: 1.3rem;
+        /* Slightly larger labels on mobile */
+    }
+}
+
+/* High contrast mode support */
+@media (forced-colors: active) {
+    :root {
+        --focus-outline-color: CanvasText;
+    }
+
+    .track-button,
+    .bottom-button-base,
+    .edit-label-button,
+    .collapse-toggle {
+        border: 1px solid CanvasText;
+    }
+}
+
+/* Ensure proper focus state for any focusable elements not already covered */
+[tabindex]:focus-visible:not([tabindex="-1"]) {
+    outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    outline-offset: var(--focus-outline-offset);
+}
+
+/* Improved screen reader support with ARIA states */
+[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Print styles for better accessibility when printed */
+@media print {
+    body {
+        background: white;
+        color: black;
+        font-size: 12pt;
+    }
+
+    .track-button,
+    .bottom-buttons,
+    .edit-label-button {
+        display: none !important;
+    }
+
+    .app {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+    }
+
+    #mainContent {
+        max-height: none;
+        overflow: visible;
+    }
+}
+
+/* --- Dark Mode Variable Overrides --- */
+body.dark-mode {
+    --color-primary: rgb(149, 117, 205);
+    /* lighter purple */
+    --color-secondary: rgb(126, 87, 194);
+    /* dark mode secondary */
+    --color-primary-darker: rgb(110, 85, 160);
+    /* New darker primary for dark mode */
+    --color-background: rgb(18, 18, 18);
+    /* dark background */
+    --color-surface: rgb(30, 30, 30);
+    /* dark surface */
+    --color-error: rgb(207, 102, 121);
+    /* light error */
+    --color-on-primary: rgb(0, 0, 0);
+    /* black text on light primary */
+    --color-on-background: rgb(255, 255, 255);
+    /* Increased contrast from rgb(224, 224, 224) */
+    /* light text */
+    --color-on-surface: rgb(255, 255, 255);
+    /* Increased contrast from rgb(224, 224, 224) */
+    /* light text */
+    --color-on-error: rgb(0, 0, 0);
+    /* black text on error */
+    --icon-filter: invert(1);
+    --color-primary-75: rgba(149, 117, 205, 0.75);
+    --color-secondary-75: rgba(126, 87, 194, 0.75);
+    --color-on-surface-75: rgba(255, 255, 255, 0.75);
+    /* Increased contrast */
+
+    /* Different focus color for dark mode for better visibility */
+    --focus-outline-color: rgb(255, 213, 0);
+}
+
+/* Remove the old date label styles since we're not using it anymore */
+.imessage-date-label {
+    display: none !important;
+}
+
+/* --- Date Group Styles for Nested Structure --- */
+.date-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 0.5rem;
+    animation: none;
+}
+
+.date-group.new-date-group {
+    animation: popIn 0.35s cubic-bezier(0.4, 0.7, 0.4, 1.2);
+}
+
+.date-group .time-entry+.time-entry {
+    margin-top: 0.5rem;
+}
+
+/* Undo Button Styles with alternative design */
+.undo-button {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    /* Start position below viewport */
+    bottom: 20px;
+    /* Reduced from 100px to 20px */
+    width: auto;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 100px;
+    background: var(--color-error);
+    color: var(--color-on-error);
+    cursor: pointer;
+    transition: transform 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28),
+        opacity 0.3s ease,
+        background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 0 auto;
+    z-index: 10000;
+    opacity: 0;
+    pointer-events: none;
+    box-sizing: border-box;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    will-change: transform, opacity;
+    /* Optimize for animation */
+}
+
+.undo-button.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+    /* Slide to final position */
+}
+
+/* Don't use display: none so we can animate */
+.hidden {
+    visibility: hidden;
+    /* Use visibility instead of display for animation */
+    opacity: 0;
+}
+
+/* --- Settings Menu Overlay --- */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.overlay-content {
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 350px;
+    transform: scale(1);
+    transition: transform 0.3s ease;
+}
+
+.overlay.hidden .overlay-content {
+    transform: scale(0.95);
+}
+
+.overlay-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    /* Subtle separator */
+    padding-bottom: 0.75rem;
+}
+
+body.dark-mode .overlay-header {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.overlay-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: var(--color-primary);
+}
+
+body.dark-mode .overlay-header h2 {
+    color: var(--color-primary);
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--color-on-surface);
+    opacity: 0.7;
+    cursor: pointer;
+    padding: 0 0.5rem;
+    line-height: 1;
+    transition: opacity 0.2s;
+}
+
+.close-button:hover {
+    opacity: 1;
+}
+
+.overlay-body {
+    /* Styles for the main content area of the overlay */
+    padding-top: 0.5rem;
+}
+
+/* --- Settings Button --- */
+.settings-button {
+    padding: 0.5rem;
+    line-height: 1;
+}
+
+.settings-button:hover {
+    text-decoration: none;
+    /* Remove underline hover from base */
+}
+
+.settings-icon {
+    width: 1.5rem;
+    /* Adjust size as needed */
+    height: 1.5rem;
+    vertical-align: middle;
+    opacity: 0.7;
+    transition: opacity 0.2s, transform 0.2s ease;
+    filter: var(--icon-filter, none);
+    /* Apply dark mode filter if needed */
+}
+
+.settings-button:hover .settings-icon {
+    opacity: 1;
+    transform: scale(1.1) rotate(15deg);
+}
+
+/* --- List Collapse Styles --- */
+.collapsed-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    text-decoration: underline;
+    padding: 0.5rem 0;
+    width: 100%;
+    text-align: center;
+    min-height: 44px;
+    /* Minimum touch target size */
+    text-underline-offset: 0.2em;
+}
+
+.collapse-toggle:focus-visible {
+    outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    outline-offset: var(--focus-outline-offset);
+}
+
+/* --- Skip to content link for keyboard users --- */
+.skip-to-content {
+    position: absolute;
+    top: -999px;
+    left: 0;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    padding: 1rem;
+    z-index: 9999;
+    transition: top 0.3s;
+}
+
+.skip-to-content:focus {
+    top: 0;
+}
+
+/* --- Animations --- */
+
+/* Reduced Motion Support --- */
+@media (prefers-reduced-motion: reduce) {
+    /* Remove animation overrides */
+}
+
+/* --- Responsive Styles --- */
+@media (max-width: 600px) {
+    .app {
+        max-width: 98vw;
+        padding: 2vw 0 0 0;
+    }
+
+    .metric-card {
+        padding: 2rem 0.5rem 1.5rem 0.5rem;
+    }
+}
+
+/* --- Additional Accessibility Enhancements --- */
+@media screen and (max-width: 767px) {
+
+    /* Increase touch targets on mobile */
+    .track-button,
+    .bottom-button-base,
+    .edit-label-button,
+    .collapse-toggle {
+        min-height: 48px;
+        /* Larger touch targets on mobile */
+        padding: 0.75rem;
+    }
+
+    /* Increase font size on mobile for better readability */
+    html,
+    body {
+        font-size: 16px;
+        /* Ensure base font size is maintained on mobile */
+    }
+
+    .metric-label {
+        font-size: 1.3rem;
+        /* Slightly larger labels on mobile */
+    }
+}
+
+/* High contrast mode support */
+@media (forced-colors: active) {
+    :root {
+        --focus-outline-color: CanvasText;
+    }
+
+    .track-button,
+    .bottom-button-base,
+    .edit-label-button,
+    .collapse-toggle {
+        border: 1px solid CanvasText;
+    }
+}
+
+/* Ensure proper focus state for any focusable elements not already covered */
+[tabindex]:focus-visible:not([tabindex="-1"]) {
+    outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    outline-offset: var(--focus-outline-offset);
+}
+
+/* Improved screen reader support with ARIA states */
+[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Print styles for better accessibility when printed */
+@media print {
+    body {
+        background: white;
+        color: black;
+        font-size: 12pt;
+    }
+
+    .track-button,
+    .bottom-buttons,
+    .edit-label-button {
+        display: none !important;
+    }
+
+    .app {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+    }
+
+    #mainContent {
+        max-height: none;
+        overflow: visible;
+    }
+}
+
+/* --- Dark Mode Variable Overrides --- */
+body.dark-mode {
+    --color-primary: rgb(149, 117, 205);
+    /* lighter purple */
+    --color-secondary: rgb(126, 87, 194);
+    /* dark mode secondary */
+    --color-primary-darker: rgb(110, 85, 160);
+    /* New darker primary for dark mode */
+    --color-background: rgb(18, 18, 18);
+    /* dark background */
+    --color-surface: rgb(30, 30, 30);
+    /* dark surface */
+    --color-error: rgb(207, 102, 121);
+    /* light error */
+    --color-on-primary: rgb(0, 0, 0);
+    /* black text on light primary */
+    --color-on-background: rgb(255, 255, 255);
+    /* Increased contrast from rgb(224, 224, 224) */
+    /* light text */
+    --color-on-surface: rgb(255, 255, 255);
+    /* Increased contrast from rgb(224, 224, 224) */
+    /* light text */
+    --color-on-error: rgb(0, 0, 0);
+    /* black text on error */
+    --icon-filter: invert(1);
+    --color-primary-75: rgba(149, 117, 205, 0.75);
+    --color-secondary-75: rgba(126, 87, 194, 0.75);
+    --color-on-surface-75: rgba(255, 255, 255, 0.75);
+    /* Increased contrast */
+
+    /* Different focus color for dark mode for better visibility */
+    --focus-outline-color: rgb(255, 213, 0);
+}
+
+/* Remove the old date label styles since we're not using it anymore */
+.imessage-date-label {
+    display: none !important;
+}
+
+/* --- Date Group Styles for Nested Structure --- */
+.date-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 0.5rem;
+    animation: none;
+}
+
+.date-group.new-date-group {
+    animation: popIn 0.35s cubic-bezier(0.4, 0.7, 0.4, 1.2);
+}
+
+.date-group .time-entry+.time-entry {
+    margin-top: 0.5rem;
+}
+
+/* Undo Button Styles with alternative design */
+.undo-button {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    /* Start position below viewport */
+    bottom: 20px;
+    /* Reduced from 100px to 20px */
+    width: auto;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 100px;
+    background: var(--color-error);
+    color: var(--color-on-error);
+    cursor: pointer;
+    transition: transform 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28),
+        opacity 0.3s ease,
+        background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 0 auto;
+    z-index: 10000;
+    opacity: 0;
+    pointer-events: none;
+    box-sizing: border-box;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    will-change: transform, opacity;
+    /* Optimize for animation */
+}
+
+.undo-button.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+    /* Slide to final position */
+}
+
+/* Don't use display: none so we can animate */
+.hidden {
+    visibility: hidden;
+    /* Use visibility instead of display for animation */
+    opacity: 0;
+}
+
+/* --- Settings Menu Overlay --- */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.overlay-content {
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 350px;
+    transform: scale(1);
+    transition: transform 0.3s ease;
+}
+
+.overlay.hidden .overlay-content {
+    transform: scale(0.95);
+}
+
+.overlay-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    /* Subtle separator */
+    padding-bottom: 0.75rem;
+}
+
+body.dark-mode .overlay-header {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.overlay-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: var(--color-primary);
+}
+
+body.dark-mode .overlay-header h2 {
+    color: var(--color-primary);
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--color-on-surface);
+    opacity: 0.7;
+    cursor: pointer;
+    padding: 0 0.5rem;
+    line-height: 1;
+    transition: opacity 0.2s;
+}
+
+.close-button:hover {
+    opacity: 1;
+}
+
+.overlay-body {
+    /* Styles for the main content area of the overlay */
+    padding-top: 0.5rem;
+}
+
+/* --- Settings Button --- */
+.settings-button {
+    padding: 0.5rem;
+    line-height: 1;
+}
+
+.settings-button:hover {
+    text-decoration: none;
+    /* Remove underline hover from base */
+}
+
+.settings-icon {
+    width: 1.5rem;
+    /* Adjust size as needed */
+    height: 1.5rem;
+    vertical-align: middle;
+    opacity: 0.7;
+    transition: opacity 0.2s, transform 0.2s ease;
+    filter: var(--icon-filter, none);
+    /* Apply dark mode filter if needed */
+}
+
+.settings-button:hover .settings-icon {
+    opacity: 1;
+    transform: scale(1.1) rotate(15deg);
+}
+
+/* --- List Collapse Styles --- */
+.collapsed-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    text-decoration: underline;
+    padding: 0.5rem 0;
+    width: 100%;
+    text-align: center;
+    min-height: 44px;
+    /* Minimum touch target size */
+    text-underline-offset: 0.2em;
+}
+
+.collapse-toggle:focus-visible {
+    outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    outline-offset: var(--focus-outline-offset);
+}
+
+/* --- Skip to content link for keyboard users --- */
+.skip-to-content {
+    position: absolute;
+    top: -999px;
+    left: 0;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    padding: 1rem;
+    z-index: 9999;
+    transition: top 0.3s;
+}
+
+.skip-to-content:focus {
+    top: 0;
+}
+
+/* --- Animations --- */
+
+/* Reduced Motion Support --- */
+@media (prefers-reduced-motion: reduce) {
+    /* Remove animation overrides */
+}
+
+/* --- Responsive Styles --- */
+@media (max-width: 600px) {
+    .app {
+        max-width: 98vw;
+        padding: 2vw 0 0 0;
+    }
+
+    .metric-card {
+        padding: 2rem 0.5rem 1.5rem 0.5rem;
+    }
+}
+
+/* --- Additional Accessibility Enhancements --- */
+@media screen and (max-width: 767px) {
+
+    /* Increase touch targets on mobile */
+    .track-button,
+    .bottom-button-base,
+    .edit-label-button,
+    .collapse-toggle {
+        min-height: 48px;
+        /* Larger touch targets on mobile */
+        padding: 0.75rem;
+    }
+
+    /* Increase font size on mobile for better readability */
+    html,
+    body {
+        font-size: 16px;
+        /* Ensure base font size is maintained on mobile */
+    }
+
+    .metric-label {
+        font-size: 1.3rem;
+        /* Slightly larger labels on mobile */
+    }
+}
+
+/* High contrast mode support */
+@media (forced-colors: active) {
+    :root {
+        --focus-outline-color: CanvasText;
+    }
+
+    .track-button,
+    .bottom-button-base,
+    .edit-label-button,
+    .collapse-toggle {
+        border: 1px solid CanvasText;
+    }
+}
+
+/* Ensure proper focus state for any focusable elements not already covered */
+[tabindex]:focus-visible:not([tabindex="-1"]) {
+    outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    outline-offset: var(--focus-outline-offset);
+}
+
+/* Improved screen reader support with ARIA states */
+[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Print styles for better accessibility when printed */
+@media print {
+    body {
+        background: white;
+        color: black;
+        font-size: 12pt;
+    }
+
+    .track-button,
+    .bottom-buttons,
+    .edit-label-button {
+        display: none !important;
+    }
+
+    .app {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+    }
+
+    #mainContent {
+        max-height: none;
+        overflow: visible;
+    }
+}
+
+/* --- Dark Mode Variable Overrides --- */
+body.dark-mode {
+    --color-primary: rgb(149, 117, 205);
+    /* lighter purple */
+    --color-secondary: rgb(126, 87, 194);
+    /* dark mode secondary */
+    --color-primary-darker: rgb(110, 85, 160);
+    /* New darker primary for dark mode */
+    --color-background: rgb(18, 18, 18);
+    /* dark background */
+    --color-surface: rgb(30, 30, 30);
+    /* dark surface */
+    --color-error: rgb(207, 102, 121);
+    /* light error */
+    --color-on-primary: rgb(0, 0, 0);
+    /* black text on light primary */
+    --color-on-background: rgb(255, 255, 255);
+    /* Increased contrast from rgb(224, 224, 224) */
+    /* light text */
+    --color-on-surface: rgb(255, 255, 255);
+    /* Increased contrast from rgb(224, 224, 224) */
+    /* light text */
+    --color-on-error: rgb(0, 0, 0);
+    /* black text on error */
+    --icon-filter: invert(1);
+    --color-primary-75: rgba(149, 117, 205, 0.75);
+    --color-secondary-75: rgba(126, 87, 194, 0.75);
+    --color-on-surface-75: rgba(255, 255, 255, 0.75);
+    /* Increased contrast */
+
+    /* Different focus color for dark mode for better visibility */
+    --focus-outline-color: rgb(255, 213, 0);
+}
+
+/* Remove the old date label styles since we're not using it anymore */
+.imessage-date-label {
+    display: none !important;
+}
+
+/* --- Date Group Styles for Nested Structure --- */
+.date-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 0.5rem;
+    animation: none;
+}
+
+.date-group.new-date-group {
+    animation: popIn 0.35s cubic-bezier(0.4, 0.7, 0.4, 1.2);
+}
+
+.date-group .time-entry+.time-entry {
+    margin-top: 0.5rem;
+}
+
+/* Undo Button Styles with alternative design */
+.undo-button {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    /* Start position below viewport */
+    bottom: 20px;
+    /* Reduced from 100px to 20px */
+    width: auto;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 100px;
+    background: var(--color-error);
+    color: var(--color-on-error);
+    cursor: pointer;
+    transition: transform 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28),
+        opacity 0.3s ease,
+        background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 0 auto;
+    z-index: 10000;
+    opacity: 0;
+    pointer-events: none;
+    box-sizing: border-box;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    will-change: transform, opacity;
+    /* Optimize for animation */
+}
+
+.undo-button.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+    /* Slide to final position */
+}
+
+/* Don't use display: none so we can animate */
+.hidden {
+    visibility: hidden;
+    /* Use visibility instead of display for animation */
+    opacity: 0;
+}
+
+/* --- Settings Menu Overlay --- */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.overlay-content {
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 350px;
+    transform: scale(1);
+    transition: transform 0.3s ease;
+}
+
+.overlay.hidden .overlay-content {
+    transform: scale(0.95);
+}
+
+.overlay-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    /* Subtle separator */
+    padding-bottom: 0.75rem;
+}
+
+body.dark-mode .overlay-header {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.overlay-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: var(--color-primary);
+}
+
+body.dark-mode .overlay-header h2 {
+    color: var(--color-primary);
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--color-on-surface);
+    opacity: 0.7;
+    cursor: pointer;
+    padding: 0 0.5rem;
+    line-height: 1;
+    transition: opacity 0.2s;
+}
+
+.close-button:hover {
+    opacity: 1;
+}
+
+.overlay-body {
+    /* Styles for the main content area of the overlay */
+    padding-top: 0.5rem;
+}
+
+/* --- Settings Button --- */
+.settings-button {
+    padding: 0.5rem;
+    line-height: 1;
+}
+
+.settings-button:hover {
+    text-decoration: none;
+    /* Remove underline hover from base */
+}
+
+.settings-icon {
+    width: 1.5rem;
+    /* Adjust size as needed */
+    height: 1.5rem;
+    vertical-align: middle;
+    opacity: 0.7;
+    transition: opacity 0.2s, transform 0.2s ease;
+    filter: var(--icon-filter, none);
+    /* Apply dark mode filter if needed */
+}
+
+.settings-button:hover .settings-icon {
+    opacity: 1;
+    transform: scale(1.1) rotate(15deg);
+}
+
+/* --- List Collapse Styles --- */
+.collapsed-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    text-decoration: underline;
+    padding: 0.5rem 0;
+    width: 100%;
+    text-align: center;
+    min-height: 44px;
+    /* Minimum touch target size */
+    text-underline-offset: 0.2em;
+}
+
+.collapse-toggle:focus-visible {
+    outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    outline-offset: var(--focus-outline-offset);
+}
+
+/* --- Skip to content link for keyboard users --- */
+.skip-to-content {
+    position: absolute;
+    top: -999px;
+    left: 0;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    padding: 1rem;
+    z-index: 9999;
+    transition: top 0.3s;
+}
+
+.skip-to-content:focus {
+    top: 0;
+}
+
+/* --- Animations --- */
+
+/* Reduced Motion Support --- */
+@media (prefers-reduced-motion: reduce) {
+    /* Remove animation overrides */
+}
+
+/* --- Responsive Styles --- */
+@media (max-width: 600px) {
+    .app {
+        max-width: 98vw;
+        padding: 2vw 0 0 0;
+    }
+
+    .metric-card {
+        padding: 2rem 0.5rem 1.5rem 0.5rem;
+    }
+}
+
+/* --- Additional Accessibility Enhancements --- */
+@media screen and (max-width: 767px) {
+
+    /* Increase touch targets on mobile */
+    .track-button,
+    .bottom-button-base,
+    .edit-label-button,
+    .collapse-toggle {
+        min-height: 48px;
+        /* Larger touch targets on mobile */
+        padding: 0.75rem;
+    }
+
+    /* Increase font size on mobile for better readability */
+    html,
+    body {
+        font-size: 16px;
+        /* Ensure base font size is maintained on mobile */
+    }
+
+    .metric-label {
+        font-size: 1.3rem;
+        /* Slightly larger labels on mobile */
+    }
+}
+
+/* High contrast mode support */
+@media (forced-colors: active) {
+    :root {
+        --focus-outline-color: CanvasText;
+    }
+
+    .track-button,
+    .bottom-button-base,
+    .edit-label-button,
+    .collapse-toggle {
+        border: 1px solid CanvasText;
+    }
+}
+
+/* Ensure proper focus state for any focusable elements not already covered */
+[tabindex]:focus-visible:not([tabindex="-1"]) {
+    outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    outline-offset: var(--focus-outline-offset);
+}
+
+/* Improved screen reader support with ARIA states */
+[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Print styles for better accessibility when printed */
+@media print {
+    body {
+        background: white;
+        color: black;
+        font-size: 12pt;
+    }
+
+    .track-button,
+    .bottom-buttons,
+    .edit-label-button {
+        display: none !important;
+    }
+
+    .app {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+    }
+
+    #mainContent {
+        max-height: none;
+        overflow: visible;
+    }
+}
+
+/* --- Dark Mode Variable Overrides --- */
+body.dark-mode {
+    --color-primary: rgb(149, 117, 205);
+    /* lighter purple */
+    --color-secondary: rgb(126, 87, 194);
+    /* dark mode secondary */
+    --color-primary-darker: rgb(110, 85, 160);
+    /* New darker primary for dark mode */
+    --color-background: rgb(18, 18, 18);
+    /* dark background */
+    --color-surface: rgb(30, 30, 30);
+    /* dark surface */
+    --color-error: rgb(207, 102, 121);
+    /* light error */
+    --color-on-primary: rgb(0, 0, 0);
+    /* black text on light primary */
+    --color-on-background: rgb(255, 255, 255);
+    /* Increased contrast from rgb(224, 224, 224) */
+    /* light text */
+    --color-on-surface: rgb(255, 255, 255);
+    /* Increased contrast from rgb(224, 224, 224) */
+    /* light text */
+    --color-on-error: rgb(0, 0, 0);
+    /* black text on error */
+    --icon-filter: invert(1);
+    --color-primary-75: rgba(149, 117, 205, 0.75);
+    --color-secondary-75: rgba(126, 87, 194, 0.75);
+    --color-on-surface-75: rgba(255, 255, 255, 0.75);
+    /* Increased contrast */
+
+    /* Different focus color for dark mode for better visibility */
+    --focus-outline-color: rgb(255, 213, 0);
+}
+
+/* Remove the old date label styles since we're not using it anymore */
+.imessage-date-label {
+    display: none !important;
+}
+
+/* --- Date Group Styles for Nested Structure --- */
+.date-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 0.5rem;
+    animation: none;
+}
+
+.date-group.new-date-group {
+    animation: popIn 0.35s cubic-bezier(0.4, 0.7, 0.4, 1.2);
+}
+
+.date-group .time-entry+.time-entry {
+    margin-top: 0.5rem;
+}
+
+/* Undo Button Styles with alternative design */
+.undo-button {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    /* Start position below viewport */
+    bottom: 20px;
+    /* Reduced from 100px to 20px */
+    width: auto;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 100px;
+    background: var(--color-error);
+    color: var(--color-on-error);
+    cursor: pointer;
+    transition: transform 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28),
+        opacity 0.3s ease,
+        background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 0 auto;
+    z-index: 10000;
+    opacity: 0;
+    pointer-events: none;
+    box-sizing: border-box;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    will-change: transform, opacity;
+    /* Optimize for animation */
+}
+
+.undo-button.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+    /* Slide to final position */
+}
+
+/* Don't use display: none so we can animate */
+.hidden {
+    visibility: hidden;
+    /* Use visibility instead of display for animation */
+    opacity: 0;
+}
+
+/* --- Settings Menu Overlay --- */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.overlay-content {
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 350px;
+    transform: scale(1);
+    transition: transform 0.3s ease;
+}
+
+.overlay.hidden .overlay-content {
+    transform: scale(0.95);
+}
+
+.overlay-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    /* Subtle separator */
+    padding-bottom: 0.75rem;
+}
+
+body.dark-mode .overlay-header {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.overlay-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: var(--color-primary);
+}
+
+body.dark-mode .overlay-header h2 {
+    color: var(--color-primary);
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--color-on-surface);
+    opacity: 0.7;
+    cursor: pointer;
+    padding: 0 0.5rem;
+    line-height: 1;
+    transition: opacity 0.2s;
+}
+
+.close-button:hover {
+    opacity: 1;
+}
+
+.overlay-body {
+    /* Styles for the main content area of the overlay */
+    padding-top: 0.5rem;
+}
+
+/* --- Settings Button --- */
+.settings-button {
+    padding: 0.5rem;
+    line-height: 1;
+}
+
+.settings-button:hover {
+    text-decoration: none;
+    /* Remove underline hover from base */
+}
+
+.settings-icon {
+    width: 1.5rem;
+    /* Adjust size as needed */
+    height: 1.5rem;
+    vertical-align: middle;
+    opacity: 0.7;
+    transition: opacity 0.2s, transform 0.2s ease;
+    filter: var(--icon-filter, none);
+    /* Apply dark mode filter if needed */
+}
+
+.settings-button:hover .settings-icon {
+    opacity: 1;
+    transform: scale(1.1) rotate(15deg);
+}
+
+/* --- List Collapse Styles --- */
+.collapsed-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    text-decoration: underline;
+    padding: 0.5rem 0;
+    width: 100%;
+    text-align: center;
+    min-height: 44px;
+    /* Minimum touch target size */
+    text-underline-offset: 0.2em;
+}
+
+.collapse-toggle:focus-visible {
+    outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    outline-offset: var(--focus-outline-offset);
+}
+
+/* --- Skip to content link for keyboard users --- */
+.skip-to-content {
+    position: absolute;
+    top: -999px;
+    left: 0;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    padding: 1rem;
+    z-index: 9999;
+    transition: top 0.3s;
+}
+
+.skip-to-content:focus {
+    top: 0;
+}
+
+/* --- Animations --- */
+
+/* Reduced Motion Support --- */
+@media (prefers-reduced-motion: reduce) {
+    /* Remove animation overrides */
+}
+
+/* --- Responsive Styles --- */
+@media (max-width: 600px) {
+    .app {
+        max-width: 98vw;
+        padding: 2vw 0 0 0;
+    }
+
+    .metric-card {
+        padding: 2rem 0.5rem 1.5rem 0.5rem;
+    }
+}
+
+/* --- Additional Accessibility Enhancements --- */
+@media screen and (max-width: 767px) {
+
+    /* Increase touch targets on mobile */
+    .track-button,
+    .bottom-button-base,
+    .edit-label-button,
+    .collapse-toggle {
+        min-height: 48px;
+        /* Larger touch targets on mobile */
+        padding: 0.75rem;
+    }
+
+    /* Increase font size on mobile for better readability */
+    html,
+    body {
+        font-size: 16px;
+        /* Ensure base font size is maintained on mobile */
+    }
+
+    .metric-label {
+        font-size: 1.3rem;
+        /* Slightly larger labels on mobile */
+    }
+}
+
+/* High contrast mode support */
+@media (forced-colors: active) {
+    :root {
+        --focus-outline-color: CanvasText;
+    }
+
+    .track-button,
+    .bottom-button-base,
+    .edit-label-button,
+    .collapse-toggle {
+        border: 1px solid CanvasText;
+    }
+}
+
+/* Ensure proper focus state for any focusable elements not already covered */
+[tabindex]:focus-visible:not([tabindex="-1"]) {
+    outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    outline-offset: var(--focus-outline-offset);
+}
+
+/* Improved screen reader support with ARIA states */
+[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Print styles for better accessibility when printed */
+@media print {
+    body {
+        background: white;
+        color: black;
+        font-size: 12pt;
+    }
+
+    .track-button,
+    .bottom-buttons,
+    .edit-label-button {
+        display: none !important;
+    }
+
+    .app {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+    }
+
+    #mainContent {
+        max-height: none;
+        overflow: visible;
+    }
+}
+
+/* --- Dark Mode Variable Overrides --- */
+body.dark-mode {
+    --color-primary: rgb(149, 117, 205);
+    /* lighter purple */
+    --color-secondary: rgb(126, 87, 194);
+    /* dark mode secondary */
+    --color-primary-darker: rgb(110, 85, 160);
+    /* New darker primary for dark mode */
+    --color-background: rgb(18, 18, 18);
+    /* dark background */
+    --color-surface: rgb(30, 30, 30);
+    /* dark surface */
+    --color-error: rgb(207, 102, 121);
+    /* light error */
+    --color-on-primary: rgb(0, 0, 0);
+    /* black text on light primary */
+    --color-on-background: rgb(255, 255, 255);
+    /* Increased contrast from rgb(224, 224, 224) */
+    /* light text */
+    --color-on-surface: rgb(255, 255, 255);
+    /* Increased contrast from rgb(224, 224, 224) */
+    /* light text */
+    --color-on-error: rgb(0, 0, 0);
+    /* black text on error */
+    --icon-filter: invert(1);
+    --color-primary-75: rgba(149, 117, 205, 0.75);
+    --color-secondary-75: rgba(126, 87, 194, 0.75);
+    --color-on-surface-75: rgba(255, 255, 255, 0.75);
+    /* Increased contrast */
+
+    /* Different focus color for dark mode for better visibility */
+    --focus-outline-color: rgb(255, 213, 0);
+}
+
+/* Remove the old date label styles since we're not using it anymore */
+.imessage-date-label {
+    display: none !important;
+}
+
+/* --- Date Group Styles for Nested Structure --- */
+.date-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 0.5rem;
+    animation: none;
+}
+
+.date-group.new-date-group {
+    animation: popIn 0.35s cubic-bezier(0.4, 0.7, 0.4, 1.2);
+}
+
+.date-group .time-entry+.time-entry {
+    margin-top: 0.5rem;
+}
+
+/* Undo Button Styles with alternative design */
+.undo-button {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    /* Start position below viewport */
+    bottom: 20px;
+    /* Reduced from 100px to 20px */
+    width: auto;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 100px;
+    background: var(--color-error);
+    color: var(--color-on-error);
+    cursor: pointer;
+    transition: transform 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28),
+        opacity 0.3s ease,
+        background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 0 auto;
+    z-index: 10000;
+    opacity: 0;
+    pointer-events: none;
+    box-sizing: border-box;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    will-change: transform, opacity;
+    /* Optimize for animation */
+}
+
+.undo-button.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(0);
+    /* Slide to final position */
+}
+
+/* Don't use display: none so we can animate */
+.hidden {
+    visibility: hidden;
+    /* Use visibility instead of display for animation */
+    opacity: 0;
+}
+
+/* --- Settings Menu Overlay --- */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.overlay-content {
+    background-color: var(--color-surface);
+    color: var(--color-on-surface);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 350px;
+    transform: scale(1);
+    transition: transform 0.3s ease;
+}
+
+.overlay.hidden .overlay-content {
+    transform: scale(0.95);
+}
+
+.overlay-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    /* Subtle separator */
+    padding-bottom: 0.75rem;
+}
+
+body.dark-mode .overlay-header {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+.overlay-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    color: var(--color-primary);
+}
+
+body.dark-mode .overlay-header h2 {
+    color: var(--color-primary);
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--color-on-surface);
+    opacity: 0.7;
+    cursor: pointer;
+    padding: 0 0.5rem;
+    line-height: 1;
+    transition: opacity 0.2s;
+}
+
+.close-button:hover {
+    opacity: 1;
+}
+
+.overlay-body {
+    /* Styles for the main content area of the overlay */
+    padding-top: 0.5rem;
+}
+
+/* --- Settings Button --- */
+.settings-button {
+    padding: 0.5rem;
+    line-height: 1;
+}
+
+.settings-button:hover {
+    text-decoration: none;
+    /* Remove underline hover from base */
+}
+
+.settings-icon {
+    width: 1.5rem;
+    /* Adjust size as needed */
+    height: 1.5rem;
+    vertical-align: middle;
+    opacity: 0.7;
+    transition: opacity 0.2s, transform 0.2s ease;
+    filter: var(--icon-filter, none);
+    /* Apply dark mode filter if needed */
+}
+
+.settings-button:hover .settings-icon {
+    opacity: 1;
+    transform: scale(1.1) rotate(15deg);
+}
+
+/* --- List Collapse Styles --- */
+.collapsed-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    text-decoration: underline;
+    padding: 0.5rem 0;
+    width: 100%;
+    text-align: center;
+    min-height: 44px;
+    /* Minimum touch target size */
+    text-underline-offset: 0.2em;
+}
+
+.collapse-toggle:focus-visible {
+    outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    outline-offset: var(--focus-outline-offset);
+}
+
+/* --- Skip to content link for keyboard users --- */
+.skip-to-content {
+    position: absolute;
+    top: -999px;
+    left: 0;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    padding: 1rem;
+    z-index: 9999;
+    transition: top 0.3s;
+}
+
+.skip-to-content:focus {
+    top: 0;
+}
+
+/* --- Animations --- */
+
+/* Reduced Motion Support --- */
+@media (prefers-reduced-motion: reduce) {
+    /* Remove animation overrides */
+}
+
+/* --- Responsive Styles --- */
+@media (max-width: 600px) {
+    .app {
+        max-width: 98vw;
+        padding: 2vw 0 0 0;
+    }
+
+    .metric-card {
+        padding: 2rem 0.5rem 1.5rem 0.5rem;
+    }
+}
+
+/* --- Additional Accessibility Enhancements --- */
+@media screen and (max-width: 767px) {
+
+    /* Increase touch targets on mobile */
+    .track-button,
+    .bottom-button-base,
+    .edit-label-button,
+    .collapse-toggle {
+        min-height: 48px;
+        /* Larger touch targets on mobile */
+        padding: 0.75rem;
+    }
+
+    /* Increase font size on mobile for better readability */
+    html,
+    body {
+        font-size: 16px;
+        /* Ensure base font size is maintained on mobile */
+    }
+
+    .metric-label {
+        font-size: 1.3rem;
+        /* Slightly larger labels on mobile */
+    }
+}
+
+/* High contrast mode support */
+@media (forced-colors: active) {
+    :root {
+        --focus-outline-color: CanvasText;
+    }
+
+    .track-button,
+    .bottom-button-base,
+    .edit-label-button,
+    .collapse-toggle {
+        border: 1px solid CanvasText;
+    }
+}
+
+/* Ensure proper focus state for any focusable elements not already covered */
+[tabindex]:focus-visible:not([tabindex="-1"]) {
+    outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    outline-offset: var(--focus-outline-offset);
+}
+
+/* Improved screen reader support with ARIA states */
+[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Print styles for better accessibility when printed */
+@media print {
+    body {
+        background: white;
+        color: black;
+        font-size: 12pt;
+    }
+
+    .track-button,
+    .bottom-buttons,
+    .edit-label-button {
+        display: none !important;
+    }
+
+    .app {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+    }
+
+    #mainContent {
+        max-height: none;
+        overflow: visible;
+    }
+}
+
+/* --- Dark Mode Variable Overrides --- */
+body.dark-mode {
+    --color-primary: rgb(149, 117, 205);
+    /* lighter purple */
+    --color-secondary: rgb(126, 87, 194);
+    /* dark mode secondary */
+    --color-primary-darker: rgb(110, 85, 160);
+    /* New darker primary for dark mode */
+    --color-background: rgb(18, 18, 18);
+    /* dark background */
+    --color-surface: rgb(30, 30, 30);
+    /* dark surface */
+    --color-error: rgb(207, 102, 121);
+    /* light error */
+    --color-on-primary: rgb(0, 0, 0);
+    /* black text on light primary */
+    --color-on-background: rgb(255, 255, 255);
+    /* Increased contrast from rgb(224, 224, 224) */
+    /* light text */
+    --color-on-surface: rgb(255, 255, 255);
+    /* Increased contrast from rgb(224, 224, 224) */
+    /* light text */
+    --color-on-error: rgb(0, 0, 0);
+    /* black text on error */
+    --icon-filter: invert(1);
+    --color-primary-75: rgba(149, 117, 205, 0.75);
+    --color-secondary-75: rgba(126, 87, 194, 0.75);
+    --color-on-surface-75: rgba(255, 255, 255, 0.75);
+    /* Increased contrast */
+
+    /* Different focus color for dark mode for better visibility */
+    --focus-outline-color: rgb(255, 213, 0);
+}
+
+/* Remove the old date label styles since we're not using it anymore */
+.imessage-date-label {
+    display: none !important;
+}
+
+/* --- Date Group Styles for Nested Structure --- */
+.date-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 0.5rem;
+    animation: none;
+}
+
+.date-group.new-date-group {
+    animation: popIn 0.35s cubic-bezier(0.4, 0.7, 0.4, 1.2);
+}
+
+.date-group .time-entry+.time-entry {
+    margin-top: 0.5rem;
+}
