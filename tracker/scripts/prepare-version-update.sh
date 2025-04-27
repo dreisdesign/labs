@@ -45,14 +45,20 @@ today=$(date +%Y-%m-%d)
 
 echo "New version: $new_version"
 
+# Check if the branch already exists
+if git show-ref --verify --quiet "refs/heads/feature/v$new_version"; then
+    echo "Error: Branch 'feature/v$new_version' already exists. Please remove it or choose a different version."
+    exit 1
+fi
+
 # Create new feature branch
 git checkout -b "feature/v$new_version"
 
-# Update version in index.html
-sed -i '' "s/v$current_version/v$new_version/" "$TRACKER_DIR/index.html"
+# Update version in index.html using perl for better compatibility
+perl -pi -e "s/v[0-9]+\\.[0-9]+\\.[0-9]+/v$new_version/" "$TRACKER_DIR/index.html"
 
-# Update version in styles/main.css
-sed -i '' "s/v$current_version/v$new_version/" "$TRACKER_DIR/styles/main.css"
+# Update version in styles/main.css - specifically target the content property with version
+sed -i '' "s/content: \\"v[0-9]\\+\\.[0-9]\\+\\.[0-9]\\+\\"/content: \\"v$new_version\\"/" "$TRACKER_DIR/styles/main.css"
 
 # Read the feature description from user input
 echo -n "Enter a short description for this feature (e.g. 'Theme Toggle Enhancements'): "
