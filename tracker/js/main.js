@@ -399,6 +399,9 @@ function renderTimestamps(isTracking = false) {
         timestampList.classList.add('has-entries');
     }
 
+    // Update reset button state based on entry count
+    updateResetButtonState();
+
     // Save entries to localStorage
     localStorage.setItem(LS_KEYS.ENTRIES, JSON.stringify(trackedEntries));
     updateFooterShadow();
@@ -561,16 +564,22 @@ menuThemeToggle.addEventListener('click', () => {
     settingsOverlay.classList.add('hidden');
 });
 
-// Add click handler for the reset button
+// Function to update the reset button state based on entry count
+function updateResetButtonState() {
+    // If list is empty, add the inactive class
+    if (trackedEntries.length === 0) {
+        resetButton.classList.add('inactive');
+    } else {
+        resetButton.classList.remove('inactive');
+    }
+}
+
+// --- Add click handler for the reset button
 resetButton.addEventListener('click', () => {
     console.log("Reset button clicked.");
     // If list is already empty, do nothing or provide minimal feedback
     if (trackedEntries.length === 0) {
         console.log("Reset clicked - List is already empty.");
-        resetButton.disabled = true;
-        setTimeout(() => { resetButton.disabled = false; }, 300);
-        // Auto-close the menu when clicked (even if no action taken)
-        settingsOverlay.classList.add('hidden');
         return; // Exit early
     }
 
@@ -647,6 +656,7 @@ updateMetricLabel();
 renderTimestamps();
 setInitialEntryOpacities();
 initializeLabel();
+updateResetButtonState(); // Ensure reset button state is correct on page load
 
 // Apply saved theme or default to light, and trigger initial animations
 const savedTheme = localStorage.getItem(LS_KEYS.THEME) || 'light';
@@ -709,6 +719,7 @@ undoButton.addEventListener('click', () => {
 
 // Function to show the Undo button
 function showUndoButton() {
+    console.log("Showing undo button");
     // Set button text to show it's an Undo action
     undoButton.innerHTML = '<span>Undo</span>';
 
@@ -720,8 +731,7 @@ function showUndoButton() {
         clearInterval(countdownInterval);
     }
 
-    // First set the initial position (below viewport)
-    undoButton.classList.remove('show');
+    // Remove any existing classes
     undoButton.classList.remove('hidden');
 
     // Force browser to recognize the initial state before animating

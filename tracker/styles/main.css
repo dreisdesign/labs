@@ -18,6 +18,8 @@
     /* white surface */
     --color-error: rgb(181, 0, 90);
     /* error pink */
+    --color-error-inactive: rgb(181, 181, 181);
+    /* inactive error (desaturated) */
     --color-on-primary: rgb(255, 255, 255);
     /* white text on primary */
     --color-on-background: rgb(22, 10, 56);
@@ -26,6 +28,8 @@
     /* dark text */
     --color-on-error: rgb(255, 255, 255);
     /* white text on error */
+    --color-on-error-inactive: rgb(255, 255, 255);
+    /* white text on inactive error */
     --color-primary-75: rgba(46, 43, 116, 0.75);
     --color-secondary-75: rgba(13, 11, 63, 0.75);
     --color-on-surface-75: rgba(28, 27, 31, 0.75);
@@ -594,10 +598,33 @@ body.dark-mode .metric-label:hover {
 }
 
 /* Reset Button Styles */
-.reset-button:hover {
-    /* Inherits hover underline from base */
-    color: #a81d18;
-    /* Specific hover color */
+/* Settings menu reset button styles */
+.settings-item-reset {
+    color: var(--color-error);
+}
+
+.settings-item-reset .reset-icon {
+    background-color: var(--color-error);
+}
+
+/* Inactive state for reset button when no entries exist */
+.settings-item-reset.inactive {
+    cursor: default;
+    color: var(--color-error-inactive);
+}
+
+.settings-item-reset.inactive .reset-icon {
+    background-color: var(--color-error-inactive);
+}
+
+/* Only apply hover styles when not inactive */
+.settings-item-reset:not(.inactive):hover {
+    background-color: var(--color-error);
+    color: var(--color-on-error);
+}
+
+.settings-item-reset:not(.inactive):hover .reset-icon {
+    background-color: var(--color-on-error);
 }
 
 /* Theme Toggle Button Styles */
@@ -852,516 +879,202 @@ body.dark-mode {
     margin-top: 0.5rem;
 }
 
-/* Undo Button Styles with alternative design */
-.undo-button {
-    position: fixed;
-    left: 20px;
-    transform: translateY(100px);
-    bottom: 20px;
-    width: auto;
-    min-width: 100px;
-    /* Add minimum width to ensure proper button size */
-    padding: 1rem 1.5rem;
-    font-size: 1.1rem;
-    font-weight: 600;
+/* Settings Button Icon */
+.settings-icon {
+    width: 24px;
+    height: 24px;
+    background-color: var(--color-on-background);
+    mask-image: url('../assets/images/settings--fill.svg');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: url('../assets/images/settings--fill.svg');
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    opacity: 0.75;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.settings-button:hover .settings-icon {
+    opacity: 1;
+    transform: rotate(30deg);
+}
+
+/* Settings Menu Items */
+.settings-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    width: 100%;
+    background: none;
     border: none;
-    border-radius: 0.7rem;
-    background: var(--color-error);
-    color: var(--color-on-error);
     cursor: pointer;
-    transition: transform 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28),
-        opacity 0.3s ease,
-        background-color 0.2s;
+    color: var(--color-on-surface);
+    font-size: 1rem;
+    text-align: left;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+}
+
+.settings-item:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+body.dark-mode .settings-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.settings-item-icon-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    margin: 0;
-    z-index: 10000;
-    opacity: 0;
-    pointer-events: none;
-    box-sizing: border-box;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    will-change: transform, opacity;
+    width: 40px;
+    height: 40px;
+    margin-right: 1rem;
 }
 
-.undo-button.show {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateY(0);
-    /* Removed translateX(-50%) since we're left-aligning */
-    /* Slide to final position */
+/* Theme icon in settings menu */
+.theme-icon {
+    mask-image: url('../assets/images/mode-dark--fill.svg');
+    -webkit-mask-image: url('../assets/images/mode-dark--fill.svg');
 }
 
-/* Don't use display: none so we can animate */
-.hidden {
-    visibility: hidden;
-    /* Use visibility instead of display for animation */
-    opacity: 0;
+body.dark-mode .theme-icon {
+    mask-image: url('../assets/images/mode-light--fill.svg');
+    -webkit-mask-image: url('../assets/images/mode-light--fill.svg');
 }
 
-/* --- Settings Menu Overlay --- */
+/* Reset icon in settings menu */
+.reset-icon {
+    mask-image: url('../assets/images/reset--fill.svg');
+    -webkit-mask-image: url('../assets/images/reset--fill.svg');
+}
+
+/* Overlay styles */
 .overlay {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    right: 0;
+    bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
     display: flex;
-    align-items: center;
     justify-content: center;
-    z-index: 2000;
+    align-items: center;
+    z-index: 1000;
     opacity: 1;
-    visibility: visible;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition: opacity 0.3s;
 }
 
 .overlay.hidden {
     opacity: 0;
-    visibility: hidden;
     pointer-events: none;
 }
 
 .overlay-content {
     background-color: var(--color-surface);
-    color: var(--color-on-surface);
-    padding: 1.5rem;
-    border-radius: 1rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     width: 90%;
-    max-width: 350px;
-    transform: scale(1);
-    transition: transform 0.3s ease;
-}
-
-.overlay.hidden .overlay-content {
-    transform: scale(0.95);
+    max-width: 400px;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    animation: popIn 0.3s cubic-bezier(0.4, 0.7, 0.4, 1.2);
 }
 
 .overlay-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    padding: 1rem;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    /* Subtle separator */
-    padding-bottom: 0.75rem;
 }
 
 body.dark-mode .overlay-header {
-    border-bottom-color: rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .overlay-header h2 {
     margin: 0;
-    font-size: 1.4rem;
-    color: var(--color-primary);
-}
-
-body.dark-mode .overlay-header h2 {
-    color: var(--color-primary);
+    font-size: 1.3rem;
+    color: var(--color-on-surface);
 }
 
 .close-button {
     background: none;
     border: none;
-    font-size: 2rem;
-    font-weight: 300;
     color: var(--color-on-surface);
-    opacity: 0.7;
+    font-size: 1.5rem;
     cursor: pointer;
-    padding: 0 0.5rem;
-    line-height: 1;
-    transition: opacity 0.2s;
-}
-
-.close-button:hover {
-    opacity: 1;
-}
-
-.overlay-body {
-    /* Styles for the main content area of the overlay */
-    padding-top: 0.5rem;
-}
-
-/* --- Settings Button and Icons --- */
-.settings-button {
-    padding: 0.5rem;
-    line-height: 1;
-}
-
-.settings-button:hover {
-    text-decoration: none;
-    /* Remove underline hover from base */
-}
-
-/* Main settings button in the footer */
-.settings-button .settings-icon {
-    width: 1.5rem;
-    height: 1.5rem;
-    vertical-align: middle;
-    opacity: 0.7;
-    transition: opacity 0.2s, transform 0.2s ease;
-
-    /* From fix-settings-icons.css */
-    filter: none !important;
-    /* Explicitly disable filter to prevent the invert(1) from being applied */
-    mask-image: url('../assets/images/settings--fill.svg');
-    -webkit-mask-image: url('../assets/images/settings--fill.svg');
-    mask-size: contain;
-    -webkit-mask-size: contain;
-    mask-repeat: no-repeat;
-    -webkit-mask-repeat: no-repeat;
-    mask-position: center;
-    -webkit-mask-position: center;
-    background-color: var(--settings-icon-color);
-    width: 21px;
-    height: 21px;
-}
-
-/* Fix for the settings icon in dark mode */
-body.dark-mode .settings-button .settings-icon {
-    background-color: rgba(255, 255, 255, 0.25) !important;
-    /* 25% opacity of color-on-surface for dark mode */
-}
-
-.settings-button:hover .settings-icon {
-    opacity: 1;
-    transform: scale(1.1) rotate(15deg);
-    background-color: var(--color-primary) !important;
-}
-
-/* --- Settings Item Button --- */
-.settings-item {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 0.75rem 1rem;
-    background-color: rgba(0, 0, 0, 0.03);
-    border: none;
-    border-radius: 0.75rem;
-    text-align: left;
-    font-size: 1rem;
-    color: var(--color-on-surface);
-    cursor: pointer;
-    transition: background-color 0.2s, box-shadow 0.2s;
-    margin-bottom: 0.5rem;
-}
-
-/* Add spacing between icon and text */
-.settings-item-icon-container {
-    margin-right: 12px;
-    /* Add spacing between icon and text */
+    padding: 0;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 24px;
-    /* Ensure consistent width */
+    border-radius: 50%;
+    transition: background-color 0.2s;
 }
 
-/* Add styling for the reset icon */
-.reset-icon {
-    display: block;
-    filter: none;
-    mask-image: url('../assets/images/reset--fill.svg');
-    -webkit-mask-image: url('../assets/images/reset--fill.svg');
-    mask-size: contain;
-    -webkit-mask-size: contain;
-    mask-repeat: no-repeat;
-    -webkit-mask-repeat: no-repeat;
-    mask-position: center;
-    -webkit-mask-position: center;
-    background-color: var(--color-on-surface);
-    width: 20px;
-    height: 20px;
-    transition: background-color 0.3s, transform 0.3s;
+.close-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
-/* Style for reset icon hover */
-.settings-item-reset:hover .reset-icon {
-    background-color: #a81d18;
-    transform: scale(1.1);
-}
-
-.settings-item:hover {
-    background-color: rgba(0, 0, 0, 0.08);
-    /* Slightly darker on hover */
-}
-
-body.dark-mode .settings-item {
-    background-color: rgba(255, 255, 255, 0.05);
-}
-
-body.dark-mode .settings-item:hover {
+body.dark-mode .close-button:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-.settings-item:active {
-    background-color: rgba(0, 0, 0, 0.1);
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+.overlay-body {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
-body.dark-mode .settings-item:active {
-    background-color: rgba(255, 255, 255, 0.15);
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+/* Undo Button Styles */
+.undo-button {
+    position: fixed;
+    bottom: 85px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background-color: var(--color-error);
+    color: var(--color-on-error);
+    border: none;
+    border-radius: 0.7rem;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    min-width: 100px;
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    opacity: 0;
 }
 
-/* Theme icons using mask approach with conditional icon paths based on theme */
-#menuThemeIcon {
-    display: block;
-    filter: none;
-    mask-size: contain;
-    -webkit-mask-size: contain;
-    mask-repeat: no-repeat;
-    -webkit-mask-repeat: no-repeat;
-    mask-position: center;
-    -webkit-mask-position: center;
-    background-color: var(--color-on-surface);
-    width: 20px;
-    height: 20px;
-    transition: background-color 0.3s, transform 0.3s;
+.undo-button.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
 }
 
-/* Light theme (Dark Mode Off) uses the light mode icon */
-body:not(.dark-mode) #menuThemeIcon {
-    mask-image: url('../assets/images/mode-dark--fill.svg');
-    -webkit-mask-image: url('../assets/images/mode-dark--fill.svg');
-}
-
-/* Dark theme (Dark Mode On) uses the dark mode icon */
-body.dark-mode #menuThemeIcon {
-    mask-image: url('../assets/images/mode-light--fill.svg');
-    -webkit-mask-image: url('../assets/images/mode-light--fill.svg');
-}
-
-/* Hide the old theme icons */
-#menuThemeIconLight,
-#menuThemeIconDark {
+.undo-button.hidden {
     display: none;
 }
 
-/* Improved hover effect for the menu theme toggle */
-#menuThemeToggle:hover {
-    background-color: var(--color-primary);
-    color: var(--color-on-primary);
+.undo-button:hover {
+    background-color: var(--color-error-inactive);
 }
 
-/* Fix for icon visibility on hover */
-#menuThemeToggle:hover #menuThemeIcon {
-    background-color: var(--color-on-primary);
-    transform: scale(1.1);
+/* Ensure the undo button appears above other elements but below the settings overlay */
+.undo-button {
+    z-index: 99;
 }
 
-/* Dark mode specific hover effects */
-body.dark-mode #menuThemeToggle:hover {
-    background-color: var(--color-primary) !important;
-    color: var(--color-on-primary) !important;
-}
-
-body.dark-mode #menuThemeToggle:hover #menuThemeIcon {
-    background-color: var(--color-on-primary) !important;
-    transform: scale(1.1);
-}
-
-/* --- List Collapse Styles --- */
-.collapsed-list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 1rem;
-}
-
-.collapse-toggle {
-    background: none;
-    border: none;
-    color: var(--color-primary);
-    font-size: 1rem;
-    cursor: pointer;
-    margin-top: 0.5rem;
-    text-decoration: underline;
-    padding: 0.5rem 0;
-    width: 100%;
-    text-align: center;
-    min-height: 44px;
-    /* Minimum touch target size */
-    text-underline-offset: 0.2em;
-}
-
-.collapse-toggle:focus-visible {
-    outline: var(--focus-outline-width) solid var(--focus-outline-color);
-    outline-offset: var(--focus-outline-offset);
-}
-
-/* --- Skip to content link for keyboard users --- */
-.skip-to-content {
-    position: absolute;
-    top: -999px;
-    left: 0;
-    background: var(--color-primary);
-    color: var(--color-on-primary);
-    padding: 1rem;
-    z-index: 9999;
-    transition: top 0.3s;
-}
-
-.skip-to-content:focus {
-    top: 0;
-}
-
-/* --- Animations --- */
-
-/* Reduced Motion Support --- */
-@media (prefers-reduced-motion: reduce) {
-    /* Remove animation overrides */
-}
-
-/* --- Responsive Styles --- */
-@media (max-width: 600px) {
-    .app {
-        max-width: 98vw;
-        padding: 2vw 0 0 0;
-    }
-
-    .metric-card {
-        padding: 2rem 0.5rem 1.5rem 0.5rem;
-    }
-}
-
-/* --- Additional Accessibility Enhancements --- */
-@media screen and (max-width: 767px) {
-
-    /* Increase touch targets on mobile */
-    .track-button,
-    .bottom-button-base,
-    .edit-label-button,
-    .collapse-toggle {
-        min-height: 48px;
-        /* Larger touch targets on mobile */
-        padding: 0.75rem;
-    }
-
-    /* Increase font size on mobile for better readability */
-    html,
-    body {
-        font-size: 16px;
-        /* Ensure base font size is maintained on mobile */
-    }
-
-    .metric-label {
-        font-size: 1.3rem;
-        /* Slightly larger labels on mobile */
-    }
-}
-
-/* High contrast mode support */
-@media (forced-colors: active) {
-    :root {
-        --focus-outline-color: CanvasText;
-    }
-
-    .track-button,
-    .bottom-button-base,
-    .edit-label-button,
-    .collapse-toggle {
-        border: 1px solid CanvasText;
-    }
-}
-
-/* Ensure proper focus state for any focusable elements not already covered */
-[tabindex]:focus-visible:not([tabindex="-1"]) {
-    outline: var(--focus-outline-width) solid var(--focus-outline-color);
-    outline-offset: var(--focus-outline-offset);
-}
-
-/* Improved screen reader support with ARIA states */
-[aria-disabled="true"] {
-    opacity: 0.5;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
-/* Print styles for better accessibility when printed */
-@media print {
-    body {
-        background: white;
-        color: black;
-        font-size: 12pt;
-    }
-
-    .track-button,
-    .bottom-buttons,
-    .edit-label-button {
-        display: none !important;
-    }
-
-    .app {
-        width: 100%;
-        max-width: 100%;
-        padding: 0;
-    }
-
-    #mainContent {
-        max-height: none;
-        overflow: visible;
-    }
-}
-
-/* --- Dark Mode Variable Overrides --- */
-body.dark-mode {
-    --color-primary: rgb(149, 117, 205);
-    /* lighter purple */
-    --color-secondary: rgb(126, 87, 194);
-    /* dark mode secondary */
-    --color-primary-darker: rgb(110, 85, 160);
-    /* New darker primary for dark mode */
-    --color-background: rgb(18, 18, 18);
-    /* dark background */
-    --color-surface: rgb(30, 30, 30);
-    /* dark surface */
-    --color-error: rgb(207, 102, 121);
-    /* light error */
-    --color-on-primary: rgb(0, 0, 0);
-    /* black text on light primary */
-    --color-on-background: rgb(255, 255, 255);
-    /* Increased contrast from rgb(224, 224, 224) */
-    /* light text */
-    --color-on-surface: rgb(255, 255, 255);
-    /* Increased contrast from rgb(224, 224, 224) */
-    /* light text */
-    --color-on-error: rgb(0, 0, 0);
-    /* black text on error */
-    --icon-filter: invert(1);
-    --color-primary-75: rgba(149, 117, 205, 0.75);
-    --color-secondary-75: rgba(126, 87, 194, 0.75);
-    --color-on-surface-75: rgba(255, 255, 255, 0.75);
-    /* Increased contrast */
-
-    /* Different focus color for dark mode for better visibility */
-    --focus-outline-color: rgb(255, 213, 0);
-}
-
-/* Remove the old date label styles since we're not using it anymore */
-.imessage-date-label {
-    display: none !important;
-}
-
-/* --- Date Group Styles for Nested Structure --- */
-.date-group {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    margin-bottom: 0.5rem;
-    animation: none;
-}
-
-.date-group.new-date-group {
-    animation: popIn 0.35s cubic-bezier(0.4, 0.7, 0.4, 1.2);
-}
-
-.date-group .time-entry+.time-entry {
-    margin-top: 0.5rem;
+.overlay {
+    z-index: 1000;
 }
