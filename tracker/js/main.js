@@ -399,12 +399,41 @@ function renderTimestamps(isTracking = false) {
         timestampList.classList.add('has-entries');
     }
 
+    // Update reset button state based on entry count
+    updateResetButtonState();
+
     // Save entries to localStorage
     localStorage.setItem(LS_KEYS.ENTRIES, JSON.stringify(trackedEntries));
     updateFooterShadow();
     // After rendering, set correct opacities for all entries
     requestAnimationFrame(updateVisibleEntryOpacities);
     return { newDateGroupEl, newTimeEntryEl };
+}
+
+/**
+ * Updates the reset button state based on whether there are entries
+ * - Makes button non-clickable when there are no entries
+ * - Enables the button when entries exist
+ */
+function updateResetButtonState() {
+    // If no entries, disable the reset button
+    if (trackedEntries.length === 0) {
+        resetButton.classList.add('inactive');
+        resetButton.setAttribute('aria-disabled', 'true');
+
+        // Make the button non-clickable by adding a disabled attribute
+        resetButton.disabled = true;
+
+        console.log("Reset button disabled - no entries to reset");
+    } else {
+        resetButton.classList.remove('inactive');
+        resetButton.removeAttribute('aria-disabled');
+
+        // Make the button clickable by removing the disabled attribute
+        resetButton.disabled = false;
+
+        console.log("Reset button enabled - entries available to reset");
+    }
 }
 
 // --- Theme Handling ---
@@ -647,6 +676,7 @@ updateMetricLabel();
 renderTimestamps();
 setInitialEntryOpacities();
 initializeLabel();
+updateResetButtonState(); // Initialize reset button state on page load
 
 // Apply saved theme or default to light, and trigger initial animations
 const savedTheme = localStorage.getItem(LS_KEYS.THEME) || 'light';
