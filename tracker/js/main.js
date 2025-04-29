@@ -1,17 +1,18 @@
 // --- DOM Element Selection ---
 const totalCountElement = document.getElementById('totalCount');
 const trackButton = document.querySelector('.track-button');
-const resetButton = document.querySelector('.reset-button');
+const resetButton = document.getElementById('resetButton');
 const undoButton = document.getElementById('undoButton');
 const timestampList = document.getElementById('timestampList');
 const placeholderEntry = document.querySelector('.placeholder-entry');
-const themeToggleButton = document.getElementById('themeToggle');
-const themeIconSpan = document.getElementById('themeIconSpan');
 const metricLabel = document.getElementById('metricLabel');
 const versionNumberElement = document.querySelector('.version-number');
-const settingsButton = document.getElementById('settingsButton'); // Added
-const settingsOverlay = document.getElementById('settingsOverlay'); // Added
-const closeSettingsButton = document.getElementById('closeSettingsButton'); // Added
+const settingsButton = document.getElementById('settingsButton');
+const settingsOverlay = document.getElementById('settingsOverlay');
+const closeSettingsButton = document.getElementById('closeSettingsButton');
+const menuThemeToggle = document.getElementById('menuThemeToggle'); // Added for menu theme toggle
+const menuThemeIcon = document.getElementById('menuThemeIcon'); // Added for menu theme icon
+const menuThemeText = document.getElementById('menuThemeText'); // Added for menu theme text
 
 // --- Constants and State Variables ---
 const LS_KEYS = {
@@ -408,27 +409,22 @@ function renderTimestamps(isTracking = false) {
 
 // --- Theme Handling ---
 
-// Updates theme-color meta tag and the theme icon mask
-function updateThemeVisuals(theme, isPressing = false) {
+// --- Updates theme-color meta tag
+function updateThemeVisuals(theme) {
     const themeColorMeta = document.querySelector('meta[name="theme-color"]');
     if (themeColorMeta) {
         const color = theme === 'dark' ? '#121212' : '#c1c1ff';
         themeColorMeta.setAttribute('content', color);
     }
-    if (themeIconSpan && themeToggleButton) {
-        let iconPath;
-        if (isPressing) {
-            iconPath = theme === 'dark' ? 'assets/icons/mode=light-to-dark.svg' : 'assets/icons/mode=dark-to-light.svg';
-        } else {
-            iconPath = theme === 'dark' ? 'assets/icons/mode=dark.svg' : 'assets/icons/mode=light.svg';
-        }
-        themeIconSpan.style.webkitMaskImage = `url('${iconPath}')`;
-        themeIconSpan.style.maskImage = `url('${iconPath}')`;
 
-        // Apply color changes with transitions
-        themeIconSpan.style.transition = 'transform 0.2s ease, background-color 0.3s ease';
-        const nextTheme = theme === 'dark' ? 'Light' : 'Dark';
-        themeToggleButton.setAttribute('aria-label', `Switch to ${nextTheme} Mode`);
+    // Update menu theme display
+    updateMenuThemeDisplay(theme);
+}
+
+// Updates the theme display in the settings menu
+function updateMenuThemeDisplay(theme) {
+    if (menuThemeText) {
+        menuThemeText.textContent = theme === 'dark' ? 'Turn off dark mode' : 'Turn on dark mode';
     }
 }
 
@@ -440,7 +436,8 @@ function applyTheme(theme) {
         document.body.classList.remove('dark-mode');
     }
     localStorage.setItem(LS_KEYS.THEME, theme);
-    updateThemeVisuals(theme);
+    updateThemeVisuals(theme); // This updates the bottom toolbar theme icon
+    updateMenuThemeDisplay(theme); // This updates the menu theme icon and text
 }
 
 // --- Testing Functions ---
@@ -532,55 +529,14 @@ function displayVersion() {
 
 // --- Event Listeners ---
 
-// Theme toggle press handlers for mouse and touch
-themeToggleButton.addEventListener('mousedown', () => {
-    const currentTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
-    updateThemeVisuals(currentTheme, true);
-    themeToggleButton.classList.add('button-pressed');
-});
-
-themeToggleButton.addEventListener('mouseup', () => {
-    const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-    updateThemeVisuals(currentTheme);
-    themeToggleButton.classList.remove('button-pressed');
-});
-
-themeToggleButton.addEventListener('mouseleave', () => {
-    const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-    updateThemeVisuals(currentTheme);
-    themeToggleButton.classList.remove('button-pressed');
-});
-
-// Add touch support for theme toggle transitions
-themeToggleButton.addEventListener('touchstart', () => {
-    const currentTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
-    updateThemeVisuals(currentTheme, true);
-    themeToggleButton.classList.add('button-pressed');
-}, { passive: true });
-
-themeToggleButton.addEventListener('touchend', () => {
-    const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-    updateThemeVisuals(currentTheme);
-    themeToggleButton.classList.remove('button-pressed');
-});
-
-themeToggleButton.addEventListener('touchcancel', () => {
-    const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-    updateThemeVisuals(currentTheme);
-    themeToggleButton.classList.remove('button-pressed');
-});
-
-// Update click handler to use regular icon after theme change
-themeToggleButton.addEventListener('click', () => {
-    const newTheme = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
-    applyTheme(newTheme);
-});
-
 // --- Settings Menu Logic ---
 
 // Open Settings Overlay
 settingsButton.addEventListener('click', () => {
     settingsOverlay.classList.remove('hidden');
+    // Update menu items based on current state when opening
+    const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+    updateMenuThemeDisplay(currentTheme);
 });
 
 // Close Settings Overlay (using the close button)
@@ -596,6 +552,94 @@ settingsOverlay.addEventListener('click', (event) => {
     }
 });
 
+// Add click listener for the theme toggle button inside the menu
+menuThemeToggle.addEventListener('click', () => {
+    const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+    // applyTheme handles updating visuals and saving
+    applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+    // Close the menu immediately
+    settingsOverlay.classList.add('hidden');
+});
+
+// Add click handler for the reset button
+resetButton.addEventListener('click', () => {
+    console.log("Reset button clicked.");
+    // If list is already empty, do nothing or provide minimal feedback
+    if (trackedEntries.length === 0) {
+        console.log("Reset clicked - List is already empty.");
+        resetButton.disabled = true;
+        setTimeout(() => { resetButton.disabled = false; }, 300);
+        // Auto-close the menu when clicked (even if no action taken)
+        settingsOverlay.classList.add('hidden');
+        return; // Exit early
+    }
+
+    // Backup the current data
+    backupCurrentData();
+
+    // Immediately perform the reset (changed behavior)
+    performReset();
+
+    // Show the Undo button instead of countdown
+    showUndoButton();
+
+    // Auto-close the menu after starting the reset process
+    settingsOverlay.classList.add('hidden');
+});
+
+// --- Backup and Restore Functions ---
+
+// Function to backup the current data for the undo feature
+function backupCurrentData() {
+    console.log("Backing up current data...");
+    backupTotalCount = totalCount;
+    backupTrackedEntries = JSON.parse(JSON.stringify(trackedEntries)); // Deep clone the array
+    resetPending = true; // Set the flag indicating a reset is pending
+    console.log("Data backup complete. Total count:", backupTotalCount, "Entries:", backupTrackedEntries.length);
+}
+
+// Function to restore data from backup
+function restoreFromBackup() {
+    console.log("Restoring from backup...");
+    if (backupTrackedEntries.length > 0) {
+        totalCount = backupTotalCount;
+        trackedEntries = backupTrackedEntries;
+
+        // Save restored data to localStorage
+        localStorage.setItem(LS_KEYS.COUNT, totalCount);
+        localStorage.setItem(LS_KEYS.ENTRIES, JSON.stringify(trackedEntries));
+
+        // Update UI
+        updateTotalCount();
+        renderTimestamps();
+        console.log("Data restored successfully.");
+    } else {
+        console.log("No backup data available to restore.");
+    }
+
+    // Hide the undo button
+    hideUndoButton();
+}
+
+// Function to actually perform the reset operation
+function performReset() {
+    console.log("Performing reset immediately");
+
+    // Clear data
+    totalCount = 0;
+    trackedEntries = [];
+
+    // Clear Local Storage
+    localStorage.removeItem(LS_KEYS.COUNT);
+    localStorage.removeItem(LS_KEYS.ENTRIES);
+    console.log("Local storage cleared.");
+
+    // Update UI
+    updateTotalCount();
+    renderTimestamps(); // Render the now empty list
+    console.log("UI updated after reset.");
+}
+
 // --- Initial Page Load Setup ---
 displayVersion();
 updateTotalCount();
@@ -607,6 +651,8 @@ initializeLabel();
 // Apply saved theme or default to light, and trigger initial animations
 const savedTheme = localStorage.getItem(LS_KEYS.THEME) || 'light';
 applyTheme(savedTheme);
+// Explicitly update menu theme display on initial load
+updateMenuThemeDisplay(savedTheme);
 
 // Initial opacity calculation after everything is set up
 requestAnimationFrame(updateVisibleEntryOpacities);
@@ -661,14 +707,10 @@ undoButton.addEventListener('click', () => {
     // console.log("Undo clicked - Restored previous entries."); // Original log moved into restoreFromBackup
 });
 
-// Function to display the reset countdown and handle reset after completion
-function showResetCountdown() {
-    console.log("showResetCountdown started."); // Added log
-    // Reset countdown value
-    countdownValue = 5;
-
-    // Set button text to show it's a reset countdown
-    undoButton.textContent = `Cancel (${countdownValue})`;
+// Function to show the Undo button
+function showUndoButton() {
+    // Set button text to show it's an Undo action
+    undoButton.innerHTML = '<span>Undo</span>';
 
     // Clear any existing timers
     if (undoTimerId) {
@@ -688,79 +730,10 @@ function showResetCountdown() {
     // Add the show class which triggers the slide-in animation
     undoButton.classList.add('show');
 
-    // Start the countdown interval
-    countdownInterval = setInterval(() => {
-        countdownValue--;
-        console.log(`Countdown: ${countdownValue}`); // Added log
-        undoButton.textContent = `Cancel (${countdownValue})`;
-
-        if (countdownValue <= 0) {
-            console.log("Countdown finished, calling performReset."); // Added log
-            // When countdown reaches zero, perform the actual reset
-            performReset();
-            clearInterval(countdownInterval);
-            hideUndoButton();
-        }
-    }, 1000);
-
-    // Set a timer as a backup to ensure reset happens
+    // Set a timer to auto-hide the undo button after 5 seconds
     undoTimerId = setTimeout(() => {
-        console.log("Undo timer expired."); // Added log
-        if (resetPending) {
-            console.log("Reset was pending, calling performReset from timer."); // Added log
-            performReset();
-        }
         hideUndoButton();
     }, 5000);
-}
-
-// Function to actually perform the reset operation
-function performReset() {
-    if (!resetPending) {
-        console.log("performReset called but resetPending is false. Aborting."); // Added log
-        return; // Safety check
-    }
-
-    console.log("Performing reset after countdown");
-
-    // Clear data
-    totalCount = 0;
-    trackedEntries = [];
-
-    // Clear Local Storage
-    localStorage.removeItem(LS_KEYS.COUNT);
-    localStorage.removeItem(LS_KEYS.ENTRIES);
-    console.log("Local storage cleared."); // Added log
-
-    // Update UI
-    updateTotalCount();
-    renderTimestamps(); // Render the now empty list
-    console.log("UI updated after reset."); // Added log
-
-    // Reset the flag
-    resetPending = false;
-}
-
-// Function to backup current data before reset
-function backupCurrentData() {
-    backupTotalCount = totalCount;
-    // Deep copy the array of objects to prevent mutation issues
-    backupTrackedEntries = JSON.parse(JSON.stringify(trackedEntries));
-    console.log("Data backed up for potential undo.");
-}
-
-// Function to restore data from backup
-function restoreFromBackup() {
-    console.log("Restoring data from backup..."); // Added log
-    totalCount = backupTotalCount;
-    // Deep copy back if needed, though direct assignment might be okay if backup isn't mutated elsewhere
-    trackedEntries = JSON.parse(JSON.stringify(backupTrackedEntries));
-
-    updateTotalCount();
-    renderTimestamps(); // Re-render with restored data
-    hideUndoButton(); // Hide the undo/cancel button
-    resetPending = false; // Ensure reset is no longer pending
-    console.log("Data restored from backup.");
 }
 
 // Function to hide the undo button
@@ -842,24 +815,50 @@ trackButton.addEventListener('click', () => {
     }, 450); // Slightly longer than animation duration
 });
 
-// --- Reset Button Click Handler ---
-resetButton.addEventListener('click', () => {
-    console.log("Reset button clicked."); // Added log
-    // If list is already empty, do nothing or provide minimal feedback
-    if (trackedEntries.length === 0) {
-        console.log("Reset clicked - List is already empty.");
-        resetButton.disabled = true;
-        setTimeout(() => { resetButton.disabled = false; }, 300);
-        return; // Exit early
+// Add a cache-busting reload mechanism
+document.addEventListener('DOMContentLoaded', () => {
+    // Only reload once to avoid infinite reload loops
+    const hasReloaded = sessionStorage.getItem('hasReloaded');
+
+    if (!hasReloaded) {
+        // Set the flag to prevent multiple reloads
+        sessionStorage.setItem('hasReloaded', 'true');
+
+        // Force a hard reload after a brief delay
+        setTimeout(() => {
+            window.location.reload(true); // true forces a reload from server, not cache
+        }, 100);
     }
 
-    // Backup the current data
-    backupCurrentData();
+    // The rest of your DOMContentLoaded code continues...
+    // Fix settings menu icon colors with a direct approach
+    // Create a style element to inject our custom CSS
+    const styleElement = document.createElement('style');
+    styleElement.textContent = `
+        /* Force theme icon to correct color */
+        #menuThemeIconLight, #menuThemeIconDark {
+            background-color: var(--color-on-surface) !important;
+        }
+        
+        /* Force reset button colors */
+        #resetButton {
+            color: var(--color-error) !important;
+        }
+        
+        #resetButton .settings-icon {
+            background-color: var(--color-error) !important;
+        }
+        
+        #resetButton:hover {
+            background-color: var(--color-error) !important;
+            color: var(--color-on-error) !important;
+        }
+        
+        #resetButton:hover .settings-icon {
+            background-color: var(--color-on-error) !important;
+        }
+    `;
 
-    // Set the reset pending flag
-    resetPending = true;
-    console.log("Set resetPending = true"); // Added log
-
-    // Show the reset warning countdown
-    showResetCountdown();
+    // Inject the styles into the page
+    document.head.appendChild(styleElement);
 });

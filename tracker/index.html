@@ -30,7 +30,7 @@
     <meta name="msapplication-config" content="browserconfig.xml">
 
     <!-- Link to CSS Stylesheet -->
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/main.css?v=1.2.0">
 </head>
 
 <body>
@@ -59,16 +59,12 @@
                 <button class="track-button bottom-track-button">
                     <span class="track-button-text">Track</span>
                     <span class="track-button-checkmark">
-                        <img src="assets/icons/icons/300/fill/check_circle.svg" alt="Success" class="checkmark-icon">
+                        <img src="assets/images/check--fill.svg" alt="Success" class="checkmark-icon">
                     </span>
-                </button>
-                <button class="reset-button bottom-button-base" id="resetButton">Reset</button>
-                <button id="themeToggle" class="theme-toggle-button bottom-button-base" aria-label="Toggle Theme">
-                    <span id="themeIconSpan"></span>
                 </button>
                 <!-- Settings Button -->
                 <button id="settingsButton" class="settings-button bottom-button-base" aria-label="Open Settings">
-                    <img src="assets/settings.svg" alt="Settings" class="settings-icon">
+                    <div class="settings-icon"></div>
                 </button>
             </div>
         </div>
@@ -82,8 +78,21 @@
                 <button id="closeSettingsButton" class="close-button" aria-label="Close Settings">&times;</button>
             </div>
             <div class="overlay-body">
-                <!-- Settings options will go here -->
-                <p>Settings content placeholder.</p>
+                <!-- Theme toggle option -->
+                <button id="menuThemeToggle" class="settings-item">
+                    <div class="settings-item-icon-container">
+                        <div id="menuThemeIcon" class="settings-icon theme-icon"></div>
+                    </div>
+                    <span id="menuThemeText">Turn off dark mode</span>
+                </button>
+
+                <!-- Reset button in settings menu -->
+                <button id="resetButton" class="settings-item settings-item-reset">
+                    <div class="settings-item-icon-container">
+                        <div class="settings-icon reset-icon"></div>
+                    </div>
+                    <span>Reset All Data</span>
+                </button>
             </div>
         </div>
     </div>

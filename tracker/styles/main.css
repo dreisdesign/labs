@@ -29,6 +29,8 @@
     --color-primary-75: rgba(46, 43, 116, 0.75);
     --color-secondary-75: rgba(13, 11, 63, 0.75);
     --color-on-surface-75: rgba(28, 27, 31, 0.75);
+    --settings-icon-color: rgba(28, 27, 31, 0.25);
+    /* 25% opacity of color-on-surface */
     --undo-animation-duration: 3s;
 
     /* Focus visible styles for accessibility */
@@ -495,9 +497,7 @@ body.dark-mode .metric-label:hover {
     left: 0;
     right: 0;
     width: 100%;
-    /* Changed from 100vw */
     background-color: rgba(0, 0, 0, 0.1);
-    /* semi-transparent for blur */
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(16px);
     transition: background-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s;
@@ -505,7 +505,6 @@ body.dark-mode .metric-label:hover {
     z-index: 100;
     border-radius: 100px 100px 0 0;
     box-shadow: none !important;
-    /* subtle border instead of shadow */
     pointer-events: auto;
 }
 
@@ -517,18 +516,50 @@ body.dark-mode .metric-label:hover {
 /* Container for bottom buttons */
 .bottom-buttons {
     display: flex;
-    justify-content: center;
-    /* Changed from space-between */
-    gap: 1.5rem;
+    position: relative;
     width: 100%;
     max-width: 400px;
     margin: 0 auto;
     padding: 0 1rem;
     box-sizing: border-box;
+    min-height: 60px;
+    /* Ensure container has enough height for absolute positioned children */
     background-color: transparent;
     pointer-events: auto;
-    position: relative;
     z-index: 101;
+}
+
+/* Make track button perfectly centered */
+.bottom-track-button {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    /* Center both horizontally and vertically */
+    width: auto;
+    min-width: 120px;
+    /* Ensure the button has a minimum width */
+    padding: 0.75rem 1.5rem;
+    /* Ensure button has proper padding */
+    margin: 0;
+}
+
+/* Track button transform when active (fix movement issue) */
+.bottom-track-button:active,
+.bottom-track-button.button-pressed {
+    transform: translate(-50%, -50%) scale(0.95);
+    /* Keep centered while scaling */
+}
+
+/* Position settings button 20px from the right */
+.settings-button {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    /* Center vertically */
+    padding: 0.5rem;
+    line-height: 1;
 }
 
 /* Base styles for bottom buttons */
@@ -612,12 +643,13 @@ body.dark-mode #themeIconSpan {
 /* Add hover effects to the icon */
 .theme-toggle-button:hover #themeIconSpan {
     transform: scale(1.25);
-    background-color: var(--color-secondary);
+    background-color: #9575cd;
+    /* Use a consistent color for both themes */
 }
 
 body.dark-mode .theme-toggle-button:hover #themeIconSpan {
-    background-color: var(--color-secondary);
-    /* Use same hover color as track button */
+    background-color: #9575cd;
+    /* Same color as light mode for consistency */
 }
 
 /* --- List Collapse Styles --- */
@@ -823,17 +855,17 @@ body.dark-mode {
 /* Undo Button Styles with alternative design */
 .undo-button {
     position: fixed;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    /* Start position below viewport */
+    left: 20px;
+    transform: translateY(100px);
     bottom: 20px;
-    /* Reduced from 100px to 20px */
     width: auto;
-    padding: 1rem 2rem;
+    min-width: 100px;
+    /* Add minimum width to ensure proper button size */
+    padding: 1rem 1.5rem;
     font-size: 1.1rem;
     font-weight: 600;
     border: none;
-    border-radius: 100px;
+    border-radius: 0.7rem;
     background: var(--color-error);
     color: var(--color-on-error);
     cursor: pointer;
@@ -844,20 +876,20 @@ body.dark-mode {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    margin: 0 auto;
+    margin: 0;
     z-index: 10000;
     opacity: 0;
     pointer-events: none;
     box-sizing: border-box;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     will-change: transform, opacity;
-    /* Optimize for animation */
 }
 
 .undo-button.show {
     opacity: 1;
     pointer-events: auto;
-    transform: translateX(-50%) translateY(0);
+    transform: translateY(0);
+    /* Removed translateX(-50%) since we're left-aligning */
     /* Slide to final position */
 }
 
@@ -955,7 +987,7 @@ body.dark-mode .overlay-header h2 {
     padding-top: 0.5rem;
 }
 
-/* --- Settings Button --- */
+/* --- Settings Button and Icons --- */
 .settings-button {
     padding: 0.5rem;
     line-height: 1;
@@ -966,1830 +998,172 @@ body.dark-mode .overlay-header h2 {
     /* Remove underline hover from base */
 }
 
-.settings-icon {
+/* Main settings button in the footer */
+.settings-button .settings-icon {
     width: 1.5rem;
-    /* Adjust size as needed */
     height: 1.5rem;
     vertical-align: middle;
     opacity: 0.7;
     transition: opacity 0.2s, transform 0.2s ease;
-    filter: var(--icon-filter, none);
-    /* Apply dark mode filter if needed */
+
+    /* From fix-settings-icons.css */
+    filter: none !important;
+    /* Explicitly disable filter to prevent the invert(1) from being applied */
+    mask-image: url('../assets/images/settings--fill.svg');
+    -webkit-mask-image: url('../assets/images/settings--fill.svg');
+    mask-size: contain;
+    -webkit-mask-size: contain;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-position: center;
+    background-color: var(--settings-icon-color);
+    width: 21px;
+    height: 21px;
+}
+
+/* Fix for the settings icon in dark mode */
+body.dark-mode .settings-button .settings-icon {
+    background-color: rgba(255, 255, 255, 0.25) !important;
+    /* 25% opacity of color-on-surface for dark mode */
 }
 
 .settings-button:hover .settings-icon {
     opacity: 1;
     transform: scale(1.1) rotate(15deg);
+    background-color: var(--color-primary) !important;
 }
 
-/* --- List Collapse Styles --- */
-.collapsed-list {
+/* --- Settings Item Button --- */
+.settings-item {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    margin-top: 1rem;
-}
-
-.collapse-toggle {
-    background: none;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: rgba(0, 0, 0, 0.03);
     border: none;
-    color: var(--color-primary);
+    border-radius: 0.75rem;
+    text-align: left;
     font-size: 1rem;
+    color: var(--color-on-surface);
     cursor: pointer;
-    margin-top: 0.5rem;
-    text-decoration: underline;
-    padding: 0.5rem 0;
-    width: 100%;
-    text-align: center;
-    min-height: 44px;
-    /* Minimum touch target size */
-    text-underline-offset: 0.2em;
-}
-
-.collapse-toggle:focus-visible {
-    outline: var(--focus-outline-width) solid var(--focus-outline-color);
-    outline-offset: var(--focus-outline-offset);
-}
-
-/* --- Skip to content link for keyboard users --- */
-.skip-to-content {
-    position: absolute;
-    top: -999px;
-    left: 0;
-    background: var(--color-primary);
-    color: var(--color-on-primary);
-    padding: 1rem;
-    z-index: 9999;
-    transition: top 0.3s;
-}
-
-.skip-to-content:focus {
-    top: 0;
-}
-
-/* --- Animations --- */
-
-/* Reduced Motion Support --- */
-@media (prefers-reduced-motion: reduce) {
-    /* Remove animation overrides */
-}
-
-/* --- Responsive Styles --- */
-@media (max-width: 600px) {
-    .app {
-        max-width: 98vw;
-        padding: 2vw 0 0 0;
-    }
-
-    .metric-card {
-        padding: 2rem 0.5rem 1.5rem 0.5rem;
-    }
-}
-
-/* --- Additional Accessibility Enhancements --- */
-@media screen and (max-width: 767px) {
-
-    /* Increase touch targets on mobile */
-    .track-button,
-    .bottom-button-base,
-    .edit-label-button,
-    .collapse-toggle {
-        min-height: 48px;
-        /* Larger touch targets on mobile */
-        padding: 0.75rem;
-    }
-
-    /* Increase font size on mobile for better readability */
-    html,
-    body {
-        font-size: 16px;
-        /* Ensure base font size is maintained on mobile */
-    }
-
-    .metric-label {
-        font-size: 1.3rem;
-        /* Slightly larger labels on mobile */
-    }
-}
-
-/* High contrast mode support */
-@media (forced-colors: active) {
-    :root {
-        --focus-outline-color: CanvasText;
-    }
-
-    .track-button,
-    .bottom-button-base,
-    .edit-label-button,
-    .collapse-toggle {
-        border: 1px solid CanvasText;
-    }
-}
-
-/* Ensure proper focus state for any focusable elements not already covered */
-[tabindex]:focus-visible:not([tabindex="-1"]) {
-    outline: var(--focus-outline-width) solid var(--focus-outline-color);
-    outline-offset: var(--focus-outline-offset);
-}
-
-/* Improved screen reader support with ARIA states */
-[aria-disabled="true"] {
-    opacity: 0.5;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
-/* Print styles for better accessibility when printed */
-@media print {
-    body {
-        background: white;
-        color: black;
-        font-size: 12pt;
-    }
-
-    .track-button,
-    .bottom-buttons,
-    .edit-label-button {
-        display: none !important;
-    }
-
-    .app {
-        width: 100%;
-        max-width: 100%;
-        padding: 0;
-    }
-
-    #mainContent {
-        max-height: none;
-        overflow: visible;
-    }
-}
-
-/* --- Dark Mode Variable Overrides --- */
-body.dark-mode {
-    --color-primary: rgb(149, 117, 205);
-    /* lighter purple */
-    --color-secondary: rgb(126, 87, 194);
-    /* dark mode secondary */
-    --color-primary-darker: rgb(110, 85, 160);
-    /* New darker primary for dark mode */
-    --color-background: rgb(18, 18, 18);
-    /* dark background */
-    --color-surface: rgb(30, 30, 30);
-    /* dark surface */
-    --color-error: rgb(207, 102, 121);
-    /* light error */
-    --color-on-primary: rgb(0, 0, 0);
-    /* black text on light primary */
-    --color-on-background: rgb(255, 255, 255);
-    /* Increased contrast from rgb(224, 224, 224) */
-    /* light text */
-    --color-on-surface: rgb(255, 255, 255);
-    /* Increased contrast from rgb(224, 224, 224) */
-    /* light text */
-    --color-on-error: rgb(0, 0, 0);
-    /* black text on error */
-    --icon-filter: invert(1);
-    --color-primary-75: rgba(149, 117, 205, 0.75);
-    --color-secondary-75: rgba(126, 87, 194, 0.75);
-    --color-on-surface-75: rgba(255, 255, 255, 0.75);
-    /* Increased contrast */
-
-    /* Different focus color for dark mode for better visibility */
-    --focus-outline-color: rgb(255, 213, 0);
-}
-
-/* Remove the old date label styles since we're not using it anymore */
-.imessage-date-label {
-    display: none !important;
-}
-
-/* --- Date Group Styles for Nested Structure --- */
-.date-group {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
+    transition: background-color 0.2s, box-shadow 0.2s;
     margin-bottom: 0.5rem;
-    animation: none;
 }
 
-.date-group.new-date-group {
-    animation: popIn 0.35s cubic-bezier(0.4, 0.7, 0.4, 1.2);
-}
-
-.date-group .time-entry+.time-entry {
-    margin-top: 0.5rem;
-}
-
-/* Undo Button Styles with alternative design */
-.undo-button {
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    /* Start position below viewport */
-    bottom: 20px;
-    /* Reduced from 100px to 20px */
-    width: auto;
-    padding: 1rem 2rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 100px;
-    background: var(--color-error);
-    color: var(--color-on-error);
-    cursor: pointer;
-    transition: transform 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28),
-        opacity 0.3s ease,
-        background-color 0.2s;
+/* Add spacing between icon and text */
+.settings-item-icon-container {
+    margin-right: 12px;
+    /* Add spacing between icon and text */
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    margin: 0 auto;
-    z-index: 10000;
-    opacity: 0;
-    pointer-events: none;
-    box-sizing: border-box;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    will-change: transform, opacity;
-    /* Optimize for animation */
+    min-width: 24px;
+    /* Ensure consistent width */
 }
 
-.undo-button.show {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateX(-50%) translateY(0);
-    /* Slide to final position */
+/* Add styling for the reset icon */
+.reset-icon {
+    display: block;
+    filter: none;
+    mask-image: url('../assets/images/reset--fill.svg');
+    -webkit-mask-image: url('../assets/images/reset--fill.svg');
+    mask-size: contain;
+    -webkit-mask-size: contain;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-position: center;
+    background-color: var(--color-on-surface);
+    width: 20px;
+    height: 20px;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
-/* Don't use display: none so we can animate */
-.hidden {
-    visibility: hidden;
-    /* Use visibility instead of display for animation */
-    opacity: 0;
+/* Style for reset icon hover */
+.settings-item-reset:hover .reset-icon {
+    background-color: #a81d18;
+    transform: scale(1.1);
 }
 
-/* --- Settings Menu Overlay --- */
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+.settings-item:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+    /* Slightly darker on hover */
 }
 
-.overlay.hidden {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
+body.dark-mode .settings-item {
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
-.overlay-content {
-    background-color: var(--color-surface);
-    color: var(--color-on-surface);
-    padding: 1.5rem;
-    border-radius: 1rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    width: 90%;
-    max-width: 350px;
-    transform: scale(1);
-    transition: transform 0.3s ease;
+body.dark-mode .settings-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
-.overlay.hidden .overlay-content {
-    transform: scale(0.95);
+.settings-item:active {
+    background-color: rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.overlay-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    /* Subtle separator */
-    padding-bottom: 0.75rem;
+body.dark-mode .settings-item:active {
+    background-color: rgba(255, 255, 255, 0.15);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-body.dark-mode .overlay-header {
-    border-bottom-color: rgba(255, 255, 255, 0.1);
+/* Theme icons using mask approach with conditional icon paths based on theme */
+#menuThemeIcon {
+    display: block;
+    filter: none;
+    mask-size: contain;
+    -webkit-mask-size: contain;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-position: center;
+    background-color: var(--color-on-surface);
+    width: 20px;
+    height: 20px;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
-.overlay-header h2 {
-    margin: 0;
-    font-size: 1.4rem;
-    color: var(--color-primary);
+/* Light theme (Dark Mode Off) uses the light mode icon */
+body:not(.dark-mode) #menuThemeIcon {
+    mask-image: url('../assets/images/mode-dark--fill.svg');
+    -webkit-mask-image: url('../assets/images/mode-dark--fill.svg');
 }
 
-body.dark-mode .overlay-header h2 {
-    color: var(--color-primary);
+/* Dark theme (Dark Mode On) uses the dark mode icon */
+body.dark-mode #menuThemeIcon {
+    mask-image: url('../assets/images/mode-light--fill.svg');
+    -webkit-mask-image: url('../assets/images/mode-light--fill.svg');
 }
 
-.close-button {
-    background: none;
-    border: none;
-    font-size: 2rem;
-    font-weight: 300;
-    color: var(--color-on-surface);
-    opacity: 0.7;
-    cursor: pointer;
-    padding: 0 0.5rem;
-    line-height: 1;
-    transition: opacity 0.2s;
+/* Hide the old theme icons */
+#menuThemeIconLight,
+#menuThemeIconDark {
+    display: none;
 }
 
-.close-button:hover {
-    opacity: 1;
-}
-
-.overlay-body {
-    /* Styles for the main content area of the overlay */
-    padding-top: 0.5rem;
-}
-
-/* --- Settings Button --- */
-.settings-button {
-    padding: 0.5rem;
-    line-height: 1;
-}
-
-.settings-button:hover {
-    text-decoration: none;
-    /* Remove underline hover from base */
-}
-
-.settings-icon {
-    width: 1.5rem;
-    /* Adjust size as needed */
-    height: 1.5rem;
-    vertical-align: middle;
-    opacity: 0.7;
-    transition: opacity 0.2s, transform 0.2s ease;
-    filter: var(--icon-filter, none);
-    /* Apply dark mode filter if needed */
-}
-
-.settings-button:hover .settings-icon {
-    opacity: 1;
-    transform: scale(1.1) rotate(15deg);
-}
-
-/* --- List Collapse Styles --- */
-.collapsed-list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 1rem;
-}
-
-.collapse-toggle {
-    background: none;
-    border: none;
-    color: var(--color-primary);
-    font-size: 1rem;
-    cursor: pointer;
-    margin-top: 0.5rem;
-    text-decoration: underline;
-    padding: 0.5rem 0;
-    width: 100%;
-    text-align: center;
-    min-height: 44px;
-    /* Minimum touch target size */
-    text-underline-offset: 0.2em;
-}
-
-.collapse-toggle:focus-visible {
-    outline: var(--focus-outline-width) solid var(--focus-outline-color);
-    outline-offset: var(--focus-outline-offset);
-}
-
-/* --- Skip to content link for keyboard users --- */
-.skip-to-content {
-    position: absolute;
-    top: -999px;
-    left: 0;
-    background: var(--color-primary);
+/* Improved hover effect for the menu theme toggle */
+#menuThemeToggle:hover {
+    background-color: var(--color-primary);
     color: var(--color-on-primary);
-    padding: 1rem;
-    z-index: 9999;
-    transition: top 0.3s;
 }
 
-.skip-to-content:focus {
-    top: 0;
+/* Fix for icon visibility on hover */
+#menuThemeToggle:hover #menuThemeIcon {
+    background-color: var(--color-on-primary);
+    transform: scale(1.1);
 }
 
-/* --- Animations --- */
-
-/* Reduced Motion Support --- */
-@media (prefers-reduced-motion: reduce) {
-    /* Remove animation overrides */
-}
-
-/* --- Responsive Styles --- */
-@media (max-width: 600px) {
-    .app {
-        max-width: 98vw;
-        padding: 2vw 0 0 0;
-    }
-
-    .metric-card {
-        padding: 2rem 0.5rem 1.5rem 0.5rem;
-    }
-}
-
-/* --- Additional Accessibility Enhancements --- */
-@media screen and (max-width: 767px) {
-
-    /* Increase touch targets on mobile */
-    .track-button,
-    .bottom-button-base,
-    .edit-label-button,
-    .collapse-toggle {
-        min-height: 48px;
-        /* Larger touch targets on mobile */
-        padding: 0.75rem;
-    }
-
-    /* Increase font size on mobile for better readability */
-    html,
-    body {
-        font-size: 16px;
-        /* Ensure base font size is maintained on mobile */
-    }
-
-    .metric-label {
-        font-size: 1.3rem;
-        /* Slightly larger labels on mobile */
-    }
-}
-
-/* High contrast mode support */
-@media (forced-colors: active) {
-    :root {
-        --focus-outline-color: CanvasText;
-    }
-
-    .track-button,
-    .bottom-button-base,
-    .edit-label-button,
-    .collapse-toggle {
-        border: 1px solid CanvasText;
-    }
-}
-
-/* Ensure proper focus state for any focusable elements not already covered */
-[tabindex]:focus-visible:not([tabindex="-1"]) {
-    outline: var(--focus-outline-width) solid var(--focus-outline-color);
-    outline-offset: var(--focus-outline-offset);
-}
-
-/* Improved screen reader support with ARIA states */
-[aria-disabled="true"] {
-    opacity: 0.5;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
-/* Print styles for better accessibility when printed */
-@media print {
-    body {
-        background: white;
-        color: black;
-        font-size: 12pt;
-    }
-
-    .track-button,
-    .bottom-buttons,
-    .edit-label-button {
-        display: none !important;
-    }
-
-    .app {
-        width: 100%;
-        max-width: 100%;
-        padding: 0;
-    }
-
-    #mainContent {
-        max-height: none;
-        overflow: visible;
-    }
-}
-
-/* --- Dark Mode Variable Overrides --- */
-body.dark-mode {
-    --color-primary: rgb(149, 117, 205);
-    /* lighter purple */
-    --color-secondary: rgb(126, 87, 194);
-    /* dark mode secondary */
-    --color-primary-darker: rgb(110, 85, 160);
-    /* New darker primary for dark mode */
-    --color-background: rgb(18, 18, 18);
-    /* dark background */
-    --color-surface: rgb(30, 30, 30);
-    /* dark surface */
-    --color-error: rgb(207, 102, 121);
-    /* light error */
-    --color-on-primary: rgb(0, 0, 0);
-    /* black text on light primary */
-    --color-on-background: rgb(255, 255, 255);
-    /* Increased contrast from rgb(224, 224, 224) */
-    /* light text */
-    --color-on-surface: rgb(255, 255, 255);
-    /* Increased contrast from rgb(224, 224, 224) */
-    /* light text */
-    --color-on-error: rgb(0, 0, 0);
-    /* black text on error */
-    --icon-filter: invert(1);
-    --color-primary-75: rgba(149, 117, 205, 0.75);
-    --color-secondary-75: rgba(126, 87, 194, 0.75);
-    --color-on-surface-75: rgba(255, 255, 255, 0.75);
-    /* Increased contrast */
-
-    /* Different focus color for dark mode for better visibility */
-    --focus-outline-color: rgb(255, 213, 0);
-}
-
-/* Remove the old date label styles since we're not using it anymore */
-.imessage-date-label {
-    display: none !important;
-}
-
-/* --- Date Group Styles for Nested Structure --- */
-.date-group {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    margin-bottom: 0.5rem;
-    animation: none;
-}
-
-.date-group.new-date-group {
-    animation: popIn 0.35s cubic-bezier(0.4, 0.7, 0.4, 1.2);
-}
-
-.date-group .time-entry+.time-entry {
-    margin-top: 0.5rem;
-}
-
-/* Undo Button Styles with alternative design */
-.undo-button {
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    /* Start position below viewport */
-    bottom: 20px;
-    /* Reduced from 100px to 20px */
-    width: auto;
-    padding: 1rem 2rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 100px;
-    background: var(--color-error);
-    color: var(--color-on-error);
-    cursor: pointer;
-    transition: transform 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28),
-        opacity 0.3s ease,
-        background-color 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    margin: 0 auto;
-    z-index: 10000;
-    opacity: 0;
-    pointer-events: none;
-    box-sizing: border-box;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    will-change: transform, opacity;
-    /* Optimize for animation */
-}
-
-.undo-button.show {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateX(-50%) translateY(0);
-    /* Slide to final position */
-}
-
-/* Don't use display: none so we can animate */
-.hidden {
-    visibility: hidden;
-    /* Use visibility instead of display for animation */
-    opacity: 0;
-}
-
-/* --- Settings Menu Overlay --- */
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.overlay.hidden {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-}
-
-.overlay-content {
-    background-color: var(--color-surface);
-    color: var(--color-on-surface);
-    padding: 1.5rem;
-    border-radius: 1rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    width: 90%;
-    max-width: 350px;
-    transform: scale(1);
-    transition: transform 0.3s ease;
-}
-
-.overlay.hidden .overlay-content {
-    transform: scale(0.95);
-}
-
-.overlay-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    /* Subtle separator */
-    padding-bottom: 0.75rem;
-}
-
-body.dark-mode .overlay-header {
-    border-bottom-color: rgba(255, 255, 255, 0.1);
-}
-
-.overlay-header h2 {
-    margin: 0;
-    font-size: 1.4rem;
-    color: var(--color-primary);
-}
-
-body.dark-mode .overlay-header h2 {
-    color: var(--color-primary);
-}
-
-.close-button {
-    background: none;
-    border: none;
-    font-size: 2rem;
-    font-weight: 300;
-    color: var(--color-on-surface);
-    opacity: 0.7;
-    cursor: pointer;
-    padding: 0 0.5rem;
-    line-height: 1;
-    transition: opacity 0.2s;
-}
-
-.close-button:hover {
-    opacity: 1;
-}
-
-.overlay-body {
-    /* Styles for the main content area of the overlay */
-    padding-top: 0.5rem;
-}
-
-/* --- Settings Button --- */
-.settings-button {
-    padding: 0.5rem;
-    line-height: 1;
-}
-
-.settings-button:hover {
-    text-decoration: none;
-    /* Remove underline hover from base */
-}
-
-.settings-icon {
-    width: 1.5rem;
-    /* Adjust size as needed */
-    height: 1.5rem;
-    vertical-align: middle;
-    opacity: 0.7;
-    transition: opacity 0.2s, transform 0.2s ease;
-    filter: var(--icon-filter, none);
-    /* Apply dark mode filter if needed */
-}
-
-.settings-button:hover .settings-icon {
-    opacity: 1;
-    transform: scale(1.1) rotate(15deg);
-}
-
-/* --- List Collapse Styles --- */
-.collapsed-list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 1rem;
-}
-
-.collapse-toggle {
-    background: none;
-    border: none;
-    color: var(--color-primary);
-    font-size: 1rem;
-    cursor: pointer;
-    margin-top: 0.5rem;
-    text-decoration: underline;
-    padding: 0.5rem 0;
-    width: 100%;
-    text-align: center;
-    min-height: 44px;
-    /* Minimum touch target size */
-    text-underline-offset: 0.2em;
-}
-
-.collapse-toggle:focus-visible {
-    outline: var(--focus-outline-width) solid var(--focus-outline-color);
-    outline-offset: var(--focus-outline-offset);
-}
-
-/* --- Skip to content link for keyboard users --- */
-.skip-to-content {
-    position: absolute;
-    top: -999px;
-    left: 0;
-    background: var(--color-primary);
-    color: var(--color-on-primary);
-    padding: 1rem;
-    z-index: 9999;
-    transition: top 0.3s;
-}
-
-.skip-to-content:focus {
-    top: 0;
-}
-
-/* --- Animations --- */
-
-/* Reduced Motion Support --- */
-@media (prefers-reduced-motion: reduce) {
-    /* Remove animation overrides */
-}
-
-/* --- Responsive Styles --- */
-@media (max-width: 600px) {
-    .app {
-        max-width: 98vw;
-        padding: 2vw 0 0 0;
-    }
-
-    .metric-card {
-        padding: 2rem 0.5rem 1.5rem 0.5rem;
-    }
-}
-
-/* --- Additional Accessibility Enhancements --- */
-@media screen and (max-width: 767px) {
-
-    /* Increase touch targets on mobile */
-    .track-button,
-    .bottom-button-base,
-    .edit-label-button,
-    .collapse-toggle {
-        min-height: 48px;
-        /* Larger touch targets on mobile */
-        padding: 0.75rem;
-    }
-
-    /* Increase font size on mobile for better readability */
-    html,
-    body {
-        font-size: 16px;
-        /* Ensure base font size is maintained on mobile */
-    }
-
-    .metric-label {
-        font-size: 1.3rem;
-        /* Slightly larger labels on mobile */
-    }
-}
-
-/* High contrast mode support */
-@media (forced-colors: active) {
-    :root {
-        --focus-outline-color: CanvasText;
-    }
-
-    .track-button,
-    .bottom-button-base,
-    .edit-label-button,
-    .collapse-toggle {
-        border: 1px solid CanvasText;
-    }
-}
-
-/* Ensure proper focus state for any focusable elements not already covered */
-[tabindex]:focus-visible:not([tabindex="-1"]) {
-    outline: var(--focus-outline-width) solid var(--focus-outline-color);
-    outline-offset: var(--focus-outline-offset);
-}
-
-/* Improved screen reader support with ARIA states */
-[aria-disabled="true"] {
-    opacity: 0.5;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
-/* Print styles for better accessibility when printed */
-@media print {
-    body {
-        background: white;
-        color: black;
-        font-size: 12pt;
-    }
-
-    .track-button,
-    .bottom-buttons,
-    .edit-label-button {
-        display: none !important;
-    }
-
-    .app {
-        width: 100%;
-        max-width: 100%;
-        padding: 0;
-    }
-
-    #mainContent {
-        max-height: none;
-        overflow: visible;
-    }
-}
-
-/* --- Dark Mode Variable Overrides --- */
-body.dark-mode {
-    --color-primary: rgb(149, 117, 205);
-    /* lighter purple */
-    --color-secondary: rgb(126, 87, 194);
-    /* dark mode secondary */
-    --color-primary-darker: rgb(110, 85, 160);
-    /* New darker primary for dark mode */
-    --color-background: rgb(18, 18, 18);
-    /* dark background */
-    --color-surface: rgb(30, 30, 30);
-    /* dark surface */
-    --color-error: rgb(207, 102, 121);
-    /* light error */
-    --color-on-primary: rgb(0, 0, 0);
-    /* black text on light primary */
-    --color-on-background: rgb(255, 255, 255);
-    /* Increased contrast from rgb(224, 224, 224) */
-    /* light text */
-    --color-on-surface: rgb(255, 255, 255);
-    /* Increased contrast from rgb(224, 224, 224) */
-    /* light text */
-    --color-on-error: rgb(0, 0, 0);
-    /* black text on error */
-    --icon-filter: invert(1);
-    --color-primary-75: rgba(149, 117, 205, 0.75);
-    --color-secondary-75: rgba(126, 87, 194, 0.75);
-    --color-on-surface-75: rgba(255, 255, 255, 0.75);
-    /* Increased contrast */
-
-    /* Different focus color for dark mode for better visibility */
-    --focus-outline-color: rgb(255, 213, 0);
-}
-
-/* Remove the old date label styles since we're not using it anymore */
-.imessage-date-label {
-    display: none !important;
-}
-
-/* --- Date Group Styles for Nested Structure --- */
-.date-group {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    margin-bottom: 0.5rem;
-    animation: none;
-}
-
-.date-group.new-date-group {
-    animation: popIn 0.35s cubic-bezier(0.4, 0.7, 0.4, 1.2);
-}
-
-.date-group .time-entry+.time-entry {
-    margin-top: 0.5rem;
-}
-
-/* Undo Button Styles with alternative design */
-.undo-button {
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    /* Start position below viewport */
-    bottom: 20px;
-    /* Reduced from 100px to 20px */
-    width: auto;
-    padding: 1rem 2rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 100px;
-    background: var(--color-error);
-    color: var(--color-on-error);
-    cursor: pointer;
-    transition: transform 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28),
-        opacity 0.3s ease,
-        background-color 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    margin: 0 auto;
-    z-index: 10000;
-    opacity: 0;
-    pointer-events: none;
-    box-sizing: border-box;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    will-change: transform, opacity;
-    /* Optimize for animation */
-}
-
-.undo-button.show {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateX(-50%) translateY(0);
-    /* Slide to final position */
-}
-
-/* Don't use display: none so we can animate */
-.hidden {
-    visibility: hidden;
-    /* Use visibility instead of display for animation */
-    opacity: 0;
-}
-
-/* --- Settings Menu Overlay --- */
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.overlay.hidden {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-}
-
-.overlay-content {
-    background-color: var(--color-surface);
-    color: var(--color-on-surface);
-    padding: 1.5rem;
-    border-radius: 1rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    width: 90%;
-    max-width: 350px;
-    transform: scale(1);
-    transition: transform 0.3s ease;
-}
-
-.overlay.hidden .overlay-content {
-    transform: scale(0.95);
-}
-
-.overlay-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    /* Subtle separator */
-    padding-bottom: 0.75rem;
-}
-
-body.dark-mode .overlay-header {
-    border-bottom-color: rgba(255, 255, 255, 0.1);
-}
-
-.overlay-header h2 {
-    margin: 0;
-    font-size: 1.4rem;
-    color: var(--color-primary);
-}
-
-body.dark-mode .overlay-header h2 {
-    color: var(--color-primary);
-}
-
-.close-button {
-    background: none;
-    border: none;
-    font-size: 2rem;
-    font-weight: 300;
-    color: var(--color-on-surface);
-    opacity: 0.7;
-    cursor: pointer;
-    padding: 0 0.5rem;
-    line-height: 1;
-    transition: opacity 0.2s;
-}
-
-.close-button:hover {
-    opacity: 1;
-}
-
-.overlay-body {
-    /* Styles for the main content area of the overlay */
-    padding-top: 0.5rem;
-}
-
-/* --- Settings Button --- */
-.settings-button {
-    padding: 0.5rem;
-    line-height: 1;
-}
-
-.settings-button:hover {
-    text-decoration: none;
-    /* Remove underline hover from base */
-}
-
-.settings-icon {
-    width: 1.5rem;
-    /* Adjust size as needed */
-    height: 1.5rem;
-    vertical-align: middle;
-    opacity: 0.7;
-    transition: opacity 0.2s, transform 0.2s ease;
-    filter: var(--icon-filter, none);
-    /* Apply dark mode filter if needed */
-}
-
-.settings-button:hover .settings-icon {
-    opacity: 1;
-    transform: scale(1.1) rotate(15deg);
-}
-
-/* --- List Collapse Styles --- */
-.collapsed-list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 1rem;
-}
-
-.collapse-toggle {
-    background: none;
-    border: none;
-    color: var(--color-primary);
-    font-size: 1rem;
-    cursor: pointer;
-    margin-top: 0.5rem;
-    text-decoration: underline;
-    padding: 0.5rem 0;
-    width: 100%;
-    text-align: center;
-    min-height: 44px;
-    /* Minimum touch target size */
-    text-underline-offset: 0.2em;
-}
-
-.collapse-toggle:focus-visible {
-    outline: var(--focus-outline-width) solid var(--focus-outline-color);
-    outline-offset: var(--focus-outline-offset);
-}
-
-/* --- Skip to content link for keyboard users --- */
-.skip-to-content {
-    position: absolute;
-    top: -999px;
-    left: 0;
-    background: var(--color-primary);
-    color: var(--color-on-primary);
-    padding: 1rem;
-    z-index: 9999;
-    transition: top 0.3s;
-}
-
-.skip-to-content:focus {
-    top: 0;
-}
-
-/* --- Animations --- */
-
-/* Reduced Motion Support --- */
-@media (prefers-reduced-motion: reduce) {
-    /* Remove animation overrides */
-}
-
-/* --- Responsive Styles --- */
-@media (max-width: 600px) {
-    .app {
-        max-width: 98vw;
-        padding: 2vw 0 0 0;
-    }
-
-    .metric-card {
-        padding: 2rem 0.5rem 1.5rem 0.5rem;
-    }
-}
-
-/* --- Additional Accessibility Enhancements --- */
-@media screen and (max-width: 767px) {
-
-    /* Increase touch targets on mobile */
-    .track-button,
-    .bottom-button-base,
-    .edit-label-button,
-    .collapse-toggle {
-        min-height: 48px;
-        /* Larger touch targets on mobile */
-        padding: 0.75rem;
-    }
-
-    /* Increase font size on mobile for better readability */
-    html,
-    body {
-        font-size: 16px;
-        /* Ensure base font size is maintained on mobile */
-    }
-
-    .metric-label {
-        font-size: 1.3rem;
-        /* Slightly larger labels on mobile */
-    }
-}
-
-/* High contrast mode support */
-@media (forced-colors: active) {
-    :root {
-        --focus-outline-color: CanvasText;
-    }
-
-    .track-button,
-    .bottom-button-base,
-    .edit-label-button,
-    .collapse-toggle {
-        border: 1px solid CanvasText;
-    }
-}
-
-/* Ensure proper focus state for any focusable elements not already covered */
-[tabindex]:focus-visible:not([tabindex="-1"]) {
-    outline: var(--focus-outline-width) solid var(--focus-outline-color);
-    outline-offset: var(--focus-outline-offset);
-}
-
-/* Improved screen reader support with ARIA states */
-[aria-disabled="true"] {
-    opacity: 0.5;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
-/* Print styles for better accessibility when printed */
-@media print {
-    body {
-        background: white;
-        color: black;
-        font-size: 12pt;
-    }
-
-    .track-button,
-    .bottom-buttons,
-    .edit-label-button {
-        display: none !important;
-    }
-
-    .app {
-        width: 100%;
-        max-width: 100%;
-        padding: 0;
-    }
-
-    #mainContent {
-        max-height: none;
-        overflow: visible;
-    }
-}
-
-/* --- Dark Mode Variable Overrides --- */
-body.dark-mode {
-    --color-primary: rgb(149, 117, 205);
-    /* lighter purple */
-    --color-secondary: rgb(126, 87, 194);
-    /* dark mode secondary */
-    --color-primary-darker: rgb(110, 85, 160);
-    /* New darker primary for dark mode */
-    --color-background: rgb(18, 18, 18);
-    /* dark background */
-    --color-surface: rgb(30, 30, 30);
-    /* dark surface */
-    --color-error: rgb(207, 102, 121);
-    /* light error */
-    --color-on-primary: rgb(0, 0, 0);
-    /* black text on light primary */
-    --color-on-background: rgb(255, 255, 255);
-    /* Increased contrast from rgb(224, 224, 224) */
-    /* light text */
-    --color-on-surface: rgb(255, 255, 255);
-    /* Increased contrast from rgb(224, 224, 224) */
-    /* light text */
-    --color-on-error: rgb(0, 0, 0);
-    /* black text on error */
-    --icon-filter: invert(1);
-    --color-primary-75: rgba(149, 117, 205, 0.75);
-    --color-secondary-75: rgba(126, 87, 194, 0.75);
-    --color-on-surface-75: rgba(255, 255, 255, 0.75);
-    /* Increased contrast */
-
-    /* Different focus color for dark mode for better visibility */
-    --focus-outline-color: rgb(255, 213, 0);
-}
-
-/* Remove the old date label styles since we're not using it anymore */
-.imessage-date-label {
-    display: none !important;
-}
-
-/* --- Date Group Styles for Nested Structure --- */
-.date-group {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    margin-bottom: 0.5rem;
-    animation: none;
-}
-
-.date-group.new-date-group {
-    animation: popIn 0.35s cubic-bezier(0.4, 0.7, 0.4, 1.2);
-}
-
-.date-group .time-entry+.time-entry {
-    margin-top: 0.5rem;
-}
-
-/* Undo Button Styles with alternative design */
-.undo-button {
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    /* Start position below viewport */
-    bottom: 20px;
-    /* Reduced from 100px to 20px */
-    width: auto;
-    padding: 1rem 2rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 100px;
-    background: var(--color-error);
-    color: var(--color-on-error);
-    cursor: pointer;
-    transition: transform 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28),
-        opacity 0.3s ease,
-        background-color 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    margin: 0 auto;
-    z-index: 10000;
-    opacity: 0;
-    pointer-events: none;
-    box-sizing: border-box;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    will-change: transform, opacity;
-    /* Optimize for animation */
-}
-
-.undo-button.show {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateX(-50%) translateY(0);
-    /* Slide to final position */
-}
-
-/* Don't use display: none so we can animate */
-.hidden {
-    visibility: hidden;
-    /* Use visibility instead of display for animation */
-    opacity: 0;
-}
-
-/* --- Settings Menu Overlay --- */
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.overlay.hidden {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-}
-
-.overlay-content {
-    background-color: var(--color-surface);
-    color: var(--color-on-surface);
-    padding: 1.5rem;
-    border-radius: 1rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    width: 90%;
-    max-width: 350px;
-    transform: scale(1);
-    transition: transform 0.3s ease;
-}
-
-.overlay.hidden .overlay-content {
-    transform: scale(0.95);
-}
-
-.overlay-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    /* Subtle separator */
-    padding-bottom: 0.75rem;
-}
-
-body.dark-mode .overlay-header {
-    border-bottom-color: rgba(255, 255, 255, 0.1);
-}
-
-.overlay-header h2 {
-    margin: 0;
-    font-size: 1.4rem;
-    color: var(--color-primary);
-}
-
-body.dark-mode .overlay-header h2 {
-    color: var(--color-primary);
-}
-
-.close-button {
-    background: none;
-    border: none;
-    font-size: 2rem;
-    font-weight: 300;
-    color: var(--color-on-surface);
-    opacity: 0.7;
-    cursor: pointer;
-    padding: 0 0.5rem;
-    line-height: 1;
-    transition: opacity 0.2s;
-}
-
-.close-button:hover {
-    opacity: 1;
-}
-
-.overlay-body {
-    /* Styles for the main content area of the overlay */
-    padding-top: 0.5rem;
-}
-
-/* --- Settings Button --- */
-.settings-button {
-    padding: 0.5rem;
-    line-height: 1;
-}
-
-.settings-button:hover {
-    text-decoration: none;
-    /* Remove underline hover from base */
-}
-
-.settings-icon {
-    width: 1.5rem;
-    /* Adjust size as needed */
-    height: 1.5rem;
-    vertical-align: middle;
-    opacity: 0.7;
-    transition: opacity 0.2s, transform 0.2s ease;
-    filter: var(--icon-filter, none);
-    /* Apply dark mode filter if needed */
-}
-
-.settings-button:hover .settings-icon {
-    opacity: 1;
-    transform: scale(1.1) rotate(15deg);
-}
-
-/* --- List Collapse Styles --- */
-.collapsed-list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 1rem;
-}
-
-.collapse-toggle {
-    background: none;
-    border: none;
-    color: var(--color-primary);
-    font-size: 1rem;
-    cursor: pointer;
-    margin-top: 0.5rem;
-    text-decoration: underline;
-    padding: 0.5rem 0;
-    width: 100%;
-    text-align: center;
-    min-height: 44px;
-    /* Minimum touch target size */
-    text-underline-offset: 0.2em;
-}
-
-.collapse-toggle:focus-visible {
-    outline: var(--focus-outline-width) solid var(--focus-outline-color);
-    outline-offset: var(--focus-outline-offset);
-}
-
-/* --- Skip to content link for keyboard users --- */
-.skip-to-content {
-    position: absolute;
-    top: -999px;
-    left: 0;
-    background: var(--color-primary);
-    color: var(--color-on-primary);
-    padding: 1rem;
-    z-index: 9999;
-    transition: top 0.3s;
-}
-
-.skip-to-content:focus {
-    top: 0;
-}
-
-/* --- Animations --- */
-
-/* Reduced Motion Support --- */
-@media (prefers-reduced-motion: reduce) {
-    /* Remove animation overrides */
-}
-
-/* --- Responsive Styles --- */
-@media (max-width: 600px) {
-    .app {
-        max-width: 98vw;
-        padding: 2vw 0 0 0;
-    }
-
-    .metric-card {
-        padding: 2rem 0.5rem 1.5rem 0.5rem;
-    }
-}
-
-/* --- Additional Accessibility Enhancements --- */
-@media screen and (max-width: 767px) {
-
-    /* Increase touch targets on mobile */
-    .track-button,
-    .bottom-button-base,
-    .edit-label-button,
-    .collapse-toggle {
-        min-height: 48px;
-        /* Larger touch targets on mobile */
-        padding: 0.75rem;
-    }
-
-    /* Increase font size on mobile for better readability */
-    html,
-    body {
-        font-size: 16px;
-        /* Ensure base font size is maintained on mobile */
-    }
-
-    .metric-label {
-        font-size: 1.3rem;
-        /* Slightly larger labels on mobile */
-    }
-}
-
-/* High contrast mode support */
-@media (forced-colors: active) {
-    :root {
-        --focus-outline-color: CanvasText;
-    }
-
-    .track-button,
-    .bottom-button-base,
-    .edit-label-button,
-    .collapse-toggle {
-        border: 1px solid CanvasText;
-    }
-}
-
-/* Ensure proper focus state for any focusable elements not already covered */
-[tabindex]:focus-visible:not([tabindex="-1"]) {
-    outline: var(--focus-outline-width) solid var(--focus-outline-color);
-    outline-offset: var(--focus-outline-offset);
-}
-
-/* Improved screen reader support with ARIA states */
-[aria-disabled="true"] {
-    opacity: 0.5;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-
-/* Print styles for better accessibility when printed */
-@media print {
-    body {
-        background: white;
-        color: black;
-        font-size: 12pt;
-    }
-
-    .track-button,
-    .bottom-buttons,
-    .edit-label-button {
-        display: none !important;
-    }
-
-    .app {
-        width: 100%;
-        max-width: 100%;
-        padding: 0;
-    }
-
-    #mainContent {
-        max-height: none;
-        overflow: visible;
-    }
-}
-
-/* --- Dark Mode Variable Overrides --- */
-body.dark-mode {
-    --color-primary: rgb(149, 117, 205);
-    /* lighter purple */
-    --color-secondary: rgb(126, 87, 194);
-    /* dark mode secondary */
-    --color-primary-darker: rgb(110, 85, 160);
-    /* New darker primary for dark mode */
-    --color-background: rgb(18, 18, 18);
-    /* dark background */
-    --color-surface: rgb(30, 30, 30);
-    /* dark surface */
-    --color-error: rgb(207, 102, 121);
-    /* light error */
-    --color-on-primary: rgb(0, 0, 0);
-    /* black text on light primary */
-    --color-on-background: rgb(255, 255, 255);
-    /* Increased contrast from rgb(224, 224, 224) */
-    /* light text */
-    --color-on-surface: rgb(255, 255, 255);
-    /* Increased contrast from rgb(224, 224, 224) */
-    /* light text */
-    --color-on-error: rgb(0, 0, 0);
-    /* black text on error */
-    --icon-filter: invert(1);
-    --color-primary-75: rgba(149, 117, 205, 0.75);
-    --color-secondary-75: rgba(126, 87, 194, 0.75);
-    --color-on-surface-75: rgba(255, 255, 255, 0.75);
-    /* Increased contrast */
-
-    /* Different focus color for dark mode for better visibility */
-    --focus-outline-color: rgb(255, 213, 0);
-}
-
-/* Remove the old date label styles since we're not using it anymore */
-.imessage-date-label {
-    display: none !important;
-}
-
-/* --- Date Group Styles for Nested Structure --- */
-.date-group {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    margin-bottom: 0.5rem;
-    animation: none;
-}
-
-.date-group.new-date-group {
-    animation: popIn 0.35s cubic-bezier(0.4, 0.7, 0.4, 1.2);
-}
-
-.date-group .time-entry+.time-entry {
-    margin-top: 0.5rem;
-}
-
-/* Undo Button Styles with alternative design */
-.undo-button {
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    /* Start position below viewport */
-    bottom: 20px;
-    /* Reduced from 100px to 20px */
-    width: auto;
-    padding: 1rem 2rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 100px;
-    background: var(--color-error);
-    color: var(--color-on-error);
-    cursor: pointer;
-    transition: transform 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28),
-        opacity 0.3s ease,
-        background-color 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    margin: 0 auto;
-    z-index: 10000;
-    opacity: 0;
-    pointer-events: none;
-    box-sizing: border-box;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    will-change: transform, opacity;
-    /* Optimize for animation */
-}
-
-.undo-button.show {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateX(-50%) translateY(0);
-    /* Slide to final position */
-}
-
-/* Don't use display: none so we can animate */
-.hidden {
-    visibility: hidden;
-    /* Use visibility instead of display for animation */
-    opacity: 0;
-}
-
-/* --- Settings Menu Overlay --- */
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.overlay.hidden {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-}
-
-.overlay-content {
-    background-color: var(--color-surface);
-    color: var(--color-on-surface);
-    padding: 1.5rem;
-    border-radius: 1rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    width: 90%;
-    max-width: 350px;
-    transform: scale(1);
-    transition: transform 0.3s ease;
-}
-
-.overlay.hidden .overlay-content {
-    transform: scale(0.95);
-}
-
-.overlay-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    /* Subtle separator */
-    padding-bottom: 0.75rem;
-}
-
-body.dark-mode .overlay-header {
-    border-bottom-color: rgba(255, 255, 255, 0.1);
-}
-
-.overlay-header h2 {
-    margin: 0;
-    font-size: 1.4rem;
-    color: var(--color-primary);
-}
-
-body.dark-mode .overlay-header h2 {
-    color: var(--color-primary);
-}
-
-.close-button {
-    background: none;
-    border: none;
-    font-size: 2rem;
-    font-weight: 300;
-    color: var(--color-on-surface);
-    opacity: 0.7;
-    cursor: pointer;
-    padding: 0 0.5rem;
-    line-height: 1;
-    transition: opacity 0.2s;
-}
-
-.close-button:hover {
-    opacity: 1;
-}
-
-.overlay-body {
-    /* Styles for the main content area of the overlay */
-    padding-top: 0.5rem;
-}
-
-/* --- Settings Button --- */
-.settings-button {
-    padding: 0.5rem;
-    line-height: 1;
-}
-
-.settings-button:hover {
-    text-decoration: none;
-    /* Remove underline hover from base */
-}
-
-.settings-icon {
-    width: 1.5rem;
-    /* Adjust size as needed */
-    height: 1.5rem;
-    vertical-align: middle;
-    opacity: 0.7;
-    transition: opacity 0.2s, transform 0.2s ease;
-    filter: var(--icon-filter, none);
-    /* Apply dark mode filter if needed */
+/* Dark mode specific hover effects */
+body.dark-mode #menuThemeToggle:hover {
+    background-color: var(--color-primary) !important;
+    color: var(--color-on-primary) !important;
 }
 
-.settings-button:hover .settings-icon {
-    opacity: 1;
-    transform: scale(1.1) rotate(15deg);
+body.dark-mode #menuThemeToggle:hover #menuThemeIcon {
+    background-color: var(--color-on-primary) !important;
+    transform: scale(1.1);
 }
 
 /* --- List Collapse Styles --- */
