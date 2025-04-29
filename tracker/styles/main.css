@@ -530,13 +530,18 @@ body.dark-mode .metric-label:hover {
     padding: 0.75rem 0;
     z-index: 100;
     border-radius: 100px 100px 0 0;
-    box-shadow: none !important;
+    box-shadow: none;
     pointer-events: auto;
 }
 
 .bottom-buttons-wrapper.shadow {
-    box-shadow: none !important;
-    border: .75px solid rgba(255, 255, 255, .5);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    border-top: .75px solid rgba(255, 255, 255, .5);
+}
+
+body.dark-mode .bottom-buttons-wrapper.shadow {
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    border-top: .75px solid rgba(255, 255, 255, .15);
 }
 
 /* Container for bottom buttons */
@@ -936,7 +941,7 @@ body.dark-mode {
     font-size: 1rem;
     text-align: left;
     border-radius: 0.5rem;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, color 0.2s;
 }
 
 .settings-item:hover {
@@ -947,95 +952,77 @@ body.dark-mode .settings-item:hover {
     background-color: rgba(255, 255, 255, 0.05);
 }
 
-.settings-item-icon-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    margin-right: 1rem;
+/* Theme toggle specific styling for dark mode */
+body.dark-mode #menuThemeToggle {
+    background-color: rgba(149, 117, 205, 0.15);
 }
 
-/* Theme icon in settings menu */
-.theme-icon {
-    mask-image: url('../assets/images/mode-dark--fill.svg');
-    -webkit-mask-image: url('../assets/images/mode-dark--fill.svg');
+body.dark-mode #menuThemeToggle:hover {
+    background-color: rgba(149, 117, 205, 0.25);
 }
 
-body.dark-mode .theme-icon {
-    mask-image: url('../assets/images/mode-light--fill.svg');
-    -webkit-mask-image: url('../assets/images/mode-light--fill.svg');
+/* Light mode theme toggle hover */
+#menuThemeToggle:hover {
+    background-color: rgba(46, 43, 116, 0.1);
 }
 
-/* Reset icon in settings menu */
-.reset-icon {
-    mask-image: url('../assets/images/reset--fill.svg');
-    -webkit-mask-image: url('../assets/images/reset--fill.svg');
-}
-
-/* Overlay styles */
+/* --- Overlay Styles --- */
 .overlay {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
+    width: 100%;
+    height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    opacity: 1;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s ease;
 }
 
 .overlay.hidden {
     opacity: 0;
     pointer-events: none;
+    visibility: hidden;
 }
 
 .overlay-content {
     background-color: var(--color-surface);
+    border-radius: 1rem;
+    padding: 1.5rem;
     width: 90%;
     max-width: 400px;
-    border-radius: 1rem;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    animation: popIn 0.3s cubic-bezier(0.4, 0.7, 0.4, 1.2);
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .overlay-content {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
 
 .overlay-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-body.dark-mode .overlay-header {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 1.5rem;
 }
 
 .overlay-header h2 {
     margin: 0;
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     color: var(--color-on-surface);
 }
 
 .close-button {
     background: none;
     border: none;
-    color: var(--color-on-surface);
     font-size: 1.5rem;
     cursor: pointer;
-    padding: 0;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    color: var(--color-on-surface);
+    padding: 0.5rem;
+    margin: -0.5rem;
     border-radius: 50%;
     transition: background-color 0.2s;
 }
@@ -1049,55 +1036,85 @@ body.dark-mode .close-button:hover {
 }
 
 .overlay-body {
-    padding: 1rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 }
 
-/* Undo Button Styles */
-.undo-button {
-    position: fixed;
-    bottom: 85px;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background-color: var(--color-error);
-    color: var(--color-on-error);
-    border: none;
-    border-radius: 0.7rem;
-    padding: 1rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    min-width: 100px;
-    z-index: 99;
+/* Settings Icon Container */
+.settings-item-icon-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, background-color 0.2s;
+    width: 40px;
+    height: 40px;
+    margin-right: 1rem;
+}
+
+/* Theme Icon */
+.theme-icon {
+    mask-image: url('../assets/images/mode-dark--fill.svg');
+    -webkit-mask-image: url('../assets/images/mode-dark--fill.svg');
+}
+
+body.dark-mode .theme-icon {
+    mask-image: url('../assets/images/mode-light--fill.svg');
+    -webkit-mask-image: url('../assets/images/mode-light--fill.svg');
+}
+
+/* --- Undo Button Styles --- */
+.undo-button {
+    position: fixed;
+    bottom: 100px;
+    /* Position above the bottom bar */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--color-error);
+    color: var(--color-on-error);
+    border: none;
+    border-radius: 6px;
+    padding: 0.7rem 1.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, opacity 0.3s, bottom 0.3s;
+    z-index: 99;
     opacity: 0;
+    pointer-events: none;
+    bottom: 90px;
 }
 
+/* When the button should be shown */
 .undo-button.show {
-    transform: translateX(-50%) translateY(0);
     opacity: 1;
+    pointer-events: auto;
+    bottom: 100px;
 }
 
+/* When the button is hidden */
 .undo-button.hidden {
-    display: none;
+    opacity: 0;
+    pointer-events: none;
+    bottom: 90px;
+    visibility: hidden;
 }
 
+/* Hover and active states for the undo button */
 .undo-button:hover {
-    background-color: rgb(140, 0, 70);
-    /* Darker version of var(--color-error) rgb(181, 0, 90) */
+    background-color: var(--color-error-darker, rgb(145, 0, 72));
+    /* Darker version for light mode */
 }
 
 body.dark-mode .undo-button:hover {
-    background-color: rgb(175, 80, 97);
-    /* Darker version of dark mode var(--color-error) rgb(207, 102, 121) */
+    background-color: var(--color-error-darker, rgb(177, 72, 91));
+    /* Darker version for dark mode */
 }
 
-.overlay {
-    z-index: 1000;
+.undo-button:active {
+    transform: translateX(-50%) scale(0.95);
+}
+
+/* Dark mode adjustments */
+body.dark-mode .undo-button {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }

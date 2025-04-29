@@ -774,15 +774,15 @@ function showUndoButton() {
 
 // Function to hide the undo button
 function hideUndoButton() {
-    console.log("hideUndoButton called."); // Added log
+    console.log("hideUndoButton called.");
     // Clear any pending timers associated with the undo process
     if (undoTimerId) {
-        console.log("Clearing undoTimerId."); // Added log
+        console.log("Clearing undoTimerId.");
         clearTimeout(undoTimerId);
         undoTimerId = null;
     }
     if (countdownInterval) {
-        console.log("Clearing countdownInterval."); // Added log
+        console.log("Clearing countdownInterval.");
         clearInterval(countdownInterval);
         countdownInterval = null;
     }
@@ -790,19 +790,16 @@ function hideUndoButton() {
     // Remove the show class to trigger the slide-out animation
     undoButton.classList.remove('show');
 
+    // Add hidden class after animation completes
+    setTimeout(() => {
+        undoButton.classList.add('hidden');
+    }, 300);
+
     // Reset the pending flag if the action was cancelled
     if (resetPending) {
-        console.log("Reset was pending, setting resetPending to false in hideUndoButton."); // Added log
+        console.log("Reset was pending, setting resetPending to false in hideUndoButton.");
         resetPending = false;
     }
-
-    // Optional: Add a small delay before setting visibility to hidden
-    // to allow the animation to complete smoothly.
-    // setTimeout(() => {
-    //     if (!undoButton.classList.contains('show')) { // Check if it wasn't shown again
-    //         undoButton.classList.add('hidden');
-    //     }
-    // }, 500); // Match transition duration
 }
 
 // --- Track Button Click Handler ---

@@ -2,6 +2,53 @@
 <html lang="en">
 
 <head>
+    <!-- Early theme application to prevent flash -->
+    <script>
+        // IIFE to apply theme immediately before anything else loads
+        (function () {
+            try {
+                var savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'dark') {
+                    // Add dark-mode class to document element to prevent flash
+                    document.documentElement.classList.add('dark-mode');
+                }
+            } catch (e) {
+                console.error('Error applying theme:', e);
+            }
+        })();
+    </script>
+    <style>
+        /* Critical styles to prevent flash during page load */
+        html.dark-mode,
+        html.dark-mode body {
+            background-color: rgb(18, 18, 18) !important;
+            color: rgb(255, 255, 255) !important;
+        }
+
+        /* Apply dark mode to critical elements to prevent flash */
+        html.dark-mode .metric-card {
+            background-color: rgb(30, 30, 30) !important;
+            color: rgb(255, 255, 255) !important;
+        }
+
+        html.dark-mode .metric-value {
+            color: rgb(149, 117, 205) !important;
+        }
+
+        html.dark-mode .version-number {
+            color: rgb(255, 255, 255) !important;
+        }
+
+        /* Hide body content until CSS is fully loaded to prevent FOUC */
+        .js-loading body {
+            visibility: hidden;
+        }
+    </style>
+    <script>
+        // Add js-loading class to prevent FOUC
+        document.documentElement.classList.add('js-loading');
+    </script>
+
     <!-- Metadata and Title -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -13,7 +60,13 @@
     <meta name="apple-mobile-web-app-title" content="Tracker">
 
     <!-- Theme Color - Controls browser UI elements like address bar -->
-    <meta name="theme-color" content="#c1c1ff">
+    <meta name="theme-color" id="theme-color-meta" content="#c1c1ff">
+    <script>
+        // Update theme-color meta immediately
+        if (localStorage.getItem('theme') === 'dark') {
+            document.getElementById('theme-color-meta').setAttribute('content', '#121212');
+        }
+    </script>
 
     <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -34,6 +87,19 @@
 </head>
 
 <body>
+    <!-- Script to remove loading class once page is ready -->
+    <script>
+        // Remove js-loading class when window loads
+        window.addEventListener('DOMContentLoaded', function () {
+            document.documentElement.classList.remove('js-loading');
+
+            // If dark mode is set in localStorage, ensure body also has the class
+            if (localStorage.getItem('theme') === 'dark') {
+                document.body.classList.add('dark-mode');
+            }
+        });
+    </script>
+
     <!-- Version number display -->
     <div class="version-number">v1.2.1</div>
 
