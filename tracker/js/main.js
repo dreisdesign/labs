@@ -29,6 +29,7 @@ let metricLabelText = localStorage.getItem(LS_KEYS.LABEL) || 'Total';
 // Backup variables to support undo functionality
 let backupTotalCount = 0;
 let backupTrackedEntries = [];
+let backupLabelText = ''; // Added backup for label text
 let undoTimerId = null;
 let countdownInterval = null;
 let countdownValue = 5; // Starting countdown value
@@ -590,22 +591,12 @@ menuThemeToggle.addEventListener('click', () => {
     settingsOverlay.classList.add('hidden');
 });
 
-// Function to update the reset button state based on entry count
-function updateResetButtonState() {
-    // If list is empty, add the inactive class
-    if (trackedEntries.length === 0) {
-        resetButton.classList.add('inactive');
-    } else {
-        resetButton.classList.remove('inactive');
-    }
-}
-
 // --- Add click handler for the reset button
 resetButton.addEventListener('click', () => {
     console.log("Reset button clicked.");
-    // If list is already empty, do nothing or provide minimal feedback
-    if (trackedEntries.length === 0) {
-        console.log("Reset clicked - List is already empty.");
+    // If the button is disabled or list is already empty, do nothing
+    if (resetButton.disabled || trackedEntries.length === 0) {
+        console.log("Reset clicked - Button disabled or list already empty.");
         return; // Exit early
     }
 
@@ -629,8 +620,9 @@ function backupCurrentData() {
     console.log("Backing up current data...");
     backupTotalCount = totalCount;
     backupTrackedEntries = JSON.parse(JSON.stringify(trackedEntries)); // Deep clone the array
+    backupLabelText = metricLabelText; // Add backup of the metric label text
     resetPending = true; // Set the flag indicating a reset is pending
-    console.log("Data backup complete. Total count:", backupTotalCount, "Entries:", backupTrackedEntries.length);
+    console.log("Data backup complete. Total count:", backupTotalCount, "Entries:", backupTrackedEntries.length, "Label:", backupLabelText);
 }
 
 // Function to restore data from backup
@@ -639,13 +631,16 @@ function restoreFromBackup() {
     if (backupTrackedEntries.length > 0) {
         totalCount = backupTotalCount;
         trackedEntries = backupTrackedEntries;
+        metricLabelText = backupLabelText; // Restore the label text
 
         // Save restored data to localStorage
         localStorage.setItem(LS_KEYS.COUNT, totalCount);
         localStorage.setItem(LS_KEYS.ENTRIES, JSON.stringify(trackedEntries));
+        localStorage.setItem(LS_KEYS.LABEL, metricLabelText); // Save restored label to localStorage
 
         // Update UI
         updateTotalCount();
+        updateMetricLabel(); // Update the label in the UI
         renderTimestamps();
         console.log("Data restored successfully.");
     } else {
@@ -664,13 +659,18 @@ function performReset() {
     totalCount = 0;
     trackedEntries = [];
 
+    // Reset the metric label to the default 'Total'
+    metricLabelText = 'Total';
+
     // Clear Local Storage
     localStorage.removeItem(LS_KEYS.COUNT);
     localStorage.removeItem(LS_KEYS.ENTRIES);
+    localStorage.removeItem(LS_KEYS.LABEL); // Remove the saved label
     console.log("Local storage cleared.");
 
     // Update UI
     updateTotalCount();
+    updateMetricLabel(); // Update the label display
     renderTimestamps(); // Render the now empty list
     console.log("UI updated after reset.");
 }

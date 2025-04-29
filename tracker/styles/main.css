@@ -350,7 +350,7 @@ body.dark-mode .metric-label:hover {
 /* --- Main Content Area (Timestamp List) --- */
 #mainContent {
     flex: 1 1 auto;
-    overflow-y: scroll !important;
+    overflow-y: auto;
     min-height: 200px;
     height: 100%;
     max-height: 100vh;
@@ -883,7 +883,7 @@ body.dark-mode {
 .settings-icon {
     width: 24px;
     height: 24px;
-    background-color: var(--color-on-background);
+    background-color: var(--color-primary);
     mask-image: url('../assets/images/settings--fill.svg');
     mask-size: contain;
     mask-repeat: no-repeat;
@@ -1053,7 +1053,7 @@ body.dark-mode .close-button:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, background-color 0.2s;
     opacity: 0;
 }
 
@@ -1067,12 +1067,13 @@ body.dark-mode .close-button:hover {
 }
 
 .undo-button:hover {
-    background-color: var(--color-error-inactive);
+    background-color: rgb(140, 0, 70);
+    /* Darker version of var(--color-error) rgb(181, 0, 90) */
 }
 
-/* Ensure the undo button appears above other elements but below the settings overlay */
-.undo-button {
-    z-index: 99;
+body.dark-mode .undo-button:hover {
+    background-color: rgb(175, 80, 97);
+    /* Darker version of dark mode var(--color-error) rgb(207, 102, 121) */
 }
 
 .overlay {
