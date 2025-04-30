@@ -375,13 +375,13 @@ function renderTimestamps(isTracking = false) {
                 entryDiv.style.opacity = '1';
                 entryDiv.style.transform = 'scale(1)';
             }
-            const checkboxDiv = document.createElement('div');
-            checkboxDiv.className = 'entry-checkbox';
-            checkboxDiv.textContent = '✔';
+
+            // Create time div - removed the checkmark div
             const timeDiv = document.createElement('div');
             timeDiv.className = 'time';
             timeDiv.textContent = formatTime(new Date(entry.date));
-            entryDiv.appendChild(checkboxDiv);
+
+            // Add time div to entry div - no more checkmark
             entryDiv.appendChild(timeDiv);
             groupDiv.appendChild(entryDiv);
         });

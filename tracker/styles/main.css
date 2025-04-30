@@ -448,11 +448,15 @@ body.dark-mode .metric-label:hover {
 .time-entry {
     display: flex;
     align-items: center;
+    justify-content: center;
+    /* Center the time after removing the checkmark */
     padding: 0.75rem;
     background: var(--color-surface);
     border-radius: 0.7rem;
-    width: 100%;
-    max-width: 100%;
+    width: 50%;
+    /* Reduced from 100% to 50% */
+    max-width: 50%;
+    /* Reduced from 100% to 50% */
     min-height: unset;
     height: auto;
     box-sizing: border-box;
@@ -461,6 +465,8 @@ body.dark-mode .metric-label:hover {
     /* Default to 1, JS will override */
     transform: scale(1);
     transition: transform 0.3s ease-out, opacity 0.15s ease-out;
+    margin: 0 auto;
+    /* Center the entries horizontally */
 }
 
 /* Ensure new entries start with the correct initial animation state */
@@ -471,20 +477,11 @@ body.dark-mode .metric-label:hover {
     transition: none;
 }
 
-/* Entry components styling */
-.time-entry .entry-checkbox {
-    flex: 0 0 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    color: var(--color-primary);
-}
-
+/* Time display styling */
 .time-entry .time {
-    flex: 1;
     text-align: center;
+    font-size: 1rem;
+    padding: 0.25rem;
 }
 
 /* Display style for placeholder when list is empty */
@@ -527,7 +524,8 @@ body.dark-mode .metric-label:hover {
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(16px);
     transition: background-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s;
-    padding: 0.75rem 0;
+    padding: 1.125rem 0;
+    /* Increased by 50% from 0.75rem to 1.125rem */
     z-index: 100;
     border-radius: 100px 100px 0 0;
     box-shadow: none;
@@ -903,7 +901,7 @@ body.dark-mode {
 }
 
 .date-group .time-entry+.time-entry {
-    margin-top: 0.5rem;
+    margin-top: 1rem; /* Increased from 0.5rem to 1rem for more spacing between entries */
 }
 
 /* Settings Button Icon */
