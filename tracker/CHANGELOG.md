@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Table of Contents
 - [Unreleased](#unreleased)
+- [1.4.0](#140) - simplified entries
 - [1.2.1](#121) - Inactive reset button if no entries
 - [1.2.0](#120) - Consolidated feature menu
 - [1.1.3](#113) - Ability to undo
@@ -30,6 +31,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [1.0.0](#100) - Initial Release
 
 ## [Unreleased]
+
+## [1.4.0] - 2025-04-30
+
 
 ## [1.2.1] - 2025-04-29
 
