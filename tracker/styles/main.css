@@ -901,7 +901,8 @@ body.dark-mode {
 }
 
 .date-group .time-entry+.time-entry {
-    margin-top: 1rem; /* Increased from 0.5rem to 1rem for more spacing between entries */
+    margin-top: 1rem;
+    /* Increased from 0.5rem to 1rem for more spacing between entries */
 }
 
 /* Settings Button Icon */
