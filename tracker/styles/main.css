@@ -31,6 +31,7 @@
     --color-on-error-inactive: rgb(255, 255, 255);
     /* white text on inactive error */
     --color-primary-75: rgba(46, 43, 116, 0.75);
+    --color-primary-25: rgba(193, 193, 255, 0.25);
     --color-secondary-75: rgba(13, 11, 63, 0.75);
     --color-on-surface-75: rgba(28, 27, 31, 0.75);
     --settings-icon-color: rgba(28, 27, 31, 0.25);
@@ -540,7 +541,8 @@ body.dark-mode .metric-label:hover {
     left: 0;
     right: 0;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.15);
+    /* Lighter background for light mode */
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(16px);
     transition: background-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s;
@@ -550,11 +552,17 @@ body.dark-mode .metric-label:hover {
     border-radius: 100px 100px 0 0;
     box-shadow: none;
     pointer-events: auto;
+    border-top: .75px solid rgba(255, 255, 255, .5);
 }
 
 .bottom-buttons-wrapper.shadow {
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-    border-top: .75px solid rgba(255, 255, 255, .5);
+    border-top: .75px solid rgba(255, 255, 255, .15);
+}
+
+body.dark-mode .bottom-buttons-wrapper {
+    background-color: var(--color-surface);
+    border-top: .25px solid var(--color-primary-25);
 }
 
 body.dark-mode .bottom-buttons-wrapper.shadow {
