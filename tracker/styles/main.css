@@ -1021,7 +1021,7 @@ body.dark-mode .overlay-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.75rem;
 }
 
 .overlay-header h2 {
@@ -1034,34 +1034,27 @@ body.dark-mode .overlay-content {
     background: none;
     border: none;
     cursor: pointer;
-    color: var(--color-on-surface);
     border-radius: 50%;
     transition: background-color 0.2s;
-    width: 2.75rem;
-    height: 2.75rem;
+    width: 3rem;
+    /* Restore size for touch target */
+    height: 3rem;
+    /* Match width */
     display: flex;
+    /* Use flex to center the img */
     align-items: center;
     justify-content: center;
     padding: 0;
-    line-height: 1;
 }
 
-.close-button:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
-body.dark-mode .close-button:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-/* Add styles for the close icon itself */
 .close-icon {
     width: 1.5rem;
+    /* Control icon size */
     height: 1.5rem;
+    /* Control icon size */
     display: block;
 }
 
-/* Apply filter specifically to close-icon in dark mode */
 body.dark-mode .close-icon {
     filter: invert(1);
 }
