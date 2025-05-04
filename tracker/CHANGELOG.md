@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Table of Contents
 - [Unreleased](#unreleased)
+- [1.4.1](#141) - Font and CSS improvements
 - [1.4.0](#140) - simplified entries
 - [1.2.1](#121) - Inactive reset button if no entries
 - [1.2.0](#120) - Consolidated feature menu
@@ -31,6 +32,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [1.0.0](#100) - Initial Release
 
 ## [Unreleased]
+
+## [1.4.1] - 2025-05-04
+
+### Added
+- Added variable font support with 'Source Sans 3' font for better typography
+- Added proper font weights across the application using the variable font range (100-900)
+
+### Changed
+- Simplified CSS by consolidating redundant button classes (merged track-button and bottom-track-button into main-button)
+- Improved scrollbar styling for better Safari compatibility
+- Adjusted settings button position with proper spacing (50px margin from right)
+- Updated version number font to use the new variable font
+
+### Fixed
+- Fixed scrollbar styling in Safari by using a simpler CSS approach with the custom-scrollbar class
 
 ## [1.4.0] - 2025-04-30
 
