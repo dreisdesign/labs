@@ -215,10 +215,10 @@ function updateVisibleEntryOpacities() {
 
         if (allEntries.length === 0) return;
 
-        const minOpacity = 0.1;       // Minimum opacity is 10%
+        const minOpacity = 0.2;       // Minimum opacity is 10%
         const maxOpacity = 1.0;       // First entry gets 100% opacity
-        const secondOpacity = 0.75;   // Second entry gets 75% opacity
-        const opacityStep = 0.05;     // Each subsequent entry decreases by 5%
+        const secondOpacity = 0.5;   // Second entry gets 75% opacity
+        const opacityStep = 0.20;     // Each subsequent entry decreases by 5%
         const scrolledOpacity = 0.6;  // Scrolled away from top: all entries at 60% opacity
 
         // Check if we're at the top with the most recent entry visible

@@ -4,6 +4,17 @@
  * Version: 1.1.0
  */
 
+/* --- Font Face Definition --- */
+@font-face {
+    font-family: 'Source Sans 3';
+    src: url('../fonts/SourceSans3VF.woff2') format('woff2-variations');
+    font-weight: 100 900;
+    /* Define the weight range for the variable font */
+    font-style: normal;
+    font-display: swap;
+    /* Improve loading performance */
+}
+
 /* --- Base Variables (Light Mode Defaults) --- */
 :root {
     --color-primary: rgb(46, 43, 116);
@@ -40,7 +51,7 @@
 
     /* Font Size System */
 
-    --font-size-sm: 0.8rem;
+    --font-size-sm: 0.6rem;
     /* Extra Small (e.g., version number) */
 
     --font-size-md: 1rem;
@@ -121,7 +132,8 @@ body {
     padding: 0;
     background: var(--color-background);
     color: var(--color-on-background);
-    font-family: system-ui, sans-serif;
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+    /* Apply new font */
     font-size: var(--font-size-md);
     line-height: 1.5;
     /* Add smooth transitions for theme changes */
@@ -204,7 +216,7 @@ body {
 }
 
 .metric-label {
-    font-size: var(--font-size-xxl);
+    font-size: var(--font-size-xl);
     color: var(--color-on-surface);
     font-weight: 500;
     cursor: pointer;
@@ -373,7 +385,6 @@ body.dark-mode .metric-label:hover {
     flex: 1 1 auto;
     overflow-y: auto;
     min-height: 200px;
-    height: 100%;
     max-height: 100vh;
     /* Prevent collapse */
     max-width: 400px;
@@ -386,7 +397,6 @@ body.dark-mode .metric-label:hover {
     padding-bottom: 7rem;
     /* Ensure content is not overlapped by footer */
     background: transparent;
-    min-height: 0;
 
     /* Standard scrollbar properties (Firefox) */
     scrollbar-width: thin;
@@ -395,31 +405,43 @@ body.dark-mode .metric-label:hover {
     /* Ensure the scrollbar is always visible in Firefox when needed */
     overflow-y: auto;
     scrollbar-width: thin !important;
+
+    -webkit-overflow-scrolling: touch;
+    /* Improve scrolling on WebKit browsers */
 }
 
-/* WebKit scrollbar styles (Chrome, Safari, Edge) */
-#mainContent::-webkit-scrollbar {
+/* Custom scrollbar for WebKit browsers */
+.custom-scrollbar::-webkit-scrollbar {
     width: 12px;
-    background: var(--color-background);
-    display: block;
 }
 
-#mainContent::-webkit-scrollbar-thumb {
-    background: var(--color-primary-75);
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #888;
     border-radius: 6px;
-    border: 3px solid var(--color-background);
-    min-height: 40px;
 }
 
-#mainContent::-webkit-scrollbar-track {
-    background: var(--color-background);
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 
-/* Microsoft Edge and IE scrollbar styles */
-@supports (-ms-overflow-style: none) {
-    #mainContent {
-        -ms-overflow-style: auto;
-    }
+/* Dark mode scrollbar styles */
+body.dark-mode .custom-scrollbar::-webkit-scrollbar-track {
+    background: #333;
+    /* darker track for dark mode */
+}
+
+body.dark-mode .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #666;
+    /* lighter thumb for dark mode */
+}
+
+body.dark-mode .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #888;
+    /* even lighter on hover */
 }
 
 /* Handle cases where overflow is toggled by JavaScript */
@@ -458,6 +480,7 @@ body.dark-mode .metric-label:hover {
 .date-header {
     color: var(--color-on-background);
     font-size: var(--font-size-md);
+    font-weight: 600;
     margin-top: 1rem;
     margin-bottom: 0.5rem;
     opacity: 1;
@@ -502,6 +525,7 @@ body.dark-mode .metric-label:hover {
 .time-entry .time {
     text-align: center;
     font-size: var(--font-size-xl);
+    font-weight: 600;
     padding: 0.25rem;
 }
 
@@ -873,36 +897,42 @@ body.dark-mode .theme-toggle-button:hover #themeIconSpan {
 
 /* --- Dark Mode Variable Overrides --- */
 body.dark-mode {
-    --color-primary: rgb(149, 117, 205);
-    /* lighter purple */
-    --color-secondary: rgb(126, 87, 194);
-    /* dark mode secondary */
-    --color-primary-darker: rgb(110, 85, 160);
-    /* New darker primary for dark mode */
+    /* Background and surface colors */
     --color-background: rgb(18, 18, 18);
     /* dark background */
     --color-surface: rgb(30, 30, 30);
     /* dark surface */
+
+    /* Primary and accent colors */
+    --color-primary: rgb(149, 117, 205);
+    /* lighter purple */
+    --color-primary-darker: rgb(110, 85, 160);
+    /* New darker primary for dark mode */
+    --color-secondary: rgb(126, 87, 194);
+    /* dark mode secondary */
     --color-error: rgb(207, 102, 121);
     /* light error */
+
+    /* Text colors (on different backgrounds) */
     --color-on-primary: rgb(0, 0, 0);
     /* black text on light primary */
     --color-on-background: rgb(255, 255, 255);
-    /* Increased contrast from rgb(224, 224, 224) */
-    /* light text */
+    /* Increased contrast from rgb(224, 224, 224) - light text */
     --color-on-surface: rgb(255, 255, 255);
-    /* Increased contrast from rgb(224, 224, 224) */
-    /* light text */
+    /* Increased contrast from rgb(224, 224, 224) - light text */
     --color-on-error: rgb(0, 0, 0);
     /* black text on error */
-    --icon-filter: invert(1);
+
+    /* Opacity variants */
     --color-primary-75: rgba(149, 117, 205, 0.75);
     --color-secondary-75: rgba(126, 87, 194, 0.75);
     --color-on-surface-75: rgba(255, 255, 255, 0.75);
     /* Increased contrast */
 
-    /* Different focus color for dark mode for better visibility */
+    /* Utility variables */
+    --icon-filter: invert(1);
     --focus-outline-color: rgb(255, 213, 0);
+    /* Different focus color for dark mode for better visibility */
 }
 
 /* Remove the old date label styles since we're not using it anymore */
@@ -997,6 +1027,8 @@ body.dark-mode #menuThemeToggle:hover {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(16px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1053,6 +1085,11 @@ body.dark-mode .overlay-content {
     align-items: center;
     justify-content: center;
     padding: 0;
+}
+
+.close-button:hover {
+    background-color: var(--color-primary-25);
+    /* Light hover effect */
 }
 
 .close-icon {
