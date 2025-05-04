@@ -37,6 +37,26 @@
     /* 25% opacity of color-on-surface */
     --undo-animation-duration: 3s;
 
+    /* Font Size System */
+
+    --font-size-sm: 0.8rem;
+    /* Extra Small (e.g., version number) */
+
+    --font-size-md: 1rem;
+    /* Medium (e.g., body text, standard buttons) */
+
+    --font-size-lg: 1.1rem;
+    /* Large (e.g., primary action buttons) */
+
+    --font-size-xl: 1.25rem;
+    /* Double Extra Large (e.g., time entries) */
+
+    --font-size-xxl: 1.75rem;
+    /* Triple Extra Large (e.g., overlay titles) */
+
+    --font-size-display: 3.5rem;
+    /* Display (e.g., main metric value) */
+
     /* Focus visible styles for accessibility */
     --focus-outline-color: rgb(0, 95, 204);
     --focus-outline-width: 3px;
@@ -83,7 +103,7 @@
     position: fixed;
     top: 1rem;
     right: 1rem;
-    font-size: 0.8rem;
+    font-size: var(--font-size-sm);
     opacity: 0.8;
     font-family: monospace;
     color: var(--color-on-background);
@@ -101,7 +121,7 @@ body {
     background: var(--color-background);
     color: var(--color-on-background);
     font-family: system-ui, sans-serif;
-    font-size: 16px;
+    font-size: var(--font-size-md);
     line-height: 1.5;
     /* Add smooth transitions for theme changes */
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -183,7 +203,7 @@ body {
 }
 
 .metric-label {
-    font-size: 1.2rem;
+    font-size: var(--font-size-xxl);
     color: var(--color-on-surface);
     font-weight: 500;
     cursor: pointer;
@@ -248,7 +268,7 @@ body.dark-mode .metric-label:hover {
 
 /* --- Metric Value --- */
 .metric-value {
-    font-size: 3.5rem;
+    font-size: var(--font-size-display);
     font-weight: 800;
     color: var(--color-primary);
     line-height: 1.1;
@@ -260,7 +280,7 @@ body.dark-mode .metric-label:hover {
     max-width: 400px;
     width: 100%;
     padding: 1rem 0;
-    font-size: 1.1rem;
+    font-size: var(--font-size-xl);
     font-weight: 600;
     border: none;
     border-radius: 0.7rem;
@@ -436,7 +456,7 @@ body.dark-mode .metric-label:hover {
 /* Date header - always visible immediately */
 .date-header {
     color: var(--color-on-background);
-    font-size: 0.9rem;
+    font-size: var(--font-size-md);
     margin-top: 1rem;
     margin-bottom: 0.5rem;
     opacity: 1;
@@ -480,7 +500,7 @@ body.dark-mode .metric-label:hover {
 /* Time display styling */
 .time-entry .time {
     text-align: center;
-    font-size: 1rem;
+    font-size: var(--font-size-xl);
     padding: 0.25rem;
 }
 
@@ -597,7 +617,7 @@ body.dark-mode .bottom-buttons-wrapper.shadow {
     margin: 0;
     /* Remove top margin as it's handled by the container */
     padding: 0;
-    font-size: 1.1rem;
+    font-size: var(--font-size-lg);
     font-weight: 600;
     border: none;
     border-radius: 0;
@@ -716,7 +736,7 @@ body.dark-mode .theme-toggle-button:hover #themeIconSpan {
     background: none;
     border: none;
     color: var(--color-primary);
-    font-size: 1rem;
+    font-size: var(--font-size-md);
     cursor: pointer;
     margin-top: 0.5rem;
     text-decoration: underline;
@@ -788,10 +808,6 @@ body.dark-mode .theme-toggle-button:hover #themeIconSpan {
         /* Ensure base font size is maintained on mobile */
     }
 
-    .metric-label {
-        font-size: 1.3rem;
-        /* Slightly larger labels on mobile */
-    }
 }
 
 /* High contrast mode support */
@@ -937,7 +953,7 @@ body.dark-mode {
     border: none;
     cursor: pointer;
     color: var(--color-on-surface);
-    font-size: 1rem;
+    font-size: var(--font-size-md);
     text-align: left;
     border-radius: 0.5rem;
     transition: background-color 0.2s, color 0.2s;
@@ -1010,20 +1026,24 @@ body.dark-mode .overlay-content {
 
 .overlay-header h2 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: var(--font-size-xxl);
     color: var(--color-on-surface);
 }
 
 .close-button {
     background: none;
     border: none;
-    font-size: 1.5rem;
     cursor: pointer;
     color: var(--color-on-surface);
-    padding: 0.5rem;
-    margin: -0.5rem;
     border-radius: 50%;
     transition: background-color 0.2s;
+    width: 2.75rem;
+    height: 2.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
 }
 
 .close-button:hover {
@@ -1032,6 +1052,18 @@ body.dark-mode .overlay-content {
 
 body.dark-mode .close-button:hover {
     background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Add styles for the close icon itself */
+.close-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    display: block;
+}
+
+/* Apply filter specifically to close-icon in dark mode */
+body.dark-mode .close-icon {
+    filter: invert(1);
 }
 
 .overlay-body {

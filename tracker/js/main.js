@@ -96,10 +96,10 @@ function isSameGroup(date1, date2) {
 
 // Format time with seconds
 function formatTime(date) {
+    // Updated to format as H:MM AM/PM (e.g., 4:42 PM)
     return date.toLocaleTimeString(undefined, {
-        hour: '2-digit',
+        hour: 'numeric', // Use 'numeric' for non-padded hour (e.g., 4 instead of 04)
         minute: '2-digit',
-        second: '2-digit',
         hour12: true
     });
 }
