@@ -66,7 +66,7 @@
     --font-size-xxl: 1.75rem;
     /* Triple Extra Large (e.g., overlay titles) */
 
-    --font-size-display: 3.5rem;
+    --font-size-display: 5.5rem;
     /* Display (e.g., main metric value) */
 
     /* Focus visible styles for accessibility */
@@ -288,25 +288,22 @@ body.dark-mode .metric-label:hover {
 }
 
 /* --- Track Button --- */
+/* Base styles for all track buttons */
 .track-button {
-    margin-bottom: 1.5rem;
-    max-width: 400px;
-    width: 100%;
-    padding: 1rem 0;
     font-size: var(--font-size-xl);
     font-weight: 600;
     border: none;
-    border-radius: 0.7rem;
+    border-radius: 5rem;
     background: var(--color-primary);
     color: var(--color-on-primary);
     cursor: pointer;
     transition: background-color 0.2s, transform 0.1s ease-out;
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
     overflow: hidden;
+    position: relative;
 }
 
 /* Add active state for mouse down effect */
@@ -315,6 +312,35 @@ body.dark-mode .metric-label:hover {
     background-color: var(--color-primary-darker);
     transform: scale(0.95);
     transition-duration: 0.05s;
+}
+
+/* Hover state */
+.track-button:hover {
+    background: var(--color-secondary);
+}
+
+/* Focus state for accessibility */
+.track-button:focus-visible {
+    outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    outline-offset: var(--focus-outline-offset);
+}
+
+/* Main button (primary action) positioned in the bottom bar */
+.track-button--footer {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    min-width: 120px;
+    padding: 0.75rem 1.5rem;
+    margin: 0;
+}
+
+/* Override transform for button pressed state */
+.track-button--footer:active,
+.track-button--footer.button-pressed {
+    transform: translate(-50%, -50%) scale(0.95);
 }
 
 /* Track button checkmark styling */
@@ -369,15 +395,6 @@ body.dark-mode .metric-label:hover {
 /* For compatibility with some browsers that might not support direct path styling */
 .track-button.success .track-button-checkmark img {
     filter: brightness(0) invert(1);
-}
-
-.track-button:hover {
-    background: var(--color-secondary);
-}
-
-.track-button:focus-visible {
-    outline: var(--focus-outline-width) solid var(--focus-outline-color);
-    outline-offset: var(--focus-outline-offset);
 }
 
 /* --- Main Content Area (Timestamp List) --- */
@@ -482,7 +499,7 @@ body.dark-mode .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     font-size: var(--font-size-md);
     font-weight: 600;
     margin-top: 1rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
     opacity: 1;
     animation: none;
     text-align: center;
@@ -497,9 +514,9 @@ body.dark-mode .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     padding: 0.75rem;
     background: var(--color-surface);
     border-radius: 0.7rem;
-    width: 50%;
+    width: 75%;
     /* Reduced from 100% to 50% */
-    max-width: 50%;
+    max-width: 85%;
     /* Reduced from 100% to 50% */
     min-height: unset;
     height: auto;
@@ -564,19 +581,21 @@ body.dark-mode .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     bottom: 0;
     left: 0;
     right: 0;
-    width: 100%;
+    width: 95%;
     background-color: rgba(255, 255, 255, 0.15);
     /* Lighter background for light mode */
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(16px);
     transition: background-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s;
-    padding: 1.125rem 0;
+    padding: 1.25rem 0;
     /* Increased by 50% from 0.75rem to 1.125rem */
     z-index: 100;
     border-radius: 100px 100px 0 0;
     box-shadow: none;
     pointer-events: auto;
     border-top: .75px solid rgba(255, 255, 255, .5);
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .bottom-buttons-wrapper.shadow {
@@ -599,7 +618,6 @@ body.dark-mode .bottom-buttons-wrapper.shadow {
     display: flex;
     position: relative;
     width: 100%;
-    max-width: 400px;
     margin: 0 auto;
     padding: 0 1rem;
     box-sizing: border-box;
@@ -611,7 +629,7 @@ body.dark-mode .bottom-buttons-wrapper.shadow {
 }
 
 /* Make track button perfectly centered */
-.bottom-track-button {
+.track-button--footer {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -620,22 +638,23 @@ body.dark-mode .bottom-buttons-wrapper.shadow {
     width: auto;
     min-width: 120px;
     /* Ensure the button has a minimum width */
-    padding: 0.75rem 1.5rem;
+    padding: 1.275rem 1.5rem;
     /* Ensure button has proper padding */
     margin: 0;
 }
 
 /* Track button transform when active (fix movement issue) */
-.bottom-track-button:active,
-.bottom-track-button.button-pressed {
+.track-button--footer:active,
+.track-button--footer.button-pressed {
     transform: translate(-50%, -50%) scale(0.95);
     /* Keep centered while scaling */
 }
 
-/* Position settings button 20px from the right */
+/* Position settings button 50px from the right */
 .settings-button {
     position: absolute;
-    right: 20px;
+    right: 60px;
+    /* Changed from 20px to 50px */
     top: 50%;
     transform: translateY(-50%);
     /* Center vertically */
@@ -840,6 +859,11 @@ body.dark-mode .theme-toggle-button:hover #themeIconSpan {
         /* Ensure base font size is maintained on mobile */
     }
 
+    /* Position settings button 50px from the right */
+    .settings-button {
+        right: 30px;
+    }
+
 }
 
 /* High contrast mode support */
@@ -1011,12 +1035,12 @@ body.dark-mode #menuThemeToggle {
 }
 
 body.dark-mode #menuThemeToggle:hover {
-    background-color: rgba(149, 117, 205, 0.25);
+    background-color: var(--color-primary-25);
 }
 
 /* Light mode theme toggle hover */
 #menuThemeToggle:hover {
-    background-color: rgba(46, 43, 116, 0.1);
+    background-color: var(--color-primary-25);
 }
 
 /* --- Overlay Styles --- */
@@ -1107,7 +1131,7 @@ body.dark-mode .close-icon {
 .overlay-body {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.25rem;
 }
 
 /* Settings Icon Container */
