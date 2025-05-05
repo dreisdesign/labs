@@ -6,6 +6,8 @@ const undoButton = document.getElementById('undoButton');
 const timestampList = document.getElementById('timestampList');
 const placeholderEntry = document.querySelector('.placeholder-entry');
 const metricLabel = document.getElementById('metricLabel');
+const metricLabelContainer = document.querySelector('.metric-label-container');
+const editLabelIcon = document.querySelector('.edit-label-icon');
 const versionNumberElement = document.querySelector('.version-number');
 const settingsButton = document.getElementById('settingsButton');
 const settingsOverlay = document.getElementById('settingsOverlay');
@@ -20,6 +22,13 @@ const commentTextarea = document.getElementById('commentTextarea');
 const saveCommentButton = document.getElementById('saveCommentButton');
 const cancelCommentButton = document.getElementById('cancelCommentButton');
 const closeCommentButton = document.getElementById('closeCommentButton');
+
+// Label edit functionality elements
+const labelEditOverlay = document.getElementById('labelEditOverlay');
+const labelEditInput = document.getElementById('labelEditInput');
+const saveLabelButton = document.getElementById('saveLabelButton');
+const deleteLabelButton = document.getElementById('deleteLabelButton');
+const closeLabelEditButton = document.getElementById('closeLabelEditButton');
 
 // --- Constants and State Variables ---
 const LS_KEYS = {
@@ -167,6 +176,16 @@ function showCommentOverlay(entryId) {
 
     // Set the textarea value to the existing comment or empty
     commentTextarea.value = entry.comment || '';
+
+    // Get formatted time for the overlay title
+    const entryDate = new Date(entryId);
+    const formattedTime = formatTime(entryDate);
+
+    // Update the overlay title to include the timestamp
+    const commentOverlayTitle = document.querySelector('#commentOverlay .overlay-header h2');
+    if (commentOverlayTitle) {
+        commentOverlayTitle.textContent = `Note @ ${formattedTime}`;
+    }
 
     // Update the delete button text based on whether this is a new comment or edit
     updateDeleteButtonState();
@@ -361,6 +380,106 @@ metricLabel.addEventListener('keydown', (e) => {
         metricLabel.blur(); // Explicitly blur
     }
 });
+
+// --- Label Edit Overlay Functions ---
+
+// Show label edit overlay
+function showLabelEditOverlay() {
+    // Set the input value based on whether the label is default or custom
+    const isDefaultLabel = metricLabelText === 'Total';
+
+    if (isDefaultLabel) {
+        // Use empty input with placeholder for default label
+        labelEditInput.value = '';
+        labelEditInput.placeholder = 'Total (default)';
+    } else {
+        // Set the input value to the current custom label
+        labelEditInput.value = metricLabelText;
+        labelEditInput.placeholder = 'Enter label name...';
+    }
+
+    // Update the delete button text based on whether the label is default or custom
+    deleteLabelButton.textContent = isDefaultLabel ? 'Cancel' : 'Clear';
+    deleteLabelButton.classList.toggle('cancel', isDefaultLabel);
+
+    // Show the overlay
+    labelEditOverlay.classList.remove('hidden');
+
+    // Focus the input but don't select all text
+    setTimeout(() => {
+        labelEditInput.focus();
+    }, 50);
+}
+
+// Hide label edit overlay
+function hideLabelEditOverlay() {
+    labelEditOverlay.classList.add('hidden');
+    labelEditInput.value = '';
+}
+
+// Save the edited label
+function saveEditedLabel() {
+    const newLabel = labelEditInput.value.trim();
+    if (newLabel) {
+        // Save the old label for potential undo
+        backupLabelText = metricLabelText;
+
+        // Update with new label
+        metricLabelText = newLabel;
+        metricLabel.textContent = newLabel;
+        localStorage.setItem(LS_KEYS.LABEL, newLabel);
+
+        // Hide edit icon if label was modified
+        updateLabelEditIcon();
+    }
+    hideLabelEditOverlay();
+}
+
+// Reset label to default "Total"
+function resetLabelToDefault() {
+    // Save the old label for potential undo
+    backupLabelText = metricLabelText;
+
+    // Reset to "Total"
+    metricLabelText = 'Total';
+    metricLabel.textContent = 'Total';
+    localStorage.removeItem(LS_KEYS.LABEL);
+
+    // Hide edit icon if label was modified
+    updateLabelEditIcon();
+
+    hideLabelEditOverlay();
+}
+
+// Update visibility of the edit icon based on whether the label has been modified
+function updateLabelEditIcon() {
+    // If the label is the default "Total", hide the edit icon when not hovering
+    const isDefault = metricLabelText === 'Total' || !metricLabelText;
+    if (isDefault) {
+        metricLabelContainer.classList.remove('has-custom-label');
+    } else {
+        metricLabelContainer.classList.add('has-custom-label');
+    }
+}
+
+// Event listeners for label edit overlay
+metricLabelContainer.addEventListener('click', showLabelEditOverlay);
+
+closeLabelEditButton.addEventListener('click', hideLabelEditOverlay);
+
+saveLabelButton.addEventListener('click', saveEditedLabel);
+
+deleteLabelButton.addEventListener('click', resetLabelToDefault);
+
+// Close label edit overlay when clicking outside the content
+labelEditOverlay.addEventListener('click', (event) => {
+    if (event.target === labelEditOverlay) {
+        hideLabelEditOverlay();
+    }
+});
+
+// Update label edit icon visibility on initialization
+updateLabelEditIcon();
 
 // --- Core Rendering Logic ---
 

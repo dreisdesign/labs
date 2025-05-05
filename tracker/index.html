@@ -109,6 +109,7 @@
         <div class="metric-card">
             <div class="metric-label-container">
                 <div class="metric-label" id="metricLabel" tabindex="-1">Total</div>
+                <div class="edit-label-icon"></div>
             </div>
             <div class="metric-value" id="totalCount">0</div>
         </div>
@@ -180,6 +181,25 @@
                 <div class="comment-actions">
                     <button id="deleteCommentButton" class="comment-button delete-comment">Delete</button>
                     <button id="saveCommentButton" class="comment-button save-comment">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Label Edit Overlay -->
+    <div id="labelEditOverlay" class="overlay hidden">
+        <div class="overlay-content">
+            <div class="overlay-header">
+                <h2>Edit Label</h2>
+                <button id="closeLabelEditButton" class="close-button" aria-label="Close Label Edit">
+                    <img src="assets/images/close--fill.svg" alt="Close" class="close-icon" />
+                </button>
+            </div>
+            <div class="overlay-body">
+                <input type="text" id="labelEditInput" class="label-edit-input" placeholder="Enter label name..." />
+                <div class="label-edit-actions">
+                    <button id="deleteLabelButton" class="comment-button delete-comment">Clear</button>
+                    <button id="saveLabelButton" class="comment-button save-comment">Save</button>
                 </div>
             </div>
         </div>

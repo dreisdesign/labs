@@ -37,6 +37,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.6.0] - 2025-05-05
 
+### Added
+- Enhanced metric label editing with overlay interface
+- Added ability to edit the "Total" label with same UX pattern as time entry commenting
+- Edit pencil icon appears on hover over the metric label
+- Modal overlay for editing the label with input field
+- "Reset to Default" button when label is customized, "Cancel" when using default
+- Note overlay now shows timestamp context (e.g., "Note @ 2:55 PM")
+
+### Changed
+- Updated comment overlay title to include the timestamp of the entry being edited
+- Improved placeholder behavior for default label editing to avoid text selection
+- Consolidated metric label hover and edit styling for consistent user experience
 
 ## [1.5.0] - 2025-05-05
 
