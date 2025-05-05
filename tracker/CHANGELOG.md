@@ -43,11 +43,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Comment overlay has the same visual style as the settings menu for consistency
 - Mobile keyboard automatically opens when the comment overlay appears
 - Comments are saved with the entry data and persist through page reloads
+- Added undo functionality for comment deletion similar to the reset undo
+- Enhanced hover effects for time entries showing different icons based on comment state
 
 ### Changed
 - Enhanced time entries to be more interactive with cursor pointer
 - Improved time entry layout to accommodate comment icons
 - Updated time entries to use space-between layout for better alignment
+- Made comment overlay width consistent with settings overlay for better UI coherence
+
+### Fixed
+- Fixed icon display issue in settings menu for the reset button
 
 ## [1.4.1] - 2025-05-04
 
