@@ -36,6 +36,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.5.0] - 2025-05-05
 
+### Added
+- Added the ability to add comments to time entries
+- Time entries are now clickable, opening a comment editor overlay
+- Comment icon appears on entries that have comments
+- Comment overlay has the same visual style as the settings menu for consistency
+- Mobile keyboard automatically opens when the comment overlay appears
+- Comments are saved with the entry data and persist through page reloads
+
+### Changed
+- Enhanced time entries to be more interactive with cursor pointer
+- Improved time entry layout to accommodate comment icons
+- Updated time entries to use space-between layout for better alignment
 
 ## [1.4.1] - 2025-05-04
 

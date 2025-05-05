@@ -83,7 +83,7 @@
     <meta name="msapplication-config" content="browserconfig.xml">
 
     <!-- Link to CSS Stylesheet -->
-    <link rel="stylesheet" href="styles/main.css?v=1.2.0">
+    <link rel="stylesheet" href="styles/main.css?v=1.5.0.1">
 </head>
 
 <body>
@@ -161,6 +161,26 @@
                     </div>
                     <span>Reset All Data</span>
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comment Overlay -->
+    <div id="commentOverlay" class="overlay hidden">
+        <div class="overlay-content">
+            <div class="overlay-header">
+                <h2>Comment</h2>
+                <button id="closeCommentButton" class="close-button" aria-label="Close Comment">
+                    <img src="assets/images/close--fill.svg" alt="Close" class="close-icon" />
+                </button>
+            </div>
+            <div class="overlay-body">
+                <textarea id="commentTextarea" class="comment-textarea"
+                    placeholder="Add your comment here..."></textarea>
+                <div class="comment-actions">
+                    <button id="deleteCommentButton" class="comment-button delete-comment">Delete</button>
+                    <button id="saveCommentButton" class="comment-button save-comment">Save</button>
+                </div>
             </div>
         </div>
     </div>

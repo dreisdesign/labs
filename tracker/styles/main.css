@@ -510,31 +510,32 @@ body.dark-mode .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Center the time after removing the checkmark */
     padding: 0.75rem;
     background: var(--color-surface);
     border-radius: 0.7rem;
     width: 75%;
-    /* Reduced from 100% to 50% */
     max-width: 85%;
-    /* Reduced from 100% to 50% */
     min-height: unset;
     height: auto;
     box-sizing: border-box;
-    /* Opacity will be handled by JavaScript */
     opacity: 1;
-    /* Default to 1, JS will override */
     transform: scale(1);
     transition: transform 0.3s ease-out, opacity 0.15s ease-out;
     margin: 0 auto;
-    /* Center the entries horizontally */
+    cursor: pointer;
+    position: relative;
+}
+
+/* Active/pressed state for time entry */
+.time-entry:active {
+    transform: scale(0.95);
+    transition-duration: 0.05s;
 }
 
 /* Ensure new entries start with the correct initial animation state */
 .time-entry.new-entry {
     opacity: 0;
     transform: scale(.95);
-    /* Remove transition to prevent flash */
     transition: none;
 }
 
@@ -546,12 +547,187 @@ body.dark-mode .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     padding: 0.25rem;
 }
 
+/* Base comment icon styling */
+.comment-icon,
+.comment-edit-icon {
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    right: 12px;
+    flex-shrink: 0;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+}
+
+/* Comment icon styling when entry has a comment */
+.time-entry.has-comment .comment-icon {
+    background-color: var(--color-primary);
+    mask-image: url('../assets/images/comment--fill.svg');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: url('../assets/images/comment--fill.svg');
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    opacity: 0.75;
+    display: block;
+}
+
+/* Edit comment icon (appears on hover for entries with comments) */
+.comment-edit-icon {
+    background-color: var(--color-primary);
+    mask-image: url('../assets/images/comment-edit--fill.svg');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: url('../assets/images/comment-edit--fill.svg');
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    opacity: 0;
+    z-index: 2;
+    /* Ensure it appears above the normal comment icon */
+}
+
+/* Show edit icon on hover for entries with comments */
+.time-entry.has-comment:hover .comment-icon {
+    opacity: 0;
+}
+
+.time-entry.has-comment:hover .comment-edit-icon {
+    opacity: 1;
+    background-color: var(--color-secondary);
+}
+
+/* Add comment icon for entries without comments (hidden by default) */
+.add-comment-icon {
+    width: 24px;
+    height: 24px;
+    background-color: var(--color-primary);
+    mask-image: url('../assets/images/add_comment--fill.svg');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: url('../assets/images/add_comment--fill.svg');
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    opacity: 0;
+    position: absolute;
+    right: 12px;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+}
+
+/* Show add comment icon on hover for entries without comments */
+.time-entry:not(.has-comment):hover .add-comment-icon {
+    opacity: 0.75;
+}
+
+.time-entry:not(.has-comment):hover:active .add-comment-icon {
+    background-color: var(--color-secondary);
+    opacity: 1;
+}
+
+/* Override comment icon colors in dark mode */
+body.dark-mode .time-entry.has-comment .comment-icon {
+    background-color: var(--color-primary);
+}
+
+body.dark-mode .time-entry.has-comment:hover .comment-edit-icon {
+    background-color: var(--color-secondary);
+}
+
+body.dark-mode .add-comment-icon {
+    background-color: var(--color-primary);
+}
+
+body.dark-mode .time-entry:not(.has-comment):hover:active .add-comment-icon {
+    background-color: var(--color-secondary);
+}
+
+/* --- Comment Overlay Styles --- */
+/* Comment textarea styling */
+.comment-textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 0.75rem;
+    border: 1px solid var(--color-primary-75);
+    border-radius: 0.5rem;
+    background: var(--color-surface);
+    color: var(--color-on-surface);
+    font-family: 'Source Sans 3', system-ui, sans-serif;
+    font-size: var(--font-size-md);
+    resize: vertical;
+    outline: none;
+    margin: 1rem 0;
+    box-sizing: border-box;
+}
+
+.comment-textarea:focus {
+    border-color: var(--color-primary);
+}
+
+body.dark-mode .comment-textarea {
+    border-color: var(--color-primary-75);
+    background-color: rgb(40, 40, 40);
+}
+
+body.dark-mode .comment-textarea:focus {
+    border-color: var(--color-primary);
+}
+
+.comment-actions {
+    display: flex;
+    justify-content: space-between;
+    /* Changed to space-between to push buttons apart */
+    margin-top: 1rem;
+}
+
+.comment-button {
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: var(--font-size-md);
+    cursor: pointer;
+    min-height: 44px;
+}
+
+.save-comment {
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
+}
+
+.save-comment:hover {
+    background-color: var(--color-secondary);
+}
+
+/* Delete comment button styling - similar to Reset button in settings */
+.delete-comment {
+    background-color: transparent;
+    color: var(--color-error);
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.delete-comment:hover {
+    background-color: var(--color-error);
+    color: var(--color-on-error);
+}
+
+.delete-comment.cancel {
+    color: var(--color-primary);
+}
+
+.delete-comment.cancel:hover {
+    background-color: var(--color-primary-25);
+    color: var(--color-primary);
+}
+
 /* Display style for placeholder when list is empty */
 .placeholder-entry {
     margin: 2rem 0;
     color: var(--color-on-background);
     opacity: 0.75;
-    /* Use opacity instead of the -75 variable */
     font-style: italic;
     text-align: center;
     display: block;
@@ -610,7 +786,7 @@ body.dark-mode .bottom-buttons-wrapper {
 
 body.dark-mode .bottom-buttons-wrapper.shadow {
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
-    border-top: .75px solid rgba(255, 255, 255, .15);
+    border-top: .75px solid rgba(0, 0, 0, .15);
 }
 
 /* Container for bottom buttons */
@@ -701,6 +877,35 @@ body.dark-mode .bottom-buttons-wrapper.shadow {
 
 .settings-item-reset .reset-icon {
     background-color: var(--color-error);
+}
+
+/* Reset Icon */
+.reset-icon {
+    mask-image: url('../assets/images/reset--fill2.svg');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: url('../assets/images/reset--fill2.svg');
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+}
+
+/* Reset Icon - More specific selector with !important to override any conflicts */
+#resetButton .reset-icon {
+    width: 24px;
+    height: 24px;
+    background-color: var(--color-error);
+    mask-image: url('../assets/images/reset--fill2.svg') !important;
+    mask-size: contain !important;
+    mask-repeat: no-repeat !important;
+    mask-position: center !important;
+    -webkit-mask-image: url('../assets/images/reset--fill2.svg') !important;
+    -webkit-mask-size: contain !important;
+    -webkit-mask-repeat: no-repeat !important;
+    -webkit-mask-position: center !important;
+    opacity: 0.75;
+    transition: opacity 0.2s;
 }
 
 /* Inactive state for reset button when no entries exist */

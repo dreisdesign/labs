@@ -14,6 +14,13 @@ const menuThemeToggle = document.getElementById('menuThemeToggle'); // Added for
 const menuThemeIcon = document.getElementById('menuThemeIcon'); // Added for menu theme icon
 const menuThemeText = document.getElementById('menuThemeText'); // Added for menu theme text
 
+// Comment functionality elements
+const commentOverlay = document.getElementById('commentOverlay');
+const commentTextarea = document.getElementById('commentTextarea');
+const saveCommentButton = document.getElementById('saveCommentButton');
+const cancelCommentButton = document.getElementById('cancelCommentButton');
+const closeCommentButton = document.getElementById('closeCommentButton');
+
 // --- Constants and State Variables ---
 const LS_KEYS = {
     COUNT: 'totalCount',
@@ -25,6 +32,7 @@ const LS_KEYS = {
 let isTestingMode = false;
 let isAnimating = false;
 let metricLabelText = localStorage.getItem(LS_KEYS.LABEL) || 'Total';
+let currentEditingEntry = null; // Track which entry is being edited
 
 // Backup variables to support undo functionality
 let backupTotalCount = 0;
@@ -34,6 +42,10 @@ let undoTimerId = null;
 let countdownInterval = null;
 let countdownValue = 5; // Starting countdown value
 let resetPending = false; // Flag to track if a reset is waiting for countdown
+
+// Variables to track comment deletion for undo
+let deletedCommentEntry = null;
+let deletedCommentText = '';
 
 // Load state from Local Storage or use defaults with validation
 let totalCount = 0;
@@ -141,6 +153,166 @@ function updateTotalCount() {
 function updateMetricLabel() {
     metricLabel.textContent = metricLabelText;
 }
+
+// --- Comment Functionality ---
+
+// Show comment overlay with existing comment (if any)
+function showCommentOverlay(entryId) {
+    // Find the entry in trackedEntries
+    const entry = trackedEntries.find(entry => entry.date === entryId);
+    if (!entry) return;
+
+    // Store the current entry being edited
+    currentEditingEntry = entry;
+
+    // Set the textarea value to the existing comment or empty
+    commentTextarea.value = entry.comment || '';
+
+    // Update the delete button text based on whether this is a new comment or edit
+    updateDeleteButtonState();
+
+    // Show the overlay
+    commentOverlay.classList.remove('hidden');
+
+    // Focus the textarea and put cursor at the end
+    commentTextarea.focus();
+    commentTextarea.selectionStart = commentTextarea.value.length;
+    commentTextarea.selectionEnd = commentTextarea.value.length;
+}
+
+// Update delete button state between "Delete" and "Cancel" based on comment content
+function updateDeleteButtonState() {
+    const deleteButton = document.getElementById('deleteCommentButton');
+    const hasExistingComment = currentEditingEntry && currentEditingEntry.comment;
+
+    if (!hasExistingComment) {
+        // If no existing comment, always show "Cancel" regardless of text in field
+        deleteButton.textContent = 'Cancel';
+        deleteButton.classList.add('cancel');
+    } else {
+        // Only if there's an existing comment, show "Delete"
+        deleteButton.textContent = 'Delete';
+        deleteButton.classList.remove('cancel');
+    }
+}
+
+// Listen for changes in the textarea to update the delete button accordingly
+commentTextarea.addEventListener('input', updateDeleteButtonState);
+
+// Hide comment overlay
+function hideCommentOverlay() {
+    commentOverlay.classList.add('hidden');
+    currentEditingEntry = null;
+    commentTextarea.value = '';
+}
+
+// Delete/cancel comment 
+function deleteComment() {
+    const deleteButton = document.getElementById('deleteCommentButton');
+    const isCancel = deleteButton.classList.contains('cancel');
+
+    if (isCancel) {
+        // If in cancel mode, just close the overlay
+        hideCommentOverlay();
+        return;
+    }
+
+    // If in delete mode, backup and remove the comment
+    if (currentEditingEntry && currentEditingEntry.comment) {
+        // Backup the comment for undo
+        deletedCommentEntry = { ...currentEditingEntry };
+        deletedCommentText = currentEditingEntry.comment;
+
+        const entryIndex = trackedEntries.findIndex(entry => entry.date === currentEditingEntry.date);
+        if (entryIndex !== -1) {
+            // Delete the comment property
+            delete trackedEntries[entryIndex].comment;
+
+            // Save to localStorage
+            localStorage.setItem(LS_KEYS.ENTRIES, JSON.stringify(trackedEntries));
+
+            // Re-render timestamps to update UI
+            renderTimestamps();
+
+            // Show the undo button
+            showUndoCommentDeleteButton();
+        }
+    }
+
+    // Hide the overlay
+    hideCommentOverlay();
+}
+
+// Show the undo button for comment deletion
+function showUndoCommentDeleteButton() {
+    console.log("Showing undo button for comment deletion");
+    // Set button text to show it's an Undo action
+    undoButton.innerHTML = '<span>Undo Delete</span>';
+
+    // Clear any existing timers
+    if (undoTimerId) {
+        clearTimeout(undoTimerId);
+    }
+    if (countdownInterval) {
+        clearInterval(countdownInterval);
+    }
+
+    // Remove any existing classes
+    undoButton.classList.remove('hidden');
+
+    // Force browser to recognize the initial state before animating
+    void undoButton.offsetHeight;
+
+    // Add the show class which triggers the slide-in animation
+    undoButton.classList.add('show');
+
+    // Set a timer to auto-hide the undo button after 5 seconds
+    undoTimerId = setTimeout(() => {
+        hideUndoButton();
+        // Clear the deleted comment backup after timeout
+        deletedCommentEntry = null;
+        deletedCommentText = '';
+    }, 5000);
+}
+
+// Save comment to the entry
+function saveComment() {
+    if (!currentEditingEntry) return;
+
+    const comment = commentTextarea.value.trim();
+
+    // Update the entry in the trackedEntries array
+    const entryIndex = trackedEntries.findIndex(entry => entry.date === currentEditingEntry.date);
+    if (entryIndex !== -1) {
+        if (comment) {
+            trackedEntries[entryIndex].comment = comment;
+        } else {
+            // If comment is empty, remove the property
+            delete trackedEntries[entryIndex].comment;
+        }
+
+        // Save to localStorage
+        localStorage.setItem(LS_KEYS.ENTRIES, JSON.stringify(trackedEntries));
+
+        // Re-render timestamps to update UI
+        renderTimestamps();
+    }
+
+    // Hide the overlay
+    hideCommentOverlay();
+}
+
+// Event listeners for comment functionality
+saveCommentButton.addEventListener('click', saveComment);
+document.getElementById('deleteCommentButton').addEventListener('click', deleteComment);
+closeCommentButton.addEventListener('click', hideCommentOverlay);
+
+// Close comment overlay when clicking outside the content
+commentOverlay.addEventListener('click', (event) => {
+    if (event.target === commentOverlay) {
+        hideCommentOverlay();
+    }
+});
 
 // --- Label Editing Functions ---
 function initializeLabel() {
@@ -355,6 +527,12 @@ function renderTimestamps(isTracking = false) {
             const entryDiv = document.createElement('div');
             entryDiv.className = 'time-entry';
             entryDiv.setAttribute('data-key', entry.date); // Use timestamp as unique key
+
+            // Add has-comment class if the entry has a comment
+            if (entry.comment) {
+                entryDiv.classList.add('has-comment');
+            }
+
             if (groupIdx === 0 && entryIdx === 0 && isTracking) {
                 entryDiv.classList.add('new-entry');
                 newTimeEntryEl = entryDiv;
@@ -376,13 +554,33 @@ function renderTimestamps(isTracking = false) {
                 entryDiv.style.transform = 'scale(1)';
             }
 
-            // Create time div - removed the checkmark div
+            // Create time div
             const timeDiv = document.createElement('div');
             timeDiv.className = 'time';
             timeDiv.textContent = formatTime(new Date(entry.date));
 
-            // Add time div to entry div - no more checkmark
+            // Create comment icon (shown when entry has a comment)
+            const commentIcon = document.createElement('div');
+            commentIcon.className = 'comment-icon';
+
+            // Create comment edit icon (shown on hover when entry has a comment)
+            const commentEditIcon = document.createElement('div');
+            commentEditIcon.className = 'comment-edit-icon';
+
+            // Create add comment icon (shown on hover when entry has no comment)
+            const addCommentIcon = document.createElement('div');
+            addCommentIcon.className = 'add-comment-icon';
+
+            // Add event listener to the entry div to open comment overlay
+            entryDiv.addEventListener('click', () => {
+                showCommentOverlay(entry.date);
+            });
+
+            // Add time div and all icons to entry div
             entryDiv.appendChild(timeDiv);
+            entryDiv.appendChild(commentIcon);
+            entryDiv.appendChild(commentEditIcon);
+            entryDiv.appendChild(addCommentIcon);
             groupDiv.appendChild(entryDiv);
         });
         timestampList.appendChild(groupDiv);
@@ -738,9 +936,31 @@ function playFLIPAnimation(prevRects) {
 
 // Add click handler for the undo button
 undoButton.addEventListener('click', () => {
-    console.log("Undo/Cancel button clicked."); // Added log
-    restoreFromBackup();
-    // console.log("Undo clicked - Restored previous entries."); // Original log moved into restoreFromBackup
+    console.log("Undo button clicked");
+
+    if (deletedCommentEntry && deletedCommentText) {
+        // Restore the deleted comment
+        const entryIndex = trackedEntries.findIndex(entry => entry.date === deletedCommentEntry.date);
+        if (entryIndex !== -1) {
+            trackedEntries[entryIndex].comment = deletedCommentText;
+
+            // Save to localStorage
+            localStorage.setItem(LS_KEYS.ENTRIES, JSON.stringify(trackedEntries));
+
+            // Re-render timestamps to update UI
+            renderTimestamps();
+        }
+
+        // Clear the deleted comment backup
+        deletedCommentEntry = null;
+        deletedCommentText = '';
+    } else {
+        // Regular undo for reset operation
+        restoreFromBackup();
+    }
+
+    // Hide the undo button
+    hideUndoButton();
 });
 
 // Function to show the Undo button
