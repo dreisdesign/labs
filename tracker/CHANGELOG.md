@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Table of Contents
 - [Unreleased](#unreleased)
+- [1.7.0](#170) - Swipe to delete entries
 - [1.6.0](#160) - Edit total ui
 - [1.5.0](#150) - Comments
 - [1.4.1](#141) - Font and CSS improvements
@@ -34,6 +35,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [1.0.0](#100) - Initial Release
 
 ## [Unreleased]
+
+## [1.7.0] - 2025-05-06
+
 
 ## [1.6.0] - 2025-05-05
 
