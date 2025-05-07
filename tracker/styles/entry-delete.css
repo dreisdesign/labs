@@ -26,32 +26,51 @@
     pointer-events: auto;
 }
 
+/* Wrapper for the delete icon to create circular background */
+.delete-icon-wrapper {
+    position: absolute;
+    top: 50%;
+    right: -45px;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+    z-index: 5;
+    cursor: pointer;
+}
+
+/* Change the hover background to black with 20% opacity for better visibility */
+.delete-icon-wrapper:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
 /* Base delete icon styling */
 .delete-icon {
     width: 24px;
     height: 24px;
-    background-color: var(--color-error);
-    mask-image: url('../assets/images/reset--fill.svg');
+    background-color: var(--color-primary);
+    mask-image: url('../assets/images/close--fill.svg');
     mask-size: contain;
     mask-repeat: no-repeat;
     mask-position: center;
-    -webkit-mask-image: url('../assets/images/reset--fill.svg');
+    -webkit-mask-image: url('../assets/images/close--fill.svg');
     -webkit-mask-size: contain;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 0 0.75rem;
-    cursor: pointer;
-    z-index: 5;
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
 }
 
 /* Mobile-specific positioning for swiped state */
-.time-entry--swiped .delete-icon {
+.time-entry--swiped .delete-icon-wrapper {
     right: -40px;
+}
+
+.time-entry--swiped .delete-icon {
     opacity: 0.8;
 }
 
@@ -60,7 +79,7 @@
 }
 
 /* Desktop-specific hover state */
-.delete-icon--hover {
+.delete-icon-wrapper.delete-icon-wrapper--hover {
     right: -45px;
 }
 
@@ -85,13 +104,23 @@
 
 /* Make sure the delete icon is visible in both light and dark modes */
 body.dark-mode .delete-icon {
-    background-color: var(--color-error);
+    background-color: var(--color-primary);
 }
 
 /* Ensure proper contrast for hover */
 body.dark-mode .delete-icon:hover {
-    background-color: var(--color-error);
+    background-color: var(--color-secondary);
     opacity: 1;
+}
+
+/* Add hover effect similar to comment icons */
+.delete-icon-wrapper:hover .delete-icon {
+    background-color: var(--color-secondary);
+}
+
+/* Dark mode styling for the circular hover effect - also changed to white with 20% opacity for dark mode */
+body.dark-mode .delete-icon-wrapper:hover {
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 /* Animation delays to prevent jumps */

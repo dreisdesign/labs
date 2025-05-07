@@ -50,7 +50,7 @@ function resetAllEntries() {
         entry.classList.remove('time-entry--swiped');
 
         // Remove any existing delete icons
-        const existingIcons = entry.querySelectorAll('.delete-icon');
+        const existingIcons = entry.querySelectorAll('.delete-icon-wrapper');
         existingIcons.forEach(icon => icon.remove());
 
         // Remove any existing hover zones
@@ -112,9 +112,12 @@ function setupMobileSwipe() {
  * @param {HTMLElement} entry - The time entry element to set up hover for
  */
 function setupEntryHover(entry) {
-    // Create delete icon for this entry
-    const deleteIcon = createDeleteIcon();
-    deleteIcon.classList.add('delete-icon--hover');
+    // Create delete icon with wrapper for this entry
+    const deleteIconWrapper = createDeleteIcon();
+    deleteIconWrapper.classList.add('delete-icon-wrapper--hover');
+
+    // Get reference to the actual icon inside the wrapper
+    const deleteIcon = deleteIconWrapper.querySelector('.delete-icon');
 
     // Create hover zone for right side of the entry
     const hoverZone = createHoverZone();
@@ -122,8 +125,8 @@ function setupEntryHover(entry) {
 
     // Function to handle showing the delete icon
     const showDeleteIcon = () => {
-        if (!entry.contains(deleteIcon)) {
-            entry.appendChild(deleteIcon);
+        if (!entry.contains(deleteIconWrapper)) {
+            entry.appendChild(deleteIconWrapper);
         }
         deleteIcon.style.opacity = '1';
     };
@@ -131,16 +134,16 @@ function setupEntryHover(entry) {
     // Function to handle hiding the delete icon
     const hideDeleteIcon = (e) => {
         const relatedTarget = e.relatedTarget;
-        // Don't hide if moving to the delete icon or hover zone or entry
-        if (relatedTarget === deleteIcon || relatedTarget === hoverZone || relatedTarget === entry ||
+        // Don't hide if moving to the delete icon wrapper, icon itself, hover zone or entry
+        if (relatedTarget === deleteIconWrapper || relatedTarget === deleteIcon || relatedTarget === hoverZone || relatedTarget === entry ||
             (relatedTarget && entry.contains(relatedTarget))) {
             return;
         }
 
         deleteIcon.style.opacity = '0';
         setTimeout(() => {
-            if (deleteIcon.parentNode === entry && deleteIcon.style.opacity === '0') {
-                entry.removeChild(deleteIcon);
+            if (deleteIconWrapper.parentNode === entry && deleteIcon.style.opacity === '0') {
+                entry.removeChild(deleteIconWrapper);
             }
         }, 200);
     };
@@ -153,12 +156,12 @@ function setupEntryHover(entry) {
     hoverZone.addEventListener('mouseenter', showDeleteIcon);
     hoverZone.addEventListener('mouseleave', hideDeleteIcon);
 
-    // Add events to the delete icon
-    deleteIcon.addEventListener('mouseenter', showDeleteIcon);
-    deleteIcon.addEventListener('mouseleave', hideDeleteIcon);
+    // Add events to the delete icon wrapper
+    deleteIconWrapper.addEventListener('mouseenter', showDeleteIcon);
+    deleteIconWrapper.addEventListener('mouseleave', hideDeleteIcon);
 
-    // Add click event to the delete icon
-    deleteIcon.addEventListener('click', (e) => {
+    // Add click event to the delete icon wrapper
+    deleteIconWrapper.addEventListener('click', (e) => {
         e.stopPropagation();
         deleteEntry(entry);
     });
@@ -302,9 +305,18 @@ function handleTouchEnd(e) {
  * @returns {HTMLElement} The delete icon element
  */
 function createDeleteIcon() {
+    // Create wrapper for circular hover effect
+    const wrapper = document.createElement('div');
+    wrapper.className = 'delete-icon-wrapper';
+
+    // Create the actual icon
     const deleteIcon = document.createElement('div');
     deleteIcon.className = 'delete-icon';
-    return deleteIcon;
+
+    // Add the icon to the wrapper
+    wrapper.appendChild(deleteIcon);
+
+    return wrapper;
 }
 
 /**
@@ -312,16 +324,16 @@ function createDeleteIcon() {
  * @param {HTMLElement} entry - The time entry element
  */
 function ensureDeleteIcon(entry) {
-    if (!entry.querySelector('.delete-icon')) {
-        const deleteIcon = createDeleteIcon();
+    if (!entry.querySelector('.delete-icon-wrapper')) {
+        const deleteIconWrapper = createDeleteIcon();
 
-        // Add click event for the delete icon
-        deleteIcon.addEventListener('click', (e) => {
+        // Add click event for the delete icon wrapper
+        deleteIconWrapper.addEventListener('click', (e) => {
             e.stopPropagation();
             deleteEntry(entry);
         });
 
-        entry.appendChild(deleteIcon);
+        entry.appendChild(deleteIconWrapper);
     }
 }
 
@@ -347,9 +359,9 @@ function resetEntryPosition(entry) {
 
     // Remove the delete icon after animation completes
     setTimeout(() => {
-        const deleteIcon = entry.querySelector('.delete-icon');
-        if (deleteIcon) {
-            deleteIcon.remove();
+        const deleteIconWrapper = entry.querySelector('.delete-icon-wrapper');
+        if (deleteIconWrapper) {
+            deleteIconWrapper.remove();
         }
     }, 200);
 }
