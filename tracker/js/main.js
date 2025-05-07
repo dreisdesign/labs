@@ -47,6 +47,7 @@ let currentEditingEntry = null; // Track which entry is being edited
 let backupTotalCount = 0;
 let backupTrackedEntries = [];
 let backupLabelText = ''; // Added backup for label text
+let deletedEntry = null; // Track deleted entry for undo
 let undoTimerId = null;
 let countdownInterval = null;
 let countdownValue = 5; // Starting countdown value
@@ -854,6 +855,65 @@ function addTimestamp() {
     });
 }
 
+/**
+ * Delete a time entry by its timestamp key
+ * @param {number} dateKey - The timestamp of the entry to delete
+ */
+function deleteTimeEntry(dateKey) {
+    // Find the entry index in the tracked entries
+    const entryIndex = trackedEntries.findIndex(entry => entry.date === dateKey);
+
+    if (entryIndex !== -1) {
+        // Backup the entry before deletion for undo
+        deletedEntry = { ...trackedEntries[entryIndex] };
+
+        // Remove the entry
+        trackedEntries.splice(entryIndex, 1);
+
+        // Update the total count
+        totalCount--;
+
+        // Save changes to localStorage
+        updateTotalCount();
+        localStorage.setItem(LS_KEYS.ENTRIES, JSON.stringify(trackedEntries));
+
+        // Show the undo button
+        showUndoForDeletedEntry();
+    }
+}
+
+/**
+ * Show the undo button for a deleted entry
+ */
+function showUndoForDeletedEntry() {
+    // Set button text to show it's an Undo Delete action
+    undoButton.innerHTML = '<span>Undo Delete</span>';
+
+    // Clear any existing timers
+    if (undoTimerId) {
+        clearTimeout(undoTimerId);
+    }
+    if (countdownInterval) {
+        clearInterval(countdownInterval);
+    }
+
+    // Remove any existing classes
+    undoButton.classList.remove('hidden');
+
+    // Force browser to recognize the initial state before animating
+    void undoButton.offsetHeight;
+
+    // Add the show class which triggers the slide-in animation
+    undoButton.classList.add('show');
+
+    // Set a timer to auto-hide the undo button after 5 seconds
+    undoTimerId = setTimeout(() => {
+        hideUndoButton();
+        // Clear the deleted entry backup after timeout
+        deletedEntry = null;
+    }, 5000);
+}
+
 // Function to show the track success checkmark animation
 function showTrackSuccess() {
     trackButton.classList.add('success');
@@ -1073,6 +1133,22 @@ undoButton.addEventListener('click', () => {
         // Clear the deleted comment backup
         deletedCommentEntry = null;
         deletedCommentText = '';
+    } else if (deletedEntry) {
+        // Restore the deleted entry
+        trackedEntries.push(deletedEntry);
+
+        // Update the total count
+        totalCount++;
+        updateTotalCount();
+
+        // Save changes to localStorage
+        localStorage.setItem(LS_KEYS.ENTRIES, JSON.stringify(trackedEntries));
+
+        // Re-render timestamps to update UI
+        renderTimestamps();
+
+        // Clear the deleted entry backup
+        deletedEntry = null;
     } else {
         // Regular undo for reset operation
         restoreFromBackup();
@@ -1175,7 +1251,15 @@ trackButton.addEventListener('click', () => {
     // 3. Animate using FLIP
     playFLIPAnimation(prevRects);
 
-    // 4. Re-enable after animation and ensure .new-entry styles are managed
+    // 4. Reinitialize delete functionality for the new entry
+    if (typeof window.reinitializeDeleteFunctionality === 'function') {
+        window.reinitializeDeleteFunctionality();
+    } else if (typeof window.setupEntryHoverFunctionality === 'function' && newTimeEntryEl) {
+        // If full reinitialization isn't available, try to set up just the new entry
+        window.setupEntryHoverFunctionality(newTimeEntryEl);
+    }
+
+    // 5. Re-enable after animation and ensure .new-entry styles are managed
     setTimeout(() => {
         trackButton.disabled = false;
         isAnimating = false;
@@ -1234,3 +1318,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Inject the styles into the page
     document.head.appendChild(styleElement);
 });
+
+// Add a function to explicitly recalculate entry opacities that can be called from entry-delete.js
+window.recalculateEntryOpacities = function () {
+    // Force an immediate update of opacities
+    updateVisibleEntryOpacities();
+
+    // Scroll to top if this was the top entry deletion
+    // This helps ensure the proper opacity gradient is applied
+    const allEntries = Array.from(timestampList.querySelectorAll('.time-entry'));
+    if (allEntries.length > 0) {
+        const firstEntryRect = allEntries[0].getBoundingClientRect();
+        const mainContentRect = mainContent.getBoundingClientRect();
+
+        // If the top entry is not at the top of the viewport, scroll to top
+        if (firstEntryRect.top > mainContentRect.top + 5) { // Small buffer
+            mainContent.scrollTop = 0;
+        }
+    }
+};
+
+// --- Initial Page Load Setup ---

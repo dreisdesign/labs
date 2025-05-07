@@ -1,0 +1,100 @@
+/**
+ * Entry Delete Functionality Styles
+ * Provides styles for swipe-to-delete on mobile and hover-to-delete on desktop
+ */
+
+/* Base styles for time entry positioning */
+.time-entry {
+    position: relative;
+    transition: transform 0.3s ease;
+    will-change: transform;
+}
+
+/* Swiped state for mobile */
+.time-entry--swiped {
+    transform: translateX(-50px);
+}
+
+/* Hover zone for outside-of-entry hover detection */
+.entry-hover-zone {
+    position: absolute;
+    top: 0;
+    right: -45px;
+    width: 45px;
+    height: 100%;
+    z-index: 4;
+    pointer-events: auto;
+}
+
+/* Base delete icon styling */
+.delete-icon {
+    width: 24px;
+    height: 24px;
+    background-color: var(--color-error);
+    mask-image: url('../assets/images/reset--fill.svg');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: url('../assets/images/reset--fill.svg');
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0 0.75rem;
+    cursor: pointer;
+    z-index: 5;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+/* Mobile-specific positioning for swiped state */
+.time-entry--swiped .delete-icon {
+    right: -40px;
+    opacity: 0.8;
+}
+
+.time-entry--swiped .delete-icon:hover {
+    opacity: 1;
+}
+
+/* Desktop-specific hover state */
+.delete-icon--hover {
+    right: -45px;
+}
+
+/* Animation for deletion */
+.time-entry--deleting {
+    animation: slide-out 0.3s forwards;
+}
+
+@keyframes slide-out {
+    to {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}
+
+/* Adjust icons for swipe state */
+.time-entry--swiped .comment-icon,
+.time-entry--swiped .comment-edit-icon,
+.time-entry--swiped .add-comment-icon {
+    opacity: 0 !important;
+}
+
+/* Make sure the delete icon is visible in both light and dark modes */
+body.dark-mode .delete-icon {
+    background-color: var(--color-error);
+}
+
+/* Ensure proper contrast for hover */
+body.dark-mode .delete-icon:hover {
+    background-color: var(--color-error);
+    opacity: 1;
+}
+
+/* Animation delays to prevent jumps */
+.time-entry .delete-icon {
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+}
