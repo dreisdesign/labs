@@ -36,6 +36,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Improved hover style for "Total" header by removing background fill on hover for cleaner visual experience
+- Adjusted edit icon positioning to provide better spacing (right: -30px)
+- Added direct hover state for the edit icon with smooth transitions
+- Maintained consistent icon size (24px) to match time entry icons
+
 ## [1.7.0] - 2025-05-06
 
 
