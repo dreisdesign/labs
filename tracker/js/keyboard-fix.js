@@ -15,36 +15,73 @@ function setupKeyboardFix(overlay, overlayContent, inputElement) {
 
     // Handle focus event which usually triggers keyboard on mobile
     inputElement.addEventListener('focus', () => {
-        // Add class to indicate keyboard is open
-        overlay.classList.add('keyboard-open');
+        // Store original dimensions before any changes
+        const originalWidth = overlayContent.offsetWidth;
 
-        // Small delay to allow keyboard to fully appear
+        // Add class to indicate keyboard is open before any changes
+        requestAnimationFrame(() => {
+            // Use requestAnimationFrame for smoother transitions
+            overlay.classList.add('keyboard-open');
+
+            // Set explicit width to prevent layout shift
+            overlayContent.style.width = originalWidth + 'px';
+
+            // After a short delay, reset to CSS-controlled width
+            setTimeout(() => {
+                overlayContent.style.width = '';
+            }, 100);
+        });
+
+        // Don't scroll or reposition immediately, wait for keyboard
         setTimeout(() => {
-            // On iOS, scroll the input into view
-            inputElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-            // Set position to ensure overlay content stays visible
-            overlayContent.style.position = 'sticky';
-            overlayContent.style.top = '1rem';
-        }, 300);
+            // Use minimal direct DOM manipulation - let CSS handle most of the positioning
+            if (window.innerHeight < originalViewportHeight * 0.8) {
+                // Only make adjustments if the keyboard is actually visible
+                overlayContent.style.transform = 'translateY(0)';
+            }
+        }, 350); // Slightly longer delay for iOS keyboard animation to complete
     });
 
     // Handle resize events which occur when keyboard appears/disappears
     const handleResize = () => {
-        if (window.innerHeight < originalViewportHeight * 0.75) {
-            // Keyboard is likely open - ensure the overlay is positioned correctly
-            overlay.classList.add('keyboard-open');
+        // Use a smoother threshold detection
+        const keyboardThreshold = originalViewportHeight * 0.8;
+        const isKeyboardOpen = window.innerHeight < keyboardThreshold;
 
-            // Force input element to be visible
-            setTimeout(() => {
-                inputElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 50);
-        } else {
-            // Keyboard likely closed
-            overlay.classList.remove('keyboard-open');
-            overlayContent.style.position = '';
-            overlayContent.style.top = '';
-        }
+        // Store current width before any changes
+        const currentWidth = overlayContent.offsetWidth;
+
+        // Debounce changes to prevent flickering
+        clearTimeout(window.keyboardResizeTimer);
+        window.keyboardResizeTimer = setTimeout(() => {
+            if (isKeyboardOpen) {
+                // Keyboard is open - Add class for CSS-driven positioning
+                overlay.classList.add('keyboard-open');
+
+                // Ensure width remains consistent during transition
+                if (currentWidth > 0) {
+                    overlayContent.style.width = currentWidth + 'px';
+
+                    // After transition completes, let CSS take control again
+                    setTimeout(() => {
+                        overlayContent.style.width = '';
+                    }, 300);
+                }
+            } else {
+                // Keyboard is closed - set width to prevent shift during transition
+                if (currentWidth > 0) {
+                    overlayContent.style.width = currentWidth + 'px';
+                }
+
+                // After a brief delay, remove the class and restore CSS control
+                setTimeout(() => {
+                    overlay.classList.remove('keyboard-open');
+                    // Remove any inline styles we added
+                    overlayContent.style.transform = '';
+                    overlayContent.style.width = '';
+                }, 50);
+            }
+        }, 100); // Small debounce delay
     };
 
     // Listen for resize events

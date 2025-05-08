@@ -1365,15 +1365,22 @@ body.overlay-open {
 .overlay.keyboard-open {
     align-items: flex-start;
     overflow-y: auto;
-    padding-top: 0;
     height: 100%;
+    /* Use transitions for all properties to make movement smooth */
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .overlay.keyboard-open .overlay-content {
     margin-top: 1rem;
-    position: sticky;
-    top: 0;
+    /* Avoid using position:sticky for smoother animations */
+    position: relative;
+    transform: translateY(0);
     z-index: 1001;
+    /* Maintain width consistency during keyboard opening */
+    width: 90%;
+    max-width: 400px;
+    /* Use an improved transition curve for smoother movement */
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease, margin 0.3s ease;
 }
 
 /* --- Overlay Styles --- */
@@ -1407,6 +1414,7 @@ body.overlay-open {
     border-radius: 1rem;
     padding: 1.5rem;
     width: 90%;
+    /* Keep width consistent */
     max-width: 400px;
     max-height: 80vh;
     overflow-y: auto;
@@ -1415,29 +1423,43 @@ body.overlay-open {
     /* Add margin: auto to help with centering */
     position: relative;
     /* Enable positioning context */
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    /* Add smooth transition for position changes */
+    will-change: transform, opacity;
+    /* Hint to browser to use hardware acceleration for both properties */
     transform: translateY(0);
     /* Prevent iOS from moving the overlay when keyboard appears */
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
+    /* Optimized transition curve for smoother movement */
+    box-sizing: border-box;
+    /* Ensure padding is included in width calculations */
 }
 
 /* Handle keyboard appearance on mobile devices */
-@media screen and (max-height: 500px) {
+@media screen and (max-height: 500px),
+(max-height: 100vw) {
+
+    /* Added max-height: 100vw to catch landscape or keyboard-open scenarios */
     .overlay {
         align-items: flex-start;
         overflow-y: auto;
         /* Enable scroll when keyboard reduces viewport height */
-        padding-bottom: 50vh;
+        padding-bottom: 60vh;
         /* Add extra padding at bottom to ensure content stays in view */
     }
 
     .overlay-content {
-        margin: 1rem auto;
-        max-height: calc(100vh - 2rem);
-        /* Adjust max-height to prevent overflow */
-        position: sticky;
-        top: 1rem;
-        /* Keep overlay at top when keyboard appears */
+        margin-top: 0.5rem;
+        /* Reduced top margin for more space */
+        max-height: 85vh;
+        /* Higher max-height for more flexibility */
+        transform: translateY(0);
+        /* Ensure width consistency */
+        width: 90%;
+        max-width: 400px;
+        /* Use transform instead of position for smoother animation */
+        transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+            opacity 0.2s ease,
+            margin 0.3s ease;
+        /* Smooth easing function with explicit properties */
     }
 }
 

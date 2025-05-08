@@ -44,6 +44,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added specialized keyboard handling for both comment and label editing overlays
 - Implemented position correction to keep input fields visible when keyboard appears
 - Improved scrolling behavior for overlays on mobile devices
+- Eliminated "jumping" effect when the keyboard appears on mobile devices
+- Added smoother transitions and animations for overlay positioning
+- Optimized handling of viewport changes when keyboard appears/disappears
 
 ### Changed
 - Improved hover style for "Total" header by removing background fill on hover for cleaner visual experience

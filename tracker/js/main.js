@@ -198,11 +198,17 @@ function showCommentOverlay(entryId) {
     // Pre-position overlay content before showing to prevent flash
     const overlayContent = commentOverlay.querySelector('.overlay-content');
     if (overlayContent) {
+        // Store original width for consistency
+        const originalWidth = overlayContent.offsetWidth || '90%';
+
         overlayContent.style.transition = 'none'; // Disable transitions temporarily
         overlayContent.style.position = 'relative';
         overlayContent.style.top = '';
         overlayContent.style.maxHeight = '80vh';
         overlayContent.style.transform = '';
+        if (typeof originalWidth === 'number' && originalWidth > 0) {
+            overlayContent.style.width = originalWidth + 'px'; // Lock width 
+        }
         overlayContent.scrollTop = 0; // Reset scroll position
     }
 
@@ -213,6 +219,10 @@ function showCommentOverlay(entryId) {
     if (overlayContent) {
         void overlayContent.offsetHeight;
         overlayContent.style.transition = '';
+        // Reset width after initial positioning to prevent layout shift
+        setTimeout(() => {
+            overlayContent.style.width = '';
+        }, 50);
     }
 
     // Use the exact same approach as label editing - consistent delay and forcing method
@@ -238,45 +248,38 @@ function isMobileDevice() {
 function forceKeyboardOpen(inputElement) {
     if (!inputElement) return;
 
-    // First, ensure the element is focused
-    inputElement.focus();
+    // Delay focus to allow the overlay animation to complete first
+    setTimeout(() => {
+        // For iOS Safari specifically
+        if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+            // Use requestAnimationFrame for smoother visual transitions
+            requestAnimationFrame(() => {
+                // Focus and position cursor at end of text
+                inputElement.focus();
 
-    // For iOS Safari specifically
-    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-        // iOS sometimes needs a double tap approach
-        inputElement.blur();
-        setTimeout(() => {
+                // Move cursor to end of text (especially important for iOS)
+                if (inputElement.tagName.toLowerCase() === 'input') {
+                    const length = inputElement.value.length;
+                    inputElement.setSelectionRange(length, length);
+                } else if (inputElement.tagName.toLowerCase() === 'textarea') {
+                    inputElement.selectionStart = inputElement.value.length;
+                    inputElement.selectionEnd = inputElement.value.length;
+                }
+            });
+        }
+        // For Android
+        else if (/Android/i.test(navigator.userAgent)) {
+            // Use requestAnimationFrame for smoother animation
+            requestAnimationFrame(() => {
+                inputElement.focus();
+            });
+        }
+        // General fallback for other mobile browsers
+        else {
+            // Standard focus
             inputElement.focus();
-
-            // Move cursor to end of text (especially important for iOS)
-            if (inputElement.tagName.toLowerCase() === 'input') {
-                const length = inputElement.value.length;
-                inputElement.setSelectionRange(length, length);
-            } else if (inputElement.tagName.toLowerCase() === 'textarea') {
-                inputElement.selectionStart = inputElement.value.length;
-                inputElement.selectionEnd = inputElement.value.length;
-            }
-
-            // Simulate a tap event as a last resort
-            inputElement.click();
-        }, 100);
-    }
-    // For Android
-    else if (/Android/i.test(navigator.userAgent)) {
-        // Android may need a slight delay
-        setTimeout(() => {
-            inputElement.focus();
-            // Trigger a click as well which can help on some Android browsers
-            inputElement.click();
-        }, 100);
-    }
-    // General fallback for other mobile browsers
-    else {
-        // Standard focus with delay
-        setTimeout(() => {
-            inputElement.focus();
-        }, 100);
-    }
+        }
+    }, 300); // Use a slightly longer delay to ensure overlay is fully shown first
 }
 
 // Update delete button state between "Delete" and "Cancel" based on comment content
@@ -493,13 +496,23 @@ function showLabelEditOverlay() {
     deleteLabelButton.textContent = isDefaultLabel ? 'Cancel' : 'Clear';
     deleteLabelButton.classList.toggle('cancel', isDefaultLabel);
 
+    // Prevent page scroll first (before showing the overlay)
+    preventPageScroll();
+
     // Pre-position overlay content before showing to prevent flash
     const overlayContent = labelEditOverlay.querySelector('.overlay-content');
     if (overlayContent) {
+        // Store original width for consistency
+        const originalWidth = overlayContent.offsetWidth || '90%';
+
         overlayContent.style.transition = 'none'; // Disable transitions temporarily
         overlayContent.style.position = 'relative';
         overlayContent.style.top = '';
         overlayContent.style.maxHeight = '80vh';
+        overlayContent.style.transform = '';
+        if (typeof originalWidth === 'number' && originalWidth > 0) {
+            overlayContent.style.width = originalWidth + 'px'; // Lock width 
+        }
         overlayContent.scrollTop = 0; // Reset scroll position
     }
 
@@ -510,12 +523,13 @@ function showLabelEditOverlay() {
     if (overlayContent) {
         void overlayContent.offsetHeight;
         overlayContent.style.transition = '';
+        // Reset width after initial positioning to prevent layout shift
+        setTimeout(() => {
+            overlayContent.style.width = '';
+        }, 50);
     }
 
-    // Prevent page scroll
-    preventPageScroll();
-
-    // Focus the input and force keyboard to appear
+    // Focus the input and force keyboard to appear with same timing as comments
     setTimeout(() => {
         // Always use our robust keyboard opening function
         forceKeyboardOpen(labelEditInput);
@@ -524,7 +538,7 @@ function showLabelEditOverlay() {
         if (typeof window.setupKeyboardFix === 'function') {
             window.setupKeyboardFix(labelEditOverlay, overlayContent, labelEditInput);
         }
-    }, 100);
+    }, 300); // Increased from 100ms to match comment overlay timing
 }
 
 // Hide label edit overlay
@@ -1593,21 +1607,31 @@ function preventPageScroll() {
     // Add a class to prevent scrolling on the body
     document.body.classList.add('overlay-open');
 
-    // Apply fixed positioning to prevent scrolling while maintaining visual position
-    document.body.style.position = 'fixed';
-    document.body.style.width = '100%';
-    document.body.style.top = `-${savedScrollPosition}px`;
+    // On mobile devices, don't use fixed positioning as it can cause layout issues with keyboards
+    if (!isMobileDevice()) {
+        // Apply fixed positioning to prevent scrolling while maintaining visual position
+        document.body.style.position = 'fixed';
+        document.body.style.width = '100%';
+        document.body.style.top = `-${savedScrollPosition}px`;
+    } else {
+        // For mobile, use overflow hidden which is smoother with keyboards
+        document.body.style.overflow = 'hidden';
+    }
 }
 
 function restorePageScroll() {
     // Remove the overlay-open class
     document.body.classList.remove('overlay-open');
 
-    // Restore normal positioning
-    document.body.style.position = '';
-    document.body.style.width = '';
-    document.body.style.top = '';
-
-    // Restore the scroll position
-    window.scrollTo(0, savedScrollPosition);
+    if (!isMobileDevice()) {
+        // Restore normal positioning for desktop
+        document.body.style.position = '';
+        document.body.style.width = '';
+        document.body.style.top = '';
+        // Restore the scroll position
+        window.scrollTo(0, savedScrollPosition);
+    } else {
+        // For mobile, just remove the overflow restriction
+        document.body.style.overflow = '';
+    }
 }
