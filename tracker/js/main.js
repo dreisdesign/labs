@@ -109,7 +109,7 @@ function isSameGroup(date1, date2) {
             date1.getDate() === date2.getDate() &&
             date1.getHours() === date2.getHours() &&
             date1.getMinutes() === date2.getMinutes() &&
-            Math.floor(date1.getSeconds() / 10) === Math.floor(date2.getSeconds() / 10)
+            Math.floor(date1.getSeconds() / 10) === Math.floor(date1.getSeconds() / 10)
         );
     }
     // Default: Group by day
@@ -176,6 +176,7 @@ function showCommentOverlay(entryId) {
     currentEditingEntry = entry;
 
     // Set the textarea value to the existing comment or empty
+    const isNewComment = !entry.comment;
     commentTextarea.value = entry.comment || '';
 
     // Get formatted time for the overlay title
@@ -191,13 +192,86 @@ function showCommentOverlay(entryId) {
     // Update the delete button text based on whether this is a new comment or edit
     updateDeleteButtonState();
 
+    // Prevent page scroll first (before showing the overlay)
+    preventPageScroll();
+
+    // Pre-position overlay content before showing to prevent flash
+    const overlayContent = commentOverlay.querySelector('.overlay-content');
+    if (overlayContent) {
+        overlayContent.style.transition = 'none'; // Disable transitions temporarily
+        overlayContent.style.position = 'relative';
+        overlayContent.style.top = '';
+        overlayContent.style.maxHeight = '80vh';
+        overlayContent.style.transform = '';
+        overlayContent.scrollTop = 0; // Reset scroll position
+    }
+
     // Show the overlay
     commentOverlay.classList.remove('hidden');
 
-    // Focus the textarea and put cursor at the end
-    commentTextarea.focus();
-    commentTextarea.selectionStart = commentTextarea.value.length;
-    commentTextarea.selectionEnd = commentTextarea.value.length;
+    // Force reflow before re-enabling transitions
+    if (overlayContent) {
+        void overlayContent.offsetHeight;
+        overlayContent.style.transition = '';
+    }
+
+    // Use the exact same approach as label editing - consistent delay and forcing method
+    setTimeout(() => {
+        forceKeyboardOpen(commentTextarea);
+    }, 100);
+}
+
+// Helper function to detect mobile devices
+function isMobileDevice() {
+    return (
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+        (window.innerWidth <= 800 && window.innerHeight <= 800)
+    );
+}
+
+// Helper function to force keyboard to appear on mobile devices
+function forceKeyboardOpen(inputElement) {
+    if (!inputElement) return;
+
+    // First, ensure the element is focused
+    inputElement.focus();
+
+    // For iOS Safari specifically
+    if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+        // iOS sometimes needs a double tap approach
+        inputElement.blur();
+        setTimeout(() => {
+            inputElement.focus();
+
+            // Move cursor to end of text (especially important for iOS)
+            if (inputElement.tagName.toLowerCase() === 'input') {
+                const length = inputElement.value.length;
+                inputElement.setSelectionRange(length, length);
+            } else if (inputElement.tagName.toLowerCase() === 'textarea') {
+                inputElement.selectionStart = inputElement.value.length;
+                inputElement.selectionEnd = inputElement.value.length;
+            }
+
+            // Simulate a tap event as a last resort
+            inputElement.click();
+        }, 100);
+    }
+    // For Android
+    else if (/Android/i.test(navigator.userAgent)) {
+        // Android may need a slight delay
+        setTimeout(() => {
+            inputElement.focus();
+            // Trigger a click as well which can help on some Android browsers
+            inputElement.click();
+        }, 100);
+    }
+    // General fallback for other mobile browsers
+    else {
+        // Standard focus with delay
+        setTimeout(() => {
+            inputElement.focus();
+        }, 100);
+    }
 }
 
 // Update delete button state between "Delete" and "Cancel" based on comment content
@@ -224,6 +298,7 @@ function hideCommentOverlay() {
     commentOverlay.classList.add('hidden');
     currentEditingEntry = null;
     commentTextarea.value = '';
+    restorePageScroll();
 }
 
 // Delete/cancel comment 
@@ -416,16 +491,21 @@ function showLabelEditOverlay() {
     // Show the overlay
     labelEditOverlay.classList.remove('hidden');
 
-    // Focus the input but don't select all text
+    // Prevent page scroll
+    preventPageScroll();
+
+    // Focus the input and force keyboard to appear
     setTimeout(() => {
-        labelEditInput.focus();
-    }, 50);
+        // Always use our robust keyboard opening function
+        forceKeyboardOpen(labelEditInput);
+    }, 100);
 }
 
 // Hide label edit overlay
 function hideLabelEditOverlay() {
     labelEditOverlay.classList.add('hidden');
     labelEditInput.value = '';
+    restorePageScroll();
 }
 
 // Save the edited label
@@ -693,9 +773,12 @@ function renderTimestamps(isTracking = false) {
             const commentIcon = document.createElement('div');
             commentIcon.className = 'comment-icon';
 
-            // Create comment edit icon (shown on hover when entry has a comment)
+            // Create comment edit icon (explicitly hidden to prevent hover issues)
             const commentEditIcon = document.createElement('div');
             commentEditIcon.className = 'comment-edit-icon';
+            commentEditIcon.style.display = 'none'; // Force hide in JS too
+            commentEditIcon.style.visibility = 'hidden'; // Double ensure it's hidden
+            commentEditIcon.style.opacity = '0'; // Triple ensure it's hidden
 
             // Create add comment icon (shown on hover when entry has no comment)
             const addCommentIcon = document.createElement('div');
@@ -959,6 +1042,8 @@ function displayVersion() {
 // Open Settings Overlay
 settingsButton.addEventListener('click', () => {
     settingsOverlay.classList.remove('hidden');
+    // Prevent page scroll
+    preventPageScroll();
     // Update menu items based on current state when opening
     const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
     updateMenuThemeDisplay(currentTheme);
@@ -967,6 +1052,7 @@ settingsButton.addEventListener('click', () => {
 // Close Settings Overlay (using the close button)
 closeSettingsButton.addEventListener('click', () => {
     settingsOverlay.classList.add('hidden');
+    restorePageScroll();
 });
 
 // Close Settings Overlay (clicking outside the content)
@@ -974,6 +1060,7 @@ settingsOverlay.addEventListener('click', (event) => {
     // Check if the click is directly on the overlay background
     if (event.target === settingsOverlay) {
         settingsOverlay.classList.add('hidden');
+        restorePageScroll();
     }
 });
 
@@ -984,6 +1071,7 @@ menuThemeToggle.addEventListener('click', () => {
     applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
     // Close the menu immediately
     settingsOverlay.classList.add('hidden');
+    restorePageScroll();
 });
 
 // --- Add click handler for the reset button
@@ -1006,6 +1094,7 @@ resetButton.addEventListener('click', () => {
 
     // Auto-close the menu after starting the reset process
     settingsOverlay.classList.add('hidden');
+    restorePageScroll();
 });
 
 // --- Backup and Restore Functions ---
@@ -1306,6 +1395,9 @@ trackButton.addEventListener('click', () => {
 
 // Add a cache-busting reload mechanism
 document.addEventListener('DOMContentLoaded', () => {
+    // Setup mobile keyboard handling as soon as DOM is ready
+    setupMobileKeyboardHandling();
+
     // Only reload once to avoid infinite reload loops
     const hasReloaded = sessionStorage.getItem('hasReloaded');
 
@@ -1371,4 +1463,125 @@ window.recalculateEntryOpacities = function () {
     }
 };
 
+// --- Mobile Keyboard Handling --- 
+// Function to adjust overlay position when mobile keyboard appears
+function setupMobileKeyboardHandling() {
+    // Check if visualViewport API is available (modern mobile browsers support this)
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', handleVisualViewportResize);
+        window.visualViewport.addEventListener('scroll', handleVisualViewportResize);
+    }
+
+    // Also listen for input focus events which often trigger keyboard
+    commentTextarea.addEventListener('focus', () => {
+        // Short delay to allow keyboard to appear before adjusting
+        setTimeout(handleVisualViewportResize, 50);
+    });
+
+    labelEditInput.addEventListener('focus', () => {
+        // Short delay to allow keyboard to appear before adjusting
+        setTimeout(handleVisualViewportResize, 50);
+    });
+}
+
+// Handle visual viewport changes (primarily triggered by keyboard)
+function handleVisualViewportResize() {
+    // Identify which overlay is currently visible
+    const activeOverlay = getVisibleOverlay();
+    if (!activeOverlay) return;
+
+    const activeContent = activeOverlay.querySelector('.overlay-content');
+    if (!activeContent) return;
+
+    // Get viewport dimensions
+    const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    const windowHeight = window.innerHeight;
+
+    // If viewport height is significantly less than window height, keyboard is likely visible
+    if (viewportHeight < windowHeight * 0.75) {
+        // Keyboard is visible, adjust the overlay content position
+        activeContent.style.transition = 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)';
+        activeContent.style.position = 'fixed';
+        activeContent.style.top = '2%'; // Position it higher on the screen
+        activeContent.style.maxHeight = `${viewportHeight * 0.9}px`; // Use more of the available space
+
+        // Don't reposition input fields - let the user control scrolling manually
+        // This prevents the automatic scrolling that was causing issues
+    } else {
+        // Keyboard is hidden, reset to default centered position with smooth animation
+        activeContent.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+
+        // Set the element to animated state
+        requestAnimationFrame(() => {
+            activeContent.style.position = 'relative';
+            activeContent.style.top = '';
+            activeContent.style.maxHeight = '80vh';
+            activeContent.style.transform = '';
+
+            // Don't reset scroll position - let user maintain their scroll position
+            // activeContent.scrollTop = 0;
+        });
+    }
+}
+
+// Helper to find which overlay is currently visible
+function getVisibleOverlay() {
+    if (!commentOverlay.classList.contains('hidden')) return commentOverlay;
+    if (!labelEditOverlay.classList.contains('hidden')) return labelEditOverlay;
+    if (!settingsOverlay.classList.contains('hidden')) return settingsOverlay;
+    return null;
+}
+
+// Helper to find the active input element in an overlay
+function getActiveInput(overlay) {
+    if (overlay === commentOverlay) return commentTextarea;
+    if (overlay === labelEditOverlay) return labelEditInput;
+    return null;
+}
+
+// Enhance show overlay functions to trigger keyboard handling
+const originalShowCommentOverlay = showCommentOverlay;
+showCommentOverlay = function (entryId) {
+    originalShowCommentOverlay(entryId);
+    // Trigger after a delay to ensure overlay is fully visible
+    setTimeout(handleVisualViewportResize, 50);
+};
+
+const originalShowLabelEditOverlay = showLabelEditOverlay;
+showLabelEditOverlay = function () {
+    originalShowLabelEditOverlay();
+    // Trigger after a delay to ensure overlay is fully visible
+    setTimeout(handleVisualViewportResize, 50);
+};
+
 // --- Initial Page Load Setup ---
+setupMobileKeyboardHandling();
+
+// Function to prevent and restore page scroll
+let savedScrollPosition = 0;
+
+function preventPageScroll() {
+    // Store current scroll position
+    savedScrollPosition = window.scrollY || document.documentElement.scrollTop;
+
+    // Add a class to prevent scrolling on the body
+    document.body.classList.add('overlay-open');
+
+    // Apply fixed positioning to prevent scrolling while maintaining visual position
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+    document.body.style.top = `-${savedScrollPosition}px`;
+}
+
+function restorePageScroll() {
+    // Remove the overlay-open class
+    document.body.classList.remove('overlay-open');
+
+    // Restore normal positioning
+    document.body.style.position = '';
+    document.body.style.width = '';
+    document.body.style.top = '';
+
+    // Restore the scroll position
+    window.scrollTo(0, savedScrollPosition);
+}

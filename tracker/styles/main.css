@@ -221,8 +221,9 @@ body {
     transition: background-color 0.2s;
 }
 
+/* Remove background fill on hover */
 .metric-label-container:hover {
-    background: var(--color-primary-25);
+    background: transparent;
 }
 
 .metric-label {
@@ -254,7 +255,8 @@ body {
     -webkit-mask-position: center;
     opacity: 0;
     position: absolute;
-    right: -24px;
+    right: -30px;
+    /* Slightly adjusted from -24px for better spacing */
     transition: opacity 0.2s ease, background-color 0.2s ease;
 }
 
@@ -262,6 +264,7 @@ body {
     opacity: 0.75;
 }
 
+.edit-label-icon:hover,
 .metric-label-container:hover:active .edit-label-icon {
     background-color: var(--color-secondary);
     opacity: 1;
@@ -616,83 +619,134 @@ body.dark-mode .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     padding: 0.25rem;
 }
 
-/* Base comment icon styling */
-.comment-icon,
-.comment-edit-icon,
-.add-comment-icon {
-    width: 24px;
-    height: 24px;
-    position: absolute;
-    right: 12px;
-    flex-shrink: 0;
-    transition: opacity 0.2s ease, background-color 0.2s ease;
-    cursor: pointer;
+/* ----- Comment Icon Styling ----- */
+/* Base comment icon styling with high specificity and !important flags */
+.time-entry .comment-icon,
+.time-entry .comment-edit-icon,
+.time-entry .add-comment-icon {
+    width: 24px !important;
+    height: 24px !important;
+    position: absolute !important;
+    right: 12px !important;
+    flex-shrink: 0 !important;
+    transition: opacity 0.2s ease, background-color 0.2s ease !important;
+    cursor: pointer !important;
 }
 
 /* Comment icon styling when entry has a comment */
 .time-entry.has-comment .comment-icon {
-    background-color: var(--color-primary);
-    mask-image: url('../assets/images/comment--fill.svg');
-    mask-size: contain;
-    mask-repeat: no-repeat;
-    mask-position: center;
-    -webkit-mask-image: url('../assets/images/comment--fill.svg');
-    -webkit-mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-    opacity: 0.75;
-    display: block;
+    background-color: var(--color-primary) !important;
+    mask-image: url('../assets/images/comment--fill.svg') !important;
+    mask-size: contain !important;
+    mask-repeat: no-repeat !important;
+    mask-position: center !important;
+    -webkit-mask-image: url('../assets/images/comment--fill.svg') !important;
+    -webkit-mask-size: contain !important;
+    -webkit-mask-repeat: no-repeat !important;
+    -webkit-mask-position: center !important;
+    opacity: 0.75 !important;
+    display: block !important;
+    visibility: visible !important;
 }
 
-/* Direct hover on the comment icon */
+/* Direct hover on the comment icon - just change color, don't switch icons */
 .time-entry.has-comment .comment-icon:hover {
-    opacity: 1;
-    background-color: var(--color-secondary);
+    opacity: 1 !important;
+    background-color: var(--color-secondary) !important;
+    transform: none !important;
+}
+
+/* Force the comment icon to remain visible on hover */
+.time-entry.has-comment:hover .comment-icon {
+    opacity: 1 !important;
+    display: block !important;
+    visibility: visible !important;
+    background-color: var(--color-secondary) !important;
+}
+
+/* Completely hide the comment-edit-icon to prevent any switching */
+.time-entry .comment-edit-icon,
+.time-entry:hover .comment-edit-icon,
+.time-entry.has-comment .comment-edit-icon,
+.time-entry.has-comment:hover .comment-edit-icon {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
 }
 
 /* Add comment icon for entries without comments (hidden by default) */
-.add-comment-icon {
-    background-color: var(--color-primary);
-    mask-image: url('../assets/images/add_comment--fill.svg');
-    mask-size: contain;
-    mask-repeat: no-repeat;
-    mask-position: center;
-    -webkit-mask-image: url('../assets/images/add_comment--fill.svg');
-    -webkit-mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-    opacity: 0;
-    transition: opacity 0.2s ease, background-color 0.2s ease;
+.time-entry .add-comment-icon {
+    background-color: var(--color-primary) !important;
+    mask-image: url('../assets/images/add_comment--fill.svg') !important;
+    mask-size: contain !important;
+    mask-repeat: no-repeat !important;
+    mask-position: center !important;
+    -webkit-mask-image: url('../assets/images/add_comment--fill.svg') !important;
+    -webkit-mask-size: contain !important;
+    -webkit-mask-repeat: no-repeat !important;
+    -webkit-mask-position: center !important;
+    opacity: 0 !important;
+    transition: opacity 0.2s ease, background-color 0.2s ease !important;
 }
 
 /* Show add comment icon on hover for entries without comments */
 .time-entry:not(.has-comment):hover .add-comment-icon {
-    opacity: 0.75;
+    opacity: 0.75 !important;
 }
 
 /* Direct hover on the add comment icon */
-.add-comment-icon:hover {
+.time-entry:not(.has-comment) .add-comment-icon:hover {
     opacity: 1 !important;
-    background-color: var(--color-secondary);
+    background-color: var(--color-secondary) !important;
 }
 
+/* ----- Dark Mode Comment Icons ----- */
 /* Override comment icon colors in dark mode */
 body.dark-mode .time-entry.has-comment .comment-icon {
-    background-color: var(--color-primary);
+    background-color: var(--color-primary) !important;
 }
 
 body.dark-mode .time-entry.has-comment .comment-icon:hover {
-    background-color: var(--color-secondary);
-    opacity: 1;
-}
-
-body.dark-mode .add-comment-icon {
-    background-color: var(--color-primary);
-}
-
-body.dark-mode .add-comment-icon:hover {
-    background-color: var(--color-secondary);
+    background-color: var(--color-secondary) !important;
     opacity: 1 !important;
+    transform: none !important;
+}
+
+/* Force the comment icon to remain visible on hover in dark mode */
+body.dark-mode .time-entry.has-comment:hover .comment-icon {
+    opacity: 1 !important;
+    display: block !important;
+    visibility: visible !important;
+    background-color: var(--color-secondary) !important;
+}
+
+/* Force icons to be completely hidden in dark mode too */
+body.dark-mode .time-entry .comment-edit-icon,
+body.dark-mode .time-entry:hover .comment-edit-icon,
+body.dark-mode .time-entry.has-comment .comment-edit-icon,
+body.dark-mode .time-entry.has-comment:hover .comment-edit-icon {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+body.dark-mode .time-entry .add-comment-icon {
+    background-color: var(--color-primary) !important;
+}
+
+body.dark-mode .time-entry:not(.has-comment) .add-comment-icon:hover {
+    background-color: var(--color-secondary) !important;
+    opacity: 1 !important;
+}
+
+/* ----- Comment Icon Swipe State ----- */
+/* Ensure comment icons remain visible during swipe states */
+.time-entry--swiped.has-comment .comment-icon {
+    opacity: 0.75 !important;
+    display: block !important;
+    visibility: visible !important;
 }
 
 /* --- Comment Overlay Styles --- */
@@ -1298,6 +1352,15 @@ body.dark-mode #menuThemeToggle:hover {
     background-color: var(--color-primary-25);
 }
 
+/* --- Overlay Open State --- */
+body.overlay-open {
+    overflow: hidden;
+    /* Prevent scrolling when overlay is open */
+    height: 100%;
+    width: 100%;
+    /* Ensure the body takes up the full height of the window */
+}
+
 /* --- Overlay Styles --- */
 .overlay {
     position: fixed;
@@ -1337,6 +1400,8 @@ body.dark-mode #menuThemeToggle:hover {
     /* Add margin: auto to help with centering */
     position: relative;
     /* Enable positioning context */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Add smooth transition for position changes */
 }
 
 /* Handle keyboard appearance on mobile devices */
