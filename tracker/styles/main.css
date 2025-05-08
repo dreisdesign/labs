@@ -1454,8 +1454,8 @@ body.dark-mode .theme-icon {
 /* --- Undo Button Styles --- */
 .undo-button {
     position: fixed;
-    bottom: 100px;
-    /* Position above the bottom bar */
+    bottom: 120px;
+    /* Increased from 100px to 120px to add 20px margin */
     left: 50%;
     transform: translateX(-50%);
     background-color: var(--color-error);
@@ -1470,14 +1470,16 @@ body.dark-mode .theme-icon {
     z-index: 99;
     opacity: 0;
     pointer-events: none;
-    bottom: 90px;
+    bottom: 110px;
+    /* Increased from 90px to 110px to add 20px margin */
 }
 
 /* When the button should be shown */
 .undo-button.show {
     opacity: 1;
     pointer-events: auto;
-    bottom: 100px;
+    bottom: 120px;
+    /* Increased from 100px to 120px for consistent 20px margin */
 }
 
 /* When the button is hidden */
