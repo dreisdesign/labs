@@ -618,13 +618,15 @@ body.dark-mode .custom-scrollbar::-webkit-scrollbar-thumb:hover {
 
 /* Base comment icon styling */
 .comment-icon,
-.comment-edit-icon {
+.comment-edit-icon,
+.add-comment-icon {
     width: 24px;
     height: 24px;
     position: absolute;
     right: 12px;
     flex-shrink: 0;
     transition: opacity 0.2s ease, background-color 0.2s ease;
+    cursor: pointer;
 }
 
 /* Comment icon styling when entry has a comment */
@@ -642,36 +644,14 @@ body.dark-mode .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     display: block;
 }
 
-/* Edit comment icon (appears on hover for entries with comments) */
-.comment-edit-icon {
-    background-color: var(--color-primary);
-    mask-image: url('../assets/images/comment-edit--fill.svg');
-    mask-size: contain;
-    mask-repeat: no-repeat;
-    mask-position: center;
-    -webkit-mask-image: url('../assets/images/comment-edit--fill.svg');
-    -webkit-mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-    opacity: 0;
-    z-index: 2;
-    /* Ensure it appears above the normal comment icon */
-}
-
-/* Show edit icon on hover for entries with comments */
-.time-entry.has-comment:hover .comment-icon {
-    opacity: 0;
-}
-
-.time-entry.has-comment:hover .comment-edit-icon {
+/* Direct hover on the comment icon */
+.time-entry.has-comment .comment-icon:hover {
     opacity: 1;
     background-color: var(--color-secondary);
 }
 
 /* Add comment icon for entries without comments (hidden by default) */
 .add-comment-icon {
-    width: 24px;
-    height: 24px;
     background-color: var(--color-primary);
     mask-image: url('../assets/images/add_comment--fill.svg');
     mask-size: contain;
@@ -682,8 +662,6 @@ body.dark-mode .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
     opacity: 0;
-    position: absolute;
-    right: 12px;
     transition: opacity 0.2s ease, background-color 0.2s ease;
 }
 
@@ -692,9 +670,10 @@ body.dark-mode .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     opacity: 0.75;
 }
 
-.time-entry:not(.has-comment):hover:active .add-comment-icon {
+/* Direct hover on the add comment icon */
+.add-comment-icon:hover {
+    opacity: 1 !important;
     background-color: var(--color-secondary);
-    opacity: 1;
 }
 
 /* Override comment icon colors in dark mode */
@@ -702,16 +681,18 @@ body.dark-mode .time-entry.has-comment .comment-icon {
     background-color: var(--color-primary);
 }
 
-body.dark-mode .time-entry.has-comment:hover .comment-edit-icon {
+body.dark-mode .time-entry.has-comment .comment-icon:hover {
     background-color: var(--color-secondary);
+    opacity: 1;
 }
 
 body.dark-mode .add-comment-icon {
     background-color: var(--color-primary);
 }
 
-body.dark-mode .time-entry:not(.has-comment):hover:active .add-comment-icon {
+body.dark-mode .add-comment-icon:hover {
     background-color: var(--color-secondary);
+    opacity: 1 !important;
 }
 
 /* --- Comment Overlay Styles --- */
