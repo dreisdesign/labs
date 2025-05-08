@@ -3,6 +3,17 @@
  * Provides styles for swipe-to-delete on mobile and hover-to-delete on desktop
  */
 
+/* Add variable for on-background at 50% opacity */
+:root {
+    --color-on-background-50: rgba(22, 10, 56, 0.5);
+    --color-version-number: rgba(22, 10, 56, 0.5);
+}
+
+body.dark-mode {
+    --color-on-background-50: rgba(255, 255, 255, 0.5);
+    --color-version-number: rgba(255, 255, 255, 0.5);
+}
+
 /* Base styles for time entry positioning */
 .time-entry {
     position: relative;
@@ -13,6 +24,14 @@
 /* Swiped state for mobile */
 .time-entry--swiped {
     transform: translateX(-50px);
+    background-color: rgba(181, 0, 90, 0.1);
+    /* Light mode error color with opacity */
+}
+
+/* Dark mode error background */
+body.dark-mode .time-entry--swiped {
+    background-color: rgba(207, 102, 121, 0.1);
+    /* Dark mode error color with opacity */
 }
 
 /* Hover zone for outside-of-entry hover detection */
@@ -32,8 +51,8 @@
     top: 50%;
     right: -45px;
     transform: translateY(-50%);
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -43,42 +62,45 @@
     cursor: pointer;
 }
 
-/* Change the hover background to match the reset functionality */
+/* Remove the hover background color */
 .delete-icon-wrapper:hover {
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: transparent;
 }
 
-/* Base delete icon styling - using error color to match reset functionality */
+/* Base delete icon styling - using filled icon with version number color */
 .delete-icon {
-    width: 24px;
-    height: 24px;
-    background-color: var(--color-error);
-    mask-image: url('../assets/images/close--fill.svg');
+    width: 18px;
+    height: 18px;
+    background-color: var(--color-version-number);
+    mask-image: url('../assets/images/cancel--fill.svg');
     mask-size: contain;
     mask-repeat: no-repeat;
     mask-position: center;
-    -webkit-mask-image: url('../assets/images/close--fill.svg');
+    -webkit-mask-image: url('../assets/images/cancel--fill.svg');
     -webkit-mask-size: contain;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
-    opacity: 0.75;
+    opacity: 0.9;
     transition: opacity 0.2s ease, background-color 0.2s ease;
 }
 
-/* Mobile-specific positioning for swiped state */
+/* Mobile-specific styling for swiped state - use error color */
 .time-entry--swiped .delete-icon-wrapper {
     right: -40px;
 }
 
 .time-entry--swiped .delete-icon {
-    opacity: 0.8;
+    opacity: 1;
+    background-color: var(--color-error);
 }
 
+/* Desktop hover state - use error color on hover */
 .delete-icon-wrapper:hover .delete-icon {
     opacity: 1;
+    background-color: var(--color-error);
 }
 
-/* Desktop-specific hover state */
+/* Desktop-specific hover state positioning */
 .delete-icon-wrapper.delete-icon-wrapper--hover {
     right: -45px;
 }
@@ -109,23 +131,10 @@
 
 /* Make sure the delete icon is visible in both light and dark modes */
 body.dark-mode .delete-icon {
-    background-color: var(--color-error);
+    background-color: var(--color-version-number);
 }
 
-/* Change the icon color on hover to match the reset button hover behavior */
-.delete-icon-wrapper:hover {
-    background-color: var(--color-error);
-}
-
-.delete-icon-wrapper:hover .delete-icon {
-    background-color: var(--color-on-error);
-}
-
-/* Dark mode styling for the hover effect */
+/* Dark mode hover styling */
 body.dark-mode .delete-icon-wrapper:hover {
-    background-color: var(--color-error);
-}
-
-body.dark-mode .delete-icon-wrapper:hover .delete-icon {
-    background-color: var(--color-on-error);
+    background-color: transparent;
 }

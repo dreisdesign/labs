@@ -1332,6 +1332,9 @@ body.dark-mode #menuThemeToggle:hover {
     align-items: center;
     z-index: 1000;
     transition: opacity 0.3s ease;
+    padding: 1rem;
+    box-sizing: border-box;
+    /* Add padding and box-sizing for better layout control */
 }
 
 .overlay.hidden {
@@ -1349,6 +1352,25 @@ body.dark-mode #menuThemeToggle:hover {
     max-height: 80vh;
     overflow-y: auto;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+    margin: auto;
+    /* Add margin: auto to help with centering */
+    position: relative;
+    /* Enable positioning context */
+}
+
+/* Handle keyboard appearance on mobile devices */
+@media screen and (max-height: 500px) {
+    .overlay {
+        align-items: flex-start;
+        overflow-y: auto;
+        /* Enable scroll when keyboard reduces viewport height */
+    }
+
+    .overlay-content {
+        margin: 1rem auto;
+        max-height: calc(100vh - 2rem);
+        /* Adjust max-height to prevent overflow */
+    }
 }
 
 body.dark-mode .overlay-content {
