@@ -43,16 +43,16 @@
     cursor: pointer;
 }
 
-/* Change the hover background to black with 20% opacity for better visibility */
+/* Change the hover background to match the reset functionality */
 .delete-icon-wrapper:hover {
     background-color: rgba(0, 0, 0, 0.2);
 }
 
-/* Base delete icon styling */
+/* Base delete icon styling - using error color to match reset functionality */
 .delete-icon {
     width: 24px;
     height: 24px;
-    background-color: var(--color-primary);
+    background-color: var(--color-error);
     mask-image: url('../assets/images/close--fill.svg');
     mask-size: contain;
     mask-repeat: no-repeat;
@@ -61,7 +61,7 @@
     -webkit-mask-size: contain;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
-    opacity: 0;
+    opacity: 0.75;
     transition: opacity 0.2s ease, background-color 0.2s ease;
 }
 
@@ -74,7 +74,7 @@
     opacity: 0.8;
 }
 
-.time-entry--swiped .delete-icon:hover {
+.delete-icon-wrapper:hover .delete-icon {
     opacity: 1;
 }
 
@@ -95,35 +95,37 @@
     }
 }
 
-/* Adjust icons for swipe state */
-.time-entry--swiped .comment-icon,
+/* Adjust icons for swipe state - only hide add/edit comment buttons, keep regular comment icon visible */
 .time-entry--swiped .comment-edit-icon,
 .time-entry--swiped .add-comment-icon {
     opacity: 0 !important;
 }
 
+/* Keep the comment-icon visible when entry has a comment and is swiped */
+.time-entry--swiped.has-comment .comment-icon {
+    opacity: 0.75 !important;
+    /* Keep the same opacity as the normal state */
+}
+
 /* Make sure the delete icon is visible in both light and dark modes */
 body.dark-mode .delete-icon {
-    background-color: var(--color-primary);
+    background-color: var(--color-error);
 }
 
-/* Ensure proper contrast for hover */
-body.dark-mode .delete-icon:hover {
-    background-color: var(--color-secondary);
-    opacity: 1;
+/* Change the icon color on hover to match the reset button hover behavior */
+.delete-icon-wrapper:hover {
+    background-color: var(--color-error);
 }
 
-/* Add hover effect similar to comment icons */
 .delete-icon-wrapper:hover .delete-icon {
-    background-color: var(--color-secondary);
+    background-color: var(--color-on-error);
 }
 
-/* Dark mode styling for the circular hover effect - also changed to white with 20% opacity for dark mode */
+/* Dark mode styling for the hover effect */
 body.dark-mode .delete-icon-wrapper:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: var(--color-error);
 }
 
-/* Animation delays to prevent jumps */
-.time-entry .delete-icon {
-    transition: opacity 0.2s ease, background-color 0.2s ease;
+body.dark-mode .delete-icon-wrapper:hover .delete-icon {
+    background-color: var(--color-on-error);
 }

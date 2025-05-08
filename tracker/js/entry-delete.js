@@ -196,10 +196,18 @@ function setupDesktopHover() {
 }
 
 /**
+ * Track if a significant swipe is occurring to prevent triggering click events
+ */
+let significantSwipeDetected = false;
+
+/**
  * Handle touch start event
  * @param {TouchEvent} e - Touch event
  */
 function handleTouchStart(e) {
+    // Reset swipe detection flag at the start of each touch
+    significantSwipeDetected = false;
+
     const touch = e.touches[0];
     swipeState.startX = touch.clientX;
     swipeState.currentX = touch.clientX;
@@ -230,6 +238,11 @@ function handleTouchMove(e) {
     if (!swipeState.swiping && Math.abs(deltaX) > deltaY && Math.abs(deltaX) > SWIPE_THRESHOLD) {
         swipeState.swiping = true;
         swipeState.thresholdExceeded = true;
+        significantSwipeDetected = true;
+
+        // Add a data attribute to the entry to indicate we're in a significant swipe
+        // This will be used to prevent the click event from firing
+        swipeState.activeEntry.setAttribute('data-swiping', 'true');
     }
 
     // If we're swiping, prevent default to avoid scrolling
@@ -295,6 +308,13 @@ function handleTouchEnd(e) {
         }
     }
 
+    // Set a timeout to remove the data-swiping attribute
+    setTimeout(() => {
+        if (swipeState.activeEntry) {
+            swipeState.activeEntry.removeAttribute('data-swiping');
+        }
+    }, 50); // Short timeout to ensure it's removed after the touch end is fully processed
+
     // Reset swipe state
     swipeState.swiping = false;
     swipeState.activeEntry.style.transition = '';
@@ -345,7 +365,18 @@ function setEntryToSwipedPosition(entry) {
     entry.classList.add('time-entry--swiped');
     entry.style.transition = 'transform 0.2s ease';
     entry.style.transform = `translateX(${-SWIPE_POSITION}px)`;
+
+    // Store the has-comment class state before adding delete icon
+    const hasComment = entry.classList.contains('has-comment');
+
+    // Add delete icon
     ensureDeleteIcon(entry);
+
+    // Restore the has-comment class if it was present before
+    // This ensures comment styling remains correct during swipe actions
+    if (hasComment && !entry.classList.contains('has-comment')) {
+        entry.classList.add('has-comment');
+    }
 }
 
 /**
@@ -423,4 +454,9 @@ window.setupEntryHoverFunctionality = function (entry) {
     if (!isTouchDevice) {
         setupEntryHover(entry);
     }
+};
+
+// Expose the swipe detection variable globally so it can be accessed from main.js
+window.isSignificantSwipeDetected = function () {
+    return significantSwipeDetected;
 };

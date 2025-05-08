@@ -254,6 +254,11 @@ function deleteComment() {
             // Re-render timestamps to update UI
             renderTimestamps();
 
+            // Reinitialize delete functionality to ensure swipe works on entries with deleted comments
+            if (typeof window.reinitializeDeleteFunctionality === 'function') {
+                window.reinitializeDeleteFunctionality();
+            }
+
             // Show the undo button
             showUndoCommentDeleteButton();
         }
@@ -316,6 +321,11 @@ function saveComment() {
 
         // Re-render timestamps to update UI
         renderTimestamps();
+
+        // Reinitialize delete functionality to ensure hover/swipe works on entries after adding/modifying comments
+        if (typeof window.reinitializeDeleteFunctionality === 'function') {
+            window.reinitializeDeleteFunctionality();
+        }
     }
 
     // Hide the overlay
@@ -693,7 +703,15 @@ function renderTimestamps(isTracking = false) {
 
             // Add event listener to the entry div to open comment overlay
             entryDiv.addEventListener('click', () => {
-                showCommentOverlay(entry.date);
+                // Check if we're in a swipe action using the data-swiping attribute
+                // or check the swipe detection function if available
+                const isCurrentlySwipingAttr = entryDiv.getAttribute('data-swiping') === 'true';
+                const isSwipingFunc = typeof window.isSignificantSwipeDetected === 'function' && window.isSignificantSwipeDetected();
+
+                // Only open comment overlay if not swiping
+                if (!isCurrentlySwipingAttr && !isSwipingFunc) {
+                    showCommentOverlay(entry.date);
+                }
             });
 
             // Add time div and all icons to entry div
@@ -1024,6 +1042,11 @@ function restoreFromBackup() {
         console.log("No backup data available to restore.");
     }
 
+    // Reinitialize delete functionality to ensure swipe works on restored entries
+    if (typeof window.reinitializeDeleteFunctionality === 'function') {
+        window.reinitializeDeleteFunctionality();
+    }
+
     // Hide the undo button
     hideUndoButton();
 }
@@ -1128,6 +1151,11 @@ undoButton.addEventListener('click', () => {
 
             // Re-render timestamps to update UI
             renderTimestamps();
+
+            // Reinitialize delete functionality to ensure swipe works after restoring a comment
+            if (typeof window.reinitializeDeleteFunctionality === 'function') {
+                window.reinitializeDeleteFunctionality();
+            }
         }
 
         // Clear the deleted comment backup
@@ -1146,6 +1174,11 @@ undoButton.addEventListener('click', () => {
 
         // Re-render timestamps to update UI
         renderTimestamps();
+
+        // Reinitialize delete functionality to ensure swipe works on restored entries
+        if (typeof window.reinitializeDeleteFunctionality === 'function') {
+            window.reinitializeDeleteFunctionality();
+        }
 
         // Clear the deleted entry backup
         deletedEntry = null;
