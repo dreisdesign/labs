@@ -218,6 +218,11 @@ function showCommentOverlay(entryId) {
     // Use the exact same approach as label editing - consistent delay and forcing method
     setTimeout(() => {
         forceKeyboardOpen(commentTextarea);
+
+        // Apply keyboard fix if available
+        if (typeof window.setupKeyboardFix === 'function') {
+            window.setupKeyboardFix(commentOverlay, overlayContent, commentTextarea);
+        }
     }, 100);
 }
 
@@ -488,8 +493,24 @@ function showLabelEditOverlay() {
     deleteLabelButton.textContent = isDefaultLabel ? 'Cancel' : 'Clear';
     deleteLabelButton.classList.toggle('cancel', isDefaultLabel);
 
+    // Pre-position overlay content before showing to prevent flash
+    const overlayContent = labelEditOverlay.querySelector('.overlay-content');
+    if (overlayContent) {
+        overlayContent.style.transition = 'none'; // Disable transitions temporarily
+        overlayContent.style.position = 'relative';
+        overlayContent.style.top = '';
+        overlayContent.style.maxHeight = '80vh';
+        overlayContent.scrollTop = 0; // Reset scroll position
+    }
+
     // Show the overlay
     labelEditOverlay.classList.remove('hidden');
+
+    // Force reflow before re-enabling transitions
+    if (overlayContent) {
+        void overlayContent.offsetHeight;
+        overlayContent.style.transition = '';
+    }
 
     // Prevent page scroll
     preventPageScroll();
@@ -498,6 +519,11 @@ function showLabelEditOverlay() {
     setTimeout(() => {
         // Always use our robust keyboard opening function
         forceKeyboardOpen(labelEditInput);
+
+        // Apply keyboard fix if available
+        if (typeof window.setupKeyboardFix === 'function') {
+            window.setupKeyboardFix(labelEditOverlay, overlayContent, labelEditInput);
+        }
     }, 100);
 }
 

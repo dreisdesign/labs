@@ -1361,6 +1361,21 @@ body.overlay-open {
     /* Ensure the body takes up the full height of the window */
 }
 
+/* Keyboard open state for overlays */
+.overlay.keyboard-open {
+    align-items: flex-start;
+    overflow-y: auto;
+    padding-top: 0;
+    height: 100%;
+}
+
+.overlay.keyboard-open .overlay-content {
+    margin-top: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 1001;
+}
+
 /* --- Overlay Styles --- */
 .overlay {
     position: fixed;
@@ -1402,6 +1417,8 @@ body.overlay-open {
     /* Enable positioning context */
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     /* Add smooth transition for position changes */
+    transform: translateY(0);
+    /* Prevent iOS from moving the overlay when keyboard appears */
 }
 
 /* Handle keyboard appearance on mobile devices */
@@ -1410,12 +1427,17 @@ body.overlay-open {
         align-items: flex-start;
         overflow-y: auto;
         /* Enable scroll when keyboard reduces viewport height */
+        padding-bottom: 50vh;
+        /* Add extra padding at bottom to ensure content stays in view */
     }
 
     .overlay-content {
         margin: 1rem auto;
         max-height: calc(100vh - 2rem);
         /* Adjust max-height to prevent overflow */
+        position: sticky;
+        top: 1rem;
+        /* Keep overlay at top when keyboard appears */
     }
 }
 

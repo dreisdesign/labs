@@ -39,6 +39,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.7.1] - 2025-05-08
 
+### Fixed
+- Fixed issue with text editing overlays disappearing off-screen when the mobile keyboard appears
+- Added specialized keyboard handling for both comment and label editing overlays
+- Implemented position correction to keep input fields visible when keyboard appears
+- Improved scrolling behavior for overlays on mobile devices
 
 ### Changed
 - Improved hover style for "Total" header by removing background fill on hover for cleaner visual experience
