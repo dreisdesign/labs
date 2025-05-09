@@ -271,7 +271,7 @@ function showCommentOverlay(entryId) {
         if (typeof window.setupKeyboardFix === 'function' && isMobileDevice()) {
             window.setupKeyboardFix(commentOverlay, overlayContent, commentTextarea);
         }
-    }, 50); // Reduced delay
+    }, isMobileDevice() ? 150 : 50); // Longer delay for mobile, 50ms for desktop
 }
 
 // Update delete button state between "Delete" and "Cancel" based on comment content
@@ -530,7 +530,7 @@ function showLabelEditOverlay() {
         if (typeof window.setupKeyboardFix === 'function' && isMobileDevice()) {
             window.setupKeyboardFix(labelEditOverlay, overlayContent, labelEditInput);
         }
-    }, 50); // Reduced delay, was 300ms
+    }, isMobileDevice() ? 150 : 50); // Longer delay for mobile, 50ms for desktop
 }
 
 // Hide label edit overlay
