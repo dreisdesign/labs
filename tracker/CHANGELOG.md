@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Table of Contents
 - [Unreleased](#unreleased)
+- [1.7.2](#172) - Mobile keyboard positioning fix
 - [1.7.1](#171) - Overlay edit fix
 - [1.7.0](#170) - Swipe to delete entries
 - [1.6.0](#160) - Edit total ui
@@ -37,12 +38,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.7.1] - 2025-05-08
+## [1.7.2] - 2025-05-09
+
+### Fixed
+- Fixed mobile overlay positioning when on-screen keyboard appears on smartphones
+- Implemented CSS-first solution using modern viewport units (dvh/svh) for keyboard handling
+- Ensured editing windows remain properly centered when keyboard appears
+- Prevented overlay content from shifting off-screen on iOS Safari and other mobile browsers
+- Maintained consistent width and position during keyboard transitions
+- Added responsive media queries to handle different screen heights during keyboard interaction
+
+### Changed
+- Simplified JavaScript keyboard handling with minimal implementation
+- Added browser capability detection for modern viewport units
+- Maintained backward compatibility with existing API calls from main.js
+- Removed direct style manipulation in JavaScript in favor of CSS-based solutions
+
+## [1.7.1] - 2025-05-09
 
 ### Fixed
 - Fixed issue with text editing overlays disappearing off-screen when the mobile keyboard appears
+- Improved overlay positioning with modern CSS-only solution:
+  - Added support for dynamic viewport height units (dvh/svh) for better mobile keyboard handling
+  - Implemented proper centering of modals in available space above keyboard
+  - Fixed iOS Safari issue where modal would shift too far upward
 - Added specialized keyboard handling for both comment and label editing overlays
-- Implemented position correction to keep input fields visible when keyboard appears
 - Improved scrolling behavior for overlays on mobile devices
 - Eliminated "jumping" effect when the keyboard appears on mobile devices
 - Added smoother transitions and animations for overlay positioning
