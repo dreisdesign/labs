@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Table of Contents
 - [Unreleased](#unreleased)
+- [2.0.2](#202) - TBD - Clean Feature Branch
 - [2.0.1](#201) - Refresh animation
 - [2.0.0](#200) - Update option
 - [1.7.2](#172) - Mobile keyboard positioning fix
@@ -39,6 +40,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [1.0.0](#100) - Initial Release
 
 ## [Unreleased]
+
+## [2.0.2] - 2025-05-09
+
 
 ## [2.0.1] - 2025-05-09
 
