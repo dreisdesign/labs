@@ -31,6 +31,9 @@ const saveLabelButton = document.getElementById('saveLabelButton');
 const deleteLabelButton = document.getElementById('deleteLabelButton');
 const closeLabelEditButton = document.getElementById('closeLabelEditButton');
 
+// Get the metric card element
+const metricCard = document.querySelector('.metric-card');
+
 // --- Constants and State Variables ---
 const LS_KEYS = {
     COUNT: 'totalCount',
@@ -749,6 +752,16 @@ const mainContent = document.getElementById('mainContent');
 // Add scroll handler for footer shadow
 const bottomButtonsWrapper = document.querySelector('.bottom-buttons-wrapper');
 
+// Function to update shadow on the metric card when scrolling
+function updateMetricCardShadow() {
+    // Add shadow when scrolled down (even just a little)
+    if (mainContent.scrollTop > 10) {
+        metricCard.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
+    } else {
+        metricCard.style.boxShadow = 'none';
+    }
+}
+
 // Update shadow based on scroll position
 function updateFooterShadow() {
     if (mainContent.scrollHeight > mainContent.clientHeight &&
@@ -757,6 +770,12 @@ function updateFooterShadow() {
     } else {
         bottomButtonsWrapper.classList.remove('shadow');
     }
+}
+
+// Combined function to update both shadows on scroll
+function updateShadowsOnScroll() {
+    updateFooterShadow();
+    updateMetricCardShadow();
 }
 
 // Function to update opacity based on viewport visibility
@@ -853,10 +872,13 @@ function rafThrottle(callback) {
 
 // Replace current throttle with RAF-based throttle
 const throttledUpdateOpacities = rafThrottle(updateVisibleEntryOpacities);
+const throttledUpdateShadows = rafThrottle(updateShadowsOnScroll);
 
-// Listen for scroll events using the throttled function
+// Listen for scroll events using the throttled functions
 mainContent.addEventListener('scroll', throttledUpdateOpacities);
+mainContent.addEventListener('scroll', throttledUpdateShadows);
 window.addEventListener('resize', throttledUpdateOpacities);
+window.addEventListener('resize', throttledUpdateShadows);
 
 // --- Grouping and Rendering Entries ---
 

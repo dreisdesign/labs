@@ -99,6 +99,12 @@
     body {
         /* Add padding for the status bar */
         padding-top: env(safe-area-inset-top, 0);
+        /* Additional iOS fixes */
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+        position: fixed;
+        -webkit-overflow-scrolling: touch;
     }
 
     /* Adjust version number position for iOS */
@@ -109,6 +115,65 @@
     /* Adjust app container for iOS */
     .app {
         padding-top: max(4vw, env(safe-area-inset-top, 0));
+        height: 100vh;
+        /* Force full height on iOS */
+        overflow: hidden;
+    }
+}
+
+/* --- iOS Specific Adjustments --- */
+@supports (-webkit-touch-callout: none) {
+
+    /* Bottom buttons wrapper adjustments for iOS safe areas */
+    .bottom-buttons-wrapper {
+        bottom: env(safe-area-inset-bottom, 0);
+        padding-bottom: calc(1.25rem + env(safe-area-inset-bottom, 0));
+        transform: translateZ(0);
+        /* Promote to its own layer for better rendering */
+    }
+
+    @media screen and (min-height: 800px) {
+
+        /* For taller iOS devices */
+        #mainContent {
+            max-height: calc(100vh - 200px - env(safe-area-inset-bottom, 0));
+        }
+
+        .metric-card {
+            margin-top: max(2.5rem, env(safe-area-inset-top, 0));
+        }
+    }
+
+    /* Fix for landscape mode on iOS */
+    @media screen and (orientation: landscape) {
+        .bottom-buttons-wrapper {
+            padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0));
+        }
+
+        #mainContent {
+            max-height: calc(100vh - 160px - env(safe-area-inset-bottom, 0));
+            padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0));
+        }
+
+        .metric-card {
+            margin-top: 1.5rem;
+            padding: 1.5rem 1.5rem 1.2rem 1.5rem;
+        }
+    }
+}
+
+/* iOS adjustments for undo button */
+@supports (-webkit-touch-callout: none) {
+    .undo-button {
+        bottom: calc(120px + env(safe-area-inset-bottom, 0) * 0.5);
+    }
+
+    .undo-button.show {
+        bottom: calc(120px + env(safe-area-inset-bottom, 0) * 0.5);
+    }
+
+    .undo-button.hidden {
+        bottom: calc(90px + env(safe-area-inset-bottom, 0) * 0.5);
     }
 }
 
@@ -130,6 +195,9 @@
 html,
 body {
     height: 100%;
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
     margin: 0;
     padding: 0;
     background: var(--color-background);
@@ -191,6 +259,8 @@ body {
     position: relative;
     min-height: unset;
     background: transparent;
+    overflow: hidden;
+    /* Prevent scrolling of the app container */
 }
 
 /* --- Metric Card (Total Count) --- */
@@ -207,6 +277,20 @@ body {
     max-width: 80%;
     margin-top: 2.5rem;
     margin-bottom: 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    transition: box-shadow 0.3s ease;
+}
+
+/* Dark mode shadow for metric card when scrolled */
+body.dark-mode .metric-card {
+    transition: box-shadow 0.3s ease;
+}
+
+body.dark-mode .metric-card[style*="box-shadow"] {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+    /* Stronger shadow for dark mode */
 }
 
 /* Container for label and edit button */
@@ -558,9 +642,10 @@ body.dark-mode .label-edit-input:focus {
 #mainContent {
     flex: 1 1 auto;
     overflow-y: auto;
+    overflow-x: hidden;
     min-height: 200px;
-    max-height: 100vh;
-    /* Prevent collapse */
+    max-height: calc(100vh - 200px);
+    /* Adjusted to account for metric card and footer */
     max-width: 400px;
     width: 100%;
     margin: 0 auto;
@@ -571,6 +656,10 @@ body.dark-mode .label-edit-input:focus {
     padding-bottom: 7rem;
     /* Ensure content is not overlapped by footer */
     background: transparent;
+    position: relative;
+    /* Important for proper iOS scrolling behavior */
+    -webkit-overflow-scrolling: touch;
+    /* Smooth scrolling on iOS */
 
     /* Standard scrollbar properties (Firefox) */
     scrollbar-width: thin;
