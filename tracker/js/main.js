@@ -15,6 +15,7 @@ const closeSettingsButton = document.getElementById('closeSettingsButton');
 const menuThemeToggle = document.getElementById('menuThemeToggle'); // Added for menu theme toggle
 const menuThemeIcon = document.getElementById('menuThemeIcon'); // Added for menu theme icon
 const menuThemeText = document.getElementById('menuThemeText'); // Added for menu theme text
+const refreshAppButton = document.getElementById('refreshAppButton'); // Added for app refresh functionality
 
 // Comment functionality elements
 const commentOverlay = document.getElementById('commentOverlay');
@@ -56,6 +57,9 @@ let resetPending = false; // Flag to track if a reset is waiting for countdown
 // Variables to track comment deletion for undo
 let deletedCommentEntry = null;
 let deletedCommentText = '';
+
+// Timer ID for version success message
+let versionSuccessTimerId = null;
 
 // Load state from Local Storage or use defaults with validation
 let totalCount = 0;
@@ -162,6 +166,131 @@ function updateTotalCount() {
 // Updates the metric label display (saving happens in disableLabelEditing)
 function updateMetricLabel() {
     metricLabel.textContent = metricLabelText;
+}
+
+// --- Helper Functions ---
+
+/**
+ * Check if application is running in standalone mode (added to homescreen)
+ * @returns {boolean} True if app is running as PWA/standalone
+ */
+function isRunningAsWebApp() {
+    // iOS detection
+    const isIOSStandalone = window.navigator.standalone === true;
+
+    // Android/other detection using display-mode
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+
+    // Some browsers support manifest.display property
+    const isPWA = window.matchMedia('(display-mode: fullscreen)').matches ||
+        window.matchMedia('(display-mode: minimal-ui)').matches;
+
+    // For debugging
+    console.log('Web App Detection:', {
+        isIOSStandalone,
+        isStandalone,
+        isPWA,
+        userAgent: navigator.userAgent
+    });
+
+    return isIOSStandalone || isStandalone || isPWA;
+}
+
+/**
+ * Initialize refresh app button functionality
+ */
+function initRefreshAppButton() {
+    // Make sure the button exists
+    if (!refreshAppButton) {
+        console.error('Refresh app button not found in the DOM');
+        return;
+    }
+
+    // Force hide the button initially
+    refreshAppButton.classList.add('hidden');
+    refreshAppButton.style.display = 'none';
+
+    // Get version success message element
+    const versionSuccessMessage = document.getElementById('versionSuccessMessage');
+
+    // Only show the button when running as a web app
+    const isWebApp = isRunningAsWebApp();
+    console.log('Is running as web app:', isWebApp);
+
+    if (isWebApp) {
+        // Show the button with a slight delay to ensure CSS is applied
+        setTimeout(() => {
+            refreshAppButton.classList.remove('hidden');
+            refreshAppButton.style.display = '';
+            console.log('Refresh app button shown');
+        }, 500);        // Add click handler
+        refreshAppButton.addEventListener('click', () => {
+            console.log('Refreshing app...');
+
+            // Show success animation
+            showRefreshSuccess();
+
+            // Force reload from server, not cache after animation completes
+            setTimeout(() => {
+                // Reset the visibility just before reload to avoid any weird state on page refresh
+                const updateIcon = refreshAppButton.querySelector('.update-icon');
+                if (updateIcon) {
+                    updateIcon.style.visibility = '';
+                }
+                window.location.reload(true);
+            }, 1000);
+        });
+    }
+}
+
+// Function to show the refresh success checkmark animation and message
+function showRefreshSuccess() {
+    // Animate the refresh button
+    refreshAppButton.classList.add('success');
+
+    // Get version success message element
+    const versionSuccessMessage = document.getElementById('versionSuccessMessage');
+
+    // Make sure update icon stays hidden during animation
+    const updateIcon = refreshAppButton.querySelector('.update-icon');
+    if (updateIcon) {
+        updateIcon.style.visibility = 'hidden';
+    }
+
+    // Show the success message
+    if (versionSuccessMessage) {
+        // Clear any existing timers
+        if (versionSuccessTimerId) {
+            clearTimeout(versionSuccessTimerId);
+        }
+
+        // Remove hidden class and add show class
+        versionSuccessMessage.classList.remove('hidden');
+
+        // Force browser to recognize the initial state before animating
+        void versionSuccessMessage.offsetHeight;
+
+        // Show the message with animation
+        versionSuccessMessage.classList.add('show');
+
+        // Set a timer to hide the message after 3 seconds
+        versionSuccessTimerId = setTimeout(() => {
+            hideVersionSuccessMessage();
+        }, 3000);
+    }
+}
+
+// Function to hide the version success message
+function hideVersionSuccessMessage() {
+    const versionSuccessMessage = document.getElementById('versionSuccessMessage');
+    if (versionSuccessMessage) {
+        versionSuccessMessage.classList.remove('show');
+
+        // Add hidden class after animation completes
+        setTimeout(() => {
+            versionSuccessMessage.classList.add('hidden');
+        }, 300);
+    }
 }
 
 // --- Comment Functionality ---
@@ -973,11 +1102,30 @@ function toggleTestingMode() {
 
 // Add keyboard shortcut for testing mode (Ctrl/Cmd + Shift + T)
 document.addEventListener('keydown', (e) => {
+    // Testing mode toggle with Ctrl/Cmd + Shift + T
     if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'T') {
-        const enabled = toggleTestingMode();
-        console.log(`Testing mode ${enabled ? 'enabled' : 'disabled'}`);
+        toggleTestingMode(e);
+    }
+
+    // Debug mode for refresh button with Ctrl/Cmd + Shift + R
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'R') {
+        e.preventDefault();
+        // Toggle refresh button visibility for testing
+        if (refreshAppButton) {
+            if (refreshAppButton.classList.contains('hidden')) {
+                refreshAppButton.classList.remove('hidden');
+                refreshAppButton.style.display = '';
+                console.log('Refresh button shown for testing');
+            } else {
+                refreshAppButton.classList.add('hidden');
+                refreshAppButton.style.display = 'none';
+                console.log('Refresh button hidden');
+            }
+        }
     }
 });
+
+// --- Data Management ---
 
 // Function to add a new timestamp entry
 function addTimestamp() {
@@ -1440,6 +1588,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 100);
     }
 
+    // Initialize refresh app functionality
+    initRefreshAppButton();
+
     // The rest of your DOMContentLoaded code continues...
     // Fix settings menu icon colors with a direct approach
     // Create a style element to inject our custom CSS
@@ -1530,3 +1681,6 @@ function restorePageScroll() {
         document.body.style.overflow = '';
     }
 }
+
+// Initialize refresh app button functionality
+initRefreshAppButton();

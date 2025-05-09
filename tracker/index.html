@@ -102,7 +102,7 @@
     </script>
 
     <!-- Version number display -->
-    <div class="version-number">v2.0.0</div>
+    <div class="version-number">v2.0.1</div>
 
     <!-- Main application container -->
     <div class="app">
@@ -122,6 +122,8 @@
         </div>
         <!-- Undo button positioned above the footer -->
         <button class="undo-button hidden" id="undoButton">Undo</button>
+        <!-- Latest version success message -->
+        <div class="version-success-message hidden" id="versionSuccessMessage">You are on the latest version</div>
         <div class="bottom-buttons-wrapper">
             <div class="bottom-buttons">
                 <button class="track-button track-button--footer">
@@ -154,6 +156,19 @@
                         <div id="menuThemeIcon" class="settings-icon theme-icon"></div>
                     </div>
                     <span id="menuThemeText">Turn off dark mode</span>
+                </button>
+
+                <!-- Refresh app button (only visible when running as web app) -->
+                <button id="refreshAppButton" class="settings-item settings-item-refresh hidden">
+                    <div class="settings-item-icon-container">
+                        <div class="update-icon-container">
+                            <div class="update-icon"></div>
+                            <div class="update-checkmark">
+                                <img src="assets/images/check--fill.svg" alt="Success" class="checkmark-icon">
+                            </div>
+                        </div>
+                    </div>
+                    <span class="refresh-button-text">Refresh</span>
                 </button>
 
                 <!-- Reset button in settings menu -->

@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Table of Contents
 - [Unreleased](#unreleased)
+- [2.0.1](#201) - Refresh animation
 - [2.0.0](#200) - Update option
 - [1.7.2](#172) - Mobile keyboard positioning fix
 - [1.7.1](#171) - Overlay edit fix
@@ -39,7 +40,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.1] - 2025-05-09
+
+### Added
+- Added checkmark animation to refresh button when clicked
+- Added "You are on the latest version" success message using color-success variable
+- Implemented smooth transitions for success message appearance and disappearance
+- Enhanced visual feedback when refreshing app from homescreen
+
+### Changed
+- Improved refresh button layout with properly positioned checkmark icon
+- Standardized animation style to match add button's success animation
+- Updated success message styling to use consistent app design patterns
+
 ## [2.0.0] - 2025-05-09
+
+### Added
+- Added "Refresh" button in settings menu for web app users
+- Implemented detection for standalone/homescreen app mode
+- Added ability to force refresh the app when installed on iOS homescreen
+- Added update icon to match app's visual style
 
 
 ## [1.7.2] - 2025-05-09

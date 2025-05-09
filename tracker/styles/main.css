@@ -27,6 +27,8 @@
     /* light background */
     --color-surface: rgb(255, 255, 255);
     /* white surface */
+    --color-sucess: rgb(0, 181, 106);
+    /* success green */
     --color-error: rgb(181, 0, 90);
     /* error pink */
     --color-error-inactive: rgb(181, 181, 181);
@@ -348,7 +350,6 @@ body.dark-mode .label-edit-input:focus {
     justify-content: space-between;
     margin-top: 1rem;
     margin-bottom: 0.5rem;
-    gap: 0.75rem;
 }
 
 /* --- Metric Value --- */
@@ -467,6 +468,90 @@ body.dark-mode .label-edit-input:focus {
 /* For compatibility with some browsers that might not support direct path styling */
 .track-button.success .track-button-checkmark img {
     filter: brightness(0) invert(1);
+}
+
+/* --- Update Button Animation Styles --- */
+.update-icon-container {
+    position: relative;
+    width: 24px;
+    height: 24px;
+}
+
+.update-icon {
+    width: 24px;
+    height: 24px;
+    mask-image: url('../assets/images/update--fill.svg');
+    -webkit-mask-image: url('../assets/images/update--fill.svg');
+    mask-size: contain;
+    -webkit-mask-size: contain;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    background-color: var(--color-primary);
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.update-checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    opacity: 0;
+    transform: scale(0.5) rotate(-180deg);
+}
+
+.settings-item-refresh.success .update-icon {
+    opacity: 0;
+    transform: scale(0.5);
+    visibility: hidden;
+    /* Completely hide the refresh icon during animation */
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out, visibility 0.2s ease-out;
+}
+
+.settings-item-refresh.success .update-checkmark {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    animation: rollInCheckmark 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+    visibility: visible;
+    /* Ensure checkmark is visible during animation */
+}
+
+.checkmark-icon {
+    width: 100%;
+    height: 100%;
+}
+
+/* --- Version Success Message Styles --- */
+.version-success-message {
+    position: fixed;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--color-success);
+    color: var(--color-on-success);
+    border: none;
+    border-radius: 6px;
+    padding: 0.7rem 1.5rem;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, opacity 0.3s, bottom 0.3s;
+    z-index: 99;
+    opacity: 0;
+    pointer-events: none;
+    bottom: 110px;
+}
+
+.version-success-message.show {
+    opacity: 1;
+    pointer-events: auto;
+    bottom: 120px;
+}
+
+.version-success-message.hidden {
+    opacity: 0;
+    pointer-events: none;
+    bottom: 90px;
+    visibility: hidden;
 }
 
 /* --- Main Content Area (Timestamp List) --- */
@@ -993,6 +1078,41 @@ body.dark-mode .bottom-buttons-wrapper.shadow {
     -webkit-mask-size: contain;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
+}
+
+/* Update Icon */
+.update-icon {
+    width: 24px;
+    height: 24px;
+    background-color: var(--color-primary);
+    mask-image: url('../assets/images/update--fill.svg');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: url('../assets/images/update--fill.svg');
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    opacity: 0.75;
+    transition: opacity 0.2s;
+}
+
+/* Refresh app button styling */
+.settings-item-refresh {
+    color: var(--color-primary);
+}
+
+.settings-item-refresh .update-icon {
+    background-color: var(--color-primary);
+    opacity: 0.75;
+}
+
+.settings-item-refresh:hover {
+    background-color: var(--color-primary-25);
+}
+
+.settings-item-refresh:hover .update-icon {
+    opacity: 1;
 }
 
 /* Reset Icon - More specific selector with !important to override any conflicts */
@@ -1590,4 +1710,31 @@ body.dark-mode .undo-button:hover {
 /* Dark mode adjustments */
 body.dark-mode .undo-button {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Apply dark mode to critical elements to prevent flash */
+html.dark-mode .metric-card {
+    background-color: rgb(30, 30, 30) !important;
+    color: rgb(255, 255, 255) !important;
+}
+
+html.dark-mode .metric-value {
+    color: rgb(149, 117, 205) !important;
+}
+
+html.dark-mode .version-number {
+    color: rgb(255, 255, 255) !important;
+}
+
+/* General utility classes */
+.hidden {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Hide body content until CSS is fully loaded to prevent FOUC */
+.js-loading body {
+    visibility: hidden;
 }
