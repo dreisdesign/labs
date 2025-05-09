@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Table of Contents
 - [Unreleased](#unreleased)
+- [2.0.0](#200) - Update option
 - [1.7.2](#172) - Mobile keyboard positioning fix
 - [1.7.1](#171) - Overlay edit fix
 - [1.7.0](#170) - Swipe to delete entries
@@ -37,6 +38,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [1.0.0](#100) - Initial Release
 
 ## [Unreleased]
+
+## [2.0.0] - 2025-05-09
+
 
 ## [1.7.2] - 2025-05-09
 
