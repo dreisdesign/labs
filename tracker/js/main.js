@@ -424,10 +424,15 @@ commentTextarea.addEventListener('input', updateDeleteButtonState);
 
 // Hide comment overlay
 function hideCommentOverlay() {
+    // Add class first
     commentOverlay.classList.add('hidden');
     currentEditingEntry = null;
     commentTextarea.value = '';
-    restorePageScroll();
+
+    // Use a small delay before restoring scroll to ensure DOM updates complete first
+    setTimeout(() => {
+        restorePageScroll();
+    }, 10);
 }
 
 // Delete/cancel comment 
@@ -666,7 +671,11 @@ function showLabelEditOverlay() {
 function hideLabelEditOverlay() {
     labelEditOverlay.classList.add('hidden');
     labelEditInput.value = '';
-    restorePageScroll();
+
+    // Use a small delay before restoring scroll to ensure DOM updates complete first
+    setTimeout(() => {
+        restorePageScroll();
+    }, 10);
 }
 
 // Save the edited label
@@ -1232,7 +1241,10 @@ settingsButton.addEventListener('click', () => {
 // Close Settings Overlay (using the close button)
 closeSettingsButton.addEventListener('click', () => {
     settingsOverlay.classList.add('hidden');
-    restorePageScroll();
+    // Small delay before restoring scroll position
+    setTimeout(() => {
+        restorePageScroll();
+    }, 10);
 });
 
 // Close Settings Overlay (clicking outside the content)
@@ -1240,7 +1252,10 @@ settingsOverlay.addEventListener('click', (event) => {
     // Check if the click is directly on the overlay background
     if (event.target === settingsOverlay) {
         settingsOverlay.classList.add('hidden');
-        restorePageScroll();
+        // Small delay before restoring scroll position
+        setTimeout(() => {
+            restorePageScroll();
+        }, 10);
     }
 });
 
@@ -1251,7 +1266,10 @@ menuThemeToggle.addEventListener('click', () => {
     applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
     // Close the menu immediately
     settingsOverlay.classList.add('hidden');
-    restorePageScroll();
+    // Small delay before restoring scroll position
+    setTimeout(() => {
+        restorePageScroll();
+    }, 10);
 });
 
 // --- Add click handler for the reset button
@@ -1274,7 +1292,10 @@ resetButton.addEventListener('click', () => {
 
     // Auto-close the menu after starting the reset process
     settingsOverlay.classList.add('hidden');
-    restorePageScroll();
+    // Small delay before restoring scroll position
+    setTimeout(() => {
+        restorePageScroll();
+    }, 10);
 });
 
 // --- Backup and Restore Functions ---
@@ -1644,11 +1665,22 @@ window.recalculateEntryOpacities = function () {
 };
 
 // Function to prevent and restore page scroll
-let savedScrollPosition = 0;
+let savedWindowScrollPosition = 0;
+let savedMainContentScrollPosition = 0;
 
 function preventPageScroll() {
-    // Store current scroll position
-    savedScrollPosition = window.scrollY || document.documentElement.scrollTop;
+    // Store current window scroll position
+    savedWindowScrollPosition = window.scrollY || document.documentElement.scrollTop;
+
+    // Store current mainContent scroll position - make sure we get the current value
+    if (mainContent) {
+        savedMainContentScrollPosition = mainContent.scrollTop;
+        // Save to a data attribute on the element as well as a backup
+        mainContent.setAttribute('data-saved-scroll', savedMainContentScrollPosition);
+        console.log('Saving scroll position:', savedMainContentScrollPosition);
+    } else {
+        savedMainContentScrollPosition = 0;
+    }
 
     // Add a class to prevent scrolling on the body
     document.body.classList.add('overlay-open');
@@ -1658,7 +1690,7 @@ function preventPageScroll() {
         // Apply fixed positioning to prevent scrolling while maintaining visual position
         document.body.style.position = 'fixed';
         document.body.style.width = '100%';
-        document.body.style.top = `-${savedScrollPosition}px`;
+        document.body.style.top = `-${savedWindowScrollPosition}px`;
     } else {
         // For mobile, use overflow hidden which is smoother with keyboards
         document.body.style.overflow = 'hidden';
@@ -1674,11 +1706,40 @@ function restorePageScroll() {
         document.body.style.position = '';
         document.body.style.width = '';
         document.body.style.top = '';
-        // Restore the scroll position
-        window.scrollTo(0, savedScrollPosition);
+        // Restore the window scroll position
+        window.scrollTo(0, savedWindowScrollPosition);
     } else {
         // For mobile, just remove the overflow restriction
         document.body.style.overflow = '';
+        // Also restore window scroll position on mobile devices
+        window.scrollTo(0, savedWindowScrollPosition);
+    }
+
+    // Restore mainContent scroll position for both mobile and desktop
+    if (mainContent) {
+        // Try to get the position from both the variable and data attribute as backup
+        const savedPosition = savedMainContentScrollPosition ||
+            parseInt(mainContent.getAttribute('data-saved-scroll')) || 0;
+
+        console.log('Restoring scroll position:', savedPosition);
+
+        // Try multiple times to ensure the scroll position is applied correctly
+        // This helps with timing issues in different browsers and devices
+        const applyScroll = () => {
+            mainContent.scrollTop = savedPosition;
+        };
+
+        // Apply immediately
+        applyScroll();
+
+        // And also with small delays to catch any timing issues
+        setTimeout(applyScroll, 10);
+        setTimeout(applyScroll, 50);
+
+        // Clear the data attribute after restoring
+        setTimeout(() => {
+            mainContent.removeAttribute('data-saved-scroll');
+        }, 100);
     }
 }
 
