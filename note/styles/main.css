@@ -154,12 +154,13 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    max-width: 600px;
+    max-width: 80vw;
     width: 100%;
     margin: 0 auto;
     padding: 0;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
+    /* Space between card and bottom buttons */
     gap: 0;
     position: relative;
     min-height: unset;
@@ -173,19 +174,26 @@ body {
     background: var(--color-surface);
     border-radius: 1.2rem;
     box-shadow: none;
-    padding: 2.5rem 1.5rem 3rem;
+    padding: 2rem 1.5rem 2.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     width: 100%;
     max-width: 80%;
-    /* Match tracker app's 80% max-width */
-    margin-top: 2.5rem;
-    margin-bottom: 1.5rem;
+    /* Keep 80% width as requested */
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2rem;
+    margin-bottom: 6.5rem;
+    /* Increased bottom margin to prevent overlap with footer */
     position: relative;
     z-index: 10;
     transition: box-shadow 0.3s ease;
+    flex: 1;
+    /* Take up available space */
+    min-height: calc(100vh - 240px);
+    /* Reduced height to avoid overlap with footer */
 }
 
 /* Dark mode shadow for note card */
@@ -248,6 +256,12 @@ body.dark-mode .metric-card {
 .note-content {
     width: 100%;
     min-height: 100px;
+    flex: 1;
+    /* Make the content take up all available space */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Center content vertically */
     text-align: center;
     font-size: var(--font-size-display);
     font-weight: 800;
@@ -255,7 +269,11 @@ body.dark-mode .metric-card {
     line-height: 1.1;
     white-space: pre-wrap;
     overflow-wrap: break-word;
+    overflow-y: auto;
+    /* Add scrolling when content overflows */
     transition: color 0.3s, font-size 0.3s;
+    padding-bottom: 1rem;
+    /* Add some bottom spacing */
 }
 
 /* Specific styling for the noteText element */
@@ -270,6 +288,10 @@ body.dark-mode .metric-card {
     /* Handle long text gracefully */
     overflow-wrap: break-word;
     hyphens: auto;
+    text-overflow: ellipsis;
+    /* Add ellipsis for truncated text */
+    overflow: hidden;
+    /* Hide overflow */
 }
 
 /* Empty note style */
@@ -882,13 +904,19 @@ body.dark-mode .label-edit-input:focus {
     }
 
     .metric-card {
-        padding: 2rem 0.5rem 1.5rem 0.5rem;
-        /* Keep the 80% max-width from the desktop version to match tracker app */
+        padding: 1.5rem 0.5rem 1.5rem 0.5rem;
+        margin-top: 1rem;
+        margin-bottom: 5.5rem;
+        /* Increased bottom margin to prevent overlap with footer on mobile */
+        min-height: calc(100vh - 190px);
+        /* Adjusted for mobile to avoid footer overlap */
     }
 
     .note-content {
         font-size: 3.5rem;
         /* Smaller font size on mobile */
+        padding-bottom: 0.5rem;
+        /* Less padding on mobile */
     }
 
     .note-content.empty {
