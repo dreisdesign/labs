@@ -263,7 +263,6 @@ body.dark-mode .metric-card {
     justify-content: center;
     /* Center content vertically */
     text-align: center;
-    font-size: var(--font-size-display);
     font-weight: 800;
     color: var(--color-primary);
     line-height: 1.1;
@@ -274,6 +273,18 @@ body.dark-mode .metric-card {
     transition: color 0.3s, font-size 0.3s;
     padding-bottom: 1rem;
     /* Add some bottom spacing */
+
+    /* Fluid typography implementation using clamp()
+     * - Minimum font size: 2rem (prevents text from becoming too small)
+     * - Preferred size: 8vw (scales with viewport width to fill available space)
+     * - Maximum size: var(--font-size-display) (prevents text from becoming too large)
+     * 
+     * This creates responsive text that:
+     * 1. Grows/shrinks based on available space
+     * 2. Always remains within readable size bounds
+     * 3. Optimally fills the note card
+     */
+    font-size: clamp(2rem, 8vw, 16rem);
 }
 
 /* Specific styling for the noteText element */
@@ -285,13 +296,35 @@ body.dark-mode .metric-card {
     font-weight: inherit;
     color: inherit;
     line-height: inherit;
-    /* Handle long text gracefully */
+
+    /* Text wrapping strategy:
+     * - overflow-wrap: break-word - Allows breaking long words only when necessary
+     * - word-wrap: break-word - Legacy property for backward compatibility
+     * - word-break: keep-all - Critical property that ensures words stay intact
+     * - white-space: normal - Allows text to wrap naturally at spaces
+     * - hyphens: none - Prevents automatic hyphenation of words
+     * 
+     * Combined, these properties ensure that:
+     * 1. Words will never break across lines (stay as complete units)
+     * 2. Text wraps at natural word boundaries (spaces)
+     * 3. Long text flows correctly with proper overflow handling
+     */
     overflow-wrap: break-word;
-    hyphens: auto;
+    word-wrap: break-word;
+    /* Legacy name for overflow-wrap */
+    word-break: keep-all;
+    /* Ensures no breaking within words */
+    white-space: normal;
+    /* Allows normal wrapping at spaces */
+    hyphens: none;
+    /* Disable hyphenation */
     text-overflow: ellipsis;
     /* Add ellipsis for truncated text */
     overflow: hidden;
     /* Hide overflow */
+    /* Adjust to fill available space */
+    max-height: 100%;
+    max-width: 100%;
 }
 
 /* Empty note style */
@@ -300,8 +333,7 @@ body.dark-mode .metric-card {
     /* Use a more subtle version of primary color */
     font-style: italic;
     text-align: center;
-    font-size: 2.5rem;
-    /* Smaller size for empty state */
+    /* Inherits the same fluid typography from parent .note-content */
 }
 
 /* --- Main Content Area --- */
@@ -913,15 +945,20 @@ body.dark-mode .label-edit-input:focus {
     }
 
     .note-content {
-        font-size: 3.5rem;
-        /* Smaller font size on mobile */
+        /* 
+         * Fluid typography for mobile screens:
+         * - Minimum: 4rem (larger starting point for better visibility on small screens)
+         * - Preferred: 12vw (scales proportionally with viewport width at a larger ratio)
+         * - Maximum: 16rem (allows for much larger text on mobile devices)
+         *
+         * This creates a more impactful mobile experience with:
+         * 1. Significantly larger text that's easy to read at a glance
+         * 2. Text that grows/shrinks to optimally fill the available space 
+         * 3. Maintains the no-word-break behavior from base styles
+         */
+        font-size: clamp(4rem, 12vw, 16rem);
         padding-bottom: 0.5rem;
         /* Less padding on mobile */
-    }
-
-    .note-content.empty {
-        font-size: 2rem;
-        /* Even smaller for empty state on mobile */
     }
 }
 
