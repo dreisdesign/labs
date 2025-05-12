@@ -1,5 +1,24 @@
 #!/bin/bash
 
+# switch-branch.sh - Git branch management utility script
+# 
+# USAGE:
+#   ./scripts/switch-branch.sh <branch-name>    - Switch to specified branch
+#   ./scripts/switch-branch.sh --make-main      - Merge current branch into main
+#   ./scripts/switch-branch.sh -m               - Same as --make-main
+#
+# DESCRIPTION:
+#   This utility script simplifies Git branch management by handling common
+#   operations like switching branches while preserving uncommitted changes
+#   and merging feature branches into the main branch.
+#
+# FEATURES:
+#   - Automatically stashes uncommitted changes before switching branches
+#   - Pulls latest changes from remote after switching
+#   - Restores stashed changes after switching
+#   - Can merge current branch into main with the --make-main flag
+#   - Offers option to delete the source branch after merging
+
 # Check command line arguments
 if [ "$1" == "-m" ] || [ "$1" == "--make-main" ]; then
     # Store current branch name
