@@ -154,12 +154,13 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    max-width: 600px;
+    max-width: 80vw;
     width: 100%;
     margin: 0 auto;
     padding: 0;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
+    /* Space between card and bottom buttons */
     gap: 0;
     position: relative;
     min-height: unset;
@@ -173,18 +174,26 @@ body {
     background: var(--color-surface);
     border-radius: 1.2rem;
     box-shadow: none;
-    padding: 2.5rem 1.5rem 3rem;
+    padding: 2rem 1.5rem 2.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     width: 100%;
-    max-width: 90%;
-    margin-top: 2.5rem;
-    margin-bottom: 1.5rem;
+    max-width: 80%;
+    /* Keep 80% width as requested */
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2rem;
+    margin-bottom: 6.5rem;
+    /* Increased bottom margin to prevent overlap with footer */
     position: relative;
     z-index: 10;
     transition: box-shadow 0.3s ease;
+    flex: 1;
+    /* Take up available space */
+    min-height: calc(100vh - 240px);
+    /* Reduced height to avoid overlap with footer */
 }
 
 /* Dark mode shadow for note card */
@@ -247,14 +256,35 @@ body.dark-mode .metric-card {
 .note-content {
     width: 100%;
     min-height: 100px;
+    flex: 1;
+    /* Make the content take up all available space */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Center content vertically */
     text-align: center;
-    font-size: var(--font-size-display);
     font-weight: 800;
     color: var(--color-primary);
     line-height: 1.1;
     white-space: pre-wrap;
     overflow-wrap: break-word;
+    overflow-y: auto;
+    /* Add scrolling when content overflows */
     transition: color 0.3s, font-size 0.3s;
+    padding-bottom: 1rem;
+    /* Add some bottom spacing */
+
+    /* Fluid typography implementation using clamp()
+     * - Minimum font size: 2rem (prevents text from becoming too small)
+     * - Preferred size: 8vw (scales with viewport width to fill available space)
+     * - Maximum size: var(--font-size-display) (prevents text from becoming too large)
+     * 
+     * This creates responsive text that:
+     * 1. Grows/shrinks based on available space
+     * 2. Always remains within readable size bounds
+     * 3. Optimally fills the note card
+     */
+    font-size: clamp(2rem, 8vw, 16rem);
 }
 
 /* Specific styling for the noteText element */
@@ -266,9 +296,35 @@ body.dark-mode .metric-card {
     font-weight: inherit;
     color: inherit;
     line-height: inherit;
-    /* Handle long text gracefully */
+
+    /* Text wrapping strategy:
+     * - overflow-wrap: break-word - Allows breaking long words only when necessary
+     * - word-wrap: break-word - Legacy property for backward compatibility
+     * - word-break: keep-all - Critical property that ensures words stay intact
+     * - white-space: normal - Allows text to wrap naturally at spaces
+     * - hyphens: none - Prevents automatic hyphenation of words
+     * 
+     * Combined, these properties ensure that:
+     * 1. Words will never break across lines (stay as complete units)
+     * 2. Text wraps at natural word boundaries (spaces)
+     * 3. Long text flows correctly with proper overflow handling
+     */
     overflow-wrap: break-word;
-    hyphens: auto;
+    word-wrap: break-word;
+    /* Legacy name for overflow-wrap */
+    word-break: keep-all;
+    /* Ensures no breaking within words */
+    white-space: normal;
+    /* Allows normal wrapping at spaces */
+    hyphens: none;
+    /* Disable hyphenation */
+    text-overflow: ellipsis;
+    /* Add ellipsis for truncated text */
+    overflow: hidden;
+    /* Hide overflow */
+    /* Adjust to fill available space */
+    max-height: 100%;
+    max-width: 100%;
 }
 
 /* Empty note style */
@@ -277,8 +333,7 @@ body.dark-mode .metric-card {
     /* Use a more subtle version of primary color */
     font-style: italic;
     text-align: center;
-    font-size: 2.5rem;
-    /* Smaller size for empty state */
+    /* Inherits the same fluid typography from parent .note-content */
 }
 
 /* --- Main Content Area --- */
@@ -881,22 +936,29 @@ body.dark-mode .label-edit-input:focus {
     }
 
     .metric-card {
-        padding: 2rem 0.5rem 1.5rem 0.5rem;
+        padding: 1.5rem 0.5rem 1.5rem 0.5rem;
+        margin-top: 1rem;
+        margin-bottom: 5.5rem;
+        /* Increased bottom margin to prevent overlap with footer on mobile */
+        min-height: calc(100vh - 190px);
+        /* Adjusted for mobile to avoid footer overlap */
     }
 
     .note-content {
-        font-size: 3.5rem;
-        /* Smaller font size on mobile */
-    }
-
-    .note-content.empty {
-        font-size: 2rem;
-        /* Even smaller for empty state on mobile */
-    }
-
-    .metric-card {
-        padding: 2rem 1rem 2.5rem;
-        max-width: 95%;
+        /* 
+         * Fluid typography for mobile screens:
+         * - Minimum: 4rem (larger starting point for better visibility on small screens)
+         * - Preferred: 12vw (scales proportionally with viewport width at a larger ratio)
+         * - Maximum: 16rem (allows for much larger text on mobile devices)
+         *
+         * This creates a more impactful mobile experience with:
+         * 1. Significantly larger text that's easy to read at a glance
+         * 2. Text that grows/shrinks to optimally fill the available space 
+         * 3. Maintains the no-word-break behavior from base styles
+         */
+        font-size: clamp(4rem, 12vw, 16rem);
+        padding-bottom: 0.5rem;
+        /* Less padding on mobile */
     }
 }
 
