@@ -179,7 +179,8 @@ body {
     align-items: center;
     text-align: center;
     width: 100%;
-    max-width: 90%;
+    max-width: 80%;
+    /* Match tracker app's 80% max-width */
     margin-top: 2.5rem;
     margin-bottom: 1.5rem;
     position: relative;
@@ -882,6 +883,7 @@ body.dark-mode .label-edit-input:focus {
 
     .metric-card {
         padding: 2rem 0.5rem 1.5rem 0.5rem;
+        /* Keep the 80% max-width from the desktop version to match tracker app */
     }
 
     .note-content {
@@ -892,11 +894,6 @@ body.dark-mode .label-edit-input:focus {
     .note-content.empty {
         font-size: 2rem;
         /* Even smaller for empty state on mobile */
-    }
-
-    .metric-card {
-        padding: 2rem 1rem 2.5rem;
-        max-width: 95%;
     }
 }
 
