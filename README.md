@@ -1,8 +1,26 @@
 # Labs
 
-This repository contains a collection of web development projects. Currently featuring:
+This repository contains a collection of web development projects and utility scripts. Currently featuring:
 
-## Tracker
+## Projects
+
+### DailyNote
+
+A simple note-taking app that clears at the end of each day. Perfect for daily thoughts, tasks, or reminders.
+
+#### Features
+
+- Single note interface that resets daily
+- Dark mode support with system preference detection
+- Responsive design for mobile and desktop
+- Customizable note label
+- Undo functionality for cleared notes
+- Settings menu with theme toggle and note reset
+- iOS PWA support for home screen installation
+
+[View Project Details](note/README.md)
+
+### Tracker
 
 A simple activity tracking web application. Try it live at [https://dreisdesign.github.io/labs/tracker/](https://dreisdesign.github.io/labs/tracker/)
 
@@ -101,37 +119,94 @@ cd labs
 - Open `index.html` in your browser
 - Or serve it using a local development server
 
+## Utility Scripts
+
+The repository includes several utility scripts to enhance the development workflow.
+
 ### Version Management
 
-The project includes a version management script that helps automate the development workflow:
+A version management script automates the process of creating new feature branches and updating version numbers:
 
 ```bash
-./tracker/scripts/prepare-version-update.sh
+./scripts/prepare-version-update.sh <project-name>
+```
+
+Example usage:
+```bash
+# For the tracker project
+./scripts/prepare-version-update.sh tracker
+
+# For the note project
+./scripts/prepare-version-update.sh note
 ```
 
 This script will:
-1. Create a new feature branch (e.g., feature/v1.0.7)
+1. Create a new feature branch (e.g., feature/tracker-v1.0.7)
 2. Update version numbers in relevant files
-3. Add a new section in the changelog
+3. Add a new section in the project's changelog
 4. Stage the changes for commit
-
-Example workflow:
-1. Run the script to start a new feature
-2. Make your changes
-3. Commit and merge when ready
 
 The script automatically manages:
 - Version numbers in index.html and styles/main.css
 - Changelog entries with proper dating
 - Git branch creation and management
 
+### Branch Management
+
+A branch management script simplifies switching between branches and handling uncommitted changes:
+
+```bash
+./scripts/switch-branch.sh <branch-name>
+```
+
+Additional options:
+```bash
+# To make current branch the main branch (merges into main)
+./scripts/switch-branch.sh --make-main
+```
+
+This script will:
+1. Stash any uncommitted changes
+2. Switch to the specified branch and pull latest changes
+3. Restore your uncommitted changes
+4. Handle optional merging to main branch
+
 ### Documentation
 
-- [Changelog](tracker/CHANGELOG.md) - Detailed change history for this project
+- [Tracker Changelog](tracker/CHANGELOG.md) - Detailed change history for the Tracker project
+- [DailyNote Changelog](note/CHANGELOG.md) - Detailed change history for the DailyNote project
 
 ### Contributing
 
 Feel free to submit issues and enhancement requests!
+
+### Repository Structure
+
+```
+labs/
+├── index.html                   # Main entry page for all projects
+├── README.md                    # Main repository documentation
+├── LICENSE                      # Project license information
+├── note/                        # DailyNote project
+│   ├── index.html              # Main note app HTML file
+│   ├── README.md               # Note app documentation
+│   ├── CHANGELOG.md            # Note app change history
+│   ├── js/                     # JavaScript files
+│   ├── styles/                 # CSS stylesheets
+│   ├── assets/                 # Icons and images
+│   └── fonts/                  # Font files
+├── tracker/                     # Tracker project
+│   ├── index.html              # Main tracker app HTML file
+│   ├── CHANGELOG.md            # Tracker app change history
+│   ├── js/                     # JavaScript files
+│   ├── styles/                 # CSS stylesheets
+│   ├── assets/                 # Icons and images
+│   ├── docs/                   # Documentation files
+│   └── fonts/                  # Font files
+└── scripts/                     # Utility scripts
+    ├── prepare-version-update.sh  # Version management script
+    └── switch-branch.sh           # Branch management script
+```
 
 ### License
 
