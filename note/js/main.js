@@ -95,6 +95,14 @@ document.addEventListener('DOMContentLoaded', function () {
         this.classList.remove('button-pressed');
     });
 
+    // Settings overlay: Refresh button handler
+    const refreshBtn = document.getElementById('refreshButton');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', function () {
+            window.location.reload();
+        });
+    }
+
     // Functions
 
     /**
@@ -221,6 +229,7 @@ document.addEventListener('DOMContentLoaded', function () {
             addNoteButtonText.textContent = "+ Add";
         }
 
+        updateClearNoteButtonState();
         hideNoteOverlay();
     }
 
@@ -248,6 +257,8 @@ document.addEventListener('DOMContentLoaded', function () {
             // Reset button text to "+ Add"
             addNoteButtonText.textContent = "+ Add";
         }
+
+        updateClearNoteButtonState();
     }
 
     /**
@@ -278,6 +289,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Reset button text to "+ Add"
         addNoteButtonText.textContent = "+ Add";
 
+        updateClearNoteButtonState();
         // Show undo button
         showUndoButton();
         hideSettingsOverlay();
@@ -313,6 +325,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Update button text to "✐ Edit" since we've restored the note
         addNoteButtonText.textContent = "✐ Edit";
 
+        updateClearNoteButtonState();
         undoButton.classList.remove('show');
         setTimeout(() => {
             undoButton.classList.add('hidden');
@@ -376,4 +389,27 @@ document.addEventListener('DOMContentLoaded', function () {
             bottomButtonsWrapper.classList.remove('shadow');
         }
     });
+
+    // Utility: Enable/disable clear note button in settings overlay
+    function updateClearNoteButtonState() {
+        const clearBtn = document.getElementById('clearNoteButton');
+        // Determine if there is a note for today
+        const savedNote = localStorage.getItem('dailyNote');
+        const savedNoteDate = localStorage.getItem('noteDate');
+        const now = new Date();
+        const today = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+        const hasNote = savedNote && savedNoteDate === today && savedNote.trim() !== '';
+        if (clearBtn) {
+            if (hasNote) {
+                clearBtn.removeAttribute('aria-disabled');
+                clearBtn.removeAttribute('disabled');
+            } else {
+                clearBtn.setAttribute('aria-disabled', 'true');
+                clearBtn.setAttribute('disabled', '');
+            }
+        }
+    }
+
+    // Call on load and after note changes
+    updateClearNoteButtonState();
 });

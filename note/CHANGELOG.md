@@ -2,6 +2,20 @@
 
 All notable changes to the DailyNote app will be documented in this file.
 
+## [1.0.3] - 2025-05-13
+
+### Changed
+- Settings button and overlay styles now match Tracker app (light/dark, hover, active)
+- Settings overlay buttons (theme toggle, clear note) updated for consistency and accessibility
+- Clear Note button is now inactive when there is no note, matching Tracker
+- Added Refresh button to settings overlay (mobile only), with matching icon and behavior
+- Improved icon consistency and SVG usage for settings/refresh/reset
+- Minor accessibility and focus improvements
+
+### Fixed
+- Refresh icon now displays correctly on all devices
+- Overlay and button states are visually consistent in both light and dark mode
+
 ## [1.0.0] - 2025-05-12
 
 ### Added

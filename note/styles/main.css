@@ -471,11 +471,10 @@ body.dark-mode .bottom-buttons-wrapper.shadow {
 
 
 
-/* Settings Button */
+/* Settings Button (matches Tracker) */
 .settings-button {
     position: absolute;
     right: 60px;
-    /* Changed from 20px to 60px to match Tracker */
     top: 50%;
     transform: translateY(-50%);
     padding: 0.5rem;
@@ -483,30 +482,12 @@ body.dark-mode .bottom-buttons-wrapper.shadow {
     border: none;
     background: transparent;
     cursor: pointer;
+    z-index: 2;
 }
 
 /* Base styles for bottom buttons */
-.bottom-button-base {
-    width: auto;
-    margin: 0;
-    padding: 0;
-    font-size: var(--font-size-lg);
-    font-weight: 600;
-    border: none;
-    border-radius: 0;
-    background: none;
-    color: var(--color-primary);
-    cursor: pointer;
-    min-height: 44px;
-    /* Minimum touch target size */
-}
 
-.bottom-button-base:focus-visible {
-    outline: var(--focus-outline-width) solid var(--focus-outline-color);
-    outline-offset: var(--focus-outline-offset);
-}
-
-/* Settings Icon */
+/* Settings Icon (matches Tracker) */
 .settings-icon {
     width: 24px;
     height: 24px;
@@ -524,9 +505,40 @@ body.dark-mode .bottom-buttons-wrapper.shadow {
     display: block;
 }
 
-.settings-button:hover .settings-icon {
+.settings-button:hover .settings-icon,
+.settings-button:focus-visible .settings-icon {
     opacity: 1;
     transform: rotate(30deg);
+}
+
+.settings-button:active .settings-icon {
+    opacity: 1;
+    transform: rotate(0deg) scale(0.92);
+}
+
+/* Focus state for accessibility */
+.settings-button:focus-visible {
+    outline: var(--focus-outline-width) solid var(--focus-outline-color);
+    outline-offset: var(--focus-outline-offset);
+}
+
+/* Dark mode adjustments for settings icon */
+body.dark-mode .settings-icon {
+    background-color: var(--color-primary);
+    opacity: 0.85;
+}
+
+body.dark-mode .settings-button:hover .settings-icon,
+body.dark-mode .settings-button:focus-visible .settings-icon {
+    opacity: 1;
+    background-color: var(--color-primary);
+    transform: rotate(30deg);
+}
+
+body.dark-mode .settings-button:active .settings-icon {
+    opacity: 1;
+    background-color: var(--color-primary-darker);
+    transform: rotate(0deg) scale(0.92);
 }
 
 /* --- Skip to content link for keyboard users --- */
@@ -719,24 +731,72 @@ body.dark-mode .comment-textarea:focus {
     display: flex;
     align-items: center;
     padding: 1rem;
-    border: none;
-    background: none;
     width: 100%;
-    text-align: left;
+    background: none;
+    border: none;
     cursor: pointer;
-    border-radius: 0.5rem;
-    transition: background-color 0.2s ease;
-    font-size: var(--font-size-lg);
-    font-weight: 600;
     color: var(--color-on-surface);
+    font-size: var(--font-size-md);
+    text-align: left;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s, color 0.2s;
+    outline: none;
 }
 
-.settings-item:hover {
+.settings-item:hover,
+.settings-item:focus-visible {
     background-color: rgba(0, 0, 0, 0.05);
 }
 
-body.dark-mode .settings-item:hover {
+.settings-item:active {
+    background-color: rgba(0, 0, 0, 0.10);
+}
+
+body.dark-mode .settings-item {
+    color: var(--color-on-background);
+    background: none;
+}
+
+body.dark-mode .settings-item:hover,
+body.dark-mode .settings-item:focus-visible {
     background-color: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-mode .settings-item:active {
+    background-color: rgba(255, 255, 255, 0.10);
+}
+
+/* Theme toggle specific styling for dark mode */
+body.dark-mode #menuThemeToggle {
+    background-color: rgba(149, 117, 205, 0.15);
+}
+
+body.dark-mode #menuThemeToggle:hover,
+body.dark-mode #menuThemeToggle:focus-visible {
+    background-color: var(--color-primary-25);
+}
+
+#menuThemeToggle:hover,
+#menuThemeToggle:focus-visible {
+    background-color: var(--color-primary-25);
+}
+
+/* Inactive state for settings overlay buttons (matches Tracker) */
+.settings-item[aria-disabled="true"],
+.settings-item[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    background: none !important;
+    color: var(--color-on-surface);
+    transition: opacity 0.2s;
+}
+
+body.dark-mode .settings-item[aria-disabled="true"],
+body.dark-mode .settings-item[disabled] {
+    color: var(--color-on-background);
+    background: none !important;
+    opacity: 0.5;
 }
 
 /* Settings Item Icon Container */
@@ -794,6 +854,35 @@ body.dark-mode .theme-icon {
 
 .settings-item-reset:hover .reset-icon {
     background-color: var(--color-error);
+}
+
+/* Refresh Icon */
+.refresh-icon {
+    width: 24px;
+    height: 24px;
+    background-color: var(--color-primary);
+    mask-image: url('../assets/images/refresh--fill.svg');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: url('../assets/images/refresh--fill.svg');
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    transition: background-color 0.2s;
+    display: block;
+}
+
+.settings-item:hover .refresh-icon {
+    background-color: var(--color-secondary);
+}
+
+body.dark-mode .refresh-icon {
+    background-color: var(--color-primary);
+}
+
+body.dark-mode .settings-item:hover .refresh-icon {
+    background-color: var(--color-primary-darker);
 }
 
 /* --- Undo Button Styles --- */
@@ -926,6 +1015,17 @@ body.dark-mode .label-edit-input:focus {
 /* General utility classes */
 .hidden {
     display: none !important;
+}
+
+/* Hide mobile-only elements by default */
+.mobile-only {
+    display: none !important;
+}
+
+@media (max-width: 600px) {
+    .mobile-only {
+        display: flex !important;
+    }
 }
 
 /* --- Responsive Styles --- */
