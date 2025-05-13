@@ -1022,7 +1022,7 @@ body.dark-mode .label-edit-input:focus {
     display: none !important;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1024px) {
     .mobile-only {
         display: flex !important;
     }
