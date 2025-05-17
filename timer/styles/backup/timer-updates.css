@@ -1,0 +1,57 @@
+/* Timer block timer display */
+.block-label {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-on-surface);
+    z-index: 1;
+}
+
+.block-timer {
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--color-on-surface);
+    z-index: 1;
+    transition: opacity 0.3s;
+}
+
+.block-timer.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Fix padding in settings overlay */
+.overlay-content {
+    padding: 0;
+    width: 100%;
+    max-width: 500px;
+    margin: 40px auto;
+    background-color: var(--color-surface);
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+.overlay-body {
+    padding: 1rem;
+    max-height: 80vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.settings-item {
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+}

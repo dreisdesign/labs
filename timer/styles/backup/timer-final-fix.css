@@ -1,0 +1,80 @@
+/* Final timer fixes to ensure proper formatting */
+
+/* Total time label and time display should be on separate lines */
+.timer-display {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 1rem;
+    margin: 1.5rem 0;
+}
+
+/* Ensure the timer digits container keeps all digits on one line */
+.timer-digits-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    font-size: 3rem;
+}
+
+/* Total timer label styling */
+.timer-total-label {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-bottom: 0.5rem;
+    width: 100%;
+    text-align: center;
+    display: block;
+}
+
+/* Fix block timer display in each timer block */
+.block-timer {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    width: auto;
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+}
+
+html.dark-mode .block-timer {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Reset any flex properties for the individual elements that should be inline */
+.block-minutes,
+.block-seconds,
+.colon-separator,
+#timerMinutes,
+#timerSeconds {
+    display: inline;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Apply consistent min-width to time digits for better alignment */
+.block-minutes,
+.block-seconds,
+#timerMinutes,
+#timerSeconds {
+    min-width: 1.5ch;
+    display: inline-block;
+}
+
+/* Make sure block label is properly positioned */
+.block-label {
+    font-size: 1.7rem;
+    font-variant-numeric: tabular-nums;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}

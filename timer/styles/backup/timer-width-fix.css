@@ -1,0 +1,68 @@
+/* Additional timer width fixes */
+
+/* Ensure timer display is full width */
+.timer-display {
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Ensure timer blocks container uses full width */
+.timer-blocks {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Make the block timer display use the full width available */
+.block-timer {
+    width: 100%;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+    position: absolute;
+    top: 65%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    text-align: center;
+}
+
+/* Ensure the timer content container uses full width */
+.timer-content {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Make sure the timer digits have enough space */
+#timerMinutes,
+#timerSeconds {
+    min-width: 2em;
+    text-align: center;
+}
+
+/* Full width timer status */
+.timer-status {
+    width: 100%;
+    text-align: center;
+}
+
+/* Additional padding for timer display to make it more prominent */
+.timer-display {
+    padding: 1rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Add proper vertical alignment for all timer elements */
+.timer-total-label {
+    width: 100%;
+    text-align: center;
+}
+
+/* Fix alignment of timer display content */
+.timer-display>span {
+    display: inline-block;
+    vertical-align: middle;
+}

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Early theme application to prevent flash -->
+    <script>
+        // IIFE to apply theme immediately before anything else loads
+        (function () {
+            try {
+                // Apply theme
+                var darkModePreference = localStorage.getItem('darkMode');
+                if (darkModePreference === 'true' ||
+                    (darkModePreference === null &&
+                        window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark-mode');
+                }
+            } catch (e) {
+                console.error('Error applying theme:', e);
+            }
+        })();
+    </script>
+    <style>
+        /* Critical styles to prevent flash during page load */
+        html.dark-mode,
+        html.dark-mode body {
+            background-color: rgb(18, 18, 18) !important;
+            color: rgb(255, 255, 255) !important;
+        }
+
+        /* Apply dark mode to critical elements to prevent flash */
+        html.dark-mode .metric-card {
+            background-color: rgb(30, 30, 30) !important;
+            color: rgb(255, 255, 255) !important;
+        }
+
+        /* Apply dark mode to timer content */
+        html.dark-mode .timer-content {
+            color: rgb(149, 117, 205) !important;
+        }
+
+        html.dark-mode .timer-display {
+            color: rgb(255, 255, 255) !important;
+        }
+
+        html.dark-mode .version-number {
+            color: rgb(255, 255, 255) !important;
+        }
+
+        /* Hide body content until CSS is fully loaded to prevent FOUC */
+        .js-loading body {
+            visibility: hidden;
+        }
+    </style>
+    <script>
+        // Add js-loading class to prevent FOUC
+        document.documentElement.classList.add('js-loading');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Pomodoro Timer - A 25/5 minute work/break timer">
+    <title>Pomodoro Timer</title>
+
+    <!-- Theme Color - Controls browser UI elements like address bar -->
+    <meta name="theme-color" id="theme-color-meta" content="#c1c1ff">
+    <script>
+        // Update theme-color meta immediately
+        if (localStorage.getItem('darkMode') === 'true' ||
+            (localStorage.getItem('darkMode') === null &&
+                window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.getElementById('theme-color-meta').setAttribute('content', '#121212');
+        }
+    </script>
+
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/timer-consolidated.css">
+    <!-- Prevent iOS from resizing fonts -->
+    <meta name="format-detection" content="telephone=no">
+    <!-- iOS PWA meta tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Pomodoro Timer">
+</head>
+
+<body>
+    <!-- Script to remove loading class once page is ready -->
+    <script>
+        // Remove js-loading class when window loads
+        window.addEventListener('DOMContentLoaded', function () {
+            document.documentElement.classList.remove('js-loading');
+
+            // If dark mode is set, ensure body also has the class
+            if (localStorage.getItem('darkMode') === 'true' ||
+                (localStorage.getItem('darkMode') === null &&
+                    window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.body.classList.add('dark-mode');
+            }
+        });
+    </script>
+
+    <!-- Skip to content link for keyboard users -->
+    <a href="#mainContent" class="skip-to-content">Skip to content</a>
+
+    <!-- Version number (top right) -->
+    <div class="version-number">v1.0.0</div>
+
+    <div class="app">
+        <!-- Timer display (replacing note card) -->
+        <div class="metric-card" id="timerCard">
+            <div class="metric-label-container" id="timerLabelContainer">
+                <h2 class="metric-label">Pomodoro Timer</h2>
+            </div>
+            <div class="timer-content" id="timerContent">
+                <div class="timer-blocks">
+                    <div class="timer-block work active" id="block1">
+                        <span class="block-label">25</span>
+                        <div class="block-timer hidden">
+                            <span class="block-minutes">25</span><span class="colon-separator">:</span><span
+                                class="block-seconds">00</span>
+                        </div>
+                    </div>
+                    <div class="timer-block break" id="block2">
+                        <span class="block-label">5</span>
+                        <div class="block-timer hidden">
+                            <span class="block-minutes">05</span><span class="colon-separator">:</span><span
+                                class="block-seconds">00</span>
+                        </div>
+                    </div>
+                    <div class="timer-block work" id="block3">
+                        <span class="block-label">25</span>
+                        <div class="block-timer hidden">
+                            <span class="block-minutes">25</span><span class="colon-separator">:</span><span
+                                class="block-seconds">00</span>
+                        </div>
+                    </div>
+                    <div class="timer-block break" id="block4">
+                        <span class="block-label">5</span>
+                        <div class="block-timer hidden">
+                            <span class="block-minutes">05</span><span class="colon-separator">:</span><span
+                                class="block-seconds">00</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="timer-display" id="timerDisplay">
+                    <div class="timer-total-label">Total Time Remaining</div>
+                    <div class="timer-digits-container">
+                        <span id="timerMinutes">60</span><span class="colon-separator">:</span><span
+                            id="timerSeconds">00</span>
+                    </div>
+                </div>
+                <div class="timer-status" id="timerStatus">Work Time</div>
+            </div>
+        </div>
+
+        <!-- Main content area -->
+        <div id="mainContent" class="custom-scrollbar"></div>
+
+        <!-- Bottom buttons wrapper (similar to tracker) -->
+        <div class="bottom-buttons-wrapper" id="bottomButtonsWrapper">
+            <div class="bottom-buttons">
+                <!-- Start/Pause Button (center) -->
+                <button class="track-button track-button--footer" id="startTimerButton">
+                    <span class="track-button-text">Start Timer</span>
+                </button>
+
+                <!-- Reset Timer Button (left) -->
+                <button class="bottom-button-base reset-button" id="resetTimerButton" aria-label="Reset">
+                    <span class="reset-icon"></span>
+                </button>
+
+                <!-- Settings Button (right) -->
+                <button class="bottom-button-base settings-button" id="settingsButton" aria-label="Settings">
+                    <span class="settings-icon"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Settings Overlay -->
+    <div class="overlay hidden" id="settingsOverlay">
+        <div class="overlay-content">
+            <div class="overlay-header">
+                <h2>Settings</h2>
+                <button class="close-button" id="closeSettingsOverlay" aria-label="Close">
+                    <span class="close-icon"></span>
+                </button>
+            </div>
+            <div class="overlay-body">
+                <!-- Theme Toggle -->
+                <button class="settings-item" id="menuThemeToggle">
+                    <div class="settings-item-icon-container">
+                        <span class="theme-icon"></span>
+                    </div>
+                    <span id="menuThemeText">Turn off dark mode</span>
+                </button>
+
+                <!-- Work Duration Setting -->
+                <div class="settings-item">
+                    <div class="settings-item-icon-container">
+                        <span class="work-icon"></span>
+                    </div>
+                    <span>Work Time</span>
+                    <div class="time-control">
+                        <button class="time-btn time-decrease" id="workTimeDecrease">-</button>
+                        <span id="workTimeValue">25</span>
+                        <button class="time-btn time-increase" id="workTimeIncrease">+</button>
+                    </div>
+                </div>
+
+                <!-- Break Duration Setting -->
+                <div class="settings-item">
+                    <div class="settings-item-icon-container">
+                        <span class="break-icon"></span>
+                    </div>
+                    <span>Break Time</span>
+                    <div class="time-control">
+                        <button class="time-btn time-decrease" id="breakTimeDecrease">-</button>
+                        <span id="breakTimeValue">5</span>
+                        <button class="time-btn time-increase" id="breakTimeIncrease">+</button>
+                    </div>
+                </div>
+
+                <!-- Sound Toggle -->
+                <button class="settings-item" id="soundToggle">
+                    <div class="settings-item-icon-container">
+                        <span class="sound-icon"></span>
+                    </div>
+                    <span id="soundToggleText">Disable Sound</span>
+                </button>
+
+                <!-- Focus Music Toggle -->
+                <button class="settings-item" id="focusMusicToggle">
+                    <div class="settings-item-icon-container">
+                        <span class="focus-music-icon"></span>
+                    </div>
+                    <span id="focusMusicToggleText">Disable Focus Music</span>
+                </button>
+
+                <!-- Refresh Button (mobile only) -->
+                <button class="settings-item mobile-only" id="refreshButton">
+                    <div class="settings-item-icon-container">
+                        <span class="refresh-icon"></span>
+                    </div>
+                    <span>Refresh</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global error handler to prevent timer from breaking
+        window.addEventListener('error', function (event) {
+            console.error('Caught error:', event.error);
+
+            // Try to recover timer if there's an error
+            try {
+                // Get the timer elements
+                const startButton = document.getElementById('startTimerButton');
+                const startButtonText = startButton.querySelector('.track-button-text');
+
+                // Reset to initial state
+                if (startButtonText) {
+                    startButtonText.textContent = "Start Timer";
+                }
+
+                // Clear any intervals
+                if (window.timerInterval) {
+                    clearInterval(window.timerInterval);
+                    window.timerInterval = null;
+                }
+            } catch (e) {
+                console.error('Error in error handler:', e);
+            }
+
+            // Don't prevent the error from being reported
+            return false;
+        });
+    </script>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>

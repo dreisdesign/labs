@@ -1,0 +1,85 @@
+/* Fix specifically for timer blocks to ensure time is displayed on one line */
+
+/* Override any other styles for block-timer to keep everything on one line */
+.timer-block .block-timer {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    white-space: nowrap !important;
+    position: absolute !important;
+    top: 65% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: auto !important;
+    max-width: 90% !important;
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 0.3rem 0.6rem !important;
+    border-radius: 4px;
+    z-index: 5;
+    line-height: normal !important;
+    height: auto !important;
+}
+
+/* Override for dark mode */
+html.dark-mode .timer-block .block-timer {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Make absolutely sure timer elements stay inline */
+.block-timer .block-minutes,
+.block-timer .block-seconds,
+.block-timer .colon-separator {
+    display: inline-block !important;
+    white-space: nowrap !important;
+    vertical-align: middle !important;
+    font-variant-numeric: tabular-nums !important;
+    line-height: 1 !important;
+    float: none !important;
+    position: static !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 0.9rem !important;
+    font-weight: normal !important;
+}
+
+/* Ensure consistent spacing */
+.block-timer .colon-separator {
+    margin: 0 2px !important;
+    width: auto !important;
+    min-width: auto !important;
+}
+
+/* Force proper sizing for the time digits */
+.block-timer .block-minutes,
+.block-timer .block-seconds {
+    min-width: 1.5ch !important;
+    text-align: center !important;
+    width: auto !important;
+    height: auto !important;
+}
+
+/* Make sure all digits stay properly aligned */
+.block-minutes,
+.block-seconds,
+.colon-separator,
+#timerMinutes,
+#timerSeconds {
+    line-height: 1.2 !important;
+}
+
+/* Fix the hidden state to properly hide without breaking layout */
+.block-timer.hidden {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    display: flex !important;
+}
+
+/* Reset all other positioning that might interfere */
+.timer-block {
+    position: relative !important;
+}
+
+.block-label {
+    z-index: 2 !important;
+}
