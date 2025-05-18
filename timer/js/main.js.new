@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initTheme();
     updateSettingsUI();
     initializeTimer();
-
+    
     // Initialize sound button state
     if (!soundEnabled) {
         soundToggleFooter.classList.add('sound-disabled');
@@ -295,23 +295,14 @@ document.addEventListener('DOMContentLoaded', function () {
             if (index < fullCircles) {
                 // Fully fill circles for passed time
                 circle.classList.add('filled');
-                circle.style.setProperty('--fill-height', '100%');
-                circle.style.opacity = 0.9;
             } else if (index === fullCircles) {
                 // Current circle being filled
-                circle.classList.add('filling');
-
-                // Set the fill percentage as a CSS variable for animation
-                const fillPercentage = Math.max(5, Math.min(100, currentCircleFillPercent * 100));
-                circle.style.setProperty('--fill-height', `${fillPercentage}%`);
-
-                // Adjust opacity based on fill percentage
+                circle.classList.add('filled');
+                // Optional: Style to show partial fill
                 circle.style.opacity = 0.3 + (currentCircleFillPercent * 0.7);
             } else {
                 // Future circles - not filled
                 circle.classList.remove('filled');
-                circle.classList.remove('filling');
-                circle.style.removeProperty('--fill-height');
                 circle.style.opacity = "";
             }
         });

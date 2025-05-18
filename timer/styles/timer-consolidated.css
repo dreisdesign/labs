@@ -306,6 +306,157 @@ html.dark-mode .timer-block span {
     /* Ensure any generic spans are white */
 }
 
+/* ====== CIRCLE TIMER STYLES ====== */
+
+/* Circle timer layout */
+.timer-circles-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    height: 300px;
+    position: relative;
+}
+
+.timer-columns {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 75%;
+    margin-bottom: 20px;
+    gap: 15px;
+}
+
+.timer-column {
+    display: flex;
+    flex-direction: column-reverse;
+    /* Stack from bottom up */
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+/* Width proportions for columns */
+.timer-column.work-column {
+    flex: 5;
+    /* 5 parts for 25 minute columns */
+}
+
+.timer-column.break-column {
+    flex: 1;
+    /* 1 part for 5 minute columns */
+}
+
+.timer-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    position: relative;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+    /* Improve circle visualization with subtle shadow */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.timer-circle.work {
+    border-color: var(--color-primary);
+}
+
+.timer-circle.break {
+    border-color: var(--color-success);
+}
+
+.timer-circle.active {
+    transform: scale(1.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    animation: circle-pulse 2s infinite;
+    /* Make sure active circle stands out */
+    z-index: 1;
+}
+
+@keyframes circle-pulse {
+    0% {
+        transform: scale(1.2);
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    50% {
+        transform: scale(1.4);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    100% {
+        transform: scale(1.2);
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.timer-circle.filled {
+    background-color: var(--color-primary-75);
+    animation: circle-fill 0.5s ease-out;
+}
+
+/* Different fill color for break circles */
+.timer-circle.break.filled {
+    background-color: var(--color-success);
+}
+
+@keyframes circle-fill {
+    from {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Timer current time display */
+.timer-current-display {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 10px;
+    /* Position at the bottom of the container */
+    position: absolute;
+    bottom: 0;
+}
+
+.current-block-label {
+    font-size: 1.25rem;
+    color: var(--color-on-surface-75);
+    margin-bottom: 5px;
+}
+
+.current-time {
+    font-size: 2.5rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-on-surface);
+    line-height: 1.2;
+}
+
+/* Dark mode adjustments */
+html.dark-mode .timer-circle {
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+html.dark-mode .timer-circle.work {
+    border-color: var(--color-primary);
+}
+
+html.dark-mode .timer-circle.break {
+    border-color: var(--color-success);
+}
+
+html.dark-mode .current-time {
+    color: var(--color-on-primary);
+}
+
 /* ====== BOTTOM BUTTONS AND CONTROLS ====== */
 
 /* Container for bottom buttons wrapper */
@@ -811,6 +962,28 @@ input:checked+.toggle-slider:before {
     .timer-block.active {
         transform: scale(1.03);
     }
+
+    .timer-circles-container {
+        height: 260px;
+    }
+
+    .timer-circle {
+        width: 18px;
+        height: 18px;
+        border-width: 2px;
+    }
+
+    .timer-columns {
+        gap: 8px;
+    }
+
+    .current-block-label {
+        font-size: 1rem;
+    }
+
+    .current-time {
+        font-size: 2rem;
+    }
 }
 
 @media (min-width: 768px) {
@@ -843,5 +1016,33 @@ input:checked+.toggle-slider:before {
         /* Even larger on big screens */
         letter-spacing: 1px;
         /* Slightly increased letter spacing for better readability */
+    }
+
+    .timer-circles-container {
+        height: 360px;
+    }
+
+    .timer-circle {
+        width: 40px;
+        height: 40px;
+        border-width: 3px;
+    }
+
+    .timer-columns {
+        gap: 20px;
+    }
+
+    .timer-circle {
+        width: 30px;
+        height: 30px;
+        border-width: 4px;
+    }
+
+    .timer-circles {
+        gap: 10px;
+    }
+
+    .current-time {
+        font-size: 3rem;
     }
 }

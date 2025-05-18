@@ -1,0 +1,356 @@
+/* Column-based timer layout styles - Adjusted for equal circle sizing */
+
+/* Container for the circle timer */
+.timer-circles-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    width: 100%;
+    height: auto;
+    /* Let height adjust based on content */
+    max-height: 480px;
+    /* Prevent excessive height */
+    position: relative;
+    overflow: hidden;
+    /* Prevent overflow */
+    padding-bottom: 80px;
+    /* Space for the timer display at bottom */
+}
+
+/* 4-column layout for the timer circles */
+.timer-columns {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    min-height: 320px;
+    margin-bottom: 30px;
+    gap: 20px;
+    /* Space between columns */
+    align-items: flex-end;
+    /* Bottom align the columns */
+}
+
+/* Column sizing */
+.timer-column {
+    display: flex;
+    flex-direction: column-reverse;
+    /* Stack from bottom up */
+    align-items: center;
+    justify-content: flex-end;
+    /* Changed to flex-end for better bottom alignment */
+    height: 100%;
+    gap: 12px;
+    /* Even spacing between circles */
+}
+
+/* Set proportions for work columns (25 min) */
+.timer-column.work-column {
+    width: 120px;
+    /* Fixed width to ensure consistent circle sizing */
+}
+
+/* Set proportions for break columns (5 min) */
+.timer-column.break-column {
+    width: 120px;
+    /* Same width for consistent circle sizing */
+    align-self: flex-end;
+    /* Ensures perfect bottom alignment */
+}
+
+/* Ensure circles are perfectly round with consistent sizing */
+.timer-circle {
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    border: 4px solid transparent;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, opacity 0.3s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    opacity: 0.3;
+    /* Make inactive circles even dimmer */
+    margin: 0;
+    /* Remove margin - we're using gap instead */
+    position: relative;
+    overflow: hidden;
+    /* Important for the fill effect */
+}
+
+/* Set work column circle color */
+.timer-circle.work {
+    border-color: var(--color-primary);
+}
+
+/* Set break column circle color */
+.timer-current-display {
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-bottom: 5px;
+    padding-top: 20px;
+    background: linear-gradient(to bottom, transparent, var(--color-surface) 30%);
+    /* Gradient background to make text more readable */
+}
+
+/* Improve the appearance of the timer digits */
+.current-time {
+    font-size: 2.5rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-on-surface);
+    line-height: 1.2;
+}
+
+/* Ensure timer is white in dark mode */
+html.dark-mode .current-time {
+    color: #FFFFFF;
+}
+
+.current-block-label {
+    font-size: 1.25rem;
+    color: var(--color-on-surface-75);
+    margin-bottom: 5px;
+}
+
+/* Fix circle animation */
+@keyframes circle-pulse {
+    0% {
+        transform: scale(1.15);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        filter: brightness(1.2);
+    }
+
+    50% {
+        transform: scale(1.25);
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+        filter: brightness(1.3);
+    }
+
+    100% {
+        transform: scale(1.15);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        filter: brightness(1.2);
+    }
+}
+
+/* Make sure active circles are visually prominent */
+.timer-circle.active {
+    transform: scale(1.15);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+    animation: circle-pulse 2s infinite;
+    z-index: 1;
+    opacity: 1;
+    /* Full opacity for active circle */
+    border-width: 5px;
+    /* Thicker border for active circle */
+    /* Add a slight glow effect */
+    filter: brightness(1.2);
+}
+
+/* Set work column circle color */
+.timer-circle.work {
+    border-color: var(--color-primary);
+}
+
+/* Set break column circle color */
+.timer-circle.break {
+    border-color: var(--color-success);
+}
+
+/* Timer current display positioning */
+.timer-current-display {
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-bottom: 5px;
+    padding-top: 20px;
+    background: linear-gradient(to bottom, transparent, var(--color-surface) 30%);
+    /* Gradient background to make text more readable */
+}
+
+/* Filled states for circles */
+.timer-circle.filled {
+    background-color: var(--color-primary-75);
+    animation: circle-fill 0.5s ease-out;
+    opacity: 0.9;
+    /* Higher opacity for filled circles */
+    border-width: 2px;
+    /* Thinner border when filled */
+    position: relative;
+    overflow: hidden;
+}
+
+.timer-circle.filled::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-primary);
+    z-index: -1;
+    transform-origin: bottom center;
+    animation: fill-from-bottom 1s ease-out forwards;
+}
+
+/* Circle that is currently being filled */
+.timer-circle.filling::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: var(--fill-height, 0%);
+    background-color: var(--color-primary-50);
+    z-index: -1;
+    transform-origin: bottom center;
+    transition: height 0.5s ease-out;
+}
+
+/* Different fill color for break circles */
+.timer-circle.break.filled {
+    background-color: var(--color-success-50);
+    opacity: 0.9;
+    /* Higher opacity for filled circles */
+}
+
+.timer-circle.break.filled::before,
+.timer-circle.break.filling::before {
+    background-color: var(--color-success);
+}
+
+@keyframes circle-fill {
+    from {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fill-from-bottom {
+    from {
+        transform: scaleY(0);
+    }
+
+    to {
+        transform: scaleY(1);
+    }
+}
+}
+
+/* Responsive sizes */
+@media (max-width: 360px) {
+    .timer-circle {
+        width: 44px;
+        height: 44px;
+        border-width: 3px;
+    }
+
+    .timer-columns {
+        gap: 8px;
+        min-height: 260px;
+    }
+
+    .timer-column {
+        gap: 8px;
+    }
+
+    .timer-column.work-column,
+    .timer-column.break-column {
+        width: 44px;
+        /* Match circle width on small screens */
+    }
+
+    .current-time {
+        font-size: 2rem;
+    }
+
+    .timer-circles-container {
+        max-height: 320px;
+        padding-bottom: 60px;
+    }
+}
+
+@media (min-width: 768px) {
+    .timer-circle {
+        width: 80px;
+        height: 80px;
+        border-width: 5px;
+        margin: 10px 0;
+    }
+
+    .timer-columns {
+        gap: 40px;
+        min-height: 450px;
+    }
+
+    .timer-column.work-column,
+    .timer-column.break-column {
+        width: 100px;
+        /* Adjusted column width for larger screens */
+    }
+
+    .current-time {
+        font-size: 3rem;
+    }
+
+    .timer-circles-container {
+        max-height: 550px;
+        padding-bottom: 90px;
+    }
+}
+
+/* Add dark mode enhancements */
+html.dark-mode .timer-circle {
+    opacity: 0.3;
+    /* Even dimmer in dark mode */
+    border-width: 3px;
+    /* Slightly thinner borders in dark mode */
+}
+
+html.dark-mode .timer-circle.active {
+    opacity: 1;
+    border-width: 5px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    filter: brightness(1.5);
+    /* Brighter in dark mode for better visibility */
+}
+
+html.dark-mode .timer-circle.filled,
+html.dark-mode .timer-circle.filling {
+    opacity: 0.95;
+    border-width: 2px;
+}
+
+html.dark-mode .timer-circle.filling::before {
+    background-color: rgba(149, 117, 205, 0.5);
+}
+
+html.dark-mode .timer-circle.break.filling::before {
+    background-color: rgba(76, 175, 80, 0.5);
+}
+
+/* Ensure consistency across different screen sizes */
+@media (min-width: 1024px) {
+    .timer-circle {
+        width: 88px;
+        height: 88px;
+        border-width: 6px;
+    }
+
+    .timer-column.work-column,
+    .timer-column.break-column {
+        width: 110px;
+    }
+}

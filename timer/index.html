@@ -74,6 +74,7 @@
 
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/timer-consolidated.css">
+    <link rel="stylesheet" href="styles/circle-column-fix.css">
     <!-- Prevent iOS from resizing fonts -->
     <meta name="format-detection" content="telephone=no">
     <!-- iOS PWA meta tags -->
@@ -111,36 +112,59 @@
                 <h2 class="metric-label">Pomodoro Timer</h2>
             </div>
             <div class="timer-content" id="timerContent">
-                <div class="timer-blocks">
-                    <div class="timer-block work active" id="block1" aria-label="First work period, 25 minutes">
-                        <span class="block-label">25</span>
-                        <div class="block-timer hidden" aria-live="polite">
-                            <span class="block-minutes">25</span><span class="colon-separator">:</span><span
-                                class="block-seconds">00</span>
+                <div class="timer-circles-container">
+                    <!-- Circle indicators (12 circles total representing 60 minutes) -->
+                    <div class="timer-columns">
+                        <!-- Column 1: First work period (25 min) -->
+                        <div class="timer-column work-column">
+                            <div class="timer-circle work" id="circle1" data-minute="5" aria-label="Work minute 25-21">
+                            </div>
+                            <div class="timer-circle work" id="circle2" data-minute="10" aria-label="Work minute 20-16">
+                            </div>
+                            <div class="timer-circle work" id="circle3" data-minute="15" aria-label="Work minute 15-11">
+                            </div>
+                            <div class="timer-circle work" id="circle4" data-minute="20" aria-label="Work minute 10-6">
+                            </div>
+                            <div class="timer-circle work" id="circle5" data-minute="25" aria-label="Work minute 5-1">
+                            </div>
+                        </div>
+
+                        <!-- Column 2: First break period (5 min) -->
+                        <div class="timer-column break-column">
+                            <div class="timer-circle break" id="circle6" data-minute="30" aria-label="Break minute 5-1">
+                            </div>
+                        </div>
+
+                        <!-- Column 3: Second work period (25 min) -->
+                        <div class="timer-column work-column">
+                            <div class="timer-circle work" id="circle7" data-minute="35" aria-label="Work minute 25-21">
+                            </div>
+                            <div class="timer-circle work" id="circle8" data-minute="40" aria-label="Work minute 20-16">
+                            </div>
+                            <div class="timer-circle work" id="circle9" data-minute="45" aria-label="Work minute 15-11">
+                            </div>
+                            <div class="timer-circle work" id="circle10" data-minute="50" aria-label="Work minute 10-6">
+                            </div>
+                            <div class="timer-circle work" id="circle11" data-minute="55" aria-label="Work minute 5-1">
+                            </div>
+                        </div>
+
+                        <!-- Column 4: Second break period (5 min) -->
+                        <div class="timer-column break-column">
+                            <div class="timer-circle break" id="circle12" data-minute="60"
+                                aria-label="Break minute 5-1"></div>
                         </div>
                     </div>
-                    <div class="timer-block break" id="block2" aria-label="First break period, 5 minutes">
-                        <span class="block-label">5</span>
-                        <div class="block-timer hidden" aria-live="polite">
-                            <span class="block-minutes">05</span><span class="colon-separator">:</span><span
-                                class="block-seconds">00</span>
-                        </div>
-                    </div>
-                    <div class="timer-block work" id="block3" aria-label="Second work period, 25 minutes">
-                        <span class="block-label">25</span>
-                        <div class="block-timer hidden" aria-live="polite">
-                            <span class="block-minutes">25</span><span class="colon-separator">:</span><span
-                                class="block-seconds">00</span>
-                        </div>
-                    </div>
-                    <div class="timer-block break" id="block4" aria-label="Second break period, 5 minutes">
-                        <span class="block-label">5</span>
-                        <div class="block-timer hidden" aria-live="polite">
-                            <span class="block-minutes">05</span><span class="colon-separator">:</span><span
-                                class="block-seconds">00</span>
+
+                    <!-- Timer digits display -->
+                    <div class="timer-current-display">
+                        <div class="current-time">
+                            <span id="currentMinutes">25</span><span class="colon-separator">:</span><span
+                                id="currentSeconds">00</span>
                         </div>
                     </div>
                 </div>
+
                 <div class="timer-display" id="timerDisplay">
                     <div class="timer-total-label">Total Time Remaining</div>
                     <div class="timer-digits-container" aria-live="polite">
@@ -148,7 +172,7 @@
                             id="timerSeconds">00</span>
                     </div>
                 </div>
-                <div class="timer-status" id="timerStatus" aria-live="polite">Work Time</div>
+                <div class="timer-status" id="timerStatus" aria-live="polite"></div>
             </div>
         </div>
 
