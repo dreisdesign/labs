@@ -1101,3 +1101,43 @@ body.dark-mode .label-edit-input:focus {
         border: 1px solid CanvasText;
     }
 }
+
+/* Add to the end of the file */
+
+/* Current block indicator */
+.current-block {
+    display: none;
+    /* Hidden by default */
+    padding: 5px 10px;
+    border-radius: 4px;
+    background-color: rgba(149, 117, 205, 0.2);
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Focus music toggle button */
+.focus-music-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 50%;
+}
+
+.focus-music-icon-footer {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%239575CD" d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+html.dark-mode .focus-music-icon-footer {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23ffffff" d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>');
+}
