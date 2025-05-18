@@ -21,8 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const menuThemeToggle = document.getElementById('menuThemeToggle');
     const menuThemeText = document.getElementById('menuThemeText');
     const bottomButtonsWrapper = document.getElementById('bottomButtonsWrapper');
-    const soundToggle = document.getElementById('soundToggle');
-    const soundToggleText = document.getElementById('soundToggleText');
+    const soundToggleFooter = document.getElementById('soundToggleFooter');
 
     // Audio element for focus drums
     const focusDrumsAudio = new Audio('assets/audio/focus-drums-25.mp3');
@@ -37,14 +36,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Timer settings elements
-    const workTimeValue = document.getElementById('workTimeValue');
-    const breakTimeValue = document.getElementById('breakTimeValue');
-    const workTimeIncrease = document.getElementById('workTimeIncrease');
-    const workTimeDecrease = document.getElementById('workTimeDecrease');
-    const breakTimeIncrease = document.getElementById('breakTimeIncrease');
-    const breakTimeDecrease = document.getElementById('breakTimeDecrease');
-
     // Timer blocks
     const timerBlocks = document.querySelectorAll('.timer-block');
 
@@ -57,8 +48,8 @@ document.addEventListener('DOMContentLoaded', function () {
     let totalBlocks = 4;
 
     // Settings
-    let workDuration = parseInt(localStorage.getItem('workDuration')) || 25;
-    let breakDuration = parseInt(localStorage.getItem('breakDuration')) || 5;
+    const workDuration = 25; // Fixed at 25 minutes
+    const breakDuration = 5; // Fixed at 5 minutes
     let soundEnabled = localStorage.getItem('soundEnabled') !== 'false'; // default to true
     let focusMusicEnabled = localStorage.getItem('focusMusicEnabled') !== 'false'; // default to true
 
@@ -70,6 +61,11 @@ document.addEventListener('DOMContentLoaded', function () {
     initTheme();
     updateSettingsUI();
     initializeTimer();
+
+    // Initialize sound button state
+    if (!soundEnabled) {
+        soundToggleFooter.classList.add('sound-disabled');
+    }
 
     // Event Listeners
     console.log("Setting up event listeners");
@@ -87,51 +83,12 @@ document.addEventListener('DOMContentLoaded', function () {
     settingsButton.addEventListener('click', showSettingsOverlay);
     closeSettingsOverlay.addEventListener('click', hideSettingsOverlay);
     menuThemeToggle.addEventListener('click', toggleTheme);
-    soundToggle.addEventListener('click', toggleSound);
+    soundToggleFooter.addEventListener('click', toggleSound);
 
     // Add focus music toggle event listener
     if (focusMusicToggle) {
         focusMusicToggle.addEventListener('click', toggleFocusMusic);
     }
-
-    // Timer settings event listeners
-    workTimeIncrease.addEventListener('click', () => {
-        if (workDuration < 60) {
-            workDuration++;
-            saveTimerSettings();
-            updateSettingsUI();
-            if (!isTimerRunning) {
-                initializeTimer();
-            }
-        }
-    });
-
-    workTimeDecrease.addEventListener('click', () => {
-        if (workDuration > 1) {
-            workDuration--;
-            saveTimerSettings();
-            updateSettingsUI();
-            if (!isTimerRunning) {
-                initializeTimer();
-            }
-        }
-    });
-
-    breakTimeIncrease.addEventListener('click', () => {
-        if (breakDuration < 30) {
-            breakDuration++;
-            saveTimerSettings();
-            updateSettingsUI();
-        }
-    });
-
-    breakTimeDecrease.addEventListener('click', () => {
-        if (breakDuration > 1) {
-            breakDuration--;
-            saveTimerSettings();
-            updateSettingsUI();
-        }
-    });
 
     // Mobile refresh button
     const refreshBtn = document.getElementById('refreshButton');
@@ -176,7 +133,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
     settingsButton.addEventListener('mouseout', function () {
         this.classList.remove('button-pressed');
-    });    // Initialize the timer display
+    });
+
+    soundToggleFooter.addEventListener('mousedown', function () {
+        this.classList.add('button-pressed');
+    });
+
+    soundToggleFooter.addEventListener('mouseup', function () {
+        this.classList.remove('button-pressed');
+    });
+
+    soundToggleFooter.addEventListener('mouseout', function () {
+        this.classList.remove('button-pressed');
+    });
+
+    // Initialize the timer display
     function initializeTimer() {
         // Set the current block to 0 (first work period)
         currentBlock = 0;
@@ -274,6 +245,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (blockTimer) {
                     blockTimer.classList.remove('hidden');
                 }
+
+                // Update ARIA labels for accessibility
+                const blockType = index % 2 === 0 ? 'Work' : 'Break';
+                const blockNumber = Math.floor(index / 2) + 1;
+                const duration = index % 2 === 0 ? workDuration : breakDuration;
+                const ariaLabel = `${blockType} period ${blockNumber}, ${duration} minutes, active now`;
+                block.setAttribute('aria-label', ariaLabel);
+                block.setAttribute('title', ariaLabel);
             } else {
                 block.classList.remove('active');
                 // Hide timer in inactive blocks
@@ -281,6 +260,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (blockTimer) {
                     blockTimer.classList.add('hidden');
                 }
+
+                // Update ARIA labels for inactive blocks
+                const blockType = index % 2 === 0 ? 'Work' : 'Break';
+                const blockNumber = Math.floor(index / 2) + 1;
+                const duration = index % 2 === 0 ? workDuration : breakDuration;
+                const ariaLabel = `${blockType} period ${blockNumber}, ${duration} minutes`;
+                block.setAttribute('aria-label', ariaLabel);
+                block.setAttribute('title', ariaLabel);
             }
         });
     }
@@ -318,8 +305,14 @@ document.addEventListener('DOMContentLoaded', function () {
             totalSeconds = breakDuration * 60;
         }
 
-        const percentRemaining = (totalSeconds - currentTime) / totalSeconds * 100;
+        // Calculate exact percentage with 2 decimal precision for smoother animation
+        const percentRemaining = ((totalSeconds - currentTime) / totalSeconds * 100).toFixed(2);
         fill.style.height = `${percentRemaining}%`;
+
+        // Update aria attributes for accessibility
+        block.setAttribute('aria-valuenow', currentTime);
+        block.setAttribute('aria-valuemin', 0);
+        block.setAttribute('aria-valuemax', totalSeconds);
     }
 
     // Toggle timer start/pause
@@ -414,6 +407,12 @@ document.addEventListener('DOMContentLoaded', function () {
             currentTime = workDuration * 60;
             timerStatus.textContent = "Work Time";
 
+            // Announce for screen readers
+            timerStatus.setAttribute('aria-live', 'assertive');
+            setTimeout(() => {
+                timerStatus.setAttribute('aria-live', 'polite');
+            }, 1000);
+
             // Start focus drums for work periods if enabled
             if (focusMusicEnabled && soundEnabled && isTimerRunning) {
                 playFocusDrums();
@@ -421,6 +420,12 @@ document.addEventListener('DOMContentLoaded', function () {
         } else { // Break periods (1, 3)
             currentTime = breakDuration * 60;
             timerStatus.textContent = "Break Time";
+
+            // Announce for screen readers
+            timerStatus.setAttribute('aria-live', 'assertive');
+            setTimeout(() => {
+                timerStatus.setAttribute('aria-live', 'polite');
+            }, 1000);
 
             // Stop focus drums for break periods
             stopFocusDrums();
@@ -462,6 +467,15 @@ document.addEventListener('DOMContentLoaded', function () {
         localStorage.setItem('soundEnabled', soundEnabled);
         updateSettingsUI();
 
+        // Update sound button UI
+        if (soundEnabled) {
+            soundToggleFooter.classList.remove('sound-disabled');
+            soundToggleFooter.setAttribute('aria-label', 'Disable Sound');
+        } else {
+            soundToggleFooter.classList.add('sound-disabled');
+            soundToggleFooter.setAttribute('aria-label', 'Enable Sound');
+        }
+
         // Handle focus drums based on new sound setting
         if (!soundEnabled) {
             stopFocusDrums();
@@ -483,6 +497,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // Set volume to a reasonable level
             focusDrumsAudio.volume = 0.6;
+
+            // Add event listener for when audio ends to restart it smoothly
+            focusDrumsAudio.addEventListener('ended', function () {
+                focusDrumsAudio.currentTime = 0;
+                focusDrumsAudio.play();
+            });
 
             // Play the audio with better error handling
             const playPromise = focusDrumsAudio.play();
@@ -530,9 +550,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Update settings UI
     function updateSettingsUI() {
-        workTimeValue.textContent = workDuration;
-        breakTimeValue.textContent = breakDuration;
-        soundToggleText.textContent = soundEnabled ? "Disable Sound" : "Enable Sound";
+        // Update sound button UI
+        if (soundEnabled) {
+            soundToggleFooter.classList.remove('sound-disabled');
+            soundToggleFooter.setAttribute('aria-label', 'Disable Sound');
+        } else {
+            soundToggleFooter.classList.add('sound-disabled');
+            soundToggleFooter.setAttribute('aria-label', 'Enable Sound');
+        }
 
         // Update focus music toggle text if element exists
         if (focusMusicToggleText) {
@@ -564,10 +589,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Save timer settings
+    // Save sound and music settings
     function saveTimerSettings() {
-        localStorage.setItem('workDuration', workDuration);
-        localStorage.setItem('breakDuration', breakDuration);
+        // We no longer save work and break durations since they're fixed
+        localStorage.setItem('soundEnabled', soundEnabled);
+        localStorage.setItem('focusMusicEnabled', focusMusicEnabled);
     }
 
     // Show settings overlay

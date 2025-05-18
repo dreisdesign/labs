@@ -32,6 +32,8 @@
     align-items: center;
     /* Ensure content is centered */
     padding: 0.5rem;
+    /* Add transition for all properties */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 /* Apply proportional widths based on time duration */
@@ -124,6 +126,27 @@
 
 .timer-block.active {
     box-shadow: 0 0 0 2px var(--color-on-surface);
+    transform: scale(1.05);
+    animation: timer-block-pulse 2s infinite ease-in-out;
+}
+
+.timer-content.timer-paused .timer-block.active {
+    animation: none;
+}
+
+/* Timer block animations */
+@keyframes timer-block-pulse {
+    0% {
+        box-shadow: 0 0 0 2px var(--color-on-surface);
+    }
+
+    50% {
+        box-shadow: 0 0 0 4px var(--color-on-surface);
+    }
+
+    100% {
+        box-shadow: 0 0 0 2px var(--color-on-surface);
+    }
 }
 
 .timer-block.active .block-timer {
@@ -180,11 +203,13 @@ html.dark-mode .colon-separator {
     left: 0;
     width: 100%;
     background-color: var(--color-primary-25);
-    transition: height 1s linear;
+    transition: height 0.9s linear;
+    z-index: 0;
 }
 
 .timer-block.work .timer-block-fill {
     background-color: var(--color-primary-75);
+    opacity: 0.8;
 }
 
 .timer-block.break .timer-block-fill {
@@ -209,25 +234,7 @@ html.dark-mode .colon-separator {
     margin-bottom: 0.75rem;
 }
 
-/* Work/Break icons for settings */
-.work-icon:before {
-    content: "";
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    background-color: var(--color-primary);
-    border-radius: 4px;
-}
-
-.break-icon:before {
-    content: "";
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    background-color: var(--color-success);
-    border-radius: 4px;
-}
-
+/* Settings icons */
 .sound-icon:before {
     content: "";
     display: inline-block;
@@ -399,6 +406,31 @@ body.dark-mode .bottom-buttons-wrapper.shadow {
     opacity: 0.9;
 }
 
+/* Sound toggle button in footer */
+.sound-button {
+    position: absolute;
+    right: 120px;
+    /* Position it to the left of settings button */
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    background-color: var(--color-surface);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    border: none;
+    cursor: pointer;
+    margin: 0;
+}
+
+.sound-button.button-pressed {
+    transform: translateY(-50%) scale(0.95);
+    opacity: 0.9;
+}
+
 /* Main start/pause button */
 .track-button--footer {
     position: absolute;
@@ -420,6 +452,27 @@ body.dark-mode .bottom-buttons-wrapper.shadow {
 .settings-icon {
     width: 24px;
     height: 24px;
+}
+
+/* Sound icon for footer */
+.sound-icon-footer {
+    width: 24px;
+    height: 24px;
+    background-color: var(--color-primary);
+    mask-image: url('../assets/images/volume_up.svg');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: url('../assets/images/volume_up.svg');
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+}
+
+/* Sound icon when sound is disabled */
+.sound-disabled .sound-icon-footer {
+    mask-image: url('../assets/images/volume_off.svg');
+    -webkit-mask-image: url('../assets/images/volume_off.svg');
 }
 
 /* Dark mode adjustments */
@@ -460,39 +513,9 @@ html.dark-mode .settings-button {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
-/* Time controls in settings */
-.time-control {
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-}
-
-.time-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 16px;
-    background-color: var(--color-surface);
-    color: var(--color-on-surface);
-    border: 1px solid var(--color-primary-75);
-    cursor: pointer;
-    font-size: 1.2rem;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    margin: 0 0.5rem;
-}
-
-.time-btn:active {
-    transform: scale(0.95);
-}
-
-.time-value {
-    width: 40px;
-    text-align: center;
-    font-size: 1.2rem;
-    font-weight: 600;
+html.dark-mode .sound-button {
+    background-color: rgba(40, 40, 40, 0.8);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 /* Settings overlay styles */
@@ -721,16 +744,6 @@ input:checked+.toggle-slider:before {
     margin-top: 0;
 }
 
-/* Work settings section */
-.work-settings,
-.break-settings {
-    padding: 0.5rem 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
-}
-
 /* Sound and focus music settings */
 .sound-settings,
 .focus-music-settings {
@@ -753,17 +766,28 @@ input:checked+.toggle-slider:before {
     }
 
     .reset-button,
-    .settings-button {
+    .settings-button,
+    .sound-button {
         width: 42px;
         height: 42px;
     }
 
     .reset-button {
-        left: 30px;
+        left: 20px;
+    }
+
+    .sound-button {
+        right: 70px;
     }
 
     .settings-button {
-        right: 30px;
+        right: 20px;
+    }
+
+    .sound-button {
+        width: 42px;
+        height: 42px;
+        right: 80px;
     }
 
     .block-label {
@@ -781,6 +805,11 @@ input:checked+.toggle-slider:before {
     .timer-block.active .block-timer {
         font-size: 1.5rem;
         /* Adjusted for smaller screens but still prominent */
+    }
+
+    /* Adjust active block scale for small screens */
+    .timer-block.active {
+        transform: scale(1.03);
     }
 }
 

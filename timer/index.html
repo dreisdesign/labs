@@ -112,30 +112,30 @@
             </div>
             <div class="timer-content" id="timerContent">
                 <div class="timer-blocks">
-                    <div class="timer-block work active" id="block1">
+                    <div class="timer-block work active" id="block1" aria-label="First work period, 25 minutes">
                         <span class="block-label">25</span>
-                        <div class="block-timer hidden">
+                        <div class="block-timer hidden" aria-live="polite">
                             <span class="block-minutes">25</span><span class="colon-separator">:</span><span
                                 class="block-seconds">00</span>
                         </div>
                     </div>
-                    <div class="timer-block break" id="block2">
+                    <div class="timer-block break" id="block2" aria-label="First break period, 5 minutes">
                         <span class="block-label">5</span>
-                        <div class="block-timer hidden">
+                        <div class="block-timer hidden" aria-live="polite">
                             <span class="block-minutes">05</span><span class="colon-separator">:</span><span
                                 class="block-seconds">00</span>
                         </div>
                     </div>
-                    <div class="timer-block work" id="block3">
+                    <div class="timer-block work" id="block3" aria-label="Second work period, 25 minutes">
                         <span class="block-label">25</span>
-                        <div class="block-timer hidden">
+                        <div class="block-timer hidden" aria-live="polite">
                             <span class="block-minutes">25</span><span class="colon-separator">:</span><span
                                 class="block-seconds">00</span>
                         </div>
                     </div>
-                    <div class="timer-block break" id="block4">
+                    <div class="timer-block break" id="block4" aria-label="Second break period, 5 minutes">
                         <span class="block-label">5</span>
-                        <div class="block-timer hidden">
+                        <div class="block-timer hidden" aria-live="polite">
                             <span class="block-minutes">05</span><span class="colon-separator">:</span><span
                                 class="block-seconds">00</span>
                         </div>
@@ -143,12 +143,12 @@
                 </div>
                 <div class="timer-display" id="timerDisplay">
                     <div class="timer-total-label">Total Time Remaining</div>
-                    <div class="timer-digits-container">
+                    <div class="timer-digits-container" aria-live="polite">
                         <span id="timerMinutes">60</span><span class="colon-separator">:</span><span
                             id="timerSeconds">00</span>
                     </div>
                 </div>
-                <div class="timer-status" id="timerStatus">Work Time</div>
+                <div class="timer-status" id="timerStatus" aria-live="polite">Work Time</div>
             </div>
         </div>
 
@@ -166,6 +166,11 @@
                 <!-- Reset Timer Button (left) -->
                 <button class="bottom-button-base reset-button" id="resetTimerButton" aria-label="Reset">
                     <span class="reset-icon"></span>
+                </button>
+
+                <!-- Sound Toggle Button (right) -->
+                <button class="bottom-button-base sound-button" id="soundToggleFooter" aria-label="Toggle Sound">
+                    <span class="sound-icon-footer"></span>
                 </button>
 
                 <!-- Settings Button (right) -->
@@ -194,40 +199,6 @@
                         <span class="theme-icon"></span>
                     </div>
                     <span id="menuThemeText">Turn off dark mode</span>
-                </button>
-
-                <!-- Work Duration Setting -->
-                <div class="settings-item">
-                    <div class="settings-item-icon-container">
-                        <span class="work-icon"></span>
-                    </div>
-                    <span>Work Time</span>
-                    <div class="time-control">
-                        <button class="time-btn time-decrease" id="workTimeDecrease">-</button>
-                        <span id="workTimeValue">25</span>
-                        <button class="time-btn time-increase" id="workTimeIncrease">+</button>
-                    </div>
-                </div>
-
-                <!-- Break Duration Setting -->
-                <div class="settings-item">
-                    <div class="settings-item-icon-container">
-                        <span class="break-icon"></span>
-                    </div>
-                    <span>Break Time</span>
-                    <div class="time-control">
-                        <button class="time-btn time-decrease" id="breakTimeDecrease">-</button>
-                        <span id="breakTimeValue">5</span>
-                        <button class="time-btn time-increase" id="breakTimeIncrease">+</button>
-                    </div>
-                </div>
-
-                <!-- Sound Toggle -->
-                <button class="settings-item" id="soundToggle">
-                    <div class="settings-item-icon-container">
-                        <span class="sound-icon"></span>
-                    </div>
-                    <span id="soundToggleText">Disable Sound</span>
                 </button>
 
                 <!-- Focus Music Toggle -->
