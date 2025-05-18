@@ -125,9 +125,8 @@
         }
     </script>
 
+    <!-- Only use main.css - removed timer-consolidated.css and circle-column-fix.css -->
     <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/timer-consolidated.css">
-    <link rel="stylesheet" href="styles/circle-column-fix.css">
     <!-- Prevent iOS from resizing fonts -->
     <meta name="format-detection" content="telephone=no">
     <!-- Mobile PWA meta tags -->
@@ -176,10 +175,19 @@
             </div>
             <div class="timer-content" id="timerContent">
                 <div class="timer-circles-container">
+                    <!-- Timer digits display - MOVED TO TOP -->
+                    <div class="timer-current-display">
+                        <div class="current-time">
+                            <span id="currentMinutes">25</span><span class="colon-separator">:</span><span
+                                id="currentSeconds">00</span>
+                        </div>
+                    </div>
+
                     <!-- Circle indicators (12 circles total representing 60 minutes) -->
                     <div class="timer-columns">
                         <!-- Column 1: First work period (25 min) -->
                         <div class="timer-column work-column">
+                            <div class="timer-column-label">Focus</div>
                             <div class="timer-circle work" id="circle1" data-minute="5" aria-label="Work minute 25-21">
                             </div>
                             <div class="timer-circle work" id="circle2" data-minute="10" aria-label="Work minute 20-16">
@@ -194,12 +202,14 @@
 
                         <!-- Column 2: First break period (5 min) -->
                         <div class="timer-column break-column">
+                            <div class="timer-column-label">Break</div>
                             <div class="timer-circle break" id="circle6" data-minute="30" aria-label="Break minute 5-1">
                             </div>
                         </div>
 
                         <!-- Column 3: Second work period (25 min) -->
                         <div class="timer-column work-column">
+                            <div class="timer-column-label">Focus</div>
                             <div class="timer-circle work" id="circle7" data-minute="35" aria-label="Work minute 25-21">
                             </div>
                             <div class="timer-circle work" id="circle8" data-minute="40" aria-label="Work minute 20-16">
@@ -214,16 +224,9 @@
 
                         <!-- Column 4: Second break period (5 min) -->
                         <div class="timer-column break-column">
+                            <div class="timer-column-label">Break</div>
                             <div class="timer-circle break" id="circle12" data-minute="60"
                                 aria-label="Break minute 5-1"></div>
-                        </div>
-                    </div>
-
-                    <!-- Timer digits display -->
-                    <div class="timer-current-display">
-                        <div class="current-time">
-                            <span id="currentMinutes">25</span><span class="colon-separator">:</span><span
-                                id="currentSeconds">00</span>
                         </div>
                     </div>
                 </div>

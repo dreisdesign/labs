@@ -1,8 +1,7 @@
 /* 
  * Pomodoro Timer - A 25/5 minute work/break timer
- * main.css - Core styles and themes
+ * main.css - All styles in one consolidated file
  * Version: 1.0.0
- * Based on Tracker app styles
  */
 
 /* --- Font Face Definition --- */
@@ -71,6 +70,18 @@
     --focus-outline-color: rgb(0, 95, 204);
     --focus-outline-width: 3px;
     --focus-outline-offset: 2px;
+
+    /* Timer specific variables */
+    --color-work: #65589c;
+    --color-break: #4db6ac;
+    --color-work-dark: #9575cd;
+    --color-break-dark: #80cbc4;
+
+    /* Additional variables needed for circle-column-fix.css */
+    --color-primary-50: rgba(46, 43, 116, 0.5);
+    --color-success-50: rgba(0, 181, 106, 0.5);
+    --border-color: var(--color-primary-75);
+    --accent-color-light: var(--color-primary-25);
 }
 
 /* iOS PWA Status Bar Adjustments */
@@ -160,13 +171,14 @@ body {
     padding: 0;
     align-items: center;
     justify-content: space-between;
-    /* Space between card and bottom buttons */
     gap: 0;
     position: relative;
     min-height: unset;
     background: transparent;
-    overflow: hidden;
-    /* Prevent scrolling of the app container */
+    overflow: visible;
+    /* Changed from 'hidden' to avoid content being cut off */
+    padding-bottom: 100px;
+    /* Add space for footer */
 }
 
 /* --- Note Card (based on Metric Card) --- */
@@ -181,19 +193,19 @@ body {
     text-align: center;
     width: 100%;
     max-width: 80%;
-    /* Keep 80% width as requested */
     margin-left: auto;
     margin-right: auto;
     margin-top: 2rem;
-    margin-bottom: 6.5rem;
-    /* Increased bottom margin to prevent overlap with footer */
+    margin-bottom: 100px;
+    /* Increased to prevent footer overlap */
     position: relative;
     z-index: 10;
     transition: box-shadow 0.3s ease;
     flex: 1;
-    /* Take up available space */
     min-height: calc(100vh - 240px);
-    /* Reduced height to avoid overlap with footer */
+    overflow: visible;
+    height: auto !important;
+    padding-bottom: 20px;
 }
 
 /* Dark mode shadow for note card */
@@ -395,168 +407,190 @@ body.dark-mode .bottom-buttons-wrapper.shadow {
     padding: 0 1rem;
     box-sizing: border-box;
     min-height: 60px;
-    /* Ensure container has enough height for absolute positioned children */
     background-color: transparent;
     pointer-events: auto;
     z-index: 101;
 }
 
-/* Add Note Button */
-.track-button {
-    font-size: var(--font-size-xl);
-    font-weight: 600;
-    border: none;
-    border-radius: 5rem;
-    background: var(--color-primary);
-    color: var(--color-on-primary);
-    cursor: pointer;
-    transition: background-color 0.2s, transform 0.1s ease-out;
+/* Base style for all footer buttons */
+.bottom-button-base {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    background-color: var(--color-surface);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    border: none;
+    cursor: pointer;
+    margin: 0;
+    transition: transform 0.2s ease, opacity 0.2s ease;
     overflow: hidden;
-    position: relative;
-    padding: 0.75rem 2rem;
-    height: 54px;
 }
 
-.track-button:active,
-.track-button.button-pressed {
-    background-color: var(--color-primary-darker);
-    transform: scale(0.95);
-    transition-duration: 0.05s;
+.bottom-button-base:active,
+.bottom-button-base.button-pressed {
+    transform: translateY(-50%) scale(0.95);
+    opacity: 0.9;
 }
 
-.track-button:hover {
-    background: var(--color-secondary);
+/* Reset timer button */
+.reset-button {
+    left: 60px;
 }
 
-.track-button:focus-visible {
-    outline: var(--focus-outline-width) solid var(--focus-outline-color);
-    outline-offset: var(--focus-outline-offset);
+/* Settings button */
+.settings-button {
+    right: 60px;
 }
 
+/* Sound toggle button in footer */
+.sound-button {
+    right: 120px;
+}
+
+/* Main start/pause button */
 .track-button--footer {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    /* Center both horizontally and vertically */
     width: auto;
     min-width: 120px;
-    /* Ensure the button has a minimum width */
     padding: 1.275rem 1.5rem;
-    /* Ensure button has proper padding */
     margin: 0;
-    transition: background-color 0.2s, transform 0.1s ease-out, width 0.2s ease;
 }
 
-.track-button--footer:active,
 .track-button--footer.button-pressed {
-    transform: translate(-50%, -50%) scale(0.95);
-    /* Keep centered while scaling */
+    transform: translate(-50%, -50%) scale(0.95) !important;
 }
 
-
-
-/* Track button text styles */
-.track-button-text {
-    transition: transform 0.2s ease;
-    min-width: 60px;
-    text-align: center;
-}
-
-/* Button pressed effect */
-
-
-
-/* Settings Button (matches Tracker) */
-.settings-button {
-    position: absolute;
-    right: 60px;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 0.5rem;
-    line-height: 1;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    z-index: 2;
-}
-
-/* Base styles for bottom buttons */
-
-/* Settings Icon (matches Tracker) */
-.settings-icon {
+/* Button icons styling - Fix for footer icons */
+.reset-icon,
+.settings-icon,
+.sound-icon-footer {
     width: 24px;
     height: 24px;
     background-color: var(--color-primary);
-    mask-image: url('../assets/images/settings--fill.svg');
-    mask-size: contain;
-    mask-repeat: no-repeat;
-    mask-position: center;
-    -webkit-mask-image: url('../assets/images/settings--fill.svg');
     -webkit-mask-size: contain;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
-    opacity: 0.75;
-    transition: opacity 0.2s, transform 0.2s;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
     display: block;
 }
 
-.settings-button:hover .settings-icon,
-.settings-button:focus-visible .settings-icon {
-    opacity: 1;
-    transform: rotate(30deg);
+/* Sound icon - Fix to match other icons */
+.sound-icon-footer {
+    -webkit-mask-image: url('../assets/images/volume_up.svg');
+    mask-image: url('../assets/images/volume_up.svg');
 }
 
-.settings-button:active .settings-icon {
-    opacity: 1;
-    transform: rotate(0deg) scale(0.92);
+.sound-disabled .sound-icon-footer {
+    -webkit-mask-image: url('../assets/images/volume_off.svg');
+    mask-image: url('../assets/images/volume_off.svg');
 }
 
-/* Focus state for accessibility */
-.settings-button:focus-visible {
-    outline: var(--focus-outline-width) solid var(--focus-outline-color);
-    outline-offset: var(--focus-outline-offset);
+/* Reset icon - Fix to match other icons */
+.reset-icon {
+    -webkit-mask-image: url('../assets/images/reset--fill.svg');
+    mask-image: url('../assets/images/reset--fill.svg');
 }
 
-/* Dark mode adjustments for settings icon */
-body.dark-mode .settings-icon {
+/* Settings icon - Already working correctly */
+.settings-icon {
+    -webkit-mask-image: url('../assets/images/settings--fill.svg');
+    mask-image: url('../assets/images/settings--fill.svg');
+}
+
+/* Dark mode adjustments */
+html.dark-mode .reset-icon,
+html.dark-mode .settings-icon,
+html.dark-mode .sound-icon-footer {
     background-color: var(--color-primary);
-    opacity: 0.85;
 }
 
-body.dark-mode .settings-button:hover .settings-icon,
-body.dark-mode .settings-button:focus-visible .settings-icon {
-    opacity: 1;
-    background-color: var(--color-primary);
-    transform: rotate(30deg);
+/* --- Dark Mode Variable Overrides --- */
+body.dark-mode {
+    --color-primary: rgb(193, 193, 255);
+    --color-secondary: rgb(255, 255, 255);
+    --color-primary-darker: rgb(193, 193, 255);
+    --color-background: rgb(22, 10, 56);
+    --color-surface: rgb(28, 27, 31);
+    --color-success: rgb(0, 181, 106);
+    --color-error: rgb(181, 0, 90);
+    --color-error-inactive: rgb(181, 181, 181);
+    --color-on-primary: rgb(28, 27, 31);
+    --color-on-background: rgb(255, 255, 255);
+    --color-on-surface: rgb(255, 255, 255);
+    --color-on-error: rgb(255, 255, 255);
+    --color-on-error-inactive: rgb(255, 255, 255);
+    --color-primary-75: rgba(193, 193, 255, 0.75);
+    --color-primary-25: rgba(46, 43, 116, 0.25);
+    --color-secondary-75: rgba(255, 255, 255, 0.75);
+    --color-on-surface-75: rgba(255, 255, 255, 0.75);
+    --settings-icon-color: rgba(255, 255, 255, 0.25);
+    --undo-animation-duration: 3s;
+
+    /* Font Size System */
+    --font-size-sm: 0.6rem;
+    /* Extra Small (e.g., version number) */
+    --font-size-md: 1rem;
+    /* Medium (e.g., body text, standard buttons) */
+    --font-size-lg: 1.1rem;
+    /* Large (e.g., primary action buttons) */
+    --font-size-xl: 1.25rem;
+    /* Extra Large (e.g., time entries) */
+    --font-size-xxl: 1.75rem;
+    /* Double Extra Large (e.g., overlay titles) */
+    --font-size-display: 5.5rem;
+    /* Matched with Tracker app */
+    /* Display (e.g., note text) - reduced size for notes */
+
+    /* Focus visible styles for accessibility */
+    --focus-outline-color: rgb(0, 95, 204);
+    --focus-outline-width: 3px;
+    --focus-outline-offset: 2px;
+
+    /* Timer specific variables */
+    --color-work: #9575cd;
+    --color-break: #80cbc4;
+    --color-work-dark: #65589c;
+    --color-break-dark: #4db6ac;
 }
 
-body.dark-mode .settings-button:active .settings-icon {
-    opacity: 1;
-    background-color: var(--color-primary-darker);
-    transform: rotate(0deg) scale(0.92);
-}
-
-/* --- Skip to content link for keyboard users --- */
-.skip-to-content {
+/* --- Add Note Button --- */
+.add-note-button {
     position: absolute;
-    top: -9999px;
-    left: -9999px;
-    background: var(--color-primary);
+    bottom: 80px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 28px;
+    background-color: var(--color-primary);
     color: var(--color-on-primary);
-    padding: 0.5rem 1rem;
-    z-index: 9999;
-    text-decoration: none;
-    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    z-index: 1000;
 }
 
-.skip-to-content:focus {
-    top: 0.5rem;
-    left: 0.5rem;
+.add-note-button:hover {
+    background-color: var(--color-primary-darker);
+}
+
+.add-note-button:active {
+    transform: scale(0.95);
 }
 
 /* --- Overlay Styles --- */
@@ -564,580 +598,2186 @@ body.dark-mode .settings-button:active .settings-icon {
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 900;
+    display: none;
     justify-content: center;
-    z-index: 1000;
-    opacity: 1;
-    transition: opacity 0.3s ease;
+    align-items: center;
 }
 
-.overlay.hidden {
-    opacity: 0;
-    pointer-events: none;
+.overlay.show {
+    display: flex;
 }
 
-/* Base overlay content styles */
+/* Overlay content (e.g., for notes) */
 .overlay-content {
-    background-color: var(--color-surface);
-    border-radius: 1rem;
-    width: 90%;
-    max-width: 500px;
-    max-height: 90vh;
+    background: var(--color-surface);
+    border-radius: 1.2rem;
+    padding: 2rem;
+    max-width: 90%;
+    width: 400px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1001;
+}
+
+/* Close button in overlay */
+.close-overlay {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.close-overlay:hover {
+    transform: scale(1.1);
+}
+
+/* ====== TIMER SPECIFIC STYLES ====== */
+
+/* Timer blocks layout */
+.timer-blocks {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    height: 150px;
+}
+
+.timer-block {
+    position: relative;
+    border-radius: 10px;
+    border: 3px solid var(--color-primary-75);
+    text-align: center;
+    overflow: hidden;
+    box-sizing: border-box;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+/* Apply proportional widths based on time duration */
+.timer-block:nth-child(1) {
+    width: calc(5/12 * 100% - 6px);
+    margin-right: 2px;
+}
+
+.timer-block:nth-child(2) {
+    width: calc(1/12 * 100% - 4px);
+    margin-right: 2px;
+    margin-left: 2px;
+}
+
+.timer-block:nth-child(3) {
+    width: calc(5/12 * 100% - 4px);
+    margin-right: 2px;
+    margin-left: 2px;
+}
+
+.timer-block:nth-child(4) {
+    width: calc(1/12 * 100% - 6px);
+    margin-left: 2px;
+}
+
+/* Only target generic spans inside timer-block that aren't already styled */
+.timer-block>span:not(.block-label):not(.block-minutes):not(.block-seconds):not(.colon-separator) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-on-surface-darker, #222222);
+    z-index: 1;
+}
+
+/* Timer block timer display */
+.block-label {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-on-surface-darker, #222222);
+    z-index: 1;
+    transition: transform 0.3s ease, opacity 0.3s, top 0.3s;
+    text-align: center;
+    width: 90%;
+}
+
+.timer-block.active .block-label {
+    top: 20%;
+    transform: translate(-50%, 0);
+    font-size: 1.2rem;
+    opacity: 0.7;
+}
+
+.block-timer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--color-on-surface-darker, #222222);
+    z-index: 1;
+    transition: opacity 0.3s, visibility 0.3s, transform 0.3s, font-size 0.3s;
+    text-align: center;
+}
+
+.block-timer.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.timer-block.work {
+    border-color: var(--color-primary);
+}
+
+.timer-block.break {
+    border-color: var(--color-success);
+}
+
+.timer-block.active {
+    box-shadow: 0 0 0 2px var(--color-on-surface);
+    transform: scale(1.05);
+    animation: timer-block-pulse 2s infinite ease-in-out;
+}
+
+.timer-content.timer-paused .timer-block.active {
+    animation: none;
+}
+
+/* Timer block animations */
+@keyframes timer-block-pulse {
+    0% {
+        box-shadow: 0 0 0 2px var(--color-on-surface);
+    }
+
+    50% {
+        box-shadow: 0 0 0 4px var(--color-on-surface);
+    }
+
+    100% {
+        box-shadow: 0 0 0 2px var(--color-on-surface);
+    }
+}
+
+.timer-block.active .block-timer {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #000000;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Active timers in dark mode */
+html.dark-mode .timer-block.active .block-timer {
+    color: #FFFFFF;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    font-weight: 700;
+}
+
+/* Specific styling for each time component in timer */
+.block-minutes,
+.block-seconds {
+    display: inline-block;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-on-surface-darker, #222222);
+}
+
+.colon-separator {
+    display: inline-block;
+    margin: 0 2px;
+    position: relative;
+    top: -1px;
+    color: var(--color-on-surface-darker, #222222);
+}
+
+/* Dark mode colon separator */
+html.dark-mode .colon-separator {
+    color: #FFFFFF;
+}
+
+/* Timer fill effect */
+.timer-block-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--color-primary-25);
+    transition: height 0.9s linear;
+    z-index: 0;
+}
+
+.timer-block.work .timer-block-fill {
+    background-color: var(--color-primary-75);
+    opacity: 0.8;
+}
+
+.timer-block.break .timer-block-fill {
+    background-color: var(--color-success);
+    opacity: 0.75;
+}
+
+/* Timer display */
+.timer-display {
+    font-size: 3rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 1rem 0;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-on-surface);
+}
+
+.timer-status {
+    text-align: center;
+    font-size: 1.25rem;
+    color: var(--color-on-surface-75);
+    margin-bottom: 0.75rem;
+}
+
+/* Settings icons */
+.sound-icon:before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url('../assets/images/notification--fill.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.focus-music-icon:before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
     position: relative;
 }
 
-/* --- Overlay Header --- */
-.overlay-header {
-    padding: 1rem 1rem 0.5rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.overlay-header h2 {
-    margin: 0;
-    font-size: var(--font-size-xxl);
-    font-weight: 600;
-    color: var(--color-on-surface);
-}
-
-.close-button {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.focus-music-icon:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px;
+    height: 6px;
+    background-color: white;
     border-radius: 50%;
 }
 
-.close-button:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+/* Timer status visual enhancement */
+.timer-content.timer-running .timer-display {
+    animation: timer-pulse 2s infinite;
 }
 
-.close-icon {
-    width: 24px;
-    height: 24px;
-    background-color: var(--color-on-surface);
-    mask-image: url('../assets/images/close--fill.svg');
-    mask-size: contain;
-    mask-repeat: no-repeat;
-    mask-position: center;
-    -webkit-mask-image: url('../assets/images/close--fill.svg');
-    -webkit-mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-position: center;
+@keyframes timer-pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
-body.dark-mode .close-icon {
-    background-color: var(--color-on-surface);
+.timer-content.timer-paused {
+    opacity: 0.7;
 }
 
-.overlay-body {
-    padding: 1rem;
-    overflow-y: auto;
-    flex: 1;
+.timer-content.timer-paused .timer-block.active {
+    border: 2px dashed var(--border-color);
 }
 
-/* Comment textarea styling */
-.comment-textarea {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid var(--color-primary-75);
-    border-radius: 0.5rem;
-    background: var(--color-surface);
-    color: var(--color-on-surface);
-    font-family: 'Source Sans 3', system-ui, sans-serif;
-    font-size: var(--font-size-lg);
-    min-height: 150px;
-    resize: vertical;
-    outline: none;
-    box-sizing: border-box;
+/* Visual feedback for timer completion */
+.timer-block.completed .timer-block-fill {
+    background-color: var(--accent-color-light);
+    opacity: 0.5;
 }
 
-.comment-textarea:focus {
-    border-color: var(--color-primary);
+/* Additional dark mode timer block styling */
+html.dark-mode .timer-block span {
+    color: #FFFFFF;
 }
 
-body.dark-mode .comment-textarea {
-    border-color: var(--color-primary-75);
-    background-color: rgb(40, 40, 40);
-}
+/* ====== CIRCLE TIMER STYLES ====== */
 
-body.dark-mode .comment-textarea:focus {
-    border-color: var(--color-primary);
-}
-
-.comment-actions {
+/* Circle timer layout */
+.timer-circles-container {
     display: flex;
-    justify-content: space-between;
-    /* Changed to space-between to push buttons apart */
-    margin-top: 1rem;
-}
-
-.comment-button {
-    padding: 0.75rem 1rem;
-    border: none;
-    border-radius: 4px;
-    font-weight: 600;
-    font-size: var(--font-size-md);
-    cursor: pointer;
-    min-height: 44px;
-    transition: background-color 0.2s, color 0.2s;
-}
-
-.save-comment {
-    background-color: var(--color-primary);
-    color: var(--color-on-primary);
-}
-
-.save-comment:hover {
-    background-color: var(--color-secondary);
-}
-
-/* Delete comment button styling - similar to Reset button in settings */
-.delete-comment {
-    background-color: transparent;
-    color: var(--color-error);
-}
-
-.delete-comment:hover {
-    background-color: var(--color-error);
-    color: var(--color-on-error);
-}
-
-.delete-comment.cancel {
-    background-color: transparent;
-    color: var(--color-primary);
-}
-
-.delete-comment.cancel:hover {
-    background-color: var(--color-primary-25);
-    color: var(--color-primary);
-}
-
-/* Settings Menu Items */
-.settings-item {
-    display: flex;
+    flex-direction: column;
     align-items: center;
-    padding: 1rem;
+    justify-content: space-between;
     width: 100%;
-    background: none;
-    border: none;
-    cursor: pointer;
+    position: static;
+    margin-bottom: 30px;
+    padding: 20px 0;
+    min-height: 350px;
+    max-height: 480px;
+    overflow: visible;
+    padding-bottom: 80px;
+}
+
+/* Timer columns layout */
+.timer-columns {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    min-height: 320px;
+    position: relative;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    padding: 10px 0;
+    gap: 20px;
+    align-items: flex-end;
+    overflow: visible;
+}
+
+.timer-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    height: auto;
+    min-height: 250px;
+    padding: 10px 0;
+}
+
+/* Width proportions for columns */
+.timer-column.work-column {
+    flex: 5;
+    width: 120px;
+}
+
+.timer-column.break-column {
+    flex: 1;
+    width: 120px;
+    align-self: flex-end;
+}
+
+/* Circle styling */
+.timer-circle {
+    width: 30px;
+    height: 30px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    position: relative;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, opacity 0.3s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    margin: 5px 0;
+    z-index: 5;
+    flex-shrink: 0;
+    overflow: hidden;
+    opacity: 0.3;
+}
+
+.timer-circle.work {
+    border-color: var(--color-primary);
+}
+
+.timer-circle.break {
+    border-color: var(--color-success);
+}
+
+.timer-circle.active {
+    transform: scale(1.15);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+    animation: circle-pulse 2s infinite;
+    z-index: 1;
+    opacity: 1;
+    border-width: 5px;
+    filter: brightness(1.2);
+}
+
+/* Circle animation */
+@keyframes circle-pulse {
+    0% {
+        transform: scale(1.15);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        filter: brightness(1.2);
+    }
+
+    50% {
+        transform: scale(1.25);
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+        filter: brightness(1.3);
+    }
+
+    100% {
+        transform: scale(1.15);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        filter: brightness(1.2);
+    }
+}
+
+.timer-circle.filled {
+    background-color: var(--color-primary-75);
+    animation: circle-fill 0.5s ease-out;
+    opacity: 0.9;
+    border-width: 2px;
+}
+
+.timer-circle.filled::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-primary);
+    z-index: -1;
+    transform-origin: bottom center;
+    animation: fill-from-bottom 1s ease-out forwards;
+}
+
+/* Circle that is currently being filled */
+.timer-circle.filling::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: var(--fill-height, 0%);
+    background-color: var(--color-primary-50);
+    z-index: -1;
+    transform-origin: bottom center;
+    transition: height 0.5s ease-out;
+}
+
+.timer-circle.break.filled {
+    background-color: var(--color-success-50);
+    opacity: 0.9;
+}
+
+.timer-circle.break.filled::before,
+.timer-circle.break.filling::before {
+    background-color: var(--color-success);
+}
+
+@keyframes circle-fill {
+    from {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fill-from-bottom {
+    from {
+        transform: scaleY(0);
+    }
+
+    to {
+        transform: scaleY(1);
+    }
+}
+
+/* Timer current time display */
+.timer-current-display {
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    position: static;
+    order: -1;
+    background: linear-gradient(to bottom, transparent, var(--color-surface) 30%);
+}
+
+.current-time {
+    font-size: 2.5rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
     color: var(--color-on-surface);
-    font-size: var(--font-size-md);
-    text-align: left;
-    border-radius: 0.5rem;
-    transition: background-color 0.2s, color 0.2s;
-    outline: none;
+    line-height: 1.2;
 }
 
-.settings-item:hover,
-.settings-item:focus-visible {
-    background-color: rgba(0, 0, 0, 0.05);
+/* Ensure timer is white in dark mode */
+html.dark-mode .current-time {
+    color: #FFFFFF;
 }
 
-.settings-item:active {
-    background-color: rgba(0, 0, 0, 0.10);
+.current-block-label {
+    font-size: 1.25rem;
+    color: var(--color-on-surface-75);
+    margin-bottom: 5px;
 }
 
-body.dark-mode .settings-item {
-    color: var(--color-on-background);
-    background: none;
+/* Column labels styling */
+.timer-column-label {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 10px;
+    font-weight: 500;
+    opacity: 0.9;
 }
 
-body.dark-mode .settings-item:hover,
-body.dark-mode .settings-item:focus-visible {
-    background-color: rgba(255, 255, 255, 0.05);
+.work-column .timer-column-label {
+    color: var(--color-work, #65589c);
 }
 
-body.dark-mode .settings-item:active {
-    background-color: rgba(255, 255, 255, 0.10);
+.break-column .timer-column-label {
+    color: var(--color-break, #4db6ac);
 }
 
-/* Theme toggle specific styling for dark mode */
-body.dark-mode #menuThemeToggle {
-    background-color: rgba(149, 117, 205, 0.15);
+html.dark-mode .work-column .timer-column-label {
+    color: var(--color-work-dark, #9575cd);
 }
 
-body.dark-mode #menuThemeToggle:hover,
-body.dark-mode #menuThemeToggle:focus-visible {
-    background-color: var(--color-primary-25);
+html.dark-mode .break-column .timer-column-label {
+    color: var(--color-break-dark, #80cbc4);
 }
 
-#menuThemeToggle:hover,
-#menuThemeToggle:focus-visible {
-    background-color: var(--color-primary-25);
+/* Improve timer content container */
+.timer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 10px 20px;
+    overflow: visible;
+    height: auto !important;
 }
 
-/* Inactive state for settings overlay buttons (matches Tracker) */
-.settings-item[aria-disabled="true"],
-.settings-item[disabled] {
-    opacity: 0.5;
-    cursor: not-allowed;
-    pointer-events: none;
-    background: none !important;
-    color: var(--color-on-surface);
-    transition: opacity 0.2s;
+/* ====== BOTTOM BUTTONS AND CONTROLS ====== */
+
+/* Container for bottom buttons wrapper */
+.bottom-buttons-wrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 95%;
+    background-color: rgba(255, 255, 255, 0.15);
+    /* Lighter background for light mode */
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s;
+    padding: 1.25rem 0;
+    /* Increased by 50% from 0.75rem to 1.125rem */
+    z-index: 100;
+    border-radius: 100px 100px 0 0;
+    box-shadow: none;
+    pointer-events: auto;
+    border-top: .75px solid rgba(255, 255, 255, .5);
+    margin-left: auto;
+    margin-right: auto;
 }
 
-body.dark-mode .settings-item[aria-disabled="true"],
-body.dark-mode .settings-item[disabled] {
-    color: var(--color-on-background);
-    background: none !important;
-    opacity: 0.5;
+.bottom-buttons-wrapper.shadow {
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    border-top: .75px solid rgba(255, 255, 255, .15);
 }
 
-/* Settings Item Icon Container */
-.settings-item-icon-container {
-    width: 40px;
-    height: 40px;
+body.dark-mode .bottom-buttons-wrapper {
+    background-color: var(--color-surface);
+    border-top: .25px solid var(--color-primary-25);
+}
+
+body.dark-mode .bottom-buttons-wrapper.shadow {
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    border-top: .75px solid rgba(0, 0, 0, .15);
+}
+
+/* Container for bottom buttons */
+.bottom-buttons {
+    display: flex;
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 1rem;
+    box-sizing: border-box;
+    min-height: 60px;
+    background-color: transparent;
+    pointer-events: auto;
+    z-index: 101;
+}
+
+/* Base style for all footer buttons */
+.bottom-button-base {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 1rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    background-color: var(--color-surface);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    border: none;
+    cursor: pointer;
+    margin: 0;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    overflow: hidden;
 }
 
-/* Theme Icon */
-.theme-icon {
-    width: 24px;
-    height: 24px;
-    background-color: var(--color-on-surface);
-    mask-image: url('../assets/images/mode-dark--fill.svg');
-    mask-size: contain;
-    mask-repeat: no-repeat;
-    mask-position: center;
-    -webkit-mask-image: url('../assets/images/mode-dark--fill.svg');
-    -webkit-mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-position: center;
+.bottom-button-base:active,
+.bottom-button-base.button-pressed {
+    transform: translateY(-50%) scale(0.95);
+    opacity: 0.9;
 }
 
-body.dark-mode .theme-icon {
-    background-color: var(--color-on-surface);
-    mask-image: url('../assets/images/mode-light--fill.svg');
-    mask-size: contain;
-    mask-repeat: no-repeat;
-    mask-position: center;
-    -webkit-mask-image: url('../assets/images/mode-light--fill.svg');
-    -webkit-mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-position: center;
+/* Reset timer button */
+.reset-button {
+    left: 60px;
 }
 
-/* Reset Icon */
-.reset-icon {
-    width: 24px;
-    height: 24px;
-    background-color: var(--color-error-inactive);
-    mask-image: url('../assets/images/reset--fill.svg');
-    mask-size: contain;
-    mask-repeat: no-repeat;
-    mask-position: center;
-    -webkit-mask-image: url('../assets/images/reset--fill.svg');
-    -webkit-mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-    transition: background-color 0.2s;
+/* Settings button */
+.settings-button {
+    right: 60px;
 }
 
-.settings-item-reset:hover .reset-icon {
-    background-color: var(--color-error);
+/* Sound toggle button in footer */
+.sound-button {
+    right: 120px;
 }
 
-/* Refresh Icon */
-.refresh-icon {
+/* Main start/pause button */
+.track-button--footer {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    min-width: 120px;
+    padding: 1.275rem 1.5rem;
+    margin: 0;
+}
+
+.track-button--footer.button-pressed {
+    transform: translate(-50%, -50%) scale(0.95) !important;
+}
+
+/* Button icons styling - Fix for footer icons */
+.reset-icon,
+.settings-icon,
+.sound-icon-footer {
     width: 24px;
     height: 24px;
     background-color: var(--color-primary);
-    mask-image: url('../assets/images/refresh--fill.svg');
-    mask-size: contain;
-    mask-repeat: no-repeat;
-    mask-position: center;
-    -webkit-mask-image: url('../assets/images/refresh--fill.svg');
     -webkit-mask-size: contain;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center;
-    transition: background-color 0.2s;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
     display: block;
 }
 
-.settings-item:hover .refresh-icon {
-    background-color: var(--color-secondary);
+/* Sound icon - Fix to match other icons */
+.sound-icon-footer {
+    -webkit-mask-image: url('../assets/images/volume_up.svg');
+    mask-image: url('../assets/images/volume_up.svg');
 }
 
-body.dark-mode .refresh-icon {
-    background-color: var(--color-primary);
+.sound-disabled .sound-icon-footer {
+    -webkit-mask-image: url('../assets/images/volume_off.svg');
+    mask-image: url('../assets/images/volume_off.svg');
 }
 
-body.dark-mode .settings-item:hover .refresh-icon {
-    background-color: var(--color-primary-darker);
+/* Reset icon - Fix to match other icons */
+.reset-icon {
+    -webkit-mask-image: url('../assets/images/reset--fill.svg');
+    mask-image: url('../assets/images/reset--fill.svg');
 }
 
-/* --- Undo Button Styles --- */
-.undo-button {
-    position: fixed;
-    bottom: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: var(--color-primary-75);
-    color: var(--color-on-primary);
-    border: none;
-    border-radius: 2rem;
-    padding: 0.75rem 1.5rem;
-    font-size: var(--font-size-md);
-    cursor: pointer;
-    z-index: 900;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    opacity: 0;
-    transform: translateX(-50%) translateY(30px);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
-
-/* When the button should be shown */
-.undo-button.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
-
-/* When the button is hidden */
-.undo-button.hidden {
-    opacity: 0;
-    transform: translateX(-50%) translateY(30px);
-    pointer-events: none;
-}
-
-/* Hover and active states for the undo button */
-.undo-button:hover {
-    background-color: var(--color-primary);
-}
-
-body.dark-mode .undo-button:hover {
-    background-color: var(--color-primary);
-}
-
-.undo-button:active {
-    transform: translateX(-50%) translateY(2px);
+/* Settings icon - Already working correctly */
+.settings-icon {
+    -webkit-mask-image: url('../assets/images/settings--fill.svg');
+    mask-image: url('../assets/images/settings--fill.svg');
 }
 
 /* Dark mode adjustments */
-body.dark-mode .undo-button {
-    background-color: var(--color-primary-75);
+html.dark-mode .reset-icon,
+html.dark-mode .settings-icon,
+html.dark-mode .sound-icon-footer {
+    background-color: var(--color-primary);
 }
 
 /* --- Dark Mode Variable Overrides --- */
 body.dark-mode {
-    /* Background and surface colors */
-    --color-background: rgb(18, 18, 18);
-    /* dark background */
-    --color-surface: rgb(30, 30, 30);
-    /* dark surface */
-
-    /* Primary and accent colors */
-    --color-primary: rgb(149, 117, 205);
-    /* lighter purple */
-    --color-primary-darker: rgb(110, 85, 160);
-    /* New darker primary for dark mode */
-    --color-secondary: rgb(126, 87, 194);
-    /* dark mode secondary */
-    --color-error: rgb(207, 102, 121);
-    /* light error */
-
-    /* Text colors (on different backgrounds) */
-    --color-on-primary: rgb(0, 0, 0);
-    /* black text on light primary */
+    --color-primary: rgb(193, 193, 255);
+    --color-secondary: rgb(255, 255, 255);
+    --color-primary-darker: rgb(193, 193, 255);
+    --color-background: rgb(22, 10, 56);
+    --color-surface: rgb(28, 27, 31);
+    --color-success: rgb(0, 181, 106);
+    --color-error: rgb(181, 0, 90);
+    --color-error-inactive: rgb(181, 181, 181);
+    --color-on-primary: rgb(28, 27, 31);
     --color-on-background: rgb(255, 255, 255);
-    /* Increased contrast - light text */
     --color-on-surface: rgb(255, 255, 255);
-    /* Increased contrast - light text */
-    --color-on-error: rgb(0, 0, 0);
-    /* black text on error */
-
-    /* Opacity variants */
-    --color-primary-75: rgba(149, 117, 205, 0.75);
-    --color-primary-25: rgba(149, 117, 205, 0.25);
-    --color-secondary-75: rgba(126, 87, 194, 0.75);
+    --color-on-error: rgb(255, 255, 255);
+    --color-on-error-inactive: rgb(255, 255, 255);
+    --color-primary-75: rgba(193, 193, 255, 0.75);
+    --color-primary-25: rgba(46, 43, 116, 0.25);
+    --color-secondary-75: rgba(255, 255, 255, 0.75);
     --color-on-surface-75: rgba(255, 255, 255, 0.75);
     --settings-icon-color: rgba(255, 255, 255, 0.25);
+    --undo-animation-duration: 3s;
 
-    /* Utility variables */
-    --icon-filter: invert(1);
-    --focus-outline-color: rgb(255, 213, 0);
-    /* Different focus color for dark mode for better visibility */
+    /* Font Size System */
+    --font-size-sm: 0.6rem;
+    /* Extra Small (e.g., version number) */
+    --font-size-md: 1rem;
+    /* Medium (e.g., body text, standard buttons) */
+    --font-size-lg: 1.1rem;
+    /* Large (e.g., primary action buttons) */
+    --font-size-xl: 1.25rem;
+    /* Extra Large (e.g., time entries) */
+    --font-size-xxl: 1.75rem;
+    /* Double Extra Large (e.g., overlay titles) */
+    --font-size-display: 5.5rem;
+    /* Matched with Tracker app */
+    /* Display (e.g., note text) - reduced size for notes */
+
+    /* Focus visible styles for accessibility */
+    --focus-outline-color: rgb(0, 95, 204);
+    --focus-outline-width: 3px;
+    --focus-outline-offset: 2px;
+
+    /* Timer specific variables */
+    --color-work: #9575cd;
+    --color-break: #80cbc4;
+    --color-work-dark: #65589c;
+    --color-break-dark: #4db6ac;
 }
 
-/* Label Edit Styles */
-.label-edit-input {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid var(--color-primary-75);
-    border-radius: 0.5rem;
-    background: var(--color-surface);
-    color: var(--color-on-surface);
-    font-family: 'Source Sans 3', system-ui, sans-serif;
-    font-size: var(--font-size-lg);
-    outline: none;
-    margin: 1rem 0;
-    box-sizing: border-box;
-}
-
-.label-edit-input:focus {
-    border-color: var(--color-primary);
-}
-
-body.dark-mode .label-edit-input {
-    border-color: var(--color-primary-75);
-    background-color: rgb(40, 40, 40);
-}
-
-body.dark-mode .label-edit-input:focus {
-    border-color: var(--color-primary);
-}
-
-.label-edit-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-}
-
-/* General utility classes */
-.hidden {
-    display: none !important;
-}
-
-/* Hide mobile-only elements by default */
-.mobile-only {
-    display: none !important;
-}
-
-@media (max-width: 1024px) {
-    .mobile-only {
-        display: flex !important;
-    }
-}
-
-/* --- Responsive Styles --- */
-@media (max-width: 600px) {
-    .app {
-        max-width: 98vw;
-        padding: 2vw 0 0 0;
-    }
-
-    .metric-card {
-        padding: 1.5rem 0.5rem 1.5rem 0.5rem;
-        margin-top: 1rem;
-        margin-bottom: 5.5rem;
-        /* Increased bottom margin to prevent overlap with footer on mobile */
-        min-height: calc(100vh - 190px);
-        /* Adjusted for mobile to avoid footer overlap */
-    }
-
-    .note-content {
-        /* 
-         * Fluid typography for mobile screens:
-         * - Minimum: 4rem (larger starting point for better visibility on small screens)
-         * - Preferred: 12vw (scales proportionally with viewport width at a larger ratio)
-         * - Maximum: 16rem (allows for much larger text on mobile devices)
-         *
-         * This creates a more impactful mobile experience with:
-         * 1. Significantly larger text that's easy to read at a glance
-         * 2. Text that grows/shrinks to optimally fill the available space 
-         * 3. Maintains the no-word-break behavior from base styles
-         */
-        font-size: clamp(4rem, 12vw, 16rem);
-        padding-bottom: 0.5rem;
-        /* Less padding on mobile */
-    }
-}
-
-/* --- Additional Accessibility Enhancements --- */
-@media screen and (max-width: 767px) {
-
-    /* Increase touch targets on mobile */
-    .track-button,
-    .bottom-button-base,
-    .edit-label-button,
-    .collapse-toggle {
-        min-height: 48px;
-        /* Larger touch targets on mobile */
-        padding: 0.75rem;
-    }
-
-    /* Increase font size on mobile for better readability */
-    html,
-    body {
-        font-size: 16px;
-        /* Ensure base font size is maintained on mobile */
-    }
-
-    /* Position settings button 10px from the right on mobile */
-    .settings-button {
-        right: 10px;
-    }
-}
-
-/* High contrast mode support */
-@media (forced-colors: active) {
-    :root {
-        --focus-outline-color: CanvasText;
-    }
-
-    .track-button,
-    .bottom-button-base,
-    .edit-label-button,
-    .collapse-toggle {
-        border: 1px solid CanvasText;
-    }
-}
-
-/* Add to the end of the file */
-
-/* Current block indicator */
-.current-block {
-    display: none;
-    /* Hidden by default */
-    padding: 5px 10px;
-    border-radius: 4px;
-    background-color: rgba(149, 117, 205, 0.2);
-    margin-top: 10px;
-    font-size: 14px;
-    text-align: center;
-}
-
-/* Focus music toggle button */
-.focus-music-button {
-    background-color: transparent;
+/* --- Add Note Button --- */
+.add-note-button {
+    position: absolute;
+    bottom: 80px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 28px;
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 8px;
+    font-size: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    z-index: 1000;
+}
+
+.add-note-button:hover {
+    background-color: var(--color-primary-darker);
+}
+
+.add-note-button:active {
+    transform: scale(0.95);
+}
+
+/* --- Overlay Styles --- */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 900;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay.show {
+    display: flex;
+}
+
+/* Overlay content (e.g., for notes) */
+.overlay-content {
+    background: var(--color-surface);
+    border-radius: 1.2rem;
+    padding: 2rem;
+    max-width: 90%;
+    width: 400px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1001;
+}
+
+/* Close button in overlay */
+.close-overlay {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.close-overlay:hover {
+    transform: scale(1.1);
+}
+
+/* ====== TIMER SPECIFIC STYLES ====== */
+
+/* Timer blocks layout */
+.timer-blocks {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    height: 150px;
+}
+
+.timer-block {
+    position: relative;
+    border-radius: 10px;
+    border: 3px solid var(--color-primary-75);
+    text-align: center;
+    overflow: hidden;
+    box-sizing: border-box;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+/* Apply proportional widths based on time duration */
+.timer-block:nth-child(1) {
+    width: calc(5/12 * 100% - 6px);
+    margin-right: 2px;
+}
+
+.timer-block:nth-child(2) {
+    width: calc(1/12 * 100% - 4px);
+    margin-right: 2px;
+    margin-left: 2px;
+}
+
+.timer-block:nth-child(3) {
+    width: calc(5/12 * 100% - 4px);
+    margin-right: 2px;
+    margin-left: 2px;
+}
+
+.timer-block:nth-child(4) {
+    width: calc(1/12 * 100% - 6px);
+    margin-left: 2px;
+}
+
+/* Only target generic spans inside timer-block that aren't already styled */
+.timer-block>span:not(.block-label):not(.block-minutes):not(.block-seconds):not(.colon-separator) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-on-surface-darker, #222222);
+    z-index: 1;
+}
+
+/* Timer block timer display */
+.block-label {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-on-surface-darker, #222222);
+    z-index: 1;
+    transition: transform 0.3s ease, opacity 0.3s, top 0.3s;
+    text-align: center;
+    width: 90%;
+}
+
+.timer-block.active .block-label {
+    top: 20%;
+    transform: translate(-50%, 0);
+    font-size: 1.2rem;
+    opacity: 0.7;
+}
+
+.block-timer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--color-on-surface-darker, #222222);
+    z-index: 1;
+    transition: opacity 0.3s, visibility 0.3s, transform 0.3s, font-size 0.3s;
+    text-align: center;
+}
+
+.block-timer.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.timer-block.work {
+    border-color: var(--color-primary);
+}
+
+.timer-block.break {
+    border-color: var(--color-success);
+}
+
+.timer-block.active {
+    box-shadow: 0 0 0 2px var(--color-on-surface);
+    transform: scale(1.05);
+    animation: timer-block-pulse 2s infinite ease-in-out;
+}
+
+.timer-content.timer-paused .timer-block.active {
+    animation: none;
+}
+
+/* Timer block animations */
+@keyframes timer-block-pulse {
+    0% {
+        box-shadow: 0 0 0 2px var(--color-on-surface);
+    }
+
+    50% {
+        box-shadow: 0 0 0 4px var(--color-on-surface);
+    }
+
+    100% {
+        box-shadow: 0 0 0 2px var(--color-on-surface);
+    }
+}
+
+.timer-block.active .block-timer {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #000000;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Active timers in dark mode */
+html.dark-mode .timer-block.active .block-timer {
+    color: #FFFFFF;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    font-weight: 700;
+}
+
+/* Specific styling for each time component in timer */
+.block-minutes,
+.block-seconds {
+    display: inline-block;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-on-surface-darker, #222222);
+}
+
+.colon-separator {
+    display: inline-block;
+    margin: 0 2px;
+    position: relative;
+    top: -1px;
+    color: var(--color-on-surface-darker, #222222);
+}
+
+/* Dark mode colon separator */
+html.dark-mode .colon-separator {
+    color: #FFFFFF;
+}
+
+/* Timer fill effect */
+.timer-block-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--color-primary-25);
+    transition: height 0.9s linear;
+    z-index: 0;
+}
+
+.timer-block.work .timer-block-fill {
+    background-color: var(--color-primary-75);
+    opacity: 0.8;
+}
+
+.timer-block.break .timer-block-fill {
+    background-color: var(--color-success);
+    opacity: 0.75;
+}
+
+/* Timer display */
+.timer-display {
+    font-size: 3rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 1rem 0;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-on-surface);
+}
+
+.timer-status {
+    text-align: center;
+    font-size: 1.25rem;
+    color: var(--color-on-surface-75);
+    margin-bottom: 0.75rem;
+}
+
+/* Settings icons */
+.sound-icon:before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url('../assets/images/notification--fill.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.focus-music-icon:before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    position: relative;
+}
+
+.focus-music-icon:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px;
+    height: 6px;
+    background-color: white;
     border-radius: 50%;
 }
 
-.focus-music-icon-footer {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%239575CD" d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>');
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+/* Timer status visual enhancement */
+.timer-content.timer-running .timer-display {
+    animation: timer-pulse 2s infinite;
 }
 
-html.dark-mode .focus-music-icon-footer {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23ffffff" d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>');
+@keyframes timer-pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.timer-content.timer-paused {
+    opacity: 0.7;
+}
+
+.timer-content.timer-paused .timer-block.active {
+    border: 2px dashed var(--border-color);
+}
+
+/* Visual feedback for timer completion */
+.timer-block.completed .timer-block-fill {
+    background-color: var(--accent-color-light);
+    opacity: 0.5;
+}
+
+/* Additional dark mode timer block styling */
+html.dark-mode .timer-block span {
+    color: #FFFFFF;
+}
+
+/* ====== CIRCLE TIMER STYLES ====== */
+
+/* Circle timer layout */
+.timer-circles-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    position: static;
+    margin-bottom: 30px;
+    padding: 20px 0;
+    min-height: 350px;
+    max-height: 480px;
+    overflow: visible;
+    padding-bottom: 80px;
+}
+
+/* Timer columns layout */
+.timer-columns {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    min-height: 320px;
+    position: relative;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    padding: 10px 0;
+    gap: 20px;
+    align-items: flex-end;
+    overflow: visible;
+}
+
+.timer-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    height: auto;
+    min-height: 250px;
+    padding: 10px 0;
+}
+
+/* Width proportions for columns */
+.timer-column.work-column {
+    flex: 5;
+    width: 120px;
+}
+
+.timer-column.break-column {
+    flex: 1;
+    width: 120px;
+    align-self: flex-end;
+}
+
+/* Circle styling */
+.timer-circle {
+    width: 30px;
+    height: 30px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    position: relative;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, opacity 0.3s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    margin: 5px 0;
+    z-index: 5;
+    flex-shrink: 0;
+    overflow: hidden;
+    opacity: 0.3;
+}
+
+.timer-circle.work {
+    border-color: var(--color-primary);
+}
+
+.timer-circle.break {
+    border-color: var(--color-success);
+}
+
+.timer-circle.active {
+    transform: scale(1.15);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+    animation: circle-pulse 2s infinite;
+    z-index: 1;
+    opacity: 1;
+    border-width: 5px;
+    filter: brightness(1.2);
+}
+
+/* Circle animation */
+@keyframes circle-pulse {
+    0% {
+        transform: scale(1.15);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        filter: brightness(1.2);
+    }
+
+    50% {
+        transform: scale(1.25);
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+        filter: brightness(1.3);
+    }
+
+    100% {
+        transform: scale(1.15);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        filter: brightness(1.2);
+    }
+}
+
+.timer-circle.filled {
+    background-color: var(--color-primary-75);
+    animation: circle-fill 0.5s ease-out;
+    opacity: 0.9;
+    border-width: 2px;
+}
+
+.timer-circle.filled::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-primary);
+    z-index: -1;
+    transform-origin: bottom center;
+    animation: fill-from-bottom 1s ease-out forwards;
+}
+
+/* Circle that is currently being filled */
+.timer-circle.filling::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: var(--fill-height, 0%);
+    background-color: var(--color-primary-50);
+    z-index: -1;
+    transform-origin: bottom center;
+    transition: height 0.5s ease-out;
+}
+
+.timer-circle.break.filled {
+    background-color: var(--color-success-50);
+    opacity: 0.9;
+}
+
+.timer-circle.break.filled::before,
+.timer-circle.break.filling::before {
+    background-color: var(--color-success);
+}
+
+@keyframes circle-fill {
+    from {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fill-from-bottom {
+    from {
+        transform: scaleY(0);
+    }
+
+    to {
+        transform: scaleY(1);
+    }
+}
+
+/* Timer current time display */
+.timer-current-display {
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    position: static;
+    order: -1;
+    background: linear-gradient(to bottom, transparent, var(--color-surface) 30%);
+}
+
+.current-time {
+    font-size: 2.5rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-on-surface);
+    line-height: 1.2;
+}
+
+/* Ensure timer is white in dark mode */
+html.dark-mode .current-time {
+    color: #FFFFFF;
+}
+
+.current-block-label {
+    font-size: 1.25rem;
+    color: var(--color-on-surface-75);
+    margin-bottom: 5px;
+}
+
+/* Column labels styling */
+.timer-column-label {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 10px;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.work-column .timer-column-label {
+    color: var(--color-work, #65589c);
+}
+
+.break-column .timer-column-label {
+    color: var(--color-break, #4db6ac);
+}
+
+html.dark-mode .work-column .timer-column-label {
+    color: var(--color-work-dark, #9575cd);
+}
+
+html.dark-mode .break-column .timer-column-label {
+    color: var(--color-break-dark, #80cbc4);
+}
+
+/* Improve timer content container */
+.timer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 10px 20px;
+    overflow: visible;
+    height: auto !important;
+}
+
+/* ====== BOTTOM BUTTONS AND CONTROLS ====== */
+
+/* Container for bottom buttons wrapper */
+.bottom-buttons-wrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 95%;
+    background-color: rgba(255, 255, 255, 0.15);
+    /* Lighter background for light mode */
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s;
+    padding: 1.25rem 0;
+    /* Increased by 50% from 0.75rem to 1.125rem */
+    z-index: 100;
+    border-radius: 100px 100px 0 0;
+    box-shadow: none;
+    pointer-events: auto;
+    border-top: .75px solid rgba(255, 255, 255, .5);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.bottom-buttons-wrapper.shadow {
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    border-top: .75px solid rgba(255, 255, 255, .15);
+}
+
+body.dark-mode .bottom-buttons-wrapper {
+    background-color: var(--color-surface);
+    border-top: .25px solid var(--color-primary-25);
+}
+
+body.dark-mode .bottom-buttons-wrapper.shadow {
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    border-top: .75px solid rgba(0, 0, 0, .15);
+}
+
+/* Container for bottom buttons */
+.bottom-buttons {
+    display: flex;
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 1rem;
+    box-sizing: border-box;
+    min-height: 60px;
+    background-color: transparent;
+    pointer-events: auto;
+    z-index: 101;
+}
+
+/* Base style for all footer buttons */
+.bottom-button-base {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    background-color: var(--color-surface);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    border: none;
+    cursor: pointer;
+    margin: 0;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    overflow: hidden;
+}
+
+.bottom-button-base:active,
+.bottom-button-base.button-pressed {
+    transform: translateY(-50%) scale(0.95);
+    opacity: 0.9;
+}
+
+/* Reset timer button */
+.reset-button {
+    left: 60px;
+}
+
+/* Settings button */
+.settings-button {
+    right: 60px;
+}
+
+/* Sound toggle button in footer */
+.sound-button {
+    right: 120px;
+}
+
+/* Main start/pause button */
+.track-button--footer {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    min-width: 120px;
+    padding: 1.275rem 1.5rem;
+    margin: 0;
+}
+
+.track-button--footer.button-pressed {
+    transform: translate(-50%, -50%) scale(0.95) !important;
+}
+
+/* Button icons styling - Fix for footer icons */
+.reset-icon,
+.settings-icon,
+.sound-icon-footer {
+    width: 24px;
+    height: 24px;
+    background-color: var(--color-primary);
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    display: block;
+}
+
+/* Sound icon - Fix to match other icons */
+.sound-icon-footer {
+    -webkit-mask-image: url('../assets/images/volume_up.svg');
+    mask-image: url('../assets/images/volume_up.svg');
+}
+
+.sound-disabled .sound-icon-footer {
+    -webkit-mask-image: url('../assets/images/volume_off.svg');
+    mask-image: url('../assets/images/volume_off.svg');
+}
+
+/* Reset icon - Fix to match other icons */
+.reset-icon {
+    -webkit-mask-image: url('../assets/images/reset--fill.svg');
+    mask-image: url('../assets/images/reset--fill.svg');
+}
+
+/* Settings icon - Already working correctly */
+.settings-icon {
+    -webkit-mask-image: url('../assets/images/settings--fill.svg');
+    mask-image: url('../assets/images/settings--fill.svg');
+}
+
+/* Dark mode adjustments */
+html.dark-mode .reset-icon,
+html.dark-mode .settings-icon,
+html.dark-mode .sound-icon-footer {
+    background-color: var(--color-primary);
+}
+
+/* --- Dark Mode Variable Overrides --- */
+body.dark-mode {
+    --color-primary: rgb(193, 193, 255);
+    --color-secondary: rgb(255, 255, 255);
+    --color-primary-darker: rgb(193, 193, 255);
+    --color-background: rgb(22, 10, 56);
+    --color-surface: rgb(28, 27, 31);
+    --color-success: rgb(0, 181, 106);
+    --color-error: rgb(181, 0, 90);
+    --color-error-inactive: rgb(181, 181, 181);
+    --color-on-primary: rgb(28, 27, 31);
+    --color-on-background: rgb(255, 255, 255);
+    --color-on-surface: rgb(255, 255, 255);
+    --color-on-error: rgb(255, 255, 255);
+    --color-on-error-inactive: rgb(255, 255, 255);
+    --color-primary-75: rgba(193, 193, 255, 0.75);
+    --color-primary-25: rgba(46, 43, 116, 0.25);
+    --color-secondary-75: rgba(255, 255, 255, 0.75);
+    --color-on-surface-75: rgba(255, 255, 255, 0.75);
+    --settings-icon-color: rgba(255, 255, 255, 0.25);
+    --undo-animation-duration: 3s;
+
+    /* Font Size System */
+    --font-size-sm: 0.6rem;
+    /* Extra Small (e.g., version number) */
+    --font-size-md: 1rem;
+    /* Medium (e.g., body text, standard buttons) */
+    --font-size-lg: 1.1rem;
+    /* Large (e.g., primary action buttons) */
+    --font-size-xl: 1.25rem;
+    /* Extra Large (e.g., time entries) */
+    --font-size-xxl: 1.75rem;
+    /* Double Extra Large (e.g., overlay titles) */
+    --font-size-display: 5.5rem;
+    /* Matched with Tracker app */
+    /* Display (e.g., note text) - reduced size for notes */
+
+    /* Focus visible styles for accessibility */
+    --focus-outline-color: rgb(0, 95, 204);
+    --focus-outline-width: 3px;
+    --focus-outline-offset: 2px;
+
+    /* Timer specific variables */
+    --color-work: #9575cd;
+    --color-break: #80cbc4;
+    --color-work-dark: #65589c;
+    --color-break-dark: #4db6ac;
+}
+
+/* --- Add Note Button --- */
+.add-note-button {
+    position: absolute;
+    bottom: 80px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 28px;
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    z-index: 1000;
+}
+
+.add-note-button:hover {
+    background-color: var(--color-primary-darker);
+}
+
+.add-note-button:active {
+    transform: scale(0.95);
+}
+
+/* --- Overlay Styles --- */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 900;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay.show {
+    display: flex;
+}
+
+/* Overlay content (e.g., for notes) */
+.overlay-content {
+    background: var(--color-surface);
+    border-radius: 1.2rem;
+    padding: 2rem;
+    max-width: 90%;
+    width: 400px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1001;
+}
+
+/* Close button in overlay */
+.close-overlay {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.close-overlay:hover {
+    transform: scale(1.1);
+}
+
+/* ====== TIMER SPECIFIC STYLES ====== */
+
+/* Timer blocks layout */
+.timer-blocks {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    height: 150px;
+}
+
+.timer-block {
+    position: relative;
+    border-radius: 10px;
+    border: 3px solid var(--color-primary-75);
+    text-align: center;
+    overflow: hidden;
+    box-sizing: border-box;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+/* Apply proportional widths based on time duration */
+.timer-block:nth-child(1) {
+    width: calc(5/12 * 100% - 6px);
+    margin-right: 2px;
+}
+
+.timer-block:nth-child(2) {
+    width: calc(1/12 * 100% - 4px);
+    margin-right: 2px;
+    margin-left: 2px;
+}
+
+.timer-block:nth-child(3) {
+    width: calc(5/12 * 100% - 4px);
+    margin-right: 2px;
+    margin-left: 2px;
+}
+
+.timer-block:nth-child(4) {
+    width: calc(1/12 * 100% - 6px);
+    margin-left: 2px;
+}
+
+/* Only target generic spans inside timer-block that aren't already styled */
+.timer-block>span:not(.block-label):not(.block-minutes):not(.block-seconds):not(.colon-separator) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-on-surface-darker, #222222);
+    z-index: 1;
+}
+
+/* Timer block timer display */
+.block-label {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-on-surface-darker, #222222);
+    z-index: 1;
+    transition: transform 0.3s ease, opacity 0.3s, top 0.3s;
+    text-align: center;
+    width: 90%;
+}
+
+.timer-block.active .block-label {
+    top: 20%;
+    transform: translate(-50%, 0);
+    font-size: 1.2rem;
+    opacity: 0.7;
+}
+
+.block-timer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--color-on-surface-darker, #222222);
+    z-index: 1;
+    transition: opacity 0.3s, visibility 0.3s, transform 0.3s, font-size 0.3s;
+    text-align: center;
+}
+
+.block-timer.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.timer-block.work {
+    border-color: var(--color-primary);
+}
+
+.timer-block.break {
+    border-color: var(--color-success);
+}
+
+.timer-block.active {
+    box-shadow: 0 0 0 2px var(--color-on-surface);
+    transform: scale(1.05);
+    animation: timer-block-pulse 2s infinite ease-in-out;
+}
+
+.timer-content.timer-paused .timer-block.active {
+    animation: none;
+}
+
+/* Timer block animations */
+@keyframes timer-block-pulse {
+    0% {
+        box-shadow: 0 0 0 2px var(--color-on-surface);
+    }
+
+    50% {
+        box-shadow: 0 0 0 4px var(--color-on-surface);
+    }
+
+    100% {
+        box-shadow: 0 0 0 2px var(--color-on-surface);
+    }
+}
+
+.timer-block.active .block-timer {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #000000;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Active timers in dark mode */
+html.dark-mode .timer-block.active .block-timer {
+    color: #FFFFFF;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    font-weight: 700;
+}
+
+/* Specific styling for each time component in timer */
+.block-minutes,
+.block-seconds {
+    display: inline-block;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-on-surface-darker, #222222);
+}
+
+.colon-separator {
+    display: inline-block;
+    margin: 0 2px;
+    position: relative;
+    top: -1px;
+    color: var(--color-on-surface-darker, #222222);
+}
+
+/* Dark mode colon separator */
+html.dark-mode .colon-separator {
+    color: #FFFFFF;
+}
+
+/* Timer fill effect */
+.timer-block-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--color-primary-25);
+    transition: height 0.9s linear;
+    z-index: 0;
+}
+
+.timer-block.work .timer-block-fill {
+    background-color: var(--color-primary-75);
+    opacity: 0.8;
+}
+
+.timer-block.break .timer-block-fill {
+    background-color: var(--color-success);
+    opacity: 0.75;
+}
+
+/* Timer display */
+.timer-display {
+    font-size: 3rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 1rem 0;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-on-surface);
+}
+
+.timer-status {
+    text-align: center;
+    font-size: 1.25rem;
+    color: var(--color-on-surface-75);
+    margin-bottom: 0.75rem;
+}
+
+/* Settings icons */
+.sound-icon:before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url('../assets/images/notification--fill.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.focus-music-icon:before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+    position: relative;
+}
+
+.focus-music-icon:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px;
+    height: 6px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+/* Timer status visual enhancement */
+.timer-content.timer-running .timer-display {
+    animation: timer-pulse 2s infinite;
+}
+
+@keyframes timer-pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.timer-content.timer-paused {
+    opacity: 0.7;
+}
+
+.timer-content.timer-paused .timer-block.active {
+    border: 2px dashed var(--border-color);
+}
+
+/* Visual feedback for timer completion */
+.timer-block.completed .timer-block-fill {
+    background-color: var(--accent-color-light);
+    opacity: 0.5;
+}
+
+/* Additional dark mode timer block styling */
+html.dark-mode .timer-block span {
+    color: #FFFFFF;
+}
+
+/* ====== CIRCLE TIMER STYLES ====== */
+
+/* Circle timer layout */
+.timer-circles-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    position: static;
+    margin-bottom: 30px;
+    padding: 20px 0;
+    min-height: 350px;
+    max-height: 480px;
+    overflow: visible;
+    padding-bottom: 80px;
+}
+
+/* Timer columns layout */
+.timer-columns {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: auto;
+    min-height: 320px;
+    position: relative;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    padding: 10px 0;
+    gap: 20px;
+    align-items: flex-end;
+    overflow: visible;
+}
+
+.timer-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    height: auto;
+    min-height: 250px;
+    padding: 10px 0;
+}
+
+/* Width proportions for columns */
+.timer-column.work-column {
+    flex: 5;
+    width: 120px;
+}
+
+.timer-column.break-column {
+    flex: 1;
+    width: 120px;
+    align-self: flex-end;
+}
+
+/* Circle styling */
+.timer-circle {
+    width: 30px;
+    height: 30px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    position: relative;
+    box-sizing: border-box;
+    transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, opacity 0.3s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    margin: 5px 0;
+    z-index: 5;
+    flex-shrink: 0;
+    overflow: hidden;
+    opacity: 0.3;
+}
+
+.timer-circle.work {
+    border-color: var(--color-primary);
+}
+
+.timer-circle.break {
+    border-color: var(--color-success);
+}
+
+.timer-circle.active {
+    transform: scale(1.15);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+    animation: circle-pulse 2s infinite;
+    z-index: 1;
+    opacity: 1;
+    border-width: 5px;
+    filter: brightness(1.2);
+}
+
+/* Circle animation */
+@keyframes circle-pulse {
+    0% {
+        transform: scale(1.15);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        filter: brightness(1.2);
+    }
+
+    50% {
+        transform: scale(1.25);
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+        filter: brightness(1.3);
+    }
+
+    100% {
+        transform: scale(1.15);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        filter: brightness(1.2);
+    }
+}
+
+.timer-circle.filled {
+    background-color: var(--color-primary-75);
+    animation: circle-fill 0.5s ease-out;
+    opacity: 0.9;
+    border-width: 2px;
+}
+
+.timer-circle.filled::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-primary);
+    z-index: -1;
+    transform-origin: bottom center;
+    animation: fill-from-bottom 1s ease-out forwards;
+}
+
+/* Circle that is currently being filled */
+.timer-circle.filling::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: var(--fill-height, 0%);
+    background-color: var(--color-primary-50);
+    z-index: -1;
+    transform-origin: bottom center;
+    transition: height 0.5s ease-out;
+}
+
+.timer-circle.break.filled {
+    background-color: var(--color-success-50);
+    opacity: 0.9;
+}
+
+.timer-circle.break.filled::before,
+.timer-circle.break.filling::before {
+    background-color: var(--color-success);
+}
+
+@keyframes circle-fill {
+    from {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fill-from-bottom {
+    from {
+        transform: scaleY(0);
+    }
+
+    to {
+        transform: scaleY(1);
+    }
+}
+
+/* Timer current time display */
+.timer-current-display {
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    position: static;
+    order: -1;
+    background: linear-gradient(to bottom, transparent, var(--color-surface) 30%);
+}
+
+.current-time {
+    font-size: 2.5rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-on-surface);
+    line-height: 1.2;
+}
+
+/* Ensure timer is white in dark mode */
+html.dark-mode .current-time {
+    color: #FFFFFF;
+}
+
+.current-block-label {
+    font-size: 1.25rem;
+    color: var(--color-on-surface-75);
+    margin-bottom: 5px;
+}
+
+/* Column labels styling */
+.timer-column-label {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 10px;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.work-column .timer-column-label {
+    color: var(--color-work, #65589c);
+}
+
+.break-column .timer-column-label {
+    color: var(--color-break, #4db6ac);
+}
+
+html.dark-mode .work-column .timer-column-label {
+    color: var(--color-work-dark, #9575cd);
+}
+
+html.dark-mode .break-column .timer-column-label {
+    color: var(--color-break-dark, #80cbc4);
+}
+
+/* Improve timer content container */
+.timer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 10px 20px;
+    overflow: visible;
+    height: auto !important;
 }
