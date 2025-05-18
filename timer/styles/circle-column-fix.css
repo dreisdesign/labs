@@ -247,7 +247,6 @@ html.dark-mode .current-time {
         transform: scaleY(1);
     }
 }
-}
 
 /* Responsive sizes */
 @media (max-width: 360px) {
