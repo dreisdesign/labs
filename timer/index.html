@@ -107,33 +107,15 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="Pomodoro Timer - A 25/5 minute work/break timer">
+    <meta name="description" content="A simple pomodoro timer using the 25/5 work/break cycle">
+    <meta name="theme-color" content="#2e2b74">
     <title>Pomodoro Timer</title>
 
-    <!-- Favicon -->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-
-    <!-- Theme Color - Controls browser UI elements like address bar -->
-    <meta name="theme-color" id="theme-color-meta" content="#c1c1ff">
-    <script>
-        // Update theme-color meta immediately
-        if (localStorage.getItem('darkMode') === 'true' ||
-            (localStorage.getItem('darkMode') === null &&
-                window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.getElementById('theme-color-meta').setAttribute('content', '#121212');
-        }
-    </script>
-
-    <!-- Only use main.css - removed timer-consolidated.css and circle-column-fix.css -->
+    <!-- Only include the consolidated main.css file -->
     <link rel="stylesheet" href="styles/main.css">
-    <!-- Prevent iOS from resizing fonts -->
-    <meta name="format-detection" content="telephone=no">
-    <!-- Mobile PWA meta tags -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Pomodoro Timer">
+
+    <!-- Defer loading of JavaScript -->
+    <script src="scripts/timer.js" defer></script>
 </head>
 
 <body>
@@ -248,25 +230,25 @@
         <div id="mainContent" class="custom-scrollbar"></div>
 
         <!-- Bottom buttons wrapper (similar to tracker) -->
-        <div class="bottom-buttons-wrapper" id="bottomButtonsWrapper">
+        <div class="bottom-buttons-wrapper">
             <div class="bottom-buttons">
+                <!-- Reset Button (left) -->
+                <button class="bottom-button-base reset-button" id="resetTimerButton">
+                    <span class="reset-icon"></span>
+                </button>
+
                 <!-- Start/Pause Button (center) -->
                 <button class="track-button track-button--footer" id="startTimerButton">
                     <span class="track-button-text">Start Timer</span>
                 </button>
 
-                <!-- Reset Timer Button (left) -->
-                <button class="bottom-button-base reset-button" id="resetTimerButton" aria-label="Reset">
-                    <span class="reset-icon"></span>
-                </button>
-
                 <!-- Sound Toggle Button (right) -->
-                <button class="bottom-button-base sound-button" id="soundToggleFooter" aria-label="Toggle Sound">
+                <button class="bottom-button-base sound-button" id="soundToggleButton">
                     <span class="sound-icon-footer"></span>
                 </button>
 
-                <!-- Settings Button (right) -->
-                <button class="bottom-button-base settings-button" id="settingsButton" aria-label="Settings">
+                <!-- Settings Button (far right) -->
+                <button class="settings-button" id="settingsButton">
                     <span class="settings-icon"></span>
                 </button>
             </div>
@@ -276,29 +258,27 @@
 
 
     <!-- Settings Overlay -->
-    <div class="overlay hidden" id="settingsOverlay">
+    <div id="settingsOverlay" class="overlay hidden">
         <div class="overlay-content">
             <div class="overlay-header">
                 <h2>Settings</h2>
-                <button class="close-button" id="closeSettingsOverlay" aria-label="Close">
+                <button class="close-button" id="closeSettingsButton">
                     <span class="close-icon"></span>
                 </button>
             </div>
             <div class="overlay-body">
-                <!-- Theme Toggle -->
-                <button class="settings-item" id="menuThemeToggle">
+                <button id="menuThemeToggle" class="settings-item">
                     <div class="settings-item-icon-container">
                         <span class="theme-icon"></span>
                     </div>
-                    <span id="menuThemeText">Turn off dark mode</span>
+                    <span class="settings-item-text">Toggle Dark Mode</span>
                 </button>
 
-                <!-- Refresh Button (mobile only) -->
-                <button class="settings-item mobile-only" id="refreshButton">
+                <button id="menuAbout" class="settings-item">
                     <div class="settings-item-icon-container">
-                        <span class="refresh-icon"></span>
+                        <span class="info-icon"></span>
                     </div>
-                    <span>Refresh</span>
+                    <span class="settings-item-text">About Pomodoro Timer</span>
                 </button>
             </div>
         </div>

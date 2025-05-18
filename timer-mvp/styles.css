@@ -1,0 +1,119 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    /* Use space-between to prevent overlap */
+    justify-content: space-between;
+}
+
+/* Responsive grid that adapts based on viewport */
+.grid {
+    display: grid;
+    /* Use auto-fit and minmax to create responsive columns */
+    grid-template-columns: repeat(auto-fit, minmax(min(16vmin, 100px), 1fr));
+    gap: 5px;
+    width: 100%;
+    /* Fixed height to prevent overlap with controls */
+    height: 70vh;
+    max-height: 70vh;
+    /* Add bottom margin to ensure separation */
+    margin-bottom: 15px;
+}
+
+/* Make sure we always have exactly 12 cells */
+.grid::before {
+    content: "";
+    grid-column: 1 / -1;
+    grid-row: 1;
+    padding-bottom: calc(100% / 3);
+    /* Creates a 3:1 aspect ratio */
+    display: none;
+}
+
+/* Adjust for different screen sizes */
+@media (max-aspect-ratio: 4/3) {
+    .grid {
+        /* For more square screens: 4 columns */
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-aspect-ratio: 2/3) {
+    .grid {
+        /* For portrait screens: 3 columns */
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-aspect-ratio: 1/2) {
+    .grid {
+        /* For very tall screens: 2 columns */
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.cell {
+    background-color: #eee;
+    border: 1px solid #ddd;
+    transition: background-color 0.3s;
+    /* Make cells maintain aspect ratio */
+    position: relative;
+}
+
+/* Use pseudo-element to create aspect ratio */
+.cell::before {
+    content: "";
+    display: block;
+    padding-top: 100%;
+    /* 1:1 aspect ratio */
+}
+
+.cell.active {
+    background-color: #000;
+}
+
+/* New container for controls and timer */
+.controls-container {
+    /* Fixed height to ensure consistent spacing */
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    /* Ensure it stays at bottom */
+    margin-top: auto;
+}
+
+.timer-display {
+    text-align: center;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+}
+
+button {
+    cursor: pointer;
+    padding: 5px 10px;
+}
