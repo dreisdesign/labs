@@ -233,3 +233,9 @@ button {
         padding: 5px;
     }
 }
+
+.subcell.clicked {
+    background-color: rgba(0, 0, 0, 0.8);
+    transform: scale(0.9);
+    transition: transform 0.2s, background-color 0.2s;
+}

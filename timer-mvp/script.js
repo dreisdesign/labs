@@ -125,9 +125,23 @@ document.addEventListener('DOMContentLoaded', () => {
         let completedCells = 0;
         let currentCellIndex = 0;
 
-        // Activate completed cells for previous phases
+        // Calculate total completed cells from previous phases
         for (let i = 0; i < currentPhase; i++) {
             completedCells += phases[i].cells;
+        }
+
+        // Activate all cells from previous phases
+        for (let i = 0; i < completedCells; i++) {
+            if (i < cells.length) {
+                const cell = cells[i];
+                cell.classList.add('active');
+
+                // Fill all subcells in previous phases
+                const subcells = cell.querySelectorAll('.subcell');
+                subcells.forEach(subcell => {
+                    subcell.classList.add('active');
+                });
+            }
         }
 
         // Activate cells for current phase
@@ -137,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const cell = cells[currentCellIndex];
                 cell.classList.add('active');
 
-                // Activate all subcells for fully completed cells
+                // Activate all subcells for fully completed cells in current phase
                 const subcells = cell.querySelectorAll('.subcell');
                 subcells.forEach(subcell => {
                     subcell.classList.add('active');
@@ -172,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('isRunning:', isRunning);
         console.log('currentPhase:', currentPhase);
         console.log('totalSeconds:', totalSeconds);
-        
+
         if (isRunning) {
             console.log('Timer already running, returning');
             return;
@@ -246,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
             updateDisplay();
             updateCells();
         }, 1000);
-        
+
         console.log('Timer started successfully');
     }
 
@@ -298,8 +312,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add click handler to cells for skipping
     function setupCellClickHandlers() {
         cells.forEach((cell, index) => {
-            cell.addEventListener('click', () => {
-                if (!isRunning) return; // Only allow skipping when timer is running
+            cell.addEventListener('click', (event) => {
+                // Start timer if not running
+                if (!isRunning) {
+                    startTimer();
+                }
 
                 // Determine which phase and position this cell corresponds to
                 let targetPhase = 0;
@@ -339,6 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const clickedSubcell = event.target.closest('.subcell');
                 if (clickedSubcell) {
                     subcellIndex = parseInt(clickedSubcell.getAttribute('data-index') || '0');
+                    console.log('Clicked subcell index:', subcellIndex);
                 }
 
                 const secondsPerSubcell = secondsPerCell / 5;
@@ -384,23 +402,78 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Prevent event from bubbling to parent cell
                 event.stopPropagation();
 
-                if (!isRunning) return;
+                // Start timer if not running
+                if (!isRunning) {
+                    startTimer();
+                }
 
                 // Find parent cell
                 const parentCell = subcell.closest('.cell');
                 if (!parentCell) return;
 
-                // Trigger click on parent cell with subcell information
-                const clickEvent = new MouseEvent('click', {
-                    bubbles: true,
-                    cancelable: true,
-                    view: window
-                });
+                // Find the cell index in the grid
+                const cellIndex = Array.from(cells).indexOf(parentCell);
 
-                // Store which subcell was clicked
-                clickEvent.subcellIndex = Array.from(parentCell.querySelectorAll('.subcell')).indexOf(subcell);
+                // Find the subcell index within the parent
+                const subcellIndex = parseInt(subcell.getAttribute('data-index') || '0');
 
-                parentCell.dispatchEvent(clickEvent);
+                // Now determine which phase this cell is in
+                let targetPhase = 0;
+                let phaseStartCellIndex = 0;
+                let cellsInCurrentPhase = 0;
+
+                // Find which phase this cell belongs to
+                for (let i = 0; i < phases.length; i++) {
+                    cellsInCurrentPhase = phases[i].cells;
+
+                    if (cellIndex >= phaseStartCellIndex && cellIndex < phaseStartCellIndex + cellsInCurrentPhase) {
+                        targetPhase = i;
+                        break;
+                    }
+
+                    phaseStartCellIndex += cellsInCurrentPhase;
+                }
+
+                // Calculate position within the phase
+                const cellIndexInPhase = cellIndex - phaseStartCellIndex;
+                const minutesPerCell = 5; // Each cell represents 5 minutes
+
+                // Calculate the time position
+                currentPhase = targetPhase;
+                const phaseSeconds = phases[currentPhase].duration * 60;
+                const secondsPerCell = minutesPerCell * 60;
+                const secondsPerSubcell = secondsPerCell / 5;
+
+                // Set timer position precisely based on subcell
+                const targetSeconds = phaseSeconds - (cellIndexInPhase * secondsPerCell + subcellIndex * secondsPerSubcell);
+                totalSeconds = Math.max(1, Math.floor(targetSeconds)); // Ensure at least 1 second
+
+                // Update active cell and subcell indices
+                activeCellsInPhase = cellIndexInPhase;
+                activeSubcellIndex = subcellIndex;
+
+                // Update focus music position if active
+                if (phases[currentPhase].isFocusPhase) {
+                    const elapsedSeconds = phases[currentPhase].duration * 60 - totalSeconds;
+                    focusMusic.currentTime = elapsedSeconds;
+
+                    if (focusMusic.paused) {
+                        focusMusic.play().catch(error => {
+                            console.error('Error playing focus music:', error);
+                        });
+                    }
+                } else {
+                    focusMusic.pause();
+                }
+
+                updateDisplay();
+                updateCells();
+
+                // Show visual feedback
+                subcell.classList.add('clicked');
+                setTimeout(() => {
+                    subcell.classList.remove('clicked');
+                }, 300);
             });
         });
     }
