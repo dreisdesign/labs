@@ -34,9 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Add sound effects to all buttons
+    // Add sound effects to buttons (except play button)
     const buttons = document.querySelectorAll('button');
     buttons.forEach(button => {
+        // Skip the play button
+        if (button.id === 'play-btn') return;
+
         button.addEventListener('mousedown', () => {
             playSound(clickSound1);
         });
