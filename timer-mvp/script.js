@@ -196,6 +196,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         isRunning = true;
 
+        // Remove paused styling from all cells
+        document.querySelectorAll('.subcell.paused').forEach(subcell => {
+            subcell.classList.remove('paused');
+        });
+
         // Initialize the first subcell to flash when pressing play
         if (totalSeconds === phases[currentPhase].duration * 60) {
             console.log('At beginning of phase, initializing first subcell');
@@ -272,11 +277,17 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(timer);
         isRunning = false;
 
-        // Stop the flashing but keep cells filled
+        // Stop the flashing but keep cells filled with paused style
         const flashingCells = document.querySelectorAll('.subcell.flash');
         flashingCells.forEach(cell => {
             cell.classList.remove('flash');
-            cell.classList.add('active');
+            cell.classList.add('active', 'paused');
+        });
+
+        // Also mark all active subcells as paused
+        const activeSubcells = document.querySelectorAll('.subcell.active:not(.paused)');
+        activeSubcells.forEach(subcell => {
+            subcell.classList.add('paused');
         });
 
         // Pause focus music
@@ -288,6 +299,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Reset timer
     function ResetTimer() {
         pauseTimer();
+
+        // Remove paused styling
+        document.querySelectorAll('.subcell.paused').forEach(subcell => {
+            subcell.classList.remove('paused');
+        });
+
         currentPhase = 0;
         totalSeconds = phases[currentPhase].duration * 60;
         activeCellsInPhase = 0;
