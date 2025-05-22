@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cells = document.querySelectorAll('.cell');
     const pauseBtn = document.getElementById('pause-btn');
     const playBtn = document.getElementById('play-btn');
-    const ResetBtn = document.getElementById('Reset-btn');
+    const resetBtn = document.getElementById('Reset-btn'); // Fixed: Changed from ResetBtn to match the HTML ID
     const minutesDisplay = document.getElementById('minutes');
     const secondsDisplay = document.getElementById('seconds');
     const phaseTotalDisplay = document.getElementById('phase-total');
@@ -168,11 +168,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Start timer
     function startTimer() {
-        if (isRunning) return;
+        console.log('Starting timer...');
+        console.log('isRunning:', isRunning);
+        console.log('currentPhase:', currentPhase);
+        console.log('totalSeconds:', totalSeconds);
+        
+        if (isRunning) {
+            console.log('Timer already running, returning');
+            return;
+        }
         isRunning = true;
 
         // Initialize the first subcell to flash when pressing play
         if (totalSeconds === phases[currentPhase].duration * 60) {
+            console.log('At beginning of phase, initializing first subcell');
             activeSubcellIndex = 0;
             updateCells();
 
@@ -237,6 +246,8 @@ document.addEventListener('DOMContentLoaded', () => {
             updateDisplay();
             updateCells();
         }, 1000);
+        
+        console.log('Timer started successfully');
     }
 
     // Pause timer
@@ -284,14 +295,139 @@ document.addEventListener('DOMContentLoaded', () => {
             ':00';
     }
 
-    // Event listeners
-    playBtn.addEventListener('click', startTimer);
-    pauseBtn.addEventListener('click', pauseTimer);
-    ResetBtn.addEventListener('click', ResetTimer);
+    // Add click handler to cells for skipping
+    function setupCellClickHandlers() {
+        cells.forEach((cell, index) => {
+            cell.addEventListener('click', () => {
+                if (!isRunning) return; // Only allow skipping when timer is running
+
+                // Determine which phase and position this cell corresponds to
+                let targetPhase = 0;
+                let phaseStartCellIndex = 0;
+                let cellsInCurrentPhase = 0;
+                let found = false;
+
+                // Find which phase this cell belongs to
+                for (let i = 0; i < phases.length; i++) {
+                    cellsInCurrentPhase = phases[i].cells;
+
+                    if (index >= phaseStartCellIndex && index < phaseStartCellIndex + cellsInCurrentPhase) {
+                        targetPhase = i;
+                        found = true;
+                        break;
+                    }
+
+                    phaseStartCellIndex += cellsInCurrentPhase;
+                }
+
+                if (!found) return; // Cell index out of range
+
+                // Calculate position within the phase
+                const cellIndexInPhase = index - phaseStartCellIndex;
+                const minutesPerCell = 5; // Each cell represents 5 minutes
+
+                // Calculate the time position for this cell
+                currentPhase = targetPhase;
+                const phaseSeconds = phases[currentPhase].duration * 60;
+                const secondsPerCell = minutesPerCell * 60;
+
+                // Calculate position within cell (click position)
+                // Get click position in cell
+                let subcellIndex = 0;
+
+                // Check if user clicked on a subcell
+                const clickedSubcell = event.target.closest('.subcell');
+                if (clickedSubcell) {
+                    subcellIndex = parseInt(clickedSubcell.getAttribute('data-index') || '0');
+                }
+
+                const secondsPerSubcell = secondsPerCell / 5;
+
+                // Set timer to the correct position
+                const targetSeconds = phaseSeconds - (cellIndexInPhase * secondsPerCell + subcellIndex * secondsPerSubcell);
+                totalSeconds = Math.max(1, Math.floor(targetSeconds)); // Ensure at least 1 second
+
+                // Update cell display and music position
+                activeCellsInPhase = cellIndexInPhase;
+                activeSubcellIndex = subcellIndex;
+
+                // Update focus music position if active
+                if (phases[currentPhase].isFocusPhase) {
+                    const elapsedSeconds = phases[currentPhase].duration * 60 - totalSeconds;
+                    focusMusic.currentTime = elapsedSeconds;
+
+                    if (focusMusic.paused) {
+                        focusMusic.play().catch(error => {
+                            console.error('Error playing focus music:', error);
+                        });
+                    }
+                } else {
+                    focusMusic.pause();
+                }
+
+                updateDisplay();
+                updateCells();
+
+                // Show visual feedback
+                cell.classList.add('clicked');
+                setTimeout(() => {
+                    cell.classList.remove('clicked');
+                }, 300);
+            });
+        });
+    }
+
+    // Add click-to-skip functionality for subcells as well
+    function setupSubcellClickHandlers() {
+        allSubcells.forEach(subcell => {
+            subcell.addEventListener('click', (event) => {
+                // Prevent event from bubbling to parent cell
+                event.stopPropagation();
+
+                if (!isRunning) return;
+
+                // Find parent cell
+                const parentCell = subcell.closest('.cell');
+                if (!parentCell) return;
+
+                // Trigger click on parent cell with subcell information
+                const clickEvent = new MouseEvent('click', {
+                    bubbles: true,
+                    cancelable: true,
+                    view: window
+                });
+
+                // Store which subcell was clicked
+                clickEvent.subcellIndex = Array.from(parentCell.querySelectorAll('.subcell')).indexOf(subcell);
+
+                parentCell.dispatchEvent(clickEvent);
+            });
+        });
+    }
+
+    // Initialize click handlers
+    setupCellClickHandlers();
+    setupSubcellClickHandlers();
 
     // Initialize display
     initializeDisplay();
 
     // Set up initial state where first subcell will flash when play is pressed
     ResetCells();
+
+    // Add CSS for clicked state
+    const style = document.createElement('style');
+    style.textContent = `
+        .cell.clicked {
+            transition: transform 0.3s, box-shadow 0.3s;
+            transform: scale(0.95);
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Event listeners
+    playBtn.addEventListener('click', startTimer);
+    pauseBtn.addEventListener('click', pauseTimer);
+    resetBtn.addEventListener('click', ResetTimer);
 });
