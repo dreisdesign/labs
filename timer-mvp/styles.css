@@ -45,11 +45,8 @@ body {
     gap: 5px;
     width: 100%;
     flex: 1;
-    /* These ensure grid fills available space but doesn't overflow */
     max-height: calc(100vh - 100px);
-    /* Account for controls height + padding */
     grid-auto-rows: 1fr;
-    /* Equal height rows */
     margin-bottom: 10px;
     align-self: stretch;
 }
@@ -63,28 +60,24 @@ body {
 
 @media (min-aspect-ratio: 16/9) and (min-width: 1600px) {
     .grid {
-        /* For very wide screens: 6 columns (2 rows) */
         grid-template-columns: repeat(6, 1fr);
     }
 }
 
 @media (max-aspect-ratio: 4/3) {
     .grid {
-        /* For more square screens: 4 columns */
         grid-template-columns: repeat(4, 1fr);
     }
 }
 
 @media (max-aspect-ratio: 2/3) {
     .grid {
-        /* For portrait screens: 3 columns (4 rows) */
         grid-template-columns: repeat(3, 1fr);
     }
 }
 
 @media (max-aspect-ratio: 1/2) {
     .grid {
-        /* For very tall screens: 2 columns (6 rows) */
         grid-template-columns: repeat(2, 1fr);
     }
 
@@ -96,20 +89,17 @@ body {
 .cell {
     background-color: #eee;
     border: 1px solid #ddd;
-    transition: background-color 0.3s, transform 0.2s;
+    transition: background-color 0.3s;
     position: relative;
     width: 100%;
     height: 100%;
     min-height: 0;
     max-height: 100%;
     cursor: pointer;
-    /* Add pointer cursor to indicate clickable */
 }
 
 .cell:hover {
-    transform: scale(0.98);
-    /* Slight scale effect on hover */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    opacity: 0.9;
 }
 
 /* Maintain square aspect ratio */
@@ -137,12 +127,10 @@ body {
     background-color: transparent;
     transition: background-color 0.2s;
     cursor: pointer;
-    /* Make subcells clickable too */
 }
 
 .subcell:hover {
     background-color: rgba(0, 0, 0, 0.1);
-    /* Highlight on hover */
 }
 
 .subcell.active {
@@ -150,18 +138,18 @@ body {
 }
 
 .subcell.flash {
-    animation: flash 2s infinite;
+    animation: flash 3s infinite;
 }
 
 @keyframes flash {
 
     0%,
     100% {
-        background-color: rgba(0, 0, 0, 0.3);
+        background-color: rgba(0, 0, 0, 0.1);
     }
 
     50% {
-        background-color: rgba(0, 0, 0, 0.7);
+        background-color: rgba(0, 0, 0, 0.3);
     }
 }
 
@@ -234,8 +222,13 @@ button {
     }
 }
 
-.subcell.clicked {
-    background-color: rgba(0, 0, 0, 0.8);
-    transform: scale(0.9);
-    transition: transform 0.2s, background-color 0.2s;
+.subcell.clicked,
+.cell.clicked {
+    opacity: 0.7;
+}
+
+.cell.active:hover,
+.subcell.active:hover {
+    cursor: pointer;
+    opacity: 0.8;
 }

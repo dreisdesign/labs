@@ -316,12 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function setupCellClickHandlers() {
         cells.forEach((cell, index) => {
             cell.addEventListener('click', (event) => {
-                // Start timer if not running
-                if (!isRunning) {
-                    startTimer();
-                }
-
-                // Determine which phase and position this cell corresponds to
+                // Find which phase this cell belongs to
                 let targetPhase = 0;
                 let phaseStartCellIndex = 0;
                 let cellsInCurrentPhase = 0;
@@ -344,22 +339,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Calculate position within the phase
                 const cellIndexInPhase = index - phaseStartCellIndex;
-                const minutesPerCell = 5; // Each cell represents 5 minutes
 
-                // Calculate the time position for this cell
-                currentPhase = targetPhase;
-                const phaseSeconds = phases[currentPhase].duration * 60;
+                // Check if this cell is the currently active cell
+                const completedCells = phases.slice(0, currentPhase).reduce((sum, phase) => sum + phase.cells, 0);
+                const isCurrentCell = (currentPhase === targetPhase &&
+                    cellIndexInPhase === activeCellsInPhase);
+
+                // If this is the current active cell, toggle play/pause
+                if (isCurrentCell) {
+                    if (isRunning) {
+                        pauseTimer();
+                    } else {
+                        startTimer();
+                    }
+
+                    // Show visual feedback for pause/play toggle
+                    cell.classList.add('clicked');
+                    setTimeout(() => {
+                        cell.classList.remove('clicked');
+                    }, 300);
+
+                    return;
+                }
+
+                // For non-active cells, proceed with original behavior
+                // Start timer if not running
+                if (!isRunning) {
+                    startTimer();
+                }
+
+                // ...existing code for setting position in timer...
+                const minutesPerCell = 5; // Each cell represents 5 minutes
+                const phaseSeconds = phases[targetPhase].duration * 60;
                 const secondsPerCell = minutesPerCell * 60;
 
                 // Calculate position within cell (click position)
-                // Get click position in cell
                 let subcellIndex = 0;
 
                 // Check if user clicked on a subcell
                 const clickedSubcell = event.target.closest('.subcell');
                 if (clickedSubcell) {
                     subcellIndex = parseInt(clickedSubcell.getAttribute('data-index') || '0');
-                    console.log('Clicked subcell index:', subcellIndex);
                 }
 
                 const secondsPerSubcell = secondsPerCell / 5;
@@ -368,7 +388,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const targetSeconds = phaseSeconds - (cellIndexInPhase * secondsPerCell + subcellIndex * secondsPerSubcell);
                 totalSeconds = Math.max(1, Math.floor(targetSeconds)); // Ensure at least 1 second
 
-                // Update cell display and music position
+                // Update phase and position
+                currentPhase = targetPhase;
                 activeCellsInPhase = cellIndexInPhase;
                 activeSubcellIndex = subcellIndex;
 
@@ -405,11 +426,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Prevent event from bubbling to parent cell
                 event.stopPropagation();
 
-                // Start timer if not running
-                if (!isRunning) {
-                    startTimer();
-                }
-
                 // Find parent cell
                 const parentCell = subcell.closest('.cell');
                 if (!parentCell) return;
@@ -420,7 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Find the subcell index within the parent
                 const subcellIndex = parseInt(subcell.getAttribute('data-index') || '0');
 
-                // Now determine which phase this cell is in
+                // Check if this is the currently active subcell
                 let targetPhase = 0;
                 let phaseStartCellIndex = 0;
                 let cellsInCurrentPhase = 0;
@@ -439,11 +455,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Calculate position within the phase
                 const cellIndexInPhase = cellIndex - phaseStartCellIndex;
-                const minutesPerCell = 5; // Each cell represents 5 minutes
 
+                // Check if this is the currently active subcell
+                const completedCells = phases.slice(0, currentPhase).reduce((sum, phase) => sum + phase.cells, 0);
+                const isCurrentCell = (currentPhase === targetPhase &&
+                    cellIndexInPhase === activeCellsInPhase &&
+                    subcellIndex === activeSubcellIndex);
+
+                // If this is the current active subcell, toggle play/pause
+                if (isCurrentCell) {
+                    if (isRunning) {
+                        pauseTimer();
+                    } else {
+                        startTimer();
+                    }
+
+                    // Show visual feedback for pause/play toggle
+                    subcell.classList.add('clicked');
+                    setTimeout(() => {
+                        subcell.classList.remove('clicked');
+                    }, 300);
+
+                    return;
+                }
+
+                // For non-active subcells, proceed with original behavior
+                // Start timer if not running
+                if (!isRunning) {
+                    startTimer();
+                }
+
+                // ...existing code for setting position in timer...
                 // Calculate the time position
                 currentPhase = targetPhase;
                 const phaseSeconds = phases[currentPhase].duration * 60;
+                const minutesPerCell = 5; // Each cell represents 5 minutes
                 const secondsPerCell = minutesPerCell * 60;
                 const secondsPerSubcell = secondsPerCell / 5;
 
