@@ -116,6 +116,19 @@ body {
     background-color: #000;
 }
 
+/* Cell number styling - keeping it minimal */
+.cell-number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Make numbers visible when cell is active */
+.cell.active .cell-number {
+    color: white;
+}
+
 .timer-display {
     text-align: center;
     font-weight: bold;
