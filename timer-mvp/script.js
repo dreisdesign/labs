@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cells = document.querySelectorAll('.cell');
     const pauseBtn = document.getElementById('pause-btn');
     const playBtn = document.getElementById('play-btn');
-    const restartBtn = document.getElementById('restart-btn');
+    const ResetBtn = document.getElementById('Reset-btn');
     const minutesDisplay = document.getElementById('minutes');
     const secondsDisplay = document.getElementById('seconds');
     const phaseTotalDisplay = document.getElementById('phase-total');
@@ -11,17 +11,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalSecondsDisplay = document.getElementById('total-seconds');
     const allSubcells = document.querySelectorAll('.subcell');
 
-    // Create audio elements for sound effects with relative paths
+    // Create audio elements for sound effects and focus music
     const clickSound1 = new Audio('assets/click-1.mp3');
     const clickSound2 = new Audio('assets/click-2.mp3');
+    const focusMusic = new Audio('assets/focus-drums-25.mp3');
 
-    // Set volume to 5%
+    // Set volume
     clickSound1.volume = 0.05;
     clickSound2.volume = 0.05;
+    focusMusic.volume = 0.2; // Set focus music to 20% volume
 
     // Preload sounds
     clickSound1.load();
     clickSound2.load();
+    focusMusic.load();
 
     // Function to play sounds with error handling
     function playSound(sound) {
@@ -51,10 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Pomodoro phases (in minutes)
     const phases = [
-        { duration: 25, cells: 5 }, // Work phase 1
-        { duration: 5, cells: 1 },  // Break phase 1
-        { duration: 25, cells: 5 }, // Work phase 2
-        { duration: 5, cells: 1 }   // Break phase 2
+        { duration: 25, cells: 5, isFocusPhase: true }, // Work phase 1
+        { duration: 5, cells: 1, isFocusPhase: false }, // Break phase 1
+        { duration: 25, cells: 5, isFocusPhase: true }, // Work phase 2
+        { duration: 5, cells: 1, isFocusPhase: false }  // Break phase 2
     ];
 
     // Track which cells are active per phase
@@ -104,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Reset all cells and subcells
-    function resetCells() {
+    function ResetCells() {
         cells.forEach(cell => {
             cell.classList.remove('active');
         });
@@ -116,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update active cells and subcells based on time remaining
     function updateCells() {
-        resetCells();
+        ResetCells();
 
         // Calculate which cell and subcell should be active
         let completedCells = 0;
@@ -172,6 +175,24 @@ document.addEventListener('DOMContentLoaded', () => {
         if (totalSeconds === phases[currentPhase].duration * 60) {
             activeSubcellIndex = 0;
             updateCells();
+
+            // Start focus music if it's a focus phase and we're at the beginning
+            if (phases[currentPhase].isFocusPhase) {
+                focusMusic.currentTime = 0; // Reset to beginning
+                focusMusic.play().catch(error => {
+                    console.error('Error playing focus music:', error);
+                });
+            }
+        } else {
+            // Resume music if paused in a focus phase
+            if (phases[currentPhase].isFocusPhase) {
+                // Calculate how far into the music we should be based on elapsed time
+                const elapsedSeconds = phases[currentPhase].duration * 60 - totalSeconds;
+                focusMusic.currentTime = elapsedSeconds;
+                focusMusic.play().catch(error => {
+                    console.error('Error resuming focus music:', error);
+                });
+            }
         }
 
         timer = setInterval(() => {
@@ -181,6 +202,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 totalSeconds = phases[currentPhase].duration * 60;
                 activeCellsInPhase = 0;
                 activeSubcellIndex = 0;
+
+                // Handle focus music on phase change
+                if (phases[currentPhase].isFocusPhase) {
+                    // Start focus music for new work phase
+                    focusMusic.currentTime = 0;
+                    focusMusic.play().catch(error => {
+                        console.error('Error playing focus music:', error);
+                    });
+                } else {
+                    // Pause focus music during break phases
+                    focusMusic.pause();
+                }
 
                 updateDisplay();
                 updateCells();
@@ -217,18 +250,27 @@ document.addEventListener('DOMContentLoaded', () => {
             cell.classList.remove('flash');
             cell.classList.add('active');
         });
+
+        // Pause focus music
+        if (phases[currentPhase].isFocusPhase && !focusMusic.paused) {
+            focusMusic.pause();
+        }
     }
 
-    // Restart timer
-    function restartTimer() {
+    // Reset timer
+    function ResetTimer() {
         pauseTimer();
         currentPhase = 0;
         totalSeconds = phases[currentPhase].duration * 60;
         activeCellsInPhase = 0;
         activeSubcellIndex = 0;
 
+        // Stop focus music
+        focusMusic.pause();
+        focusMusic.currentTime = 0;
+
         updateDisplay();
-        resetCells();
+        ResetCells();
     }
 
     // Additional initialization for phase total display
@@ -245,11 +287,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event listeners
     playBtn.addEventListener('click', startTimer);
     pauseBtn.addEventListener('click', pauseTimer);
-    restartBtn.addEventListener('click', restartTimer);
+    ResetBtn.addEventListener('click', ResetTimer);
 
     // Initialize display
     initializeDisplay();
 
     // Set up initial state where first subcell will flash when play is pressed
-    resetCells();
+    ResetCells();
 });

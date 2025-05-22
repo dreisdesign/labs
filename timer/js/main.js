@@ -505,7 +505,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // Set volume to a reasonable level
             focusDrumsAudio.volume = 0.6;
 
-            // Add event listener for when audio ends to restart it smoothly
+            // Add event listener for when audio ends to reset it smoothly
             focusDrumsAudio.addEventListener('ended', function () {
                 focusDrumsAudio.currentTime = 0;
                 focusDrumsAudio.play();
