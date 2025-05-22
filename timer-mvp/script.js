@@ -6,6 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const restartBtn = document.getElementById('restart-btn');
     const minutesDisplay = document.getElementById('minutes');
     const secondsDisplay = document.getElementById('seconds');
+    const phaseTotalDisplay = document.getElementById('phase-total');
+    const totalMinutesDisplay = document.getElementById('total-minutes');
+    const totalSecondsDisplay = document.getElementById('total-seconds');
+    const allSubcells = document.querySelectorAll('.subcell');
 
     // Timer variables
     let timer;
@@ -24,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Track which cells are active per phase
     let activeCellsInPhase = 0;
     let overallCellIndex = 0;
+    let activeSubcellIndex = 0;
 
     // Format time for display
     function formatTime(seconds) {
@@ -35,28 +40,94 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
-    // Update timer display
+    // Calculate total remaining time across all phases
+    function calculateTotalRemainingTime() {
+        let remainingSeconds = totalSeconds; // Current phase remaining time
+
+        // Add remaining time from future phases
+        for (let i = currentPhase + 1; i < phases.length; i++) {
+            remainingSeconds += phases[i].duration * 60;
+        }
+
+        return remainingSeconds;
+    }
+
+    // Update timer displays
     function updateDisplay() {
+        // Update current phase timer
         const time = formatTime(totalSeconds);
         minutesDisplay.textContent = time.minutes;
         secondsDisplay.textContent = time.seconds;
+
+        // Set the total time for current phase
+        const currentPhaseTotalMinutes = phases[currentPhase].duration;
+        phaseTotalDisplay.textContent =
+            (currentPhaseTotalMinutes < 10 ? '0' + currentPhaseTotalMinutes : currentPhaseTotalMinutes) +
+            ':00';
+
+        // Update total time remaining
+        const totalRemainingTime = calculateTotalRemainingTime();
+        const totalTime = formatTime(totalRemainingTime);
+        totalMinutesDisplay.textContent = totalTime.minutes;
+        totalSecondsDisplay.textContent = totalTime.seconds;
     }
 
-    // Reset all cells
+    // Reset all cells and subcells
     function resetCells() {
         cells.forEach(cell => {
             cell.classList.remove('active');
         });
+
+        allSubcells.forEach(subcell => {
+            subcell.classList.remove('active', 'flash');
+        });
     }
 
-    // Update active cells based on time remaining
+    // Update active cells and subcells based on time remaining
     function updateCells() {
         resetCells();
 
-        // Activate cells based on current phase and time
-        for (let i = 0; i <= overallCellIndex; i++) {
-            if (i < cells.length) {
-                cells[i].classList.add('active');
+        // Calculate which cell and subcell should be active
+        let completedCells = 0;
+        let currentCellIndex = 0;
+
+        // Activate completed cells for previous phases
+        for (let i = 0; i < currentPhase; i++) {
+            completedCells += phases[i].cells;
+        }
+
+        // Activate cells for current phase
+        for (let i = 0; i < activeCellsInPhase; i++) {
+            currentCellIndex = completedCells + i;
+            if (currentCellIndex < cells.length) {
+                const cell = cells[currentCellIndex];
+                cell.classList.add('active');
+
+                // Activate all subcells for fully completed cells
+                const subcells = cell.querySelectorAll('.subcell');
+                subcells.forEach(subcell => {
+                    subcell.classList.add('active');
+                });
+            }
+        }
+
+        // Handle current in-progress cell
+        currentCellIndex = completedCells + activeCellsInPhase;
+
+        if (currentCellIndex < cells.length) {
+            const currentCell = cells[currentCellIndex];
+            const subcells = currentCell.querySelectorAll('.subcell');
+
+            // Activate completed subcells
+            for (let i = 0; i < activeSubcellIndex; i++) {
+                if (i < subcells.length) {
+                    subcells[i].classList.add('active');
+                }
+            }
+
+            // Flash the current subcell
+            if (activeSubcellIndex < subcells.length) {
+                subcells[activeSubcellIndex].classList.add('flash');
             }
         }
     }
@@ -64,8 +135,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Start timer
     function startTimer() {
         if (isRunning) return;
-
         isRunning = true;
+
+        // Initialize the first subcell to flash when pressing play
+        if (totalSeconds === phases[currentPhase].duration * 60) {
+            activeSubcellIndex = 0;
+            updateCells();
+        }
 
         timer = setInterval(() => {
             if (totalSeconds <= 0) {
@@ -73,12 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentPhase = (currentPhase + 1) % phases.length;
                 totalSeconds = phases[currentPhase].duration * 60;
                 activeCellsInPhase = 0;
-
-                // Calculate the starting cell index for the new phase
-                overallCellIndex = 0;
-                for (let i = 0; i < currentPhase; i++) {
-                    overallCellIndex += phases[i].cells;
-                }
+                activeSubcellIndex = 0;
 
                 updateDisplay();
                 updateCells();
@@ -87,27 +158,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
             totalSeconds--;
 
-            // Calculate when to activate next cell
+            // Calculate progress
             const currentPhaseSeconds = phases[currentPhase].duration * 60;
-            const secondsPerCell = currentPhaseSeconds / phases[currentPhase].cells;
             const elapsedSeconds = phases[currentPhase].duration * 60 - totalSeconds;
+            const minutesPerCell = 5; // Each cell represents 5 minutes
+            const secondsPerCell = minutesPerCell * 60;
+            const secondsPerSubcell = secondsPerCell / 5; // 5 subcells per cell
 
-            const cellsToActivate = Math.floor(elapsedSeconds / secondsPerCell);
-
-            if (cellsToActivate > activeCellsInPhase) {
-                activeCellsInPhase = cellsToActivate;
-                overallCellIndex = 0;
-
-                // Calculate overall cell index
-                for (let i = 0; i < currentPhase; i++) {
-                    overallCellIndex += phases[i].cells;
-                }
-                overallCellIndex += activeCellsInPhase;
-
-                updateCells();
-            }
+            // Calculate which cell and subcell should be active
+            activeCellsInPhase = Math.floor(elapsedSeconds / secondsPerCell);
+            const remainingSeconds = elapsedSeconds % secondsPerCell;
+            activeSubcellIndex = Math.floor(remainingSeconds / secondsPerSubcell);
 
             updateDisplay();
+            updateCells();
         }, 1000);
     }
 
@@ -115,6 +179,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function pauseTimer() {
         clearInterval(timer);
         isRunning = false;
+
+        // Stop the flashing but keep cells filled
+        const flashingCells = document.querySelectorAll('.subcell.flash');
+        flashingCells.forEach(cell => {
+            cell.classList.remove('flash');
+            cell.classList.add('active');
+        });
     }
 
     // Restart timer
@@ -123,10 +194,21 @@ document.addEventListener('DOMContentLoaded', () => {
         currentPhase = 0;
         totalSeconds = phases[currentPhase].duration * 60;
         activeCellsInPhase = 0;
-        overallCellIndex = 0;
+        activeSubcellIndex = 0;
 
         updateDisplay();
         resetCells();
+    }
+
+    // Additional initialization for phase total display
+    function initializeDisplay() {
+        updateDisplay();
+
+        // Set initial phase total time
+        const currentPhaseTotalMinutes = phases[currentPhase].duration;
+        phaseTotalDisplay.textContent =
+            (currentPhaseTotalMinutes < 10 ? '0' + currentPhaseTotalMinutes : currentPhaseTotalMinutes) +
+            ':00';
     }
 
     // Event listeners
@@ -135,5 +217,8 @@ document.addEventListener('DOMContentLoaded', () => {
     restartBtn.addEventListener('click', restartTimer);
 
     // Initialize display
-    updateDisplay();
+    initializeDisplay();
+
+    // Set up initial state where first subcell will flash when play is pressed
+    resetCells();
 });
