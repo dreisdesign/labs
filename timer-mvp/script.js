@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const pauseBtn = document.getElementById('pause-btn');
     const playBtn = document.getElementById('play-btn');
     const restartBtn = document.getElementById('restart-btn');
-    const testSoundBtn = document.getElementById('test-sound');
     const minutesDisplay = document.getElementById('minutes');
     const secondsDisplay = document.getElementById('seconds');
     const phaseTotalDisplay = document.getElementById('phase-total');
@@ -16,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const clickSound1 = new Audio('assets/click-1.mp3');
     const clickSound2 = new Audio('assets/click-2.mp3');
 
-    // Set volume to 50%
+    // Set volume to 5%
     clickSound1.volume = 0.05;
     clickSound2.volume = 0.05;
 
@@ -24,14 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
     clickSound1.load();
     clickSound2.load();
 
-    // Debug sound file paths
-    console.log('Sound file path 1:', clickSound1.src);
-    console.log('Sound file path 2:', clickSound2.src);
-    console.log('Current page URL:', window.location.href);
-
     // Function to play sounds with error handling
     function playSound(sound) {
-        console.log('Attempting to play sound');
         sound.currentTime = 0;
         sound.play().catch(error => {
             console.error('Error playing sound:', error);
@@ -49,24 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
             playSound(clickSound2);
         });
     });
-
-    // Add test sound functionality
-    if (testSoundBtn) {
-        testSoundBtn.addEventListener('click', () => {
-            console.log('Test sound button clicked');
-            // Try loading with different paths
-            const sound1 = new Audio('assets/click-1.mp3');
-            sound1.volume = 0.5; // Set volume to 50%
-            sound1.play().catch(e => console.error('Failed with relative path:', e));
-
-            // Try with absolute path from root
-            setTimeout(() => {
-                const sound2 = new Audio('/assets/click-1.mp3');
-                sound2.volume = 0.5; // Set volume to 50%
-                sound2.play().catch(e => console.error('Failed with absolute path:', e));
-            }, 300);
-        });
-    }
 
     // Timer variables
     let timer;
