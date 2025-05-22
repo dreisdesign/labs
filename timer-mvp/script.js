@@ -4,12 +4,69 @@ document.addEventListener('DOMContentLoaded', () => {
     const pauseBtn = document.getElementById('pause-btn');
     const playBtn = document.getElementById('play-btn');
     const restartBtn = document.getElementById('restart-btn');
+    const testSoundBtn = document.getElementById('test-sound');
     const minutesDisplay = document.getElementById('minutes');
     const secondsDisplay = document.getElementById('seconds');
     const phaseTotalDisplay = document.getElementById('phase-total');
     const totalMinutesDisplay = document.getElementById('total-minutes');
     const totalSecondsDisplay = document.getElementById('total-seconds');
     const allSubcells = document.querySelectorAll('.subcell');
+
+    // Create audio elements for sound effects with relative paths
+    const clickSound1 = new Audio('assets/click-1.mp3');
+    const clickSound2 = new Audio('assets/click-2.mp3');
+
+    // Set volume to 50%
+    clickSound1.volume = 0.05;
+    clickSound2.volume = 0.05;
+
+    // Preload sounds
+    clickSound1.load();
+    clickSound2.load();
+
+    // Debug sound file paths
+    console.log('Sound file path 1:', clickSound1.src);
+    console.log('Sound file path 2:', clickSound2.src);
+    console.log('Current page URL:', window.location.href);
+
+    // Function to play sounds with error handling
+    function playSound(sound) {
+        console.log('Attempting to play sound');
+        sound.currentTime = 0;
+        sound.play().catch(error => {
+            console.error('Error playing sound:', error);
+        });
+    }
+
+    // Add sound effects to all buttons
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => {
+        button.addEventListener('mousedown', () => {
+            playSound(clickSound1);
+        });
+
+        button.addEventListener('mouseup', () => {
+            playSound(clickSound2);
+        });
+    });
+
+    // Add test sound functionality
+    if (testSoundBtn) {
+        testSoundBtn.addEventListener('click', () => {
+            console.log('Test sound button clicked');
+            // Try loading with different paths
+            const sound1 = new Audio('assets/click-1.mp3');
+            sound1.volume = 0.5; // Set volume to 50%
+            sound1.play().catch(e => console.error('Failed with relative path:', e));
+
+            // Try with absolute path from root
+            setTimeout(() => {
+                const sound2 = new Audio('/assets/click-1.mp3');
+                sound2.volume = 0.5; // Set volume to 50%
+                sound2.play().catch(e => console.error('Failed with absolute path:', e));
+            }, 300);
+        });
+    }
 
     // Timer variables
     let timer;
@@ -27,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Track which cells are active per phase
     let activeCellsInPhase = 0;
-    let overallCellIndex = 0;
     let activeSubcellIndex = 0;
 
     // Format time for display
@@ -160,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Calculate progress
             const currentPhaseSeconds = phases[currentPhase].duration * 60;
-            const elapsedSeconds = phases[currentPhase].duration * 60 - totalSeconds;
+            const elapsedSeconds = currentPhaseSeconds - totalSeconds;
             const minutesPerCell = 5; // Each cell represents 5 minutes
             const secondsPerCell = minutesPerCell * 60;
             const secondsPerSubcell = secondsPerCell / 5; // 5 subcells per cell
