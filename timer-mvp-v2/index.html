@@ -4,153 +4,310 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pomodoro Visual Timer</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Pomodoro Timer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .timer-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .circle {
+            position: relative;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .circle-large {
+            width: 300px;
+            height: 300px;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .circle-small {
+            width: 60px;
+            height: 60px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .circle-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(#4CAF50 0deg, transparent 0deg);
+            transition: background 0.1s ease;
+        }
+
+        .circle-content {
+            position: relative;
+            z-index: 1;
+            color: #333;
+            text-align: center;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            background: #007AFF;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #0056CC;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .reset-btn {
+            background: #FF3B30;
+        }
+
+        .reset-btn:hover {
+            background: #CC2E24;
+        }
+
+        .status {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 480px) {
+            .circle-large {
+                width: 250px;
+                height: 250px;
+                font-size: 2rem;
+            }
+
+            .circle-small {
+                width: 50px;
+                height: 50px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="grid">
-            <div class="cell" id="cell-1">
-                <span class="cell-number">F</span>
-                <div class="subgrid">
-                    <div class="subcell" data-index="0"></div>
-                    <div class="subcell" data-index="1"></div>
-                    <div class="subcell" data-index="2"></div>
-                    <div class="subcell" data-index="3"></div>
-                    <div class="subcell" data-index="4"></div>
-                </div>
-            </div>
-            <div class="cell" id="cell-2">
-                <span class="cell-number">O</span>
-                <div class="subgrid">
-                    <div class="subcell" data-index="0"></div>
-                    <div class="subcell" data-index="1"></div>
-                    <div class="subcell" data-index="2"></div>
-                    <div class="subcell" data-index="3"></div>
-                    <div class="subcell" data-index="4"></div>
-                </div>
-            </div>
-            <div class="cell" id="cell-3">
-                <span class="cell-number">C</span>
-                <div class="subgrid">
-                    <div class="subcell" data-index="0"></div>
-                    <div class="subcell" data-index="1"></div>
-                    <div class="subcell" data-index="2"></div>
-                    <div class="subcell" data-index="3"></div>
-                    <div class="subcell" data-index="4"></div>
-                </div>
-            </div>
-            <div class="cell" id="cell-4">
-                <span class="cell-number">U</span>
-                <div class="subgrid">
-                    <div class="subcell" data-index="0"></div>
-                    <div class="subcell" data-index="1"></div>
-                    <div class="subcell" data-index="2"></div>
-                    <div class="subcell" data-index="3"></div>
-                    <div class="subcell" data-index="4"></div>
-                </div>
-            </div>
-            <div class="cell" id="cell-5">
-                <span class="cell-number">S</span>
-                <div class="subgrid">
-                    <div class="subcell" data-index="0"></div>
-                    <div class="subcell" data-index="1"></div>
-                    <div class="subcell" data-index="2"></div>
-                    <div class="subcell" data-index="3"></div>
-                    <div class="subcell" data-index="4"></div>
-                </div>
-            </div>
-            <div class="cell" id="cell-6">
-                <span class="cell-number">Break</span>
-                <div class="subgrid">
-                    <div class="subcell" data-index="0"></div>
-                    <div class="subcell" data-index="1"></div>
-                    <div class="subcell" data-index="2"></div>
-                    <div class="subcell" data-index="3"></div>
-                    <div class="subcell" data-index="4"></div>
-                </div>
-            </div>
-            <div class="cell" id="cell-7">
-                <span class="cell-number">F</span>
-                <div class="subgrid">
-                    <div class="subcell" data-index="0"></div>
-                    <div class="subcell" data-index="1"></div>
-                    <div class="subcell" data-index="2"></div>
-                    <div class="subcell" data-index="3"></div>
-                    <div class="subcell" data-index="4"></div>
-                </div>
-            </div>
-            <div class="cell" id="cell-8">
-                <span class="cell-number">O</span>
-                <div class="subgrid">
-                    <div class="subcell" data-index="0"></div>
-                    <div class="subcell" data-index="1"></div>
-                    <div class="subcell" data-index="2"></div>
-                    <div class="subcell" data-index="3"></div>
-                    <div class="subcell" data-index="4"></div>
-                </div>
-            </div>
-            <div class="cell" id="cell-9">
-                <span class="cell-number">C</span>
-                <div class="subgrid">
-                    <div class="subcell" data-index="0"></div>
-                    <div class="subcell" data-index="1"></div>
-                    <div class="subcell" data-index="2"></div>
-                    <div class="subcell" data-index="3"></div>
-                    <div class="subcell" data-index="4"></div>
-                </div>
-            </div>
-            <div class="cell" id="cell-10">
-                <span class="cell-number">U</span>
-                <div class="subgrid">
-                    <div class="subcell" data-index="0"></div>
-                    <div class="subcell" data-index="1"></div>
-                    <div class="subcell" data-index="2"></div>
-                    <div class="subcell" data-index="3"></div>
-                    <div class="subcell" data-index="4"></div>
-                </div>
-            </div>
-            <div class="cell" id="cell-11">
-                <span class="cell-number">S</span>
-                <div class="subgrid">
-                    <div class="subcell" data-index="0"></div>
-                    <div class="subcell" data-index="1"></div>
-                    <div class="subcell" data-index="2"></div>
-                    <div class="subcell" data-index="3"></div>
-                    <div class="subcell" data-index="4"></div>
-                </div>
-            </div>
-            <div class="cell" id="cell-12">
-                <span class="cell-number">Break</span>
-                <div class="subgrid">
-                    <div class="subcell" data-index="0"></div>
-                    <div class="subcell" data-index="1"></div>
-                    <div class="subcell" data-index="2"></div>
-                    <div class="subcell" data-index="3"></div>
-                    <div class="subcell" data-index="4"></div>
-                </div>
+    <div class="timer-container">
+        <div class="status" id="status">Ready to focus</div>
+
+        <div class="circle circle-large" id="workCircle">
+            <div class="circle-progress" id="workProgress"></div>
+            <div class="circle-content">
+                <div id="workTime">25:00</div>
+                <div style="font-size: 0.8rem; margin-top: 5px;">Work</div>
             </div>
         </div>
-        <div class="controls-container">
-            <div class="timer-display">
-                <div class="current-phase">
-                    <span>Current phase:</span>
-                    <span id="minutes">25</span>:<span id="seconds">00</span>/<span id="phase-total">25:00</span>
-                </div>
-                <div class="total-time">
-                    <span>Total time:</span>
-                    <span id="total-minutes">60</span>:<span id="total-seconds">00</span>
-                </div>
+
+        <div class="circle circle-small" id="breakCircle">
+            <div class="circle-progress" id="breakProgress"></div>
+            <div class="circle-content">
+                <div id="breakTime">5:00</div>
+                <div style="font-size: 0.6rem;">Break</div>
             </div>
-            <div class="controls">
-                <button id="pause-btn">Pause</button>
-                <button id="play-btn">Play</button>
-                <button id="Reset-btn">Reset</button>
-            </div>
+        </div>
+
+        <div class="controls">
+            <button id="playPauseBtn">Start</button>
+            <button id="resetBtn" class="reset-btn">Reset</button>
         </div>
     </div>
-    <script src="script.js"></script>
+
+    <audio id="focusAudio" preload="auto">
+        <source src="assets/focus-drums-25.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        class PomodoroTimer {
+            constructor() {
+                this.workDuration = 25 * 60; // 25 minutes in seconds
+                this.breakDuration = 5 * 60; // 5 minutes in seconds
+                this.currentTime = this.workDuration;
+                this.isRunning = false;
+                this.isWorkSession = true;
+                this.interval = null;
+
+                this.elements = {
+                    status: document.getElementById('status'),
+                    workTime: document.getElementById('workTime'),
+                    breakTime: document.getElementById('breakTime'),
+                    workProgress: document.getElementById('workProgress'),
+                    breakProgress: document.getElementById('breakProgress'),
+                    playPauseBtn: document.getElementById('playPauseBtn'),
+                    resetBtn: document.getElementById('resetBtn'),
+                    audio: document.getElementById('focusAudio')
+                };
+
+                this.init();
+            }
+
+            init() {
+                this.updateDisplay();
+                this.elements.playPauseBtn.addEventListener('click', () => this.toggleTimer());
+                this.elements.resetBtn.addEventListener('click', () => this.reset());
+            }
+
+            toggleTimer() {
+                if (this.isRunning) {
+                    this.pause();
+                } else {
+                    this.start();
+                }
+            }
+
+            start() {
+                this.isRunning = true;
+                this.elements.playPauseBtn.textContent = 'Pause';
+                this.elements.status.textContent = this.isWorkSession ? 'Focus time!' : 'Break time!';
+
+                if (this.isWorkSession) {
+                    // Play audio during work sessions
+                    if (this.currentTime === this.workDuration) {
+                        // Start from beginning for new work session
+                        this.elements.audio.currentTime = 0;
+                    }
+                    this.elements.audio.play().catch(console.error);
+                }
+
+                this.interval = setInterval(() => {
+                    this.currentTime--;
+                    this.updateDisplay();
+
+                    if (this.currentTime <= 0) {
+                        this.completeSession();
+                    }
+                }, 1000);
+            }
+
+            pause() {
+                this.isRunning = false;
+                this.elements.playPauseBtn.textContent = 'Start';
+                this.elements.status.textContent = this.isWorkSession ? 'Paused - Focus' : 'Paused - Break';
+
+                if (this.interval) {
+                    clearInterval(this.interval);
+                    this.interval = null;
+                }
+
+                if (this.isWorkSession) {
+                    this.elements.audio.pause();
+                }
+            }
+
+            reset() {
+                this.pause();
+                this.isWorkSession = true;
+                this.currentTime = this.workDuration;
+                this.elements.status.textContent = 'Ready to focus';
+                this.elements.audio.pause();
+                this.elements.audio.currentTime = 0;
+                this.updateDisplay();
+            }
+
+            completeSession() {
+                this.pause();
+
+                if (this.isWorkSession) {
+                    // Work session completed, switch to break
+                    this.isWorkSession = false;
+                    this.currentTime = this.breakDuration;
+                    this.elements.status.textContent = 'Work complete! Take a break';
+                    this.elements.audio.pause();
+                } else {
+                    // Break completed, switch to work
+                    this.isWorkSession = true;
+                    this.currentTime = this.workDuration;
+                    this.elements.status.textContent = 'Break over! Ready to focus';
+                }
+
+                this.updateDisplay();
+            }
+
+            updateDisplay() {
+                const workMinutes = Math.floor(this.workDuration / 60);
+                const workSeconds = this.workDuration % 60;
+                const breakMinutes = Math.floor(this.breakDuration / 60);
+                const breakSeconds = this.breakDuration % 60;
+
+                this.elements.workTime.textContent = `${workMinutes}:${workSeconds.toString().padStart(2, '0')}`;
+                this.elements.breakTime.textContent = `${breakMinutes}:${breakSeconds.toString().padStart(2, '0')}`;
+
+                // Update progress circles
+                if (this.isWorkSession) {
+                    const workProgress = ((this.workDuration - this.currentTime) / this.workDuration) * 360;
+                    this.elements.workProgress.style.background = `conic-gradient(#4CAF50 ${workProgress}deg, transparent ${workProgress}deg)`;
+                    this.elements.breakProgress.style.background = 'conic-gradient(transparent 0deg, transparent 360deg)';
+
+                    // Update current time display
+                    const minutes = Math.floor(this.currentTime / 60);
+                    const seconds = this.currentTime % 60;
+                    this.elements.workTime.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                } else {
+                    const breakProgress = ((this.breakDuration - this.currentTime) / this.breakDuration) * 360;
+                    this.elements.breakProgress.style.background = `conic-gradient(#FF9500 ${breakProgress}deg, transparent ${breakProgress}deg)`;
+                    this.elements.workProgress.style.background = 'conic-gradient(#4CAF50 360deg, transparent 360deg)';
+
+                    // Update current time display
+                    const minutes = Math.floor(this.currentTime / 60);
+                    const seconds = this.currentTime % 60;
+                    this.elements.breakTime.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                }
+            }
+
+            formatTime(seconds) {
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = seconds % 60;
+                return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+            }
+        }
+
+        // Initialize timer when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new PomodoroTimer();
+        });
+    </script>
 </body>
 
 </html>
