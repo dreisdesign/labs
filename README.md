@@ -4,6 +4,22 @@ This repository contains a collection of web development projects and utility sc
 
 ## Projects
 
+### Pomodoro Timer
+
+A beautifully designed, minimalist Pomodoro timer for enhanced focus and productivity. Features perfect circular progress indicators and integrated focus music.
+
+#### Features
+
+- **25/5 Pomodoro Method**: Standard 25-minute work sessions with 5-minute breaks
+- **Perfect Circle Design**: Responsive circles that maintain 1:1 aspect ratio on all devices
+- **5:1 Size Ratio**: Large work timer is exactly 5x the size of the break timer
+- **Visual Progress**: Circular progress rings show session advancement
+- **Audio Integration**: Focus music plays during work sessions
+- **Responsive Layout**: Adapts between portrait and landscape orientations
+- **Zero Dependencies**: Pure HTML, CSS, and JavaScript implementation
+
+[View Project Details](timer/README.md)
+
 ### DailyNote
 
 A simple note-taking app that clears at the end of each day. Perfect for daily thoughts, tasks, or reminders.
@@ -24,7 +40,7 @@ A simple note-taking app that clears at the end of each day. Perfect for daily t
 
 A simple activity tracking web application. Try it live at [https://dreisdesign.github.io/labs/tracker/](https://dreisdesign.github.io/labs/tracker/)
 
-### Features
+#### Features
 
 - **Activity Tracking**: Easily track activities with a single click
 - **Timestamp History**: View a chronological list of tracked activities with timestamps
@@ -187,6 +203,12 @@ labs/
 ├── index.html                   # Main entry page for all projects
 ├── README.md                    # Main repository documentation
 ├── LICENSE                      # Project license information
+├── timer/                       # Pomodoro Timer project
+│   ├── index.html              # Main timer app HTML file
+│   ├── README.md               # Timer app documentation
+│   ├── CHANGELOG.md            # Timer app change history
+│   ├── styles.css              # Timer app stylesheet
+│   └── assets/                 # Audio files for focus music
 ├── note/                        # DailyNote project
 │   ├── index.html              # Main note app HTML file
 │   ├── README.md               # Note app documentation
