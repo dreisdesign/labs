@@ -17,14 +17,14 @@ body {
     flex-direction: column;
     height: 100%;
     width: 100%;
-    gap: clamp(0.5rem, 2vh, 1.5rem);
+    gap: clamp(0.5rem, 1vh, 1rem);
 }
 
 .status {
     flex-shrink: 0;
     font-size: clamp(1rem, 3vh, 1.8rem);
     text-align: center;
-    padding: 0.5rem;
+    padding: 0.25rem 0.5rem;
 }
 
 .circles-container {
@@ -33,32 +33,34 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: clamp(1rem, 3vh, 2rem);
+    gap: min(2vh, 2vw);
     min-height: 0;
+    overflow: hidden;
+    padding: 2vh 2vw;
 }
 
 .circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
     border-radius: 50%;
     border: max(2px, 0.3vmin) solid black;
     background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     aspect-ratio: 1;
-    flex-shrink: 0;
+    container-type: size;
 }
 
 .circle-large {
-    width: min(50vmin, 40vh);
-    height: min(50vmin, 40vh);
-    font-size: clamp(1.2rem, 5vmin, 3rem);
+    width: min(75vw, 75vh, 60vmin);
+    height: min(75vw, 75vh, 60vmin);
+    font-size: clamp(1.5rem, 8vmin, 5rem);
 }
 
 .circle-small {
-    width: min(25vmin, 20vh);
-    height: min(25vmin, 20vh);
-    font-size: clamp(0.8rem, 2.5vmin, 1.5rem);
+    width: min(15vw, 15vh, 12vmin);
+    height: min(15vw, 15vh, 12vmin);
+    font-size: clamp(0.9rem, 3vmin, 2.5rem);
 }
 
 .circle-progress {
@@ -85,7 +87,8 @@ body {
     display: flex;
     justify-content: center;
     gap: clamp(0.5rem, 2vw, 1.5rem);
-    padding: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    /* Reduced padding slightly */
 }
 
 .controls button {
@@ -107,35 +110,20 @@ body {
     background: #e8e8e8;
 }
 
-/* Landscape orientation - horizontal layout */
-@media (aspect-ratio > 1.2) {
+/* Landscape layout */
+@media (min-aspect-ratio: 1.2) {
     .circles-container {
         flex-direction: row;
-        gap: clamp(2rem, 5vw, 4rem);
+        gap: min(3vh, 3vw);
     }
 
     .circle-large {
-        width: min(45vmin, 60vh);
-        height: min(45vmin, 60vh);
-        font-size: clamp(1.5rem, 6vmin, 4rem);
+        width: min(50vw, 70vh, 50vmin);
+        height: min(50vw, 70vh, 50vmin);
     }
 
     .circle-small {
-        width: min(25vmin, 35vh);
-        height: min(25vmin, 35vh);
-        font-size: clamp(0.9rem, 3vmin, 2rem);
-    }
-}
-
-/* Very wide screens */
-@media (aspect-ratio > 2) {
-    .circle-large {
-        width: min(35vmin, 70vh);
-        height: min(35vmin, 70vh);
-    }
-
-    .circle-small {
-        width: min(20vmin, 40vh);
-        height: min(20vmin, 40vh);
+        width: min(10vw, 14vh, 10vmin);
+        height: min(10vw, 14vh, 10vmin);
     }
 }
