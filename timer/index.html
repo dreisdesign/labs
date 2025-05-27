@@ -10,7 +10,7 @@
 
 <body>
     <!-- Version number (top right) -->
-    <div class="version-number">v2.1.1</div>
+    <div class="version-number">v2.1.3</div>
 
     <div class="timer-container">
         <div class="status" id="status">Ready to focus</div>
@@ -75,9 +75,13 @@
                 this.elements.playPauseBtn.addEventListener('click', () => this.toggleTimer());
                 this.elements.resetBtn.addEventListener('click', () => this.reset());
 
-                // Add click handlers to circles for play/pause functionality
-                this.elements.workCircle.addEventListener('click', () => this.toggleTimer());
-                this.elements.breakCircle.addEventListener('click', () => this.toggleTimer());
+                // Add click handlers to circles for play/pause functionality - only when active
+                this.elements.workCircle.addEventListener('click', () => {
+                    if (this.isWorkSession) this.toggleTimer();
+                });
+                this.elements.breakCircle.addEventListener('click', () => {
+                    if (!this.isWorkSession) this.toggleTimer();
+                });
             }
 
             toggleTimer() {
@@ -168,6 +172,15 @@
 
                 this.elements.workTime.textContent = `${workMinutes}:${workSeconds.toString().padStart(2, '0')}`;
                 this.elements.breakTime.textContent = `${breakMinutes}:${breakSeconds.toString().padStart(2, '0')}`;
+
+                // Update active circle classes for hover effects
+                if (this.isWorkSession) {
+                    this.elements.workCircle.classList.add('active');
+                    this.elements.breakCircle.classList.remove('active');
+                } else {
+                    this.elements.workCircle.classList.remove('active');
+                    this.elements.breakCircle.classList.add('active');
+                }
 
                 // Update progress circles
                 if (this.isWorkSession) {

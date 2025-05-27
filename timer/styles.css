@@ -61,15 +61,19 @@ body {
     background: white;
     aspect-ratio: 1;
     container-type: size;
-    cursor: pointer;
     transition: transform 0.1s ease;
 }
 
-.circle:hover {
+/* Only active circles get interactive styling */
+.circle.active {
+    cursor: pointer;
+}
+
+.circle.active:hover {
     transform: scale(1.02);
 }
 
-.circle:active {
+.circle.active:active {
     transform: scale(0.98);
 }
 
