@@ -1,4 +1,4 @@
-# Pomodoro Timer v2.0.0
+# Pomodoro Timer v2.1.0
 
 A beautifully designed, minimalist Pomodoro timer web application. Built with vanilla HTML, CSS, and JavaScript for a distraction-free focus experience.
 
@@ -10,6 +10,8 @@ A beautifully designed, minimalist Pomodoro timer web application. Built with va
 - **Audio Integration**: Focus music plays during work sessions to enhance concentration
 - **Session Management**: Automatic switching between work and break sessions
 - **Version Display**: Current version shown in top-right corner for easy reference
+- **Interactive Circles**: Click anywhere on the circles to start/pause the timer
+- **Smart Controls**: Button shows "Resume" when paused vs "Start" for new sessions
 
 ### Design & Usability
 - **Responsive Layout**: Perfect circles that maintain 1:1 aspect ratio on all devices
@@ -18,6 +20,8 @@ A beautifully designed, minimalist Pomodoro timer web application. Built with va
 - **Viewport Scaling**: Uses `vmin` units for reliable scaling across all screen sizes
 - **Mobile Optimized**: Touch-friendly controls and responsive design
 - **Version Indicator**: Subtle version number display for tracking updates
+- **Interactive Elements**: Circles provide visual feedback with hover and click animations
+- **Enhanced Touch Targets**: Large clickable areas for improved mobile interaction
 
 ### Technical Features
 - **Pure Frontend**: Zero dependencies, works entirely in the browser
@@ -25,14 +29,21 @@ A beautifully designed, minimalist Pomodoro timer web application. Built with va
 - **Flexible Layout**: Automatically switches between portrait and landscape orientations
 - **Container Queries**: Uses modern CSS for optimal typography scaling
 - **Audio Controls**: Integrated focus music with proper play/pause handling
+- **Interactive Interface**: Click event handlers on circles for enhanced user experience
+- **Smart State Management**: Tracks timer state for intelligent button text updates
 
 ## How to Use
 
-1. **Start a Focus Session**: Click the "Start" button to begin a 25-minute work session
+1. **Start a Focus Session**: Click the "Start" button or tap anywhere on the large circle to begin a 25-minute work session
 2. **Monitor Progress**: Watch the large circle fill as time progresses
 3. **Take Breaks**: After work completion, a 5-minute break automatically begins
-4. **Pause/Resume**: Click "Pause" to pause the timer, "Start" to resume
+4. **Pause/Resume**: Click "Pause"/"Resume" button or tap the circles to pause/resume the timer
 5. **Reset**: Use the "Reset" button to return to the beginning of a work session
+
+### Interactive Controls
+- **Circle Interaction**: Both circles are clickable and act as large touch targets for start/pause
+- **Smart Button Text**: Button shows "Start" for new sessions and "Resume" when resuming paused timers
+- **Visual Feedback**: Circles provide hover and press animations for better user experience
 
 ## Technical Details
 

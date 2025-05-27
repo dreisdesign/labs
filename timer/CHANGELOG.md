@@ -5,6 +5,25 @@ All notable changes to the Pomodoro Timer project will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2025-05-27
+
+### Added
+- **Interactive Circles**: Circles are now clickable and function as large touch targets for play/pause
+- **Smart Button Text**: Button now shows "Resume" when paused (after being started) vs "Start" for new sessions
+- **Enhanced Touch Experience**: Visual feedback on circle hover and press interactions
+- **Improved Accessibility**: Larger interactive areas for better mobile usability
+
+### Changed
+- **User Interface**: Circles now provide visual feedback (scale effects) when interacted with
+- **Button Logic**: More intuitive button text that reflects the actual action available
+- **Touch Targets**: Significantly expanded interactive areas especially beneficial on mobile devices
+
+### Technical Improvements
+- **Event Handling**: Added click event listeners to both work and break circles
+- **State Management**: Enhanced timer state tracking with `hasStarted` property
+- **CSS Enhancements**: Added cursor pointer, hover, and active states for circles
+- **User Feedback**: Smooth scaling transitions for interactive elements
+
 ## [2.0.1] - 2025-05-27
 
 ### Improved
