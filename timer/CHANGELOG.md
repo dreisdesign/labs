@@ -5,6 +5,40 @@ All notable changes to the Pomodoro Timer project will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 2025-05-27
+
+### Improved
+- **Mobile Experience**: Significantly increased circle sizes on mobile devices for better touch interaction
+- **Responsive Design**: Enhanced mobile-specific media queries for optimal circle sizing
+- **Touch Usability**: Circles now use up to 95% of viewport on small screens
+
+### Changed
+- **Circle Sizing**: Updated base circle sizes from 75vw/60vmin to 85vw/70vmin
+- **Mobile Optimization**: Added progressive sizing for tablets (90vw) and phones (95vw)
+- **Aspect Ratio Maintenance**: Preserved 5:1 ratio between large and small circles across all screen sizes
+
+### Technical Details
+- **Media Queries**: Added specific breakpoints for ≤768px and ≤480px screen widths
+- **Viewport Units**: Enhanced use of `min()` function with multiple viewport constraints
+- **Touch Targets**: Improved accessibility compliance for mobile touch interfaces
+
+## [2.0.0] - 2025-05-27
+
+### Added
+- **Version Display**: Added version number display in top-right corner
+- **Version Management**: Integrated with automated version update system
+- **Project Infrastructure**: Added proper versioning support for deployment workflows
+
+### Changed
+- **Version Tracking**: Now properly tracks and displays version information
+- **Development Workflow**: Enhanced with automated version management tools
+- **Project Structure**: Aligned with other projects in the labs workspace
+
+### Technical Improvements
+- **CSS Styling**: Added version number styling with fixed positioning
+- **HTML Structure**: Enhanced with version display element
+- **Project Standards**: Implemented consistent versioning across all lab projects
+
 ## [1.0.0] - 2025-05-24
 
 ### Added

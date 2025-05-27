@@ -1,4 +1,4 @@
-# Pomodoro Timer
+# Pomodoro Timer v2.0.0
 
 A beautifully designed, minimalist Pomodoro timer web application. Built with vanilla HTML, CSS, and JavaScript for a distraction-free focus experience.
 
@@ -9,6 +9,7 @@ A beautifully designed, minimalist Pomodoro timer web application. Built with va
 - **Visual Progress Indicators**: Two circular progress rings showing work and break time
 - **Audio Integration**: Focus music plays during work sessions to enhance concentration
 - **Session Management**: Automatic switching between work and break sessions
+- **Version Display**: Current version shown in top-right corner for easy reference
 
 ### Design & Usability
 - **Responsive Layout**: Perfect circles that maintain 1:1 aspect ratio on all devices
@@ -16,6 +17,7 @@ A beautifully designed, minimalist Pomodoro timer web application. Built with va
 - **Minimalist Interface**: Clean, distraction-free design focused on the task at hand
 - **Viewport Scaling**: Uses `vmin` units for reliable scaling across all screen sizes
 - **Mobile Optimized**: Touch-friendly controls and responsive design
+- **Version Indicator**: Subtle version number display for tracking updates
 
 ### Technical Features
 - **Pure Frontend**: Zero dependencies, works entirely in the browser
@@ -57,6 +59,7 @@ timer/
 ├── index.html          # Main application file with embedded JavaScript
 ├── styles.css          # Complete styling and responsive design
 ├── README.md           # This documentation
+├── CHANGELOG.md        # Version history and updates
 └── assets/
     ├── click-1.mp3     # UI click sound
     ├── click-2.mp3     # Alternative click sound
