@@ -64,14 +64,14 @@ body {
 }
 
 .circle-large {
-    width: min(75vw, 75vh, 60vmin);
-    height: min(75vw, 75vh, 60vmin);
+    width: min(85vw, 85vh, 70vmin);
+    height: min(85vw, 85vh, 70vmin);
     font-size: clamp(1.5rem, 8vmin, 5rem);
 }
 
 .circle-small {
-    width: min(15vw, 15vh, 12vmin);
-    height: min(15vw, 15vh, 12vmin);
+    width: min(17vw, 17vh, 14vmin);
+    height: min(17vw, 17vh, 14vmin);
     font-size: clamp(0.9rem, 3vmin, 2.5rem);
 }
 
@@ -137,5 +137,35 @@ body {
     .circle-small {
         width: min(10vw, 14vh, 10vmin);
         height: min(10vw, 14vh, 10vmin);
+    }
+}
+
+/* Mobile portrait - larger circles for better touch interaction */
+@media (max-width: 768px) and (orientation: portrait) {
+    .circle-large {
+        width: min(90vw, 90vh, 80vmin);
+        height: min(90vw, 90vh, 80vmin);
+    }
+
+    .circle-small {
+        width: min(18vw, 18vh, 16vmin);
+        height: min(18vw, 18vh, 16vmin);
+    }
+
+    .circles-container {
+        gap: min(3vh, 3vw);
+    }
+}
+
+/* Very small screens - maximum circle size */
+@media (max-width: 480px) {
+    .circle-large {
+        width: min(95vw, 95vh, 85vmin);
+        height: min(95vw, 95vh, 85vmin);
+    }
+
+    .circle-small {
+        width: min(19vw, 19vh, 17vmin);
+        height: min(19vw, 19vh, 17vmin);
     }
 }
