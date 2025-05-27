@@ -51,6 +51,7 @@
                 this.currentTime = this.workDuration;
                 this.isRunning = false;
                 this.isWorkSession = true;
+                this.hasStarted = false; // Track if timer has been started
                 this.interval = null;
 
                 this.elements = {
@@ -59,6 +60,8 @@
                     breakTime: document.getElementById('breakTime'),
                     workProgress: document.getElementById('workProgress'),
                     breakProgress: document.getElementById('breakProgress'),
+                    workCircle: document.getElementById('workCircle'),
+                    breakCircle: document.getElementById('breakCircle'),
                     playPauseBtn: document.getElementById('playPauseBtn'),
                     resetBtn: document.getElementById('resetBtn'),
                     audio: document.getElementById('focusAudio')
@@ -71,6 +74,10 @@
                 this.updateDisplay();
                 this.elements.playPauseBtn.addEventListener('click', () => this.toggleTimer());
                 this.elements.resetBtn.addEventListener('click', () => this.reset());
+
+                // Add click handlers to circles for play/pause functionality
+                this.elements.workCircle.addEventListener('click', () => this.toggleTimer());
+                this.elements.breakCircle.addEventListener('click', () => this.toggleTimer());
             }
 
             toggleTimer() {
@@ -83,6 +90,7 @@
 
             start() {
                 this.isRunning = true;
+                this.hasStarted = true; // Mark that timer has been started
                 this.elements.playPauseBtn.textContent = 'Pause';
                 this.elements.status.textContent = this.isWorkSession ? 'Focus time!' : 'Break time!';
 
@@ -107,7 +115,8 @@
 
             pause() {
                 this.isRunning = false;
-                this.elements.playPauseBtn.textContent = 'Start';
+                // Show "Resume" if timer has been started before, otherwise "Start"
+                this.elements.playPauseBtn.textContent = this.hasStarted ? 'Resume' : 'Start';
                 this.elements.status.textContent = this.isWorkSession ? 'Paused - Focus' : 'Paused - Break';
 
                 if (this.interval) {
@@ -124,7 +133,9 @@
                 this.pause();
                 this.isWorkSession = true;
                 this.currentTime = this.workDuration;
+                this.hasStarted = false; // Reset the started flag
                 this.elements.status.textContent = 'Ready to focus';
+                this.elements.playPauseBtn.textContent = 'Start'; // Reset button to "Start"
                 this.elements.audio.pause();
                 this.elements.audio.currentTime = 0;
                 this.updateDisplay();

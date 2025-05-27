@@ -61,6 +61,16 @@ body {
     background: white;
     aspect-ratio: 1;
     container-type: size;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.circle:hover {
+    transform: scale(1.02);
+}
+
+.circle:active {
+    transform: scale(0.98);
 }
 
 .circle-large {
