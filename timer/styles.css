@@ -12,6 +12,18 @@ body {
     overflow: hidden;
 }
 
+/* --- Version Number --- */
+.version-number {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    user-select: none;
+    pointer-events: none;
+}
+
 .timer-container {
     display: flex;
     flex-direction: column;
