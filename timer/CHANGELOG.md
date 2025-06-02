@@ -10,10 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Project-specific favicon with `icon-labs--focus-timer.*` naming
 - Favicon files placed in project root for easy maintenance
+- Cache busting parameters for favicon and CSS assets
 
 ### Changed
 - Updated HTML to reference new favicon assets
 - Simplified favicon paths from `assets/` subfolder to project root
+- Added cache busting (`?v=2.0.0`) to ensure updated assets load properly
 
 ## [2.1.0] - 2025-05-27
 

@@ -11,12 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New project-specific favicons for all applications
 - Consistent favicon organization across all projects
 - Clean favicon naming convention with `icon-labs--{project}` format
+- Cache busting parameters for all favicon and CSS assets
 
 ### Changed
 - Updated all HTML files to use new favicon references
 - Moved favicons from assets subfolders to project root directories
 - Updated PWA manifest files to reference new favicon assets
 - Simplified favicon paths for better maintainability
+- Added cache busting (`?v=2.0.0`) to ensure updated icons load properly
+- Unified CSS cache busting versions across all projects
 
 ### Removed
 - Legacy favicon files and outdated icon versions
