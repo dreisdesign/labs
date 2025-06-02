@@ -1,6 +1,6 @@
-# Pomodoro Timer v2.1.0
+# Focus Timer v2.1.0
 
-A beautifully designed, minimalist Pomodoro timer web application. Built with vanilla HTML, CSS, and JavaScript for a distraction-free focus experience.
+A beautifully designed, minimalist Focus Timer web application. Built with vanilla HTML, CSS, and JavaScript for a distraction-free focus experience.
 
 ## Features
 

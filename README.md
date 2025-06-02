@@ -4,9 +4,9 @@ This repository contains a collection of web development projects and utility sc
 
 ## Projects
 
-### Pomodoro Timer
+### Focus Timer
 
-A beautifully designed, minimalist Pomodoro timer for enhanced focus and productivity. Features perfect circular progress indicators and integrated focus music.
+A beautifully designed, minimalist Focus Timer for enhanced focus and productivity. Features perfect circular progress indicators and integrated focus music.
 
 #### Features
 
@@ -216,7 +216,7 @@ labs/
 ├── index.html                   # Main entry page for all projects
 ├── README.md                    # Main repository documentation
 ├── LICENSE                      # Project license information
-├── timer/                       # Pomodoro Timer project
+├── timer/                       # Focus Timer project
 │   ├── index.html              # Main timer app HTML file
 │   ├── README.md               # Timer app documentation
 │   ├── CHANGELOG.md            # Timer app change history

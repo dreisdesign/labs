@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to the Pomodoro Timer project will be documented in this file.
+All notable changes to the Focus Timer project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -73,7 +73,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2025-05-24
 
 ### Added
-- **Initial Release**: Complete Pomodoro timer application
+- **Initial Release**: Complete Focus Timer application
 - **Core Timer Functionality**:
   - 25-minute work sessions with countdown display
   - 5-minute break sessions with countdown display
