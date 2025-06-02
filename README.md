@@ -116,6 +116,17 @@ tracker/
 - Testing mode now groups by seconds (not minutes) for more granular testing.
 - Improved semantic HTML and keyboard accessibility (see [changelog](CHANGELOG.md) for details).
 - Enhanced mobile experience with full PWA support including colored status bar on iOS.
+- **Project-specific favicons**: Each project now has its own unique favicon with consistent naming and organization.
+
+## Project Structure & Assets
+
+Each project maintains its own favicon and assets:
+- **Main Site**: `icon-labs--home.*` 
+- **Timer**: `timer/icon-labs--focus-timer.*`
+- **Note**: `note/icon-labs--note.*` 
+- **Tracker**: `tracker/icon-labs--tracker.*`
+
+All favicons follow a consistent naming convention and are placed in the root of their respective project folders for easy maintenance.
 
 ### Development
 
@@ -189,8 +200,10 @@ This script will:
 
 ### Documentation
 
+- [Main Changelog](CHANGELOG.md) - Repository-wide changes and updates
 - [Tracker Changelog](tracker/CHANGELOG.md) - Detailed change history for the Tracker project
 - [DailyNote Changelog](note/CHANGELOG.md) - Detailed change history for the DailyNote project
+- [Timer Changelog](timer/CHANGELOG.md) - Detailed change history for the Timer project
 
 ### Contributing
 

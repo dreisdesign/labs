@@ -2,6 +2,16 @@
 
 All notable changes to the DailyNote app will be documented in this file.
 
+## [Unreleased]
+
+### Added
+- Project-specific favicon with `icon-labs--note.*` naming
+- Favicon files placed in project root for easy maintenance
+
+### Changed
+- Updated HTML to reference new favicon assets
+- Simplified favicon paths from `assets/images/` subfolder to project root
+
 ## [1.0.3] - 2025-05-13
 
 ### Changed

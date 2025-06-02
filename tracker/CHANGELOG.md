@@ -19,6 +19,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [1.2.1](#121) - Inactive reset button if no entries
 - [1.2.0](#120) - Consolidated feature menu
 - [1.1.3](#113) - Ability to undo
+
+## Unreleased
+
+### Added
+- Project-specific favicon with `icon-labs--tracker.*` naming
+- Favicon files placed in project root for easy maintenance
+
+### Changed
+- Updated HTML to reference new favicon assets
+- Updated PWA manifest files to use new favicon
+- Updated browserconfig.xml to reference new favicon
+- Simplified favicon paths from `assets/images/` subfolder to project root
+
+### Removed
+- Legacy favicon files and PWA icon variants
+- Outdated android-chrome and apple-touch-icon files
 - [1.1.2](#112) - Footer enhancements
 - [1.1.1](#111) - Footer enhancements
 - [1.1](#11) - Animation & Grouping Improvements

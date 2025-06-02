@@ -3,12 +3,7 @@
     "short_name": "Tracker",
     "icons": [
         {
-            "src": "android-chrome-192x192.png?v=20250415",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "android-chrome-512x512.png?v=20250415",
+            "src": "icon-labs--tracker.png",
             "sizes": "512x512",
             "type": "image/png"
         }

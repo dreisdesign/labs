@@ -5,6 +5,16 @@ All notable changes to the Pomodoro Timer project will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- Project-specific favicon with `icon-labs--focus-timer.*` naming
+- Favicon files placed in project root for easy maintenance
+
+### Changed
+- Updated HTML to reference new favicon assets
+- Simplified favicon paths from `assets/` subfolder to project root
+
 ## [2.1.0] - 2025-05-27
 
 ### Added
