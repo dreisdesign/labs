@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - iPad circle distortion and button layout issues
+- Header content cutoff due to excessive safe area padding
+- Balanced safe area insets for both top and bottom to prevent content clipping
 - Added tablet-specific media query (601px-1024px) for iPad devices
 - Improved circle sizing with proper aspect-ratio enforcement for perfect circles
 - Enhanced button spacing and touch targets for tablets (44px minimum height)
