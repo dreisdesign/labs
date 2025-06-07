@@ -40,6 +40,30 @@
         <div class="controls">
             <button id="playPauseBtn">Start</button>
             <button id="resetBtn">Reset</button>
+            <button id="settingsBtn" class="settings-button" aria-label="Settings">
+                <span class="settings-icon"></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Settings Overlay -->
+    <div class="overlay hidden" id="settingsOverlay">
+        <div class="overlay-content">
+            <div class="overlay-header">
+                <h2>Settings</h2>
+                <button class="close-button" id="closeSettingsOverlay" aria-label="Close">
+                    <span class="close-icon"></span>
+                </button>
+            </div>
+            <div class="overlay-body">
+                <!-- Refresh Button -->
+                <button class="settings-item" id="refreshButton">
+                    <div class="settings-item-icon-container">
+                        <span class="refresh-icon"></span>
+                    </div>
+                    <span>Refresh</span>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -218,6 +242,37 @@
         // Initialize timer when page loads
         document.addEventListener('DOMContentLoaded', () => {
             new PomodoroTimer();
+
+            // Settings functionality
+            const settingsBtn = document.getElementById('settingsBtn');
+            const settingsOverlay = document.getElementById('settingsOverlay');
+            const closeSettingsOverlay = document.getElementById('closeSettingsOverlay');
+            const refreshButton = document.getElementById('refreshButton');
+
+            // Show settings overlay
+            settingsBtn.addEventListener('click', () => {
+                settingsOverlay.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Prevent body scroll
+            });
+
+            // Hide settings overlay
+            closeSettingsOverlay.addEventListener('click', () => {
+                settingsOverlay.classList.add('hidden');
+                document.body.style.overflow = ''; // Restore body scroll
+            });
+
+            // Close settings overlay when clicking outside
+            settingsOverlay.addEventListener('click', (e) => {
+                if (e.target === settingsOverlay) {
+                    settingsOverlay.classList.add('hidden');
+                    document.body.style.overflow = ''; // Restore body scroll
+                }
+            });
+
+            // Refresh button functionality
+            refreshButton.addEventListener('click', () => {
+                window.location.reload(true); // Force reload from server
+            });
         });
     </script>
 </body>
