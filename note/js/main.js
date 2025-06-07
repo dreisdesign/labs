@@ -5,6 +5,13 @@
  */
 
 document.addEventListener('DOMContentLoaded', function () {
+    // Apply dark mode to body if needed
+    if (localStorage.getItem('darkMode') === 'true' ||
+        (localStorage.getItem('darkMode') === null &&
+            window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.body.classList.add('dark-mode');
+    }
+
     // DOM Elements
     const noteCard = document.getElementById('noteCard');
     const noteContent = document.getElementById('noteContent');
