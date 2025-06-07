@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Project-specific favicon with `icon-labs--focus-timer.*` naming
 - Favicon files placed in project root for easy maintenance
 - Cache busting parameters for favicon and CSS assets
+- Settings overlay with refresh functionality for cache-busting
 
 ### Changed
 - Updated HTML to reference new favicon assets
@@ -21,23 +22,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - iPad circle distortion and button layout issues across all orientations
 - Header content cutoff due to excessive safe area padding
 - iPad landscape mode button cutoff at bottom of screen
-- Simplified responsive design approach for better reliability
-- **Perfect Circle Aspect Ratios**: Fixed circles not maintaining 1:1 ratio on desktop by removing conflicting height constraints
-- **iPad Landscape Padding**: Fixed excessive bottom padding by restricting iOS landscape adjustments to phone-sized devices only
-- **Button Text Color Consistency**: Fixed blue button text on iOS devices - now consistently black across all platforms
-- **Landscape Circle Scaling**: Enhanced circle sizing in landscape modes to properly fill available space
+- **iPad Landscape Excessive Padding**: iOS landscape adjustments now only target phone-sized devices (max-height: 500px)
+- **Desktop Circle Aspect Ratios**: Perfect 1:1 circles maintained by removing conflicting height constraints
+- **Button Text Color Consistency**: Explicit black color ensures consistent button text across iOS and desktop
+- **Landscape Circle Scaling**: Enhanced circle sizing in landscape mode for better space utilization
 
 ### Improved
 - **Responsive Design Overhaul**: Replaced complex device-specific media queries with simplified ratio-based approach
 - **Consolidated Media Queries**: Using `@media (min-aspect-ratio: 4/3)` for all wider screens (tablets, landscape, desktops)
 - **Simplified Landscape Mode**: Streamlined landscape adjustments with consistent button visibility across all devices
-- **Perfect Circle Aspect Ratios**: Enhanced circle sizing with proper `aspect-ratio: 1` enforcement by removing height constraints
+- **Perfect Circle Aspect Ratios**: Enhanced circle sizing with proper `aspect-ratio: 1` enforcement using width-only approach
 - **Better Touch Targets**: Improved button spacing and sizing across all device types
 - **Maintainable CSS**: Significantly reduced number of complex breakpoints and device-specific rules
 - **Unified Layout Logic**: Single media query handles both layout direction and sizing for wide screens
-- **Enhanced Landscape Scaling**: Dramatically improved circle sizing in landscape modes (iPad/desktop) - large circles now use up to 80% of viewport height vs previous 50%
-- **iOS-Specific Targeting**: Refined safe area adjustments to only apply to phone-sized devices, preventing excessive padding on iPads
-- **Cross-Platform Consistency**: Ensured uniform button text color and interactive behavior across iOS, Android, and desktop browsers
+- **Enhanced Landscape Scaling**: Circles now use up to 80% of viewport height in landscape mode (was 50%)
+- **Optimized Container Padding**: Reduced padding to maximize circle space while maintaining layout integrity
+
+### Technical Improvements
+- **Circle Sizing Algorithm**: Removed height constraints, letting `aspect-ratio: 1` handle perfect circles
+- **iOS Detection Refinement**: More precise media queries target only phone-sized devices for safe area adjustments
+- **Viewport Utilization**: Large circles increased from `min(50vh, 70vw, 50vmin)` to `min(80vh, 45vw)` in landscape
+- **Layout Optimization**: Horizontal layout with improved spacing and proportions for wide screens
 
 ## [2.1.0] - 2025-05-27
 
