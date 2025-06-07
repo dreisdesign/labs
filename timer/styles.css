@@ -1,3 +1,5 @@
+/* Focus Timer v2.4.1 - Enhanced Circle Scaling and Aspect Ratio Protection */
+
 * {
     margin: 0;
     padding: 0;
@@ -66,6 +68,10 @@ body {
     aspect-ratio: 1;
     container-type: size;
     transition: transform 0.1s ease;
+    /* Ensure circles never lose aspect ratio */
+    flex-shrink: 0;
+    min-width: 0;
+    min-height: 0;
 }
 
 /* Only active circles get interactive styling */
@@ -83,13 +89,15 @@ body {
 
 /* Mobile-first: Default styles for mobile portrait (320px+) */
 .circle-large {
-    width: min(90vw, 90vh, 80vmin);
-    font-size: clamp(1.5rem, 8vmin, 5rem);
+    width: min(85vw, 85vh, 75vmin);
+    max-width: min(85vw, 85vh);
+    font-size: clamp(1.5rem, 8cqi, 5rem);
 }
 
 .circle-small {
-    width: min(18vw, 18vh, 16vmin);
-    font-size: clamp(0.9rem, 3vmin, 2.5rem);
+    width: min(17vw, 17vh, 15vmin);
+    max-width: min(17vw, 17vh);
+    font-size: clamp(0.9rem, 3cqi, 2.5rem);
 }
 
 .circle-progress {
@@ -148,11 +156,13 @@ body {
     }
 
     .circle-large {
-        width: min(85vw, 85vh, 70vmin);
+        width: min(80vw, 80vh, 65vmin);
+        max-width: min(80vw, 80vh);
     }
 
     .circle-small {
-        width: min(17vw, 17vh, 14vmin);
+        width: min(16vw, 16vh, 13vmin);
+        max-width: min(16vw, 16vh);
     }
 
     .circles-container {
@@ -174,11 +184,13 @@ body {
     }
 
     .circle-large {
-        width: min(65vh, 35vw);
+        width: min(60vh, 35vw, 50vmin);
+        max-width: min(60vh, 35vw);
     }
 
     .circle-small {
-        width: min(12vh, 7vw);
+        width: min(12vh, 7vw, 10vmin);
+        max-width: min(12vh, 7vw);
     }
 
     .controls {
@@ -191,13 +203,15 @@ body {
 /* iPad portrait and similar - keep vertical but optimize sizing */
 @media (min-width: 768px) and (orientation: portrait) {
     .circle-large {
-        width: min(75vw, 65vh, 70vmin);
-        font-size: clamp(1.8rem, 7vmin, 4.5rem);
+        width: min(70vw, 60vh, 65vmin);
+        max-width: min(70vw, 60vh);
+        font-size: clamp(1.8rem, 7cqi, 4.5rem);
     }
 
     .circle-small {
-        width: min(15vw, 12vh, 14vmin);
-        font-size: clamp(1rem, 3.5vmin, 2.8rem);
+        width: min(14vw, 12vh, 13vmin);
+        max-width: min(14vw, 12vh);
+        font-size: clamp(1rem, 3.5cqi, 2.8rem);
     }
 
     .circles-container {
@@ -215,11 +229,13 @@ body {
     }
 
     .circle-large {
-        width: min(70vh, 40vw);
+        width: min(65vh, 40vw, 55vmin);
+        max-width: min(65vh, 40vw);
     }
 
     .circle-small {
-        width: min(14vh, 8vw);
+        width: min(13vh, 8vw, 11vmin);
+        max-width: min(13vh, 8vw);
     }
 }
 
@@ -246,13 +262,15 @@ body {
 /* Desktop optimization - 1200px+ */
 @media (min-width: 1200px) {
     .circle-large {
-        width: min(80vh, 45vw);
-        font-size: clamp(2rem, 6vh, 4rem);
+        width: min(70vh, 45vw, 60vmin);
+        max-width: min(70vh, 45vw);
+        font-size: clamp(2rem, 6cqi, 4rem);
     }
 
     .circle-small {
-        width: min(16vh, 9vw);
-        font-size: clamp(1rem, 2.5vh, 2rem);
+        width: min(14vh, 9vw, 12vmin);
+        max-width: min(14vh, 9vw);
+        font-size: clamp(1rem, 2.5cqi, 2rem);
     }
 }
 

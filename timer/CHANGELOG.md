@@ -7,6 +7,51 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.4.1] - 2025-06-07
+
+### Fixed
+- **Desktop Height Scaling**: Fixed circles not scaling properly when browser height increases on desktop
+  - Improved viewport unit calculations to respond to both width and height changes
+  - Enhanced `min()` functions to better balance vw, vh, and vmin units
+  - Added `max-width` constraints to prevent oversize circles
+- **Circle Aspect Ratio Protection**: Fixed circles squishing when browser becomes very narrow
+  - Added `flex-shrink: 0` to prevent circle deformation
+  - Enhanced aspect ratio preservation with better CSS constraints
+  - Improved `min()` calculations to maintain perfect circles in extreme viewport sizes
+- **Typography Scaling**: Switched from `vmin` to `cqi` (container query units) for more responsive text scaling
+  - Font sizes now scale more naturally within circles
+  - Better proportion maintenance between circle size and text
+
+### Technical
+- Enhanced responsive breakpoints with more robust sizing calculations
+- Improved CSS containment for better layout performance
+- Better balance between viewport units for optimal scaling across all screen sizes
+
+## [2.4.0] - 2025-06-07
+
+### Added
+- **Progressive Web App (PWA) Support**: Complete PWA implementation for standalone app experience
+  - Web App Manifest (`manifest.json`) with proper app metadata and icons
+  - Service Worker (`sw.js`) for offline functionality and caching
+  - PWA meta tags for iOS and Android compatibility
+  - Install prompt handling for "Add to Home Screen" functionality
+  - Offline cache for all app assets including audio files
+  - Background sync and push notification infrastructure (future-ready)
+  - Automatic cache management and updates
+
+### Changed
+- **Enhanced Mobile Experience**: App now runs in standalone mode when installed
+  - Removes browser UI for immersive timer experience
+  - Proper theme color and status bar styling
+  - Apple Touch Icon and Windows tile configuration
+  - Updated all asset URLs to v2.4.0 for cache busting
+
+### Technical
+- Service worker registration with update detection
+- Comprehensive caching strategy for all static assets
+- PWA manifest with proper display mode and orientation settings
+- Enhanced offline functionality for uninterrupted timer sessions
+
 ## [2.3.7] - 2025-06-07
 
 

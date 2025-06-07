@@ -5,16 +5,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Focus Timer</title>
-    <link rel="stylesheet" href="styles.css?v=2.3.6">
+
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="A beautiful Pomodoro timer for focused work sessions">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Focus Timer">
+    <meta name="application-name" content="Focus Timer">
+    <meta name="msapplication-TileColor" content="#000000">
+    <meta name="msapplication-config" content="none">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json?v=2.4.0">
+
+    <link rel="stylesheet" href="styles.css?v=2.4.1">
     <!-- Favicons -->
-    <link rel="icon" type="image/svg+xml" href="icon-labs--focus-timer.svg?v=2.3.6">
-    <link rel="icon" type="image/png" href="icon-labs--focus-timer.png?v=2.3.6">
-    <link rel="apple-touch-icon" href="icon-labs--focus-timer.png?v=2.3.6">
+    <link rel="icon" type="image/svg+xml" href="icon-labs--focus-timer.svg?v=2.4.0">
+    <link rel="icon" type="image/png" href="icon-labs--focus-timer.png?v=2.4.0">
+    <link rel="apple-touch-icon" href="icon-labs--focus-timer.png?v=2.4.0">
 </head>
 
 <body>
     <!-- Version number (top right) -->
-    <div class="version-number">v2.3.7</div>
+    <div class="version-number">v2.4.1</div>
 
     <div class="timer-container">
         <div class="status" id="status">Get Ready</div>
@@ -72,6 +86,50 @@
     </audio>
 
     <script>
+        // Register Service Worker for PWA functionality
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js?v=2.4.0')
+                    .then((registration) => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+
+                        // Check for updates
+                        registration.addEventListener('updatefound', () => {
+                            const newWorker = registration.installing;
+                            if (newWorker) {
+                                newWorker.addEventListener('statechange', () => {
+                                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                        // New version available, could show update notification
+                                        console.log('New version available');
+                                    }
+                                });
+                            }
+                        });
+                    })
+                    .catch((err) => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+
+        // PWA Install prompt handling
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent Chrome 67 and earlier from automatically showing the prompt
+            e.preventDefault();
+            // Stash the event so it can be triggered later
+            deferredPrompt = e;
+
+            // Could show custom install button here
+            console.log('PWA install prompt available');
+        });
+
+        // Handle PWA installation
+        window.addEventListener('appinstalled', (e) => {
+            console.log('PWA was installed');
+            deferredPrompt = null;
+        });
+
         class PomodoroTimer {
             constructor() {
                 this.workDuration = 25 * 60; // 25 minutes in seconds
