@@ -183,3 +183,41 @@ body {
         height: min(19vw, 19vh, 17vmin);
     }
 }
+
+/* Tablet-specific styles (iPad) - ensure proper circle sizing */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .circle-large {
+        width: min(70vw, 70vh, 60vmin);
+        height: min(70vw, 70vh, 60vmin);
+        font-size: clamp(2rem, 6vmin, 4rem);
+    }
+
+    .circle-small {
+        width: min(14vw, 14vh, 12vmin);
+        height: min(14vw, 14vh, 12vmin);
+        font-size: clamp(1rem, 2.5vmin, 2rem);
+    }
+
+    .circles-container {
+        gap: min(2vh, 2vw);
+        padding: 1.5vh 1.5vw;
+    }
+
+    /* Ensure circles stay perfectly round with aspect-ratio */
+    .circle {
+        aspect-ratio: 1 / 1;
+    }
+
+    /* Better button spacing and sizing for tablets */
+    .controls {
+        padding: 1rem 1rem;
+        gap: 2rem;
+    }
+
+    .controls button {
+        padding: 0.75rem 1.5rem;
+        font-size: 1.1rem;
+        min-height: 44px;
+        /* Better touch targets */
+    }
+}
