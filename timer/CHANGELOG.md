@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.0] - 2025-06-07
+
 ### Added
 - Project-specific favicon with `icon-labs--focus-timer.*` naming
 - Favicon files placed in project root for easy maintenance
@@ -16,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Updated HTML to reference new favicon assets
 - Simplified favicon paths from `assets/` subfolder to project root
-- Added cache busting (`?v=2.0.0`) to ensure updated assets load properly
+- Added cache busting (`?v=2.2.0`) to ensure updated assets load properly
 
 ### Fixed
 - iPad circle distortion and button layout issues across all orientations
