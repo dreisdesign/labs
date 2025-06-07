@@ -19,7 +19,7 @@
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json?v=2.4.0">
 
-    <link rel="stylesheet" href="styles.css?v=2.4.1">
+    <link rel="stylesheet" href="styles.css?v=2.4.2">
     <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href="icon-labs--focus-timer.svg?v=2.4.0">
     <link rel="icon" type="image/png" href="icon-labs--focus-timer.png?v=2.4.0">
@@ -28,35 +28,43 @@
 
 <body>
     <!-- Version number (top right) -->
-    <div class="version-number">v2.4.1</div>
+    <div class="version-number">v2.4.2</div>
 
-    <div class="timer-container">
+    <!-- Main application container -->
+    <div class="app">
+        <!-- Status header -->
         <div class="status" id="status">Get Ready</div>
 
-        <div class="circles-container">
-            <div class="circle circle-large" id="workCircle">
-                <div class="circle-progress" id="workProgress"></div>
-                <div class="circle-content">
-                    <div id="workTime">25:00</div>
-                    <div>Focus</div>
+        <!-- Main content area (circles) -->
+        <div class="main-content">
+            <div class="circles-container">
+                <div class="circle circle-large" id="workCircle">
+                    <div class="circle-progress" id="workProgress"></div>
+                    <div class="circle-content">
+                        <div id="workTime">25:00</div>
+                        <div>Focus</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="circle circle-small" id="breakCircle">
-                <div class="circle-progress" id="breakProgress"></div>
-                <div class="circle-content">
-                    <div id="breakTime">5:00</div>
-                    <div>Break</div>
+                <div class="circle circle-small" id="breakCircle">
+                    <div class="circle-progress" id="breakProgress"></div>
+                    <div class="circle-content">
+                        <div id="breakTime">5:00</div>
+                        <div>Break</div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="controls">
-            <button id="playPauseBtn">Start</button>
-            <button id="resetBtn">Reset</button>
-            <button id="settingsBtn" class="settings-button" aria-label="Settings">
-                <span class="settings-icon"></span>
-            </button>
+        <!-- Fixed footer with controls -->
+        <div class="bottom-buttons-wrapper">
+            <div class="bottom-buttons">
+                <button id="playPauseBtn" class="control-button control-button--footer">Start</button>
+                <button id="resetBtn" class="control-button control-button--secondary">Reset</button>
+                <button id="settingsBtn" class="settings-button" aria-label="Settings">
+                    <span class="settings-icon"></span>
+                </button>
+            </div>
         </div>
     </div>
 

@@ -1,4 +1,4 @@
-# Focus Timer v2.4.0
+# Focus Timer v2.4.2
 
 A beautifully designed, minimalist Focus Timer Progressive Web App (PWA). Built with vanilla HTML, CSS, and JavaScript for a distraction-free focus experience that works as a standalone app on any device.
 

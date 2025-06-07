@@ -7,6 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.4.2] - 2025-06-07
+
+### Changed
+- **MAJOR**: Implemented tracker-style layout architecture with fixed footer positioning
+- **Layout**: Restructured HTML to use `.app` container with proper flex layout
+- **Container**: Changed from `.timer-container` to `.app` with `height: 100vh` and proper flex structure
+- **Main Content**: Added `.main-content` wrapper for circles with `flex: 1` to fill available space
+- **Footer**: Fixed footer positioning using `.bottom-buttons-wrapper` positioned at bottom
+- **Button Classes**: Updated to tracker-style naming: `.control-button`, `.control-button--footer`, `.control-button--secondary`
+- **Circles**: Maintained much larger circle sizes while preventing cutoffs with improved container layout
+- **Responsive**: Enhanced circle scaling with proper space allocation between header, content, and footer
+
+### Added
+- Fixed footer with proper safe-area-inset support for mobile devices
+- Tracker-style app container architecture for consistent layout
+- Border styling on footer for visual separation
+- Maximum width constraints on footer buttons container
+
+### Fixed
+- Eliminated circle cutoffs through proper container flex layout
+- Improved space utilization with tracker-style layout pattern
+- Enhanced footer positioning to match professional app design
+- Better responsive behavior across all device sizes and orientations
+
+### Technical
+- Implemented flex-based layout with `flex: 1` main content area
+- Fixed footer using `position: fixed` with proper z-indexing
+- Enhanced CSS architecture following tracker app design patterns
+- Improved container hierarchy for better layout control
+
 ## [2.4.1] - 2025-06-07
 
 ### Fixed
