@@ -18,13 +18,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added cache busting (`?v=2.0.0`) to ensure updated assets load properly
 
 ### Fixed
-- iPad circle distortion and button layout issues
+- iPad circle distortion and button layout issues across all orientations
 - Header content cutoff due to excessive safe area padding
-- Balanced safe area insets for both top and bottom to prevent content clipping
-- Added tablet-specific media query (601px-1024px) for iPad devices
-- Improved circle sizing with proper aspect-ratio enforcement for perfect circles
-- Enhanced button spacing and touch targets for tablets (44px minimum height)
-- Optimized circle dimensions: large circles (70vw/vh, 60vmin), small circles (14vw/vh, 12vmin)
+- iPad landscape mode button cutoff at bottom of screen
+- Simplified responsive design approach for better reliability
+- **Perfect Circle Aspect Ratios**: Fixed circles not maintaining 1:1 ratio on desktop by removing conflicting height constraints
+- **iPad Landscape Padding**: Fixed excessive bottom padding by restricting iOS landscape adjustments to phone-sized devices only
+- **Button Text Color Consistency**: Fixed blue button text on iOS devices - now consistently black across all platforms
+- **Landscape Circle Scaling**: Enhanced circle sizing in landscape modes to properly fill available space
+
+### Improved
+- **Responsive Design Overhaul**: Replaced complex device-specific media queries with simplified ratio-based approach
+- **Consolidated Media Queries**: Using `@media (min-aspect-ratio: 4/3)` for all wider screens (tablets, landscape, desktops)
+- **Simplified Landscape Mode**: Streamlined landscape adjustments with consistent button visibility across all devices
+- **Perfect Circle Aspect Ratios**: Enhanced circle sizing with proper `aspect-ratio: 1` enforcement by removing height constraints
+- **Better Touch Targets**: Improved button spacing and sizing across all device types
+- **Maintainable CSS**: Significantly reduced number of complex breakpoints and device-specific rules
+- **Unified Layout Logic**: Single media query handles both layout direction and sizing for wide screens
+- **Enhanced Landscape Scaling**: Dramatically improved circle sizing in landscape modes (iPad/desktop) - large circles now use up to 80% of viewport height vs previous 50%
+- **iOS-Specific Targeting**: Refined safe area adjustments to only apply to phone-sized devices, preventing excessive padding on iPads
+- **Cross-Platform Consistency**: Ensured uniform button text color and interactive behavior across iOS, Android, and desktop browsers
 
 ## [2.1.0] - 2025-05-27
 

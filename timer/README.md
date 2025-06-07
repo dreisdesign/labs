@@ -54,9 +54,12 @@ A beautifully designed, minimalist Focus Timer web application. Built with vanil
 - **Container Queries**: `cqi` units for responsive typography within circles
 
 ### Responsive Breakpoints
+- **Ratio-Based Design**: Uses `@media (min-aspect-ratio: 4/3)` for wider screens instead of device-specific breakpoints
 - **Portrait Mode**: Circles stacked vertically (`flex-direction: column`)
-- **Landscape Mode**: Circles arranged horizontally (`flex-direction: row`)
+- **Landscape Mode**: Circles arranged horizontally (`flex-direction: row`) 
 - **Mobile First**: Optimized sizing for mobile devices with larger touch targets
+- **iPad Optimized**: Perfect circle rendering and button placement across all iPad orientations
+- **Cross-Device Consistency**: Unified approach that works reliably on phones, tablets, and desktops
 
 ### Audio Integration
 - **Work Session Music**: 25-minute focus music track

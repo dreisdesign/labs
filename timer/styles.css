@@ -30,6 +30,9 @@ body {
     height: 100%;
     width: 100%;
     gap: clamp(0.5rem, 1vh, 1rem);
+    min-height: 0;
+    /* Ensure proper flex behavior */
+    justify-content: space-between;
 }
 
 .status {
@@ -79,13 +82,11 @@ body {
 
 .circle-large {
     width: min(85vw, 85vh, 70vmin);
-    height: min(85vw, 85vh, 70vmin);
     font-size: clamp(1.5rem, 8vmin, 5rem);
 }
 
 .circle-small {
     width: min(17vw, 17vh, 14vmin);
-    height: min(17vw, 17vh, 14vmin);
     font-size: clamp(0.9rem, 3vmin, 2.5rem);
 }
 
@@ -114,6 +115,8 @@ body {
     justify-content: center;
     gap: clamp(0.5rem, 2vw, 1.5rem);
     padding: 0.25rem 0.5rem;
+    /* Ensure controls never touch bottom edge */
+    margin-bottom: max(1rem, env(safe-area-inset-bottom, 0.5rem));
 }
 
 .controls button {
@@ -121,6 +124,7 @@ body {
     font-size: clamp(0.9rem, 2.5vh, 1.2rem);
     border: max(1px, 0.2vmin) solid black;
     background: white;
+    color: black;
     cursor: pointer;
     border-radius: 0.3em;
     font-family: inherit;
@@ -135,81 +139,28 @@ body {
     background: #e8e8e8;
 }
 
-/* Landscape layout */
-@media (min-aspect-ratio: 1.2) {
+/* Wider screens - landscape layout and sizing */
+@media (min-aspect-ratio: 4/3) {
+
+    /* Switch to horizontal layout for wide screens */
     .circles-container {
         flex-direction: row;
-        gap: min(3vh, 3vw);
+        gap: min(4vh, 4vw);
+        padding: 1vh 2vw;
     }
 
     .circle-large {
-        width: min(50vw, 70vh, 50vmin);
-        height: min(50vw, 70vh, 50vmin);
+        width: min(80vh, 45vw);
+        font-size: clamp(2rem, 6vh, 4rem);
     }
 
     .circle-small {
-        width: min(10vw, 14vh, 10vmin);
-        height: min(10vw, 14vh, 10vmin);
-    }
-}
-
-/* Mobile portrait - larger circles for better touch interaction */
-@media (max-width: 768px) and (orientation: portrait) {
-    .circle-large {
-        width: min(90vw, 90vh, 80vmin);
-        height: min(90vw, 90vh, 80vmin);
+        width: min(16vh, 9vw);
+        font-size: clamp(1rem, 2.5vh, 2rem);
     }
 
-    .circle-small {
-        width: min(18vw, 18vh, 16vmin);
-        height: min(18vw, 18vh, 16vmin);
-    }
-
-    .circles-container {
-        gap: min(3vh, 3vw);
-    }
-}
-
-/* Very small screens - maximum circle size */
-@media (max-width: 480px) {
-    .circle-large {
-        width: min(95vw, 95vh, 85vmin);
-        height: min(95vw, 95vh, 85vmin);
-    }
-
-    .circle-small {
-        width: min(19vw, 19vh, 17vmin);
-        height: min(19vw, 19vh, 17vmin);
-    }
-}
-
-/* Tablet-specific styles (iPad) - ensure proper circle sizing */
-@media (min-width: 601px) and (max-width: 1024px) {
-    .circle-large {
-        width: min(70vw, 70vh, 60vmin);
-        height: min(70vw, 70vh, 60vmin);
-        font-size: clamp(2rem, 6vmin, 4rem);
-    }
-
-    .circle-small {
-        width: min(14vw, 14vh, 12vmin);
-        height: min(14vw, 14vh, 12vmin);
-        font-size: clamp(1rem, 2.5vmin, 2rem);
-    }
-
-    .circles-container {
-        gap: min(2vh, 2vw);
-        padding: 1.5vh 1.5vw;
-    }
-
-    /* Ensure circles stay perfectly round with aspect-ratio */
-    .circle {
-        aspect-ratio: 1 / 1;
-    }
-
-    /* Better button spacing and sizing for tablets */
     .controls {
-        padding: 1rem;
+        padding: 1.5rem;
         gap: 2rem;
     }
 
@@ -217,18 +168,93 @@ body {
         padding: 0.75rem 1.5rem;
         font-size: 1.1rem;
         min-height: 44px;
-        /* Better touch targets */
-    }
-
-    .controls .settings-button {
-        padding: 0.5rem;
-        min-width: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
     }
 }
+
+/* Mobile portrait - larger circles for better touch interaction */
+@media (max-width: 768px) and (orientation: portrait) {
+    .circle-large {
+        width: min(90vw, 90vh, 80vmin);
+    }
+
+    .circle-small {
+        width: min(18vw, 18vh, 16vmin);
+    }
+
+    .circles-container {
+        gap: min(3vh, 3vw);
+        flex: 1;
+        min-height: 0;
+        /* Allow flex shrinking */
+    }
+
+    .controls {
+        flex-shrink: 0;
+        /* Prevent controls from shrinking */
+        margin-bottom: 1rem;
+    }
+}
+
+/* iOS-specific safe area adjustments */
+@supports (-webkit-touch-callout: none) {
+    /* Target only iOS devices */
+    @media (max-width: 768px) and (orientation: portrait) {
+        body {
+            padding-bottom: calc(4rem + env(safe-area-inset-bottom, 2rem));
+        }
+
+        .controls {
+            margin-bottom: calc(2rem + env(safe-area-inset-bottom, 1rem));
+        }
+    }
+
+    /* iOS landscape adjustments - only for phone-sized devices */
+    @media (orientation: landscape) and (max-height: 500px) {
+        body {
+            padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 1rem));
+        }
+
+        .controls {
+            margin-bottom: calc(1rem + env(safe-area-inset-bottom, 0.5rem));
+        }
+    }
+}
+
+/* Non-iOS mobile devices - fallback spacing */
+@supports not (-webkit-touch-callout: none) {
+    @media (max-width: 768px) and (orientation: portrait) {
+        body {
+            padding-bottom: 3rem;
+        }
+
+        .controls {
+            margin-bottom: 1.5rem;
+        }
+    }
+
+    @media (orientation: landscape) and (max-height: 500px) {
+        body {
+            padding-bottom: 2rem;
+        }
+
+        .controls {
+            margin-bottom: 1rem;
+        }
+    }
+}
+
+/* Very small screens - maximum circle size */
+@media (max-width: 480px) {
+    .circle-large {
+        width: min(95vw, 95vh, 85vmin);
+    }
+
+    .circle-small {
+        width: min(19vw, 19vh, 17vmin);
+    }
+}
+
+
 
 /* Settings Button Styles */
 .settings-button {
