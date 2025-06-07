@@ -7,6 +7,87 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.6] - 2025-06-07
+
+### Fixed
+- **iPad Landscape Button Positioning**: Fixed controls sticking to bottom edge
+  - Added proper bottom margin: `calc(4rem + env(safe-area-inset-bottom, 2rem))` 
+  - Ensures buttons have generous spacing from screen edge in landscape mode
+  - Maintains safe area compatibility for devices with home indicators
+
+## [2.3.5] - 2025-06-07
+
+### Enhanced
+- **Significantly Increased iPad Landscape Padding**: Much more generous spacing for premium feel
+  - Body padding: 4rem (up from 2.5rem) 
+  - Circle container gap: 8vh/8vw (up from 5vh/5vw)
+  - Circle container padding: 4vh/6vw (up from 2vh/4vw)
+  - Controls padding: 2rem/3rem with 3rem gap (up from 1rem/2rem with 2rem gap)
+  - Slightly reduced circle sizes to accommodate increased padding: large 65vh/35vw, small 12vh/7vw
+
+## [2.3.4] - 2025-06-07
+
+### Enhanced
+- **iPad Landscape Padding**: Increased padding and spacing for better layout in landscape mode
+  - Body padding: 2.5rem (up from default)
+  - Circle container gap: 5vh/5vw (up from 4vh/4vw)
+  - Circle container padding: 2vh/4vw (up from 1vh/2vw) 
+  - Controls padding: 1rem/2rem with 2rem gap for better touch targets
+
+## [2.3.3] - 2025-06-07
+
+### Enhanced
+- **iPad Portrait Optimization**: Fixed layout for iPad portrait mode to use vertical stacking instead of horizontal
+  - Added orientation-based media queries to distinguish portrait vs landscape layouts
+  - iPad portrait (768px+ portrait): Keeps vertical layout with optimized circle sizing (75vw large, 15vw small)
+  - iPad landscape (768px+ landscape): Uses horizontal layout as intended
+  - Wide screens (1024px+): Forces horizontal layout regardless of orientation
+  - Desktop (1200px+): Enhanced sizing for large screens
+- **Improved Responsive Breakpoints**: More precise device targeting with orientation awareness
+
+## [2.3.2] - 2025-06-07
+
+### Fixed
+- **Safari Responsive Issues**: Fixed critical CSS cascade problem causing Safari-specific responsive failures
+  - Reordered media queries to proper mobile-first sequence (600px, 768px, 900px)
+  - Fixed conflicting flex-direction rules that caused layout inconsistencies in Safari
+  - Improved JavaScript Safari detection with gentler layout recalculation (no stylesheet refresh)
+  - Added CSS containment properties for better Safari layout performance
+- **Cross-Browser Consistency**: Enhanced responsive behavior across all browsers
+
+## [2.3.0] - 2025-06-07
+
+### Changed
+- **Mobile-First CSS Architecture**: Converted entire CSS codebase to mobile-first approach
+  - Base styles now target mobile portrait (320px+) without media queries
+  - Progressive enhancement for larger screens using min-width queries only
+  - Removed complex max-width media queries that caused responsive issues
+  - Simplified media query structure: 600px+ (tablets), 900px+ (desktops)
+- **Enhanced Responsive Behavior**: Layout now responds immediately to browser resize
+- **Improved Touch Targets**: Optimized button and circle sizes for mobile interaction
+- **Streamlined iOS Safe Area**: Consolidated safe area handling into base styles
+
+### Fixed
+- **Immediate Responsive Updates**: Layout changes now apply instantly without requiring page refresh
+- **Media Query Conflicts**: Eliminated overlapping and conflicting responsive rules
+- **Circle Sizing Consistency**: Perfect 1:1 aspect ratios maintained across all devices
+
+## [2.3.0] - 2025-06-07
+
+### Changed
+- **Mobile-First CSS Architecture**: Converted entire stylesheet to mobile-first approach for better responsive behavior
+- **Simplified Media Queries**: Removed complex max-width queries in favor of progressive min-width enhancements
+- **Enhanced Responsive Performance**: Layout now responds immediately to browser resize without requiring page refresh
+- **Streamlined Breakpoints**: Consolidated to three main breakpoints: mobile (default), 600px+, and 900px+
+- **Improved iOS Safe Area Handling**: Simplified safe area adjustments while maintaining compatibility
+
+### Technical Details
+- Base styles now target mobile portrait (320px+) without media queries
+- Progressive enhancement at 600px+ for tablets and larger phones
+- Horizontal layout and desktop optimizations at 900px+
+- Landscape phone optimizations using orientation and max-height queries
+- Reduced CSS complexity from 5+ media query ranges to 3 clean breakpoints
+
 ## [2.2.0] - 2025-06-07
 
 ### Added

@@ -8,6 +8,7 @@ body {
     height: 100vh;
     width: 100vw;
     padding: 1.5rem;
+    padding-bottom: calc(4rem + env(safe-area-inset-bottom, 1.5rem));
     font-family: system-ui, sans-serif;
     overflow: hidden;
 }
@@ -48,7 +49,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: min(2vh, 2vw);
+    gap: min(3vh, 3vw);
     min-height: 0;
     overflow: hidden;
     padding: 2vh 2vw;
@@ -80,13 +81,14 @@ body {
     transform: scale(0.98);
 }
 
+/* Mobile-first: Default styles for mobile portrait (320px+) */
 .circle-large {
-    width: min(85vw, 85vh, 70vmin);
+    width: min(90vw, 90vh, 80vmin);
     font-size: clamp(1.5rem, 8vmin, 5rem);
 }
 
 .circle-small {
-    width: min(17vw, 17vh, 14vmin);
+    width: min(18vw, 18vh, 16vmin);
     font-size: clamp(0.9rem, 3vmin, 2.5rem);
 }
 
@@ -114,9 +116,8 @@ body {
     display: flex;
     justify-content: center;
     gap: clamp(0.5rem, 2vw, 1.5rem);
-    padding: 0.25rem 0.5rem;
-    /* Ensure controls never touch bottom edge */
-    margin-bottom: max(1rem, env(safe-area-inset-bottom, 0.5rem));
+    padding: 0.5rem 1rem;
+    margin-bottom: calc(2rem + env(safe-area-inset-bottom, 1rem));
 }
 
 .controls button {
@@ -139,10 +140,74 @@ body {
     background: #e8e8e8;
 }
 
-/* Wider screens - landscape layout and sizing */
-@media (min-aspect-ratio: 4/3) {
+/* Small tablets and larger phones - 600px+ */
+@media (min-width: 600px) {
+    body {
+        padding: 2rem;
+        padding-bottom: calc(2.5rem + env(safe-area-inset-bottom, 1rem));
+    }
 
-    /* Switch to horizontal layout for wide screens */
+    .circle-large {
+        width: min(85vw, 85vh, 70vmin);
+    }
+
+    .circle-small {
+        width: min(17vw, 17vh, 14vmin);
+    }
+
+    .circles-container {
+        gap: min(2vh, 2vw);
+    }
+}
+
+/* Tablet landscape - horizontal layout for landscape orientation */
+@media (min-width: 768px) and (orientation: landscape) {
+    body {
+        padding: 4rem;
+        padding-bottom: calc(4rem + env(safe-area-inset-bottom, 1rem));
+    }
+
+    .circles-container {
+        flex-direction: row;
+        gap: min(8vh, 8vw);
+        padding: 4vh 6vw;
+    }
+
+    .circle-large {
+        width: min(65vh, 35vw);
+    }
+
+    .circle-small {
+        width: min(12vh, 7vw);
+    }
+
+    .controls {
+        padding: 2rem 3rem;
+        gap: 3rem;
+        margin-bottom: calc(4rem + env(safe-area-inset-bottom, 2rem));
+    }
+}
+
+/* iPad portrait and similar - keep vertical but optimize sizing */
+@media (min-width: 768px) and (orientation: portrait) {
+    .circle-large {
+        width: min(75vw, 65vh, 70vmin);
+        font-size: clamp(1.8rem, 7vmin, 4.5rem);
+    }
+
+    .circle-small {
+        width: min(15vw, 12vh, 14vmin);
+        font-size: clamp(1rem, 3.5vmin, 2.8rem);
+    }
+
+    .circles-container {
+        gap: min(3vh, 3vw);
+        padding: 3vh 3vw;
+    }
+}
+
+/* Wide screens - horizontal layout regardless of orientation */
+@media (min-width: 1024px) {
     .circles-container {
         flex-direction: row;
         gap: min(4vh, 4vw);
@@ -150,18 +215,25 @@ body {
     }
 
     .circle-large {
-        width: min(80vh, 45vw);
-        font-size: clamp(2rem, 6vh, 4rem);
+        width: min(70vh, 40vw);
     }
 
     .circle-small {
-        width: min(16vh, 9vw);
-        font-size: clamp(1rem, 2.5vh, 2rem);
+        width: min(14vh, 8vw);
+    }
+}
+
+/* Large tablets and desktops - 900px+ */
+@media (min-width: 900px) {
+    body {
+        padding: 1.5rem;
+        padding-bottom: 1.5rem;
     }
 
     .controls {
         padding: 1.5rem;
         gap: 2rem;
+        margin-bottom: 0;
     }
 
     .controls button {
@@ -171,86 +243,29 @@ body {
     }
 }
 
-/* Mobile portrait - larger circles for better touch interaction */
-@media (max-width: 768px) and (orientation: portrait) {
+/* Desktop optimization - 1200px+ */
+@media (min-width: 1200px) {
     .circle-large {
-        width: min(90vw, 90vh, 80vmin);
+        width: min(80vh, 45vw);
+        font-size: clamp(2rem, 6vh, 4rem);
     }
 
     .circle-small {
-        width: min(18vw, 18vh, 16vmin);
+        width: min(16vh, 9vw);
+        font-size: clamp(1rem, 2.5vh, 2rem);
+    }
+}
+
+/* CSS-only Safari responsive fix */
+@media screen {
+    html {
+        /* Force Safari to recalculate on resize */
+        -webkit-text-size-adjust: 100%;
     }
 
     .circles-container {
-        gap: min(3vh, 3vw);
-        flex: 1;
-        min-height: 0;
-        /* Allow flex shrinking */
-    }
-
-    .controls {
-        flex-shrink: 0;
-        /* Prevent controls from shrinking */
-        margin-bottom: 1rem;
-    }
-}
-
-/* iOS-specific safe area adjustments */
-@supports (-webkit-touch-callout: none) {
-    /* Target only iOS devices */
-    @media (max-width: 768px) and (orientation: portrait) {
-        body {
-            padding-bottom: calc(4rem + env(safe-area-inset-bottom, 2rem));
-        }
-
-        .controls {
-            margin-bottom: calc(2rem + env(safe-area-inset-bottom, 1rem));
-        }
-    }
-
-    /* iOS landscape adjustments - only for phone-sized devices */
-    @media (orientation: landscape) and (max-height: 500px) {
-        body {
-            padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 1rem));
-        }
-
-        .controls {
-            margin-bottom: calc(1rem + env(safe-area-inset-bottom, 0.5rem));
-        }
-    }
-}
-
-/* Non-iOS mobile devices - fallback spacing */
-@supports not (-webkit-touch-callout: none) {
-    @media (max-width: 768px) and (orientation: portrait) {
-        body {
-            padding-bottom: 3rem;
-        }
-
-        .controls {
-            margin-bottom: 1.5rem;
-        }
-    }
-
-    @media (orientation: landscape) and (max-height: 500px) {
-        body {
-            padding-bottom: 2rem;
-        }
-
-        .controls {
-            margin-bottom: 1rem;
-        }
-    }
-}
-
-/* Very small screens - maximum circle size */
-@media (max-width: 480px) {
-    .circle-large {
-        width: min(95vw, 95vh, 85vmin);
-    }
-
-    .circle-small {
-        width: min(19vw, 19vh, 17vmin);
+        /* Force layout recalculation and containment */
+        contain: layout style;
     }
 }
 

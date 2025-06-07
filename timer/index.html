@@ -5,16 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Focus Timer</title>
-    <link rel="stylesheet" href="styles.css?v=2.2.0">
+    <link rel="stylesheet" href="styles.css?v=2.3.6">
     <!-- Favicons -->
-    <link rel="icon" type="image/svg+xml" href="icon-labs--focus-timer.svg?v=2.2.0">
-    <link rel="icon" type="image/png" href="icon-labs--focus-timer.png?v=2.2.0">
-    <link rel="apple-touch-icon" href="icon-labs--focus-timer.png?v=2.2.0">
+    <link rel="icon" type="image/svg+xml" href="icon-labs--focus-timer.svg?v=2.3.6">
+    <link rel="icon" type="image/png" href="icon-labs--focus-timer.png?v=2.3.6">
+    <link rel="apple-touch-icon" href="icon-labs--focus-timer.png?v=2.3.6">
 </head>
 
 <body>
     <!-- Version number (top right) -->
-    <div class="version-number">v2.2.0</div>
+    <div class="version-number">v2.3.6</div>
 
     <div class="timer-container">
         <div class="status" id="status">Get Ready</div>
@@ -273,6 +273,28 @@
             refreshButton.addEventListener('click', () => {
                 window.location.reload(true); // Force reload from server
             });
+
+            // Safari-specific fix for responsive layout
+            if (navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
+                let resizeTimeout;
+                window.addEventListener('resize', () => {
+                    clearTimeout(resizeTimeout);
+                    resizeTimeout = setTimeout(() => {
+                        // Force Safari to recalculate layout without refreshing stylesheet
+                        const circlesContainer = document.querySelector('.circles-container');
+                        if (circlesContainer) {
+                            // Temporarily change a property to force layout recalculation
+                            const originalDisplay = circlesContainer.style.display;
+                            circlesContainer.style.display = 'none';
+                            // Force reflow
+                            circlesContainer.offsetHeight;
+                            circlesContainer.style.display = originalDisplay || '';
+                        }
+                    }, 100);
+                });
+            }
+
+
         });
     </script>
 </body>
