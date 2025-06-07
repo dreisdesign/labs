@@ -61,6 +61,11 @@
     <script>
         // Add js-loading class to prevent FOUC
         document.documentElement.classList.add('js-loading');
+        
+        // Remove loading class when DOM is ready to show content
+        document.addEventListener('DOMContentLoaded', function() {
+            document.documentElement.classList.remove('js-loading');
+        });
     </script>
 
     <meta charset="UTF-8">
@@ -94,21 +99,6 @@
 </head>
 
 <body>
-    <!-- Script to remove loading class once page is ready -->
-    <script>
-        // Remove js-loading class when window loads
-        window.addEventListener('DOMContentLoaded', function () {
-            document.documentElement.classList.remove('js-loading');
-
-            // If dark mode is set, ensure body also has the class
-            if (localStorage.getItem('darkMode') === 'true' ||
-                (localStorage.getItem('darkMode') === null &&
-                    window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.body.classList.add('dark-mode');
-            }
-        });
-    </script>
-
     <!-- Skip to content link for keyboard users -->
     <a href="#mainContent" class="skip-to-content">Skip to content</a>
 
