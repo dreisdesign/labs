@@ -14,6 +14,10 @@ All notable changes to the DailyNote app will be documented in this file.
 - Simplified favicon paths from `assets/images/` subfolder to project root
 - Added cache busting (`?v=2.0.0`) to ensure updated assets load properly
 
+### Fixed
+- Fixed circular UI elements (settings button) getting distorted on tablet devices
+- Removed problematic padding that was causing "squished circles" while preserving improved tablet positioning
+
 ## [1.0.3] - 2025-05-13
 
 ### Changed

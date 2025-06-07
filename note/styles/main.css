@@ -89,7 +89,30 @@
 
     /* Bottom buttons wrapper adjustments for iOS safe areas */
     .bottom-buttons-wrapper {
-        padding-bottom: env(safe-area-inset-bottom);
+        padding-bottom: calc(1.25rem + env(safe-area-inset-bottom));
+        bottom: env(safe-area-inset-bottom, 0);
+    }
+
+    /* iOS tablet-specific adjustments */
+    @media (min-width: 601px) and (max-width: 1024px) {
+        .metric-card {
+            margin-bottom: calc(8rem + env(safe-area-inset-bottom, 0));
+        }
+
+        .bottom-buttons-wrapper {
+            padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
+        }
+    }
+
+    /* iOS landscape adjustments for better button visibility */
+    @media (orientation: landscape) {
+        .bottom-buttons-wrapper {
+            padding-bottom: calc(1.5rem + env(safe-area-inset-bottom));
+        }
+
+        .metric-card {
+            margin-bottom: calc(7rem + env(safe-area-inset-bottom, 0));
+        }
     }
 }
 
@@ -362,6 +385,8 @@ body.dark-mode .metric-card {
     transition: background-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s;
     padding: 1.25rem 0;
     /* Increased by 50% from 0.75rem to 1.125rem */
+    min-height: 80px;
+    /* Ensure minimum height to prevent cut-off */
     z-index: 100;
     border-radius: 100px 100px 0 0;
     box-shadow: none;
@@ -399,6 +424,39 @@ body.dark-mode .bottom-buttons-wrapper.shadow {
     background-color: transparent;
     pointer-events: auto;
     z-index: 101;
+}
+
+/* Ensure buttons don't get cut off on various viewports */
+@media (max-height: 600px) {
+    .bottom-buttons-wrapper {
+        min-height: 90px;
+        /* Larger minimum height on short viewports */
+        padding: 1.5rem 0;
+    }
+
+    .metric-card {
+        margin-bottom: 9rem;
+        /* More margin on short screens */
+        min-height: calc(100vh - 200px);
+    }
+}
+
+/* Very short viewport handling (like landscape phones) */
+@media (max-height: 400px) {
+    .bottom-buttons-wrapper {
+        min-height: 70px;
+        padding: 1rem 0;
+    }
+
+    .metric-card {
+        margin-bottom: 7rem;
+        min-height: calc(100vh - 150px);
+        padding: 1rem 0.5rem;
+    }
+
+    .note-content {
+        font-size: clamp(1.5rem, 6vw, 4rem);
+    }
 }
 
 /* Add Note Button */
@@ -1029,6 +1087,50 @@ body.dark-mode .label-edit-input:focus {
 }
 
 /* --- Responsive Styles --- */
+
+/* Tablet-specific styles (601px to 1024px) */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .app {
+        max-width: 90vw;
+        padding: 1rem 0 0 0;
+    }
+
+    .metric-card {
+        padding: 2rem 1rem 2rem 1rem;
+        margin-top: 1.5rem;
+        margin-bottom: 8rem;
+        /* Increased bottom margin for tablet to prevent footer overlap */
+        min-height: calc(100vh - 200px);
+        /* Adjusted for tablet to avoid footer overlap */
+        max-width: 85%;
+    }
+
+    .note-content {
+        font-size: clamp(3rem, 8vw, 12rem);
+        padding-bottom: 1rem;
+    }
+
+    /* Ensure bottom buttons wrapper is visible on tablets */
+    .bottom-buttons-wrapper {
+        padding: 1.5rem 0;
+        /* Increased padding for better touch targets on tablet */
+        bottom: env(safe-area-inset-bottom, 0);
+    }
+
+    /* Tablet-specific button sizing */
+    .track-button--footer {
+        min-width: 140px;
+        padding: 1rem 1.75rem;
+        font-size: 1.1rem;
+    }
+
+    .settings-button {
+        right: 40px;
+        /* Better positioning for tablet, keeping original padding for circular shape */
+    }
+}
+
+/* Mobile portrait styles (up to 600px) */
 @media (max-width: 600px) {
     .app {
         max-width: 98vw;
@@ -1063,6 +1165,45 @@ body.dark-mode .label-edit-input:focus {
 }
 
 /* --- Additional Accessibility Enhancements --- */
+
+/* Tablet landscape orientation adjustments */
+@media (min-width: 601px) and (max-width: 1024px) and (orientation: landscape) {
+    .metric-card {
+        margin-bottom: 9rem;
+        /* Even more margin in landscape to ensure button visibility */
+        min-height: calc(100vh - 180px);
+        /* Adjusted for landscape tablet to avoid footer overlap */
+        padding: 1.5rem 1rem;
+    }
+
+    .bottom-buttons-wrapper {
+        padding: 1.75rem 0;
+        /* Larger padding in landscape for better visibility */
+    }
+
+    .note-content {
+        font-size: clamp(2.5rem, 6vw, 8rem);
+        /* Smaller text in landscape to fit better */
+    }
+}
+
+/* Mobile landscape orientation */
+@media (max-width: 767px) and (orientation: landscape) {
+    .metric-card {
+        margin-bottom: 7rem;
+        min-height: calc(100vh - 160px);
+        padding: 1rem 0.5rem;
+    }
+
+    .bottom-buttons-wrapper {
+        padding: 1.25rem 0;
+    }
+
+    .note-content {
+        font-size: clamp(2rem, 8vw, 6rem);
+    }
+}
+
 @media screen and (max-width: 767px) {
 
     /* Increase touch targets on mobile */
