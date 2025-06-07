@@ -17,6 +17,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Simplified favicon paths from `assets/` subfolder to project root
 - Added cache busting (`?v=2.0.0`) to ensure updated assets load properly
 
+### Fixed
+- iPad circle distortion and button layout issues
+- Added tablet-specific media query (601px-1024px) for iPad devices
+- Improved circle sizing with proper aspect-ratio enforcement for perfect circles
+- Enhanced button spacing and touch targets for tablets (44px minimum height)
+- Optimized circle dimensions: large circles (70vw/vh, 60vmin), small circles (14vw/vh, 12vmin)
+
 ## [2.1.0] - 2025-05-27
 
 ### Added
