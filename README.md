@@ -68,6 +68,7 @@ A simple activity tracking web application. Try it live at [https://dreisdesign.
 ```
 tracker/
 ├── index.html          # Main HTML file
+├── favicon.svg         # Project favicon (SVG format)
 ├── js/
 │   └── main.js        # Core application logic
 ├── styles/
@@ -75,9 +76,7 @@ tracker/
 ├── site.webmanifest   # Progressive Web App manifest
 ├── browserconfig.xml  # Windows tile configuration
 └── assets/           # Icons and images
-    ├── favicon.svg
-    ├── favicon.png
-    └── [other icon files]
+    └── images/       # UI icons and graphics
 ```
 
 ### Features in Detail
@@ -214,16 +213,20 @@ Feel free to submit issues and enhancement requests!
 ```
 labs/
 ├── index.html                   # Main entry page for all projects
+├── favicon.svg                  # Main site favicon
 ├── README.md                    # Main repository documentation
 ├── LICENSE                      # Project license information
+├── favicon-test.html            # Favicon testing and preview page
 ├── timer/                       # Focus Timer project
 │   ├── index.html              # Main timer app HTML file
+│   ├── favicon.svg             # Timer project favicon
 │   ├── README.md               # Timer app documentation
 │   ├── CHANGELOG.md            # Timer app change history
 │   ├── styles.css              # Timer app stylesheet
 │   └── assets/                 # Audio files for focus music
 ├── note/                        # DailyNote project
 │   ├── index.html              # Main note app HTML file
+│   ├── favicon.svg             # Note project favicon
 │   ├── README.md               # Note app documentation
 │   ├── CHANGELOG.md            # Note app change history
 │   ├── js/                     # JavaScript files
@@ -232,6 +235,7 @@ labs/
 │   └── fonts/                  # Font files
 ├── tracker/                     # Tracker project
 │   ├── index.html              # Main tracker app HTML file
+│   ├── favicon.svg             # Tracker project favicon
 │   ├── CHANGELOG.md            # Tracker app change history
 │   ├── js/                     # JavaScript files
 │   ├── styles/                 # CSS stylesheets
