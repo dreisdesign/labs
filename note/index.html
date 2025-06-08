@@ -76,24 +76,29 @@
     <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- PWA Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Daily Note">
+
     <!-- Theme Color - Controls browser UI elements like address bar -->
-    <meta name="theme-color" id="theme-color-meta" content="#c1c1ff">
+    <meta name="theme-color" id="theme-color-meta" content="#202F48">
     <script>
         // Update theme-color meta immediately
         if (localStorage.getItem('darkMode') === 'true' ||
             (localStorage.getItem('darkMode') === null &&
                 window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.getElementById('theme-color-meta').setAttribute('content', '#121212');
+            document.getElementById('theme-color-meta').setAttribute('content', '#202F48');
         }
     </script>
 
     <link rel="stylesheet" href="styles/main.css?v=2.0.0">
     <!-- Prevent iOS from resizing fonts -->
     <meta name="format-detection" content="telephone=no">
-    <!-- iOS PWA meta tags -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="DailyNote">
 </head>
 
 <body>
@@ -215,6 +220,29 @@
     </button>
 
     <script src="js/main.js"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then((registration) => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch((registrationError) => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
+        // PWA Install Prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            console.log('PWA install prompt available');
+        });
+    </script>
 </body>
 
 </html>

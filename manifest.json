@@ -1,10 +1,10 @@
 {
-    "name": "Daily Tracker",
-    "short_name": "Tracker",
-    "description": "Track your daily habits and activities",
+    "name": "Labs",
+    "short_name": "Labs",
+    "description": "Collection of productivity web applications",
     "start_url": "./index.html",
     "display": "standalone",
-    "background_color": "#ffffff",
+    "background_color": "#f5f5f5",
     "theme_color": "#202F48",
     "orientation": "any",
     "scope": "./",
@@ -18,7 +18,7 @@
     ],
     "categories": [
         "productivity",
-        "lifestyle"
+        "utilities"
     ],
     "screenshots": [],
     "lang": "en",

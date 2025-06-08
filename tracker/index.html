@@ -66,7 +66,13 @@
     <meta name="msapplication-config" content="browserconfig.xml">
 
     <!-- Theme Color -->
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#202F48">
+
+    <!-- PWA Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Tracker">
 
     <!-- Link to CSS Stylesheets -->
     <link rel="stylesheet" href="styles/main.css?v=2.0.0">
@@ -211,6 +217,29 @@
     <script src="js/keyboard-fix.js"></script>
     <script src="js/main.js"></script>
     <script src="js/entry-delete.js"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then((registration) => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch((registrationError) => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
+        // PWA Install Prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            console.log('PWA install prompt available');
+        });
+    </script>
 </body>
 
 </html>
