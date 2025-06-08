@@ -3,8 +3,7 @@ const urlsToCache = [
     './',
     './index.html',
     './styles.css',
-    './icon-labs--focus-timer.svg',
-    './icon-labs--focus-timer.png',
+    './favicon.svg',
     './assets/focus-drums-25.mp3',
     './assets/click-1.mp3',
     './assets/click-2.mp3'
@@ -74,8 +73,8 @@ self.addEventListener('push', (event) => {
         const data = event.data.json();
         const options = {
             body: data.body || 'Timer notification',
-            icon: './icon-labs--focus-timer.png',
-            badge: './icon-labs--focus-timer.png',
+            icon: './favicon.svg',
+            badge: './favicon.svg',
             vibrate: [200, 100, 200],
             data: data.data || {},
             actions: [

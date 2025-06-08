@@ -3,9 +3,9 @@
     "short_name": "Tracker",
     "icons": [
         {
-            "src": "icon-labs--tracker.png?v=2.0.0",
-            "sizes": "512x512",
-            "type": "image/png"
+            "src": "favicon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
         }
     ],
     "theme_color": "rgb(193, 193, 255)",

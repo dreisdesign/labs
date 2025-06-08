@@ -120,12 +120,12 @@ tracker/
 ## Project Structure & Assets
 
 Each project maintains its own favicon and assets:
-- **Main Site**: `icon-labs--home.*` 
-- **Timer**: `timer/icon-labs--focus-timer.*`
-- **Note**: `note/icon-labs--note.*` 
-- **Tracker**: `tracker/icon-labs--tracker.*`
+- **Main Site**: `favicon.svg` with home icon
+- **Timer**: `timer/favicon.svg` with timer icon  
+- **Note**: `note/favicon.svg` with note icon
+- **Tracker**: `tracker/favicon.svg` with tracker icon
 
-All favicons follow a consistent naming convention and are placed in the root of their respective project folders for easy maintenance.
+All favicons use solid #202F48 brand color backgrounds with white icons, optimized for 32x32 display and cross-platform compatibility.
 
 ### Development
 
