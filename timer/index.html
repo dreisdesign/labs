@@ -19,14 +19,14 @@
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json?v=2.4.0">
 
-    <link rel="stylesheet" href="styles.css?v=2.4.2">
+    <link rel="stylesheet" href="styles.css?v=2.4.3">
     <!-- Favicons -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
 
 <body>
     <!-- Version number (top right) -->
-    <div class="version-number">v2.4.2</div>
+    <div class="version-number">v2.4.3</div>
 
     <!-- Main application container -->
     <div class="app">
@@ -103,7 +103,7 @@
         // Register Service Worker for PWA functionality
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js?v=2.4.0')
+                navigator.serviceWorker.register('./sw.js?v=2.4.3')
                     .then((registration) => {
                         console.log('ServiceWorker registration successful with scope: ', registration.scope);
 
