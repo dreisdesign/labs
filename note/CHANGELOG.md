@@ -5,6 +5,7 @@ All notable changes to the DailyNote app will be documented in this file.
 ## [Unreleased]
 
 ### Added
+- "All Apps" button in settings overlay for navigation back to labs home page
 - Project-specific favicon with `icon-labs--note.*` naming
 - Favicon files placed in project root for easy maintenance
 - Cache busting parameters for favicon and CSS assets

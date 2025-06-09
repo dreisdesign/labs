@@ -1742,6 +1742,22 @@ body.dark-mode .theme-icon {
     -webkit-mask-image: url('../assets/images/mode-light--fill.svg');
 }
 
+/* All Apps Icon */
+.all-apps-icon {
+    width: 24px;
+    height: 24px;
+    background-color: var(--color-primary);
+    mask-image: url('../assets/images/settings--fill.svg');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: url('../assets/images/settings--fill.svg');
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    opacity: 0.75;
+}
+
 /* --- Undo Button Styles --- */
 .undo-button {
     position: fixed;

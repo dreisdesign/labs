@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const settingsOverlay = document.getElementById('settingsOverlay');
     const closeOverlay = document.getElementById('closeOverlay');
     const closeSettingsOverlay = document.getElementById('closeSettingsOverlay');
+    const allAppsButton = document.getElementById('allAppsButton');
     const noteTextArea = document.getElementById('noteTextArea');
     const saveNoteButton = document.getElementById('saveNote');
     const cancelNoteButton = document.getElementById('cancelNote');
@@ -67,6 +68,9 @@ document.addEventListener('DOMContentLoaded', function () {
     settingsButton.addEventListener('click', showSettingsOverlay);
     closeOverlay.addEventListener('click', hideNoteOverlay);
     closeSettingsOverlay.addEventListener('click', hideSettingsOverlay);
+    allAppsButton.addEventListener('click', () => {
+        window.location.href = '../index.html';
+    });
     saveNoteButton.addEventListener('click', saveNote);
     cancelNoteButton.addEventListener('click', hideNoteOverlay);
     clearNoteButton.addEventListener('click', clearNote);

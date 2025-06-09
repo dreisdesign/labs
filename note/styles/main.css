@@ -943,6 +943,34 @@ body.dark-mode .settings-item:hover .refresh-icon {
     background-color: var(--color-primary-darker);
 }
 
+.all-apps-icon {
+    width: 24px;
+    height: 24px;
+    background-color: var(--color-secondary);
+    mask-image: url('../assets/images/settings--fill.svg');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: url('../assets/images/settings--fill.svg');
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    transition: background-color 0.2s;
+    display: block;
+}
+
+.settings-item:hover .all-apps-icon {
+    background-color: var(--color-secondary);
+}
+
+body.dark-mode .all-apps-icon {
+    background-color: var(--color-primary);
+}
+
+body.dark-mode .settings-item:hover .all-apps-icon {
+    background-color: var(--color-primary-darker);
+}
+
 /* --- Undo Button Styles --- */
 .undo-button {
     position: fixed;

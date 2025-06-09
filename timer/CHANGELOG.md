@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- "All Apps" button in settings overlay for navigation back to labs home page
+
 ## [2.4.2] - 2025-06-07
 
 ### Changed

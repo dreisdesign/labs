@@ -12,6 +12,7 @@ const versionNumberElement = document.querySelector('.version-number');
 const settingsButton = document.getElementById('settingsButton');
 const settingsOverlay = document.getElementById('settingsOverlay');
 const closeSettingsButton = document.getElementById('closeSettingsButton');
+const allAppsButton = document.getElementById('allAppsButton');
 const menuThemeToggle = document.getElementById('menuThemeToggle'); // Added for menu theme toggle
 const menuThemeIcon = document.getElementById('menuThemeIcon'); // Added for menu theme icon
 const menuThemeText = document.getElementById('menuThemeText'); // Added for menu theme text
@@ -1318,6 +1319,13 @@ resetButton.addEventListener('click', () => {
     setTimeout(() => {
         restorePageScroll();
     }, 10);
+});
+
+// --- All Apps Button Logic ---
+allAppsButton.addEventListener('click', () => {
+    console.log("All Apps button clicked.");
+    // Navigate to the labs home page
+    window.location.href = '../index.html';
 });
 
 // --- Backup and Restore Functions ---

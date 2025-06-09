@@ -76,6 +76,14 @@
                 </button>
             </div>
             <div class="overlay-body">
+                <!-- All Apps button -->
+                <button class="settings-item" id="allAppsButton">
+                    <div class="settings-item-icon-container">
+                        <span class="all-apps-icon"></span>
+                    </div>
+                    <span>All Apps</span>
+                </button>
+
                 <!-- Refresh Button -->
                 <button class="settings-item" id="refreshButton">
                     <div class="settings-item-icon-container">
@@ -312,6 +320,7 @@
             const settingsOverlay = document.getElementById('settingsOverlay');
             const closeSettingsOverlay = document.getElementById('closeSettingsOverlay');
             const refreshButton = document.getElementById('refreshButton');
+            const allAppsButton = document.getElementById('allAppsButton');
 
             // Show settings overlay
             settingsBtn.addEventListener('click', () => {
@@ -336,6 +345,11 @@
             // Refresh button functionality
             refreshButton.addEventListener('click', () => {
                 window.location.reload(true); // Force reload from server
+            });
+
+            // All Apps button functionality
+            allAppsButton.addEventListener('click', () => {
+                window.location.href = '../index.html'; // Navigate to labs home page
             });
 
             // Safari-specific fix for responsive layout

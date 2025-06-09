@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 
 ### Added
+- "All Apps" button in settings overlay for navigation back to labs home page
 - Project-specific favicon with `icon-labs--tracker.*` naming
 - Favicon files placed in project root for easy maintenance
 - Cache busting parameters for favicon and CSS assets
