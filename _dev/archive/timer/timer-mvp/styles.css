@@ -1,0 +1,270 @@
+:root {
+    /* Color variables */
+
+    --white: #fff;
+    /* Active cell text */
+
+    --grayscale-100: #eee;
+    /* Cell background */
+
+    --grayscale-200: #ddd;
+    /* Cell border */
+
+    --grayscale-900: #000;
+    /* Active cell background */
+
+    --grayscale-300-10: rgba(0, 0, 0, 0.1);
+    /* Subcell border, hover, flash-min */
+
+    --grayscale-300-30: rgba(0, 0, 0, 0.4);
+    /* Subcell flash-max */
+
+    --grayscale-300-50: rgba(0, 0, 0, 0.5);
+    /* Subcell paused */
+
+    --grayscale-300-70: rgba(0, 0, 0, 0.7);
+    /* Subcell active */
+
+    --bg-light-90: rgba(255, 255, 255, 0.9);
+    /* Controls background */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+/* Fixed size for controls container */
+.controls-container {
+    flex: 0 0 auto;
+    min-height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 0;
+    width: 100%;
+    background-color: var(--bg-light-90);
+    z-index: 10;
+}
+
+/* Improved grid sizing to fill available space */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    width: 100%;
+    flex: 1;
+    max-height: calc(100vh - 100px);
+    grid-auto-rows: 1fr;
+    margin-bottom: 10px;
+    align-self: stretch;
+}
+
+/* Media queries for responsive grid columns */
+@media (min-aspect-ratio: 4/3) and (min-width: 1200px) {
+    .grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-aspect-ratio: 16/9) and (min-width: 1600px) {
+    .grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+@media (max-aspect-ratio: 4/3) {
+    .grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-aspect-ratio: 2/3) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-aspect-ratio: 1/2) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .container {
+        padding: 10px;
+    }
+}
+
+.cell {
+    background-color: var(--grayscale-100);
+    border: 1px solid var(--grayscale-200);
+    transition: background-color 0.3s;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    max-height: 100%;
+    cursor: pointer;
+}
+
+.cell:hover {
+    opacity: 0.9;
+}
+
+/* Maintain square aspect ratio */
+.cell::before {
+    content: "";
+    display: block;
+    padding-top: 100%;
+}
+
+/* Subgrid styling */
+.subgrid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    z-index: 1;
+}
+
+.subcell {
+    border: 1px solid var(--grayscale-300-10);
+    background-color: transparent;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.subcell:hover {
+    background-color: var(--grayscale-300-10);
+}
+
+.subcell.active {
+    background-color: var(--grayscale-300-70);
+}
+
+.subcell.paused {
+    background-color: var(--grayscale-300-50);
+    /* Lighter shade for paused state */
+}
+
+.subcell.flash {
+    animation: flash 3s infinite;
+}
+
+@keyframes flash {
+
+    0%,
+    100% {
+        background-color: var(--grayscale-300-10);
+    }
+
+    50% {
+        background-color: var(--grayscale-300-30);
+    }
+}
+
+/* Cell number styling */
+.cell-number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+.cell.active {
+    background-color: var(--grayscale-900);
+}
+
+.cell.active .cell-number {
+    color: var(--white);
+}
+
+.timer-display {
+    text-align: center;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.current-phase,
+.total-time {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    /* Reduced from 5px to 2px */
+}
+
+/* Add a bit of space after the labels */
+.current-phase span:first-child,
+.total-time span:first-child {
+    margin-right: 4px;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+}
+
+button {
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+/* Special handling for very small screens */
+@media (max-height: 500px) {
+    .controls-container {
+        min-height: 60px;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .grid {
+        margin-bottom: 5px;
+        max-height: calc(100vh - 70px);
+    }
+
+    .container {
+        padding: 5px;
+    }
+}
+
+.subcell.clicked,
+.cell.clicked {
+    opacity: 0.7;
+}
+
+.cell.active:hover,
+.subcell.active:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
