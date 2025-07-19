@@ -10,7 +10,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [1.0.9](#109) - Animation & Theme Transition Improvements
 - [1.0.8](#108) - Theme Transition Updates
 - [1.0.7](#107) - No changes - *script test*
->>>>>>> Stashed changes
 - [1.0.6](#106) - Theme Toggle Enhancements
 - [1.0.5](#105) - UI Enhancements & Theme Toggle Update
 - [1.0.4](#104) - PWA Enhancements & UI Simplification
