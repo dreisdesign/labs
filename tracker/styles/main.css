@@ -187,7 +187,7 @@
     font-family: monospace;
     color: var(--color-on-background);
     z-index: 1000;
-    content: "v1.0.14";
+    content: "v1.0.12";
     /* Updated version number */
 }
 
@@ -781,8 +781,8 @@ body.dark-mode .custom-scrollbar::-webkit-scrollbar-thumb:hover {
 /* Ensure new entries start with the correct initial animation state */
 .time-entry.new-entry {
     opacity: 0;
-    transform: scale(.95);
-    transition: none;
+    transform: scale(0.8);
+    transition: opacity 0.1s ease-out, transform 0.1s ease-out;
 }
 
 /* Time display styling */

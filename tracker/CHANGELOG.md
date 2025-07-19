@@ -7,49 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Table of Contents
 - [Unreleased](#unreleased)
-- [2.0.1](#201) - Refresh animation
-- [2.0.0](#200) - Update option
-- [1.7.2](#172) - Mobile keyboard positioning fix
-- [1.7.1](#171) - Overlay edit fix
-- [1.7.0](#170) - Swipe to delete entries
-- [1.6.0](#160) - Edit total ui
-- [1.5.0](#150) - Comments
-- [1.4.1](#141) - Font and CSS improvements
-- [1.4.0](#140) - simplified entries
-- [1.2.1](#121) - Inactive reset button if no entries
-- [1.2.0](#120) - Consolidated feature menu
-- [1.1.3](#113) - Ability to undo
-
-## Unreleased
-
-### Added
-- "All Apps" button in settings overlay for navigation back to labs home page
-- Project-specific favicon with `icon-labs--tracker.*` naming
-- Favicon files placed in project root for easy maintenance
-- Cache busting parameters for favicon and CSS assets
-
-### Changed
-- Updated HTML to reference new favicon assets
-- Updated PWA manifest files to use new favicon
-- Updated browserconfig.xml to reference new favicon
-- Simplified favicon paths from `assets/images/` subfolder to project root
-- Added cache busting (`?v=2.0.0`) to ensure updated assets load properly
-- Unified CSS cache busting versions for consistent asset management
-
-### Removed
-- Legacy favicon files and PWA icon variants
-- Outdated android-chrome and apple-touch-icon files
-- [1.1.2](#112) - Footer enhancements
-- [1.1.1](#111) - Footer enhancements
-- [1.1](#11) - Animation & Grouping Improvements
-- [1.0.14](#1014) - Gradual Opacity Animation
-- [1.0.13](#1013) - Testing script
-- [1.0.12](#1012) - Updates and improvements
-- [1.0.11](#1011) - Updates and improvements
-- [1.0.10](#1010) - Updates and improvements
-- [1.0.9](#109) - UI Animation Enhancements
-- [1.0.8](#108) - Theme Transition Improvements
-- [1.0.7](#107) - Updates and improvements
+- [1.0.9](#109) - Animation & Theme Transition Improvements
+- [1.0.8](#108) - Theme Transition Updates
+- [1.0.7](#107) - No changes - *script test*
+>>>>>>> Stashed changes
 - [1.0.6](#106) - Theme Toggle Enhancements
 - [1.0.5](#105) - UI Enhancements & Theme Toggle Update
 - [1.0.4](#104) - PWA Enhancements & UI Simplification
@@ -268,11 +229,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added scale-down effect to theme toggle button to match track button behavior
 
 ## [1.0.7] - 2025-04-24
-
-### Changed
-- Optimized performance for large datasets
-- Improved memory management
-- Enhanced data structure for better scalability
+No changes - *script test*
 
 ## [1.0.6] - 2025-04-24
 
