@@ -1,0 +1,121 @@
+/*
+ * Labs Design System - Complete Token System
+ * Main entry point that imports all design tokens
+ */
+
+/* Import all token files */
+@import './colors.css';
+@import './typography.css';
+@import './spacing.css';
+@import './layout.css';
+@import './animations.css';
+
+/*
+ * Base Styles
+ * Foundation styles that apply design tokens globally
+ */
+
+/* Reset and base styles */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-family: var(--labs-font-family-base);
+    font-size: var(--labs-font-size-base);
+    line-height: var(--labs-line-height-normal);
+    color: var(--labs-color-on-background);
+    background-color: var(--labs-color-background);
+    transition: var(--labs-transition-colors);
+}
+
+body {
+    min-height: 100vh;
+    text-rendering: optimizeSpeed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Focus management */
+*:focus {
+    outline: none;
+}
+
+*:focus-visible {
+    outline: 2px solid var(--labs-color-focus);
+    outline-offset: 2px;
+}
+
+/* Improved text rendering */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.labs-heading {
+    text-rendering: optimizeLegibility;
+    font-weight: var(--labs-font-weight-semibold);
+    line-height: var(--labs-line-height-tight);
+    color: var(--labs-color-on-background);
+}
+
+/* Interactive elements */
+button,
+input,
+textarea,
+select {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+/* Lists */
+ul,
+ol {
+    list-style: none;
+}
+
+/* Images and media */
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+/* Remove animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Dark mode class applied to body */
+.dark-mode {
+    color-scheme: dark;
+}
+
+/* Print styles */
+@media print {
+
+    *,
+    *::before,
+    *::after {
+        background: transparent !important;
+        color: black !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+}

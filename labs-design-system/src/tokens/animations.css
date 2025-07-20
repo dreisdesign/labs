@@ -1,0 +1,154 @@
+/*
+ * Labs Design System - Animation Tokens
+ * Extracted from Tracker app's animation system
+ */
+
+:root {
+    /* Transition Durations */
+    --labs-duration-fast: 150ms;
+    --labs-duration-normal: 300ms;
+    --labs-duration-slow: 500ms;
+
+    /* Transition Timing Functions */
+    --labs-ease-linear: linear;
+    --labs-ease-in: cubic-bezier(0.4, 0, 1, 1);
+    --labs-ease-out: cubic-bezier(0, 0, 0.2, 1);
+    --labs-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Common Transitions */
+    --labs-transition-colors: color var(--labs-duration-fast) var(--labs-ease-in-out),
+        background-color var(--labs-duration-fast) var(--labs-ease-in-out),
+        border-color var(--labs-duration-fast) var(--labs-ease-in-out);
+
+    --labs-transition-transform: transform var(--labs-duration-normal) var(--labs-ease-in-out);
+
+    --labs-transition-opacity: opacity var(--labs-duration-fast) var(--labs-ease-in-out);
+
+    --labs-transition-all: all var(--labs-duration-fast) var(--labs-ease-in-out);
+
+    /* Modal/Overlay Animations */
+    --labs-modal-backdrop-transition: opacity var(--labs-duration-normal) var(--labs-ease-out);
+    --labs-modal-content-transition: transform var(--labs-duration-normal) var(--labs-ease-out),
+        opacity var(--labs-duration-normal) var(--labs-ease-out);
+
+    /* Button Hover/Focus States */
+    --labs-button-transition: var(--labs-transition-colors),
+        transform var(--labs-duration-fast) var(--labs-ease-in-out),
+        box-shadow var(--labs-duration-fast) var(--labs-ease-in-out);
+
+    /* Input Focus States */
+    --labs-input-transition: border-color var(--labs-duration-fast) var(--labs-ease-in-out),
+        box-shadow var(--labs-duration-fast) var(--labs-ease-in-out);
+}
+
+/* Animation Utilities */
+.labs-transition-none {
+    transition-property: none;
+}
+
+.labs-transition-all {
+    transition: var(--labs-transition-all);
+}
+
+.labs-transition-colors {
+    transition: var(--labs-transition-colors);
+}
+
+.labs-transition-opacity {
+    transition: var(--labs-transition-opacity);
+}
+
+.labs-transition-transform {
+    transition: var(--labs-transition-transform);
+}
+
+/* Hover/Focus Effects */
+.labs-hover-lift {
+    transition: var(--labs-transition-transform);
+}
+
+.labs-hover-lift:hover {
+    transform: translateY(-1px);
+}
+
+.labs-hover-scale {
+    transition: var(--labs-transition-transform);
+}
+
+.labs-hover-scale:hover {
+    transform: scale(1.05);
+}
+
+/* Focus Ring */
+.labs-focus-ring {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    transition: var(--labs-transition-all);
+}
+
+.labs-focus-ring:focus-visible {
+    outline: 2px solid var(--labs-color-focus);
+    outline-offset: 2px;
+}
+
+/* Fade In/Out Animation */
+@keyframes labs-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes labs-fade-out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.labs-animate-fade-in {
+    animation: labs-fade-in var(--labs-duration-normal) var(--labs-ease-out);
+}
+
+.labs-animate-fade-out {
+    animation: labs-fade-out var(--labs-duration-normal) var(--labs-ease-in);
+}
+
+/* Slide Animations */
+@keyframes labs-slide-up {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes labs-slide-down {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.labs-animate-slide-up {
+    animation: labs-slide-up var(--labs-duration-normal) var(--labs-ease-out);
+}
+
+.labs-animate-slide-down {
+    animation: labs-slide-down var(--labs-duration-normal) var(--labs-ease-out);
+}

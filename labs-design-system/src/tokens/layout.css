@@ -1,0 +1,105 @@
+/*
+ * Labs Design System - Layout Tokens
+ * Extracted from Tracker app's layout system
+ */
+
+:root {
+    /* Border Radius */
+    --labs-border-radius-none: 0;
+    --labs-border-radius-sm: 0.125rem;
+    /* 2px */
+    --labs-border-radius-md: 0.375rem;
+    /* 6px */
+    --labs-border-radius-lg: 0.5rem;
+    /* 8px */
+    --labs-border-radius-xl: 0.75rem;
+    /* 12px */
+    --labs-border-radius-2xl: 1rem;
+    /* 16px */
+    --labs-border-radius-full: 9999px;
+
+    /* Border Widths */
+    --labs-border-width-0: 0;
+    --labs-border-width-1: 1px;
+    --labs-border-width-2: 2px;
+    --labs-border-width-4: 4px;
+
+    /* Shadows */
+    --labs-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --labs-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --labs-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --labs-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+    /* Z-index */
+    --labs-z-dropdown: 1000;
+    --labs-z-sticky: 1020;
+    --labs-z-fixed: 1030;
+    --labs-z-modal-backdrop: 1040;
+    --labs-z-modal: 1050;
+    --labs-z-popover: 1060;
+    --labs-z-tooltip: 1070;
+    --labs-z-toast: 1080;
+
+    /* Container Sizes */
+    --labs-container-sm: 640px;
+    --labs-container-md: 768px;
+    --labs-container-lg: 1024px;
+    --labs-container-xl: 1280px;
+    --labs-container-2xl: 1536px;
+
+    /* Grid System */
+    --labs-grid-columns: 12;
+    --labs-grid-gap: var(--labs-space-4);
+
+    /* Flex Utilities */
+    --labs-flex-1: 1 1 0%;
+    --labs-flex-auto: 1 1 auto;
+    --labs-flex-initial: 0 1 auto;
+    --labs-flex-none: none;
+}
+
+/* Dark Mode Shadow Adjustments */
+body.dark-mode {
+    --labs-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --labs-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+    --labs-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+    --labs-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+/* Layout Utilities */
+.labs-container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--labs-container-padding);
+    padding-right: var(--labs-container-padding);
+}
+
+.labs-grid {
+    display: grid;
+    gap: var(--labs-grid-gap);
+}
+
+.labs-flex {
+    display: flex;
+}
+
+.labs-inline-flex {
+    display: inline-flex;
+}
+
+.labs-hidden {
+    display: none;
+}
+
+.labs-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}

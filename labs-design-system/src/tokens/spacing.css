@@ -1,0 +1,145 @@
+/*
+ * Labs Design System - Spacing Tokens
+ * Extracted from Tracker app's spacing system
+ */
+
+:root {
+    /* Base Spacing Scale */
+    --labs-space-0: 0;
+    --labs-space-1: 0.25rem;
+    /* 4px */
+    --labs-space-2: 0.5rem;
+    /* 8px */
+    --labs-space-3: 0.75rem;
+    /* 12px */
+    --labs-space-4: 1rem;
+    /* 16px */
+    --labs-space-5: 1.25rem;
+    /* 20px */
+    --labs-space-6: 1.5rem;
+    /* 24px */
+    --labs-space-8: 2rem;
+    /* 32px */
+    --labs-space-10: 2.5rem;
+    /* 40px */
+    --labs-space-12: 3rem;
+    /* 48px */
+    --labs-space-16: 4rem;
+    /* 64px */
+    --labs-space-20: 5rem;
+    /* 80px */
+    --labs-space-24: 6rem;
+    /* 96px */
+    --labs-space-32: 8rem;
+    /* 128px */
+
+    /* Container Spacing */
+    --labs-container-padding: var(--labs-space-6);
+    --labs-container-margin: var(--labs-space-4);
+
+    /* Component Spacing */
+    --labs-button-padding-x: var(--labs-space-6);
+    --labs-button-padding-y: var(--labs-space-3);
+    --labs-input-padding-x: var(--labs-space-4);
+    --labs-input-padding-y: var(--labs-space-3);
+
+    /* Gap Spacing */
+    --labs-gap-xs: var(--labs-space-1);
+    --labs-gap-sm: var(--labs-space-2);
+    --labs-gap-md: var(--labs-space-4);
+    --labs-gap-lg: var(--labs-space-6);
+    --labs-gap-xl: var(--labs-space-8);
+}
+
+/* Responsive Spacing Adjustments */
+@media (max-width: 768px) {
+    :root {
+        --labs-container-padding: var(--labs-space-4);
+        --labs-container-margin: var(--labs-space-3);
+    }
+}
+
+/* Spacing Utilities */
+.labs-p-0 {
+    padding: var(--labs-space-0);
+}
+
+.labs-p-1 {
+    padding: var(--labs-space-1);
+}
+
+.labs-p-2 {
+    padding: var(--labs-space-2);
+}
+
+.labs-p-3 {
+    padding: var(--labs-space-3);
+}
+
+.labs-p-4 {
+    padding: var(--labs-space-4);
+}
+
+.labs-p-5 {
+    padding: var(--labs-space-5);
+}
+
+.labs-p-6 {
+    padding: var(--labs-space-6);
+}
+
+.labs-p-8 {
+    padding: var(--labs-space-8);
+}
+
+.labs-m-0 {
+    margin: var(--labs-space-0);
+}
+
+.labs-m-1 {
+    margin: var(--labs-space-1);
+}
+
+.labs-m-2 {
+    margin: var(--labs-space-2);
+}
+
+.labs-m-3 {
+    margin: var(--labs-space-3);
+}
+
+.labs-m-4 {
+    margin: var(--labs-space-4);
+}
+
+.labs-m-5 {
+    margin: var(--labs-space-5);
+}
+
+.labs-m-6 {
+    margin: var(--labs-space-6);
+}
+
+.labs-m-8 {
+    margin: var(--labs-space-8);
+}
+
+.labs-gap-xs {
+    gap: var(--labs-gap-xs);
+}
+
+.labs-gap-sm {
+    gap: var(--labs-gap-sm);
+}
+
+.labs-gap-md {
+    gap: var(--labs-gap-md);
+}
+
+.labs-gap-lg {
+    gap: var(--labs-gap-lg);
+}
+
+.labs-gap-xl {
+    gap: var(--labs-gap-xl);
+}
