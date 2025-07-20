@@ -1,0 +1,92 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Labs Design System" />
+
+# Labs Design System
+
+Welcome to the **Labs Design System** - a comprehensive component library and design token system extracted from the proven patterns used across the Labs ecosystem of applications.
+
+## 🎯 Purpose
+
+This design system ensures consistency, accessibility, and maintainability across all Labs applications including:
+
+- **Tracker** - Time tracking and productivity metrics
+- **Note** - Quick note-taking and thoughts capture  
+- **Timer** - Pomodoro and focus session management
+- **Today List** - Daily task management (coming soon)
+
+## 🧱 Foundation
+
+Our design system is built on:
+
+- **Design Tokens** - Systematic color, typography, spacing, and layout variables
+- **Component Library** - Reusable UI components with multiple variants and states
+- **Living Documentation** - This Storybook instance with interactive examples
+- **Demo Environment** - Real-world testing playground at `/demo/`
+
+## 🎨 Design Principles
+
+### Consistency
+All components follow the same design patterns, interaction behaviors, and visual hierarchy extracted from the Tracker app's proven interface.
+
+### Accessibility  
+Components support keyboard navigation, screen readers, and include proper ARIA attributes. We use inclusive language like "inactive" instead of "disabled" in user-facing text.
+
+### Theme Support
+Full light and dark mode support with carefully crafted color contrasts and focus states.
+
+### Real-World Tested
+Every component and pattern has been validated through actual use in production Labs applications.
+
+## 🚀 Getting Started
+
+### For Developers
+1. **Explore Components** - Browse the component stories in the sidebar
+2. **Check Design Tokens** - Review color, typography, and spacing systems
+3. **Test in Demo** - Use the [Demo Environment](file:///Users/danielreis/labs/demo/index.html) for integration testing
+4. **Implementation** - Import CSS files and use documented class patterns
+
+### For Designers
+1. **Review Tokens** - All design decisions are systematized as CSS custom properties
+2. **Component Variants** - Each component shows all available states and configurations
+3. **Theme Switching** - Test both light and dark modes in any story
+
+## 📂 File Structure
+
+```
+labs-design-system/
+├── src/
+│   ├── tokens/          # Design token CSS files
+│   │   ├── colors.css
+│   │   ├── typography.css
+│   │   ├── spacing.css
+│   │   └── index.css
+│   ├── components/      # Component CSS files
+│   │   └── button.css
+│   └── stories/         # Storybook documentation
+├── demo/               # Testing environment
+└── .storybook/        # Storybook configuration
+```
+
+## 🔄 Living System
+
+This is a **living design system** that maintains 1:1 parity between:
+- Storybook documentation (this site)
+- Demo environment testing
+- Production application usage
+
+Any changes here automatically reflect in all Labs applications and vice versa.
+
+## 🎯 Next Steps
+
+- [ ] Add Input field components
+- [ ] Create Checkbox and form controls  
+- [ ] Build Modal/Overlay system
+- [ ] Implement Today List using this system
+- [ ] Expand animation and interaction tokens
+
+---
+
+**Version**: 1.0.0  
+**Last Updated**: July 2025  
+**Maintained by**: Labs Team
