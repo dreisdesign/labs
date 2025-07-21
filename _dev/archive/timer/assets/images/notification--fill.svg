@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>notification--fill</title>
-    <g id="notification--fill" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <path d="M20,16 L20,11 C20,6.58172 16.4183,3 12,3 C7.58172,3 4,6.58172 4,11 L4,16 L3,16 C2.44772,16 2,16.4477 2,17 C2,17.5523 2.44772,18 3,18 L21,18 C21.5523,18 22,17.5523 22,17 C22,16.4477 21.5523,16 21,16 L20,16 Z M9,20 C9,20.394 9.0776,20.7841 9.22836,21.1481 C9.57404,22.0267 10.415,22.6496 11.3896,22.6496 L12.6104,22.6496 C13.585,22.6496 14.426,22.0267 14.7716,21.1481 C14.9224,20.7841 15,20.394 15,20 L9,20 Z" id="Shape" fill="#000000" fill-rule="nonzero"></path>
-    </g>
-</svg>
