@@ -24,3 +24,5 @@ yarn-error.log*
 
 # Archive
 _archive/
+*storybook.log
+storybook-static

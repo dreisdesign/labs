@@ -1,7 +1,9 @@
 ---
 applyTo: '**'
 ---
-Provide project context and coding guidelines that AI should follow when generating code, answering questions, or reviewing changes.
+
+Please start each response with an emoji to indicate the type of response, using the following emojis such as 
+✅ for confirmation, ❓for questions, 💬 for options to consider
 
 # VS Code Workspace Path & Command Instructions
 
@@ -21,14 +23,20 @@ Provide project context and coding guidelines that AI should follow when generat
 ## Terminal Command Rules
 1. **Check your current directory:**
    - Run `pwd` to confirm you are in `/Users/danielreis/labs/` before running scripts.
+   - If running npm scripts for a subproject (like Storybook), always `cd` into that folder first (e.g., `cd design-system`).
 2. **Use absolute or root-relative paths** for all commands and scripts.
 3. **Common commands:**
-   - Build Storybook:
+   - Build Storybook (always run from the correct directory!):
      ```sh
      cd design-system
      npm install
      npm run build-storybook
      cd ..
+     ```
+   - Start Storybook locally (always run from the correct directory!):
+     ```sh
+     cd design-system
+     npm run storybook
      ```
    - Deploy Storybook:
      ```sh
