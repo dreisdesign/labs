@@ -1,5 +1,3 @@
-
-
 /** @type { import('@storybook/html-vite').StorybookConfig } */
 const config = {
   "stories": [
@@ -12,6 +10,10 @@ const config = {
   "framework": {
     "name": "@storybook/html-vite",
     "options": {}
-  }
+  },
+  viteFinal: (config) => {
+    config.base = '/labs/design-system/';
+    return config;
+  },
 };
 export default config;

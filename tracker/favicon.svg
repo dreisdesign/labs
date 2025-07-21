@@ -1,8 +1,0 @@
-<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background -->
-  <rect width="32" height="32" fill="#202F48" rx="6"/>
-  
-  <!-- Tracker icon - scaled from 150x150 to 32x32 -->
-  <path d="M19.41 27.73H13.65C13.06 27.73 12.59 27.27 12.59 26.67V14.75H19.41V27.73Z" fill="#ffffff"/>
-  <path d="M25.6 7.47C25.6 10.41 23.21 12.8 20.27 12.8H6.4V7.04C6.4 6.45 6.87 5.97 7.47 5.97H25.6V7.47Z" fill="#ffffff"/>
-</svg>
