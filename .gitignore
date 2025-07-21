@@ -25,3 +25,9 @@ yarn-error.log*
 # Archive
 _archive/
 *storybook.log
+
+# Storybook build output
+design-system/storybook-static/
+
+# Local dev documents
+_dev/documents/
