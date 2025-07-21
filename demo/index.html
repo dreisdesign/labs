@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Design System Demo</title>
+    <link rel="stylesheet" href="../design-system/src/tokens/colors.css" />
+    <link rel="stylesheet" href="../design-system/src/tokens/typography.css" />
+    <link rel="stylesheet" href="../design-system/src/components/Button/Button.css" />
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: var(--color-background);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-family-base);
+        }
+
+        .center-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-surface);
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            padding: 2rem 3rem;
+            min-width: 320px;
+        }
+
+        .center-box h1 {
+            color: var(--color-on-background);
+            margin-bottom: 2rem;
+            font-size: var(--font-size-lg);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="center-box">
+        <h1>Design System Demo</h1>
+        <button class="ds-btn ds-btn--primary">Primary Button</button>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+.ds-btn {
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    border: none;
+    border-radius: 5rem;
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s ease-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    overflow: hidden;
+    position: relative;
+    min-width: 120px;
+    padding: 0.75rem 1.5rem;
+}
+
+.ds-btn--primary {
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+}
+
+.ds-btn--danger {
+    background: var(--color-error);
+    color: var(--color-on-error);
+}
+
+.ds-btn:focus-visible {
+    outline: var(--focus-outline-width, 3px) solid var(--focus-outline-color, rgb(0, 95, 204));
+    outline-offset: var(--focus-outline-offset, 2px);
+}
+
+.ds-btn:active,
+.ds-btn.button-pressed {
+    background-color: var(--color-primary-darker);
+    transform: scale(0.95);
+    transition-duration: 0.05s;
+}
+
+.ds-btn:hover {
+    background: var(--color-secondary);
+}
