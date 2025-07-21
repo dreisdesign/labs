@@ -1,44 +1,55 @@
-
 import { Button } from '../components/Button/Button.jsx';
+import '../tokens/button.css';
 
-// More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 export default {
-  title: 'Example/Button',
-  tags: ['autodocs'],
+  title: 'Components/Button',
   render: (args) => Button(args),
   argTypes: {
-    label: { control: 'text' },
-    variant: { control: 'select', options: ['primary', 'danger'] },
-    onClick: { action: 'onClick' },
+    label: { control: 'text', description: 'Button text content' },
+    variant: {
+      control: { type: 'select' },
+      options: ['primary'],
+      description: 'Button variant/style',
+    },
+    size: {
+      control: { type: 'select' },
+      options: ['sm', 'md', 'lg', 'full'],
+      description: 'Button size',
+    },
+    onClick: { action: 'clicked' },
     style: { control: 'object' },
-  },
-};
-
-// More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const Primary = {
-  args: {
-    label: 'Primary',
-    variant: 'primary',
-  },
-};
-
-export const Danger = {
-  args: {
-    label: 'Danger',
-    variant: 'danger',
-  },
-};
-
-export const Large = {
-  args: {
-    size: 'large',
-    label: 'Button',
   },
 };
 
 export const Small = {
   args: {
-    size: 'small',
-    label: 'Button',
+    label: 'Small Button',
+    variant: 'primary',
+    size: 'sm',
+  },
+};
+
+export const Medium = {
+  args: {
+    label: 'Medium Button',
+    variant: 'primary',
+    size: 'md',
+  },
+};
+
+export const Large = {
+  args: {
+    label: 'Large Button',
+    variant: 'primary',
+    size: 'lg',
+  },
+};
+
+export const FullWidth = {
+  args: {
+    label: 'Full Width Button',
+    variant: 'primary',
+    size: 'full',
+    style: { width: '100%' },
   },
 };
