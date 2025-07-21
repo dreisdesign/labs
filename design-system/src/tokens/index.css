@@ -1,0 +1,7 @@
+/*
+ * Labs Design System – Token Index
+ * Imports all token files for global use
+ */
+@import './colors.css';
+@import './typography.css';
+@import './button.css';

@@ -1,0 +1,39 @@
+/*
+ * Labs Design System – Button Tokens
+ * Centralized custom properties for all button variants, sizes, states, and transitions
+ */
+
+:root {
+    /* Button Colors */
+    --button-color-primary: var(--color-primary);
+    --button-color-secondary: var(--color-secondary);
+    --button-color-success: var(--color-success);
+    --button-color-error: var(--color-error);
+    --button-color-outline: var(--color-primary-25);
+    --button-color-ghost-bg: transparent;
+    --button-color-disabled: var(--color-error-inactive);
+    --button-color-on-primary: var(--color-on-primary);
+    --button-color-on-secondary: var(--color-on-primary);
+    --button-color-on-success: var(--color-on-primary);
+    --button-color-on-error: var(--color-on-error);
+    --button-color-on-disabled: var(--color-on-error-inactive);
+    --button-color-focus: var(--focus-outline-color);
+    --button-color-loading: var(--color-primary-75);
+
+    /* Button Spacing & Sizing */
+    --button-padding-x: 1.5rem;
+    --button-padding-y: 0.75rem;
+    --button-gap: 0.5rem;
+    --button-min-width: 120px;
+    --button-radius: 2.5rem;
+
+    /* Button Typography */
+    --button-font-family: var(--font-family-base);
+    --button-font-size-sm: var(--font-size-sm);
+    --button-font-size-md: var(--font-size-md);
+    --button-font-size-lg: var(--font-size-lg);
+    --button-font-weight: 600;
+
+    /* Button Transition */
+    --button-transition: background-color 0.2s, color 0.2s, transform 0.1s ease-out;
+}
