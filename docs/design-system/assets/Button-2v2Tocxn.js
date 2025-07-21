@@ -1,0 +1,1 @@
+function c({label:s="Button",onClick:r,type:i="button",variant:a="primary",style:e={}}){const t=document.createElement("button");t.type=i,t.innerText=s;let n="ds-btn";return a==="primary"&&(n+=" ds-btn--primary"),a==="danger"&&(n+=" ds-btn--danger"),t.className=n,r&&t.addEventListener("click",r),e&&typeof e=="object"&&Object.assign(t.style,e),t}export{c as B};
