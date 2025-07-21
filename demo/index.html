@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Labs Demo - Component Testing Environment</title>
+
+    <!-- Labs Design System -->
+    <link rel="stylesheet" href="../labs-design-system/src/tokens/index.css">
+    <link rel="stylesheet" href="../labs-design-system/src/components/button.css">
+
+    <style>
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: var(--labs-space-6);
+            font-family: var(--labs-font-family-base);
+            color: var(--labs-color-on-background);
+            background-color: var(--labs-color-background);
+            min-height: 100vh;
+        }
+
+        .demo-section {
+            margin-bottom: var(--labs-space-8);
+            padding: var(--labs-space-6);
+            border: 1px solid var(--labs-color-primary-25);
+            border-radius: var(--labs-border-radius-lg);
+            background: var(--labs-color-surface);
+        }
+
+        .demo-section h2 {
+            margin-bottom: var(--labs-space-4);
+            font-weight: var(--labs-font-weight-semibold);
+            color: var(--labs-color-primary);
+        }
+
+        .demo-section p {
+            margin-bottom: var(--labs-space-4);
+            color: var(--labs-color-on-surface-75);
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--labs-space-4);
+            margin-bottom: var(--labs-space-4);
+        }
+
+        .button-example {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--labs-space-2);
+            padding: var(--labs-space-4);
+            border: 1px dashed var(--labs-color-primary-25);
+            border-radius: var(--labs-border-radius-md);
+        }
+
+        .button-label {
+            font-size: var(--labs-font-size-sm);
+            font-weight: var(--labs-font-weight-medium);
+            color: var(--labs-color-on-surface-75);
+            text-align: center;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: var(--labs-space-4);
+            right: var(--labs-space-4);
+            z-index: 1000;
+        }
+
+        .demo-header {
+            text-align: center;
+            margin-bottom: var(--labs-space-8);
+        }
+
+        .demo-header h1 {
+            color: var(--labs-color-primary);
+            margin-bottom: var(--labs-space-2);
+        }
+
+        .demo-header p {
+            color: var(--labs-color-on-surface-75);
+            font-size: var(--labs-font-size-lg);
+        }
+
+        .demo-header .storybook-link {
+            margin-top: var(--labs-space-4);
+        }
+
+        .usage-note {
+            background: var(--labs-color-primary-25);
+            padding: var(--labs-space-3);
+            border-radius: var(--labs-border-radius-md);
+            font-size: var(--labs-font-size-sm);
+            color: var(--labs-color-on-surface);
+            margin-top: var(--labs-space-4);
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--labs-color-background);
+            transition: background-color var(--labs-transition-normal);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Theme Toggle -->
+    <button class="labs-button labs-button--ghost labs-button--icon theme-toggle" onclick="toggleTheme()"
+        title="Toggle theme">
+        🌓
+    </button>
+
+    <div class="demo-container">
+        <header class="demo-header">
+            <h1>Labs Demo Environment</h1>
+            <p>Component Testing & Development Playground</p>
+            <div class="storybook-link">
+                <a href="http://localhost:6006" target="_blank" class="labs-button labs-button--primary">
+                    View Storybook Documentation
+                </a>
+            </div>
+        </header>
+
+        <!-- Button Component Testing -->
+        <section class="demo-section">
+            <h2>Button Component</h2>
+            <p>Testing all button variants as they would appear in real applications.</p>
+
+            <h3 style="margin-bottom: var(--labs-space-3);">Primary Variants</h3>
+            <div class="button-grid">
+                <div class="button-example">
+                    <button class="labs-button labs-button--primary">Track</button>
+                    <div class="button-label">Primary<br>(Tracker app)</div>
+                </div>
+
+                <div class="button-example">
+                    <button class="labs-button labs-button--secondary">Save</button>
+                    <div class="button-label">Secondary<br>(Note app)</div>
+                </div>
+
+                <div class="button-example">
+                    <button class="labs-button labs-button--success">Complete</button>
+                    <div class="button-label">Success<br>(Today List)</div>
+                </div>
+
+                <div class="button-example">
+                    <button class="labs-button labs-button--error">Delete</button>
+                    <div class="button-label">Error<br>(All apps)</div>
+                </div>
+            </div>
+
+            <h3 style="margin-bottom: var(--labs-space-3);">Sizes</h3>
+            <div class="button-grid">
+                <div class="button-example">
+                    <button class="labs-button labs-button--primary labs-button--sm">Small</button>
+                    <div class="button-label">Small<br>(Compact spaces)</div>
+                </div>
+
+                <div class="button-example">
+                    <button class="labs-button labs-button--primary">Default</button>
+                    <div class="button-label">Default<br>(Most common)</div>
+                </div>
+
+                <div class="button-example">
+                    <button class="labs-button labs-button--primary labs-button--lg">Large</button>
+                    <div class="button-label">Large<br>(Hero actions)</div>
+                </div>
+            </div>
+
+            <h3 style="margin-bottom: var(--labs-space-3);">Special Variants</h3>
+            <div class="button-grid">
+                <div class="button-example">
+                    <button class="labs-button labs-button--outline">Outline</button>
+                    <div class="button-label">Outline<br>(Secondary actions)</div>
+                </div>
+
+                <div class="button-example">
+                    <button class="labs-button labs-button--ghost">Ghost</button>
+                    <div class="button-label">Ghost<br>(Subtle actions)</div>
+                </div>
+
+                <div class="button-example">
+                    <button class="labs-button labs-button--ghost labs-button--icon">×</button>
+                    <div class="button-label">Icon<br>(Close buttons)</div>
+                </div>
+
+                <div class="button-example">
+                    <button class="labs-button labs-button--primary labs-button--loading">Loading</button>
+                    <div class="button-label">Loading<br>(Processing state)</div>
+                </div>
+            </div>
+
+            <h3 style="margin-bottom: var(--labs-space-3);">States</h3>
+            <div class="button-grid">
+                <div class="button-example">
+                    <button class="labs-button labs-button--primary" disabled>Inactive</button>
+                    <div class="button-label">Inactive<br>(Unavailable state)</div>
+                </div>
+
+                <div class="button-example">
+                    <button class="labs-button labs-button--primary labs-button--full">Full Width</button>
+                    <div class="button-label">Full Width<br>(Mobile layouts)</div>
+                </div>
+            </div>
+
+            <div class="usage-note">
+                <strong>Real App Usage:</strong> These exact button combinations are used across Tracker, Note, and
+                Today List apps.
+                Any changes here should be reflected in Storybook and vice versa.
+            </div>
+        </section>
+
+        <!-- Future Components -->
+        <section class="demo-section">
+            <h2>Coming Soon</h2>
+            <p>Additional components will be added here as they're developed:</p>
+            <ul style="color: var(--labs-color-on-surface-75);">
+                <li>Input fields (text, textarea)</li>
+                <li>Checkboxes and form controls</li>
+                <li>Modal/Overlay system</li>
+                <li>Header/Footer components</li>
+                <li>Layout containers</li>
+            </ul>
+        </section>
+    </div>
+
+    <script>
+        // Theme switching functionality
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+
+            // Save preference
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('labs-theme', isDark ? 'dark' : 'light');
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('labs-theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // Button interaction feedback
+        document.addEventListener('click', (e) => {
+            if (e.target.matches('.labs-button') && !e.target.disabled) {
+                console.log('Button clicked:', {
+                    text: e.target.textContent.trim(),
+                    classes: e.target.className,
+                    variant: [...e.target.classList].find(c => c.includes('--')) || 'default'
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

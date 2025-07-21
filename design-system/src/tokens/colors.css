@@ -1,0 +1,64 @@
+/*
+ * Labs Design System - Color Tokens
+ * Extracted from Tracker app's proven color system
+ */
+
+:root {
+    /* Primary Colors */
+    --labs-color-primary: rgb(46, 43, 116);
+    --labs-color-secondary: rgb(13, 11, 63);
+    --labs-color-primary-darker: rgb(25, 23, 80);
+
+    /* Surface Colors */
+    --labs-color-background: rgb(193, 193, 255);
+    --labs-color-surface: rgb(255, 255, 255);
+
+    /* Semantic Colors */
+    --labs-color-success: rgb(0, 181, 106);
+    --labs-color-error: rgb(181, 0, 90);
+    --labs-color-error-inactive: rgb(181, 181, 181);
+
+    /* Text Colors */
+    --labs-color-on-primary: rgb(255, 255, 255);
+    --labs-color-on-background: rgb(22, 10, 56);
+    --labs-color-on-surface: rgb(28, 27, 31);
+    --labs-color-on-error: rgb(255, 255, 255);
+    --labs-color-on-error-inactive: rgb(255, 255, 255);
+    --labs-color-on-success: rgb(255, 255, 255);
+
+    /* Opacity Variants */
+    --labs-color-primary-75: rgba(46, 43, 116, 0.75);
+    --labs-color-primary-25: rgba(193, 193, 255, 0.25);
+    --labs-color-secondary-75: rgba(13, 11, 63, 0.75);
+    --labs-color-on-surface-75: rgba(28, 27, 31, 0.75);
+
+    /* Focus States */
+    --labs-color-focus: rgb(0, 95, 204);
+}
+
+/* Dark Mode Overrides */
+body.dark-mode {
+    /* Background and surface colors */
+    --labs-color-background: rgb(18, 18, 18);
+    --labs-color-surface: rgb(30, 30, 30);
+
+    /* Primary and accent colors - improved contrast */
+    --labs-color-primary: rgb(168, 138, 255);
+    --labs-color-primary-darker: rgb(140, 105, 255);
+    --labs-color-secondary: rgb(126, 87, 194);
+    --labs-color-error: rgb(255, 120, 150);
+
+    /* Text colors (on different backgrounds) */
+    --labs-color-on-primary: rgb(0, 0, 0);
+    --labs-color-on-background: rgb(255, 255, 255);
+    --labs-color-on-surface: rgb(255, 255, 255);
+    --labs-color-on-error: rgb(0, 0, 0);
+
+    /* Opacity variants */
+    --labs-color-primary-75: rgba(168, 138, 255, 0.75);
+    --labs-color-secondary-75: rgba(126, 87, 194, 0.75);
+    --labs-color-on-surface-75: rgba(255, 255, 255, 0.75);
+
+    /* Focus States */
+    --labs-color-focus: rgb(255, 213, 0);
+}

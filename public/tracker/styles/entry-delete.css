@@ -1,0 +1,140 @@
+/**
+ * Entry Delete Functionality Styles
+ * Provides styles for swipe-to-delete on mobile and hover-to-delete on desktop
+ */
+
+/* Add variable for on-background at 50% opacity */
+:root {
+    --color-on-background-50: rgba(22, 10, 56, 0.5);
+    --color-version-number: rgba(22, 10, 56, 0.5);
+}
+
+body.dark-mode {
+    --color-on-background-50: rgba(255, 255, 255, 0.5);
+    --color-version-number: rgba(255, 255, 255, 0.5);
+}
+
+/* Base styles for time entry positioning */
+.time-entry {
+    position: relative;
+    transition: transform 0.3s ease;
+    will-change: transform;
+}
+
+/* Swiped state for mobile */
+.time-entry--swiped {
+    transform: translateX(-50px);
+    background-color: rgba(181, 0, 90, 0.1);
+    /* Light mode error color with opacity */
+}
+
+/* Dark mode error background */
+body.dark-mode .time-entry--swiped {
+    background-color: rgba(207, 102, 121, 0.1);
+    /* Dark mode error color with opacity */
+}
+
+/* Hover zone for outside-of-entry hover detection */
+.entry-hover-zone {
+    position: absolute;
+    top: 0;
+    right: -45px;
+    width: 45px;
+    height: 100%;
+    z-index: 4;
+    pointer-events: auto;
+}
+
+/* Wrapper for the delete icon to create circular background */
+.delete-icon-wrapper {
+    position: absolute;
+    top: 50%;
+    right: -45px;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+    z-index: 5;
+    cursor: pointer;
+}
+
+/* Remove the hover background color */
+.delete-icon-wrapper:hover {
+    background-color: transparent;
+}
+
+/* Base delete icon styling - using filled icon with version number color */
+.delete-icon {
+    width: 18px;
+    height: 18px;
+    background-color: var(--color-version-number);
+    mask-image: url('../assets/images/cancel--fill.svg');
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: url('../assets/images/cancel--fill.svg');
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    opacity: 0.9;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+}
+
+/* Mobile-specific styling for swiped state - use error color */
+.time-entry--swiped .delete-icon-wrapper {
+    right: -40px;
+}
+
+.time-entry--swiped .delete-icon {
+    opacity: 1;
+    background-color: var(--color-error);
+}
+
+/* Desktop hover state - use error color on hover */
+.delete-icon-wrapper:hover .delete-icon {
+    opacity: 1;
+    background-color: var(--color-error);
+}
+
+/* Desktop-specific hover state positioning */
+.delete-icon-wrapper.delete-icon-wrapper--hover {
+    right: -45px;
+}
+
+/* Animation for deletion */
+.time-entry--deleting {
+    animation: slide-out 0.3s forwards;
+}
+
+@keyframes slide-out {
+    to {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}
+
+/* Adjust icons for swipe state - only hide add/edit comment buttons, keep regular comment icon visible */
+.time-entry--swiped .comment-edit-icon,
+.time-entry--swiped .add-comment-icon {
+    opacity: 0 !important;
+}
+
+/* Keep the comment-icon visible when entry has a comment and is swiped */
+.time-entry--swiped.has-comment .comment-icon {
+    opacity: 0.75 !important;
+    /* Keep the same opacity as the normal state */
+}
+
+/* Make sure the delete icon is visible in both light and dark modes */
+body.dark-mode .delete-icon {
+    background-color: var(--color-version-number);
+}
+
+/* Dark mode hover styling */
+body.dark-mode .delete-icon-wrapper:hover {
+    background-color: transparent;
+}
