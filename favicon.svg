@@ -1,8 +1,0 @@
-<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background -->
-  <rect width="32" height="32" fill="#202F48" rx="6"/>
-  
-  <!-- Home icon - scaled from 150x150 to 32x32 -->
-  <path d="M14.83 26.67H13.33C10.39 26.67 8 24.28 8 21.33V6.4C8 5.8 8.48 5.33 9.07 5.33H14.83V26.67Z" fill="#ffffff"/>
-  <path d="M24 26.67H21.65C18.7 26.67 16.32 24.28 16.32 21.33V19.84H24V26.67Z" fill="#ffffff"/>
-</svg>
