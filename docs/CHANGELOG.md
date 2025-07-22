@@ -117,37 +117,9 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 
 ---
 
-## Migration Notes
 
-This is the first formal release of the Labs Design System. Previously, design patterns were embedded directly within individual applications. This release centralizes and systematizes those patterns for:
+---
 
-- **Consistency**: Unified design language across all Labs applications
-- **Maintainability**: Single source of truth for design decisions
-- **Scalability**: Easy addition of new components and tokens
-- **Quality**: Comprehensive testing and documentation for all patterns
+### Archived Storybook Implementation Notes
 
-## Future Roadmap
-
-### v1.1.0 - Form Components
-- Input field components (text, textarea, email, password)
-- Checkbox and radio button systems
-- Form validation patterns
-- Field grouping and layout utilities
-
-### v1.2.0 - Layout & Navigation
-- Header and footer components
-- Navigation menu systems
-- Modal and overlay components
-- Grid and flex layout utilities
-
-### v1.3.0 - Today List Integration
-- Task-specific components
-- List management patterns
-- Progress indicators
-- Notification systems
-
-### v2.0.0 - Advanced Features
-- Animation system expansion
-- Advanced theming capabilities
-- Component composition patterns
-- Performance optimizations
+Previous migration notes, legacy Storybook setup, and roadmap details have been archived. For full history and migration steps, see `_dev/_documents/DESIGN-SYSTEM-MIGRATION-GUIDE.md`.
