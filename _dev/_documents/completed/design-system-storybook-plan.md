@@ -160,3 +160,32 @@ This will build Storybook, copy the static files to the correct location, and pu
 4. Set up npm workspaces for local linking.
 5. Update each app to import from `design-system/`.
 6. Document the workflow in the root README.
+
+---
+
+## 9. Consolidated Next Phase: Unified Button System & App Migration
+
+### Goals
+- Build a single source of truth for all button components and styles across every app (see `design-system/docs/button-system-plan.md`).
+- Migrate all app button usage (Note, Timer, Tracker, Today List, Demo) to use the new design system button API and tokens.
+- Ensure all states, variants, accessibility, and sizing are covered and documented in Storybook.
+- Reference and implement migration steps from the Timer app plan (`docs/timer/STYLING-MIGRATION-PLAN.md`).
+- Leverage archived design and code resources for proven patterns and legacy support.
+
+### Action Steps
+1. **Audit all button usage and styles in every app.**
+2. **Finalize and document the unified button API, tokens, and CSS (see Button System Plan).**
+3. **Update each app to use the new button system, refactoring legacy code as needed.**
+4. **Document migration steps and lessons learned in Storybook and design system docs.**
+5. **Incorporate accessibility, dark mode, and responsive features from the Timer migration plan.**
+6. **Review archived button stories, CSS, and migration notes for additional improvements.**
+7. **Commit and test incrementally, ensuring visual and functional consistency.**
+
+### Key References
+- `design-system/docs/button-system-plan.md` (Unified Button API & migration plan)
+- `docs/timer/STYLING-MIGRATION-PLAN.md` (Timer app migration phases)
+- `_dev/_archive/` (Legacy and reference code, stories, and CSS)
+
+---
+
+**This phase will ensure a clean, scalable, and maintainable button system for all Labs apps, with full documentation and migration support.**
