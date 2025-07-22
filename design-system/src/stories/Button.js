@@ -5,12 +5,12 @@ import './button.css';
 
 /** Primary UI component for user interaction */
 export const Button = ({ primary, backgroundColor = null, size, label, onClick }) => {
-  const mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
+  const mode = primary ? 'labs-button--primary' : 'labs-button--secondary';
 
   return html`
     <button
       type="button"
-      class=${['storybook-button', `storybook-button--${size || 'medium'}`, mode].join(' ')}
+      class=${['labs-button', `labs-button--${size || 'medium'}`, mode].join(' ')}
       style=${styleMap({ backgroundColor })}
       @click=${onClick}
     >

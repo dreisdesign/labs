@@ -1,10 +1,9 @@
+import '../components/Button.js';
 import { fn } from 'storybook/test';
-
-import { Button } from './Button';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
 export default {
-  title: 'Example/Button',
+  title: 'Components/Button',
   tags: ['autodocs'],
   render: (args) => Button(args),
   argTypes: {
@@ -15,32 +14,25 @@ export default {
     },
   },
   args: { onClick: fn() },
+  parameters: {
+    docs: {
+      description: {
+        component: 'Labs Design System Button Web Component.',
+      },
+    },
+  },
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const Primary = {
-  args: {
-    primary: true,
-    label: 'Button',
-  },
+export const Primary = () => {
+  const el = document.createElement('labs-button');
+  el.textContent = 'Primary Button';
+  return el;
 };
 
-export const Secondary = {
-  args: {
-    label: 'Button',
-  },
-};
-
-export const Large = {
-  args: {
-    size: 'large',
-    label: 'Button',
-  },
-};
-
-export const Small = {
-  args: {
-    size: 'small',
-    label: 'Button',
-  },
+export const Disabled = () => {
+  const el = document.createElement('labs-button');
+  el.textContent = 'Disabled Button';
+  el.setAttribute('disabled', '');
+  return el;
 };

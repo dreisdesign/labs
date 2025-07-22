@@ -3,8 +3,8 @@ const preview = {
   parameters: {
     controls: {
       matchers: {
-       color: /(background|color)$/i,
-       date: /Date$/i,
+        color: /(background|color)$/i,
+        date: /Date$/i,
       },
     },
 
@@ -17,4 +17,5 @@ const preview = {
   },
 };
 
+import '../src/styles/main.css';
 export default preview;
