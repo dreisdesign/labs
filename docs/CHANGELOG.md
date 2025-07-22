@@ -117,8 +117,17 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 
 ---
 
-
----
+### Design System & Demo Automation Improvements
+- Automated asset copying for all JS components and CSS tokens from `src/` to public `design-system/` folders for both local and public builds.
+- Updated web component imports to use absolute paths, ensuring correct CSS loading and eliminating 404 errors.
+- Removed legacy `<button>` elements from the demo; now only web components are showcased.
+- Added root-level npm scripts for all workflows:
+  - `npm run local` / `npm run public` / `npm run private`: Update assets, start server, open demo in browser.
+  - `npm run storybook`: Start Storybook from root.
+  - `npm run build-storybook`: Build Storybook from root.
+- Demo HTML and automation now scale automatically as new components/tokens are added.
+- Fixed all asset path and MIME type issues for seamless local and public previews.
+- Improved script to ensure all assets are always up to date for both dev and deploy workflows.
 
 ### Archived Storybook Implementation Notes
 

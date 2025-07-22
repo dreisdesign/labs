@@ -41,6 +41,34 @@ All static sites and Storybook are deployed from the `docs/` folder on the `main
 
 See `docs/CHANGELOG.md` for release notes and roadmap.
 
+# Developer Workflow & Automation
+
+## Quick Start
+```sh
+# Local development preview
+npm run private
+
+# Public build preview (simulates deploy)
+npm run public
+
+# Start Storybook
+npm run storybook
+
+# Build Storybook for deploy
+npm run build-storybook
+```
+
+## How It Works
+- All asset copying and path updates are automated.
+- Add new components to `design-system/src/components/` and new tokens to `design-system/src/styles/tokens/`—they’ll be copied automatically.
+- Demo HTML (`docs/demo/index.html`) always loads the latest public assets and web components.
+- No manual path or asset management required.
+
+## Deploy
+1. Build Storybook: `npm run build-storybook`
+2. Update/copy assets: `npm run public`
+3. Commit and push all changes.
+
 ---
 
 For more details, see the documentation in `_dev/`.

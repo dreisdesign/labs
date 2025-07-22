@@ -1,0 +1,11 @@
+{
+    "name": "labs-root",
+    "private": true,
+    "scripts": {
+        "public": "npm --prefix design-system run public && (sleep 2 && open -a 'Google Chrome' http://localhost:8080/docs/demo/index.html &) && python3 -m http.server 8080",
+        "local": "npm --prefix design-system run local && (sleep 2 && open -a 'Google Chrome' http://localhost:8080/docs/demo/index.html &) && python3 -m http.server 8080",
+        "build-storybook": "npm --prefix design-system run build-storybook",
+        "private": "npm --prefix design-system run local && (sleep 2 && open -a 'Google Chrome' http://localhost:8080/docs/demo/index.html &) && python3 -m http.server 8080",
+        "storybook": "npm --prefix design-system run storybook"
+    }
+}
