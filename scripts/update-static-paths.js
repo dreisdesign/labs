@@ -1,8 +1,17 @@
 // Helper to recursively copy a directory
+// Only copy whitelisted public folders/files
+const PUBLIC_WHITELIST = [
+    'main.css',
+    'components',
+    'tokens',
+    'assets',
+    // add more as needed
+];
 function copyDirSync(src, dest) {
     if (!fs.existsSync(src)) return;
     if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
     fs.readdirSync(src).forEach(item => {
+        if (!PUBLIC_WHITELIST.includes(item)) return;
         const srcPath = path.join(src, item);
         const destPath = path.join(dest, item);
         if (fs.statSync(srcPath).isDirectory()) {
