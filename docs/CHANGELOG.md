@@ -6,15 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [Unreleased]
 
-### Changed
-- Refactored and cleaned up Storybook integration: removed legacy configs, archived previous attempts, and set up a fresh Storybook v9 environment with Vite and Web Components.
-- Button component and styles now use `labs-` prefix and design tokens for colors, spacing, border radius, and typography.
-- Button CSS uses CSS custom properties with fallbacks for robust theming.
-- Spacing story layout improved to vertical stack for easier comparison.
-- All button classes renamed from `storybook-...` to `labs-...` for design system consistency.
-- General design system cleanup and alignment with atomic/component-driven methodology.
+## [1.0.1] - 2025-07-23
+
+### Added/Changed
+- Fully automated asset path rewriting for local/public/GitHub Pages preview and deploy (including favicon and all static assets).
+- Public and demo pages now always reference correct asset paths for all environments.
+- Favicon 404s fixed for all preview and deploy modes.
+- Deploy script now commits all public/QA/demo pages and ensures all assets are present for GitHub Pages.
+- Improved documentation and workflow for public preview (`npm run public`) and deploy.
+- All automation scripts now robust to new tokens/components/demos.
 
 ---
 

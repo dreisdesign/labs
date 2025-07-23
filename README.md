@@ -41,6 +41,7 @@ All static sites and Storybook are deployed from the `docs/` folder on the `main
 
 See `docs/CHANGELOG.md` for release notes and roadmap.
 
+
 # Developer Workflow & Automation
 
 ## Quick Start
@@ -48,7 +49,7 @@ See `docs/CHANGELOG.md` for release notes and roadmap.
 # Local development preview
 npm run private
 
-# Public build preview (simulates deploy)
+# Public build preview (simulates deploy, with all asset paths and favicon as on GitHub Pages)
 npm run public
 
 # Start Storybook
@@ -57,6 +58,13 @@ npm run storybook
 # Build Storybook for deploy
 npm run build-storybook
 ```
+
+## Automation & Asset Path Handling
+- All asset paths (including favicon) are automatically rewritten for local, public, and GitHub Pages deploys.
+- Demo and public QA pages always reference correct assets for their environment.
+- Favicon and all static assets are guaranteed to work in all preview and deploy modes.
+- Deploy script (`scripts/deploy.sh`) commits all public/QA/demo pages and ensures all assets are present for GitHub Pages.
+- See `docs/CHANGELOG.md` for details on automation and workflow improvements.
 
 ## How It Works
 - All asset copying and path updates are automated.
