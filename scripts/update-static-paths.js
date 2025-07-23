@@ -146,9 +146,12 @@ if (mode === 'public') {
         content = content.replace(/\..\/design-system\/src\/components\/([A-Za-z0-9_-]+)\.js/g, '../design-system/assets/$1.stories-*.js');
         // Root-relative paths (for GitHub Pages)
         content = content.replace(/\/design-system\/main\.css/g, '/labs/design-system/main.css');
-        content = content.replace(/\/design-system\/components\/([A-Za-z0-9_-]+)\.js/g, '/labs/design-system/components/Button.js');
+        content = content.replace(/\/design-system\/components\/([A-Za-z0-9_-]+)\.js/g, '/labs/design-system/components/$1.js');
         content = content.replace(/\/design-system\/src\/styles\/main\.css/g, '/labs/design-system/main.css');
         content = content.replace(/\/design-system\/src\/components\/([A-Za-z0-9_-]+)\.js/g, '/labs/design-system/components/$1.js');
+
+        // Normalize any repeated /labs/ prefixes to a single /labs/
+        content = content.replace(/(\/labs)+\/design-system\//g, '/labs/design-system/');
 
         // Automate Button.stories-*.js filename update in demo HTML
         if (filePath.endsWith('demo/index.html')) {
