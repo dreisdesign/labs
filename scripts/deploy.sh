@@ -15,8 +15,7 @@ npm run github
 # 3. Copy static build to deploy directory
 cp -r design-system/storybook-static/* docs/design-system/
 
-# 4. Commit and push
-git add docs/design-system
+git add docs/design-system docs/demo/index.html
 commit_msg="Deploy (automation): $(date '+%Y-%m-%d %H:%M') - ensure all public assets in docs/design-system for GitHub Pages"
 git commit -m "$commit_msg"
 git push
