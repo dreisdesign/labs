@@ -1,3 +1,17 @@
+// Helper to recursively copy a directory
+function copyDirSync(src, dest) {
+    if (!fs.existsSync(src)) return;
+    if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
+    fs.readdirSync(src).forEach(item => {
+        const srcPath = path.join(src, item);
+        const destPath = path.join(dest, item);
+        if (fs.statSync(srcPath).isDirectory()) {
+            copyDirSync(srcPath, destPath);
+        } else {
+            fs.copyFileSync(srcPath, destPath);
+        }
+    });
+}
 // Node.js script to update asset paths in demo HTML files for public deployment
 const fs = require('fs');
 const path = require('path');
@@ -140,6 +154,11 @@ if (mode === 'public') {
             content = content.replace(/\/design-system\/assets\/Button\.stories-[^"']*\.js/g, '/design-system/components/Button.js');
         }
     } else if (mode === 'github') {
+        // Copy all public assets to docs/design-system for GitHub Pages
+        const publicDir = path.join(__dirname, '../design-system');
+        const docsPublicDir = path.join(__dirname, '../docs/design-system');
+        copyDirSync(publicDir, docsPublicDir);
+        console.log('Copied all public assets to docs/design-system for GitHub Pages');
         // Set all asset paths for GitHub Pages deployment (/labs/design-system/)
         // Relative paths
         content = content.replace(/\..\/design-system\/src\/styles\/main\.css/g, '../design-system/main.css');
