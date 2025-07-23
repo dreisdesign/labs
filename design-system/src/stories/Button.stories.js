@@ -24,15 +24,3 @@ export default {
 };
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const Primary = () => {
-  const el = document.createElement('labs-button');
-  el.textContent = 'Primary Button';
-  return el;
-};
-
-export const Disabled = () => {
-  const el = document.createElement('labs-button');
-  el.textContent = 'Disabled Button';
-  el.setAttribute('disabled', '');
-  return el;
-};

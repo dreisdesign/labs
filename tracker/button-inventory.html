@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracker Button Inventory</title>
+    <style>
+        :root {
+            --color-primary: rgb(46, 43, 116);
+            --color-secondary: rgb(13, 11, 63);
+            --color-primary-darker: rgb(25, 23, 80);
+            --color-on-primary: rgb(255, 255, 255);
+            --focus-outline-color: rgb(0, 95, 204);
+            --focus-outline-width: 3px;
+            --focus-outline-offset: 2px;
+            --font-size-xl: 1.25rem;
+        }
+
+        /* --- Minimal Reset --- */
+        html,
+        body {
+            background: #f7f7fa;
+            color: #222;
+            font-family: 'Source Sans 3', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1,
+        h2 {
+            font-family: inherit;
+        }
+
+        .inventory-section {
+            margin: 2rem 0;
+        }
+
+        .inventory-label {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .inventory-row {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        /* --- Button Styles (from main.css) --- */
+        .track-button {
+            font-size: var(--font-size-xl);
+            font-weight: 600;
+            border: none;
+            border-radius: 5rem;
+            background: var(--color-primary);
+            color: var(--color-on-primary);
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s ease-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .track-button:active,
+        .track-button.button-pressed {
+            background-color: var(--color-primary-darker);
+            transform: scale(0.95);
+            transition-duration: 0.05s;
+        }
+
+        .track-button:hover {
+            background: var(--color-secondary);
+        }
+
+        .track-button:focus-visible {
+            outline: var(--focus-outline-width) solid var(--focus-outline-color);
+            outline-offset: var(--focus-outline-offset);
+        }
+
+        .track-button--footer {
+            position: static;
+            min-width: 120px;
+            padding: 0.75rem 1.5rem;
+            margin: 0;
+        }
+
+        .track-button--footer:active,
+        .track-button--footer.button-pressed {
+            transform: scale(0.95);
+        }
+
+        .track-button-checkmark {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            opacity: 0;
+            /* Removed transition to prevent double animation in Safari */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+        }
+
+        .track-button.success .track-button-text {
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
+
+        .track-button.success .track-button-checkmark {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+            animation: rollInCheckmark 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+        }
+
+
+        @keyframes rollInCheckmark {
+            from {
+                opacity: 0;
+                transform: scale(0.3) rotate(-180deg);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .checkmark-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            filter: brightness(0) invert(1);
+        }
+
+        /* Utility */
+        .icon-demo {
+            width: 24px;
+            height: 24px;
+            background: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            color: #bbb;
+        }
+
+        /* Make checkmark white in success state */
+        .track-button.success .icon-demo {
+            background: transparent;
+            color: #fff;
+        }
+
+        /* Responsive Add Button Variant */
+        @media (max-width: 480px) {
+            .track-button--footer {
+                min-width: 100px;
+                padding-left: 1.2em;
+                padding-right: 1.2em;
+                font-size: 1rem;
+            }
+        }
+
+        /* Keep checkmark and text centered and prevent width jump/height jump */
+        .track-button .track-button-text,
+        .track-button .track-button-checkmark {
+            display: inline-block;
+            vertical-align: middle;
+            min-width: 0;
+        }
+
+        .track-button .track-button-text {
+            width: 60px;
+            text-align: center;
+            line-height: 1.2;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .track-button .track-button-checkmark {
+            width: 24px;
+            text-align: center;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Tracker Button Inventory</h1>
+    <div class="inventory-section">
+        <div class="inventory-label">Track Button (Footer) <strong>Original (Production, Animated)</strong></div>
+        <div class="inventory-row">
+            <button id="prodAddBtn" class="track-button track-button--footer" type="button"
+                style="min-width:160px; position:relative;">
+                <span class="track-button-text" style="display:block; width:100%; text-align:center;">+ Add</span>
+                <span class="track-button-checkmark">
+                    <img src="check--fill.svg" alt="Success" class="checkmark-icon">
+                </span>
+            </button>
+            <span>Original (production, animated, click to test)</span>
+        </div>
+    </div>
+    <script>
+        // Add Button Animation Logic (production-matching, Safari/Chrome/Firefox compatible)
+        const prodBtn = document.getElementById('prodAddBtn');
+        let prodBtnAnimating = false;
+        prodBtn.addEventListener('click', function () {
+            if (prodBtnAnimating) return;
+            prodBtnAnimating = true;
+            prodBtn.classList.remove('success');
+            void prodBtn.offsetWidth;
+            prodBtn.classList.add('success');
+            setTimeout(() => {
+                prodBtn.classList.remove('success');
+                prodBtnAnimating = false;
+            }, 800);
+        });
+    </script>
+    <div style="margin-top:-1.5rem; margin-bottom:2.5rem; color:#666; font-size:0.98em;">
+        <em>
+            Note: The Add button is fully responsive and will adapt its size and padding for smaller screens, matching
+            the Tracker app.<br>
+            <strong>Responsive specifics:</strong> On screens ≤480px, <code>.track-button--footer</code> uses
+            <code>min-width: 100px</code>, <code>padding-left/right: 1.2em</code>, and <code>font-size: 1rem</code>.
+        </em>
+    </div>
+
+    <div class="inventory-section">
+        <div class="inventory-label">Undo Button</div>
+        <div class="inventory-row">
+            <button class="undo-button">Undo</button>
+        </div>
+    </div>
+    <div class="inventory-section">
+        <div class="inventory-label">Settings Button</div>
+        <div class="inventory-row">
+            <button class="settings-button" aria-label="Open Settings">
+                <span class="icon-demo">⚙️</span>
+            </button>
+        </div>
+    </div>
+    <div class="inventory-section">
+        <div class="inventory-label">Reset Button (Settings Menu)</div>
+        <div class="inventory-row">
+            <button class="reset-button">Reset All Data</button>
+        </div>
+    </div>
+    <div class="inventory-section">
+        <div class="inventory-label">Theme Toggle Button (Settings Menu)</div>
+        <div class="inventory-row">
+            <button class="theme-toggle-button">Turn off dark mode</button>
+        </div>
+    </div>
+</body>
+
+</html>

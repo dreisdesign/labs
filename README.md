@@ -1,3 +1,13 @@
+## [1.0.2] - 2025-07-23
+
+### Design System & Demo Improvements
+- Button width is now content-based (hug width) for all variants in both demo and Storybook.
+- All icon paths (including checkmark) now use consistent relative paths for compatibility in both Storybook and static demo.
+- Fixed checkmark icon 404 in both environments by aligning path handling with other icons.
+- Normalized icon and label spacing for all button variants; removed unwanted margins and ensured consistent alignment.
+- Demo page now uses flexbox for button layout, with improved spacing and a clean, production-like appearance.
+- Favicon and static asset handling confirmed for all environments.
+- Cleaned up demo HTML and removed debug text/outline.
 # 🌐 Live Apps & Design System
 
 - [Labs Homepage](https://dreisdesign.github.io/labs/)
