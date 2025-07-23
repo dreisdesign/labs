@@ -8,8 +8,9 @@ npm install
 npm run build-storybook
 cd ..
 
-# 2. Update public asset paths and copy assets
-npm run public
+
+# 2. Update asset paths for GitHub Pages and copy assets
+npm run github
 
 # 3. Copy static build to deploy directory
 cp -r design-system/storybook-static/* docs/design-system/
