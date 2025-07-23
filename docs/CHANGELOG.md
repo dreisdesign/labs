@@ -129,6 +129,11 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 - Fixed all asset path and MIME type issues for seamless local and public previews.
 - Improved script to ensure all assets are always up to date for both dev and deploy workflows.
 
+### Automation & Deploy Improvements
+- Deploy script now only copies public assets (`main.css`, `components/`, `tokens/`, `assets/`) to `docs/design-system/` for GitHub Pages, excluding `node_modules` and unnecessary files.
+- Removed timestamp from demo HTML and deploy script for a cleaner, faster workflow.
+- Deploy script commit message now includes automation context and timestamp for traceability.
+
 ### Archived Storybook Implementation Notes
 
 Previous migration notes, legacy Storybook setup, and roadmap details have been archived. For full history and migration steps, see `_dev/_documents/DESIGN-SYSTEM-MIGRATION-GUIDE.md`.

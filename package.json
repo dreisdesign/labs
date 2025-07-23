@@ -5,7 +5,7 @@
         "public": "npm --prefix design-system run public && (sleep 2 && open -a 'Google Chrome' http://localhost:8080/docs/demo/index.html &) && python3 -m http.server 8080",
         "local": "npm --prefix design-system run local && (sleep 2 && open -a 'Google Chrome' http://localhost:8080/docs/demo/index.html &) && python3 -m http.server 8080",
         "github": "npm --prefix design-system run github",
-        "deploy": "npm run build-storybook && npm run github && git add . && git commit -m 'Deploy: ensure all assets in docs/design-system for GitHub Pages' && git push",
+        "deploy": "bash scripts/deploy.sh",
         "build-storybook": "npm --prefix design-system run build-storybook",
         "private": "npm --prefix design-system run local && (sleep 2 && open -a 'Google Chrome' http://localhost:8080/docs/demo/index.html &) && python3 -m http.server 8080",
         "storybook": "npm --prefix design-system run storybook"

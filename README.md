@@ -64,10 +64,11 @@ npm run build-storybook
 - Demo HTML (`docs/demo/index.html`) always loads the latest public assets and web components.
 - No manual path or asset management required.
 
-## Deploy
-1. Build Storybook: `npm run build-storybook`
-2. Update/copy assets: `npm run public`
-3. Commit and push all changes.
+## Deploy Automation & Public Asset Copy
+- The deploy script (`npm run deploy`) now only copies public assets (`main.css`, `components/`, `tokens/`, `assets/`) to `docs/design-system/` for GitHub Pages.
+- `node_modules` and other non-public files are excluded from deploys for speed and cleanliness.
+- The timestamp step has been removed; use git commit history for deploy tracking.
+- The deploy commit message now includes automation context and a timestamp for traceability.
 
 ---
 
