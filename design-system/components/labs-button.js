@@ -49,6 +49,7 @@ class LabsButton extends HTMLElement {
         if (!iconRight && this.hasAttribute('default-icon-right')) {
             iconRight = 'assets/icons/settings--fill.svg';
         }
+        const checkmarkIcon = 'assets/icons/check--fill.svg';
         const label = this.getAttribute('label') || '';
         const checkmark = this.hasAttribute('checkmark');
         const variant = this.getAttribute('variant') || 'primary';
@@ -153,8 +154,7 @@ class LabsButton extends HTMLElement {
         ${icon ? `<img src="${icon}" class="labs-icon labs-icon-left" alt="" style="${iconStyle}">` : ''}
         <span class="labs-label">${label}</span>
         ${iconRight ? `<img src="${iconRight}" class="labs-icon labs-icon-right" alt="" style="${iconStyle}">` : ''}
-        ${checkmark ? `<span class="labs-checkmark"><img src="/design-system/assets/icons/check--fill.svg" alt="Success" class="checkmark-icon"></span>` : ''}
-        ${checkmark ? `<span class="labs-checkmark"><img src="/design-system/assets/icons/check--fill.svg" alt="Success" class="checkmark-icon"></span>` : ''}
+        ${checkmark ? `<span class="labs-checkmark"><img src="${checkmarkIcon}" alt="Success" class="checkmark-icon"></span>` : ''}
         <slot></slot>
       </button>
     `;
