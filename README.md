@@ -64,11 +64,9 @@ npm run build-storybook
 - Demo HTML (`docs/demo/index.html`) always loads the latest public assets and web components.
 - No manual path or asset management required.
 
-## Deploy Automation & Public Asset Copy
-- The deploy script (`npm run deploy`) now only copies public assets (`main.css`, `components/`, `tokens/`, `assets/`) to `docs/design-system/` for GitHub Pages.
-- `node_modules` and other non-public files are excluded from deploys for speed and cleanliness.
-- The timestamp step has been removed; use git commit history for deploy tracking.
-- The deploy commit message now includes automation context and a timestamp for traceability.
+## Deploy Automation
+- The deploy workflow uses `scripts/deploy.sh` for timestamped commit messages and reliable asset copying.
+- Use `npm run deploy` for a one-command, best-practice deploy. Your commit history will always show when each deploy was made.
 
 ---
 

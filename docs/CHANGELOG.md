@@ -134,6 +134,10 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 - Removed timestamp from demo HTML and deploy script for a cleaner, faster workflow.
 - Deploy script commit message now includes automation context and timestamp for traceability.
 
+### Deploy Script & Automation
+- Deploy workflow now uses a shell script (`scripts/deploy.sh`) for timestamped commit messages and reliable automation.
+- Run `npm run deploy` for a one-command, best-practice deploy with clear commit history.
+
 ### Archived Storybook Implementation Notes
 
 Previous migration notes, legacy Storybook setup, and roadmap details have been archived. For full history and migration steps, see `_dev/_documents/DESIGN-SYSTEM-MIGRATION-GUIDE.md`.
