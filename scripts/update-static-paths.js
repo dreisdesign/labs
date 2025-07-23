@@ -24,7 +24,13 @@ const htmlFiles = findHtmlFiles(docsDir);
 
 const mode = process.argv.includes('--public') ? 'public'
     : process.argv.includes('--local') ? 'local'
-        : null;
+        : process.argv.includes('--github') ? 'github'
+            : null;
+
+if (!mode) {
+    console.error('Please specify a mode: --public, --local, or --github');
+    process.exit(1);
+}
 
 // Copy main.css to public location for both modes
 const srcStylesPath = path.join(__dirname, '../design-system/src/styles/main.css');
@@ -118,26 +124,48 @@ if (mode === 'public') {
     let original = content;
 
     if (mode === 'public') {
-        // Set all asset paths to public
+        // Set all asset paths to public (local development)
         // Relative paths
-        content = content.replace(/\.\.\/design-system\/src\/styles\/main\.css/g, '../design-system/main.css');
-        content = content.replace(/\.\.\/design-system\/src\/components\/([A-Za-z0-9_-]+)\.js/g, '../design-system/assets/$1.stories-*.js');
-        // Root-relative paths
+        content = content.replace(/\..\/design-system\/src\/styles\/main\.css/g, '../design-system/main.css');
+        content = content.replace(/\..\/design-system\/src\/components\/([A-Za-z0-9_-]+)\.js/g, '../design-system/assets/$1.stories-*.js');
+        // Root-relative paths (for local server)
+        content = content.replace(/\/labs\/design-system\/main\.css/g, '/design-system/main.css');
+        content = content.replace(/\/labs\/design-system\/components\/([A-Za-z0-9_-]+)\.js/g, '/design-system/components/$1.js');
         content = content.replace(/\/design-system\/src\/styles\/main\.css/g, '/design-system/main.css');
-        content = content.replace(/\/design-system\/src\/components\/([A-Za-z0-9_-]+)\.js/g, '/design-system/assets/$1.stories-*.js');
+        content = content.replace(/\/design-system\/src\/components\/([A-Za-z0-9_-]+)\.js/g, '/design-system/components/$1.js');
 
         // Automate Button.stories-*.js filename update in demo HTML
         if (filePath.endsWith('demo/index.html')) {
             // For demo, use the actual component, not the Storybook story
-            content = content.replace(/\/design-system\/assets\/Button\.stories-[^"']*\.js/g, '/design-system/src/components/Button.js');
+            content = content.replace(/\/design-system\/assets\/Button\.stories-[^"']*\.js/g, '/design-system/components/Button.js');
+        }
+    } else if (mode === 'github') {
+        // Set all asset paths for GitHub Pages deployment (/labs/design-system/)
+        // Relative paths
+        content = content.replace(/\..\/design-system\/src\/styles\/main\.css/g, '../design-system/main.css');
+        content = content.replace(/\..\/design-system\/src\/components\/([A-Za-z0-9_-]+)\.js/g, '../design-system/assets/$1.stories-*.js');
+        // Root-relative paths (for GitHub Pages)
+        content = content.replace(/\/design-system\/main\.css/g, '/labs/design-system/main.css');
+        content = content.replace(/\/design-system\/components\/([A-Za-z0-9_-]+)\.js/g, '/labs/design-system/components/Button.js');
+        content = content.replace(/\/design-system\/src\/styles\/main\.css/g, '/labs/design-system/main.css');
+        content = content.replace(/\/design-system\/src\/components\/([A-Za-z0-9_-]+)\.js/g, '/labs/design-system/components/$1.js');
+
+        // Automate Button.stories-*.js filename update in demo HTML
+        if (filePath.endsWith('demo/index.html')) {
+            // For demo, use the actual component, not the Storybook story
+            content = content.replace(/\/labs\/design-system\/assets\/Button\.stories-[^"']*\.js/g, '/labs/design-system/components/Button.js');
         }
     } else if (mode === 'local') {
-        // Set all asset paths to local
+        // Set all asset paths to local development
         // Relative paths
         content = content.replace(/\.\.\/design-system\/main\.css/g, '../design-system/src/styles/main.css');
         content = content.replace(/\.\.\/design-system\/assets\/([A-Za-z0-9_-]+)\.stories-.*\.js/g, '../design-system/src/components/$1.js');
-        // Root-relative paths
+        // Root-relative paths - convert from GitHub Pages format
+        content = content.replace(/\/labs\/design-system\/main\.css/g, '/design-system/src/styles/main.css');
+        content = content.replace(/\/labs\/design-system\/components\/([A-Za-z0-9_-]+)\.js/g, '/design-system/src/components/$1.js');
+        // Root-relative paths - convert from public format
         content = content.replace(/\/design-system\/main\.css/g, '/design-system/src/styles/main.css');
+        content = content.replace(/\/design-system\/components\/([A-Za-z0-9_-]+)\.js/g, '/design-system/src/components/$1.js');
         content = content.replace(/\/design-system\/assets\/([A-Za-z0-9_-]+)\.stories-.*\.js/g, '/design-system/src/components/$1.js');
     }
 

@@ -5,9 +5,11 @@ class LabsButton extends HTMLElement {
     constructor() {
         super();
         const shadow = this.attachShadow({ mode: 'open' });
+        // Detect environment and set correct base path
+        const basePath = window.location.pathname.includes('/labs/') ? '/labs' : '';
         shadow.innerHTML = `
       <style>
-        @import url('/design-system/main.css');
+        @import url('${basePath}/design-system/main.css');
         button {
           font-family: var(--font-family-base);
           font-size: var(--font-size-base);
