@@ -47,7 +47,7 @@ class LabsButton extends HTMLElement {
     let iconRight = this.getAttribute('icon-right');
     // Only use the default icon if the attribute 'default-icon-right' is present and icon-right is not set
     if (!iconRight && this.hasAttribute('default-icon-right')) {
-      iconRight = 'assets/icons/settings--fill.svg';
+      iconRight = '/design-system/assets/icons/settings--fill.svg';
     }
     const checkmarkIcon = '/design-system/assets/icons/check--fill.svg';
     const label = this.getAttribute('label') || '';
