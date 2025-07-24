@@ -49,7 +49,8 @@ class LabsButton extends HTMLElement {
     if (!iconRight && this.hasAttribute('default-icon-right')) {
       iconRight = '/design-system/assets/icons/settings--fill.svg';
     }
-    const checkmarkIcon = '/design-system/assets/icons/check--fill.svg';
+    // Allow checkmark icon to be set via attribute, fallback to root-relative path
+    const checkmarkIcon = this.getAttribute('checkmark-icon') || '/design-system/assets/icons/check--fill.svg';
     const label = this.getAttribute('label') || '';
     const checkmark = this.hasAttribute('checkmark');
     const variant = this.getAttribute('variant') || 'primary';
