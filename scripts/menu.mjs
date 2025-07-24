@@ -199,6 +199,8 @@ async function main() {
         console.log('\nBuilding and deploying to GitHub Pages, and updating demo...');
         execSync('npm run deploy', { stdio: 'inherit' });
         execSync('node scripts/update-static-paths.js --public', { stdio: 'inherit' });
+        // Open public Storybook URL after deploy
+        await import('open').then(mod => mod.default('https://dreisdesign.github.io/labs/design-system/?path=/docs/stories-about--docs'));
     }
     if (action === 'exit') {
         console.log('Goodbye!');
