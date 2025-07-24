@@ -1,60 +1,60 @@
 
 class LabsButton extends HTMLElement {
-    static get observedAttributes() {
-        return ['variant', 'icon', 'icon-right', 'checkmark', 'label', 'iconcolor'];
-    }
+  static get observedAttributes() {
+    return ['variant', 'icon', 'icon-right', 'checkmark', 'label', 'iconcolor'];
+  }
 
-    constructor() {
-        super();
-        this.attachShadow({ mode: 'open' });
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.animating = false;
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  connectedCallback() {
+    this.render();
+    this.shadowRoot.querySelector('button').addEventListener('click', this.handleClick);
+  }
+
+  disconnectedCallback() {
+    this.shadowRoot.querySelector('button').removeEventListener('click', this.handleClick);
+  }
+
+  attributeChangedCallback() {
+    this.render();
+  }
+
+  handleClick(e) {
+    if (this.hasAttribute('checkmark')) {
+      if (this.animating) return;
+      this.animating = true;
+      const btn = this.shadowRoot.querySelector('button');
+      btn.classList.remove('success');
+      void btn.offsetWidth;
+      btn.classList.add('success');
+      setTimeout(() => {
+        btn.classList.remove('success');
         this.animating = false;
-        this.handleClick = this.handleClick.bind(this);
+      }, 800);
     }
+    this.dispatchEvent(new CustomEvent('labs-click', { bubbles: true }));
+  }
 
-    connectedCallback() {
-        this.render();
-        this.shadowRoot.querySelector('button').addEventListener('click', this.handleClick);
+  render() {
+    const iconColor = this.getAttribute('iconcolor') || '';
+    const iconStyle = iconColor ? `filter: ${iconColor === '#fff' || iconColor.toLowerCase() === 'white' ? 'brightness(0) invert(1)' : ''}; color: ${iconColor};` : '';
+    const icon = this.getAttribute('icon');
+    let iconRight = this.getAttribute('icon-right');
+    // Only use the default icon if the attribute 'default-icon-right' is present and icon-right is not set
+    if (!iconRight && this.hasAttribute('default-icon-right')) {
+      iconRight = 'assets/icons/settings--fill.svg';
     }
+    const checkmarkIcon = '/design-system/assets/icons/check--fill.svg';
+    const label = this.getAttribute('label') || '';
+    const checkmark = this.hasAttribute('checkmark');
+    const variant = this.getAttribute('variant') || 'primary';
 
-    disconnectedCallback() {
-        this.shadowRoot.querySelector('button').removeEventListener('click', this.handleClick);
-    }
-
-    attributeChangedCallback() {
-        this.render();
-    }
-
-    handleClick(e) {
-        if (this.hasAttribute('checkmark')) {
-            if (this.animating) return;
-            this.animating = true;
-            const btn = this.shadowRoot.querySelector('button');
-            btn.classList.remove('success');
-            void btn.offsetWidth;
-            btn.classList.add('success');
-            setTimeout(() => {
-                btn.classList.remove('success');
-                this.animating = false;
-            }, 800);
-        }
-        this.dispatchEvent(new CustomEvent('labs-click', { bubbles: true }));
-    }
-
-    render() {
-        const iconColor = this.getAttribute('iconcolor') || '';
-        const iconStyle = iconColor ? `filter: ${iconColor === '#fff' || iconColor.toLowerCase() === 'white' ? 'brightness(0) invert(1)' : ''}; color: ${iconColor};` : '';
-        const icon = this.getAttribute('icon');
-        let iconRight = this.getAttribute('icon-right');
-        // Only use the default icon if the attribute 'default-icon-right' is present and icon-right is not set
-        if (!iconRight && this.hasAttribute('default-icon-right')) {
-            iconRight = 'assets/icons/settings--fill.svg';
-        }
-        const checkmarkIcon = 'assets/icons/check--fill.svg';
-        const label = this.getAttribute('label') || '';
-        const checkmark = this.hasAttribute('checkmark');
-        const variant = this.getAttribute('variant') || 'primary';
-
-        this.shadowRoot.innerHTML = `
+    this.shadowRoot.innerHTML = `
       <style>
         :host { display: inline-block; }
         .labs-button {
@@ -158,7 +158,7 @@ class LabsButton extends HTMLElement {
         <slot></slot>
       </button>
     `;
-    }
+  }
 }
 
 
