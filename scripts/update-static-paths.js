@@ -77,7 +77,7 @@ htmlFiles.forEach(filePath => {
         // Automate Button.stories-*.js filename update in demo HTML
         if (filePath.endsWith('demo/index.html')) {
             // For demo, use the actual component, not the Storybook story
-            content = content.replace(/\/design-system\/assets\/Button\.stories-[^"']*\.js/g, '/design-system/components/Button.js');
+            // Removed Button.js path rewrite
         }
     } else if (mode === 'github') {
         // Copy all public assets to docs/design-system for GitHub Pages
@@ -109,7 +109,7 @@ htmlFiles.forEach(filePath => {
         // Automate Button.stories-*.js filename update in demo HTML
         if (filePath.endsWith('demo/index.html')) {
             // For demo, use the actual component, not the Storybook story
-            content = content.replace(/\/labs\/design-system\/assets\/Button\.stories-[^"']*\.js/g, '/labs/design-system/components/Button.js');
+            // Removed Button.js path rewrite
         }
     } else if (mode === 'local') {
         // Set all asset paths for local preview (python http.server from root)

@@ -1,3 +1,4 @@
+/* eslint-disable */
 
 class LabsButton extends HTMLElement {
   static get observedAttributes() {
@@ -12,6 +13,7 @@ class LabsButton extends HTMLElement {
   }
 
   connectedCallback() {
+    console.log('[LabsButton] LOCAL COMPONENT LOADED - DEMO TEST');
     this.render();
     this.shadowRoot.querySelector('button').addEventListener('click', this.handleClick);
   }
@@ -108,15 +110,15 @@ class LabsButton extends HTMLElement {
           display: inline-block;
           vertical-align: middle;
         }
-                .labs-label {
-                  text-align: center;
-                  line-height: 1.2;
-                  height: 24px;
-                  white-space: nowrap;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                }
+        .labs-label {
+          text-align: center;
+          line-height: 1.2;
+          height: 24px;
+          white-space: nowrap;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
         .labs-checkmark {
           position: absolute;
           left: 0;
@@ -139,12 +141,12 @@ class LabsButton extends HTMLElement {
         .success .labs-checkmark {
           opacity: 1;
           transform: scale(1) rotate(0deg);
-          animation: rollInCheckmark 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+          animation: rollInCheckmark 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
         }
         @keyframes rollInCheckmark {
           from {
             opacity: 0;
-            transform: scale(0.3) rotate(-180deg);
+            transform: scale(0.3) rotate(-360deg);
           }
           to {
             opacity: 1;
@@ -156,36 +158,16 @@ class LabsButton extends HTMLElement {
           height: 1.5rem;
           filter: brightness(0) invert(1);
         }
-                .checkmark-icon {
-                  display: none;
-                  position: absolute;
-                  width: 1.5rem;
-                  height: 1.5rem;
-                }
-                .success .labs-label, .success .labs-icon:not(.checkmark-icon) {
-                  animation: fadeOut 0.3s forwards;
-                }
-                .success .checkmark-icon {
-                  display: inline-block;
-                  animation: fadeIn 0.3s forwards;
-                }
-                @keyframes fadeOut {
-                  from { opacity: 1; transform: scale(1); }
-                  to { opacity: 0; transform: scale(0.8); }
-                }
-                @keyframes fadeIn {
-                  from { opacity: 0; transform: scale(0.8); }
-                  to { opacity: 1; transform: scale(1); }
-                }
-              </style>
-              <button class="labs-button ${variant}" part="button">
-                ${icon ? `<img src="${icon}" class="labs-icon" style="${iconStyle}" alt=""/>` : ''}
-                <span class="labs-label">${label}</span>
-                ${iconRight ? `<img src="${iconRight}" class="labs-icon" style="${iconStyle}" alt=""/>` : ''}
-                ${checkmark ? `<img src="${checkmarkIcon}" class="labs-icon checkmark-icon" alt="Success"/>` : ''}
-              </button>
-            `;
+      </style>
+      <button class="labs-button ${variant}" part="button">
+        ${icon ? `<img src="${icon}" class="labs-icon" style="${iconStyle}" alt=""/>` : ''}
+        <span class="labs-label">${label}</span>
+        ${iconRight ? `<img src="${iconRight}" class="labs-icon" style="${iconStyle}" alt=""/>` : ''}
+        ${checkmark ? `<span class="labs-checkmark"><img src="${checkmarkIcon}" class="checkmark-icon" alt="Success"/></span>` : ''}
+      </button>
+    `;
   }
+
 }
 
 customElements.define('labs-button', LabsButton);
