@@ -86,13 +86,9 @@ htmlFiles.forEach(filePath => {
         copyDirSync(publicDir, docsPublicDir);
         console.log('Copied all public assets to docs/design-system for GitHub Pages');
         // Set all asset paths for GitHub Pages deployment (/labs/design-system/)
-
-        // Convert relative paths to GitHub Pages paths
-        content = content.replace(/\.\.\/(design-system\/[^"']*)/g, '/labs/$1');
-
         // Relative paths
-        content = content.replace(/\..\/design-system\/src\/styles\/main\.css/g, '/labs/design-system/main.css');
-        content = content.replace(/\..\/design-system\/src\/components\/([A-Za-z0-9_-]+)\.js/g, '/labs/design-system/assets/$1.stories-*.js');
+        content = content.replace(/\..\/design-system\/src\/styles\/main\.css/g, '../design-system/main.css');
+        content = content.replace(/\..\/design-system\/src\/components\/([A-Za-z0-9_-]+)\.js/g, '../design-system/assets/$1.stories-*.js');
         // Root-relative paths (for GitHub Pages)
         content = content.replace(/\/design-system\/main\.css/g, '/labs/design-system/main.css');
         content = content.replace(/\/design-system\/components\/([A-Za-z0-9_-]+)\.js/g, '/labs/design-system/components/$1.js');
@@ -112,20 +108,17 @@ htmlFiles.forEach(filePath => {
             content = content.replace(/\/labs\/design-system\/assets\/Button\.stories-[^"']*\.js/g, '/labs/design-system/components/Button.js');
         }
     } else if (mode === 'local') {
-        // Set all asset paths for local preview (python http.server from root)
-        // Demo file is at docs/demo/index.html, so design-system/ is ../design-system/
-
-        // Convert absolute paths to relative for local server (be specific to avoid double replacement)
-        content = content.replace(/href=["']\/labs\/design-system\/main\.css["']/g, 'href="../design-system/main.css"');
-        content = content.replace(/src=["']\/labs\/design-system\/components\/([A-Za-z0-9_-]+)\.js["']/g, 'src="../design-system/components/$1.js"');
-        content = content.replace(/\/labs\/design-system\/assets\//g, '../design-system/assets/');
-        content = content.replace(/href=["']\/design-system\/main\.css["']/g, 'href="../design-system/main.css"');
-        content = content.replace(/src=["']\/design-system\/components\/([A-Za-z0-9_-]+)\.js["']/g, 'src="../design-system/components/$1.js"');
-        content = content.replace(/["']\/design-system\/assets\//g, '"../design-system/assets/');
-
-        // Favicon path for local mode 
-        content = content.replace(/href=["']\/?labs\/design-system\/favicon\.svg["']/g, 'href="../design-system/favicon.svg"');
-        content = content.replace(/href=["']\/?design-system\/favicon\.svg["']/g, 'href="../design-system/favicon.svg"');
+        // Set all asset paths to local development
+        // Relative paths
+        content = content.replace(/\.\.\/design-system\/main\.css/g, '../design-system/src/styles/main.css');
+        content = content.replace(/\.\.\/design-system\/assets\/([A-Za-z0-9_-]+)\.stories-.*\.js/g, '../design-system/src/components/$1.js');
+        // Root-relative paths - convert from GitHub Pages format
+        content = content.replace(/\/labs\/design-system\/main\.css/g, '/design-system/src/styles/main.css');
+        content = content.replace(/\/labs\/design-system\/components\/([A-Za-z0-9_-]+)\.js/g, '/design-system/src/components/$1.js');
+        // Root-relative paths - convert from public format
+        content = content.replace(/\/design-system\/main\.css/g, '/design-system/src/styles/main.css');
+        content = content.replace(/\/design-system\/components\/([A-Za-z0-9_-]+)\.js/g, '/design-system/src/components/$1.js');
+        content = content.replace(/\/design-system\/assets\/([A-Za-z0-9_-]+)\.stories-.*\.js/g, '/design-system/src/components/$1.js');
     }
 
     // You can add more patterns here as needed
@@ -180,6 +173,12 @@ if (fs.existsSync(srcComponentsDir)) {
     console.log('Copied JS components to public location');
 }
 
+// Copy all styles to public location
+const srcStylesDir = path.join(__dirname, '../design-system/src/styles');
+const stylesDest = path.join(__dirname, '../design-system/src/styles');
+// Styles are already in the right location for public access
+
+
 // Ensure all assets (including icons) are present in storybook-static/assets
 const publicAssetsSrc = path.join(__dirname, '../design-system/assets');
 const storybookAssetsDest = path.join(__dirname, '../design-system/storybook-static/assets');
@@ -199,4 +198,73 @@ function copyAllAssets(src, dest) {
 copyAllAssets(publicAssetsSrc, storybookAssetsDest);
 console.log('Copied all assets (including icons) from design-system/assets to storybook-static/assets');
 
+console.log(`All docs/ HTML asset paths set to ${mode}.`);
+
+htmlFiles.forEach(filePath => {
+    let content = fs.readFileSync(filePath, 'utf8');
+    let original = content;
+
+    if (mode === 'public') {
+        // Set all asset paths to public (local development)
+        // Relative paths
+        content = content.replace(/\..\/design-system\/src\/styles\/main\.css/g, '../design-system/main.css');
+        content = content.replace(/\..\/design-system\/src\/components\/([A-Za-z0-9_-]+)\.js/g, '../design-system/assets/$1.stories-*.js');
+        // Root-relative paths (for local server)
+        content = content.replace(/\/labs\/design-system\/main\.css/g, '/design-system/main.css');
+        content = content.replace(/\/labs\/design-system\/components\/([A-Za-z0-9_-]+)\.js/g, '/design-system/components/$1.js');
+        content = content.replace(/\/design-system\/src\/styles\/main\.css/g, '/design-system/main.css');
+        content = content.replace(/\/design-system\/src\/components\/([A-Za-z0-9_-]+)\.js/g, '/design-system/components/$1.js');
+
+        // Automate Button.stories-*.js filename update in demo HTML
+        if (filePath.endsWith('demo/index.html')) {
+            // For demo, use the actual component, not the Storybook story
+            content = content.replace(/\/design-system\/assets\/Button\.stories-[^"']*\.js/g, '/design-system/components/Button.js');
+        }
+    } else if (mode === 'github') {
+        // Copy all public assets to docs/design-system for GitHub Pages
+        const publicDir = path.join(__dirname, '../design-system');
+        const docsPublicDir = path.join(__dirname, '../docs/design-system');
+        copyDirSync(publicDir, docsPublicDir);
+        console.log('Copied all public assets to docs/design-system for GitHub Pages');
+        // Set all asset paths for GitHub Pages deployment (/labs/design-system/)
+        // Relative paths
+        content = content.replace(/\..\/design-system\/src\/styles\/main\.css/g, '../design-system/main.css');
+        content = content.replace(/\..\/design-system\/src\/components\/([A-Za-z0-9_-]+)\.js/g, '../design-system/assets/$1.stories-*.js');
+        // Root-relative paths (for GitHub Pages)
+        content = content.replace(/\/design-system\/main\.css/g, '/labs/design-system/main.css');
+        content = content.replace(/\/design-system\/components\/([A-Za-z0-9_-]+)\.js/g, '/labs/design-system/components/$1.js');
+        content = content.replace(/\/design-system\/src\/styles\/main\.css/g, '/labs/design-system/main.css');
+        content = content.replace(/\/design-system\/src\/components\/([A-Za-z0-9_-]+)\.js/g, '/labs/design-system/components/$1.js');
+
+        // Normalize any repeated /labs/ prefixes to a single /labs/
+        content = content.replace(/(\/labs)+\/design-system\//g, '/labs/design-system/');
+
+        // Automate Button.stories-*.js filename update in demo HTML
+        if (filePath.endsWith('demo/index.html')) {
+            // For demo, use the actual component, not the Storybook story
+            content = content.replace(/\/labs\/design-system\/assets\/Button\.stories-[^"']*\.js/g, '/labs/design-system/components/Button.js');
+        }
+    } else if (mode === 'local') {
+        // Set all asset paths to local development
+        // Relative paths
+        content = content.replace(/\.\.\/design-system\/main\.css/g, '../design-system/src/styles/main.css');
+        content = content.replace(/\.\.\/design-system\/assets\/([A-Za-z0-9_-]+)\.stories-.*\.js/g, '../design-system/src/components/$1.js');
+        // Root-relative paths - convert from GitHub Pages format
+        content = content.replace(/\/labs\/design-system\/main\.css/g, '/design-system/src/styles/main.css');
+        content = content.replace(/\/labs\/design-system\/components\/([A-Za-z0-9_-]+)\.js/g, '/design-system/src/components/$1.js');
+        // Root-relative paths - convert from public format
+        content = content.replace(/\/design-system\/main\.css/g, '/design-system/src/styles/main.css');
+        content = content.replace(/\/design-system\/components\/([A-Za-z0-9_-]+)\.js/g, '/design-system/src/components/$1.js');
+        content = content.replace(/\/design-system\/assets\/([A-Za-z0-9_-]+)\.stories-.*\.js/g, '/design-system/src/components/$1.js');
+    }
+
+    // You can add more patterns here as needed
+
+    if (content !== original) {
+        fs.writeFileSync(filePath, content, 'utf8');
+        console.log(`Updated asset paths in ${filePath}`);
+    } else {
+        console.log(`No asset path changes needed in ${filePath}`);
+    }
+});
 console.log(`All docs/ HTML asset paths set to ${mode}.`);

@@ -86,13 +86,9 @@ htmlFiles.forEach(filePath => {
         copyDirSync(publicDir, docsPublicDir);
         console.log('Copied all public assets to docs/design-system for GitHub Pages');
         // Set all asset paths for GitHub Pages deployment (/labs/design-system/)
-
-        // Convert relative paths to GitHub Pages paths
-        content = content.replace(/\.\.\/(design-system\/[^"']*)/g, '/labs/$1');
-
         // Relative paths
-        content = content.replace(/\..\/design-system\/src\/styles\/main\.css/g, '/labs/design-system/main.css');
-        content = content.replace(/\..\/design-system\/src\/components\/([A-Za-z0-9_-]+)\.js/g, '/labs/design-system/assets/$1.stories-*.js');
+        content = content.replace(/\..\/design-system\/src\/styles\/main\.css/g, '../design-system/main.css');
+        content = content.replace(/\..\/design-system\/src\/components\/([A-Za-z0-9_-]+)\.js/g, '../design-system/assets/$1.stories-*.js');
         // Root-relative paths (for GitHub Pages)
         content = content.replace(/\/design-system\/main\.css/g, '/labs/design-system/main.css');
         content = content.replace(/\/design-system\/components\/([A-Za-z0-9_-]+)\.js/g, '/labs/design-system/components/$1.js');
@@ -115,13 +111,13 @@ htmlFiles.forEach(filePath => {
         // Set all asset paths for local preview (python http.server from root)
         // Demo file is at docs/demo/index.html, so design-system/ is ../design-system/
 
-        // Convert absolute paths to relative for local server (be specific to avoid double replacement)
-        content = content.replace(/href=["']\/labs\/design-system\/main\.css["']/g, 'href="../design-system/main.css"');
-        content = content.replace(/src=["']\/labs\/design-system\/components\/([A-Za-z0-9_-]+)\.js["']/g, 'src="../design-system/components/$1.js"');
+        // Convert absolute paths to relative for local server
+        content = content.replace(/\/labs\/design-system\/main\.css/g, '../design-system/main.css');
+        content = content.replace(/\/labs\/design-system\/components\/([A-Za-z0-9_-]+)\.js/g, '../design-system/components/$1.js');
         content = content.replace(/\/labs\/design-system\/assets\//g, '../design-system/assets/');
-        content = content.replace(/href=["']\/design-system\/main\.css["']/g, 'href="../design-system/main.css"');
-        content = content.replace(/src=["']\/design-system\/components\/([A-Za-z0-9_-]+)\.js["']/g, 'src="../design-system/components/$1.js"');
-        content = content.replace(/["']\/design-system\/assets\//g, '"../design-system/assets/');
+        content = content.replace(/\/design-system\/main\.css/g, '../design-system/main.css');
+        content = content.replace(/\/design-system\/components\/([A-Za-z0-9_-]+)\.js/g, '../design-system/components/$1.js');
+        content = content.replace(/\/design-system\/assets\//g, '../design-system/assets/');
 
         // Favicon path for local mode 
         content = content.replace(/href=["']\/?labs\/design-system\/favicon\.svg["']/g, 'href="../design-system/favicon.svg"');

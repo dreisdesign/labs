@@ -19,6 +19,10 @@ async function main() {
     ]);
 
     if (action === 'previewLabs') {
+        // Reset paths to local mode before preview
+        console.log('\nSetting up local preview paths...');
+        execSync('node scripts/update-static-paths.js --local', { stdio: 'inherit' });
+
         const port = 8080;
         let portInUse = false;
         let pid = null;
@@ -198,9 +202,32 @@ async function main() {
     if (action === 'deploy') {
         console.log('\nBuilding and deploying to GitHub Pages, and updating demo...');
         execSync('npm run deploy', { stdio: 'inherit' });
-        execSync('node scripts/update-static-paths.js --public', { stdio: 'inherit' });
-        // Open public Storybook URL after deploy
-        await import('open').then(mod => mod.default('https://dreisdesign.github.io/labs/design-system/?path=/docs/stories-about--docs'));
+        // Open public Storybook URL after deploy using native method
+        const url = 'https://dreisdesign.github.io/labs/design-system/?path=/docs/stories-about--docs';
+        if (process.platform === 'darwin') {
+            try {
+                execSync(`open -a "Google Chrome" ${url}`);
+            } catch (e) {
+                console.log('Google Chrome not found, opening in default browser...');
+                try {
+                    execSync(`open ${url}`);
+                } catch (e2) {
+                    console.log(`\nCould not open browser automatically. Please visit ${url}`);
+                }
+            }
+        } else if (process.platform === 'win32') {
+            execSync(`start chrome ${url}`);
+        } else {
+            try {
+                execSync(`google-chrome ${url}`);
+            } catch (e) {
+                try {
+                    execSync(`xdg-open ${url}`);
+                } catch (e2) {
+                    console.log(`\nCould not open browser automatically. Please visit ${url}`);
+                }
+            }
+        }
     }
     if (action === 'exit') {
         console.log('Goodbye!');
