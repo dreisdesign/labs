@@ -15,9 +15,10 @@ function copyDirSync(src, dest) {
     if (!fs.existsSync(src)) return;
     if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
     fs.readdirSync(src).forEach(item => {
-        if (!PUBLIC_WHITELIST.includes(item)) return;
         const srcPath = path.join(src, item);
         const destPath = path.join(dest, item);
+        // Only copy whitelisted top-level folders/files
+        if (src === path.join(__dirname, '../design-system') && !PUBLIC_WHITELIST.includes(item)) return;
         if (fs.statSync(srcPath).isDirectory()) {
             copyDirSync(srcPath, destPath);
         } else {
@@ -177,16 +178,25 @@ const srcStylesDir = path.join(__dirname, '../design-system/src/styles');
 const stylesDest = path.join(__dirname, '../design-system/src/styles');
 // Styles are already in the right location for public access
 
-// Copy all assets
-if (fs.existsSync(assetsSrc)) {
-    if (!fs.existsSync(assetsDest)) {
-        fs.mkdirSync(assetsDest, { recursive: true });
-    }
-    fs.readdirSync(assetsSrc).forEach(file => {
-        fs.copyFileSync(path.join(assetsSrc, file), path.join(assetsDest, file));
+
+// Ensure all assets (including icons) are present in storybook-static/assets
+const publicAssetsSrc = path.join(__dirname, '../design-system/assets');
+const storybookAssetsDest = path.join(__dirname, '../design-system/storybook-static/assets');
+function copyAllAssets(src, dest) {
+    if (!fs.existsSync(src)) return;
+    if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
+    fs.readdirSync(src).forEach(item => {
+        const srcPath = path.join(src, item);
+        const destPath = path.join(dest, item);
+        if (fs.statSync(srcPath).isDirectory()) {
+            copyAllAssets(srcPath, destPath);
+        } else {
+            fs.copyFileSync(srcPath, destPath);
+        }
     });
-    console.log('Copied all assets from storybook-static to public location');
 }
+copyAllAssets(publicAssetsSrc, storybookAssetsDest);
+console.log('Copied all assets (including icons) from design-system/assets to storybook-static/assets');
 
 htmlFiles.forEach(filePath => {
     let content = fs.readFileSync(filePath, 'utf8');

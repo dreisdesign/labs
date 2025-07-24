@@ -12,6 +12,7 @@ const config = {
         "@storybook/addon-a11y",
         "@storybook/addon-vitest"
     ],
+    // Serve all static assets (including icons) for Storybook
     "staticDirs": ["../assets"],
     "framework": {
         "name": "@storybook/web-components-vite",
