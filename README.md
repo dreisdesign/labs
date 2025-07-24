@@ -53,24 +53,12 @@ See `docs/CHANGELOG.md` for release notes and roadmap.
 
 
 # Developer Workflow & Automation
-
-## Quick Start
-```sh
 # Local development preview
 npm run private
 
-# Public build preview (simulates deploy, with all asset paths and favicon as on GitHub Pages)
-npm run public
-
-# Start Storybook
 npm run storybook
 
 # Build Storybook for deploy
-npm run build-storybook
-```
-
-## Automation & Asset Path Handling
-- All asset paths (including favicon) are automatically rewritten for local, public, and GitHub Pages deploys.
 - Demo and public QA pages always reference correct assets for their environment.
 - Favicon and all static assets are guaranteed to work in all preview and deploy modes.
 - Deploy script (`scripts/deploy.sh`) commits all public/QA/demo pages and ensures all assets are present for GitHub Pages.
@@ -84,7 +72,6 @@ npm run build-storybook
 
 ## Deploy Automation
 - The deploy workflow uses `scripts/deploy.sh` for timestamped commit messages and reliable asset copying.
-- Use `npm run deploy` for a one-command, best-practice deploy. Your commit history will always show when each deploy was made.
 
 ---
 

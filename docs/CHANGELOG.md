@@ -37,13 +37,6 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 ## [1.0.0] - 2025-07-20
 
 ### Added - Initial Design System Release
-- **Complete Button Component System**
-  - 6 variants: Primary, Secondary, Success, Error, Outline, Ghost
-  - 3 sizes: Small (sm), Default (md), Large (lg)
-  - Multiple states: Default, Hover, Active, Inactive, Loading
-  - Special modifiers: Full-width, Icon-only
-  - Smooth hover and active animations with translateY effects
-  - Loading spinner integration
   - Complete accessibility support with proper ARIA attributes
 
 - **Comprehensive Design Token System**
@@ -53,18 +46,17 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - **Layout**: Responsive breakpoints and container utilities
   - **Animations**: Consistent transition timings and easing functions
   - Full light and dark mode support with automatic theme switching
+[2025-07-24] Design System & Storybook Cleanup
+ - Fixed checkmark animation for Labs Button (works in Storybook and public demo)
+ - Removed all generic Button, Header, and Page files and references
+ - Cleaned up duplicate src folders and legacy assets
+ - Ensured asset paths and build scripts run from project root
+ - Added up-next: cachebuster for public assets
 
 - **Storybook Documentation Platform**
   - Interactive component playground with live controls
   - Comprehensive design token documentation
-  - Welcome page with complete system overview
-  - Story organization with proper categorization
-  - Accessibility testing integration
-  - Auto-generated documentation from component properties
-
-- **Demo Environment**
   - Real-world component testing playground
-  - Theme switching functionality with persistence
   - Usage examples mirroring production applications
   - Interactive logging for development debugging
   - Direct integration with design system CSS
