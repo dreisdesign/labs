@@ -1,22 +1,3 @@
-## [1.0.2] - 2025-07-23
-## [1.0.3] - 2025-07-28
-
-### Storybook & Icon System Refactor
-- Refactored Storybook sidebar: flattened navigation for icons and tokens, removed unnecessary folder levels.
-- Added "Grid Preview" story for icons, showing all available icons in a responsive grid.
-- Improved icon navigation: each icon links directly to its demo story with controls.
-- Added comments to story files for easier editing of navigation labels, icon lists, and grid layout.
-- Automated icon list generation and grid rendering.
-- Cleaned up obsolete MDX docs and legacy story files.
-
-### Design System & Demo Improvements
-- Button width is now content-based (hug width) for all variants in both demo and Storybook.
-- All icon paths (including checkmark) now use consistent relative paths for compatibility in both Storybook and static demo.
-- Fixed checkmark icon 404 in both environments by aligning path handling with other icons.
-- Normalized icon and label spacing for all button variants; removed unwanted margins and ensured consistent alignment.
-- Demo page now uses flexbox for button layout, with improved spacing and a clean, production-like appearance.
-- Favicon and static asset handling confirmed for all environments.
-- Cleaned up demo HTML and removed debug text/outline.
 # 🌐 Live Apps & Design System
 
 - [Labs Homepage](https://dreisdesign.github.io/labs/)
@@ -26,14 +7,18 @@
 - [Today List](https://dreisdesign.github.io/labs/today-list/)
 - [Design System (Storybook)](https://dreisdesign.github.io/labs/design-system/)
 
+---
+
 # Labs Monorepo
 
-This repository contains all Labs applications, the design system, and deployment configuration for GitHub Pages.
+This repository contains all Labs applications, the shared design system, and deployment configuration for GitHub Pages.
 
 ## Structure
 
-- `design-system/` — Source for the Labs Design System (tokens, components, Storybook)
-- `docs/` — Static deployable files for GitHub Pages (homepage, apps, Storybook)
+- `design-system/` — Labs Design System (tokens, components, Storybook).  
+  See [`design-system/README.md`](design-system/README.md) for usage and component docs.
+- `docs/` — Static deployable files for GitHub Pages (homepage, apps, Storybook).  
+  See [`docs/README.md`](docs/README.md) for public-facing info.
 - `docs/design-system/` — Deployed Storybook static build
 - `docs/tracker/`, `docs/note/`, `docs/today-list/`, `docs/timer/` — Deployed static apps
 - `_archive/` — Local-only archive of old app source folders (not tracked by git)
@@ -41,14 +26,7 @@ This repository contains all Labs applications, the design system, and deploymen
 
 ## Deployment
 
-All static sites and Storybook are deployed from the `docs/` folder on the `main` branch via GitHub Pages. Each app and the design system is accessible at:
-
-- `/labs/` — Homepage
-- `/labs/tracker/` — Tracker app
-- `/labs/note/` — Note app
-- `/labs/today-list/` — Today List app
-- `/labs/timer/` — Timer app
-- `/labs/design-system/` — Storybook (Design System)
+All static sites and Storybook are deployed from the `docs/` folder on the `main` branch via GitHub Pages. Each app and the design system is accessible at their respective URLs above.
 
 ## Workflow
 
@@ -58,30 +36,24 @@ All static sites and Storybook are deployed from the `docs/` folder on the `main
 
 ## Design System
 
-See `docs/CHANGELOG.md` for release notes and roadmap.
-
-
-# Developer Workflow & Automation
-# Local development preview
-npm run private
-
-npm run storybook
-
-# Build Storybook for deploy
-- Demo and public QA pages always reference correct assets for their environment.
-- Favicon and all static assets are guaranteed to work in all preview and deploy modes.
-- Deploy script (`scripts/deploy.sh`) commits all public/QA/demo pages and ensures all assets are present for GitHub Pages.
-- See `docs/CHANGELOG.md` for details on automation and workflow improvements.
-
-## How It Works
-- All asset copying and path updates are automated.
-- Add new components to `design-system/src/components/` and new tokens to `design-system/src/styles/tokens/`—they’ll be copied automatically.
-- Demo HTML (`docs/demo/index.html`) always loads the latest public assets and web components.
-- No manual path or asset management required.
-
-## Deploy Automation
-- The deploy workflow uses `scripts/deploy.sh` for timestamped commit messages and reliable asset copying.
+See [`design-system/README.md`](design-system/README.md) for setup, usage, and contribution details.  
+See [`docs/CHANGELOG.md`](docs/CHANGELOG.md) for release notes and roadmap.
 
 ---
 
-For more details, see the documentation in `_dev/`.
+## Developer Workflow & Automation
+
+- Local development preview:  
+  `npm run private`
+- Run Storybook:  
+  `npm run storybook`
+- Build Storybook for deploy:  
+  `npm run build-storybook`
+- Deploy script:  
+  `./scripts/deploy.sh`
+
+See [`docs/CHANGELOG.md`](docs/CHANGELOG.md) for automation and workflow improvements.
+
+---
+
+For more details, see the documentation in [`_dev/`](./_dev/).
