@@ -6,6 +6,8 @@ const preview = {
         color: /(background|color)$/i,
         date: /Date$/i,
       },
+      // Disable persisted controls (no save popup)
+      persistLocal: false,
     },
 
     a11y: {

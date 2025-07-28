@@ -1,3 +1,7 @@
+---
+**Note:** Storybook controls persistence (the save popup) is currently disabled for a cleaner workflow. You can re-enable it in `.storybook/preview.js` if needed.
+---
+
 # Labs Design System
 
 This folder contains the Labs Design System: shared UI components, tokens, Storybook config, and documentation.
@@ -26,6 +30,7 @@ This folder contains the Labs Design System: shared UI components, tokens, Story
 - Icon grid preview added; each icon links to its demo story
 - Automated icon list and grid rendering
 - Obsolete MDX docs and legacy stories removed
+- Storybook controls persistence disabled (no save popup)
 
 ## Developer Workflow
 - Run Storybook: `npm run storybook`
