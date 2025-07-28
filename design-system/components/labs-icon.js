@@ -41,7 +41,26 @@ class LabsIcon extends HTMLElement {
     }
     render() {
         const iconName = this.getAttribute('name');
-        this.innerHTML = icons[iconName] || '';
+        let svg = icons[iconName] || '';
+        // Parse SVG and set width/height
+        if (svg) {
+            const temp = document.createElement('div');
+            temp.innerHTML = svg;
+            const svgEl = temp.querySelector('svg');
+            if (svgEl) {
+                // Use style width/height if set, else fallback to attribute or default
+                const style = window.getComputedStyle(this);
+                const width = this.getAttribute('width') || style.width || '32px';
+                const height = this.getAttribute('height') || style.height || '32px';
+                svgEl.setAttribute('width', parseInt(width));
+                svgEl.setAttribute('height', parseInt(height));
+                this.innerHTML = svgEl.outerHTML;
+            } else {
+                this.innerHTML = svg;
+            }
+        } else {
+            this.innerHTML = '';
+        }
     }
 }
 customElements.define('labs-icon', LabsIcon);
