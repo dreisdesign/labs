@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+// Always run from workspace root
+process.chdir('/Users/danielreis/labs');
 // Interactive menu for Labs build, deploy, and preview workflows (ESM version)
 import inquirer from 'inquirer';
 import { execSync } from 'child_process';
@@ -151,10 +153,11 @@ async function main() {
         const startServerAndOpen = async () => {
             const cp = await import('child_process');
             const { spawn } = cp;
-            // Rebuild Storybook/public assets first
-            console.log('\nRebuilding Storybook...');
-            execSync('npm run public', { stdio: 'inherit' });
-            const server = spawn('python3', ['-m', 'http.server', '8080'], { detached: true });
+            // Always run from workspace root
+            console.log('\nRebuilding Storybook and updating public assets from workspace root...');
+            execSync('npm run build-storybook', { stdio: 'inherit', cwd: process.env.HOME + '/labs/design-system' });
+            execSync('npm run public', { stdio: 'inherit', cwd: process.env.HOME + '/labs/design-system' });
+            const server = spawn('python3', ['-m', 'http.server', '8080'], { detached: true, cwd: process.env.HOME + '/labs' });
             setTimeout(openBrowser, 1200);
             console.log("\nPress 'q' to stop the server and exit.");
             process.stdin.setRawMode(true);

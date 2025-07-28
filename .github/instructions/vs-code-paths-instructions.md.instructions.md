@@ -2,11 +2,13 @@
 applyTo: '**'
 ---
 
+I am using this to write code.
 
 Please start each response with an emoji to indicate the type of response, using the following emojis such as:
-✅ for confirmation, ❓for questions, 💬 for options to consider
+✅ for confirmation, ❓for questions, 💬 for options to consider.
 
 If a recommended action is available please move forward with it, rather than asking for confirmation.
+
 
 # Migration & Documentation Updates
 - The unified migration guide is now at `_dev/_documents/DESIGN-SYSTEM-MIGRATION-GUIDE.md`.

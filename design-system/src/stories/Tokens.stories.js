@@ -4,7 +4,7 @@ import '../styles/tokens/typography.css';
 import '../styles/tokens/spacing.css';
 
 export default {
-    title: 'Tokens/All',
+    title: 'Tokens',
     parameters: {
         docs: {
             description: {
