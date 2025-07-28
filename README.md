@@ -1,4 +1,13 @@
 ## [1.0.2] - 2025-07-23
+## [1.0.3] - 2025-07-28
+
+### Storybook & Icon System Refactor
+- Refactored Storybook sidebar: flattened navigation for icons and tokens, removed unnecessary folder levels.
+- Added "Grid Preview" story for icons, showing all available icons in a responsive grid.
+- Improved icon navigation: each icon links directly to its demo story with controls.
+- Added comments to story files for easier editing of navigation labels, icon lists, and grid layout.
+- Automated icon list generation and grid rendering.
+- Cleaned up obsolete MDX docs and legacy story files.
 
 ### Design System & Demo Improvements
 - Button width is now content-based (hug width) for all variants in both demo and Storybook.

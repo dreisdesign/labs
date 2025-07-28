@@ -1,4 +1,13 @@
 # [1.0.2] - 2025-07-23
+## [1.0.3] - 2025-07-28
+
+### Changed/Fixes
+- Storybook sidebar now shows "Icons/Default", "Icons/Grid Preview", and "Tokens/Colors/Spacing/Typography" as top-level entries.
+- "Grid Preview" story added for icons, with direct links to individual icon demos.
+- All icon and token stories now use clear, editable navigation labels.
+- Comments added to story files for maintainability.
+- Removed legacy MDX docs and redundant story files.
+- Improved automation for icon list and grid generation.
 
 ### Changed/Fixes
 - Button width is now content-based ("hug" width) for all variants in both demo and Storybook.
