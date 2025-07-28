@@ -26,7 +26,7 @@ export const Preview = () => {
         label.textContent = name;
 
         const link = document.createElement('div');
-        link.innerHTML = `<a href="http://localhost:8080/design-system/storybook-static/?path=/story/icons-default--default&args=name:${name}">View in story</a>`;
+        link.innerHTML = `<a href="./?path=/story/icons-default--default&args=name:${name}" target="_parent">View in story</a>`;
 
         cell.appendChild(icon);
         cell.appendChild(label);
