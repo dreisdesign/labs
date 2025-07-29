@@ -2,7 +2,8 @@
 
 // Dynamic icon loading - Vite-friendly approach
 // Use the correct base path for GitHub Pages
-const ICON_BASE = '/labs/design-system/icons/';
+// Icons are served under assets/icons in the deployed Storybook
+const ICON_BASE = '/labs/design-system/assets/icons/';
 const icons = {
     add_comment: ICON_BASE + 'add_comment--labs-icons.svg',
     bedtime: ICON_BASE + 'bedtime--labs-icons.svg',
