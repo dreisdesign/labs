@@ -1,34 +1,23 @@
 
-import addCommentIcon from '../icons/add_comment--labs-icons.svg?raw';
-import bedtimeIcon from '../icons/bedtime--labs-icons.svg?raw';
-import bedtimeOffIcon from '../icons/bedtime_off--labs-icons.svg?raw';
-import cancelIcon from '../icons/cancel--labs-icons.svg?raw';
-import changeCircleIcon from '../icons/change_circle--labs-icons.svg?raw';
-import checkIcon from '../icons/check--labs-icons.svg?raw';
-import closeIcon from '../icons/close--labs-icons.svg?raw';
-import commentIcon from '../icons/comment--labs-icons.svg?raw';
-import deleteForeverIcon from '../icons/delete_forever--labs-icons.svg?raw';
-import editIcon from '../icons/edit--labs-icons.svg?raw';
-import rateReviewIcon from '../icons/rate_review--labs-icons.svg?raw';
-import settingsIcon from '../icons/settings--labs-icons.svg?raw';
-import undoIcon from '../icons/undo--labs-icons.svg?raw';
-// Add more imports as needed
 
+// Dynamic icon loading - Vite-friendly approach
 const icons = {
-    add_comment: addCommentIcon,
-    bedtime: bedtimeIcon,
-    bedtime_off: bedtimeOffIcon,
-    cancel: cancelIcon,
-    change_circle: changeCircleIcon,
-    check: checkIcon,
-    close: closeIcon,
-    comment: commentIcon,
-    delete_forever: deleteForeverIcon,
-    edit: editIcon,
-    rate_review: rateReviewIcon,
-    settings: settingsIcon,
-    undo: undoIcon,
-    // Add more icons here
+    add_comment: '/icons/add_comment--labs-icons.svg',
+    bedtime: '/icons/bedtime--labs-icons.svg',
+    bedtime_off: '/icons/bedtime_off--labs-icons.svg',
+    cancel: '/icons/cancel--labs-icons.svg',
+    change_circle: '/icons/change_circle--labs-icons.svg',
+    check_fill: '/icons/check--fill.svg',
+    check: '/icons/check--labs-icons.svg',
+    close: '/icons/close--labs-icons.svg',
+    comment: '/icons/comment--labs-icons.svg',
+    delete_forever: '/icons/delete_forever--labs-icons.svg',
+    edit: '/icons/edit--labs-icons.svg',
+    rate_review: '/icons/rate_review--labs-icons.svg',
+    settings_fill: '/icons/settings--fill.svg',
+    settings: '/icons/settings--labs-icons.svg',
+    undo: '/icons/undo--labs-icons.svg',
+    undo_svg: '/icons/undo.svg',
 };
 
 class LabsIcon extends HTMLElement {
@@ -41,23 +30,13 @@ class LabsIcon extends HTMLElement {
     }
     render() {
         const iconName = this.getAttribute('name');
-        let svg = icons[iconName] || '';
-        // Parse SVG and set width/height
-        if (svg) {
-            const temp = document.createElement('div');
-            temp.innerHTML = svg;
-            const svgEl = temp.querySelector('svg');
-            if (svgEl) {
-                // Use style width/height if set, else fallback to attribute or default
-                const style = window.getComputedStyle(this);
-                const width = this.getAttribute('width') || style.width || '32px';
-                const height = this.getAttribute('height') || style.height || '32px';
-                svgEl.setAttribute('width', parseInt(width));
-                svgEl.setAttribute('height', parseInt(height));
-                this.innerHTML = svgEl.outerHTML;
-            } else {
-                this.innerHTML = svg;
-            }
+        let url = icons[iconName];
+
+        if (url) {
+            const style = window.getComputedStyle(this);
+            const width = this.getAttribute('width') || style.width || '24px';
+            const height = this.getAttribute('height') || style.height || '24px';
+            this.innerHTML = `<img src="${url}" width="${parseInt(width)}" height="${parseInt(height)}" style="display:inline-block;vertical-align:middle;" alt="${iconName}" />`;
         } else {
             this.innerHTML = '';
         }
