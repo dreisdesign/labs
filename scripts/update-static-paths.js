@@ -66,8 +66,15 @@ htmlFiles.forEach(filePath => {
 
     } else if (mode === 'github') {
         // For GitHub Pages, all paths must be absolute from the repo root.
-        // This regex ensures that we don't repeatedly add /labs/ to the path.
-        content = content.replace(/(src|href)=["'](?!\/labs\/)([^"']*)["']/g, '$1="/labs$2"');
+        // This is a safer, more targeted replacement.
+        content = content.replace(/href="\/design-system\//g, 'href="/labs/design-system/');
+        content = content.replace(/src="\/design-system\//g, 'src="/labs/design-system/');
+        content = content.replace(/href="\.\.\/design-system\//g, 'href="/labs/design-system/');
+        content = content.replace(/src="\.\.\/design-system\//g, 'src="/labs/design-system/');
+
+        // Prevent runaway replacement
+        content = content.replace(/\/labs\/labs\//g, '/labs/');
+
 
         // Copy all public assets to docs/design-system for GitHub Pages
         const publicDir = path.join(__dirname, '../design-system');
