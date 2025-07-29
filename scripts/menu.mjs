@@ -74,32 +74,30 @@ async function main() {
         } else if (action === 'deploy') {
             console.log('\nBuilding and deploying to GitHub Pages, and updating demo...');
             execSync('npm run deploy', { stdio: 'inherit' });
-            // Open public Storybook URL after deploy using native method
-            const url = 'https://dreisdesign.github.io/labs/design-system/?path=/docs/stories-about--docs';
-            if (process.platform === 'darwin') {
-                try {
-                    execSync(`open -a "Google Chrome" ${url}`);
-                } catch (e) {
-                    console.log('Google Chrome not found, opening in default browser...');
+
+            // Define URLs
+            const storybookUrl = 'https://dreisdesign.github.io/labs/design-system/?path=/docs/stories-about--docs';
+            const demoUrl = 'https://dreisdesign.github.io/labs/demo/';
+
+            const openUrls = (urls) => {
+                urls.forEach(url => {
+                    console.log(`Opening ${url} ...`);
                     try {
-                        execSync(`open ${url}`);
-                    } catch (e2) {
-                        console.log(`\nCould not open browser automatically. Please visit ${url}`);
+                        if (process.platform === 'darwin') {
+                            execSync(`open -a "Google Chrome" "${url}"`);
+                        } else if (process.platform === 'win32') {
+                            execSync(`start chrome "${url}"`);
+                        } else {
+                            execSync(`xdg-open "${url}"`);
+                        }
+                    } catch (e) {
+                        console.error(`Failed to open ${url}: ${e.message}. Please open it manually.`);
                     }
-                }
-            } else if (process.platform === 'win32') {
-                execSync(`start chrome ${url}`);
-            } else {
-                try {
-                    execSync(`google-chrome ${url}`);
-                } catch (e) {
-                    try {
-                        execSync(`xdg-open ${url}`);
-                    } catch (e2) {
-                        console.log(`\nCould not open browser automatically. Please visit ${url}`);
-                    }
-                }
-            }
+                });
+            };
+
+            openUrls([storybookUrl, demoUrl]);
+
         } else if (action === 'exit') {
             console.log('Goodbye!');
             process.exit(0);
