@@ -1,23 +1,25 @@
 
 
 // Dynamic icon loading - Vite-friendly approach
+// Use the correct base path for GitHub Pages
+const ICON_BASE = '/labs/design-system/icons/';
 const icons = {
-    add_comment: '/icons/add_comment--labs-icons.svg',
-    bedtime: '/icons/bedtime--labs-icons.svg',
-    bedtime_off: '/icons/bedtime_off--labs-icons.svg',
-    cancel: '/icons/cancel--labs-icons.svg',
-    change_circle: '/icons/change_circle--labs-icons.svg',
-    check_fill: '/icons/check--fill.svg',
-    check: '/icons/check--labs-icons.svg',
-    close: '/icons/close--labs-icons.svg',
-    comment: '/icons/comment--labs-icons.svg',
-    delete_forever: '/icons/delete_forever--labs-icons.svg',
-    edit: '/icons/edit--labs-icons.svg',
-    rate_review: '/icons/rate_review--labs-icons.svg',
-    settings_fill: '/icons/settings--fill.svg',
-    settings: '/icons/settings--labs-icons.svg',
-    undo: '/icons/undo--labs-icons.svg',
-    undo_svg: '/icons/undo.svg',
+    add_comment: ICON_BASE + 'add_comment--labs-icons.svg',
+    bedtime: ICON_BASE + 'bedtime--labs-icons.svg',
+    bedtime_off: ICON_BASE + 'bedtime_off--labs-icons.svg',
+    cancel: ICON_BASE + 'cancel--labs-icons.svg',
+    change_circle: ICON_BASE + 'change_circle--labs-icons.svg',
+    check_fill: ICON_BASE + 'check--fill.svg',
+    check: ICON_BASE + 'check--labs-icons.svg',
+    close: ICON_BASE + 'close--labs-icons.svg',
+    comment: ICON_BASE + 'comment--labs-icons.svg',
+    delete_forever: ICON_BASE + 'delete_forever--labs-icons.svg',
+    edit: ICON_BASE + 'edit--labs-icons.svg',
+    rate_review: ICON_BASE + 'rate_review--labs-icons.svg',
+    settings_fill: ICON_BASE + 'settings--fill.svg',
+    settings: ICON_BASE + 'settings--labs-icons.svg',
+    undo: ICON_BASE + 'undo--labs-icons.svg',
+    undo_svg: ICON_BASE + 'undo.svg',
 };
 
 class LabsIcon extends HTMLElement {
