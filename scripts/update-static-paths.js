@@ -65,14 +65,9 @@ htmlFiles.forEach(filePath => {
         content = content.replace(/\.\.\/design-system\//g, '/design-system/');
 
     } else if (mode === 'github') {
-        if (filePath.includes('/docs/demo/')) {
-            // For the demo page, use relative paths
-            content = content.replace(/\/labs\/design-system\//g, '../design-system/');
-        } else {
-            // For everything else (the Storybook app), use absolute paths
-            content = content.replace(/\.\.\/design-system\//g, '/labs/design-system/');
-            content = content.replace(/\/design-system\//g, '/labs/design-system/');
-        }
+        // For GitHub Pages, all paths must be absolute from the repo root.
+        content = content.replace(/\.\.\/design-system\//g, '/labs/design-system/');
+        content = content.replace(/\/design-system\//g, '/labs/design-system/');
 
         // Copy all public assets to docs/design-system for GitHub Pages
         const publicDir = path.join(__dirname, '../design-system');
