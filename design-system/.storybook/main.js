@@ -13,7 +13,12 @@ const config = {
         "@storybook/addon-vitest"
     ],
     // Serve all static assets (including icons) for Storybook
-    "staticDirs": ["../assets"],
+    "staticDirs": ["../assets", "../icons"],
+    viteFinal: (config) => {
+        config.assetsInclude = config.assetsInclude || [];
+        config.assetsInclude.push('**/*.svg');
+        return config;
+    },
     "framework": {
         "name": "@storybook/web-components-vite",
         "options": {}
