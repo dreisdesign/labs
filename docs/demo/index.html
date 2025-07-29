@@ -6,8 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Labs Design System Demo</title>
-    <link rel="icon" href="../design-system/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="../design-system/main.css">
+    <link rel="icon" href="/labs/design-system/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/labs/design-system/main.css">
     <style>
         body {
             margin: 20px;
@@ -24,19 +24,16 @@
             margin: 0;
         }
     </style>
-    <script type="module" src="../design-system/components/labs-button.js"></script>
+    <script type="module" src="/labs/design-system/components/labs-button.js"></script>
 </head>
 
 <body>
     <h1>Labs Design System Demo</h1>
     <div id="button-demo-debug" style="padding-right: 1em;">
         <labs-button label="Default" variant="primary"></labs-button>
-        <labs-button label="Icon Left" icon="../design-system/assets/icons/undo.svg" variant="primary"
-            iconcolor="#fff"></labs-button>
-        <labs-button label="On click: Checkmark" checkmark variant="primary"
-            checkmark-icon="../design-system/assets/icons/check--fill.svg"></labs-button>
-        <labs-button label="Icon Right" icon-right="../design-system/assets/icons/settings--fill.svg" variant="primary"
-            iconcolor="#fff"></labs-button>
+        <labs-button label="Icon Left" icon="undo" variant="primary" iconcolor="#fff"></labs-button>
+        <labs-button label="On click: Checkmark" checkmark variant="primary" checkmark-icon="check_fill"></labs-button>
+        <labs-button label="Icon Right" icon-right="settings_fill" variant="primary" iconcolor="#fff"></labs-button>
     </div>
 </body>
 

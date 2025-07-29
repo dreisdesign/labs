@@ -1,4 +1,5 @@
 /* eslint-disable */
+import '../../components/labs-icon.js';
 
 class LabsButton extends HTMLElement {
   static get observedAttributes() {
@@ -59,12 +60,21 @@ class LabsButton extends HTMLElement {
 
   render() {
     const iconColor = this.getAttribute('iconcolor') || '';
-    const iconStyle = iconColor ? `filter: ${iconColor === '#fff' || iconColor.toLowerCase() === 'white' ? 'brightness(0) invert(1)' : ''}; color: ${iconColor};` : '';
-    const icon = this.getAttribute('icon');
-    let iconRight = this.getAttribute('icon-right');
+    // Map legacy icon names to icon registry keys
+    const mapIconName = (name) => {
+      if (!name) return '';
+      // Remove file extensions and --fill, --outline, etc.
+      return name
+        .replace(/\.(svg|png|jpg|jpeg)$/i, '')
+        .replace(/--fill|--outline|--regular|--solid/gi, '')
+        .replace(/-/g, '_');
+    };
+
+    const icon = mapIconName(this.getAttribute('icon'));
+    let iconRight = mapIconName(this.getAttribute('icon-right'));
     // Only use the default icon if the attribute 'default-icon-right' is present and icon-right is not set
     if (!iconRight && this.hasAttribute('default-icon-right')) {
-      iconRight = 'assets/icons/settings--fill.svg';
+      iconRight = 'settings';
     }
     const checkmarkIcon = this.getAttribute('checkmark-icon') || 'assets/icons/check--fill.svg';
     const label = this.getAttribute('label') || '';
@@ -158,11 +168,21 @@ class LabsButton extends HTMLElement {
           height: 1.5rem;
           filter: brightness(0) invert(1);
         }
+        /* Apply icon color filter */
+        .labs-icon img {
+          filter: ${iconColor === '#fff' || iconColor.toLowerCase() === 'white' ? 'brightness(0) invert(1)' : iconColor ? `hue-rotate(0deg) saturate(0) brightness(0) invert(1)` : 'none'};
+        }
+        /* Ensure right icon is visible and spaced */
+        .labs-button labs-icon:last-of-type {
+          margin-left: 0.5em;
+          opacity: 1 !important;
+          display: inline-block !important;
+        }
       </style>
       <button class="labs-button ${variant}" part="button">
-        ${icon ? `<img src="${icon}" class="labs-icon" style="${iconStyle}" alt=""/>` : ''}
+        ${icon ? `<labs-icon class="labs-icon" name="${icon}"></labs-icon>` : ''}
         <span class="labs-label">${label}</span>
-        ${iconRight ? `<img src="${iconRight}" class="labs-icon" style="${iconStyle}" alt=""/>` : ''}
+        ${iconRight ? `<labs-icon class="labs-icon" name="${iconRight}"></labs-icon>` : ''}
         ${checkmark ? `<span class="labs-checkmark"><img src="${checkmarkIcon}" class="checkmark-icon" alt="Success"/></span>` : ''}
       </button>
     `;
