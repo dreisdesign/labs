@@ -19,6 +19,8 @@ npm run github
  cp -r design-system/storybook-static/* docs/design-system/
  # Ensure icons directory is present in deploy output
  cp -r design-system/icons docs/design-system/icons
+# Ensure components directory is present for demo and Storybook
+cp -r design-system/components docs/design-system/components
 
 git add docs/design-system docs/design-system/icons docs/demo/index.html
 commit_msg="Deploy (automation): $(date '+%Y-%m-%d %H:%M') - ensure all public assets in docs/design-system for GitHub Pages"

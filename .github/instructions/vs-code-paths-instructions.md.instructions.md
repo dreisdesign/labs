@@ -1,3 +1,22 @@
+# Automatic Commit and Deploy Workflow
+
+- All code and documentation changes must be committed and deployed automatically.
+- After making any change, the agent will:
+  1. Commit the change using:
+     ```sh
+     git add <changed-file> && git commit -m "Describe your change"
+     ```
+  2. Deploy using:
+     ```sh
+     ./scripts/deploy.sh
+     ```
+- If multiple files are changed, the agent will use:
+  ```sh
+  git add -A && git commit -m "Describe your change"
+  ./scripts/deploy.sh
+  ```
+- Contributors should not need to run these steps manually; the agent will perform them automatically whenever possible.
+
 ---
 applyTo: '**'
 ---
