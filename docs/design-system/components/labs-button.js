@@ -1,5 +1,5 @@
 /* eslint-disable */
-import '@components/labs-icon.js';
+import './labs-icon.js';
 
 class LabsButton extends HTMLElement {
   static get observedAttributes() {

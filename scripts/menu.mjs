@@ -13,14 +13,18 @@ async function main() {
                 name: 'action',
                 message: 'What would you like to do?',
                 choices: [
-                    { name: 'Preview Storybook (local, always up-to-date, for dev)', value: 'previewStorybook' },
+                    { name: 'Build, preview, and serve Storybook (local, for dev)', value: 'serveStorybook' },
                     { name: 'Build & Deploy (publishes, then preview demo)', value: 'deploy' },
                     { name: 'Exit', value: 'exit' }
                 ]
             }
         ]);
 
-        if (action === 'previewStorybook') {
+        if (action === 'serveStorybook') {
+            console.log('\nBuilding Storybook...');
+            execSync('npm run build-storybook', { cwd: './design-system', stdio: 'inherit' });
+            console.log('\nBuild complete. Starting server...');
+
             const port = 6006; // Default Storybook port
             let portInUse = false;
             try {
