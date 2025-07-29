@@ -1,5 +1,5 @@
 /* eslint-disable */
-import '../../components/labs-icon.js';
+import '/labs/design-system/components/labs-icon.js';
 
 class LabsButton extends HTMLElement {
   static get observedAttributes() {
@@ -191,4 +191,3 @@ class LabsButton extends HTMLElement {
 }
 
 customElements.define('labs-button', LabsButton);
-
