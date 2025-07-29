@@ -1,5 +1,3 @@
-
-
 /** @type { import('@storybook/web-components-vite').StorybookConfig } */
 const config = {
     "stories": [
@@ -13,7 +11,7 @@ const config = {
         "@storybook/addon-vitest"
     ],
     // Serve all static assets (including icons) for Storybook
-    "staticDirs": ["../assets", "../icons"],
+    "staticDirs": [{from: "../icons", to: "/icons"}, {from: "../assets", to: "/assets"}],
     viteFinal: (config) => {
         config.assetsInclude = config.assetsInclude || [];
         config.assetsInclude.push('**/*.svg');

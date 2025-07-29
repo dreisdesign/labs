@@ -61,71 +61,24 @@ htmlFiles.forEach(filePath => {
 
     if (mode === 'public') {
         // Set all asset paths to public (local development)
-        // Relative paths
-        content = content.replace(/\..\/design-system\/src\/styles\/main\.css/g, '../design-system/main.css');
-        content = content.replace(/\..\/design-system\/src\/components\/([A-Za-z0-9_-]+)\.js/g, '../design-system/assets/$1.stories-*.js');
-        // Root-relative paths (for local server)
-        content = content.replace(/\/labs\/design-system\/main\.css/g, '/design-system/main.css');
-        content = content.replace(/\/labs\/design-system\/components\/([A-Za-z0-9_-]+)\.js/g, '/design-system/components/$1.js');
-        content = content.replace(/\/design-system\/src\/styles\/main\.css/g, '/design-system/main.css');
-        content = content.replace(/\/design-system\/src\/components\/([A-Za-z0-9_-]+)\.js/g, '/design-system/components/$1.js');
+        content = content.replace(/\/labs\/design-system\//g, '/design-system/');
+        content = content.replace(/\.\.\/design-system\//g, '/design-system/');
 
-        // Favicon path for public mode
-        content = content.replace(/href=["']\/?labs\/design-system\/favicon\.svg["']/g, 'href="/design-system/favicon.svg"');
-        content = content.replace(/href=["']\/?design-system\/favicon\.svg["']/g, 'href="/design-system/favicon.svg"');
-
-        // Automate Button.stories-*.js filename update in demo HTML
-        if (filePath.endsWith('demo/index.html')) {
-            // For demo, use the actual component, not the Storybook story
-            // Removed Button.js path rewrite
-        }
     } else if (mode === 'github') {
+        // Set all asset paths for GitHub Pages deployment (/labs/design-system/)
+        content = content.replace(/\/design-system\//g, '/labs/design-system/');
+        content = content.replace(/\.\.\/design-system\//g, '/labs/design-system/');
+
         // Copy all public assets to docs/design-system for GitHub Pages
         const publicDir = path.join(__dirname, '../design-system');
         const docsPublicDir = path.join(__dirname, '../docs/design-system');
         copyDirSync(publicDir, docsPublicDir);
         console.log('Copied all public assets to docs/design-system for GitHub Pages');
-        // Set all asset paths for GitHub Pages deployment (/labs/design-system/)
 
-        // Convert relative paths to GitHub Pages paths
-        content = content.replace(/\.\.\/(design-system\/[^"']*)/g, '/labs/$1');
-
-        // Relative paths
-        content = content.replace(/\..\/design-system\/src\/styles\/main\.css/g, '/labs/design-system/main.css');
-        content = content.replace(/\..\/design-system\/src\/components\/([A-Za-z0-9_-]+)\.js/g, '/labs/design-system/assets/$1.stories-*.js');
-        // Root-relative paths (for GitHub Pages)
-        content = content.replace(/\/design-system\/main\.css/g, '/labs/design-system/main.css');
-        content = content.replace(/\/design-system\/components\/([A-Za-z0-9_-]+)\.js/g, '/labs/design-system/components/$1.js');
-        content = content.replace(/\/design-system\/src\/styles\/main\.css/g, '/labs/design-system/main.css');
-        content = content.replace(/\/design-system\/src\/components\/([A-Za-z0-9_-]+)\.js/g, '/labs/design-system/components/$1.js');
-
-        // Favicon path for GitHub Pages
-        content = content.replace(/href=["']\/?design-system\/favicon\.svg["']/g, 'href="/labs/design-system/favicon.svg"');
-        content = content.replace(/href=["']\/?labs\/design-system\/favicon\.svg["']/g, 'href="/labs/design-system/favicon.svg"');
-
-        // Normalize any repeated /labs/ prefixes to a single /labs/
-        content = content.replace(/(\/labs)+\/design-system\//g, '/labs/design-system/');
-
-        // Automate Button.stories-*.js filename update in demo HTML
-        if (filePath.endsWith('demo/index.html')) {
-            // For demo, use the actual component, not the Storybook story
-            // Removed Button.js path rewrite
-        }
     } else if (mode === 'local') {
         // Set all asset paths for local preview (python http.server from root)
-        // Demo file is at docs/demo/index.html, so design-system/ is ../design-system/
-
-        // Convert absolute paths to relative for local server (be specific to avoid double replacement)
-        content = content.replace(/href=["']\/labs\/design-system\/main\.css["']/g, 'href="../design-system/main.css"');
-        content = content.replace(/src=["']\/labs\/design-system\/components\/([A-Za-z0-9_-]+)\.js["']/g, 'src="../design-system/components/$1.js"');
-        content = content.replace(/\/labs\/design-system\/assets\//g, '../design-system/assets/');
-        content = content.replace(/href=["']\/design-system\/main\.css["']/g, 'href="../design-system/main.css"');
-        content = content.replace(/src=["']\/design-system\/components\/([A-Za-z0-9_-]+)\.js["']/g, 'src="../design-system/components/$1.js"');
-        content = content.replace(/["']\/design-system\/assets\//g, '"../design-system/assets/');
-
-        // Favicon path for local mode 
-        content = content.replace(/href=["']\/?labs\/design-system\/favicon\.svg["']/g, 'href="../design-system/favicon.svg"');
-        content = content.replace(/href=["']\/?design-system\/favicon\.svg["']/g, 'href="../design-system/favicon.svg"');
+        content = content.replace(/\/labs\/design-system\//g, '../design-system/');
+        content = content.replace(/\/design-system\//g, '../design-system/');
     }
 
     // You can add more patterns here as needed
