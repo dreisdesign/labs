@@ -90,15 +90,24 @@ Default.args = {
 Default.storyName = 'Primary';
 
 
-export const IconGrid = () => `
-  <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end;">
-    <labs-button label="Undo" icon="undo" variant="primary" iconcolor="#fff"></labs-button>
-    <labs-button label="Settings" icon-right="settings" variant="primary" iconcolor="#fff"></labs-button>
-    <labs-button label="Check" checkmark variant="primary" iconcolor="#fff"></labs-button>
-    <labs-button label="Secondary" icon="undo" variant="secondary" iconcolor="#fff"></labs-button>
-    <labs-button label="Danger" icon="delete_forever" variant="danger" iconcolor="#b5005a"></labs-button>
-    <labs-button label="Success" icon="check" variant="success" iconcolor="#fff"></labs-button>
-    <labs-button label="Edit" icon="edit" variant="primary" iconcolor="#fff"></labs-button>
-  </div>
-`;
+import { ThemeToggleButton } from './theme-toggle.stories.js';
+
+export const IconGrid = () => {
+    const wrapper = document.createElement('div');
+    wrapper.style.display = 'flex';
+    wrapper.style.gap = '1rem';
+    wrapper.style.flexWrap = 'wrap';
+    wrapper.style.alignItems = 'flex-end';
+    wrapper.innerHTML = `
+    <labs-button label="Undo" icon="undo" variant="primary" iconcolor="var(--color-on-primary)"></labs-button>
+    <labs-button label="Settings" icon-right="settings" variant="primary" iconcolor="var(--color-on-primary)"></labs-button>
+    <labs-button label="Click for Success Animation" checkmark variant="primary" iconcolor="var(--color-on-primary)"></labs-button>
+    <labs-button label="Secondary" icon="undo" variant="secondary" iconcolor="var(--color-on-primary)"></labs-button>
+    <labs-button label="Danger" icon="delete_forever" variant="danger" iconcolor="var(--color-error)"></labs-button>
+    <labs-button label="Edit" icon="edit" variant="primary" iconcolor="var(--color-on-primary)"></labs-button>
+  `;
+    // Add the actual theme toggle button component
+    wrapper.appendChild(ThemeToggleButton());
+    return wrapper;
+};
 IconGrid.storyName = 'Preview All Buttons';
