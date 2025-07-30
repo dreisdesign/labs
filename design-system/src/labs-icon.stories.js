@@ -1,6 +1,5 @@
 
 import './components/labs-icon.js';
-export const __namedExportsOrder = ['Default'];
 
 export default {
     title: 'Icons/Default',
@@ -45,3 +44,5 @@ Default.args = {
     size: 32,
     color: 'currentColor',
 };
+
+export const __namedExportsOrder = ['Default'];
