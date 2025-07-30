@@ -1,3 +1,11 @@
+# [1.0.4] - 2025-07-30
+
+### Changed/Fixes
+- Deploy script now copies `labs-button.js` and `labs-icon.js` from `src/components/` to `docs/design-system/components/` for public demo compatibility (fixes 404s for custom elements on GitHub Pages).
+- Demo page checkmark icon and all icon references now use the correct path: `/labs/design-system/icons/[icon].svg`.
+- Demo HTML updated to use the full path for the checkmark icon, fixing 404s.
+- Storybook and public demo now use the same asset/component paths for true parity.
+- Troubleshooting tips and workflow improvements added to documentation.
 # [1.0.2] - 2025-07-23
 ## [1.0.3] - 2025-07-28
 

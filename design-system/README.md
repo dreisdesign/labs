@@ -1,3 +1,25 @@
+## 🛠️ Recent Fixes & Workflow Improvements
+
+### 1. Consistent Component Paths for Public Demo
+- The deploy script now copies `labs-button.js` and `labs-icon.js` from `src/components/` to `docs/design-system/components/` so the public demo and Storybook both load components from the same URL.
+- This resolves 404 errors for custom elements on GitHub Pages.
+
+### 2. Correct Icon Paths in Demo
+- All icon references (including checkmark icons) in the demo now use the correct path: `/labs/design-system/icons/[icon].svg`.
+- The demo HTML was updated to use the full path for the checkmark icon, fixing 404s.
+
+### 3. Deploy Script Automation
+- The deploy script (`scripts/deploy.sh`) was updated to:
+  - Build Storybook.
+  - Copy the static build and all required component files to the deploy directory.
+  - Ensure all assets and components are present for GitHub Pages.
+
+### 4. Storybook & Demo Parity
+- Both Storybook and the public demo now use the same asset and component paths, ensuring what you see in dev matches production.
+
+### 5. Troubleshooting Tips
+- If you see 404s for icons or components, check that the deploy script is copying all necessary files and that your HTML references the correct paths.
+- For any new components, add a copy step in the deploy script if they need to be public.
 ---
 **Note:** Storybook controls persistence (the save popup) is currently disabled for a cleaner workflow. You can re-enable it in `.storybook/preview.js` if needed.
 ---
