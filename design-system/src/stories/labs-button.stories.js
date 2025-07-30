@@ -64,7 +64,7 @@ export default {
 
 const Template = ({ label, iconLeft, icon, iconRight, iconRightName, checkmark, variant }) => {
     let leftIcon = iconLeft ? (icon || 'undo') : '';
-    let rightIcon = iconRight ? (iconRightName || 'settings--fill') : '';
+    let rightIcon = iconRight ? (iconRightName || 'settings--labs-icons') : '';
     let iconColor = '#fff';
     if (variant === 'danger') {
         leftIcon = 'delete_forever';

@@ -1,4 +1,4 @@
-import '../components/labs-icon.js';
+import './components/labs-icon.js';
 
 export default {
     title: 'Icons/Default',

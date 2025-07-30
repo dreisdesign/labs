@@ -1,5 +1,5 @@
 /* eslint-disable */
-import '../../components/labs-icon.js';
+import './labs-icon.js';
 
 class LabsButton extends HTMLElement {
   static get observedAttributes() {
@@ -76,7 +76,7 @@ class LabsButton extends HTMLElement {
     if (!iconRight && this.hasAttribute('default-icon-right')) {
       iconRight = 'settings';
     }
-    const checkmarkIcon = this.getAttribute('checkmark-icon') || 'assets/icons/check--fill.svg';
+    const checkmarkIcon = this.getAttribute('checkmark-icon') || 'icons/check--labs-icons.svg';
     const label = this.getAttribute('label') || '';
     const checkmark = this.hasAttribute('checkmark');
     const variant = this.getAttribute('variant') || 'primary';
