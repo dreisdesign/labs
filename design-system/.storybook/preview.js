@@ -19,7 +19,15 @@ const preview = {
 
     options: {
       storySort: {
-        order: ['About', 'Tokens', 'Icons', 'Components']
+        order: [
+          'About',
+          'Tokens',
+          ['All', 'Colors', 'Typography', 'Spacing'],
+          'Icons',
+          ['Default', 'Preview'],
+          'Components',
+          ['Default', 'Preview']
+        ]
       }
     }
   },

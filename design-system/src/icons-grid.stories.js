@@ -1,13 +1,13 @@
 import './components/labs-icon.js';
 export default {
-    title: 'Icons', // 📝 Edit this label for Storybook navigation
-    parameters: { docs: { page: null } }, // disables MDX docs for this story
+    title: 'Icons/Preview',
+    parameters: { docs: { page: null } },
 };
 
 // 📝 Edit the icon list in '../components/icons-list.js' to add/remove icons
 import iconNames from './components/icons-list.js';
 
-export const PreviewAllIcons = () => {
+export const Grid = () => {
     const grid = document.createElement('div');
     // 📝 Edit grid layout below
     grid.style.display = 'grid';
