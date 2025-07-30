@@ -7,7 +7,7 @@ export default {
 // 📝 Edit the icon list in '../components/icons-list.js' to add/remove icons
 import iconNames from './components/icons-list.js';
 
-export const GridPreview = () => {
+export const PreviewAllIcons = () => {
     const grid = document.createElement('div');
     // 📝 Edit grid layout below
     grid.style.display = 'grid';

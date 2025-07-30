@@ -107,4 +107,4 @@ export const IconGrid = () => `
     <labs-button label="Edit" icon="edit" variant="primary" iconcolor="#fff"></labs-button>
   </div>
 `;
-IconGrid.storyName = 'Preview Grid';
+IconGrid.storyName = 'Preview All Buttons';
