@@ -16,17 +16,14 @@ export default {
                 'bedtime_off',
                 'cancel',
                 'change_circle',
-                'check--labs-icons.svg',
                 'check',
                 'close',
                 'comment',
                 'delete_forever',
                 'edit',
                 'rate_review',
-                'settings_fill',
                 'settings',
                 'undo',
-                'undo_svg',
             ],
         },
         iconRight: { control: 'boolean', name: 'Icon Right' },
@@ -48,10 +45,10 @@ export default {
                 'delete_forever',
                 'edit',
                 'rate_review',
-                'settings_fill',
+                'settings',
                 'settings',
                 'undo',
-                'undo_svg',
+                'undo',
             ],
         },
         checkmark: { control: 'boolean', name: 'Check Animation' },
@@ -99,7 +96,7 @@ Default.storyName = 'Primary';
 export const IconGrid = () => `
   <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end;">
     <labs-button label="Undo" icon="undo" variant="primary" iconcolor="#fff"></labs-button>
-    <labs-button label="Settings" icon-right="settings_fill" variant="primary" iconcolor="#fff"></labs-button>
+    <labs-button label="Settings" icon-right="settings" variant="primary" iconcolor="#fff"></labs-button>
     <labs-button label="Check" checkmark variant="primary" iconcolor="#fff"></labs-button>
     <labs-button label="Secondary" icon="undo" variant="secondary" iconcolor="#fff"></labs-button>
     <labs-button label="Danger" icon="delete_forever" variant="danger" iconcolor="#b5005a"></labs-button>
