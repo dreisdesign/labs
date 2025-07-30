@@ -1,5 +1,6 @@
-export const __namedExportsOrder = ['Default'];
+
 import './components/labs-icon.js';
+export const __namedExportsOrder = ['Default'];
 
 export default {
     title: 'Icons/Default',
