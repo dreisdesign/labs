@@ -3,16 +3,8 @@
 @import './tokens/spacing.css';
 
 /* Labs Design System - Main CSS */
+
 :root {
-    --color-primary: #2e2b74;
-    --color-secondary: #0d0b3f;
-    --color-background: #f8f8fa;
-    --color-surface: #fff;
-    --color-success: #00b56a;
-    --color-error: #b5005a;
-    --color-on-primary: #fff;
-    --color-on-background: #160a38;
-    --color-on-surface: #1c1b1f;
     --font-family-base: 'Source Sans 3', 'Segoe UI', Arial, sans-serif;
 }
 

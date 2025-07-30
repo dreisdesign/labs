@@ -33,22 +33,39 @@ body {
 }
 ```
 
-## 5. Demo Page Toggle Example
+
+## 5. Demo Page Theme Toggle Example (with UI State)
+It’s best practice to separate the button’s UI state (icon/text) from the actual theme change logic. The button should update its appearance based on the current theme, but the theme change itself should be handled by toggling a class on `<body>` or `<html>`.
+
 ```html
-<button id="theme-toggle">Toggle Theme</button>
+<button id="theme-toggle">
+  <labs-icon id="theme-icon" name="bedtime"></labs-icon>
+  <span id="theme-label">Turn on Dark Mode</span>
+</button>
 <script>
   const btn = document.getElementById('theme-toggle');
+  const icon = document.getElementById('theme-icon');
+  const label = document.getElementById('theme-label');
+  function updateThemeButton() {
+    const isDark = document.body.classList.contains('theme-dark');
+    icon.setAttribute('name', isDark ? 'bedtime_off' : 'bedtime');
+    label.textContent = isDark ? 'Turn off Dark Mode' : 'Turn on Dark Mode';
+  }
   btn.onclick = () => {
     document.body.classList.toggle('theme-dark');
     document.body.classList.toggle('theme-light');
+    updateThemeButton();
   };
-  // Optional: auto-detect
+  // Optional: auto-detect system preference
   if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
     document.body.classList.remove('theme-light');
     document.body.classList.add('theme-dark');
   }
+  updateThemeButton();
 </script>
 ```
+
+**Tip:** In Storybook stories, you can use a similar button for demo purposes that only changes its own state, or you can wire it to actually toggle the theme for the preview. Keeping the UI state and the theme logic separate makes your code more reusable and testable.
 
 ## 6. Best Practices
 - Use only CSS variables for all color and themeable values.
