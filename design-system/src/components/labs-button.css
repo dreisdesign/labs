@@ -57,23 +57,6 @@ labs-button,
     margin: 0;
 }
 
-/* Ensure consistent spacing between icon and label 
-.labs-icon-left {
-    margin-right: 0.5em;
-}
-
-.labs-icon-right {
-    margin-left: 0.5em;
-}
-
-.labs-icon-left {
-    margin-right: 0.5em !important;
-}
-
-.labs-icon-right {
-    margin-left: 0.5em !important;
-}*/
-
 .labs-label {
     text-align: center;
     line-height: 1.2;

@@ -101,7 +101,7 @@ export const IconGrid = () => {
     wrapper.innerHTML = `
     <labs-button label="Undo" icon="undo" variant="primary" iconcolor="var(--color-on-primary)"></labs-button>
     <labs-button label="Settings" icon-right="settings" variant="primary" iconcolor="var(--color-on-primary)"></labs-button>
-    <labs-button label="Add" icon-left="add" checkmark variant="primary" iconcolor="var(--color-on-primary)"></labs-button>
+    <labs-button label="Add" icon="add" checkmark variant="primary" iconcolor="var(--color-on-primary)"></labs-button>
     <labs-button label="Secondary" icon="undo" variant="secondary" iconcolor="var(--color-on-primary)"></labs-button>
     <labs-button label="Danger" icon="delete_forever" variant="danger" iconcolor="var(--color-error)"></labs-button>
     <labs-button label="Edit" icon="edit" variant="primary" iconcolor="var(--color-on-primary)"></labs-button>
