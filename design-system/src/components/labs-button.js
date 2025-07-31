@@ -76,7 +76,7 @@ class LabsButton extends HTMLElement {
     if (!iconRight && this.hasAttribute('default-icon-right')) {
       iconRight = 'settings';
     }
-    const checkmarkIcon = this.getAttribute('checkmark-icon') || 'icons/check--labs-icons.svg';
+        const checkmarkIcon = this.getAttribute('checkmark-icon') || '/labs/design-system/icons/check--labs-icons.svg';
     const label = this.getAttribute('label') || '';
     const checkmark = this.hasAttribute('checkmark');
     const variant = this.getAttribute('variant') || 'primary';
