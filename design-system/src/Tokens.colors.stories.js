@@ -12,8 +12,8 @@ export default {
 };
 
 export const Colors = () => {
-    const colors = [
-        'color-primary', 'color-secondary', 'color-background', 'color-surface', 'color-success', 'color-error', 'color-on-primary', 'color-on-background', 'color-on-surface'
+        const colors = [
+        'color-primary', 'color-secondary', 'color-primary-darker', 'color-background', 'color-surface', 'color-success', 'color-error', 'color-error-inactive', 'color-on-primary', 'color-on-background', 'color-on-surface', 'color-on-error', 'color-on-error-inactive', 'color-primary-75', 'color-primary-25', 'color-secondary-75', 'color-on-surface-75', 'settings-icon-color'
     ];
     const container = document.createElement('div');
     container.style.display = 'grid';

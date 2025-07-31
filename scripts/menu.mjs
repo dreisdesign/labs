@@ -5,6 +5,53 @@ process.chdir('/Users/danielreis/labs');
 import inquirer from 'inquirer';
 import { execSync, exec } from 'child_process';
 
+const openUrls = (urls) => {
+    urls.forEach(url => {
+        console.log(`Opening or focusing ${url} ...`);
+        try {
+            if (process.platform === 'darwin') {
+                const appleScript = `
+                    on is_url_open(the_url)
+                        tell application "Google Chrome"
+                            repeat with w in windows
+                                repeat with t in tabs of w
+                                    if URL of t is the_url then
+                                        return {true, index of w, index of t}
+                                    end if
+                                end repeat
+                            end repeat
+                            return {false, -1, -1}
+                        end tell
+                    end is_url_open
+
+                    on open_or_focus_url(the_url)
+                        set {is_open, w_index, t_index} to is_url_open(the_url)
+                        tell application "Google Chrome"
+                            if is_open then
+                                set active tab index of window w_index to t_index
+                                set index of window w_index to 1
+                                activate
+                            else
+                                open location the_url
+                                activate
+                            end if
+                        end tell
+                    end open_or_focus_url
+
+                    open_or_focus_url("${url}")
+                `;
+                execSync(`osascript -e '${appleScript}'`);
+            } else if (process.platform === 'win32') {
+                execSync(`start chrome "${url}"`);
+            } else {
+                execSync(`xdg-open "${url}"`);
+            }
+        } catch (e) {
+            console.error(`Failed to open ${url}: ${e.message}. Please open it manually.`);
+        }
+    });
+};
+
 async function main() {
     try {
         const { action } = await inquirer.prompt([
@@ -37,23 +84,9 @@ async function main() {
 
             const storybookUrl = `http://localhost:${port}`;
 
-            const openBrowser = () => {
-                console.log(`\nOpening Storybook at ${storybookUrl} ...`);
-                try {
-                    execSync(`open -a "Google Chrome" ${storybookUrl}`);
-                } catch (e) {
-                    console.log('Google Chrome not found, opening in default browser...');
-                    try {
-                        execSync(`open ${storybookUrl}`);
-                    } catch (e2) {
-                        console.log(`\nCould not open browser automatically. Please visit ${storybookUrl}`);
-                    }
-                }
-            };
-
             if (portInUse) {
                 console.log(`\nStorybook is already running on port ${port}.`);
-                openBrowser();
+                openUrls([storybookUrl]);
             } else {
                 console.log('\nStarting the Storybook dev server...');
                 // Run storybook in the background
@@ -63,7 +96,7 @@ async function main() {
                     console.log(data.toString());
                     // A better check would be to see if the server is connectable
                     if (data.toString().includes('Storybook started')) {
-                        openBrowser();
+                        openUrls([storybookUrl]);
                     }
                 });
 
@@ -82,23 +115,6 @@ async function main() {
             // Define URLs
             const storybookUrl = 'https://dreisdesign.github.io/labs/design-system/';
             const demoUrl = 'https://dreisdesign.github.io/labs/demo/';
-
-            const openUrls = (urls) => {
-                urls.forEach(url => {
-                    console.log(`Opening ${url} ...`);
-                    try {
-                        if (process.platform === 'darwin') {
-                            execSync(`open -a "Google Chrome" "${url}"`);
-                        } else if (process.platform === 'win32') {
-                            execSync(`start chrome "${url}"`);
-                        } else {
-                            execSync(`xdg-open "${url}"`);
-                        }
-                    } catch (e) {
-                        console.error(`Failed to open ${url}: ${e.message}. Please open it manually.`);
-                    }
-                });
-            };
 
             openUrls([storybookUrl, demoUrl]);
 

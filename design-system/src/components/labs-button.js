@@ -172,10 +172,10 @@ class LabsButton extends HTMLElement {
         }
       </style>
       <button class="labs-button ${variant}" part="button">
-        ${icon ? `<labs-icon class="labs-icon" name="${icon}"></labs-icon>` : ''}
+        ${icon ? `<labs-icon class="labs-icon" name="${icon}" style="color: ${iconColor};"></labs-icon>` : ''}
         <span class="labs-label">${label}</span>
-        ${iconRight ? `<labs-icon class="labs-icon" name="${iconRight}"></labs-icon>` : ''}
-        ${checkmark ? `<span class="labs-checkmark"><labs-icon name="check" class="labs-icon"></labs-icon></span>` : ''}
+        ${iconRight ? `<labs-icon class="labs-icon" name="${iconRight}" style="color: ${iconColor};"></labs-icon>` : ''}
+                ${checkmark ? `<span class="labs-checkmark"><labs-icon name="check" class="labs-icon" style="color: ${iconColor || 'white'};"></labs-icon></span>` : ''}
       </button>
     `;
   }
