@@ -4,6 +4,7 @@
 const ICON_BASE =
     window.location.pathname.includes('/labs/') ? '/labs/design-system/icons/' : 'icons/';
 const icons = {
+    add: ICON_BASE + 'add--labs-icons.svg',
     add_comment: ICON_BASE + 'add_comment--labs-icons.svg',
     bedtime: ICON_BASE + 'bedtime--labs-icons.svg',
     bedtime_off: ICON_BASE + 'bedtime_off--labs-icons.svg',
@@ -16,7 +17,7 @@ const icons = {
     edit: ICON_BASE + 'edit--labs-icons.svg',
     rate_review: ICON_BASE + 'rate_review--labs-icons.svg',
     settings: ICON_BASE + 'settings--labs-icons.svg',
-    undo: ICON_BASE + 'undo--labs-icons.svg',
+    undo: ICON_BASE + 'undo--labs-icons.svg'
 };
 
 class LabsIcon extends HTMLElement {
