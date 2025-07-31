@@ -110,4 +110,9 @@ export const IconGrid = () => {
     wrapper.appendChild(ThemeToggleButton());
     return wrapper;
 };
+IconGrid.parameters = {
+    controls: {
+        disable: true,
+    },
+};
 IconGrid.storyName = 'Preview All Buttons';
