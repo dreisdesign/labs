@@ -20,7 +20,7 @@ const icons = {
 };
 
 class LabsIcon extends HTMLElement {
-    static get observedAttributes() { return ['name']; }
+    static get observedAttributes() { return ['name', 'style']; }
     attributeChangedCallback(name, oldValue, newValue) {
         this.render();
     }
@@ -35,7 +35,19 @@ class LabsIcon extends HTMLElement {
             const style = window.getComputedStyle(this);
             const width = this.getAttribute('width') || style.width || '24px';
             const height = this.getAttribute('height') || style.height || '24px';
-            this.innerHTML = `<img src="${url}" width="${parseInt(width)}" height="${parseInt(height)}" style="display:inline-block;vertical-align:middle;" alt="${iconName}" />`;
+            const color = this.style.color || 'currentColor';
+
+            this.innerHTML = `
+                <div style="
+                    width: ${width};
+                    height: ${height};
+                    background-color: ${color};
+                    mask-image: url(${url});
+                    mask-size: contain;
+                    mask-repeat: no-repeat;
+                    mask-position: center;
+                "></div>
+            `;
         } else {
             this.innerHTML = '';
         }
