@@ -3,7 +3,7 @@ import './labs-icon.js';
 
 class LabsButton extends HTMLElement {
   static get observedAttributes() {
-    return ['variant', 'icon', 'icon-right', 'checkmark', 'checkmark-icon', 'label', 'iconcolor'];
+    return ['variant', 'icon', 'icon-right', 'checkmark', 'label', 'iconcolor'];
   }
 
   constructor() {
@@ -29,7 +29,6 @@ class LabsButton extends HTMLElement {
       icon: this.getAttribute('icon'),
       iconRight: this.getAttribute('icon-right'),
       checkmark: this.getAttribute('checkmark'),
-      checkmarkIcon: this.getAttribute('checkmark-icon'),
       label: this.getAttribute('label'),
       iconcolor: this.getAttribute('iconcolor')
     });
@@ -76,7 +75,6 @@ class LabsButton extends HTMLElement {
     if (!iconRight && this.hasAttribute('default-icon-right')) {
       iconRight = 'settings';
     }
-        const checkmarkIcon = this.getAttribute('checkmark-icon') || '/labs/design-system/icons/check--labs-icons.svg';
     const label = this.getAttribute('label') || '';
     const checkmark = this.hasAttribute('checkmark');
     const variant = this.getAttribute('variant') || 'primary';
@@ -163,11 +161,6 @@ class LabsButton extends HTMLElement {
             transform: scale(1) rotate(0deg);
           }
         }
-        .checkmark-icon {
-          width: 1.5rem;
-          height: 1.5rem;
-          filter: brightness(0) invert(1);
-        }
         /* Apply icon color filter */
         .labs-icon img {
           filter: ${iconColor === '#fff' || iconColor.toLowerCase() === 'white' ? 'brightness(0) invert(1)' : iconColor ? `hue-rotate(0deg) saturate(0) brightness(0) invert(1)` : 'none'};
@@ -183,7 +176,7 @@ class LabsButton extends HTMLElement {
         ${icon ? `<labs-icon class="labs-icon" name="${icon}"></labs-icon>` : ''}
         <span class="labs-label">${label}</span>
         ${iconRight ? `<labs-icon class="labs-icon" name="${iconRight}"></labs-icon>` : ''}
-        ${checkmark ? `<span class="labs-checkmark"><img src="${checkmarkIcon}" class="checkmark-icon" alt="Success"/></span>` : ''}
+        ${checkmark ? `<span class="labs-checkmark"><labs-icon name="check" class="labs-icon"></labs-icon></span>` : ''}
       </button>
     `;
   }
