@@ -138,8 +138,8 @@ class LabsButton extends HTMLElement {
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 24px;
-          height: 24px;
+          width: 36px;
+          height: 36px;
         }
         .success .labs-label {
           opacity: 0;
@@ -167,7 +167,6 @@ class LabsButton extends HTMLElement {
         }
         /* Ensure right icon is visible and spaced */
         .labs-button labs-icon:last-of-type {
-          margin-left: 0.5em;
           opacity: 1 !important;
           display: inline-block !important;
         }
