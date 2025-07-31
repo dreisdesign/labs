@@ -80,7 +80,7 @@ async function main() {
             execSync('npm run deploy', { stdio: 'inherit' });
 
             // Define URLs
-            const storybookUrl = 'https://dreisdesign.github.io/labs/design-system/?path=/docs/stories-about--docs';
+            const storybookUrl = 'https://dreisdesign.github.io/labs/design-system/';
             const demoUrl = 'https://dreisdesign.github.io/labs/demo/';
 
             const openUrls = (urls) => {
