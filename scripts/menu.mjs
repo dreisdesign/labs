@@ -10,37 +10,7 @@ const openUrls = (urls) => {
         console.log(`Opening or focusing ${url} ...`);
         try {
             if (process.platform === 'darwin') {
-                const appleScript = `
-                    on is_url_open(the_url)
-                        tell application "Google Chrome"
-                            repeat with w in windows
-                                repeat with t in tabs of w
-                                    if URL of t is the_url then
-                                        return {true, index of w, index of t}
-                                    end if
-                                end repeat
-                            end repeat
-                            return {false, -1, -1}
-                        end tell
-                    end is_url_open
-
-                    on open_or_focus_url(the_url)
-                        set {is_open, w_index, t_index} to is_url_open(the_url)
-                        tell application "Google Chrome"
-                            if is_open then
-                                set active tab index of window w_index to t_index
-                                set index of window w_index to 1
-                                activate
-                            else
-                                open location the_url
-                                activate
-                            end if
-                        end tell
-                    end open_or_focus_url
-
-                    open_or_focus_url("${url}")
-                `;
-                execSync(`osascript -e '${appleScript}'`);
+                execSync(`open "${url}"`);
             } else if (process.platform === 'win32') {
                 execSync(`start chrome "${url}"`);
             } else {

@@ -1,7 +1,7 @@
 import './components/labs-icon.js';
 export default {
     title: 'Icons/Preview',
-    parameters: { docs: { page: null } },
+    
 };
 
 // 📝 Edit the icon list in '../components/icons-list.js' to add/remove icons
@@ -16,7 +16,10 @@ export const Grid = () => {
 
     iconNames.forEach(name => {
         const cell = document.createElement('div');
-        cell.style.textAlign = 'center';
+        cell.style.display = 'flex';
+        cell.style.flexDirection = 'column';
+        cell.style.alignItems = 'center';
+        cell.style.justifyContent = 'center';
 
         const icon = document.createElement('labs-icon');
         icon.setAttribute('name', name);

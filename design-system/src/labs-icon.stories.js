@@ -1,27 +1,14 @@
 
 import './components/labs-icon.js';
+import iconNames from './components/icons-list.js';
 
 export default {
     title: 'Icons/Default',
     argTypes: {
         name: {
             control: { type: 'select' },
-            options: [
-                'add_comment',
-                'bedtime',
-                'bedtime_off',
-                'cancel',
-                'change_circle',
-                'check',
-                'close',
-                'comment',
-                'delete_forever',
-                'edit',
-                'rate_review',
-                'settings',
-                'undo',
-                // Add more icon names as needed
-            ],
+            options: iconNames,
+            defaultValue: 'cancel',
         },
         size: {
             control: { type: 'number', min: 16, max: 128, step: 4 },
