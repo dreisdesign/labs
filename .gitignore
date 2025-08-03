@@ -28,9 +28,8 @@ _archive/
 
 # Storybook build output
 design-system/storybook-static/
+# Auto-updated sitemap
+STORYBOOK_SITEMAP.md
 
 # Local dev documents
 _dev/documents/
-
-# Auto-updated sitemap
-STORYBOOK_SITEMAP.md
