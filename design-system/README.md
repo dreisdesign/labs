@@ -1,34 +1,20 @@
-## 🛠️ Recent Fixes & Workflow Improvements
 
-### 1. Consistent Component Paths for Public Demo
+## 🆕 Recent Improvements
 
-- The deploy script now copies `labs-button.js` and `labs-icon.js` from `src/components/` to `docs/design-system/components/` so the public demo and Storybook both load components from the same URL.
-- This resolves 404 errors for custom elements on GitHub Pages.
-
-### 2. Correct Icon Paths in Demo
-
-- All icon references (including checkmark icons) in the demo now use the correct path: `/labs/design-system/icons/[icon].svg`.
-- The demo HTML was updated to use the full path for the checkmark icon, fixing 404s.
-
-### 3. Deploy Script Automation
-
-- The deploy script (`scripts/deploy.sh`) was updated to:
-  - Build Storybook.
-  - Copy the static build and all required component files to the deploy directory.
-  - Ensure all assets and components are present for GitHub Pages.
-
-### 4. Storybook & Demo Parity
-
-- Both Storybook and the public demo now use the same asset and component paths, ensuring what you see in dev matches production.
-
-### 5. Troubleshooting Tips
-
-- If you see 404s for icons or components, check that the deploy script is copying all necessary files and that your HTML references the correct paths.
-- For any new components, add a copy step in the deploy script if they need to be public.
+- **Unified Container Button System:** Modular, token-based container and destructive button variants for overlays and dialogs. Visual consistency with Tracker app.
+- **Storybook Cleanup:** Redundant stories removed, sidebar and sitemap automated, and all button/icon demos are now modular and clear.
+- **Button Configs:** Centralized, grouped, and documented for best practices. Container, destructive, and navigation variants are easy to use and extend.
+- **Icon Color Logic:** All icon colors now use design tokens and match text in all states.
+- **Overlay & Button CSS:** Improved for shape, width, and hover/fill states. Overlay buttons now match Tracker app exactly.
+- **Docs & Automation:** All stories and tokens are documented. Deploy script ensures parity between Storybook and public demo. Storybook sitemap is auto-generated.
 
 ---
 
-## **Note:** Storybook controls persistence (the save popup) is currently disabled for a cleaner workflow. You can re-enable it in `.storybook/preview.js` if needed.
+## Changelog
+
+See [`CHANGELOG.md`](CHANGELOG.md) for a detailed list of recent changes and improvements.
+
+---
 
 # Labs Design System
 
@@ -42,16 +28,20 @@ This folder contains the Labs Design System: shared UI components, tokens, Story
 - `storybook-static/` — Static build output (after running `npm run build-storybook`)
 - `README.md` — This file
 
+
 ## Usage & Docs
 
 - Develop and document components and tokens here
 - Run Storybook locally for live docs and visual testing
 - Build and deploy Storybook for public docs
+- See the [Changelog](CHANGELOG.md) for recent updates
+
 
 ## Key Links
 
 - [Global Monorepo README](../README.md)
 - [Labs Storybook (Live)](https://dreisdesign.github.io/labs/design-system/)
+- [Design System Changelog](CHANGELOG.md)
 - [Changelog & Roadmap](../docs/CHANGELOG.md)
 - [Migration Guide](../_dev/_documents/DESIGN-SYSTEM-MIGRATION-GUIDE.md)
 
