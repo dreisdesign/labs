@@ -1,3 +1,44 @@
+// Interactive demo: button opens overlay as modal
+export const Demo = () => {
+  // Container for the demo
+  const wrapper = document.createElement("div");
+  wrapper.style.minHeight = "300px";
+  wrapper.style.display = "flex";
+  wrapper.style.flexDirection = "column";
+  wrapper.style.alignItems = "flex-start";
+  wrapper.style.gap = "1.5rem";
+
+  // Settings button
+  const openBtn = document.createElement("labs-button");
+  openBtn.setAttribute("icon", "settings");
+  openBtn.setAttribute("variant", "primary");
+  openBtn.setAttribute("label", "Open Settings Overlay");
+
+  // Overlay (initially not in DOM)
+  let overlay = null;
+
+  openBtn.addEventListener("click", () => {
+    if (overlay) return;
+    overlay = Template({ isOpen: true });
+    // Add close logic
+    overlay.querySelector(".close-button").addEventListener("click", () => {
+      overlay.remove();
+      overlay = null;
+    });
+    // Optional: close on background click
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) {
+        overlay.remove();
+        overlay = null;
+      }
+    });
+    document.body.appendChild(overlay);
+  });
+
+  wrapper.appendChild(openBtn);
+  return wrapper;
+};
+Demo.storyName = "Demo (Interactive Overlay)";
 import "../styles/components/settings-overlay.css";
 import "../components/labs-button.js";
 import "../components/labs-icon.js";
