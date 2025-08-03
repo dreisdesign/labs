@@ -13,6 +13,8 @@
 # VS Code configuration
 .vscode/
 
+# Storybook sitemap (auto-generated)
+STORYBOOK_SITEMAP.md
 # Node.js dependencies (if you ever use npm/yarn)
 node_modules/
 npm-debug.log*
@@ -28,8 +30,6 @@ _archive/
 
 # Storybook build output
 design-system/storybook-static/
-# Auto-updated sitemap
-STORYBOOK_SITEMAP.md
 
 # Local dev documents
 _dev/documents/
