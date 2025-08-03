@@ -31,3 +31,6 @@ design-system/storybook-static/
 
 # Local dev documents
 _dev/documents/
+
+# Auto-updated sitemap
+STORYBOOK_SITEMAP.md
