@@ -16,9 +16,11 @@ See [`CHANGELOG.md`](CHANGELOG.md) for a detailed list of recent changes and imp
 
 ---
 
+
 # Labs Design System
 
 This folder contains the Labs Design System: shared UI components, tokens, Storybook config, and documentation.
+
 
 ## Structure
 
@@ -27,6 +29,14 @@ This folder contains the Labs Design System: shared UI components, tokens, Story
 - `.storybook/` — Storybook configuration
 - `storybook-static/` — Static build output (after running `npm run build-storybook`)
 - `README.md` — This file
+## Components
+
+- `labs-button`: Button component supporting primary, secondary, container, and container-danger variants, with icon and checkmark support.
+- `labs-icon`: SVG icon component, supports color tokens and accessibility.
+- `labs-settings-overlay`: Reusable settings modal overlay as a custom element. [Docs](components/labs-settings-overlay.md)
+
+See `/components/` for more.
+
 
 
 ## Usage & Docs
@@ -35,6 +45,7 @@ This folder contains the Labs Design System: shared UI components, tokens, Story
 - Run Storybook locally for live docs and visual testing
 - Build and deploy Storybook for public docs
 - See the [Changelog](CHANGELOG.md) for recent updates
+- See `/docs/demo/index.html` for a live demo of the design system components, including `<labs-settings-overlay>` in action.
 
 
 ## Key Links
