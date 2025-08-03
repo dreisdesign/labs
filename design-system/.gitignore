@@ -1,0 +1,3 @@
+# Ignore Storybook static output and generated files
+storybook-static/
+STORYBOOK_SITEMAP.md
