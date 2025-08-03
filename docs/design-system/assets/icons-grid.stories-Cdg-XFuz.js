@@ -1,4 +1,50 @@
-import"./labs-icon-8279HnLw.js";const c=["add_comment","bedtime","bedtime_off","cancel","change_circle","check","close","comment","delete_forever","edit","rate_review","settings","undo"],o={title:"Icons",parameters:{docs:{page:null}}},n=()=>{const e=document.createElement("div");return e.style.display="grid",e.style.gridTemplateColumns="repeat(6, 1fr)",e.style.gap="24px",c.forEach(r=>{const t=document.createElement("div");t.style.textAlign="center";const l=document.createElement("labs-icon");l.setAttribute("name",r),l.setAttribute("style","width:32px; height:32px;");const a=document.createElement("div");a.textContent=r;const i=document.createElement("div");i.innerHTML=`<a href="./?path=/story/icons-default--default&args=name:${r}" target="_parent">View in story</a>`,t.appendChild(l),t.appendChild(a),t.appendChild(i),e.appendChild(t)}),e};n.parameters={...n.parameters,docs:{...n.parameters?.docs,source:{originalSource:`() => {
+import "./labs-icon-8279HnLw.js";
+const c = [
+    "add_comment",
+    "bedtime",
+    "bedtime_off",
+    "cancel",
+    "change_circle",
+    "check",
+    "close",
+    "comment",
+    "delete_forever",
+    "edit",
+    "rate_review",
+    "settings",
+    "undo",
+  ],
+  o = { title: "Icons", parameters: { docs: { page: null } } },
+  n = () => {
+    const e = document.createElement("div");
+    return (
+      (e.style.display = "grid"),
+      (e.style.gridTemplateColumns = "repeat(6, 1fr)"),
+      (e.style.gap = "24px"),
+      c.forEach((r) => {
+        const t = document.createElement("div");
+        t.style.textAlign = "center";
+        const l = document.createElement("labs-icon");
+        l.setAttribute("name", r),
+          l.setAttribute("style", "width:32px; height:32px;");
+        const a = document.createElement("div");
+        a.textContent = r;
+        const i = document.createElement("div");
+        (i.innerHTML = `<a href="./?path=/story/icons-default--default&args=name:${r}" target="_parent">View in story</a>`),
+          t.appendChild(l),
+          t.appendChild(a),
+          t.appendChild(i),
+          e.appendChild(t);
+      }),
+      e
+    );
+  };
+n.parameters = {
+  ...n.parameters,
+  docs: {
+    ...n.parameters?.docs,
+    source: {
+      originalSource: `() => {
   const grid = document.createElement('div');
   // 📝 Edit grid layout below
   grid.style.display = 'grid';
@@ -21,4 +67,10 @@ import"./labs-icon-8279HnLw.js";const c=["add_comment","bedtime","bedtime_off","
     grid.appendChild(cell);
   });
   return grid;
-}`,...n.parameters?.docs?.source}}};const s=["Preview"];export{n as Preview,s as __namedExportsOrder,o as default};
+}`,
+      ...n.parameters?.docs?.source,
+    },
+  },
+};
+const s = ["Preview"];
+export { n as Preview, s as __namedExportsOrder, o as default };

@@ -1,142 +1,146 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Favicon Test</title>
-    <link rel="icon" type="image/svg+xml" href="../../timer/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="../../timer/favicon.svg" />
     <style>
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+        padding: 2rem;
+        background: white;
+        color: black;
+      }
+
+      @media (prefers-color-scheme: dark) {
         body {
-            font-family: system-ui, -apple-system, sans-serif;
-            padding: 2rem;
-            background: white;
-            color: black;
+          background: #1a1a1a;
+          color: white;
         }
+      }
 
-        @media (prefers-color-scheme: dark) {
-            body {
-                background: #1a1a1a;
-                color: white;
-            }
-        }
+      .favicon-preview {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+        margin: 2rem 0;
+      }
 
-        .favicon-preview {
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
-            margin: 2rem 0;
-        }
+      .favicon-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+      }
 
+      .favicon-item img {
+        width: 64px;
+        height: 64px;
+      }
+
+      .theme-toggle {
+        margin: 1rem 0;
+      }
+
+      button {
+        padding: 0.5rem 1rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background: white;
+        cursor: pointer;
+      }
+
+      @media (prefers-color-scheme: dark) {
         .favicon-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-        }
-
-        .favicon-item img {
-            width: 64px;
-            height: 64px;
-        }
-
-        .theme-toggle {
-            margin: 1rem 0;
+          border-color: #555;
         }
 
         button {
-            padding: 0.5rem 1rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            background: white;
-            cursor: pointer;
+          background: #333;
+          color: white;
+          border-color: #555;
         }
-
-        @media (prefers-color-scheme: dark) {
-            .favicon-item {
-                border-color: #555;
-            }
-
-            button {
-                background: #333;
-                color: white;
-                border-color: #555;
-            }
-        }
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <h1>Labs Favicon Test</h1>
 
-    <p>This page tests the single-version favicons for all projects. Each favicon uses a solid #202F48 background with
-        white icons for optimal contrast and consistent branding across light and dark contexts.</p>
+    <p>
+      This page tests the single-version favicons for all projects. Each favicon
+      uses a solid #202F48 background with white icons for optimal contrast and
+      consistent branding across light and dark contexts.
+    </p>
 
     <div class="theme-toggle">
-        <button onclick="toggleTheme()">Toggle Theme (Manual)</button>
-        <span id="currentTheme">Current: System Default</span>
+      <button onclick="toggleTheme()">Toggle Theme (Manual)</button>
+      <span id="currentTheme">Current: System Default</span>
     </div>
 
     <div class="favicon-preview">
-        <div class="favicon-item">
-            <img src="../../timer/favicon.svg" alt="Timer favicon">
-            <span>Timer</span>
-        </div>
+      <div class="favicon-item">
+        <img src="../../timer/favicon.svg" alt="Timer favicon" />
+        <span>Timer</span>
+      </div>
 
-        <div class="favicon-item">
-            <img src="../../tracker/favicon.svg" alt="Tracker favicon">
-            <span>Tracker</span>
-        </div>
+      <div class="favicon-item">
+        <img src="../../tracker/favicon.svg" alt="Tracker favicon" />
+        <span>Tracker</span>
+      </div>
 
-        <div class="favicon-item">
-            <img src="../../note/favicon.svg" alt="Note favicon">
-            <span>Note</span>
-        </div>
+      <div class="favicon-item">
+        <img src="../../note/favicon.svg" alt="Note favicon" />
+        <span>Note</span>
+      </div>
 
-        <div class="favicon-item">
-            <img src="../../favicon.svg" alt="Home favicon">
-            <span>Home</span>
-        </div>
+      <div class="favicon-item">
+        <img src="../../favicon.svg" alt="Home favicon" />
+        <span>Home</span>
+      </div>
     </div>
 
     <h2>Features:</h2>
     <ul>
-        <li>✅ Solid #202F48 brand color background</li>
-        <li>✅ White icons for optimal contrast</li>
-        <li>✅ Consistent branding across all contexts</li>
-        <li>✅ Perfect for PWA app icons</li>
-        <li>✅ 32x32 optimized for favicon display</li>
-        <li>✅ No CSS complexity - simple and reliable</li>
+      <li>✅ Solid #202F48 brand color background</li>
+      <li>✅ White icons for optimal contrast</li>
+      <li>✅ Consistent branding across all contexts</li>
+      <li>✅ Perfect for PWA app icons</li>
+      <li>✅ 32x32 optimized for favicon display</li>
+      <li>✅ No CSS complexity - simple and reliable</li>
     </ul>
 
     <script>
-        let manualTheme = null;
+      let manualTheme = null;
 
-        function toggleTheme() {
-            const html = document.documentElement;
-            const currentTheme = document.getElementById('currentTheme');
+      function toggleTheme() {
+        const html = document.documentElement;
+        const currentTheme = document.getElementById("currentTheme");
 
-            if (manualTheme === null) {
-                // Switch to dark
-                html.style.colorScheme = 'dark';
-                manualTheme = 'dark';
-                currentTheme.textContent = 'Current: Dark (Manual)';
-            } else if (manualTheme === 'dark') {
-                // Switch to light
-                html.style.colorScheme = 'light';
-                manualTheme = 'light';
-                currentTheme.textContent = 'Current: Light (Manual)';
-            } else {
-                // Return to system
-                html.style.colorScheme = '';
-                manualTheme = null;
-                currentTheme.textContent = 'Current: System Default';
-            }
+        if (manualTheme === null) {
+          // Switch to dark
+          html.style.colorScheme = "dark";
+          manualTheme = "dark";
+          currentTheme.textContent = "Current: Dark (Manual)";
+        } else if (manualTheme === "dark") {
+          // Switch to light
+          html.style.colorScheme = "light";
+          manualTheme = "light";
+          currentTheme.textContent = "Current: Light (Manual)";
+        } else {
+          // Return to system
+          html.style.colorScheme = "";
+          manualTheme = null;
+          currentTheme.textContent = "Current: System Default";
         }
+      }
     </script>
-</body>
-
+  </body>
 </html>

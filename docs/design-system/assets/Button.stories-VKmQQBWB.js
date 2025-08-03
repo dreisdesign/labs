@@ -1,4 +1,9 @@
-class s extends HTMLElement{constructor(){super();const t=this.attachShadow({mode:"open"}),e=window.location.pathname.includes("/labs/")?"/labs":"";t.innerHTML=`
+class s extends HTMLElement {
+  constructor() {
+    super();
+    const t = this.attachShadow({ mode: "open" }),
+      e = window.location.pathname.includes("/labs/") ? "/labs" : "";
+    (t.innerHTML = `
       <style>
         @import url('${e}/design-system/main.css');
         button {
@@ -23,4 +28,37 @@ class s extends HTMLElement{constructor(){super();const t=this.attachShadow({mod
         }
       </style>
       <button part="button"><slot>Button</slot></button>
-    `,this._btn=t.querySelector("button")}connectedCallback(){this.hasAttribute("disabled")&&(this._btn.disabled=!0)}static get observedAttributes(){return["disabled"]}attributeChangedCallback(t,e,n){t==="disabled"&&(this._btn.disabled=this.hasAttribute("disabled"))}}customElements.define("labs-button",s);const{fn:a}=__STORYBOOK_MODULE_TEST__,r={title:"Components/Button",tags:["autodocs"],render:o=>Button(o),argTypes:{backgroundColor:{control:"color"},size:{control:{type:"select"},options:["small","medium","large"]}},args:{onClick:a()},parameters:{docs:{description:{component:"Labs Design System Button Web Component."}}}};export{r as default};
+    `),
+      (this._btn = t.querySelector("button"));
+  }
+  connectedCallback() {
+    this.hasAttribute("disabled") && (this._btn.disabled = !0);
+  }
+  static get observedAttributes() {
+    return ["disabled"];
+  }
+  attributeChangedCallback(t, e, n) {
+    t === "disabled" && (this._btn.disabled = this.hasAttribute("disabled"));
+  }
+}
+customElements.define("labs-button", s);
+const { fn: a } = __STORYBOOK_MODULE_TEST__,
+  r = {
+    title: "Components/Button",
+    tags: ["autodocs"],
+    render: (o) => Button(o),
+    argTypes: {
+      backgroundColor: { control: "color" },
+      size: {
+        control: { type: "select" },
+        options: ["small", "medium", "large"],
+      },
+    },
+    args: { onClick: a() },
+    parameters: {
+      docs: {
+        description: { component: "Labs Design System Button Web Component." },
+      },
+    },
+  };
+export { r as default };

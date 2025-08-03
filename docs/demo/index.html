@@ -1,44 +1,66 @@
 <!-- Test 1142am-->
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Labs Design System Demo</title>
-    <link rel="icon" href="/labs/design-system/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/labs/design-system/main.css">
+    <link
+      rel="icon"
+      href="/labs/design-system/favicon.svg"
+      type="image/svg+xml"
+    />
+    <link rel="stylesheet" href="/labs/design-system/main.css" />
     <style>
-        body {
-            margin: 20px;
-        }
+      body {
+        margin: 20px;
+      }
 
-        #button-demo-debug {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: flex-start;
-            gap: 0.75em 1em;
-        }
+      #button-demo-debug {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 0.75em 1em;
+      }
 
-        #button-demo-debug labs-button {
-            margin: 0;
-        }
+      #button-demo-debug labs-button {
+        margin: 0;
+      }
     </style>
-    <script type="module" src="/labs/design-system/components/labs-button.js"></script>
-    <script type="module" src="/labs/design-system/components/labs-icon.js"></script>
-</head>
+    <script
+      type="module"
+      src="/labs/design-system/components/labs-button.js"
+    ></script>
+    <script
+      type="module"
+      src="/labs/design-system/components/labs-icon.js"
+    ></script>
+  </head>
 
-<body>
+  <body>
     <h1>Labs Design System Demo</h1>
-    <div id="button-demo-debug" style="padding-right: 1em;">
-        <labs-button label="Default" variant="primary"></labs-button>
-        <labs-button label="Icon Left" icon="undo" variant="primary" iconcolor="var(--color-on-primary)"></labs-button>
-        <labs-button label="Add" icon="add" checkmark variant="primary"
-            iconcolor="var(--color-on-primary)"></labs-button>
+    <div id="button-demo-debug" style="padding-right: 1em">
+      <labs-button label="Default" variant="primary"></labs-button>
+      <labs-button
+        label="Icon Left"
+        icon="undo"
+        variant="primary"
+        iconcolor="var(--color-on-primary)"
+      ></labs-button>
+      <labs-button
+        label="Add"
+        icon="add"
+        checkmark
+        variant="primary"
+        iconcolor="var(--color-on-primary)"
+      ></labs-button>
 
-        <labs-button label="Icon Right" icon-right="settings" variant="primary"
-            iconcolor="var(--color-on-primary)"></labs-button>
+      <labs-button
+        label="Icon Right"
+        icon-right="settings"
+        variant="primary"
+        iconcolor="var(--color-on-primary)"
+      ></labs-button>
     </div>
-</body>
-
+  </body>
 </html>

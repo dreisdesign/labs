@@ -1,109 +1,161 @@
 #button-demo-debug labs-button {
-    margin: 0.5em 0.75em 0.5em 0;
-    display: inline-block;
-    vertical-align: middle;
+  margin: 0.5em 0.75em 0.5em 0;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 labs-button,
 .labs-button,
 .labs-icon {
-    margin: 0 !important;
+  margin: 0 !important;
 }
 
 :host {
-    display: inline-block;
+  display: inline-block;
 }
 
 .labs-button {
-    font-size: 1.25rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 5rem;
-    background: rgb(46, 43, 116);
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.2s, transform 0.1s ease-out;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    overflow: hidden;
-    position: relative;
-    min-width: 120px;
-    padding: 0.75rem 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 5rem;
+  background: rgb(46, 43, 116);
+  color: #fff;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    transform 0.1s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  overflow: hidden;
+  position: relative;
+  min-width: 120px;
+  padding: 0.75rem 1.5rem;
 }
 
 .labs-button:active,
 .labs-button.button-pressed {
-    background-color: rgb(25, 23, 80);
-    transform: scale(0.95);
-    transition-duration: 0.05s;
+  background-color: rgb(25, 23, 80);
+  transform: scale(0.95);
+  transition-duration: 0.05s;
 }
 
 .labs-button:hover {
-    background: rgb(13, 11, 63);
+  background: rgb(13, 11, 63);
 }
 
 .labs-button:focus-visible {
-    outline: 3px solid rgb(0, 95, 204);
-    outline-offset: 2px;
+  outline: 3px solid rgb(0, 95, 204);
+  outline-offset: 2px;
 }
 
 .labs-icon {
-    width: 1.5rem;
-    height: 1.5rem;
-    display: inline-block;
-    vertical-align: middle;
-    margin: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
 }
 
 .labs-label {
-    text-align: center;
-    line-height: 1.2;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  text-align: center;
+  line-height: 1.2;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .labs-checkmark {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    opacity: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
 }
 
 .success .labs-checkmark {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
-    animation: rollInCheckmark 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+  animation: rollInCheckmark 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
 }
 
 @keyframes rollInCheckmark {
-    from {
-        opacity: 0;
-        transform: scale(0.3) rotate(-180deg);
-    }
+  from {
+    opacity: 0;
+    transform: scale(0.3) rotate(-180deg);
+  }
 
-    to {
-        opacity: 1;
-        transform: scale(1) rotate(0deg);
-    }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
 }
 
 @media (max-width: 480px) {
-    .labs-button {
-        min-width: 100px;
-        padding-left: 1.2em;
-        padding-right: 1.2em;
-        font-size: 1rem;
-    }
+  .labs-button {
+    min-width: 100px;
+    padding-left: 1.2em;
+    padding-right: 1.2em;
+    font-size: 1rem;
+  }
+}
+
+/* Container button variant */
+.labs-button.container-button {
+  max-width: 100%;
+  text-align: left;
+  justify-content: flex-start;
+  border-radius: 0.7rem;
+  background: transparent;
+  transition:
+    background 0.2s,
+    color 0.2s;
+  box-shadow: none;
+  outline: none;
+  font-size: var(--font-size-lg);
+  padding: 1rem;
+  min-width: unset;
+  color: var(--color-on-surface);
+}
+
+.labs-button.container-button:hover:not([disabled]) {
+  background: var(--color-primary-25);
+  color: var(--color-on-surface);
+  box-shadow: none;
+  outline: none;
+}
+
+.labs-button.container-button:active:not([disabled]) {
+  background: var(--color-primary-75);
+  color: var(--color-on-surface);
+  opacity: 0.95;
+  box-shadow: none;
+  outline: none;
+}
+
+/* Container button: danger variant */
+.labs-button.container-button[variant="danger"] {
+  color: var(--color-error);
+}
+
+.labs-button.container-button[variant="danger"]:hover:not([disabled]) {
+  background: var(--color-error);
+  color: var(--color-on-error);
+  opacity: 1;
+}
+
+.labs-button.container-button[variant="danger"]:active:not([disabled]) {
+  background: var(--color-error);
+  color: var(--color-on-error);
+  opacity: 0.85;
 }

@@ -9,13 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.0.0] - 2025-06-09
 
-
 ### Added
+
 - "All Apps" button in settings overlay for navigation back to labs home page
 
 ## [2.4.2] - 2025-06-07
 
 ### Changed
+
 - **MAJOR**: Implemented tracker-style layout architecture with fixed footer positioning
 - **Layout**: Restructured HTML to use `.app` container with proper flex layout
 - **Container**: Changed from `.timer-container` to `.app` with `height: 100vh` and proper flex structure
@@ -26,18 +27,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Responsive**: Enhanced circle scaling with proper space allocation between header, content, and footer
 
 ### Added
+
 - Fixed footer with proper safe-area-inset support for mobile devices
 - Tracker-style app container architecture for consistent layout
 - Border styling on footer for visual separation
 - Maximum width constraints on footer buttons container
 
 ### Fixed
+
 - Eliminated circle cutoffs through proper container flex layout
 - Improved space utilization with tracker-style layout pattern
 - Enhanced footer positioning to match professional app design
 - Better responsive behavior across all device sizes and orientations
 
 ### Technical
+
 - Implemented flex-based layout with `flex: 1` main content area
 - Fixed footer using `position: fixed` with proper z-indexing
 - Enhanced CSS architecture following tracker app design patterns
@@ -46,6 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.4.1] - 2025-06-07
 
 ### Fixed
+
 - **Desktop Height Scaling**: Fixed circles not scaling properly when browser height increases on desktop
   - Improved viewport unit calculations to respond to both width and height changes
   - Enhanced `min()` functions to better balance vw, vh, and vmin units
@@ -59,6 +64,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Better proportion maintenance between circle size and text
 
 ### Technical
+
 - Enhanced responsive breakpoints with more robust sizing calculations
 - Improved CSS containment for better layout performance
 - Better balance between viewport units for optimal scaling across all screen sizes
@@ -66,6 +72,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.4.0] - 2025-06-07
 
 ### Added
+
 - **Progressive Web App (PWA) Support**: Complete PWA implementation for standalone app experience
   - Web App Manifest (`manifest.json`) with proper app metadata and icons
   - Service Worker (`sw.js`) for offline functionality and caching
@@ -76,6 +83,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Automatic cache management and updates
 
 ### Changed
+
 - **Enhanced Mobile Experience**: App now runs in standalone mode when installed
   - Removes browser UI for immersive timer experience
   - Proper theme color and status bar styling
@@ -83,6 +91,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Updated all asset URLs to v2.4.0 for cache busting
 
 ### Technical
+
 - Service worker registration with update detection
 - Comprehensive caching strategy for all static assets
 - PWA manifest with proper display mode and orientation settings
@@ -90,20 +99,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.3.7] - 2025-06-07
 
-
 ## [2.3.6] - 2025-06-07
 
 ### Fixed
+
 - **iPad Landscape Button Positioning**: Fixed controls sticking to bottom edge
-  - Added proper bottom margin: `calc(4rem + env(safe-area-inset-bottom, 2rem))` 
+  - Added proper bottom margin: `calc(4rem + env(safe-area-inset-bottom, 2rem))`
   - Ensures buttons have generous spacing from screen edge in landscape mode
   - Maintains safe area compatibility for devices with home indicators
 
 ## [2.3.5] - 2025-06-07
 
 ### Enhanced
+
 - **Significantly Increased iPad Landscape Padding**: Much more generous spacing for premium feel
-  - Body padding: 4rem (up from 2.5rem) 
+  - Body padding: 4rem (up from 2.5rem)
   - Circle container gap: 8vh/8vw (up from 5vh/5vw)
   - Circle container padding: 4vh/6vw (up from 2vh/4vw)
   - Controls padding: 2rem/3rem with 3rem gap (up from 1rem/2rem with 2rem gap)
@@ -112,15 +122,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.3.4] - 2025-06-07
 
 ### Enhanced
+
 - **iPad Landscape Padding**: Increased padding and spacing for better layout in landscape mode
   - Body padding: 2.5rem (up from default)
   - Circle container gap: 5vh/5vw (up from 4vh/4vw)
-  - Circle container padding: 2vh/4vw (up from 1vh/2vw) 
+  - Circle container padding: 2vh/4vw (up from 1vh/2vw)
   - Controls padding: 1rem/2rem with 2rem gap for better touch targets
 
 ## [2.3.3] - 2025-06-07
 
 ### Enhanced
+
 - **iPad Portrait Optimization**: Fixed layout for iPad portrait mode to use vertical stacking instead of horizontal
   - Added orientation-based media queries to distinguish portrait vs landscape layouts
   - iPad portrait (768px+ portrait): Keeps vertical layout with optimized circle sizing (75vw large, 15vw small)
@@ -132,6 +144,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.3.2] - 2025-06-07
 
 ### Fixed
+
 - **Safari Responsive Issues**: Fixed critical CSS cascade problem causing Safari-specific responsive failures
   - Reordered media queries to proper mobile-first sequence (600px, 768px, 900px)
   - Fixed conflicting flex-direction rules that caused layout inconsistencies in Safari
@@ -142,6 +155,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.3.0] - 2025-06-07
 
 ### Changed
+
 - **Mobile-First CSS Architecture**: Converted entire CSS codebase to mobile-first approach
   - Base styles now target mobile portrait (320px+) without media queries
   - Progressive enhancement for larger screens using min-width queries only
@@ -152,6 +166,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Streamlined iOS Safe Area**: Consolidated safe area handling into base styles
 
 ### Fixed
+
 - **Immediate Responsive Updates**: Layout changes now apply instantly without requiring page refresh
 - **Media Query Conflicts**: Eliminated overlapping and conflicting responsive rules
 - **Circle Sizing Consistency**: Perfect 1:1 aspect ratios maintained across all devices
@@ -159,6 +174,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.3.0] - 2025-06-07
 
 ### Changed
+
 - **Mobile-First CSS Architecture**: Converted entire stylesheet to mobile-first approach for better responsive behavior
 - **Simplified Media Queries**: Removed complex max-width queries in favor of progressive min-width enhancements
 - **Enhanced Responsive Performance**: Layout now responds immediately to browser resize without requiring page refresh
@@ -166,6 +182,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Improved iOS Safe Area Handling**: Simplified safe area adjustments while maintaining compatibility
 
 ### Technical Details
+
 - Base styles now target mobile portrait (320px+) without media queries
 - Progressive enhancement at 600px+ for tablets and larger phones
 - Horizontal layout and desktop optimizations at 900px+
@@ -175,17 +192,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.2.0] - 2025-06-07
 
 ### Added
+
 - Project-specific favicon with `icon-labs--focus-timer.*` naming
 - Favicon files placed in project root for easy maintenance
 - Cache busting parameters for favicon and CSS assets
 - Settings overlay with refresh functionality for cache-busting
 
 ### Changed
+
 - Updated HTML to reference new favicon assets
 - Simplified favicon paths from `assets/` subfolder to project root
 - Added cache busting (`?v=2.2.0`) to ensure updated assets load properly
 
 ### Fixed
+
 - iPad circle distortion and button layout issues across all orientations
 - Header content cutoff due to excessive safe area padding
 - iPad landscape mode button cutoff at bottom of screen
@@ -195,6 +215,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Landscape Circle Scaling**: Enhanced circle sizing in landscape mode for better space utilization
 
 ### Improved
+
 - **Responsive Design Overhaul**: Replaced complex device-specific media queries with simplified ratio-based approach
 - **Consolidated Media Queries**: Using `@media (min-aspect-ratio: 4/3)` for all wider screens (tablets, landscape, desktops)
 - **Simplified Landscape Mode**: Streamlined landscape adjustments with consistent button visibility across all devices
@@ -206,6 +227,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Optimized Container Padding**: Reduced padding to maximize circle space while maintaining layout integrity
 
 ### Technical Improvements
+
 - **Circle Sizing Algorithm**: Removed height constraints, letting `aspect-ratio: 1` handle perfect circles
 - **iOS Detection Refinement**: More precise media queries target only phone-sized devices for safe area adjustments
 - **Viewport Utilization**: Large circles increased from `min(50vh, 70vw, 50vmin)` to `min(80vh, 45vw)` in landscape
@@ -214,17 +236,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.1.0] - 2025-05-27
 
 ### Added
+
 - **Interactive Circles**: Circles are now clickable and function as large touch targets for play/pause
 - **Smart Button Text**: Button now shows "Resume" when paused (after being started) vs "Start" for new sessions
 - **Enhanced Touch Experience**: Visual feedback on circle hover and press interactions
 - **Improved Accessibility**: Larger interactive areas for better mobile usability
 
 ### Changed
+
 - **User Interface**: Circles now provide visual feedback (scale effects) when interacted with
 - **Button Logic**: More intuitive button text that reflects the actual action available
 - **Touch Targets**: Significantly expanded interactive areas especially beneficial on mobile devices
 
 ### Technical Improvements
+
 - **Event Handling**: Added click event listeners to both work and break circles
 - **State Management**: Enhanced timer state tracking with `hasStarted` property
 - **CSS Enhancements**: Added cursor pointer, hover, and active states for circles
@@ -233,16 +258,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.1] - 2025-05-27
 
 ### Improved
+
 - **Mobile Experience**: Significantly increased circle sizes on mobile devices for better touch interaction
 - **Responsive Design**: Enhanced mobile-specific media queries for optimal circle sizing
 - **Touch Usability**: Circles now use up to 95% of viewport on small screens
 
 ### Changed
+
 - **Circle Sizing**: Updated base circle sizes from 75vw/60vmin to 85vw/70vmin
 - **Mobile Optimization**: Added progressive sizing for tablets (90vw) and phones (95vw)
 - **Aspect Ratio Maintenance**: Preserved 5:1 ratio between large and small circles across all screen sizes
 
 ### Technical Details
+
 - **Media Queries**: Added specific breakpoints for ≤768px and ≤480px screen widths
 - **Viewport Units**: Enhanced use of `min()` function with multiple viewport constraints
 - **Touch Targets**: Improved accessibility compliance for mobile touch interfaces
@@ -250,16 +278,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.0] - 2025-05-27
 
 ### Added
+
 - **Version Display**: Added version number display in top-right corner
 - **Version Management**: Integrated with automated version update system
 - **Project Infrastructure**: Added proper versioning support for deployment workflows
 
 ### Changed
+
 - **Version Tracking**: Now properly tracks and displays version information
 - **Development Workflow**: Enhanced with automated version management tools
 - **Project Structure**: Aligned with other projects in the labs workspace
 
 ### Technical Improvements
+
 - **CSS Styling**: Added version number styling with fixed positioning
 - **HTML Structure**: Enhanced with version display element
 - **Project Standards**: Implemented consistent versioning across all lab projects
@@ -267,6 +298,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2025-05-24
 
 ### Added
+
 - **Initial Release**: Complete Focus Timer application
 - **Core Timer Functionality**:
   - 25-minute work sessions with countdown display
@@ -295,6 +327,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Modern CSS custom properties for theming
 
 ### Technical Details
+
 - **CSS Framework**: Custom responsive design system
 - **JavaScript**: ES6+ class-based architecture
 - **Audio Format**: MP3 with proper fallback handling
@@ -303,6 +336,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Performance**: 60fps smooth animations and transitions
 
 ### Features in Detail
+
 - **Session Management**: Automatic work/break cycling with proper state tracking
 - **Progress Visualization**: Conic gradient progress rings with smooth updates
 - **Status Feedback**: Clear text status for current session state
@@ -311,12 +345,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Audio Control**: Integrated music player with session-aware playback
 
 ### Browser Compatibility
+
 - Chrome 88+ (CSS aspect-ratio support)
 - Firefox 87+ (CSS aspect-ratio support)
 - Safari 14+ (CSS aspect-ratio support)
 - Edge 88+ (CSS aspect-ratio support)
 
 ### Accessibility
+
 - Semantic HTML structure with proper headings
 - High contrast visual design
 - Clear status updates for screen readers

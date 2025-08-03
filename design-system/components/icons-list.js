@@ -12,5 +12,5 @@ export default [
   "edit",
   "rate_review",
   "settings",
-  "undo"
+  "undo",
 ];

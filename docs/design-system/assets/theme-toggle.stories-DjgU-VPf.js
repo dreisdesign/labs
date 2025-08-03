@@ -1,4 +1,86 @@
-import"./labs-icon-8279HnLw.js";class u extends HTMLElement{static get observedAttributes(){return["variant","icon","icon-right","checkmark","checkmark-icon","label","iconcolor"]}constructor(){super(),this.attachShadow({mode:"open"}),this.animating=!1,this.handleClick=this.handleClick.bind(this)}connectedCallback(){console.log("[LabsButton] LOCAL COMPONENT LOADED - DEMO TEST"),this.render(),this.shadowRoot.querySelector("button").addEventListener("click",this.handleClick)}disconnectedCallback(){this.shadowRoot.querySelector("button").removeEventListener("click",this.handleClick)}attributeChangedCallback(){console.log("[LabsButton] attributeChangedCallback:",{variant:this.getAttribute("variant"),icon:this.getAttribute("icon"),iconRight:this.getAttribute("icon-right"),checkmark:this.getAttribute("checkmark"),checkmarkIcon:this.getAttribute("checkmark-icon"),label:this.getAttribute("label"),iconcolor:this.getAttribute("iconcolor")}),this.render()}handleClick(e){if(console.log("[LabsButton] handleClick:",{checkmark:this.hasAttribute("checkmark"),label:this.getAttribute("label"),icon:this.getAttribute("icon"),iconRight:this.getAttribute("icon-right")}),this.hasAttribute("checkmark")){if(this.animating)return;this.animating=!0;const t=this.shadowRoot.querySelector("button");t.classList.remove("success"),t.offsetWidth,t.classList.add("success"),setTimeout(()=>{t.classList.remove("success"),this.animating=!1},800)}this.dispatchEvent(new CustomEvent("labs-click",{bubbles:!0}))}render(){const e=this.getAttribute("iconcolor")||"",t=a=>a?a.replace(/\.(svg|png|jpg|jpeg)$/i,"").replace(/--fill|--outline|--regular|--solid/gi,"").replace(/-/g,"_"):"",n=t(this.getAttribute("icon"));let r=t(this.getAttribute("icon-right"));!r&&this.hasAttribute("default-icon-right")&&(r="settings");const s=this.getAttribute("checkmark-icon")||"icons/check--labs-icons.svg",c=this.getAttribute("label")||"",l=this.hasAttribute("checkmark"),b=this.getAttribute("variant")||"primary";this.shadowRoot.innerHTML=`
+import "./labs-icon-8279HnLw.js";
+class u extends HTMLElement {
+  static get observedAttributes() {
+    return [
+      "variant",
+      "icon",
+      "icon-right",
+      "checkmark",
+      "checkmark-icon",
+      "label",
+      "iconcolor",
+    ];
+  }
+  constructor() {
+    super(),
+      this.attachShadow({ mode: "open" }),
+      (this.animating = !1),
+      (this.handleClick = this.handleClick.bind(this));
+  }
+  connectedCallback() {
+    console.log("[LabsButton] LOCAL COMPONENT LOADED - DEMO TEST"),
+      this.render(),
+      this.shadowRoot
+        .querySelector("button")
+        .addEventListener("click", this.handleClick);
+  }
+  disconnectedCallback() {
+    this.shadowRoot
+      .querySelector("button")
+      .removeEventListener("click", this.handleClick);
+  }
+  attributeChangedCallback() {
+    console.log("[LabsButton] attributeChangedCallback:", {
+      variant: this.getAttribute("variant"),
+      icon: this.getAttribute("icon"),
+      iconRight: this.getAttribute("icon-right"),
+      checkmark: this.getAttribute("checkmark"),
+      checkmarkIcon: this.getAttribute("checkmark-icon"),
+      label: this.getAttribute("label"),
+      iconcolor: this.getAttribute("iconcolor"),
+    }),
+      this.render();
+  }
+  handleClick(e) {
+    if (
+      (console.log("[LabsButton] handleClick:", {
+        checkmark: this.hasAttribute("checkmark"),
+        label: this.getAttribute("label"),
+        icon: this.getAttribute("icon"),
+        iconRight: this.getAttribute("icon-right"),
+      }),
+      this.hasAttribute("checkmark"))
+    ) {
+      if (this.animating) return;
+      this.animating = !0;
+      const t = this.shadowRoot.querySelector("button");
+      t.classList.remove("success"),
+        t.offsetWidth,
+        t.classList.add("success"),
+        setTimeout(() => {
+          t.classList.remove("success"), (this.animating = !1);
+        }, 800);
+    }
+    this.dispatchEvent(new CustomEvent("labs-click", { bubbles: !0 }));
+  }
+  render() {
+    const e = this.getAttribute("iconcolor") || "",
+      t = (a) =>
+        a
+          ? a
+              .replace(/\.(svg|png|jpg|jpeg)$/i, "")
+              .replace(/--fill|--outline|--regular|--solid/gi, "")
+              .replace(/-/g, "_")
+          : "",
+      n = t(this.getAttribute("icon"));
+    let r = t(this.getAttribute("icon-right"));
+    !r && this.hasAttribute("default-icon-right") && (r = "settings");
+    const s =
+        this.getAttribute("checkmark-icon") || "icons/check--labs-icons.svg",
+      c = this.getAttribute("label") || "",
+      l = this.hasAttribute("checkmark"),
+      b = this.getAttribute("variant") || "primary";
+    this.shadowRoot.innerHTML = `
       <style>
         :host { display: inline-block; }
         .labs-button {
@@ -87,7 +169,7 @@ import"./labs-icon-8279HnLw.js";class u extends HTMLElement{static get observedA
         }
         /* Apply icon color filter */
         .labs-icon img {
-          filter: ${e==="#fff"||e.toLowerCase()==="white"?"brightness(0) invert(1)":e?"hue-rotate(0deg) saturate(0) brightness(0) invert(1)":"none"};
+          filter: ${e === "#fff" || e.toLowerCase() === "white" ? "brightness(0) invert(1)" : e ? "hue-rotate(0deg) saturate(0) brightness(0) invert(1)" : "none"};
         }
         /* Ensure right icon is visible and spaced */
         .labs-button labs-icon:last-of-type {
@@ -97,14 +179,53 @@ import"./labs-icon-8279HnLw.js";class u extends HTMLElement{static get observedA
         }
       </style>
       <button class="labs-button ${b}" part="button">
-        ${n?`<labs-icon class="labs-icon" name="${n}"></labs-icon>`:""}
+        ${n ? `<labs-icon class="labs-icon" name="${n}"></labs-icon>` : ""}
         <span class="labs-label">${c}</span>
-        ${r?`<labs-icon class="labs-icon" name="${r}"></labs-icon>`:""}
-        ${l?`<span class="labs-checkmark"><img src="${s}" class="checkmark-icon" alt="Success"/></span>`:""}
+        ${r ? `<labs-icon class="labs-icon" name="${r}"></labs-icon>` : ""}
+        ${l ? `<span class="labs-checkmark"><img src="${s}" class="checkmark-icon" alt="Success"/></span>` : ""}
       </button>
-    `}}customElements.define("labs-button",u);const m={title:"Components/Theme/ThemeToggleButton",parameters:{docs:{description:{component:"A theme toggle button using <labs-button> and <labs-icon> that manages only its own UI state."}}}},o=()=>{const i=document.createElement("div");i.innerHTML=`
+    `;
+  }
+}
+customElements.define("labs-button", u);
+const m = {
+    title: "Components/Theme/ThemeToggleButton",
+    parameters: {
+      docs: {
+        description: {
+          component:
+            "A theme toggle button using <labs-button> and <labs-icon> that manages only its own UI state.",
+        },
+      },
+    },
+  },
+  o = () => {
+    const i = document.createElement("div");
+    i.innerHTML = `
     <labs-button id="theme-toggle-btn" icon="bedtime" variant="primary" label="Turn on Dark Mode" iconcolor="var(--color-on-primary)"></labs-button>
-  `;const e=i.querySelector("#theme-toggle-btn");let t=!1;function n(){e.setAttribute("icon",t?"bedtime_off":"bedtime"),e.setAttribute("label",t?"Turn off Dark Mode":"Turn on Dark Mode"),e.setAttribute("iconcolor","var(--color-on-primary)")}return e.addEventListener("click",()=>{t=!t,n()}),n(),i};o.storyName="Theme Toggle Button";o.parameters={...o.parameters,docs:{...o.parameters?.docs,source:{originalSource:`() => {
+  `;
+    const e = i.querySelector("#theme-toggle-btn");
+    let t = !1;
+    function n() {
+      e.setAttribute("icon", t ? "bedtime_off" : "bedtime"),
+        e.setAttribute("label", t ? "Turn off Dark Mode" : "Turn on Dark Mode"),
+        e.setAttribute("iconcolor", "var(--color-on-primary)");
+    }
+    return (
+      e.addEventListener("click", () => {
+        (t = !t), n();
+      }),
+      n(),
+      i
+    );
+  };
+o.storyName = "Theme Toggle Button";
+o.parameters = {
+  ...o.parameters,
+  docs: {
+    ...o.parameters?.docs,
+    source: {
+      originalSource: `() => {
   // Create a wrapper div to isolate state
   const wrapper = document.createElement('div');
   wrapper.innerHTML = \`
@@ -123,4 +244,10 @@ import"./labs-icon-8279HnLw.js";class u extends HTMLElement{static get observedA
   });
   updateButton();
   return wrapper;
-}`,...o.parameters?.docs?.source}}};const d=["ThemeToggleButton"];export{o as ThemeToggleButton,d as __namedExportsOrder,m as default};
+}`,
+      ...o.parameters?.docs?.source,
+    },
+  },
+};
+const d = ["ThemeToggleButton"];
+export { o as ThemeToggleButton, d as __namedExportsOrder, m as default };

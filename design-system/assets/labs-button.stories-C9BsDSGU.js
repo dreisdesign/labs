@@ -1,6 +1,56 @@
 class d extends HTMLElement {
-  static get observedAttributes() { return ["variant", "icon", "icon-right", "checkmark", "label", "iconcolor"] } constructor() { super(), this.attachShadow({ mode: "open" }), this.animating = !1, this.handleClick = this.handleClick.bind(this) } connectedCallback() { this.render(), this.shadowRoot.querySelector("button").addEventListener("click", this.handleClick) } disconnectedCallback() { this.shadowRoot.querySelector("button").removeEventListener("click", this.handleClick) } attributeChangedCallback() { this.render() } handleClick(n) { if (this.hasAttribute("checkmark")) { if (this.animating) return; this.animating = !0; const t = this.shadowRoot.querySelector("button"); t.classList.remove("success"), t.offsetWidth, t.classList.add("success"), setTimeout(() => { t.classList.remove("success"), this.animating = !1 }, 800) } this.dispatchEvent(new CustomEvent("labs-click", { bubbles: !0 })) } render() {
-    const n = this.getAttribute("iconcolor") || "", t = n ? `filter: ${n === "#fff" || n.toLowerCase() === "white" ? "brightness(0) invert(1)" : ""}; color: ${n};` : "", c = this.getAttribute("icon"); let o = this.getAttribute("icon-right"); !o && this.hasAttribute("default-icon-right") && (o = "icons/settings--labs-icons.svg"); const s = "icons/check--labs-icons.svg", b = this.getAttribute("label") || "", m = this.hasAttribute("checkmark"), u = this.getAttribute("variant") || "primary"; this.shadowRoot.innerHTML = `
+  static get observedAttributes() {
+    return ["variant", "icon", "icon-right", "checkmark", "label", "iconcolor"];
+  }
+  constructor() {
+    super(),
+      this.attachShadow({ mode: "open" }),
+      (this.animating = !1),
+      (this.handleClick = this.handleClick.bind(this));
+  }
+  connectedCallback() {
+    this.render(),
+      this.shadowRoot
+        .querySelector("button")
+        .addEventListener("click", this.handleClick);
+  }
+  disconnectedCallback() {
+    this.shadowRoot
+      .querySelector("button")
+      .removeEventListener("click", this.handleClick);
+  }
+  attributeChangedCallback() {
+    this.render();
+  }
+  handleClick(n) {
+    if (this.hasAttribute("checkmark")) {
+      if (this.animating) return;
+      this.animating = !0;
+      const t = this.shadowRoot.querySelector("button");
+      t.classList.remove("success"),
+        t.offsetWidth,
+        t.classList.add("success"),
+        setTimeout(() => {
+          t.classList.remove("success"), (this.animating = !1);
+        }, 800);
+    }
+    this.dispatchEvent(new CustomEvent("labs-click", { bubbles: !0 }));
+  }
+  render() {
+    const n = this.getAttribute("iconcolor") || "",
+      t = n
+        ? `filter: ${n === "#fff" || n.toLowerCase() === "white" ? "brightness(0) invert(1)" : ""}; color: ${n};`
+        : "",
+      c = this.getAttribute("icon");
+    let o = this.getAttribute("icon-right");
+    !o &&
+      this.hasAttribute("default-icon-right") &&
+      (o = "icons/settings--labs-icons.svg");
+    const s = "icons/check--labs-icons.svg",
+      b = this.getAttribute("label") || "",
+      m = this.hasAttribute("checkmark"),
+      u = this.getAttribute("variant") || "primary";
+    this.shadowRoot.innerHTML = `
       <style>
         :host { display: inline-block; }
         .labs-button {
@@ -103,8 +153,29 @@ class d extends HTMLElement {
         ${m ? `<span class="labs-checkmark"><img src="${s}" alt="Success" class="checkmark-icon"></span>` : ""}
         <slot></slot>
       </button>
-    `}
-} customElements.define("labs-button", d); const g = { title: "Components/Button", argTypes: { label: { control: "text" }, icon: { control: "text" }, iconRight: { control: "text" }, checkmark: { control: "boolean" }, variant: { control: "text" }, iconColor: { control: "color", name: "Icon Color" } } }, l = ({ label: h, icon: n, iconRight: t, checkmark: c, variant: o, iconColor: s }) => `
+    `;
+  }
+}
+customElements.define("labs-button", d);
+const g = {
+    title: "Components/Button",
+    argTypes: {
+      label: { control: "text" },
+      icon: { control: "text" },
+      iconRight: { control: "text" },
+      checkmark: { control: "boolean" },
+      variant: { control: "text" },
+      iconColor: { control: "color", name: "Icon Color" },
+    },
+  },
+  l = ({
+    label: h,
+    icon: n,
+    iconRight: t,
+    checkmark: c,
+    variant: o,
+    iconColor: s,
+  }) => `
     <labs-button
       label="${h || ""}"
       ${n ? `icon="${n}"` : ""}
@@ -113,9 +184,39 @@ class d extends HTMLElement {
       variant="${o || "primary"}"
       ${s ? `iconcolor="${s}"` : ""}
     ></labs-button>
-  `, e = l.bind({}); e.args = { label: "Primary Button", checkmark: !1, variant: "primary", iconColor: "" }; e.storyName = "Primary"; const i = l.bind({}); i.args = { label: "Icon Left", icon: "assets/icons/undo--labs-icons.svg", checkmark: !1, variant: "primary", iconColor: "#fff" }; const r = l.bind({}); r.args = { label: "Icon Right", iconRight: "icons/settings--labs-icons.svg", checkmark: !1, variant: "primary", iconColor: "#fff" }; const a = l.bind({}); a.args = { label: "+ Add", checkmark: !0, variant: "primary", iconColor: "" }; a.storyName = "On click: Checkmark"; e.parameters = {
-  ...e.parameters, docs: {
-    ...e.parameters?.docs, source: {
+  `,
+  e = l.bind({});
+e.args = {
+  label: "Primary Button",
+  checkmark: !1,
+  variant: "primary",
+  iconColor: "",
+};
+e.storyName = "Primary";
+const i = l.bind({});
+i.args = {
+  label: "Icon Left",
+  icon: "assets/icons/undo--labs-icons.svg",
+  checkmark: !1,
+  variant: "primary",
+  iconColor: "#fff",
+};
+const r = l.bind({});
+r.args = {
+  label: "Icon Right",
+  iconRight: "icons/settings--labs-icons.svg",
+  checkmark: !1,
+  variant: "primary",
+  iconColor: "#fff",
+};
+const a = l.bind({});
+a.args = { label: "+ Add", checkmark: !0, variant: "primary", iconColor: "" };
+a.storyName = "On click: Checkmark";
+e.parameters = {
+  ...e.parameters,
+  docs: {
+    ...e.parameters?.docs,
+    source: {
       originalSource: `({
   label,
   icon,
@@ -134,12 +235,16 @@ class d extends HTMLElement {
       \${iconColor ? \`iconcolor="\${iconColor}"\` : ''}
     ></labs-button>
   \`;
-}`, ...e.parameters?.docs?.source
-    }
-  }
-}; i.parameters = {
-  ...i.parameters, docs: {
-    ...i.parameters?.docs, source: {
+}`,
+      ...e.parameters?.docs?.source,
+    },
+  },
+};
+i.parameters = {
+  ...i.parameters,
+  docs: {
+    ...i.parameters?.docs,
+    source: {
       originalSource: `({
   label,
   icon,
@@ -158,12 +263,16 @@ class d extends HTMLElement {
       \${iconColor ? \`iconcolor="\${iconColor}"\` : ''}
     ></labs-button>
   \`;
-}`, ...i.parameters?.docs?.source
-    }
-  }
-}; r.parameters = {
-  ...r.parameters, docs: {
-    ...r.parameters?.docs, source: {
+}`,
+      ...i.parameters?.docs?.source,
+    },
+  },
+};
+r.parameters = {
+  ...r.parameters,
+  docs: {
+    ...r.parameters?.docs,
+    source: {
       originalSource: `({
   label,
   icon,
@@ -182,12 +291,16 @@ class d extends HTMLElement {
       \${iconColor ? \`iconcolor="\${iconColor}"\` : ''}
     ></labs-button>
   \`;
-}`, ...r.parameters?.docs?.source
-    }
-  }
-}; a.parameters = {
-  ...a.parameters, docs: {
-    ...a.parameters?.docs, source: {
+}`,
+      ...r.parameters?.docs?.source,
+    },
+  },
+};
+a.parameters = {
+  ...a.parameters,
+  docs: {
+    ...a.parameters?.docs,
+    source: {
       originalSource: `({
   label,
   icon,
@@ -206,7 +319,17 @@ class d extends HTMLElement {
       \${iconColor ? \`iconcolor="\${iconColor}"\` : ''}
     ></labs-button>
   \`;
-}`, ...a.parameters?.docs?.source
-    }
-  }
-}; const k = ["Default", "IconLeft", "IconRight", "WithCheckmark"]; export { e as Default, i as IconLeft, r as IconRight, a as WithCheckmark, k as __namedExportsOrder, g as default };
+}`,
+      ...a.parameters?.docs?.source,
+    },
+  },
+};
+const k = ["Default", "IconLeft", "IconRight", "WithCheckmark"];
+export {
+  e as Default,
+  i as IconLeft,
+  r as IconRight,
+  a as WithCheckmark,
+  k as __namedExportsOrder,
+  g as default,
+};

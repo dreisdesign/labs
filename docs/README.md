@@ -1,4 +1,3 @@
-
 # Labs Public Homepage & Apps
 
 Welcome to the Labs suite of productivity web applications and design system.
@@ -33,6 +32,7 @@ Labs is a collection of modern, responsive productivity apps and a shared design
 ## PWA Installation
 
 All apps can be installed as desktop applications:
+
 1. Visit any app in Chrome/Edge/Safari
 2. Use the install button in the address bar
 3. Launch as a standalone app

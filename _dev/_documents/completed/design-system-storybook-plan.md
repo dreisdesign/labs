@@ -3,6 +3,7 @@
 ## 1. Directory Structure
 
 **Recommended (Monorepo):**
+
 ```
 labs/
   design-system/
@@ -33,11 +34,13 @@ labs/
     ...
   README.md
 ```
+
 - All shared UI lives in `design-system/`.
 - Each app (today-list, note, etc.) imports from `design-system/`.
 - `demo/` is for manual component testing/playground.
 
 **Improvements:**
+
 - Use npm workspaces or pnpm/yarn workspaces for dependency management and local linking.
 - Keep all Storybook config inside `design-system/.storybook/`.
 - Place all stories in `src/components/**` or `src/stories/`.
@@ -56,23 +59,24 @@ labs/
 - In `.storybook/main.js`:
   ```js
   module.exports = {
-    framework: '@storybook/html-vite',
+    framework: "@storybook/html-vite",
     stories: [
-      '../src/stories/Introduction.mdx',
-      '../src/components/**/*.stories.@(js|mdx)'
+      "../src/stories/Introduction.mdx",
+      "../src/components/**/*.stories.@(js|mdx)",
     ],
     addons: [
-      '@storybook/addon-docs',
+      "@storybook/addon-docs",
       // '@storybook/addon-essentials', // if needed
       // '@storybook/addon-links',      // if needed
     ],
-    docs: { autodocs: true }
+    docs: { autodocs: true },
   };
   ```
 - For a Welcome/Introduction page, use:
+
   ```mdx
   ---
-  title: 'Introduction'
+  title: "Introduction"
   ---
 
   # Welcome to the Labs Design System
@@ -116,10 +120,12 @@ labs/
 ## 6. Monorepo vs. Separate Repo
 
 **Monorepo (Recommended for you):**
+
 - Pros: Easier local development, atomic commits, single source of truth, easier cross-app updates, no need for npm publish.
 - Cons: Slightly more complex dependency management, but workspaces solve this.
 
 **Separate Repo:**
+
 - Pros: If you want to open-source or share the design system independently, or if you have a large team with separate release cycles.
 - Cons: More overhead (publishing, versioning, syncing), harder to keep in sync with apps.
 
@@ -138,6 +144,7 @@ Stick with a monorepo unless you have a strong reason to split (e.g., public npm
 - If you want to keep main clean, you can use a deploy script to push only the static files to a separate branch, but for most cases, deploying from main is simpler.
 
 **Sample Deploy Script (from project root):**
+
 ```sh
 cd design-system
 npm install
@@ -148,6 +155,7 @@ git add design-system/
 git commit -m "Deploy Storybook build"
 git push
 ```
+
 This will build Storybook, copy the static files to the correct location, and push to main. GitHub Pages will serve the updated site.
 
 ---
@@ -166,6 +174,7 @@ This will build Storybook, copy the static files to the correct location, and pu
 ## 9. Consolidated Next Phase: Unified Button System & App Migration
 
 ### Goals
+
 - Build a single source of truth for all button components and styles across every app (see `design-system/docs/button-system-plan.md`).
 - Migrate all app button usage (Note, Timer, Tracker, Today List, Demo) to use the new design system button API and tokens.
 - Ensure all states, variants, accessibility, and sizing are covered and documented in Storybook.
@@ -173,6 +182,7 @@ This will build Storybook, copy the static files to the correct location, and pu
 - Leverage archived design and code resources for proven patterns and legacy support.
 
 ### Action Steps
+
 1. **Audit all button usage and styles in every app.**
 2. **Finalize and document the unified button API, tokens, and CSS (see Button System Plan).**
 3. **Update each app to use the new button system, refactoring legacy code as needed.**
@@ -182,6 +192,7 @@ This will build Storybook, copy the static files to the correct location, and pu
 7. **Commit and test incrementally, ensuring visual and functional consistency.**
 
 ### Key References
+
 - `design-system/docs/button-system-plan.md` (Unified Button API & migration plan)
 - `docs/timer/STYLING-MIGRATION-PLAN.md` (Timer app migration phases)
 - `_dev/_archive/` (Legacy and reference code, stories, and CSS)

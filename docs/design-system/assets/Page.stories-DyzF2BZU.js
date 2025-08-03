@@ -1,6 +1,8 @@
-import{H as n,L as i,a as g}from"./Header.stories-1yzwu9aM.js";import{h as p}from"./iframe-CQlH-cpH.js";const d=({user:r,onLogin:t,onLogout:a,onCreateAccount:s})=>p`
+import { H as n, L as i, a as g } from "./Header.stories-1yzwu9aM.js";
+import { h as p } from "./iframe-CQlH-cpH.js";
+const d = ({ user: r, onLogin: t, onLogout: a, onCreateAccount: s }) => p`
   <article>
-    ${n({user:r,onLogin:t,onLogout:a,onCreateAccount:s})}
+    ${n({ user: r, onLogin: t, onLogout: a, onCreateAccount: s })}
 
     <section class="storybook-page">
       <h2>Pages in Storybook</h2>
@@ -49,13 +51,43 @@ import{H as n,L as i,a as g}from"./Header.stories-1yzwu9aM.js";import{h as p}fro
       </div>
     </section>
   </article>
-`,l={title:"Example/Page",render:r=>d(r)},e={args:{...i.args}},o={args:{...g.args}};e.parameters={...e.parameters,docs:{...e.parameters?.docs,source:{originalSource:`{
+`,
+  l = { title: "Example/Page", render: (r) => d(r) },
+  e = { args: { ...i.args } },
+  o = { args: { ...g.args } };
+e.parameters = {
+  ...e.parameters,
+  docs: {
+    ...e.parameters?.docs,
+    source: {
+      originalSource: `{
   args: {
     // More on composing args: https://storybook.js.org/docs/writing-stories/args#args-composition
     ...HeaderStories.LoggedIn.args
   }
-}`,...e.parameters?.docs?.source}}};o.parameters={...o.parameters,docs:{...o.parameters?.docs,source:{originalSource:`{
+}`,
+      ...e.parameters?.docs?.source,
+    },
+  },
+};
+o.parameters = {
+  ...o.parameters,
+  docs: {
+    ...o.parameters?.docs,
+    source: {
+      originalSource: `{
   args: {
     ...HeaderStories.LoggedOut.args
   }
-}`,...o.parameters?.docs?.source}}};const m=["LoggedIn","LoggedOut"];export{e as LoggedIn,o as LoggedOut,m as __namedExportsOrder,l as default};
+}`,
+      ...o.parameters?.docs?.source,
+    },
+  },
+};
+const m = ["LoggedIn", "LoggedOut"];
+export {
+  e as LoggedIn,
+  o as LoggedOut,
+  m as __namedExportsOrder,
+  l as default,
+};

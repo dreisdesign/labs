@@ -1,39 +1,41 @@
-@import './tokens/colors.css';
-@import './tokens/typography.css';
-@import './tokens/spacing.css';
+@import "./tokens/colors.css";
+@import "./tokens/typography.css";
+@import "./tokens/spacing.css";
 
 /* Labs Design System - Main CSS */
 
 :root {
-    --font-family-base: 'Source Sans 3', 'Segoe UI', Arial, sans-serif;
+  --font-family-base: "Source Sans 3", "Segoe UI", Arial, sans-serif;
 }
 
 body {
-    font-family: var(--font-family-base);
-    background: var(--color-background);
-    color: var(--color-on-background);
-    margin: 0;
-    padding: 0;
+  font-family: var(--font-family-base);
+  background: var(--color-background);
+  color: var(--color-on-background);
+  margin: 0;
+  padding: 0;
 }
 
 .button {
-    font-size: 1rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 2.5rem;
-    background: var(--color-primary);
-    color: var(--color-on-primary);
-    cursor: pointer;
-    padding: 0.75rem 1.5rem;
-    transition: background 0.2s, transform 0.1s;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 2.5rem;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  cursor: pointer;
+  padding: 0.75rem 1.5rem;
+  transition:
+    background 0.2s,
+    transform 0.1s;
 }
 
 .button:active {
-    background: var(--color-secondary);
-    transform: scale(0.97);
+  background: var(--color-secondary);
+  transform: scale(0.97);
 }
 
 .button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+  opacity: 0.5;
+  cursor: not-allowed;
 }

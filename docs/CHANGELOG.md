@@ -1,15 +1,19 @@
 # [1.0.4] - 2025-07-30
 
 ### Changed/Fixes
+
 - Deploy script now copies `labs-button.js` and `labs-icon.js` from `src/components/` to `docs/design-system/components/` for public demo compatibility (fixes 404s for custom elements on GitHub Pages).
 - Demo page checkmark icon and all icon references now use the correct path: `/labs/design-system/icons/[icon].svg`.
 - Demo HTML updated to use the full path for the checkmark icon, fixing 404s.
 - Storybook and public demo now use the same asset/component paths for true parity.
 - Troubleshooting tips and workflow improvements added to documentation.
+
 # [1.0.2] - 2025-07-23
+
 ## [1.0.3] - 2025-07-28
 
 ### Changed/Fixes
+
 - Storybook sidebar now shows "Icons/Default", "Icons/Grid Preview", and "Tokens/Colors/Spacing/Typography" as top-level entries.
 - "Grid Preview" story added for icons, with direct links to individual icon demos.
 - All icon and token stories now use clear, editable navigation labels.
@@ -18,6 +22,7 @@
 - Improved automation for icon list and grid generation.
 
 ### Changed/Fixes
+
 - Button width is now content-based ("hug" width) for all variants in both demo and Storybook.
 - All icon paths (including checkmark) now use consistent relative paths for compatibility in both Storybook and static demo.
 - Fixed checkmark icon 404 in both environments by aligning path handling with other icons.
@@ -33,11 +38,10 @@ All notable changes to the Labs Design System will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-
-
 ## [1.0.1] - 2025-07-23
 
 ### Added/Changed
+
 - Fully automated asset path rewriting for local/public/GitHub Pages preview and deploy (including favicon and all static assets).
 - Public and demo pages now always reference correct asset paths for all environments.
 - Favicon 404s fixed for all preview and deploy modes.
@@ -54,7 +58,8 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 ## [1.0.0] - 2025-07-20
 
 ### Added - Initial Design System Release
-  - Complete accessibility support with proper ARIA attributes
+
+- Complete accessibility support with proper ARIA attributes
 
 - **Comprehensive Design Token System**
   - **Colors**: 15+ semantic color variables extracted from Tracker app
@@ -63,14 +68,15 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - **Layout**: Responsive breakpoints and container utilities
   - **Animations**: Consistent transition timings and easing functions
   - Full light and dark mode support with automatic theme switching
-[2025-07-24] Design System & Storybook Cleanup
- - Fixed checkmark animation for Labs Button (works in Storybook and public demo)
- - Removed all generic Button, Header, and Page files and references
- - Cleaned up duplicate src folders and legacy assets
- - Ensured asset paths and build scripts run from project root
- - Added up-next: cachebuster for public assets
+    [2025-07-24] Design System & Storybook Cleanup
+- Fixed checkmark animation for Labs Button (works in Storybook and public demo)
+- Removed all generic Button, Header, and Page files and references
+- Cleaned up duplicate src folders and legacy assets
+- Ensured asset paths and build scripts run from project root
+- Added up-next: cachebuster for public assets
 
 - **Storybook Documentation Platform**
+
   - Interactive component playground with live controls
   - Comprehensive design token documentation
   - Real-world component testing playground
@@ -84,13 +90,16 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Real-world validation through Labs application integration
 
 ### Features - Accessibility & Inclusive Design
+
 - **WCAG 2.1 AA Compliance**
+
   - High contrast color ratios in both light and dark themes
   - Proper focus indicators with 2px outlines and offset
   - Keyboard navigation support for all interactive elements
   - Screen reader compatibility with semantic HTML
 
 - **Inclusive Language Standards**
+
   - "Inactive" terminology instead of "disabled" in user-facing text
   - Technical HTML/CSS/JS standards preserved for functionality
   - Consistent inclusive language across all documentation
@@ -102,12 +111,15 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Automatic system preference detection
 
 ### Technical - Foundation Architecture
+
 - **CSS Custom Properties System**
+
   - Systematic token organization with clear naming conventions
   - Efficient cascade structure minimizing specificity conflicts
   - Easy customization and extension points
 
 - **Component Methodology**
+
   - BEM-inspired naming convention with `labs-` prefix
   - Modifier-based variant system for scalability
   - Minimal CSS footprint with optimal reuse
@@ -118,7 +130,9 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Integrated accessibility testing tools
 
 ### Integration - Labs Ecosystem
+
 - **Extracted from Production Apps**
+
   - Tracker app: Color system, button patterns, typography
   - Note app: Form patterns and interaction design
   - Timer app: Focus state management and transitions
@@ -130,6 +144,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Centralized system reduces maintenance overhead
 
 ### Documentation - Comprehensive Guides
+
 - **README.md**: Complete setup and usage documentation
 - **Storybook Welcome**: Interactive system overview
 - **Component Stories**: Detailed usage examples for each component
@@ -139,6 +154,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 ---
 
 ### Design System & Demo Automation Improvements
+
 - Automated asset copying for all JS components and CSS tokens from `src/` to public `design-system/` folders for both local and public builds.
 - Updated web component imports to use absolute paths, ensuring correct CSS loading and eliminating 404 errors.
 - Removed legacy `<button>` elements from the demo; now only web components are showcased.
@@ -151,23 +167,27 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 - Improved script to ensure all assets are always up to date for both dev and deploy workflows.
 
 ### Automation & Deploy Improvements
+
 - Deploy script now only copies public assets (`main.css`, `components/`, `tokens/`, `assets/`) to `docs/design-system/` for GitHub Pages, excluding `node_modules` and unnecessary files.
 - Removed timestamp from demo HTML and deploy script for a cleaner, faster workflow.
 - Deploy script commit message now includes automation context and timestamp for traceability.
 
 ### Deploy Script & Automation
+
 - Deploy workflow now uses a shell script (`scripts/deploy.sh`) for timestamped commit messages and reliable automation.
 - Run `npm run deploy` for a one-command, best-practice deploy with clear commit history.
 
 ## [1.0.4] - 2025-07-28
 
 ### Changed/Added
+
 - Refactored Tokens stories: split into `Tokens.colors.stories.js`, `Tokens.typography.stories.js`, and `Tokens.spacing.stories.js` for proper Storybook sidebar grouping and sorting.
 - Tokens now appear as a sortable folder in the sidebar, matching Icons and Components.
 - Removed old combined `Tokens.stories.js` file.
 - Sidebar navigation and maintainability improved for all design tokens.
 
 ### Changed/Fixes
+
 - Storybook sidebar now shows "Icons/Default", "Icons/Grid Preview", and "Tokens/Colors/Spacing/Typography" as top-level entries.
 - "Grid Preview" story added for icons, with direct links to individual icon demos.
 - All icon and token stories now use clear, editable navigation labels.
@@ -176,6 +196,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 - Improved automation for icon list and grid generation.
 
 ### Changed/Fixes
+
 - Button width is now content-based ("hug" width) for all variants in both demo and Storybook.
 - All icon paths (including checkmark) now use consistent relative paths for compatibility in both Storybook and static demo.
 - Fixed checkmark icon 404 in both environments by aligning path handling with other icons.
@@ -191,11 +212,10 @@ All notable changes to the Labs Design System will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-
-
 ## [1.0.1] - 2025-07-23
 
 ### Added/Changed
+
 - Fully automated asset path rewriting for local/public/GitHub Pages preview and deploy (including favicon and all static assets).
 - Public and demo pages now always reference correct asset paths for all environments.
 - Favicon 404s fixed for all preview and deploy modes.
@@ -212,7 +232,8 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 ## [1.0.0] - 2025-07-20
 
 ### Added - Initial Design System Release
-  - Complete accessibility support with proper ARIA attributes
+
+- Complete accessibility support with proper ARIA attributes
 
 - **Comprehensive Design Token System**
   - **Colors**: 15+ semantic color variables extracted from Tracker app
@@ -221,14 +242,15 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - **Layout**: Responsive breakpoints and container utilities
   - **Animations**: Consistent transition timings and easing functions
   - Full light and dark mode support with automatic theme switching
-[2025-07-24] Design System & Storybook Cleanup
- - Fixed checkmark animation for Labs Button (works in Storybook and public demo)
- - Removed all generic Button, Header, and Page files and references
- - Cleaned up duplicate src folders and legacy assets
- - Ensured asset paths and build scripts run from project root
- - Added up-next: cachebuster for public assets
+    [2025-07-24] Design System & Storybook Cleanup
+- Fixed checkmark animation for Labs Button (works in Storybook and public demo)
+- Removed all generic Button, Header, and Page files and references
+- Cleaned up duplicate src folders and legacy assets
+- Ensured asset paths and build scripts run from project root
+- Added up-next: cachebuster for public assets
 
 - **Storybook Documentation Platform**
+
   - Interactive component playground with live controls
   - Comprehensive design token documentation
   - Real-world component testing playground
@@ -242,13 +264,16 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Real-world validation through Labs application integration
 
 ### Features - Accessibility & Inclusive Design
+
 - **WCAG 2.1 AA Compliance**
+
   - High contrast color ratios in both light and dark themes
   - Proper focus indicators with 2px outlines and offset
   - Keyboard navigation support for all interactive elements
   - Screen reader compatibility with semantic HTML
 
 - **Inclusive Language Standards**
+
   - "Inactive" terminology instead of "disabled" in user-facing text
   - Technical HTML/CSS/JS standards preserved for functionality
   - Consistent inclusive language across all documentation
@@ -260,12 +285,15 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Automatic system preference detection
 
 ### Technical - Foundation Architecture
+
 - **CSS Custom Properties System**
+
   - Systematic token organization with clear naming conventions
   - Efficient cascade structure minimizing specificity conflicts
   - Easy customization and extension points
 
 - **Component Methodology**
+
   - BEM-inspired naming convention with `labs-` prefix
   - Modifier-based variant system for scalability
   - Minimal CSS footprint with optimal reuse
@@ -276,7 +304,9 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Integrated accessibility testing tools
 
 ### Integration - Labs Ecosystem
+
 - **Extracted from Production Apps**
+
   - Tracker app: Color system, button patterns, typography
   - Note app: Form patterns and interaction design
   - Timer app: Focus state management and transitions
@@ -288,6 +318,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Centralized system reduces maintenance overhead
 
 ### Documentation - Comprehensive Guides
+
 - **README.md**: Complete setup and usage documentation
 - **Storybook Welcome**: Interactive system overview
 - **Component Stories**: Detailed usage examples for each component
@@ -297,6 +328,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 ---
 
 ### Design System & Demo Automation Improvements
+
 - Automated asset copying for all JS components and CSS tokens from `src/` to public `design-system/` folders for both local and public builds.
 - Updated web component imports to use absolute paths, ensuring correct CSS loading and eliminating 404 errors.
 - Removed legacy `<button>` elements from the demo; now only web components are showcased.
@@ -309,23 +341,27 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 - Improved script to ensure all assets are always up to date for both dev and deploy workflows.
 
 ### Automation & Deploy Improvements
+
 - Deploy script now only copies public assets (`main.css`, `components/`, `tokens/`, `assets/`) to `docs/design-system/` for GitHub Pages, excluding `node_modules` and unnecessary files.
 - Removed timestamp from demo HTML and deploy script for a cleaner, faster workflow.
 - Deploy script commit message now includes automation context and timestamp for traceability.
 
 ### Deploy Script & Automation
+
 - Deploy workflow now uses a shell script (`scripts/deploy.sh`) for timestamped commit messages and reliable automation.
 - Run `npm run deploy` for a one-command, best-practice deploy with clear commit history.
 
 ## [1.0.4] - 2025-07-28
 
 ### Changed/Added
+
 - Refactored Tokens stories: split into `Tokens.colors.stories.js`, `Tokens.typography.stories.js`, and `Tokens.spacing.stories.js` for proper Storybook sidebar grouping and sorting.
 - Tokens now appear as a sortable folder in the sidebar, matching Icons and Components.
 - Removed old combined `Tokens.stories.js` file.
 - Sidebar navigation and maintainability improved for all design tokens.
 
 ### Changed/Fixes
+
 - Storybook sidebar now shows "Icons/Default", "Icons/Grid Preview", and "Tokens/Colors/Spacing/Typography" as top-level entries.
 - "Grid Preview" story added for icons, with direct links to individual icon demos.
 - All icon and token stories now use clear, editable navigation labels.
@@ -334,6 +370,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 - Improved automation for icon list and grid generation.
 
 ### Changed/Fixes
+
 - Button width is now content-based ("hug" width) for all variants in both demo and Storybook.
 - All icon paths (including checkmark) now use consistent relative paths for compatibility in both Storybook and static demo.
 - Fixed checkmark icon 404 in both environments by aligning path handling with other icons.
@@ -349,11 +386,10 @@ All notable changes to the Labs Design System will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-
-
 ## [1.0.1] - 2025-07-23
 
 ### Added/Changed
+
 - Fully automated asset path rewriting for local/public/GitHub Pages preview and deploy (including favicon and all static assets).
 - Public and demo pages now always reference correct asset paths for all environments.
 - Favicon 404s fixed for all preview and deploy modes.
@@ -370,7 +406,8 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 ## [1.0.0] - 2025-07-20
 
 ### Added - Initial Design System Release
-  - Complete accessibility support with proper ARIA attributes
+
+- Complete accessibility support with proper ARIA attributes
 
 - **Comprehensive Design Token System**
   - **Colors**: 15+ semantic color variables extracted from Tracker app
@@ -379,14 +416,15 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - **Layout**: Responsive breakpoints and container utilities
   - **Animations**: Consistent transition timings and easing functions
   - Full light and dark mode support with automatic theme switching
-[2025-07-24] Design System & Storybook Cleanup
- - Fixed checkmark animation for Labs Button (works in Storybook and public demo)
- - Removed all generic Button, Header, and Page files and references
- - Cleaned up duplicate src folders and legacy assets
- - Ensured asset paths and build scripts run from project root
- - Added up-next: cachebuster for public assets
+    [2025-07-24] Design System & Storybook Cleanup
+- Fixed checkmark animation for Labs Button (works in Storybook and public demo)
+- Removed all generic Button, Header, and Page files and references
+- Cleaned up duplicate src folders and legacy assets
+- Ensured asset paths and build scripts run from project root
+- Added up-next: cachebuster for public assets
 
 - **Storybook Documentation Platform**
+
   - Interactive component playground with live controls
   - Comprehensive design token documentation
   - Real-world component testing playground
@@ -400,13 +438,16 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Real-world validation through Labs application integration
 
 ### Features - Accessibility & Inclusive Design
+
 - **WCAG 2.1 AA Compliance**
+
   - High contrast color ratios in both light and dark themes
   - Proper focus indicators with 2px outlines and offset
   - Keyboard navigation support for all interactive elements
   - Screen reader compatibility with semantic HTML
 
 - **Inclusive Language Standards**
+
   - "Inactive" terminology instead of "disabled" in user-facing text
   - Technical HTML/CSS/JS standards preserved for functionality
   - Consistent inclusive language across all documentation
@@ -418,12 +459,15 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Automatic system preference detection
 
 ### Technical - Foundation Architecture
+
 - **CSS Custom Properties System**
+
   - Systematic token organization with clear naming conventions
   - Efficient cascade structure minimizing specificity conflicts
   - Easy customization and extension points
 
 - **Component Methodology**
+
   - BEM-inspired naming convention with `labs-` prefix
   - Modifier-based variant system for scalability
   - Minimal CSS footprint with optimal reuse
@@ -434,7 +478,9 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Integrated accessibility testing tools
 
 ### Integration - Labs Ecosystem
+
 - **Extracted from Production Apps**
+
   - Tracker app: Color system, button patterns, typography
   - Note app: Form patterns and interaction design
   - Timer app: Focus state management and transitions
@@ -446,6 +492,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Centralized system reduces maintenance overhead
 
 ### Documentation - Comprehensive Guides
+
 - **README.md**: Complete setup and usage documentation
 - **Storybook Welcome**: Interactive system overview
 - **Component Stories**: Detailed usage examples for each component
@@ -455,6 +502,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 ---
 
 ### Design System & Demo Automation Improvements
+
 - Automated asset copying for all JS components and CSS tokens from `src/` to public `design-system/` folders for both local and public builds.
 - Updated web component imports to use absolute paths, ensuring correct CSS loading and eliminating 404 errors.
 - Removed legacy `<button>` elements from the demo; now only web components are showcased.
@@ -467,23 +515,27 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 - Improved script to ensure all assets are always up to date for both dev and deploy workflows.
 
 ### Automation & Deploy Improvements
+
 - Deploy script now only copies public assets (`main.css`, `components/`, `tokens/`, `assets/`) to `docs/design-system/` for GitHub Pages, excluding `node_modules` and unnecessary files.
 - Removed timestamp from demo HTML and deploy script for a cleaner, faster workflow.
 - Deploy script commit message now includes automation context and timestamp for traceability.
 
 ### Deploy Script & Automation
+
 - Deploy workflow now uses a shell script (`scripts/deploy.sh`) for timestamped commit messages and reliable automation.
 - Run `npm run deploy` for a one-command, best-practice deploy with clear commit history.
 
 ## [1.0.4] - 2025-07-28
 
 ### Changed/Added
+
 - Refactored Tokens stories: split into `Tokens.colors.stories.js`, `Tokens.typography.stories.js`, and `Tokens.spacing.stories.js` for proper Storybook sidebar grouping and sorting.
 - Tokens now appear as a sortable folder in the sidebar, matching Icons and Components.
 - Removed old combined `Tokens.stories.js` file.
 - Sidebar navigation and maintainability improved for all design tokens.
 
 ### Changed/Fixes
+
 - Storybook sidebar now shows "Icons/Default", "Icons/Grid Preview", and "Tokens/Colors/Spacing/Typography" as top-level entries.
 - "Grid Preview" story added for icons, with direct links to individual icon demos.
 - All icon and token stories now use clear, editable navigation labels.
@@ -492,6 +544,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 - Improved automation for icon list and grid generation.
 
 ### Changed/Fixes
+
 - Button width is now content-based ("hug" width) for all variants in both demo and Storybook.
 - All icon paths (including checkmark) now use consistent relative paths for compatibility in both Storybook and static demo.
 - Fixed checkmark icon 404 in both environments by aligning path handling with other icons.
@@ -507,11 +560,10 @@ All notable changes to the Labs Design System will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-
-
 ## [1.0.1] - 2025-07-23
 
 ### Added/Changed
+
 - Fully automated asset path rewriting for local/public/GitHub Pages preview and deploy (including favicon and all static assets).
 - Public and demo pages now always reference correct asset paths for all environments.
 - Favicon 404s fixed for all preview and deploy modes.
@@ -528,7 +580,8 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 ## [1.0.0] - 2025-07-20
 
 ### Added - Initial Design System Release
-  - Complete accessibility support with proper ARIA attributes
+
+- Complete accessibility support with proper ARIA attributes
 
 - **Comprehensive Design Token System**
   - **Colors**: 15+ semantic color variables extracted from Tracker app
@@ -537,14 +590,15 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - **Layout**: Responsive breakpoints and container utilities
   - **Animations**: Consistent transition timings and easing functions
   - Full light and dark mode support with automatic theme switching
-[2025-07-24] Design System & Storybook Cleanup
- - Fixed checkmark animation for Labs Button (works in Storybook and public demo)
- - Removed all generic Button, Header, and Page files and references
- - Cleaned up duplicate src folders and legacy assets
- - Ensured asset paths and build scripts run from project root
- - Added up-next: cachebuster for public assets
+    [2025-07-24] Design System & Storybook Cleanup
+- Fixed checkmark animation for Labs Button (works in Storybook and public demo)
+- Removed all generic Button, Header, and Page files and references
+- Cleaned up duplicate src folders and legacy assets
+- Ensured asset paths and build scripts run from project root
+- Added up-next: cachebuster for public assets
 
 - **Storybook Documentation Platform**
+
   - Interactive component playground with live controls
   - Comprehensive design token documentation
   - Real-world component testing playground
@@ -558,13 +612,16 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Real-world validation through Labs application integration
 
 ### Features - Accessibility & Inclusive Design
+
 - **WCAG 2.1 AA Compliance**
+
   - High contrast color ratios in both light and dark themes
   - Proper focus indicators with 2px outlines and offset
   - Keyboard navigation support for all interactive elements
   - Screen reader compatibility with semantic HTML
 
 - **Inclusive Language Standards**
+
   - "Inactive" terminology instead of "disabled" in user-facing text
   - Technical HTML/CSS/JS standards preserved for functionality
   - Consistent inclusive language across all documentation
@@ -576,12 +633,15 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Automatic system preference detection
 
 ### Technical - Foundation Architecture
+
 - **CSS Custom Properties System**
+
   - Systematic token organization with clear naming conventions
   - Efficient cascade structure minimizing specificity conflicts
   - Easy customization and extension points
 
 - **Component Methodology**
+
   - BEM-inspired naming convention with `labs-` prefix
   - Modifier-based variant system for scalability
   - Minimal CSS footprint with optimal reuse
@@ -592,7 +652,9 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Integrated accessibility testing tools
 
 ### Integration - Labs Ecosystem
+
 - **Extracted from Production Apps**
+
   - Tracker app: Color system, button patterns, typography
   - Note app: Form patterns and interaction design
   - Timer app: Focus state management and transitions
@@ -604,6 +666,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Centralized system reduces maintenance overhead
 
 ### Documentation - Comprehensive Guides
+
 - **README.md**: Complete setup and usage documentation
 - **Storybook Welcome**: Interactive system overview
 - **Component Stories**: Detailed usage examples for each component
@@ -613,6 +676,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 ---
 
 ### Design System & Demo Automation Improvements
+
 - Automated asset copying for all JS components and CSS tokens from `src/` to public `design-system/` folders for both local and public builds.
 - Updated web component imports to use absolute paths, ensuring correct CSS loading and eliminating 404 errors.
 - Removed legacy `<button>` elements from the demo; now only web components are showcased.
@@ -625,23 +689,27 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 - Improved script to ensure all assets are always up to date for both dev and deploy workflows.
 
 ### Automation & Deploy Improvements
+
 - Deploy script now only copies public assets (`main.css`, `components/`, `tokens/`, `assets/`) to `docs/design-system/` for GitHub Pages, excluding `node_modules` and unnecessary files.
 - Removed timestamp from demo HTML and deploy script for a cleaner, faster workflow.
 - Deploy script commit message now includes automation context and timestamp for traceability.
 
 ### Deploy Script & Automation
+
 - Deploy workflow now uses a shell script (`scripts/deploy.sh`) for timestamped commit messages and reliable automation.
 - Run `npm run deploy` for a one-command, best-practice deploy with clear commit history.
 
 ## [1.0.4] - 2025-07-28
 
 ### Changed/Added
+
 - Refactored Tokens stories: split into `Tokens.colors.stories.js`, `Tokens.typography.stories.js`, and `Tokens.spacing.stories.js` for proper Storybook sidebar grouping and sorting.
 - Tokens now appear as a sortable folder in the sidebar, matching Icons and Components.
 - Removed old combined `Tokens.stories.js` file.
 - Sidebar navigation and maintainability improved for all design tokens.
 
 ### Changed/Fixes
+
 - Storybook sidebar now shows "Icons/Default", "Icons/Grid Preview", and "Tokens/Colors/Spacing/Typography" as top-level entries.
 - "Grid Preview" story added for icons, with direct links to individual icon demos.
 - All icon and token stories now use clear, editable navigation labels.
@@ -650,6 +718,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 - Improved automation for icon list and grid generation.
 
 ### Changed/Fixes
+
 - Button width is now content-based ("hug" width) for all variants in both demo and Storybook.
 - All icon paths (including checkmark) now use consistent relative paths for compatibility in both Storybook and static demo.
 - Fixed checkmark icon 404 in both environments by aligning path handling with other icons.
@@ -665,11 +734,10 @@ All notable changes to the Labs Design System will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-
-
 ## [1.0.1] - 2025-07-23
 
 ### Added/Changed
+
 - Fully automated asset path rewriting for local/public/GitHub Pages preview and deploy (including favicon and all static assets).
 - Public and demo pages now always reference correct asset paths for all environments.
 - Favicon 404s fixed for all preview and deploy modes.
@@ -686,7 +754,8 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 ## [1.0.0] - 2025-07-20
 
 ### Added - Initial Design System Release
-  - Complete accessibility support with proper ARIA attributes
+
+- Complete accessibility support with proper ARIA attributes
 
 - **Comprehensive Design Token System**
   - **Colors**: 15+ semantic color variables extracted from Tracker app
@@ -695,14 +764,15 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - **Layout**: Responsive breakpoints and container utilities
   - **Animations**: Consistent transition timings and easing functions
   - Full light and dark mode support with automatic theme switching
-[2025-07-24] Design System & Storybook Cleanup
- - Fixed checkmark animation for Labs Button (works in Storybook and public demo)
- - Removed all generic Button, Header, and Page files and references
- - Cleaned up duplicate src folders and legacy assets
- - Ensured asset paths and build scripts run from project root
- - Added up-next: cachebuster for public assets
+    [2025-07-24] Design System & Storybook Cleanup
+- Fixed checkmark animation for Labs Button (works in Storybook and public demo)
+- Removed all generic Button, Header, and Page files and references
+- Cleaned up duplicate src folders and legacy assets
+- Ensured asset paths and build scripts run from project root
+- Added up-next: cachebuster for public assets
 
 - **Storybook Documentation Platform**
+
   - Interactive component playground with live controls
   - Comprehensive design token documentation
   - Real-world component testing playground
@@ -716,13 +786,16 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Real-world validation through Labs application integration
 
 ### Features - Accessibility & Inclusive Design
+
 - **WCAG 2.1 AA Compliance**
+
   - High contrast color ratios in both light and dark themes
   - Proper focus indicators with 2px outlines and offset
   - Keyboard navigation support for all interactive elements
   - Screen reader compatibility with semantic HTML
 
 - **Inclusive Language Standards**
+
   - "Inactive" terminology instead of "disabled" in user-facing text
   - Technical HTML/CSS/JS standards preserved for functionality
   - Consistent inclusive language across all documentation
@@ -734,12 +807,15 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Automatic system preference detection
 
 ### Technical - Foundation Architecture
+
 - **CSS Custom Properties System**
+
   - Systematic token organization with clear naming conventions
   - Efficient cascade structure minimizing specificity conflicts
   - Easy customization and extension points
 
 - **Component Methodology**
+
   - BEM-inspired naming convention with `labs-` prefix
   - Modifier-based variant system for scalability
   - Minimal CSS footprint with optimal reuse
@@ -750,7 +826,9 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Integrated accessibility testing tools
 
 ### Integration - Labs Ecosystem
+
 - **Extracted from Production Apps**
+
   - Tracker app: Color system, button patterns, typography
   - Note app: Form patterns and interaction design
   - Timer app: Focus state management and transitions
@@ -762,6 +840,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Centralized system reduces maintenance overhead
 
 ### Documentation - Comprehensive Guides
+
 - **README.md**: Complete setup and usage documentation
 - **Storybook Welcome**: Interactive system overview
 - **Component Stories**: Detailed usage examples for each component
@@ -771,6 +850,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 ---
 
 ### Design System & Demo Automation Improvements
+
 - Automated asset copying for all JS components and CSS tokens from `src/` to public `design-system/` folders for both local and public builds.
 - Updated web component imports to use absolute paths, ensuring correct CSS loading and eliminating 404 errors.
 - Removed legacy `<button>` elements from the demo; now only web components are showcased.
@@ -783,23 +863,27 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 - Improved script to ensure all assets are always up to date for both dev and deploy workflows.
 
 ### Automation & Deploy Improvements
+
 - Deploy script now only copies public assets (`main.css`, `components/`, `tokens/`, `assets/`) to `docs/design-system/` for GitHub Pages, excluding `node_modules` and unnecessary files.
 - Removed timestamp from demo HTML and deploy script for a cleaner, faster workflow.
 - Deploy script commit message now includes automation context and timestamp for traceability.
 
 ### Deploy Script & Automation
+
 - Deploy workflow now uses a shell script (`scripts/deploy.sh`) for timestamped commit messages and reliable automation.
 - Run `npm run deploy` for a one-command, best-practice deploy with clear commit history.
 
 ## [1.0.4] - 2025-07-28
 
 ### Changed/Added
+
 - Refactored Tokens stories: split into `Tokens.colors.stories.js`, `Tokens.typography.stories.js`, and `Tokens.spacing.stories.js` for proper Storybook sidebar grouping and sorting.
 - Tokens now appear as a sortable folder in the sidebar, matching Icons and Components.
 - Removed old combined `Tokens.stories.js` file.
 - Sidebar navigation and maintainability improved for all design tokens.
 
 ### Changed/Fixes
+
 - Storybook sidebar now shows "Icons/Default", "Icons/Grid Preview", and "Tokens/Colors/Spacing/Typography" as top-level entries.
 - "Grid Preview" story added for icons, with direct links to individual icon demos.
 - All icon and token stories now use clear, editable navigation labels.
@@ -808,6 +892,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 - Improved automation for icon list and grid generation.
 
 ### Changed/Fixes
+
 - Button width is now content-based ("hug" width) for all variants in both demo and Storybook.
 - All icon paths (including checkmark) now use consistent relative paths for compatibility in both Storybook and static demo.
 - Fixed checkmark icon 404 in both environments by aligning path handling with other icons.
@@ -823,11 +908,10 @@ All notable changes to the Labs Design System will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-
-
 ## [1.0.1] - 2025-07-23
 
 ### Added/Changed
+
 - Fully automated asset path rewriting for local/public/GitHub Pages preview and deploy (including favicon and all static assets).
 - Public and demo pages now always reference correct asset paths for all environments.
 - Favicon 404s fixed for all preview and deploy modes.
@@ -844,7 +928,8 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 ## [1.0.0] - 2025-07-20
 
 ### Added - Initial Design System Release
-  - Complete accessibility support with proper ARIA attributes
+
+- Complete accessibility support with proper ARIA attributes
 
 - **Comprehensive Design Token System**
   - **Colors**: 15+ semantic color variables extracted from Tracker app
@@ -853,14 +938,15 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - **Layout**: Responsive breakpoints and container utilities
   - **Animations**: Consistent transition timings and easing functions
   - Full light and dark mode support with automatic theme switching
-[2025-07-24] Design System & Storybook Cleanup
- - Fixed checkmark animation for Labs Button (works in Storybook and public demo)
- - Removed all generic Button, Header, and Page files and references
- - Cleaned up duplicate src folders and legacy assets
- - Ensured asset paths and build scripts run from project root
- - Added up-next: cachebuster for public assets
+    [2025-07-24] Design System & Storybook Cleanup
+- Fixed checkmark animation for Labs Button (works in Storybook and public demo)
+- Removed all generic Button, Header, and Page files and references
+- Cleaned up duplicate src folders and legacy assets
+- Ensured asset paths and build scripts run from project root
+- Added up-next: cachebuster for public assets
 
 - **Storybook Documentation Platform**
+
   - Interactive component playground with live controls
   - Comprehensive design token documentation
   - Real-world component testing playground
@@ -874,13 +960,16 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Real-world validation through Labs application integration
 
 ### Features - Accessibility & Inclusive Design
+
 - **WCAG 2.1 AA Compliance**
+
   - High contrast color ratios in both light and dark themes
   - Proper focus indicators with 2px outlines and offset
   - Keyboard navigation support for all interactive elements
   - Screen reader compatibility with semantic HTML
 
 - **Inclusive Language Standards**
+
   - "Inactive" terminology instead of "disabled" in user-facing text
   - Technical HTML/CSS/JS standards preserved for functionality
   - Consistent inclusive language across all documentation
@@ -892,12 +981,15 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Automatic system preference detection
 
 ### Technical - Foundation Architecture
+
 - **CSS Custom Properties System**
+
   - Systematic token organization with clear naming conventions
   - Efficient cascade structure minimizing specificity conflicts
   - Easy customization and extension points
 
 - **Component Methodology**
+
   - BEM-inspired naming convention with `labs-` prefix
   - Modifier-based variant system for scalability
   - Minimal CSS footprint with optimal reuse
@@ -908,7 +1000,9 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Integrated accessibility testing tools
 
 ### Integration - Labs Ecosystem
+
 - **Extracted from Production Apps**
+
   - Tracker app: Color system, button patterns, typography
   - Note app: Form patterns and interaction design
   - Timer app: Focus state management and transitions
@@ -920,6 +1014,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Centralized system reduces maintenance overhead
 
 ### Documentation - Comprehensive Guides
+
 - **README.md**: Complete setup and usage documentation
 - **Storybook Welcome**: Interactive system overview
 - **Component Stories**: Detailed usage examples for each component
@@ -929,6 +1024,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 ---
 
 ### Design System & Demo Automation Improvements
+
 - Automated asset copying for all JS components and CSS tokens from `src/` to public `design-system/` folders for both local and public builds.
 - Updated web component imports to use absolute paths, ensuring correct CSS loading and eliminating 404 errors.
 - Removed legacy `<button>` elements from the demo; now only web components are showcased.
@@ -941,23 +1037,27 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 - Improved script to ensure all assets are always up to date for both dev and deploy workflows.
 
 ### Automation & Deploy Improvements
+
 - Deploy script now only copies public assets (`main.css`, `components/`, `tokens/`, `assets/`) to `docs/design-system/` for GitHub Pages, excluding `node_modules` and unnecessary files.
 - Removed timestamp from demo HTML and deploy script for a cleaner, faster workflow.
 - Deploy script commit message now includes automation context and timestamp for traceability.
 
 ### Deploy Script & Automation
+
 - Deploy workflow now uses a shell script (`scripts/deploy.sh`) for timestamped commit messages and reliable automation.
 - Run `npm run deploy` for a one-command, best-practice deploy with clear commit history.
 
 ## [1.0.4] - 2025-07-28
 
 ### Changed/Added
+
 - Refactored Tokens stories: split into `Tokens.colors.stories.js`, `Tokens.typography.stories.js`, and `Tokens.spacing.stories.js` for proper Storybook sidebar grouping and sorting.
 - Tokens now appear as a sortable folder in the sidebar, matching Icons and Components.
 - Removed old combined `Tokens.stories.js` file.
 - Sidebar navigation and maintainability improved for all design tokens.
 
 ### Changed/Fixes
+
 - Storybook sidebar now shows "Icons/Default", "Icons/Grid Preview", and "Tokens/Colors/Spacing/Typography" as top-level entries.
 - "Grid Preview" story added for icons, with direct links to individual icon demos.
 - All icon and token stories now use clear, editable navigation labels.
@@ -966,6 +1066,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 - Improved automation for icon list and grid generation.
 
 ### Changed/Fixes
+
 - Button width is now content-based ("hug" width) for all variants in both demo and Storybook.
 - All icon paths (including checkmark) now use consistent relative paths for compatibility in both Storybook and static demo.
 - Fixed checkmark icon 404 in both environments by aligning path handling with other icons.
@@ -981,11 +1082,10 @@ All notable changes to the Labs Design System will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-
-
 ## [1.0.1] - 2025-07-23
 
 ### Added/Changed
+
 - Fully automated asset path rewriting for local/public/GitHub Pages preview and deploy (including favicon and all static assets).
 - Public and demo pages now always reference correct asset paths for all environments.
 - Favicon 404s fixed for all preview and deploy modes.
@@ -1002,7 +1102,8 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 ## [1.0.0] - 2025-07-20
 
 ### Added - Initial Design System Release
-  - Complete accessibility support with proper ARIA attributes
+
+- Complete accessibility support with proper ARIA attributes
 
 - **Comprehensive Design Token System**
   - **Colors**: 15+ semantic color variables extracted from Tracker app
@@ -1011,14 +1112,15 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - **Layout**: Responsive breakpoints and container utilities
   - **Animations**: Consistent transition timings and easing functions
   - Full light and dark mode support with automatic theme switching
-[2025-07-24] Design System & Storybook Cleanup
- - Fixed checkmark animation for Labs Button (works in Storybook and public demo)
- - Removed all generic Button, Header, and Page files and references
- - Cleaned up duplicate src folders and legacy assets
- - Ensured asset paths and build scripts run from project root
- - Added up-next: cachebuster for public assets
+    [2025-07-24] Design System & Storybook Cleanup
+- Fixed checkmark animation for Labs Button (works in Storybook and public demo)
+- Removed all generic Button, Header, and Page files and references
+- Cleaned up duplicate src folders and legacy assets
+- Ensured asset paths and build scripts run from project root
+- Added up-next: cachebuster for public assets
 
 - **Storybook Documentation Platform**
+
   - Interactive component playground with live controls
   - Comprehensive design token documentation
   - Real-world component testing playground
@@ -1032,13 +1134,16 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Real-world validation through Labs application integration
 
 ### Features - Accessibility & Inclusive Design
+
 - **WCAG 2.1 AA Compliance**
+
   - High contrast color ratios in both light and dark themes
   - Proper focus indicators with 2px outlines and offset
   - Keyboard navigation support for all interactive elements
   - Screen reader compatibility with semantic HTML
 
 - **Inclusive Language Standards**
+
   - "Inactive" terminology instead of "disabled" in user-facing text
   - Technical HTML/CSS/JS standards preserved for functionality
   - Consistent inclusive language across all documentation
@@ -1050,12 +1155,15 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Automatic system preference detection
 
 ### Technical - Foundation Architecture
+
 - **CSS Custom Properties System**
+
   - Systematic token organization with clear naming conventions
   - Efficient cascade structure minimizing specificity conflicts
   - Easy customization and extension points
 
 - **Component Methodology**
+
   - BEM-inspired naming convention with `labs-` prefix
   - Modifier-based variant system for scalability
   - Minimal CSS footprint with optimal reuse
@@ -1066,7 +1174,9 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Integrated accessibility testing tools
 
 ### Integration - Labs Ecosystem
+
 - **Extracted from Production Apps**
+
   - Tracker app: Color system, button patterns, typography
   - Note app: Form patterns and interaction design
   - Timer app: Focus state management and transitions
@@ -1078,6 +1188,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Centralized system reduces maintenance overhead
 
 ### Documentation - Comprehensive Guides
+
 - **README.md**: Complete setup and usage documentation
 - **Storybook Welcome**: Interactive system overview
 - **Component Stories**: Detailed usage examples for each component
@@ -1087,6 +1198,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 ---
 
 ### Design System & Demo Automation Improvements
+
 - Automated asset copying for all JS components and CSS tokens from `src/` to public `design-system/` folders for both local and public builds.
 - Updated web component imports to use absolute paths, ensuring correct CSS loading and eliminating 404 errors.
 - Removed legacy `<button>` elements from the demo; now only web components are showcased.
@@ -1099,23 +1211,27 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 - Improved script to ensure all assets are always up to date for both dev and deploy workflows.
 
 ### Automation & Deploy Improvements
+
 - Deploy script now only copies public assets (`main.css`, `components/`, `tokens/`, `assets/`) to `docs/design-system/` for GitHub Pages, excluding `node_modules` and unnecessary files.
 - Removed timestamp from demo HTML and deploy script for a cleaner, faster workflow.
 - Deploy script commit message now includes automation context and timestamp for traceability.
 
 ### Deploy Script & Automation
+
 - Deploy workflow now uses a shell script (`scripts/deploy.sh`) for timestamped commit messages and reliable automation.
 - Run `npm run deploy` for a one-command, best-practice deploy with clear commit history.
 
 ## [1.0.4] - 2025-07-28
 
 ### Changed/Added
+
 - Refactored Tokens stories: split into `Tokens.colors.stories.js`, `Tokens.typography.stories.js`, and `Tokens.spacing.stories.js` for proper Storybook sidebar grouping and sorting.
 - Tokens now appear as a sortable folder in the sidebar, matching Icons and Components.
 - Removed old combined `Tokens.stories.js` file.
 - Sidebar navigation and maintainability improved for all design tokens.
 
 ### Changed/Fixes
+
 - Storybook sidebar now shows "Icons/Default", "Icons/Grid Preview", and "Tokens/Colors/Spacing/Typography" as top-level entries.
 - "Grid Preview" story added for icons, with direct links to individual icon demos.
 - All icon and token stories now use clear, editable navigation labels.
@@ -1124,6 +1240,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 - Improved automation for icon list and grid generation.
 
 ### Changed/Fixes
+
 - Button width is now content-based ("hug" width) for all variants in both demo and Storybook.
 - All icon paths (including checkmark) now use consistent relative paths for compatibility in both Storybook and static demo.
 - Fixed checkmark icon 404 in both environments by aligning path handling with other icons.
@@ -1139,11 +1256,10 @@ All notable changes to the Labs Design System will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-
-
 ## [1.0.1] - 2025-07-23
 
 ### Added/Changed
+
 - Fully automated asset path rewriting for local/public/GitHub Pages preview and deploy (including favicon and all static assets).
 - Public and demo pages now always reference correct asset paths for all environments.
 - Favicon 404s fixed for all preview and deploy modes.
@@ -1160,7 +1276,8 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 ## [1.0.0] - 2025-07-20
 
 ### Added - Initial Design System Release
-  - Complete accessibility support with proper ARIA attributes
+
+- Complete accessibility support with proper ARIA attributes
 
 - **Comprehensive Design Token System**
   - **Colors**: 15+ semantic color variables extracted from Tracker app
@@ -1169,14 +1286,15 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - **Layout**: Responsive breakpoints and container utilities
   - **Animations**: Consistent transition timings and easing functions
   - Full light and dark mode support with automatic theme switching
-[2025-07-24] Design System & Storybook Cleanup
- - Fixed checkmark animation for Labs Button (works in Storybook and public demo)
- - Removed all generic Button, Header, and Page files and references
- - Cleaned up duplicate src folders and legacy assets
- - Ensured asset paths and build scripts run from project root
- - Added up-next: cachebuster for public assets
+    [2025-07-24] Design System & Storybook Cleanup
+- Fixed checkmark animation for Labs Button (works in Storybook and public demo)
+- Removed all generic Button, Header, and Page files and references
+- Cleaned up duplicate src folders and legacy assets
+- Ensured asset paths and build scripts run from project root
+- Added up-next: cachebuster for public assets
 
 - **Storybook Documentation Platform**
+
   - Interactive component playground with live controls
   - Comprehensive design token documentation
   - Real-world component testing playground
@@ -1190,13 +1308,16 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Real-world validation through Labs application integration
 
 ### Features - Accessibility & Inclusive Design
+
 - **WCAG 2.1 AA Compliance**
+
   - High contrast color ratios in both light and dark themes
   - Proper focus indicators with 2px outlines and offset
   - Keyboard navigation support for all interactive elements
   - Screen reader compatibility with semantic HTML
 
 - **Inclusive Language Standards**
+
   - "Inactive" terminology instead of "disabled" in user-facing text
   - Technical HTML/CSS/JS standards preserved for functionality
   - Consistent inclusive language across all documentation
@@ -1208,12 +1329,15 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Automatic system preference detection
 
 ### Technical - Foundation Architecture
+
 - **CSS Custom Properties System**
+
   - Systematic token organization with clear naming conventions
   - Efficient cascade structure minimizing specificity conflicts
   - Easy customization and extension points
 
 - **Component Methodology**
+
   - BEM-inspired naming convention with `labs-` prefix
   - Modifier-based variant system for scalability
   - Minimal CSS footprint with optimal reuse
@@ -1224,7 +1348,9 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Integrated accessibility testing tools
 
 ### Integration - Labs Ecosystem
+
 - **Extracted from Production Apps**
+
   - Tracker app: Color system, button patterns, typography
   - Note app: Form patterns and interaction design
   - Timer app: Focus state management and transitions
@@ -1236,6 +1362,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Centralized system reduces maintenance overhead
 
 ### Documentation - Comprehensive Guides
+
 - **README.md**: Complete setup and usage documentation
 - **Storybook Welcome**: Interactive system overview
 - **Component Stories**: Detailed usage examples for each component
@@ -1245,6 +1372,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 ---
 
 ### Design System & Demo Automation Improvements
+
 - Automated asset copying for all JS components and CSS tokens from `src/` to public `design-system/` folders for both local and public builds.
 - Updated web component imports to use absolute paths, ensuring correct CSS loading and eliminating 404 errors.
 - Removed legacy `<button>` elements from the demo; now only web components are showcased.
@@ -1257,23 +1385,27 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 - Improved script to ensure all assets are always up to date for both dev and deploy workflows.
 
 ### Automation & Deploy Improvements
+
 - Deploy script now only copies public assets (`main.css`, `components/`, `tokens/`, `assets/`) to `docs/design-system/` for GitHub Pages, excluding `node_modules` and unnecessary files.
 - Removed timestamp from demo HTML and deploy script for a cleaner, faster workflow.
 - Deploy script commit message now includes automation context and timestamp for traceability.
 
 ### Deploy Script & Automation
+
 - Deploy workflow now uses a shell script (`scripts/deploy.sh`) for timestamped commit messages and reliable automation.
 - Run `npm run deploy` for a one-command, best-practice deploy with clear commit history.
 
 ## [1.0.4] - 2025-07-28
 
 ### Changed/Added
+
 - Refactored Tokens stories: split into `Tokens.colors.stories.js`, `Tokens.typography.stories.js`, and `Tokens.spacing.stories.js` for proper Storybook sidebar grouping and sorting.
 - Tokens now appear as a sortable folder in the sidebar, matching Icons and Components.
 - Removed old combined `Tokens.stories.js` file.
 - Sidebar navigation and maintainability improved for all design tokens.
 
 ### Changed/Fixes
+
 - Storybook sidebar now shows "Icons/Default", "Icons/Grid Preview", and "Tokens/Colors/Spacing/Typography" as top-level entries.
 - "Grid Preview" story added for icons, with direct links to individual icon demos.
 - All icon and token stories now use clear, editable navigation labels.
@@ -1282,6 +1414,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 - Improved automation for icon list and grid generation.
 
 ### Changed/Fixes
+
 - Button width is now content-based ("hug" width) for all variants in both demo and Storybook.
 - All icon paths (including checkmark) now use consistent relative paths for compatibility in both Storybook and static demo.
 - Fixed checkmark icon 404 in both environments by aligning path handling with other icons.
@@ -1297,11 +1430,10 @@ All notable changes to the Labs Design System will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-
-
 ## [1.0.1] - 2025-07-23
 
 ### Added/Changed
+
 - Fully automated asset path rewriting for local/public/GitHub Pages preview and deploy (including favicon and all static assets).
 - Public and demo pages now always reference correct asset paths for all environments.
 - Favicon 404s fixed for all preview and deploy modes.
@@ -1318,7 +1450,8 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 ## [1.0.0] - 2025-07-20
 
 ### Added - Initial Design System Release
-  - Complete accessibility support with proper ARIA attributes
+
+- Complete accessibility support with proper ARIA attributes
 
 - **Comprehensive Design Token System**
   - **Colors**: 15+ semantic color variables extracted from Tracker app
@@ -1327,14 +1460,15 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - **Layout**: Responsive breakpoints and container utilities
   - **Animations**: Consistent transition timings and easing functions
   - Full light and dark mode support with automatic theme switching
-[2025-07-24] Design System & Storybook Cleanup
- - Fixed checkmark animation for Labs Button (works in Storybook and public demo)
- - Removed all generic Button, Header, and Page files and references
- - Cleaned up duplicate src folders and legacy assets
- - Ensured asset paths and build scripts run from project root
- - Added up-next: cachebuster for public assets
+    [2025-07-24] Design System & Storybook Cleanup
+- Fixed checkmark animation for Labs Button (works in Storybook and public demo)
+- Removed all generic Button, Header, and Page files and references
+- Cleaned up duplicate src folders and legacy assets
+- Ensured asset paths and build scripts run from project root
+- Added up-next: cachebuster for public assets
 
 - **Storybook Documentation Platform**
+
   - Interactive component playground with live controls
   - Comprehensive design token documentation
   - Real-world component testing playground
@@ -1348,13 +1482,16 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Real-world validation through Labs application integration
 
 ### Features - Accessibility & Inclusive Design
+
 - **WCAG 2.1 AA Compliance**
+
   - High contrast color ratios in both light and dark themes
   - Proper focus indicators with 2px outlines and offset
   - Keyboard navigation support for all interactive elements
   - Screen reader compatibility with semantic HTML
 
 - **Inclusive Language Standards**
+
   - "Inactive" terminology instead of "disabled" in user-facing text
   - Technical HTML/CSS/JS standards preserved for functionality
   - Consistent inclusive language across all documentation
@@ -1366,12 +1503,15 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Automatic system preference detection
 
 ### Technical - Foundation Architecture
+
 - **CSS Custom Properties System**
+
   - Systematic token organization with clear naming conventions
   - Efficient cascade structure minimizing specificity conflicts
   - Easy customization and extension points
 
 - **Component Methodology**
+
   - BEM-inspired naming convention with `labs-` prefix
   - Modifier-based variant system for scalability
   - Minimal CSS footprint with optimal reuse
@@ -1382,7 +1522,9 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Integrated accessibility testing tools
 
 ### Integration - Labs Ecosystem
+
 - **Extracted from Production Apps**
+
   - Tracker app: Color system, button patterns, typography
   - Note app: Form patterns and interaction design
   - Timer app: Focus state management and transitions
@@ -1394,6 +1536,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Centralized system reduces maintenance overhead
 
 ### Documentation - Comprehensive Guides
+
 - **README.md**: Complete setup and usage documentation
 - **Storybook Welcome**: Interactive system overview
 - **Component Stories**: Detailed usage examples for each component
@@ -1403,6 +1546,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 ---
 
 ### Design System & Demo Automation Improvements
+
 - Automated asset copying for all JS components and CSS tokens from `src/` to public `design-system/` folders for both local and public builds.
 - Updated web component imports to use absolute paths, ensuring correct CSS loading and eliminating 404 errors.
 - Removed legacy `<button>` elements from the demo; now only web components are showcased.
@@ -1415,23 +1559,27 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 - Improved script to ensure all assets are always up to date for both dev and deploy workflows.
 
 ### Automation & Deploy Improvements
+
 - Deploy script now only copies public assets (`main.css`, `components/`, `tokens/`, `assets/`) to `docs/design-system/` for GitHub Pages, excluding `node_modules` and unnecessary files.
 - Removed timestamp from demo HTML and deploy script for a cleaner, faster workflow.
 - Deploy script commit message now includes automation context and timestamp for traceability.
 
 ### Deploy Script & Automation
+
 - Deploy workflow now uses a shell script (`scripts/deploy.sh`) for timestamped commit messages and reliable automation.
 - Run `npm run deploy` for a one-command, best-practice deploy with clear commit history.
 
 ## [1.0.4] - 2025-07-28
 
 ### Changed/Added
+
 - Refactored Tokens stories: split into `Tokens.colors.stories.js`, `Tokens.typography.stories.js`, and `Tokens.spacing.stories.js` for proper Storybook sidebar grouping and sorting.
 - Tokens now appear as a sortable folder in the sidebar, matching Icons and Components.
 - Removed old combined `Tokens.stories.js` file.
 - Sidebar navigation and maintainability improved for all design tokens.
 
 ### Changed/Fixes
+
 - Storybook sidebar now shows "Icons/Default", "Icons/Grid Preview", and "Tokens/Colors/Spacing/Typography" as top-level entries.
 - "Grid Preview" story added for icons, with direct links to individual icon demos.
 - All icon and token stories now use clear, editable navigation labels.
@@ -1440,6 +1588,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 - Improved automation for icon list and grid generation.
 
 ### Changed/Fixes
+
 - Button width is now content-based ("hug" width) for all variants in both demo and Storybook.
 - All icon paths (including checkmark) now use consistent relative paths for compatibility in both Storybook and static demo.
 - Fixed checkmark icon 404 in both environments by aligning path handling with other icons.
@@ -1455,11 +1604,10 @@ All notable changes to the Labs Design System will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-
-
 ## [1.0.1] - 2025-07-23
 
 ### Added/Changed
+
 - Fully automated asset path rewriting for local/public/GitHub Pages preview and deploy (including favicon and all static assets).
 - Public and demo pages now always reference correct asset paths for all environments.
 - Favicon 404s fixed for all preview and deploy modes.
@@ -1476,7 +1624,8 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 ## [1.0.0] - 2025-07-20
 
 ### Added - Initial Design System Release
-  - Complete accessibility support with proper ARIA attributes
+
+- Complete accessibility support with proper ARIA attributes
 
 - **Comprehensive Design Token System**
   - **Colors**: 15+ semantic color variables extracted from Tracker app
@@ -1485,14 +1634,15 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - **Layout**: Responsive breakpoints and container utilities
   - **Animations**: Consistent transition timings and easing functions
   - Full light and dark mode support with automatic theme switching
-[2025-07-24] Design System & Storybook Cleanup
- - Fixed checkmark animation for Labs Button (works in Storybook and public demo)
- - Removed all generic Button, Header, and Page files and references
- - Cleaned up duplicate src folders and legacy assets
- - Ensured asset paths and build scripts run from project root
- - Added up-next: cachebuster for public assets
+    [2025-07-24] Design System & Storybook Cleanup
+- Fixed checkmark animation for Labs Button (works in Storybook and public demo)
+- Removed all generic Button, Header, and Page files and references
+- Cleaned up duplicate src folders and legacy assets
+- Ensured asset paths and build scripts run from project root
+- Added up-next: cachebuster for public assets
 
 - **Storybook Documentation Platform**
+
   - Interactive component playground with live controls
   - Comprehensive design token documentation
   - Real-world component testing playground
@@ -1506,13 +1656,16 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Real-world validation through Labs application integration
 
 ### Features - Accessibility & Inclusive Design
+
 - **WCAG 2.1 AA Compliance**
+
   - High contrast color ratios in both light and dark themes
   - Proper focus indicators with 2px outlines and offset
   - Keyboard navigation support for all interactive elements
   - Screen reader compatibility with semantic HTML
 
 - **Inclusive Language Standards**
+
   - "Inactive" terminology instead of "disabled" in user-facing text
   - Technical HTML/CSS/JS standards preserved for functionality
   - Consistent inclusive language across all documentation
@@ -1524,12 +1677,15 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Automatic system preference detection
 
 ### Technical - Foundation Architecture
+
 - **CSS Custom Properties System**
+
   - Systematic token organization with clear naming conventions
   - Efficient cascade structure minimizing specificity conflicts
   - Easy customization and extension points
 
 - **Component Methodology**
+
   - BEM-inspired naming convention with `labs-` prefix
   - Modifier-based variant system for scalability
   - Minimal CSS footprint with optimal reuse
@@ -1540,7 +1696,9 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Integrated accessibility testing tools
 
 ### Integration - Labs Ecosystem
+
 - **Extracted from Production Apps**
+
   - Tracker app: Color system, button patterns, typography
   - Note app: Form patterns and interaction design
   - Timer app: Focus state management and transitions
@@ -1552,6 +1710,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
   - Centralized system reduces maintenance overhead
 
 ### Documentation - Comprehensive Guides
+
 - **README.md**: Complete setup and usage documentation
 - **Storybook Welcome**: Interactive system overview
 - **Component Stories**: Detailed usage examples for each component
@@ -1561,6 +1720,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 ---
 
 ### Design System & Demo Automation Improvements
+
 - Automated asset copying for all JS components and CSS tokens from `src/` to public `design-system/` folders for both local and public builds.
 - Updated web component imports to use absolute paths, ensuring correct CSS loading and eliminating 404 errors.
 - Removed legacy `<button>` elements from the demo; now only web components are showcased.
@@ -1573,23 +1733,27 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 - Improved script to ensure all assets are always up to date for both dev and deploy workflows.
 
 ### Automation & Deploy Improvements
+
 - Deploy script now only copies public assets (`main.css`, `components/`, `tokens/`, `assets/`) to `docs/design-system/` for GitHub Pages, excluding `node_modules` and unnecessary files.
 - Removed timestamp from demo HTML and deploy script for a cleaner, faster workflow.
 - Deploy script commit message now includes automation context and timestamp for traceability.
 
 ### Deploy Script & Automation
+
 - Deploy workflow now uses a shell script (`scripts/deploy.sh`) for timestamped commit messages and reliable automation.
 - Run `npm run deploy` for a one-command, best-practice deploy with clear commit history.
 
 ## [1.0.4] - 2025-07-28
 
 ### Changed/Added
+
 - Refactored Tokens stories: split into `Tokens.colors.stories.js`, `Tokens.typography.stories.js`, and `Tokens.spacing.stories.js` for proper Storybook sidebar grouping and sorting.
 - Tokens now appear as a sortable folder in the sidebar, matching Icons and Components.
 - Removed old combined `Tokens.stories.js` file.
 - Sidebar navigation and maintainability improved for all design tokens.
 
 ### Changed/Fixes
+
 - Storybook sidebar now shows "Icons/Default", "Icons/Grid Preview", and "Tokens/Colors/Spacing/Typography" as top-level entries.
 - "Grid Preview" story added for icons, with direct links to individual icon demos.
 - All icon and token stories now use clear, editable navigation labels.
@@ -1598,6 +1762,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 - Improved automation for icon list and grid generation.
 
 ### Changed/Fixes
+
 - Button width is now content-based ("hug" width) for all variants in both demo and Storybook.
 - All icon paths (including checkmark) now use consistent relative paths for compatibility in both Storybook and static demo.
 - Fixed checkmark icon 404 in both environments by aligning path handling with other icons.
@@ -1609,6 +1774,7 @@ Previous attempts at Storybook integration, legacy configs, and migration steps 
 ## [1.0.5] - 2025-07-31
 
 ### Changed/Fixes
+
 - Removed unnecessary controls from the Button Icon Grid Storybook page for a cleaner preview.
 - Corrected syntax errors in Storybook configuration for button stories.
 - Improved icon display and generation, including adding the 'add' icon and refining icon coloring.

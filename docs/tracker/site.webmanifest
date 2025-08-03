@@ -1,26 +1,23 @@
 {
-    "name": "Daily Tracker",
-    "short_name": "Tracker",
-    "description": "Track your daily habits and activities",
-    "start_url": "./index.html",
-    "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#202F48",
-    "orientation": "any",
-    "scope": "./",
-    "icons": [
-        {
-            "src": "favicon.svg",
-            "sizes": "any",
-            "type": "image/svg+xml",
-            "purpose": "any maskable"
-        }
-    ],
-    "categories": [
-        "productivity",
-        "lifestyle"
-    ],
-    "screenshots": [],
-    "lang": "en",
-    "dir": "ltr"
+  "name": "Daily Tracker",
+  "short_name": "Tracker",
+  "description": "Track your daily habits and activities",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#202F48",
+  "orientation": "any",
+  "scope": "./",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "lifestyle"],
+  "screenshots": [],
+  "lang": "en",
+  "dir": "ltr"
 }

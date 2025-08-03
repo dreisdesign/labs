@@ -1,263 +1,314 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PWA Installation Test</title>
     <style>
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            max-width: 900px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-            line-height: 1.6;
-            background: #f5f5f5;
-        }
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          sans-serif;
+        max-width: 900px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        line-height: 1.6;
+        background: #f5f5f5;
+      }
 
-        .test-card {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
+      .test-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
 
-        .test-card h2 {
-            margin-top: 0;
-            color: #202F48;
-        }
+      .test-card h2 {
+        margin-top: 0;
+        color: #202f48;
+      }
 
-        .status {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 4px;
-            font-weight: bold;
-            margin-left: 1rem;
-        }
+      .status {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 4px;
+        font-weight: bold;
+        margin-left: 1rem;
+      }
 
-        .status.loading {
-            background: #ffeaa7;
-            color: #d63031;
-        }
+      .status.loading {
+        background: #ffeaa7;
+        color: #d63031;
+      }
 
-        .status.success {
-            background: #00b894;
-            color: white;
-        }
+      .status.success {
+        background: #00b894;
+        color: white;
+      }
 
-        .status.error {
-            background: #d63031;
-            color: white;
-        }
+      .status.error {
+        background: #d63031;
+        color: white;
+      }
 
-        .test-links {
-            display: flex;
-            gap: 1rem;
-            margin: 1rem 0;
-        }
+      .test-links {
+        display: flex;
+        gap: 1rem;
+        margin: 1rem 0;
+      }
 
-        .test-links a {
-            background: #202F48;
-            color: white;
-            padding: 0.5rem 1rem;
-            text-decoration: none;
-            border-radius: 4px;
-            transition: background 0.2s;
-        }
+      .test-links a {
+        background: #202f48;
+        color: white;
+        padding: 0.5rem 1rem;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background 0.2s;
+      }
 
-        .test-links a:hover {
-            background: #354b73;
-        }
+      .test-links a:hover {
+        background: #354b73;
+      }
 
-        .install-button {
-            background: #00b894;
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            margin: 0.5rem 0.5rem 0.5rem 0;
-            display: none;
-        }
+      .install-button {
+        background: #00b894;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+        margin: 0.5rem 0.5rem 0.5rem 0;
+        display: none;
+      }
 
-        .install-button:hover {
-            background: #00a085;
-        }
+      .install-button:hover {
+        background: #00a085;
+      }
 
-        .info {
-            background: #e3f2fd;
-            padding: 1rem;
-            border-radius: 4px;
-            margin: 1rem 0;
-            border-left: 4px solid #2196f3;
-        }
+      .info {
+        background: #e3f2fd;
+        padding: 1rem;
+        border-radius: 4px;
+        margin: 1rem 0;
+        border-left: 4px solid #2196f3;
+      }
 
-        .requirements {
-            background: #fff3e0;
-            padding: 1rem;
-            border-radius: 4px;
-            margin: 1rem 0;
-            border-left: 4px solid #ff9800;
-        }
+      .requirements {
+        background: #fff3e0;
+        padding: 1rem;
+        border-radius: 4px;
+        margin: 1rem 0;
+        border-left: 4px solid #ff9800;
+      }
 
-        .requirements ul {
-            margin: 0.5rem 0;
-            padding-left: 1.5rem;
-        }
+      .requirements ul {
+        margin: 0.5rem 0;
+        padding-left: 1.5rem;
+      }
 
-        .error-log {
-            background: #ffebee;
-            padding: 1rem;
-            border-radius: 4px;
-            margin: 1rem 0;
-            border-left: 4px solid #f44336;
-            font-family: monospace;
-            font-size: 0.9rem;
-            white-space: pre-wrap;
-        }
+      .error-log {
+        background: #ffebee;
+        padding: 1rem;
+        border-radius: 4px;
+        margin: 1rem 0;
+        border-left: 4px solid #f44336;
+        font-family: monospace;
+        font-size: 0.9rem;
+        white-space: pre-wrap;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <h1>PWA Installation Test Dashboard</h1>
 
     <div class="info">
-        <strong>Instructions:</strong> Open this page in Chrome, Edge, or Safari to test PWA installation.
-        Look for the install button in the address bar or use the "Install App" buttons below.
+      <strong>Instructions:</strong> Open this page in Chrome, Edge, or Safari
+      to test PWA installation. Look for the install button in the address bar
+      or use the "Install App" buttons below.
     </div>
 
     <div class="requirements">
-        <strong>PWA Installation Requirements:</strong>
-        <ul>
-            <li>✅ HTTPS connection (or localhost for testing)</li>
-            <li>✅ Valid web app manifest with required fields</li>
-            <li>✅ Service worker registered</li>
-            <li>✅ At least one icon in the manifest</li>
-            <li>✅ All resources properly served</li>
-        </ul>
+      <strong>PWA Installation Requirements:</strong>
+      <ul>
+        <li>✅ HTTPS connection (or localhost for testing)</li>
+        <li>✅ Valid web app manifest with required fields</li>
+        <li>✅ Service worker registered</li>
+        <li>✅ At least one icon in the manifest</li>
+        <li>✅ All resources properly served</li>
+      </ul>
     </div>
 
     <div class="test-card">
-        <h2>Main Labs Hub <span class="status loading" id="labs-status">Testing...</span></h2>
-        <p>Main landing page with links to all productivity apps.</p>
-        <div class="test-links">
-            <a href="http://localhost:8000/" target="_blank">Open App</a>
-            <a href="http://localhost:8000/manifest.json" target="_blank">View Manifest</a>
-            <a href="http://localhost:8000/sw.js" target="_blank">View Service Worker</a>
-        </div>
-        <button class="install-button" id="install-labs">Install Labs App</button>
-        <div id="labs-error" class="error-log" style="display: none;"></div>
+      <h2>
+        Main Labs Hub
+        <span class="status loading" id="labs-status">Testing...</span>
+      </h2>
+      <p>Main landing page with links to all productivity apps.</p>
+      <div class="test-links">
+        <a href="http://localhost:8000/" target="_blank">Open App</a>
+        <a href="http://localhost:8000/manifest.json" target="_blank"
+          >View Manifest</a
+        >
+        <a href="http://localhost:8000/sw.js" target="_blank"
+          >View Service Worker</a
+        >
+      </div>
+      <button class="install-button" id="install-labs">Install Labs App</button>
+      <div id="labs-error" class="error-log" style="display: none"></div>
     </div>
 
     <div class="test-card">
-        <h2>Focus Timer <span class="status loading" id="timer-status">Testing...</span></h2>
-        <p>Pomodoro timer for focused work sessions with audio feedback.</p>
-        <div class="test-links">
-            <a href="http://localhost:8000/timer/" target="_blank">Open App</a>
-            <a href="http://localhost:8000/timer/manifest.json" target="_blank">View Manifest</a>
-            <a href="http://localhost:8000/timer/sw.js" target="_blank">View Service Worker</a>
-        </div>
-        <button class="install-button" id="install-timer">Install Timer App</button>
-        <div id="timer-error" class="error-log" style="display: none;"></div>
+      <h2>
+        Focus Timer
+        <span class="status loading" id="timer-status">Testing...</span>
+      </h2>
+      <p>Pomodoro timer for focused work sessions with audio feedback.</p>
+      <div class="test-links">
+        <a href="http://localhost:8000/timer/" target="_blank">Open App</a>
+        <a href="http://localhost:8000/timer/manifest.json" target="_blank"
+          >View Manifest</a
+        >
+        <a href="http://localhost:8000/timer/sw.js" target="_blank"
+          >View Service Worker</a
+        >
+      </div>
+      <button class="install-button" id="install-timer">
+        Install Timer App
+      </button>
+      <div id="timer-error" class="error-log" style="display: none"></div>
     </div>
 
     <div class="test-card">
-        <h2>Daily Tracker <span class="status loading" id="tracker-status">Testing...</span></h2>
-        <p>Track daily habits and activities with timestamps and counters.</p>
-        <div class="test-links">
-            <a href="http://localhost:8000/tracker/" target="_blank">Open App</a>
-            <a href="http://localhost:8000/tracker/site.webmanifest" target="_blank">View Manifest</a>
-            <a href="http://localhost:8000/tracker/sw.js" target="_blank">View Service Worker</a>
-        </div>
-        <button class="install-button" id="install-tracker">Install Tracker App</button>
-        <div id="tracker-error" class="error-log" style="display: none;"></div>
+      <h2>
+        Daily Tracker
+        <span class="status loading" id="tracker-status">Testing...</span>
+      </h2>
+      <p>Track daily habits and activities with timestamps and counters.</p>
+      <div class="test-links">
+        <a href="http://localhost:8000/tracker/" target="_blank">Open App</a>
+        <a href="http://localhost:8000/tracker/site.webmanifest" target="_blank"
+          >View Manifest</a
+        >
+        <a href="http://localhost:8000/tracker/sw.js" target="_blank"
+          >View Service Worker</a
+        >
+      </div>
+      <button class="install-button" id="install-tracker">
+        Install Tracker App
+      </button>
+      <div id="tracker-error" class="error-log" style="display: none"></div>
     </div>
 
     <div class="test-card">
-        <h2>Daily Note <span class="status loading" id="note-status">Testing...</span></h2>
-        <p>Simple note-taking app that clears at the end of each day.</p>
-        <div class="test-links">
-            <a href="http://localhost:8000/note/" target="_blank">Open App</a>
-            <a href="http://localhost:8000/note/manifest.json" target="_blank">View Manifest</a>
-            <a href="http://localhost:8000/note/sw.js" target="_blank">View Service Worker</a>
-        </div>
-        <button class="install-button" id="install-note">Install Note App</button>
-        <div id="note-error" class="error-log" style="display: none;"></div>
+      <h2>
+        Daily Note
+        <span class="status loading" id="note-status">Testing...</span>
+      </h2>
+      <p>Simple note-taking app that clears at the end of each day.</p>
+      <div class="test-links">
+        <a href="http://localhost:8000/note/" target="_blank">Open App</a>
+        <a href="http://localhost:8000/note/manifest.json" target="_blank"
+          >View Manifest</a
+        >
+        <a href="http://localhost:8000/note/sw.js" target="_blank"
+          >View Service Worker</a
+        >
+      </div>
+      <button class="install-button" id="install-note">Install Note App</button>
+      <div id="note-error" class="error-log" style="display: none"></div>
     </div>
 
     <div class="info">
-        <strong>Testing Notes:</strong>
-        <ul>
-            <li>Apps must be opened in their own tabs first before installation prompts appear</li>
-            <li>Some browsers require user interaction before showing install prompts</li>
-            <li>Install buttons may take a few seconds to appear after page load</li>
-            <li>Each app can be installed independently as a separate desktop application</li>
-        </ul>
+      <strong>Testing Notes:</strong>
+      <ul>
+        <li>
+          Apps must be opened in their own tabs first before installation
+          prompts appear
+        </li>
+        <li>
+          Some browsers require user interaction before showing install prompts
+        </li>
+        <li>
+          Install buttons may take a few seconds to appear after page load
+        </li>
+        <li>
+          Each app can be installed independently as a separate desktop
+          application
+        </li>
+      </ul>
     </div>
 
     <script>
-        // Test PWA capabilities for each app
-        const apps = [
-            { name: 'labs', url: '/', manifestUrl: '/manifest.json' },
-            { name: 'timer', url: '/timer/', manifestUrl: '/timer/manifest.json' },
-            { name: 'tracker', url: '/tracker/', manifestUrl: '/tracker/site.webmanifest' },
-            { name: 'note', url: '/note/', manifestUrl: '/note/manifest.json' }
-        ];
+      // Test PWA capabilities for each app
+      const apps = [
+        { name: "labs", url: "/", manifestUrl: "/manifest.json" },
+        { name: "timer", url: "/timer/", manifestUrl: "/timer/manifest.json" },
+        {
+          name: "tracker",
+          url: "/tracker/",
+          manifestUrl: "/tracker/site.webmanifest",
+        },
+        { name: "note", url: "/note/", manifestUrl: "/note/manifest.json" },
+      ];
 
-        async function testPWA(app) {
-            const statusEl = document.getElementById(`${app.name}-status`);
-            const errorEl = document.getElementById(`${app.name}-error`);
-            const installBtn = document.getElementById(`install-${app.name}`);
+      async function testPWA(app) {
+        const statusEl = document.getElementById(`${app.name}-status`);
+        const errorEl = document.getElementById(`${app.name}-error`);
+        const installBtn = document.getElementById(`install-${app.name}`);
 
-            try {
-                // Test manifest
-                const manifestResponse = await fetch(`http://localhost:8000${app.manifestUrl}`);
-                if (!manifestResponse.ok) {
-                    throw new Error(`Manifest not found: ${manifestResponse.status}`);
-                }
+        try {
+          // Test manifest
+          const manifestResponse = await fetch(
+            `http://localhost:8000${app.manifestUrl}`,
+          );
+          if (!manifestResponse.ok) {
+            throw new Error(`Manifest not found: ${manifestResponse.status}`);
+          }
 
-                const manifest = await manifestResponse.json();
-                if (!manifest.name || !manifest.start_url || !manifest.icons) {
-                    throw new Error('Invalid manifest: missing required fields');
-                }
+          const manifest = await manifestResponse.json();
+          if (!manifest.name || !manifest.start_url || !manifest.icons) {
+            throw new Error("Invalid manifest: missing required fields");
+          }
 
-                // Test service worker
-                const swResponse = await fetch(`http://localhost:8000${app.url}sw.js`);
-                if (!swResponse.ok) {
-                    throw new Error(`Service worker not found: ${swResponse.status}`);
-                }
+          // Test service worker
+          const swResponse = await fetch(
+            `http://localhost:8000${app.url}sw.js`,
+          );
+          if (!swResponse.ok) {
+            throw new Error(`Service worker not found: ${swResponse.status}`);
+          }
 
-                statusEl.textContent = 'Ready to Install';
-                statusEl.className = 'status success';
+          statusEl.textContent = "Ready to Install";
+          statusEl.className = "status success";
 
-                // Show install button if available
-                installBtn.style.display = 'inline-block';
-                installBtn.onclick = () => {
-                    window.open(`http://localhost:8000${app.url}`, '_blank');
-                };
-
-            } catch (error) {
-                statusEl.textContent = 'Error';
-                statusEl.className = 'status error';
-                errorEl.textContent = error.message;
-                errorEl.style.display = 'block';
-            }
+          // Show install button if available
+          installBtn.style.display = "inline-block";
+          installBtn.onclick = () => {
+            window.open(`http://localhost:8000${app.url}`, "_blank");
+          };
+        } catch (error) {
+          statusEl.textContent = "Error";
+          statusEl.className = "status error";
+          errorEl.textContent = error.message;
+          errorEl.style.display = "block";
         }
+      }
 
-        // Test all apps
-        apps.forEach(app => testPWA(app));
+      // Test all apps
+      apps.forEach((app) => testPWA(app));
 
-        // Show browser install prompt info
-        setTimeout(() => {
-            if ('serviceWorker' in navigator) {
-                console.log('Service Worker supported');
-            } else {
-                alert('Service Worker not supported in this browser');
-            }
-        }, 1000);
+      // Show browser install prompt info
+      setTimeout(() => {
+        if ("serviceWorker" in navigator) {
+          console.log("Service Worker supported");
+        } else {
+          alert("Service Worker not supported in this browser");
+        }
+      }, 1000);
     </script>
-</body>
-
+  </body>
 </html>
