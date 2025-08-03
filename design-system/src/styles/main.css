@@ -1,6 +1,7 @@
 @import "./tokens/colors.css";
 @import "./tokens/typography.css";
 @import "./tokens/spacing.css";
+@import "./components/settings-overlay.css";
 
 /* Labs Design System - Main CSS */
 
