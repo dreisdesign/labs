@@ -30,12 +30,11 @@
 
 <body>
   <h1>Labs Design System Demo</h1>
-  <labs-button id="open-settings-btn" icon="settings" variant="primary" label="Settings"></labs-button>
+  <labs-settings-overlay></labs-settings-overlay>
   <div id="button-demo-debug" style="padding-right: 1em">
     <labs-button label="Default" variant="primary"></labs-button>
     <labs-button label="Icon Left" icon="undo" variant="primary" iconcolor="var(--color-on-primary)"></labs-button>
     <labs-button label="Add" icon="add" checkmark variant="primary" iconcolor="var(--color-on-primary)"></labs-button>
-
     <labs-button label="Icon Right" icon-right="settings" variant="primary"
       iconcolor="var(--color-on-primary)"></labs-button>
   </div>
@@ -43,64 +42,7 @@
   <script type="module">
     import "/labs/design-system/components/labs-button.js";
     import "/labs/design-system/components/labs-icon.js";
-
-    // Overlay HTML (from SettingsOverlay.stories.js, simplified for demo)
-    function createSettingsOverlay() {
-      const overlay = document.createElement("div");
-      overlay.className = "settings-overlay";
-
-      const overlayContent = document.createElement("div");
-      overlayContent.className = "overlay-content";
-
-      const overlayHeader = document.createElement("div");
-      overlayHeader.className = "overlay-header";
-
-      const title = document.createElement("h2");
-      title.textContent = "Settings";
-
-      const closeButtonHeader = document.createElement("button");
-      closeButtonHeader.className = "close-button";
-      closeButtonHeader.innerHTML = '<labs-icon name="close" class="close-icon"></labs-icon>';
-
-      overlayHeader.appendChild(title);
-      overlayHeader.appendChild(closeButtonHeader);
-
-      // Demo content (replace with real buttons/configs as needed)
-      const buttonContainer = document.createElement("div");
-      buttonContainer.className = "button-container";
-      buttonContainer.style.display = "flex";
-      buttonContainer.style.flexDirection = "column";
-      buttonContainer.style.gap = "0.5rem";
-
-      buttonContainer.innerHTML = `
-          <labs-button label="All Apps" variant="container"></labs-button>
-          <labs-button label="Turn On Dark Mode" variant="container"></labs-button>
-          <labs-button label="Reset All Data" variant="container-danger"></labs-button>
-        `;
-
-      overlayContent.appendChild(overlayHeader);
-      overlayContent.appendChild(buttonContainer);
-      overlay.appendChild(overlayContent);
-
-      // Close logic
-      closeButtonHeader.addEventListener("click", () => {
-        overlay.remove();
-      });
-
-      // Optional: close on background click
-      overlay.addEventListener("click", (e) => {
-        if (e.target === overlay) overlay.remove();
-      });
-
-      return overlay;
-    }
-
-    document.getElementById("open-settings-btn").addEventListener("click", () => {
-      // Only one overlay at a time
-      if (!document.querySelector(".settings-overlay")) {
-        document.body.appendChild(createSettingsOverlay());
-      }
-    });
+    import "/labs/design-system/components/labs-settings-overlay.js";
   </script>
 </body>
 
