@@ -1,11 +1,12 @@
 
 ## 🆕 Recent Improvements
 
+- **Modularity-First Architecture:** All components are now fully self-contained with CSS custom properties for configuration. No external dependencies required.
+- **Enhanced Settings Overlay:** Rebuilt as a truly modular component with extensive customization options via CSS custom properties.
 - **Unified Container Button System:** Modular, token-based container and destructive button variants for overlays and dialogs. Visual consistency with Tracker app.
 - **Storybook Cleanup:** Redundant stories removed, sidebar and sitemap automated, and all button/icon demos are now modular and clear.
 - **Button Configs:** Centralized, grouped, and documented for best practices. Container, destructive, and navigation variants are easy to use and extend.
 - **Icon Color Logic:** All icon colors now use design tokens and match text in all states.
-- **Overlay & Button CSS:** Improved for shape, width, and hover/fill states. Overlay buttons now match Tracker app exactly.
 - **Docs & Automation:** All stories and tokens are documented. Deploy script ensures parity between Storybook and public demo. Storybook sitemap is auto-generated.
 
 ---
@@ -53,6 +54,7 @@ See `/components/` for more.
 - [Global Monorepo README](../README.md)
 - [Labs Storybook (Live)](https://dreisdesign.github.io/labs/design-system/)
 - [Design System Changelog](CHANGELOG.md)
+- [Modularity Guidelines](MODULARITY-GUIDELINES.md) 📋 **Component Development Standards**
 - [Changelog & Roadmap](../docs/CHANGELOG.md)
 - [Migration Guide](../_dev/_documents/DESIGN-SYSTEM-MIGRATION-GUIDE.md)
 
