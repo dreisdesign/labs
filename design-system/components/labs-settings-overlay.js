@@ -134,13 +134,13 @@ class LabsSettingsOverlay extends HTMLElement {
         }
       </style>
 
-      <labs-button id="open-settings-btn" icon="settings" variant="primary" label="Settings"></labs-button>
+      <labs-button id="open-settings-btn" icon="settings" iconcolor="#fff" variant="primary" label="Settings"></labs-button>
       <div id="overlay" class="settings-overlay" style="display:none;">
         <div class="overlay-content">
           <div class="overlay-header">
             <h2>Settings</h2>
             <button class="close-button">
-              <labs-icon name="close" class="close-icon"></labs-icon>
+              <labs-icon name="close" class="close-icon" color="#000"></labs-icon>
             </button>
           </div>
           <div class="button-container">
