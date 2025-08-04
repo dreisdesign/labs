@@ -10,6 +10,7 @@ export const buttonConfigs = {
     icon: "add",
     variant: "primary",
     checkmark: true,
+    iconcolor: "var(--color-on-primary)",
   },
 
   save: {
@@ -17,18 +18,21 @@ export const buttonConfigs = {
     icon: "check",
     variant: "primary",
     checkmark: true,
+    iconcolor: "var(--color-on-primary)",
   },
 
   edit: {
     label: "Edit",
     icon: "edit",
     variant: "secondary",
+    iconcolor: "var(--color-on-surface)",
   },
 
   undo: {
     label: "Undo",
     icon: "undo",
     variant: "secondary",
+    iconcolor: "var(--color-on-surface)",
   },
 
   // === Destructive Actions ===
@@ -36,6 +40,7 @@ export const buttonConfigs = {
     label: "Delete",
     icon: "delete_forever",
     variant: "danger",
+    iconcolor: "var(--color-on-error)",
   },
 
   deleteSubtle: {
@@ -43,6 +48,7 @@ export const buttonConfigs = {
     icon: "delete_forever",
     variant: "transparent",
     className: "button-delete-subtle",
+    iconcolor: "var(--color-on-surface)",
   },
 
   resetAllData: {
@@ -50,6 +56,7 @@ export const buttonConfigs = {
     icon: "delete_forever",
     variant: "transparent",
     className: "button-delete-subtle",
+    iconcolor: "var(--color-on-surface)",
   },
 
   // === Navigation/UI Actions ===
@@ -57,18 +64,21 @@ export const buttonConfigs = {
     label: "Close",
     icon: "close",
     variant: "transparent",
+    iconcolor: "var(--color-on-surface)",
   },
 
   settings: {
     label: "Settings",
     iconRight: "settings",
     variant: "transparent",
+    iconcolor: "var(--color-on-surface)",
   },
 
   allApps: {
     label: "All Apps",
     icon: "settings",
     variant: "transparent",
+    iconcolor: "var(--color-on-surface)",
   },
 
   // === Theme Actions ===
@@ -76,12 +86,14 @@ export const buttonConfigs = {
     label: "Toggle Theme",
     icon: "bedtime",
     variant: "transparent",
+    iconcolor: "var(--color-on-surface)",
   },
 
   turnOnDarkMode: {
     label: "Turn on dark mode",
     icon: "bedtime",
     variant: "transparent",
+    iconcolor: "var(--color-on-surface)",
   },
 
   // === Container Variants (for overlays/panels) ===
@@ -91,6 +103,7 @@ export const buttonConfigs = {
     iconRight: "settings",
     variant: "container",
     description: "Full-width container button for overlay/panel use",
+    iconcolor: "var(--color-primary-75)",
   },
 
   allAppsContainer: {
@@ -98,6 +111,7 @@ export const buttonConfigs = {
     icon: "settings",
     variant: "container",
     description: "Full-width container button for overlay/panel use",
+    iconcolor: "var(--color-primary-75)",
   },
 
   turnOnDarkModeContainer: {
@@ -105,6 +119,7 @@ export const buttonConfigs = {
     icon: "bedtime",
     variant: "container",
     description: "Full-width container button for overlay/panel use",
+    iconcolor: "var(--color-primary-75)",
   },
 
   resetAllDataContainer: {
@@ -112,6 +127,7 @@ export const buttonConfigs = {
     icon: "delete_forever",
     variant: "container-danger",
     description: "Full-width danger container button for overlay/panel use",
+    iconcolor: "var(--color-error)",
   },
 
   // === Comment Actions ===
@@ -119,6 +135,7 @@ export const buttonConfigs = {
     label: "Add Comment",
     icon: "add_comment",
     variant: "secondary",
+    iconcolor: "var(--color-on-surface)",
   },
 };
 

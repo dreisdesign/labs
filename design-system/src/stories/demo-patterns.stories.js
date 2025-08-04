@@ -38,7 +38,7 @@ export const AppInterface = () => {
 
   header.innerHTML = `
         <h1 style="margin: 0; color: var(--color-on-surface);">My App</h1>
-        <div style="display: flex; gap: 0.5rem;">
+        <div style="display: flex; gap: 0.5rem; margin-left: 1rem;">
             ${createButton("settings")}
             ${createButton("toggleTheme")}
         </div>
