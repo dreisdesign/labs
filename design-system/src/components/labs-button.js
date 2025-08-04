@@ -75,13 +75,10 @@ class LabsButton extends HTMLElement {
     }
     // Default: icon color matches text color
     let iconColorActive = iconColor;
-    // Add: default is white bg, black text/icon; on press, black bg, white text/icon
-    if (label === "add") {
-      iconColor = "var(--add-icon-color, #000)";
-      iconColorActive = "#fff";
-    } else if (label === "save") {
-      iconColor = "#fff";
-      iconColorActive = "#fff";
+    // Save and Add: use on-primary color for icon (same as text)
+    if (["add", "save"].includes(label)) {
+      iconColor = "var(--color-on-primary)";
+      iconColorActive = "var(--color-on-primary)";
     } else if (["icon left", "icon right"].includes(label)) {
       iconColorActive = "#000";
     } else if (["settings", "default"].includes(label)) {
@@ -106,8 +103,8 @@ class LabsButton extends HTMLElement {
     const checkmark = this.hasAttribute("checkmark");
 
     const buttonType = label.replace(/\s/g, "");
-    // For Add button, set --add-icon-color to #000 by default, #fff on press
-    const addIconColorVar = label === "add" ? `--add-icon-color: ${this.hasAttribute('data-active') ? '#fff' : '#000'};` : '';
+    // No special icon color variable for Add button
+    const addIconColorVar = '';
     this.shadowRoot.innerHTML = `
       <style>
         :host { display: inline-block; }
@@ -131,23 +128,7 @@ class LabsButton extends HTMLElement {
               transition-duration: 0.05s;
               transform: scale(0.93);
             }
-            /* Add: default is white bg, black text/icon; on press, black bg, white text/icon */
-            .labs-button[data-buttontype="add"] {
-              background: #fff !important;
-              color: #000 !important;
-            }
-            .labs-button[data-buttontype="add"] .labs-icon {
-              color: #000 !important;
-            }
-            .labs-button[data-active="true"][data-buttontype="add"],
-            .labs-button:active[data-buttontype="add"] {
-              background: #000 !important;
-              color: #fff !important;
-            }
-            .labs-button[data-active="true"][data-buttontype="add"] .labs-icon,
-            .labs-button:active[data-buttontype="add"] .labs-icon {
-              color: #fff !important;
-            }
+            /* Add: no special-case, uses primary variant like Save */
             /* Settings/Default: on press, bg is white, text/icon are black */
             .labs-button[data-active="true"][data-buttontype="settings"],
             .labs-button:active[data-buttontype="settings"],
