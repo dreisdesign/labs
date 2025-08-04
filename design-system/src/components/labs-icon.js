@@ -48,10 +48,15 @@ class LabsIcon extends HTMLElement {
     const width = this.getAttribute("width") || style.width || "24px";
     const height = this.getAttribute("height") || style.height || "24px";
     // Always resolve color to a real value (not a CSS variable or currentColor)
-    let color = this.getAttribute("color") || this.style.color || style.color || "#000";
-    // If color is a CSS variable, resolve it
-    if (color && color.startsWith("var(")) {
-      color = style.color;
+    let color = this.getAttribute("color") || "#000";
+    // If color is a CSS variable (token), resolve it to a real value
+    if (color.startsWith('var(')) {
+      // Create a temp element to resolve the variable
+      const temp = document.createElement('div');
+      temp.style.color = color;
+      document.body.appendChild(temp);
+      color = getComputedStyle(temp).color;
+      document.body.removeChild(temp);
     }
     // If color is still not a hex/rgb value, default to #000
     if (!color || color === "currentColor" || color.startsWith("var(")) {
