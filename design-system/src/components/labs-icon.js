@@ -35,6 +35,7 @@ class LabsIcon extends HTMLElement {
   }
 
   async render() {
+
     const iconName = this.getAttribute("name");
     let url = icons[iconName];
 
@@ -46,15 +47,25 @@ class LabsIcon extends HTMLElement {
     const style = window.getComputedStyle(this);
     const width = this.getAttribute("width") || style.width || "24px";
     const height = this.getAttribute("height") || style.height || "24px";
-    const color = this.style.color || style.color || "currentColor";
+    // Always resolve color to a real value (not a CSS variable or currentColor)
+    let color = this.getAttribute("color") || this.style.color || style.color || "#000";
+    // If color is a CSS variable, resolve it
+    if (color && color.startsWith("var(")) {
+      color = style.color;
+    }
+    // If color is still not a hex/rgb value, default to #000
+    if (!color || color === "currentColor" || color.startsWith("var(")) {
+      color = "#000";
+    }
 
     // Try to fetch and inline the SVG
     try {
       const response = await fetch(url);
       if (!response.ok) throw new Error("SVG fetch failed");
       let svg = await response.text();
-      // Replace fill="currentColor" with fill=color
+      // Replace fill="currentColor" or fill='currentColor' with fill=color
       svg = svg.replace(/fill="currentColor"/g, `fill="${color}"`);
+      svg = svg.replace(/fill='currentColor'/g, `fill='${color}'`);
       // Set width/height on SVG root
       svg = svg.replace(/<svg\b([^>]*)>/, `<svg$1 width=\"${width}\" height=\"${height}\">`);
       this.innerHTML = svg;
