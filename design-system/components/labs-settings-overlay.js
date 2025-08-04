@@ -144,9 +144,9 @@ class LabsSettingsOverlay extends HTMLElement {
             </button>
           </div>
           <div class="button-container">
-            <labs-button label="All Apps" variant="container"></labs-button>
-            <labs-button label="Turn On Dark Mode" variant="container"></labs-button>
-            <labs-button label="Reset All Data" variant="container-danger"></labs-button>
+            <labs-button label="All Apps" icon="add" iconcolor="var(--color-primary-75)" variant="container"></labs-button>
+            <labs-button label="Turn On Dark Mode" icon="bedtime" iconcolor="var(--color-primary-75)" variant="container"></labs-button>
+            <labs-button label="Reset All Data" icon="delete_forever" iconcolor="var(--color-error)" variant="container-danger"></labs-button>
           </div>
         </div>
       </div>
