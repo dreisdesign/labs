@@ -64,7 +64,7 @@ class LabsIcon extends HTMLElement {
       const style = window.getComputedStyle(this);
       const width = this.getAttribute("width") || style.width || "24px";
       const height = this.getAttribute("height") || style.height || "24px";
-      const color = this.style.color || "currentColor";
+      const color = this.style.color || style.color || "#000";
 
       console.log(`Icon render: ${iconName}, URL: ${url}, Color: ${color}`);
 
@@ -81,10 +81,12 @@ class LabsIcon extends HTMLElement {
         if (svgElement) {
           svgElement.style.width = width;
           svgElement.style.height = height;
-          svgElement.style.fill = color;
-          svgElement.style.color = color;
           
-          console.log(`SVG element prepared for ${iconName}:`, svgElement.outerHTML.substring(0, 200));
+          // Set color on all paths with currentColor
+          const paths = svgElement.querySelectorAll('[fill="currentColor"]');
+          paths.forEach(path => path.setAttribute('fill', color));
+          
+          console.log(`SVG element prepared for ${iconName}, paths found: ${paths.length}`);
           this.innerHTML = svgElement.outerHTML;
           return;
         } else {
