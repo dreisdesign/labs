@@ -34,21 +34,33 @@ class LabsIcon extends HTMLElement {
     this.render();
   }
 
-  render() {
+  async render() {
     const iconName = this.getAttribute("name");
     let url = icons[iconName];
 
-    if (url) {
-      const style = window.getComputedStyle(this);
-      const width = this.getAttribute("width") || style.width || "24px";
-      const height = this.getAttribute("height") || style.height || "24px";
+    if (!url) {
+      this.innerHTML = "";
+      return;
+    }
 
-      // Get color from style attribute, computed style, or default to current color
-      const color = this.style.color ||
-        getComputedStyle(this).color ||
-        'currentColor';
+    const style = window.getComputedStyle(this);
+    const width = this.getAttribute("width") || style.width || "24px";
+    const height = this.getAttribute("height") || style.height || "24px";
+    const color = this.style.color || style.color || "currentColor";
 
-      // Simple approach: use mask with better fallbacks and force color inheritance
+    // Try to fetch and inline the SVG
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("SVG fetch failed");
+      let svg = await response.text();
+      // Replace fill="currentColor" with fill=color
+      svg = svg.replace(/fill="currentColor"/g, `fill="${color}"`);
+      // Set width/height on SVG root
+      svg = svg.replace(/<svg\b([^>]*)>/, `<svg$1 width=\"${width}\" height=\"${height}\">`);
+      this.innerHTML = svg;
+      return;
+    } catch (e) {
+      // Fallback to mask if fetch fails
       this.innerHTML = `
         <div style="
           width: ${width};
@@ -59,8 +71,6 @@ class LabsIcon extends HTMLElement {
           display: inline-block;
         "></div>
       `;
-    } else {
-      this.innerHTML = "";
     }
   }
 }
