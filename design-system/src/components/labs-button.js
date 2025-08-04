@@ -62,22 +62,9 @@ class LabsButton extends HTMLElement {
   }
 
   render() {
-    // Determine icon color based on variant and state
-    let iconColor = this.getAttribute("iconcolor");
-    const variant = this.getAttribute("variant") || "primary";
-    let stateColorToken = "";
-    if (!iconColor) {
-      if (variant === "primary" || variant === "success") {
-        stateColorToken = "var(--color-on-primary)";
-      } else if (variant === "danger" || variant === "container-danger") {
-        stateColorToken = "var(--color-on-error)";
-      } else {
-        stateColorToken = "var(--color-on-surface)";
-      }
-      iconColor = stateColorToken;
-    }
-    // Always resolve token to real value
-    if (iconColor && iconColor.startsWith('var(')) {
+    let iconColor = this.getAttribute("iconcolor") || "";
+    // If iconColor is a CSS variable (token), resolve it to a real value
+    if (iconColor.startsWith('var(')) {
       const temp = document.createElement('div');
       temp.style.color = iconColor;
       document.body.appendChild(temp);
@@ -102,7 +89,7 @@ class LabsButton extends HTMLElement {
     }
     const label = this.getAttribute("label") || "";
     const checkmark = this.hasAttribute("checkmark");
-    // ...existing code...
+    const variant = this.getAttribute("variant") || "primary";
 
     this.shadowRoot.innerHTML = `
       <style>
@@ -121,6 +108,133 @@ class LabsButton extends HTMLElement {
           overflow: hidden;
           position: relative;
           padding: 0.75rem 1.5rem;
+        }
+        .labs-button:active,
+        .labs-button.button-pressed {
+          background-color: rgb(25, 23, 80);
+          transform: scale(0.95);
+          transition-duration: 0.05s;
+        }
+        .labs-button:hover {
+          background: rgb(13, 11, 63);
+        }
+        
+        /* Container variants should not have default hover styles */
+        .labs-button.container:hover,
+        .labs-button.container-danger:hover {
+          background: transparent;
+          transform: none;
+        }
+        .labs-button.container:active,
+        .labs-button.container-danger:active {
+          background: transparent;
+          transform: none;
+        }
+        
+        .labs-button:focus-visible {
+          outline: 3px solid rgb(0, 95, 204);
+          outline-offset: 2px;
+        }
+        
+        /* Variant Styles */
+        .labs-button.primary {
+          background: var(--color-primary);
+          color: var(--color-on-primary);
+        }
+        .labs-button.primary:hover {
+          background: var(--color-secondary);
+        }
+        .labs-button.primary:active {
+          background: var(--color-primary-darker);
+        }
+        
+        .labs-button.secondary {
+          background: var(--color-surface);
+          color: var(--color-on-surface);
+          border: 2px solid var(--color-primary);
+        }
+        .labs-button.secondary:hover {
+          background: var(--color-primary-25);
+        }
+        .labs-button.secondary:active {
+          background: var(--color-primary-75);
+        }
+        
+        .labs-button.danger {
+          background: var(--color-error);
+          color: var(--color-on-error);
+        }
+        .labs-button.danger:hover {
+          background: var(--color-error);
+          opacity: 0.9;
+        }
+        .labs-button.danger:active {
+          background: var(--color-error);
+          opacity: 0.8;
+        }
+        
+        .labs-button.success {
+          background: var(--color-success);
+          color: var(--color-on-primary);
+        }
+        .labs-button.success:hover {
+          background: var(--color-success);
+          opacity: 0.9;
+        }
+        
+        .labs-button.transparent {
+          background: transparent;
+          color: var(--color-on-surface);
+        }
+        .labs-button.transparent:hover {
+          background: var(--color-primary-25);
+        }
+        
+        /* Container variants for overlay use */
+        .labs-button.container {
+          background: transparent;
+          color: var(--color-on-surface);
+          border-radius: 0.7rem;
+        }
+        .labs-button.container:hover {
+          background: var(--color-primary-25);
+        }
+        .labs-button.container:active {
+          background: var(--color-primary-75);
+        }
+        
+        .labs-button.container-danger {
+          background: transparent;
+          color: var(--color-error);
+          border-radius: 0.7rem;
+        }
+        .labs-button.container-danger:hover {
+          background: var(--color-error);
+          color: var(--color-on-error);
+        }
+        .labs-button.container-danger:active {
+          background: var(--color-error);
+          color: var(--color-on-error);
+          opacity: 0.85;
+        }
+        
+        .labs-icon {
+          width: 1.5rem;
+          height: 1.5rem;
+          display: inline-block;
+          vertical-align: middle;
+        }
+        
+        /* Icon colors for container variants */
+        .labs-button.container .labs-icon {
+          color: var(--color-primary-75);
+        }
+        .labs-button.container-danger .labs-icon {
+          color: var(--color-error);
+        }
+        .labs-button.container-danger:hover .labs-icon,
+        .labs-button.container-danger:active .labs-icon {
+          color: var(--color-on-error);
         }
         .labs-label {
           text-align: center;
@@ -165,6 +279,10 @@ class LabsButton extends HTMLElement {
             transform: scale(1) rotate(0deg);
           }
         }
+        /* Apply icon color filter */
+        .labs-icon img {
+          filter: ${iconColor === "#fff" || iconColor.toLowerCase() === "white" ? "brightness(0) invert(1)" : iconColor ? `hue-rotate(0deg) saturate(0) brightness(0) invert(1)` : "none"};
+        }
         /* Ensure right icon is visible and spaced */
         .labs-button labs-icon:last-of-type {
           opacity: 1 !important;
@@ -175,7 +293,7 @@ class LabsButton extends HTMLElement {
         ${icon ? `<labs-icon class="labs-icon" name="${icon}" color="${iconColor}"></labs-icon>` : ""}
         <span class="labs-label">${label}</span>
         ${iconRight ? `<labs-icon class="labs-icon" name="${iconRight}" color="${iconColor}"></labs-icon>` : ""}
-        ${checkmark ? `<span class="labs-checkmark"><labs-icon name="check" class="labs-icon" color="${iconColor}"></labs-icon></span>` : ""}
+                ${checkmark ? `<span class="labs-checkmark"><labs-icon name="check" class="labs-icon" color="${iconColor || "white"}"></labs-icon></span>` : ""}
       </button>
     `;
   }
