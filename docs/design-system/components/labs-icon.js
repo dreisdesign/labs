@@ -68,9 +68,8 @@ class LabsIcon extends HTMLElement {
       const response = await fetch(url);
       if (!response.ok) throw new Error("SVG fetch failed");
       let svg = await response.text();
-      // Replace fill="currentColor" or fill='currentColor' with fill=color
-      svg = svg.replace(/fill="currentColor"/g, `fill="${color}"`);
-      svg = svg.replace(/fill='currentColor'/g, `fill='${color}'`);
+      // Replace all fill attributes (except fill="none") with fill="currentColor"
+      svg = svg.replace(/fill=("|')(?!none)([^"']*)("|')/gi, 'fill="currentColor"');
       // Set width/height on SVG root
       svg = svg.replace(/<svg\b([^>]*)>/, `<svg$1 width=\"${width}\" height=\"${height}\">`);
       this.innerHTML = svg;
