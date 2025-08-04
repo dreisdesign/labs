@@ -66,10 +66,13 @@ class LabsIcon extends HTMLElement {
       const height = this.getAttribute("height") || style.height || "24px";
       const color = this.style.color || "currentColor";
 
+      console.log(`Icon render: ${iconName}, URL: ${url}, Color: ${color}`);
+
       // Try to load SVG content directly first
       const svgContent = await this.loadSvg(url);
       
       if (svgContent) {
+        console.log(`SVG loaded for ${iconName}, content length: ${svgContent.length}`);
         // Inject SVG directly with color styling
         const parser = new DOMParser();
         const svgDoc = parser.parseFromString(svgContent, 'image/svg+xml');
@@ -81,12 +84,18 @@ class LabsIcon extends HTMLElement {
           svgElement.style.fill = color;
           svgElement.style.color = color;
           
+          console.log(`SVG element prepared for ${iconName}:`, svgElement.outerHTML.substring(0, 200));
           this.innerHTML = svgElement.outerHTML;
           return;
+        } else {
+          console.log(`No SVG element found for ${iconName}`);
         }
+      } else {
+        console.log(`Failed to load SVG for ${iconName}`);
       }
       
       // Fallback to mask-image approach
+      console.log(`Using mask-image fallback for ${iconName}`);
       this.innerHTML = `
         <div style="
           width: ${width};
@@ -103,6 +112,7 @@ class LabsIcon extends HTMLElement {
         "></div>
       `;
     } else {
+      console.log(`No URL found for icon: ${iconName}`);
       this.innerHTML = "";
     }
   }
