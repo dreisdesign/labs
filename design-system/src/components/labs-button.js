@@ -40,16 +40,14 @@ class LabsButton extends HTMLElement {
   }
 
   handleClick(e) {
-    console.log("[LabsButton] handleClick:", {
-      checkmark: this.hasAttribute("checkmark"),
-      label: this.getAttribute("label"),
-      icon: this.getAttribute("icon"),
-      iconRight: this.getAttribute("icon-right"),
-    });
+    const btn = this.shadowRoot.querySelector("button");
+    btn.setAttribute('data-active', 'true');
+    setTimeout(() => {
+      btn.removeAttribute('data-active');
+    }, 200); // short active state
     if (this.hasAttribute("checkmark")) {
       if (this.animating) return;
       this.animating = true;
-      const btn = this.shadowRoot.querySelector("button");
       btn.classList.remove("success");
       void btn.offsetWidth;
       btn.classList.add("success");
@@ -62,6 +60,10 @@ class LabsButton extends HTMLElement {
   }
 
   render() {
+    // Determine icon color logic based on label/variant
+    const labelRaw = this.getAttribute("label") || "";
+    const label = labelRaw.toLowerCase();
+    const variant = this.getAttribute("variant") || "primary";
     let iconColor = this.getAttribute("iconcolor") || "";
     // If iconColor is a CSS variable (token), resolve it to a real value
     if (iconColor.startsWith('var(')) {
@@ -70,6 +72,20 @@ class LabsButton extends HTMLElement {
       document.body.appendChild(temp);
       iconColor = getComputedStyle(temp).color;
       document.body.removeChild(temp);
+    }
+    // Default: icon color matches text color
+    let iconColorActive = iconColor;
+    // Add: default is white bg, black text/icon; on press, black bg, white text/icon
+    if (label === "add") {
+      iconColor = "var(--add-icon-color, #000)";
+      iconColorActive = "#fff";
+    } else if (label === "save") {
+      iconColor = "#fff";
+      iconColorActive = "#fff";
+    } else if (["icon left", "icon right"].includes(label)) {
+      iconColorActive = "#000";
+    } else if (["settings", "default"].includes(label)) {
+      iconColorActive = "#fff";
     }
     // Map legacy icon names to icon registry keys
     const mapIconName = (name) => {
@@ -87,10 +103,11 @@ class LabsButton extends HTMLElement {
     if (!iconRight && this.hasAttribute("default-icon-right")) {
       iconRight = "settings";
     }
-    const label = this.getAttribute("label") || "";
     const checkmark = this.hasAttribute("checkmark");
-    const variant = this.getAttribute("variant") || "primary";
 
+    const buttonType = label.replace(/\s/g, "");
+    // For Add button, set --add-icon-color to #000 by default, #fff on press
+    const addIconColorVar = label === "add" ? `--add-icon-color: ${this.hasAttribute('data-active') ? '#fff' : '#000'};` : '';
     this.shadowRoot.innerHTML = `
       <style>
         :host { display: inline-block; }
@@ -100,7 +117,7 @@ class LabsButton extends HTMLElement {
           border: none;
           border-radius: 5rem;
           cursor: pointer;
-          transition: background-color 0.2s, transform 0.1s ease-out;
+          transition: background-color 0.2s, color 0.2s, transform 0.1s ease-out;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -109,12 +126,56 @@ class LabsButton extends HTMLElement {
           position: relative;
           padding: 0.75rem 1.5rem;
         }
-        .labs-button:active,
-        .labs-button.button-pressed {
-          background-color: rgb(25, 23, 80);
-          transform: scale(0.95);
-          transition-duration: 0.05s;
-        }
+            .labs-button[data-active="true"],
+            .labs-button:active {
+              transition-duration: 0.05s;
+              transform: scale(0.93);
+            }
+            /* Add: default is white bg, black text/icon; on press, black bg, white text/icon */
+            .labs-button[data-buttontype="add"] {
+              background: #fff !important;
+              color: #000 !important;
+            }
+            .labs-button[data-buttontype="add"] .labs-icon {
+              color: #000 !important;
+            }
+            .labs-button[data-active="true"][data-buttontype="add"],
+            .labs-button:active[data-buttontype="add"] {
+              background: #000 !important;
+              color: #fff !important;
+            }
+            .labs-button[data-active="true"][data-buttontype="add"] .labs-icon,
+            .labs-button:active[data-buttontype="add"] .labs-icon {
+              color: #fff !important;
+            }
+            /* Settings/Default: on press, bg is white, text/icon are black */
+            .labs-button[data-active="true"][data-buttontype="settings"],
+            .labs-button:active[data-buttontype="settings"],
+            .labs-button[data-active="true"][data-buttontype="default"],
+            .labs-button:active[data-buttontype="default"] {
+              background: #fff !important;
+              color: #000 !important;
+            }
+            .labs-button[data-active="true"][data-buttontype="settings"] .labs-icon,
+            .labs-button:active[data-buttontype="settings"] .labs-icon,
+            .labs-button[data-active="true"][data-buttontype="default"] .labs-icon,
+            .labs-button:active[data-buttontype="default"] .labs-icon {
+              color: #000 !important;
+            }
+            /* Icon Left/Right: on press, bg is white, text is black, icon is black */
+            .labs-button[data-active="true"][data-buttontype="iconleft"],
+            .labs-button:active[data-buttontype="iconleft"],
+            .labs-button[data-active="true"][data-buttontype="iconright"],
+            .labs-button:active[data-buttontype="iconright"] {
+              background: #fff !important;
+              color: #000 !important;
+            }
+            .labs-button[data-active="true"][data-buttontype="iconleft"] .labs-icon,
+            .labs-button:active[data-buttontype="iconleft"] .labs-icon,
+            .labs-button[data-active="true"][data-buttontype="iconright"] .labs-icon,
+            .labs-button:active[data-buttontype="iconright"] .labs-icon {
+              color: #000 !important;
+            }
         .labs-button:hover {
           background: rgb(13, 11, 63);
         }
@@ -289,11 +350,13 @@ class LabsButton extends HTMLElement {
           display: inline-block !important;
         }
       </style>
-      <button class="labs-button ${variant}" part="button">
+      <button class="labs-button ${variant}" part="button"
+        data-buttontype="${buttonType}"
+        style="--icon-active-color: ${iconColorActive}; ${addIconColorVar}">
         ${icon ? `<labs-icon class="labs-icon" name="${icon}" color="${iconColor}"></labs-icon>` : ""}
-        <span class="labs-label">${label}</span>
+        <span class="labs-label">${labelRaw}</span>
         ${iconRight ? `<labs-icon class="labs-icon" name="${iconRight}" color="${iconColor}"></labs-icon>` : ""}
-                ${checkmark ? `<span class="labs-checkmark"><labs-icon name="check" class="labs-icon" color="${iconColor || "white"}"></labs-icon></span>` : ""}
+        ${checkmark ? `<span class="labs-checkmark"><labs-icon name="check" class="labs-icon" color="${iconColor || "white"}"></labs-icon></span>` : ""}
       </button>
     `;
   }
