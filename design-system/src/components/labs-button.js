@@ -62,7 +62,15 @@ class LabsButton extends HTMLElement {
   }
 
   render() {
-    const iconColor = this.getAttribute("iconcolor") || "";
+    let iconColor = this.getAttribute("iconcolor") || "";
+    // If iconColor is a CSS variable (token), resolve it to a real value
+    if (iconColor.startsWith('var(')) {
+      const temp = document.createElement('div');
+      temp.style.color = iconColor;
+      document.body.appendChild(temp);
+      iconColor = getComputedStyle(temp).color;
+      document.body.removeChild(temp);
+    }
     // Map legacy icon names to icon registry keys
     const mapIconName = (name) => {
       if (!name) return "";
@@ -282,10 +290,10 @@ class LabsButton extends HTMLElement {
         }
       </style>
       <button class="labs-button ${variant}" part="button">
-        ${icon ? `<labs-icon class="labs-icon" name="${icon}" style="color: ${iconColor};"></labs-icon>` : ""}
+        ${icon ? `<labs-icon class="labs-icon" name="${icon}" color="${iconColor}"></labs-icon>` : ""}
         <span class="labs-label">${label}</span>
-        ${iconRight ? `<labs-icon class="labs-icon" name="${iconRight}" style="color: ${iconColor};"></labs-icon>` : ""}
-                ${checkmark ? `<span class="labs-checkmark"><labs-icon name="check" class="labs-icon" style="color: ${iconColor || "white"};"></labs-icon></span>` : ""}
+        ${iconRight ? `<labs-icon class="labs-icon" name="${iconRight}" color="${iconColor}"></labs-icon>` : ""}
+                ${checkmark ? `<span class="labs-checkmark"><labs-icon name="check" class="labs-icon" color="${iconColor || "white"}"></labs-icon></span>` : ""}
       </button>
     `;
   }
