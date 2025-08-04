@@ -79,16 +79,10 @@ class LabsButton extends HTMLElement {
     // Always resolve token to real value
     if (iconColor && iconColor.startsWith('var(')) {
       const temp = document.createElement('div');
-      temp.style.display = 'none';
       temp.style.color = iconColor;
       document.body.appendChild(temp);
-      let resolved = getComputedStyle(temp).color;
+      iconColor = getComputedStyle(temp).color;
       document.body.removeChild(temp);
-      // If the resolved color is not valid (e.g. 'rgba(0, 0, 0, 0)' or empty), fallback to white
-      if (!resolved || resolved === 'rgba(0, 0, 0, 0)' || resolved === 'transparent') {
-        resolved = '#fff';
-      }
-      iconColor = resolved;
     }
     // Map legacy icon names to icon registry keys
     const mapIconName = (name) => {
