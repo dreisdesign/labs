@@ -2,7 +2,7 @@
 :root {
   --color-primary: #2e2b74;
   --color-secondary: #0d0b3f;
-  --color-background: #f8f8fa;
+  --color-background: rgb(193, 193, 255);
   --color-surface: #fff;
   --color-success: #00b56a;
   --color-error: #b5005a;
