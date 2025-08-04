@@ -167,6 +167,13 @@ class LabsSettingsOverlay extends HTMLElement {
         overlay.addEventListener("click", (e) => {
             if (e.target === overlay) overlay.style.display = "none";
         });
+
+        // Ensure all labs-icon elements are upgraded and rendered
+        customElements.whenDefined('labs-icon').then(() => {
+            this.shadowRoot.querySelectorAll('labs-icon').forEach(icon => {
+                if (typeof icon.render === 'function') icon.render();
+            });
+        });
     }
 }
 
