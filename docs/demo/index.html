@@ -33,11 +33,35 @@
   <h1>Labs Design System Demo</h1>
   <div id="button-demo-debug" style="padding-right: 1em">
     <labs-settings-overlay></labs-settings-overlay>
-    <labs-button label="Default" variant="primary"></labs-button>
-    <labs-button label="Icon Left" icon="undo" variant="primary" iconcolor="var(--color-on-primary)"></labs-button>
-    <labs-button label="Add" icon="add" checkmark variant="primary" iconcolor="var(--color-on-primary)"></labs-button>
-    <labs-button label="Icon Right" icon-right="settings" variant="primary"
+    <!-- All pre-configured buttons from buttonConfigs.js for 1:1 demo/Storybook match -->
+    <labs-button label="Add" icon="add" variant="primary" checkmark iconcolor="var(--color-on-primary)"></labs-button>
+    <labs-button label="Save" icon="check" variant="primary" checkmark
       iconcolor="var(--color-on-primary)"></labs-button>
+    <labs-button label="Edit" icon="edit" variant="secondary" iconcolor="var(--color-on-surface)"></labs-button>
+    <labs-button label="Undo" icon="undo" variant="secondary" iconcolor="var(--color-on-surface)"></labs-button>
+    <labs-button label="Delete" icon="delete_forever" variant="danger" iconcolor="var(--color-on-error)"></labs-button>
+    <labs-button label="Delete" icon="delete_forever" variant="transparent" class="button-delete-subtle"
+      iconcolor="var(--color-on-surface)"></labs-button>
+    <labs-button label="Reset All Data" icon="delete_forever" variant="transparent" class="button-delete-subtle"
+      iconcolor="var(--color-on-surface)"></labs-button>
+    <labs-button label="Close" icon="close" variant="transparent" iconcolor="var(--color-on-surface)"></labs-button>
+    <labs-button label="Settings" icon-right="settings" variant="transparent"
+      iconcolor="var(--color-on-surface)"></labs-button>
+    <labs-button label="All Apps" icon="settings" variant="transparent"
+      iconcolor="var(--color-on-surface)"></labs-button>
+    <labs-button label="Toggle Theme" icon="bedtime" variant="transparent"
+      iconcolor="var(--color-on-surface)"></labs-button>
+    <labs-button label="Turn on dark mode" icon="bedtime" variant="transparent"
+      iconcolor="var(--color-on-surface)"></labs-button>
+    <labs-button label="Settings" icon-right="settings" variant="container"
+      iconcolor="var(--color-primary-75)"></labs-button>
+    <labs-button label="All Apps" icon="settings" variant="container" iconcolor="var(--color-primary-75)"></labs-button>
+    <labs-button label="Turn on dark mode" icon="bedtime" variant="container"
+      iconcolor="var(--color-primary-75)"></labs-button>
+    <labs-button label="Reset All Data" icon="delete_forever" variant="container-danger"
+      iconcolor="var(--color-error)"></labs-button>
+    <labs-button label="Add Comment" icon="add_comment" variant="secondary"
+      iconcolor="var(--color-on-surface)"></labs-button>
   </div>
 
   <script type="module">
