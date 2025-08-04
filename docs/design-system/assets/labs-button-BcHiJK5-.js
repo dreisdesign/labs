@@ -1,111 +1,4 @@
-/* eslint-disable */
-import "./labs-icon.js";
-
-class LabsButton extends HTMLElement {
-  static get observedAttributes() {
-    return ["variant", "icon", "icon-right", "checkmark", "label", "iconcolor"];
-  }
-
-  constructor() {
-    super();
-    this.attachShadow({ mode: "open" });
-    this.animating = false;
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  connectedCallback() {
-    console.log("[LabsButton] LOCAL COMPONENT LOADED - DEMO TEST");
-    this.render();
-    this.shadowRoot
-      .querySelector("button")
-      .addEventListener("click", this.handleClick);
-  }
-
-  disconnectedCallback() {
-    this.shadowRoot
-      .querySelector("button")
-      .removeEventListener("click", this.handleClick);
-  }
-
-  attributeChangedCallback() {
-    console.log("[LabsButton] attributeChangedCallback:", {
-      variant: this.getAttribute("variant"),
-      icon: this.getAttribute("icon"),
-      iconRight: this.getAttribute("icon-right"),
-      checkmark: this.getAttribute("checkmark"),
-      label: this.getAttribute("label"),
-      iconcolor: this.getAttribute("iconcolor"),
-    });
-    this.render();
-  }
-
-  handleClick(e) {
-    const btn = this.shadowRoot.querySelector("button");
-    btn.setAttribute('data-active', 'true');
-    setTimeout(() => {
-      btn.removeAttribute('data-active');
-    }, 200); // short active state
-    if (this.hasAttribute("checkmark")) {
-      if (this.animating) return;
-      this.animating = true;
-      btn.classList.remove("success");
-      void btn.offsetWidth;
-      btn.classList.add("success");
-      setTimeout(() => {
-        btn.classList.remove("success");
-        this.animating = false;
-      }, 800);
-    }
-    this.dispatchEvent(new CustomEvent("labs-click", { bubbles: true }));
-  }
-
-  render() {
-    // Determine icon color logic based on label/variant
-    const labelRaw = this.getAttribute("label") || "";
-    const label = labelRaw.toLowerCase();
-    const variant = this.getAttribute("variant") || "primary";
-    let iconColor = this.getAttribute("iconcolor") || "";
-    // If iconColor is a CSS variable (token), resolve it to a real value
-    if (iconColor.startsWith('var(')) {
-      const temp = document.createElement('div');
-      temp.style.color = iconColor;
-      document.body.appendChild(temp);
-      iconColor = getComputedStyle(temp).color;
-      document.body.removeChild(temp);
-    }
-    // Default: icon color matches text color
-    let iconColorActive = iconColor;
-    // Save and Add: use on-primary color for icon (same as text)
-    if (["add", "save"].includes(label)) {
-      iconColor = "var(--color-on-primary)";
-      iconColorActive = "var(--color-on-primary)";
-    } else if (["icon left", "icon right"].includes(label)) {
-      iconColorActive = "#000";
-    } else if (["settings", "default"].includes(label)) {
-      iconColorActive = "#fff";
-    }
-    // Map legacy icon names to icon registry keys
-    const mapIconName = (name) => {
-      if (!name) return "";
-      // Remove file extensions and --fill, --outline, etc.
-      return name
-        .replace(/\.(svg|png|jpg|jpeg)$/i, "")
-        .replace(/--fill|--outline|--regular|--solid/gi, "")
-        .replace(/-/g, "_");
-    };
-
-    const icon = mapIconName(this.getAttribute("icon"));
-    let iconRight = mapIconName(this.getAttribute("icon-right"));
-    // Only use the default icon if the attribute 'default-icon-right' is present and icon-right is not set
-    if (!iconRight && this.hasAttribute("default-icon-right")) {
-      iconRight = "settings";
-    }
-    const checkmark = this.hasAttribute("checkmark");
-
-    const buttonType = label.replace(/\s/g, "");
-    // No special icon color variable for Add button
-    const addIconColorVar = '';
-    this.shadowRoot.innerHTML = `
+import"./labs-icon-CrKMoNQo.js";class d extends HTMLElement{static get observedAttributes(){return["variant","icon","icon-right","checkmark","label","iconcolor"]}constructor(){super(),this.attachShadow({mode:"open"}),this.animating=!1,this.handleClick=this.handleClick.bind(this)}connectedCallback(){console.log("[LabsButton] LOCAL COMPONENT LOADED - DEMO TEST"),this.render(),this.shadowRoot.querySelector("button").addEventListener("click",this.handleClick)}disconnectedCallback(){this.shadowRoot.querySelector("button").removeEventListener("click",this.handleClick)}attributeChangedCallback(){console.log("[LabsButton] attributeChangedCallback:",{variant:this.getAttribute("variant"),icon:this.getAttribute("icon"),iconRight:this.getAttribute("icon-right"),checkmark:this.getAttribute("checkmark"),label:this.getAttribute("label"),iconcolor:this.getAttribute("iconcolor")}),this.render()}handleClick(n){const t=this.shadowRoot.querySelector("button");if(t.setAttribute("data-active","true"),setTimeout(()=>{t.removeAttribute("data-active")},200),this.hasAttribute("checkmark")){if(this.animating)return;this.animating=!0,t.classList.remove("success"),t.offsetWidth,t.classList.add("success"),setTimeout(()=>{t.classList.remove("success"),this.animating=!1},800)}this.dispatchEvent(new CustomEvent("labs-click",{bubbles:!0}))}render(){const n=this.getAttribute("label")||"",t=n.toLowerCase(),c=this.getAttribute("variant")||"primary";let a=this.getAttribute("iconcolor")||"";if(a.startsWith("var(")){const o=document.createElement("div");o.style.color=a,document.body.appendChild(o),a=getComputedStyle(o).color,document.body.removeChild(o)}let r=a;["add","save"].includes(t)?(a="var(--color-on-primary)",r="var(--color-on-primary)"):["icon left","icon right"].includes(t)?r="#000":["settings","default"].includes(t)&&(r="#fff");const i=o=>o?o.replace(/\.(svg|png|jpg|jpeg)$/i,"").replace(/--fill|--outline|--regular|--solid/gi,"").replace(/-/g,"_"):"",s=i(this.getAttribute("icon"));let e=i(this.getAttribute("icon-right"));!e&&this.hasAttribute("default-icon-right")&&(e="settings");const l=this.hasAttribute("checkmark"),b=t.replace(/\s/g,""),u="";this.shadowRoot.innerHTML=`
       <style>
         :host { display: inline-block; }
         .labs-button {
@@ -323,7 +216,7 @@ class LabsButton extends HTMLElement {
         }
         /* Apply icon color filter */
         .labs-icon img {
-          filter: ${iconColor === "#fff" || iconColor.toLowerCase() === "white" ? "brightness(0) invert(1)" : iconColor ? `hue-rotate(0deg) saturate(0) brightness(0) invert(1)` : "none"};
+          filter: ${a==="#fff"||a.toLowerCase()==="white"?"brightness(0) invert(1)":a?"hue-rotate(0deg) saturate(0) brightness(0) invert(1)":"none"};
         }
         /* Ensure right icon is visible and spaced */
         .labs-button labs-icon:last-of-type {
@@ -331,16 +224,12 @@ class LabsButton extends HTMLElement {
           display: inline-block !important;
         }
       </style>
-      <button class="labs-button ${variant}" part="button"
-        data-buttontype="${buttonType}"
-        style="--icon-active-color: ${iconColorActive}; ${addIconColorVar}">
-        ${icon ? `<labs-icon class="labs-icon" name="${icon}" color="${iconColor}"></labs-icon>` : ""}
-        <span class="labs-label">${labelRaw}</span>
-        ${iconRight ? `<labs-icon class="labs-icon" name="${iconRight}" color="${iconColor}"></labs-icon>` : ""}
-        ${checkmark ? `<span class="labs-checkmark"><labs-icon name="check" class="labs-icon" color="${iconColor || "white"}"></labs-icon></span>` : ""}
+      <button class="labs-button ${c}" part="button"
+        data-buttontype="${b}"
+        style="--icon-active-color: ${r}; ${u}">
+        ${s?`<labs-icon class="labs-icon" name="${s}" color="${a}"></labs-icon>`:""}
+        <span class="labs-label">${n}</span>
+        ${e?`<labs-icon class="labs-icon" name="${e}" color="${a}"></labs-icon>`:""}
+        ${l?`<span class="labs-checkmark"><labs-icon name="check" class="labs-icon" color="${a||"white"}"></labs-icon></span>`:""}
       </button>
-    `;
-  }
-}
-
-customElements.define("labs-button", LabsButton);
+    `}}customElements.define("labs-button",d);
