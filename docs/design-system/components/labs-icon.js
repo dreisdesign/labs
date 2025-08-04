@@ -25,13 +25,38 @@ class LabsIcon extends HTMLElement {
   static get observedAttributes() {
     return ["name", "style"];
   }
+  
+  constructor() {
+    super();
+    this.svgCache = new Map();
+  }
+  
   attributeChangedCallback(name, oldValue, newValue) {
     this.render();
   }
+  
   connectedCallback() {
     this.render();
   }
-  render() {
+  
+  async loadSvg(url) {
+    if (this.svgCache.has(url)) {
+      return this.svgCache.get(url);
+    }
+    
+    try {
+      const response = await fetch(url);
+      if (!response.ok) throw new Error(`Failed to load icon: ${response.status}`);
+      const svgText = await response.text();
+      this.svgCache.set(url, svgText);
+      return svgText;
+    } catch (error) {
+      console.error('Error loading icon:', error);
+      return null;
+    }
+  }
+  
+  async render() {
     const iconName = this.getAttribute("name");
     let url = icons[iconName];
 
@@ -41,17 +66,42 @@ class LabsIcon extends HTMLElement {
       const height = this.getAttribute("height") || style.height || "24px";
       const color = this.style.color || "currentColor";
 
+      // Try to load SVG content directly first
+      const svgContent = await this.loadSvg(url);
+      
+      if (svgContent) {
+        // Inject SVG directly with color styling
+        const parser = new DOMParser();
+        const svgDoc = parser.parseFromString(svgContent, 'image/svg+xml');
+        const svgElement = svgDoc.querySelector('svg');
+        
+        if (svgElement) {
+          svgElement.style.width = width;
+          svgElement.style.height = height;
+          svgElement.style.fill = color;
+          svgElement.style.color = color;
+          
+          this.innerHTML = svgElement.outerHTML;
+          return;
+        }
+      }
+      
+      // Fallback to mask-image approach
       this.innerHTML = `
-                <div style="
-                    width: ${width};
-                    height: ${height};
-                    background-color: ${color};
-                    mask-image: url(${url});
-                    mask-size: contain;
-                    mask-repeat: no-repeat;
-                    mask-position: center;
-                "></div>
-            `;
+        <div style="
+          width: ${width};
+          height: ${height};
+          background-color: ${color};
+          mask-image: url(${url});
+          mask-size: contain;
+          mask-repeat: no-repeat;
+          mask-position: center;
+          -webkit-mask-image: url(${url});
+          -webkit-mask-size: contain;
+          -webkit-mask-repeat: no-repeat;
+          -webkit-mask-position: center;
+        "></div>
+      `;
     } else {
       this.innerHTML = "";
     }
