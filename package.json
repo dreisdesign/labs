@@ -9,6 +9,7 @@
     "build-storybook": "npm --prefix design-system run build-storybook",
     "private": "npm --prefix design-system run local && (sleep 2 && open -a 'Google Chrome' http://localhost:8080/docs/demo/index.html &) && python3 -m http.server 8080",
     "storybook": "npm --prefix design-system run storybook",
+    "premenu": "node scripts/generate-icons-list.mjs",
     "menu": "node scripts/menu.mjs"
   },
   "devDependencies": {

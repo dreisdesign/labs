@@ -15,78 +15,94 @@ export default {
 
 export const Usage = () => {
   const wrapper = document.createElement("div");
-  wrapper.style.display = "flex";
-  wrapper.style.flexDirection = "column";
-  wrapper.style.gap = "2rem";
-  wrapper.style.padding = "1rem";
+  wrapper.style.cssText = `
+    padding: 2rem;
+    background: var(--color-background);
+    max-width: 1200px;
+    font-family: system-ui, -apple-system, sans-serif;
+  `;
 
   // Add the content sections
   const contentDiv = document.createElement("div");
   contentDiv.innerHTML = `
-        <div>
-            <h4>Common Action Buttons</h4>
-            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                ${createButton("add")}
-                ${createButton("save")}
-                ${createButton("edit")}
-                ${createButton("themeToggle")}
-            </div>
-        </div>
-        
-        <div>
-            <h4>Destructive Actions</h4>
-            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                ${createButton("delete")}
-                ${createButton("resetAllData")}
-            </div>
-        </div>
-        
-        <div>
-            <h4>UI/Navigation Buttons</h4>
-            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                ${createButton("close")}
-                ${createButton("settings")}
-                ${createButton("allApps")}
-                ${createButton("undo")}
-            </div>
-        </div>
+    <div style="margin-bottom: 3rem;">
+      <h3 style="margin: 0 0 1.5rem 0; color: var(--color-on-background); font-size: 1.5rem;">Pre-Configured Button Components</h3>
+      <p style="margin: 0 0 2rem 0; color: var(--color-on-background); opacity: 0.8; line-height: 1.6;">
+        Ready-to-use button configurations for common patterns. Import these functions and use them directly in your applications.
+      </p>
+    </div>
 
-        <div>
-            <h4>Icon-Only Buttons</h4>
-            <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
-                ${createIconButton("settingsIcon")}
-                ${createIconButton("allAppsIcon")}
-                ${createIconButton("deleteIcon")}
-                ${createIconButton("editIcon")}
-                ${createIconButton("closeIcon")}
-                ${createIconButton("addCommentIcon")}
-            </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+      <div style="padding: 1.5rem; background: var(--color-surface); border-radius: 12px; border: 1px solid var(--color-primary-25);">
+        <h4 style="margin: 0 0 1rem 0; color: var(--color-on-surface); font-size: 1.2rem;">Common Actions</h4>
+        <p style="margin: 0 0 1.5rem 0; color: var(--color-on-surface); opacity: 0.8; font-size: 0.875rem;">Standard app actions with consistent styling</p>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          ${createButton("add")}
+          ${createButton("save")}
+          ${createButton("edit")}
+          ${createButton("themeToggle")}
         </div>
+      </div>
+      
+      <div style="padding: 1.5rem; background: var(--color-surface); border-radius: 12px; border: 1px solid var(--color-primary-25);">
+        <h4 style="margin: 0 0 1rem 0; color: var(--color-on-surface); font-size: 1.2rem;">Destructive Actions</h4>
+        <p style="margin: 0 0 1.5rem 0; color: var(--color-on-surface); opacity: 0.8; font-size: 0.875rem;">High-impact actions requiring confirmation</p>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          ${createButton("delete")}
+          ${createButton("resetAllData")}
+        </div>
+      </div>
+      
+      <div style="padding: 1.5rem; background: var(--color-surface); border-radius: 12px; border: 1px solid var(--color-primary-25);">
+        <h4 style="margin: 0 0 1rem 0; color: var(--color-on-surface); font-size: 1.2rem;">UI Navigation</h4>
+        <p style="margin: 0 0 1.5rem 0; color: var(--color-on-surface); opacity: 0.8; font-size: 0.875rem;">Interface controls and navigation elements</p>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          ${createButton("close")}
+          ${createButton("settings")}
+          ${createButton("allApps")}
+          ${createButton("undo")}
+        </div>
+      </div>
+    </div>
 
-        <div>
-            <h3>Usage Examples</h3>
-            <p>Import and use pre-configured buttons:</p>
-            <pre style="background: var(--color-surface); padding: 1rem; border-radius: 8px; overflow-x: auto;">
-import { createButton, createButtonElement, createIconButton, createIconButtonElement, iconOnlyButtons } from '../tokens/button-configs.js';
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 3rem;">      
+      <div style="padding: 1.5rem; background: var(--color-surface); border-radius: 12px; border: 1px solid var(--color-primary-25);">
+        <h4 style="margin: 0 0 1rem 0; color: var(--color-on-surface); font-size: 1.2rem;">Icon-Only Buttons</h4>
+        <p style="margin: 0 0 1.5rem 0; color: var(--color-on-surface); opacity: 0.8; font-size: 0.875rem;">Compact buttons for toolbars and tight spaces</p>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          ${createIconButton("settingsIcon")}
+          ${createIconButton("allAppsIcon")}
+          ${createIconButton("deleteIcon")}
+          ${createIconButton("editIcon")}
+          ${createIconButton("closeIcon")}
+          ${createIconButton("addCommentIcon")}
+        </div>
+      </div>
+    </div>
+
+    <div style="padding: 1.5rem; background: var(--color-surface); border-radius: 12px; border: 1px solid var(--color-primary-25);">
+      <h4 style="margin: 0 0 1rem 0; color: var(--color-on-surface); font-size: 1.2rem;">Usage Examples</h4>
+      <p style="margin: 0 0 1rem 0; color: var(--color-on-surface); opacity: 0.8;">Import and use pre-configured buttons:</p>
+      <div style="background: var(--color-primary-25); padding: 1rem; border-radius: 8px; font-family: 'Monaco', 'Menlo', monospace; font-size: 0.875rem; color: var(--color-on-background); overflow-x: auto;">
+import { createButton, createButtonElement, createIconButton } from '../tokens/button-configs.js';
 
 // As HTML string
 const html = createButton('delete');
 
-// As DOM element
+// As DOM element  
 const button = createButtonElement('add', { label: 'Add Item' });
 
 // Icon-only buttons
 const iconHtml = createIconButton('settingsIcon');
-const iconElement = createIconButtonElement('settingsIcon');
 
 // With overrides
 const customSave = createButton('save', { 
   label: 'Save Changes',
   variant: 'success' 
 });
-            </pre>
-        </div>
-    `;
+      </div>
+    </div>
+  `;
 
   wrapper.appendChild(contentDiv);
 

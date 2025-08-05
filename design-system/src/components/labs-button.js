@@ -108,6 +108,11 @@ class LabsButton extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>
         :host { display: inline-block; }
+        :host([variant="container"]),
+        :host([variant="container-danger"]) {
+          display: block;
+          width: 100%;
+        }
         .labs-button {
           font-size: 1.25rem;
           font-weight: 600;
@@ -157,9 +162,8 @@ class LabsButton extends HTMLElement {
             .labs-button:active[data-buttontype="iconright"] .labs-icon {
               color: #000 !important;
             }
-        .labs-button:hover {
-          background: rgb(13, 11, 63);
-        }
+        
+        /* Remove default hover - let variants handle their own hover states */
         
         /* Container variants should not have default hover styles */
         .labs-button.container:hover,
@@ -196,7 +200,7 @@ class LabsButton extends HTMLElement {
           border: 2px solid var(--color-primary);
         }
         .labs-button.secondary:hover {
-          background: var(--color-primary-25);
+          background: var(--color-hover-light);
         }
         .labs-button.secondary:active {
           background: var(--color-primary-75);
@@ -229,7 +233,7 @@ class LabsButton extends HTMLElement {
           color: var(--color-on-surface);
         }
         .labs-button.transparent:hover {
-          background: var(--color-primary-25);
+          background: var(--color-hover-light);
         }
         
         /* Icon-only variant */
@@ -243,7 +247,7 @@ class LabsButton extends HTMLElement {
           width: auto;
         }
         .labs-button.icon:hover {
-          background: var(--color-primary-25);
+          background: var(--color-hover-light);
         }
         .labs-button.icon:active {
           background: var(--color-primary-75);
@@ -257,9 +261,11 @@ class LabsButton extends HTMLElement {
           background: transparent;
           color: var(--color-on-surface);
           border-radius: 0.7rem;
+          width: 100%;
+          justify-content: flex-start;
         }
         .labs-button.container:hover {
-          background: var(--color-primary-25);
+          background: var(--color-hover-light);
         }
         .labs-button.container:active {
           background: var(--color-primary-75);
@@ -269,6 +275,8 @@ class LabsButton extends HTMLElement {
           background: transparent;
           color: var(--color-error);
           border-radius: 0.7rem;
+          width: 100%;
+          justify-content: flex-start;
         }
         .labs-button.container-danger:hover {
           background: var(--color-error);

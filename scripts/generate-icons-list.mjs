@@ -3,16 +3,15 @@
 // and also updates the labs-icon.js component.
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 
-const iconsDir = path.resolve(process.cwd(), "design-system/icons");
-const iconsListPath = path.resolve(
-  process.cwd(),
-  "design-system/src/components/icons-list.js",
-);
-const labsIconComponentPath = path.resolve(
-  process.cwd(),
-  "design-system/src/components/labs-icon.js",
-);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const repoRoot = path.resolve(__dirname, "..");
+const iconsDir = path.resolve(repoRoot, "design-system/icons");
+const iconsListPath = path.resolve(repoRoot, "design-system/src/components/icons-list.js");
+const labsIconComponentPath = path.resolve(repoRoot, "design-system/src/components/labs-icon.js");
 const iconFileSuffix = "--labs-icons.svg";
 
 // 1. Read icon files and generate names

@@ -4,7 +4,10 @@
   "description": "Labs Design System v2 - Complete theme system with modular components, Storybook v9.1.1, and ready-to-use button configurations",
   "main": "index.js",
   "scripts": {
+    "generate-icons-list": "node ../scripts/generate-icons-list.mjs",
+    "prestorybook": "npm run generate-icons-list",
     "storybook": "storybook dev -p 6006",
+    "prebuild-storybook": "npm run generate-icons-list",
     "build-storybook": "storybook build",
     "build": "node ../scripts/update-static-paths.js --public",
     "public": "node ../scripts/update-static-paths.js --public",

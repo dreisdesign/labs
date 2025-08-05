@@ -18,6 +18,10 @@
   --color-secondary-75: rgba(13, 11, 63, 0.75);
   --color-on-surface-75: rgba(28, 27, 31, 0.75);
   --settings-icon-color: rgba(28, 27, 31, 0.25);
+
+  /* Hover color tokens */
+  --color-hover-light: rgba(0, 0, 0, 0.05);
+  --color-hover-medium: rgba(0, 0, 0, 0.1);
 }
 
 .theme-light {
@@ -39,6 +43,10 @@
   --color-secondary-75: rgba(13, 11, 63, 0.75);
   --color-on-surface-75: rgba(28, 27, 31, 0.75);
   --settings-icon-color: rgba(28, 27, 31, 0.25);
+
+  /* Hover color tokens */
+  --color-hover-light: rgba(0, 0, 0, 0.05);
+  --color-hover-medium: rgba(0, 0, 0, 0.1);
 }
 
 .theme-dark {
@@ -57,4 +65,8 @@
   --color-secondary-75: rgba(126, 87, 194, 0.75);
   --color-on-surface-75: rgba(255, 255, 255, 0.75);
   --settings-icon-color: rgba(255, 255, 255, 0.25);
+
+  /* Dark theme hover color tokens */
+  --color-hover-light: rgba(255, 255, 255, 0.05);
+  --color-hover-medium: rgba(255, 255, 255, 0.1);
 }

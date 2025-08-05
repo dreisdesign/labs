@@ -42,7 +42,7 @@ Demo.storyName = "Demo (Interactive Overlay)";
 import "../styles/components/settings-overlay.css";
 import "../components/labs-button.js";
 import "../components/labs-icon.js";
-import { createButtonElement } from "../tokens/button-configs.js";
+import { createButtonElement, setupThemeToggle } from "../tokens/button-configs.js";
 
 export default {
   title: "Patterns/Settings Overlay",
@@ -91,6 +91,9 @@ const Template = ({ isOpen = true }) => {
   const allAppsButton = createButtonElement("allAppsContainer");
   const themeButton = createButtonElement("themeToggleContainer");
   const resetButton = createButtonElement("resetAllDataContainer"); // Uses container-danger variant
+
+  // Make theme button functional
+  setupThemeToggle(themeButton);
 
   buttonContainer.appendChild(allAppsButton);
   buttonContainer.appendChild(themeButton);

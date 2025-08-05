@@ -9,6 +9,9 @@ applyTo: '**'
 
 Every component in the Labs Design System should be **fully modular** - self-contained, portable, and configurable without external dependencies.
 
+## Take action
+- If you have a recommendation, proceed with it rather than suggesting it or asking for confirmation.
+
 ## Component Architecture Standards
 
 ### 1. Self-Contained Styling

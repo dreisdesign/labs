@@ -39,10 +39,12 @@ export const Default = (args) => {
 
   const icon = document.createElement("labs-icon");
   icon.setAttribute("name", args.name);
+  icon.setAttribute("size", size.toString());
   icon.style.cssText = `
-    width: ${size}px;
-    height: ${size}px;
     color: ${color};
+    display: flex;
+    align-items: center;
+    justify-content: center;
   `;
 
   const label = document.createElement("div");
