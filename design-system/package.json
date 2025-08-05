@@ -1,7 +1,7 @@
 {
   "name": "design-system",
-  "version": "1.0.0",
-  "description": "Labs Design System - Storybook v9 Web Components setup",
+  "version": "2.0.0",
+  "description": "Labs Design System v2 - Complete theme system with modular components, Storybook v9.1.1, and ready-to-use button configurations",
   "main": "index.js",
   "scripts": {
     "storybook": "storybook dev -p 6006",

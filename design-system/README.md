@@ -1,13 +1,19 @@
 
-## 🆕 Recent Improvements
+## 🆕 Recent Improvements - v2.0.0 Theme System Overhaul
 
-- **Modularity-First Architecture:** All components are now fully self-contained with CSS custom properties for configuration. No external dependencies required.
-- **Enhanced Settings Overlay:** Rebuilt as a truly modular component with extensive customization options via CSS custom properties.
-- **Unified Container Button System:** Modular, token-based container and destructive button variants for overlays and dialogs. Visual consistency with Tracker app.
-- **Storybook Cleanup:** Redundant stories removed, sidebar and sitemap automated, and all button/icon demos are now modular and clear.
-- **Button Configs:** Centralized, grouped, and documented for best practices. Container, destructive, and navigation variants are easy to use and extend.
-- **Icon Color Logic:** All icon colors now use design tokens and match text in all states.
-- **Docs & Automation:** All stories and tokens are documented. Deploy script ensures parity between Storybook and public demo. Storybook sitemap is auto-generated.
+- **🎨 Complete Theme System:** Functional Storybook theme switcher with `@storybook/addon-themes` and global theme management
+- **🔧 Modular Button System:** 15+ pre-configured button combinations with `createButton()` and `createIconButton()` functions  
+- **🧹 Clean Architecture:** Removed redundant stories, consolidated theme functionality, organized with clear hierarchy
+- **⚡ Ready for Integration:** `setupThemeToggle()` and `updateThemeToggleButton()` functions ready for Note/Timer/Tracker apps
+- **📱 Icon-Only Variants:** New `icon` variant for persistent footer buttons and contextual actions
+- **🎯 Smart Color System:** Theme-aware Colors page using semantic CSS properties that adapt to light/dark modes
+- **🚀 Storybook v9.1.1:** Upgraded with proper addon support and professional design system workflow
+
+### Key Features:
+- **Theme Switching:** Global Storybook toolbar theme switcher + individual story theme toggles  
+- **Button Configs:** Common Actions, Destructive Actions, UI/Navigation, Icon-Only, Container variants
+- **Modular Components:** All components self-contained with CSS custom properties (no external dependencies)
+- **App-Ready:** Clean API for immediate integration into existing apps
 
 ---
 
@@ -32,13 +38,49 @@ This folder contains the Labs Design System: shared UI components, tokens, Story
 - `README.md` — This file
 ## Components
 
-- `labs-button`: Button component supporting primary, secondary, container, and container-danger variants, with icon and checkmark support.
-- `labs-icon`: SVG icon component, supports color tokens and accessibility.
-- `labs-settings-overlay`: Reusable settings modal overlay as a custom element. [Docs](components/labs-settings-overlay.md)
+- **`labs-button`**: Comprehensive button component with variants (primary, secondary, danger, transparent, container, icon), icon support, checkmark animations, and theme integration
+- **`labs-icon`**: SVG icon component with design token color support and accessibility features  
+- **`labs-settings-overlay`**: Modular settings modal overlay as a custom element with container button integration
 
-See `/components/` for more.
+### Button System:
+- **Pre-configured buttons:** `createButton()` and `createButtonElement()` with 15+ ready-to-use combinations
+- **Icon-only buttons:** `createIconButton()` and `createIconButtonElement()` for persistent UI elements  
+- **Theme integration:** `setupThemeToggle()` and `updateThemeToggleButton()` for complete theme switching
+- **Container variants:** Full-width buttons optimized for overlays and panels
+
+See `src/tokens/button-configs.js` for all available configurations and `src/stories/` for complete documentation.
 
 
+
+## Quick Start & Integration
+
+### For App Development:
+```javascript
+// Import button configurations
+import { createButton, createButtonElement, setupThemeToggle } from './design-system/src/tokens/button-configs.js';
+
+// Use pre-configured buttons
+const addButton = createButton('add');
+const deleteButton = createButton('delete');
+const themeToggle = createButtonElement('themeToggle');
+
+// Setup theme switching
+setupThemeToggle(themeToggle);
+```
+
+### For Storybook Development:
+```bash
+npm run storybook    # Start development server
+npm run build-storybook    # Build for deployment
+```
+
+### Theme System:
+- **Global Switcher:** Use Storybook toolbar theme switcher for testing all stories
+- **App Integration:** Use `setupThemeToggle()` for complete theme functionality in apps
+- **CSS Classes:** `theme-light` and `theme-dark` applied to document body
+- **Storage:** Theme preferences saved to localStorage with system preference fallback
+
+---
 
 ## Usage & Docs
 
