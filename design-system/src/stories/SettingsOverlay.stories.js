@@ -89,7 +89,7 @@ const Template = ({ isOpen = true }) => {
 
   // Use container button variants for proper overlay styling
   const allAppsButton = createButtonElement("allAppsContainer");
-  const themeButton = createButtonElement("turnOnDarkModeContainer");
+  const themeButton = createButtonElement("themeToggleContainer");
   const resetButton = createButtonElement("resetAllDataContainer"); // Uses container-danger variant
 
   buttonContainer.appendChild(allAppsButton);

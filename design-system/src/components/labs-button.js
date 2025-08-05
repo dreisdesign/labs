@@ -232,6 +232,26 @@ class LabsButton extends HTMLElement {
           background: var(--color-primary-25);
         }
         
+        /* Icon-only variant */
+        .labs-button.icon {
+          background: transparent;
+          border: none;
+          border-radius: 50%;
+          padding: 0.5rem;
+          min-width: 44px;
+          min-height: 44px;
+          width: auto;
+        }
+        .labs-button.icon:hover {
+          background: var(--color-primary-25);
+        }
+        .labs-button.icon:active {
+          background: var(--color-primary-75);
+        }
+        .labs-button.icon .labs-label {
+          display: none; /* Hide label in icon variant */
+        }
+        
         /* Container variants for overlay use */
         .labs-button.container {
           background: transparent;

@@ -1,4 +1,6 @@
 /** @type { import('@storybook/web-components-vite').Preview } */
+import { withThemeByClassName } from '@storybook/addon-themes';
+
 const preview = {
   parameters: {
     controls: {
@@ -10,20 +12,9 @@ const preview = {
       persistLocal: false,
     },
 
-    themes: {
-      default: "light",
-      list: [
-        {
-          name: "light",
-          class: "theme-light",
-          color: "var(--color-background)",
-        },
-        {
-          name: "dark",
-          class: "theme-dark",
-          color: "var(--color-background)",
-        },
-      ],
+    // Disable the default backgrounds addon to avoid confusion
+    backgrounds: {
+      disable: true,
     },
 
     a11y: {
@@ -47,6 +38,18 @@ const preview = {
       },
     },
   },
+
+  decorators: [
+    withThemeByClassName({
+      themes: {
+        light: 'theme-light',
+        dark: 'theme-dark',
+      },
+      defaultTheme: 'light',
+      // Apply theme classes to the document body
+      parentSelector: 'body',
+    }),
+  ],
 };
 
 import "../src/styles/main.css";

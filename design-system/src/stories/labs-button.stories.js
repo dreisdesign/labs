@@ -132,5 +132,3 @@ ContainerVariants.parameters = {
     },
   },
 };
-
-import { ThemeToggleButton } from "./theme-toggle.stories.js";
