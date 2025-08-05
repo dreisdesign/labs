@@ -12,9 +12,37 @@ const preview = {
       persistLocal: false,
     },
 
+    // Configure Storybook UI theme and layout
+    layout: 'centered',
+
     // Disable the default backgrounds addon to avoid confusion
     backgrounds: {
       disable: true,
+    },
+
+    // Configure Storybook interface
+    options: {
+      // Light theme for Storybook interface
+      theme: {
+        base: 'light',
+        brandTitle: 'Labs Design System',
+      },
+
+      // Controls panel on the right
+      panelPosition: 'right',
+
+      storySort: {
+        order: [
+          "Patterns",
+          ["Demo Page"],
+          "Tokens",
+          ["Colors", "Typography", "Spacing", "Button Configs"],
+          "Icons",
+          ["Default", "Preview"],
+          "Components",
+          ["Button"],
+        ],
+      },
     },
 
     a11y: {
@@ -22,20 +50,6 @@ const preview = {
       // 'error' - fail CI on a11y violations
       // 'off' - skip a11y checks entirely
       test: "todo",
-    },
-
-    options: {
-      storySort: {
-        order: [
-          "About",
-          "Tokens",
-          ["All", "Colors", "Typography", "Spacing"],
-          "Icons",
-          ["Default", "Preview"],
-          "Components",
-          ["Default", "Preview"],
-        ],
-      },
     },
   },
 

@@ -21,13 +21,58 @@ export default {
 };
 
 export const Default = (args) => {
-  const size = args.size || 32;
+  const size = args.size || 48; // Increased default size
   const color = args.color || "currentColor";
-  return `<labs-icon name="${args.name}" style="width:${size}px;height:${size}px;color:${color};"></labs-icon>`;
+
+  // Create a container with better presentation
+  const container = document.createElement("div");
+  container.style.cssText = `
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+    background: var(--color-surface);
+    border-radius: 8px;
+    border: 1px solid var(--color-primary-25);
+  `;
+
+  const icon = document.createElement("labs-icon");
+  icon.setAttribute("name", args.name);
+  icon.style.cssText = `
+    width: ${size}px;
+    height: ${size}px;
+    color: ${color};
+  `;
+
+  const label = document.createElement("div");
+  label.textContent = `Icon: ${args.name}`;
+  label.style.cssText = `
+    color: var(--color-on-surface);
+    font-size: 0.875rem;
+    text-align: center;
+  `;
+
+  const code = document.createElement("code");
+  code.textContent = `<labs-icon name="${args.name}"></labs-icon>`;
+  code.style.cssText = `
+    background: var(--color-background);
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    color: var(--color-on-background);
+  `;
+
+  container.appendChild(icon);
+  container.appendChild(label);
+  container.appendChild(code);
+
+  return container;
 };
+
 Default.args = {
-  name: "cancel",
-  size: 32,
+  name: "settings", // Changed to a more common icon
+  size: 48, // Increased default size
   color: "currentColor",
 };
 

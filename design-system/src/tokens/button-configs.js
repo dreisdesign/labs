@@ -46,9 +46,8 @@ export const buttonConfigs = {
   resetAllData: {
     label: "Reset All Data",
     icon: "delete_forever",
-    variant: "transparent",
-    className: "button-delete-subtle",
-    iconcolor: "var(--color-on-surface)",
+    variant: "danger",
+    iconcolor: "var(--color-on-error)",
   },
 
   // === Navigation/UI Actions ===
@@ -60,15 +59,15 @@ export const buttonConfigs = {
   },
 
   settings: {
-    label: "Settings",
-    iconRight: "settings",
-    variant: "transparent",
+    icon: "settings", // Changed from iconRight to icon for icon-only
+    variant: "icon", // Changed to icon variant for truly icon-only
     iconcolor: "var(--color-on-surface)",
+    "aria-label": "Settings", // Added for accessibility
   },
 
   allApps: {
     label: "All Apps",
-    icon: "apps", // Changed from "settings" to "apps" for clarity
+    icon: "settings", // Using settings icon until we add a proper apps/grid icon
     variant: "transparent",
     iconcolor: "var(--color-on-surface)",
   },
@@ -96,7 +95,7 @@ export const buttonConfigs = {
 
   allAppsContainer: {
     label: "All Apps",
-    icon: "apps", // Changed from "settings" to "apps" for clarity
+    icon: "settings", // Using settings icon until we add a proper apps/grid icon
     variant: "container",
     description: "Full-width container button for overlay/panel use",
     iconcolor: "var(--color-primary-75)",
@@ -171,7 +170,7 @@ export const iconOnlyButtons = {
   },
 
   allAppsIcon: {
-    icon: "apps", // Changed from blank to proper apps icon
+    icon: "settings", // Using settings icon until we add a proper apps/grid icon
     variant: "icon",
     iconcolor: "var(--color-on-surface)",
     "aria-label": "All Apps",
