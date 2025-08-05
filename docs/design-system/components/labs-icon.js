@@ -5,23 +5,29 @@ const ICON_BASE = window.location.pathname.includes("/labs/")
   ? "/labs/design-system/icons/"
   : "icons/";
 const icons = {
-  add: ICON_BASE + "add--labs-icons.svg",
-  add_comment: ICON_BASE + "add_comment--labs-icons.svg",
-  bedtime: ICON_BASE + "bedtime--labs-icons.svg",
-  bedtime_off: ICON_BASE + "bedtime_off--labs-icons.svg",
-  cancel: ICON_BASE + "cancel--labs-icons.svg",
-  change_circle: ICON_BASE + "change_circle--labs-icons.svg",
-  check: ICON_BASE + "check--labs-icons.svg",
-  close: ICON_BASE + "close--labs-icons.svg",
-  comment: ICON_BASE + "comment--labs-icons.svg",
-  delete_forever: ICON_BASE + "delete_forever--labs-icons.svg",
-  edit: ICON_BASE + "edit--labs-icons.svg",
-  rate_review: ICON_BASE + "rate_review--labs-icons.svg",
-  settings: ICON_BASE + "settings--labs-icons.svg",
-  undo: ICON_BASE + "undo--labs-icons.svg",
+    add: ICON_BASE + 'add--labs-icons.svg',
+    add_comment: ICON_BASE + 'add_comment--labs-icons.svg',
+    apps: ICON_BASE + 'apps--labs-icons.svg',
+    bedtime: ICON_BASE + 'bedtime--labs-icons.svg',
+    bedtime_off: ICON_BASE + 'bedtime_off--labs-icons.svg',
+    cancel: ICON_BASE + 'cancel--labs-icons.svg',
+    change_circle: ICON_BASE + 'change_circle--labs-icons.svg',
+    check: ICON_BASE + 'check--labs-icons.svg',
+    close: ICON_BASE + 'close--labs-icons.svg',
+    comment: ICON_BASE + 'comment--labs-icons.svg',
+    delete_forever: ICON_BASE + 'delete_forever--labs-icons.svg',
+    edit: ICON_BASE + 'edit--labs-icons.svg',
+    rate_review: ICON_BASE + 'rate_review--labs-icons.svg',
+    settings: ICON_BASE + 'settings--labs-icons.svg',
+    undo: ICON_BASE + 'undo--labs-icons.svg'
 };
 
 class LabsIcon extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+  }
+
   static get observedAttributes() {
     return ["name", "style"];
   }
@@ -40,7 +46,7 @@ class LabsIcon extends HTMLElement {
     let url = icons[iconName];
 
     if (!url) {
-      this.innerHTML = "";
+      this.shadowRoot.innerHTML = "";
       return;
     }
 
@@ -72,11 +78,11 @@ class LabsIcon extends HTMLElement {
       svg = svg.replace(/fill=("|')(?!none)([^"']*)("|')/gi, 'fill="currentColor"');
       // Set width/height on SVG root
       svg = svg.replace(/<svg\b([^>]*)>/, `<svg$1 width=\"${width}\" height=\"${height}\">`);
-      this.innerHTML = svg;
+      this.shadowRoot.innerHTML = svg;
       return;
     } catch (e) {
       // Fallback to mask if fetch fails
-      this.innerHTML = `
+      this.shadowRoot.innerHTML = `
         <div style="
           width: ${width};
           height: ${height};
