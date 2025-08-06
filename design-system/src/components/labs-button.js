@@ -107,11 +107,18 @@ class LabsButton extends HTMLElement {
     const addIconColorVar = '';
     this.shadowRoot.innerHTML = `
       <style>
-        :host { display: inline-block; }
+        :host { 
+          display: inline-block; 
+          margin: 0;
+          padding: 0;
+        }
         :host([variant="container"]),
         :host([variant="container-danger"]) {
           display: block;
           width: 100%;
+          min-height: 3.5rem;
+          margin: 0;
+          padding: 0;
         }
         .labs-button {
           font-size: 1.25rem;
@@ -164,18 +171,6 @@ class LabsButton extends HTMLElement {
             }
         
         /* Remove default hover - let variants handle their own hover states */
-        
-        /* Container variants should not have default hover styles */
-        .labs-button.container:hover,
-        .labs-button.container-danger:hover {
-          background: transparent;
-          transform: none;
-        }
-        .labs-button.container:active,
-        .labs-button.container-danger:active {
-          background: transparent;
-          transform: none;
-        }
         
         .labs-button:focus-visible {
           outline: 3px solid rgb(0, 95, 204);
@@ -262,7 +257,11 @@ class LabsButton extends HTMLElement {
           color: var(--color-on-surface);
           border-radius: 0.7rem;
           width: 100%;
+          min-width: 100%;
+          height: 100%;
+          box-sizing: border-box;
           justify-content: flex-start;
+          padding: 1rem;
         }
         .labs-button.container:hover {
           background: var(--color-hover-light);
@@ -276,7 +275,11 @@ class LabsButton extends HTMLElement {
           color: var(--color-error);
           border-radius: 0.7rem;
           width: 100%;
+          min-width: 100%;
+          height: 100%;
+          box-sizing: border-box;
           justify-content: flex-start;
+          padding: 1rem;
         }
         .labs-button.container-danger:hover {
           background: var(--color-error);
@@ -286,6 +289,10 @@ class LabsButton extends HTMLElement {
           background: var(--color-error);
           color: var(--color-on-error);
           opacity: 0.85;
+        }
+        .labs-button.container-danger:hover .labs-label,
+        .labs-button.container-danger:active .labs-label {
+          color: var(--color-on-error);
         }
         
         .labs-icon {
