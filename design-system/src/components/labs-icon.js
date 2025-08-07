@@ -3,18 +3,19 @@
 // Icons are served under design-system/icons/ for local dev, icons/ for Storybook
 const ICON_BASE = (() => {
   const path = window.location.pathname;
+  const hostname = window.location.hostname;
 
-  // If we're in Storybook (iframe or main), use icons/ because of staticDirs config
+  // GitHub Pages production - always use full path
+  if (hostname === 'dreisdesign.github.io') {
+    return "/labs/design-system/icons/";
+  }
+
+  // Local Storybook development - use relative path
   if (path.includes('iframe.html') || path.includes('storybook') || window.parent !== window) {
     return "/icons/";
   }
 
-  // If we're in GitHub Pages with /labs/ prefix
-  if (path.includes("/labs/")) {
-    return "/labs/design-system/icons/";
-  }
-
-  // Default for local development
+  // Default for other local development
   return "/design-system/icons/";
 })();
 const icons = {
