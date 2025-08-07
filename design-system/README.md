@@ -1,5 +1,14 @@
 
-## 🆕 Recent Improvements - v2.0.0 Theme System Overhaul
+## 🆕 Recent Improvements - v2.1.0 Icons & Performance Overhaul
+
+- **🎯 Complete Icons Grid Rebuild:** Responsive multi-column layout with interactive size/color controls (16px-64px range)
+- **⚡ Performance Optimized:** Eliminated resize lag, smooth real-time icon scaling and color changes
+- **📱 Content-Aware Responsive:** Smart grid sizing (180px desktop → 120px mobile) with proper text wrapping
+- **🔧 Enhanced labs-icon Component:** Complete SVG rendering overhaul with attribute reactivity and direct color manipulation
+- **📚 Typography Fixed:** Replaced "tiny" font tokens (9.6px) with readable "small" tokens (14px) for icon labels
+- **🎨 Professional UX:** Production-ready icons showcase with improved visual hierarchy and modularity compliance
+
+## 🎨 Previous v2.0.0 Theme System Features
 
 - **🎨 Complete Theme System:** Functional Storybook theme switcher with `@storybook/addon-themes` and global theme management
 - **🔧 Modular Button System:** 15+ pre-configured button combinations with `createButton()` and `createIconButton()` functions  
@@ -39,7 +48,7 @@ This folder contains the Labs Design System: shared UI components, tokens, Story
 ## Components
 
 - **`labs-button`**: Comprehensive button component with variants (primary, secondary, danger, transparent, container, icon), icon support, checkmark animations, and theme integration
-- **`labs-icon`**: SVG icon component with design token color support and accessibility features  
+- **`labs-icon`**: High-performance SVG icon component with real-time scaling (16px-64px), interactive color controls, responsive grid layout, and optimized attribute reactivity  
 - **`labs-settings-overlay`**: Modular settings modal overlay as a custom element with container button integration
 
 ### Button System:

@@ -101,10 +101,18 @@ const customSave = createButton('save', {
 
 ### labs-icon
 **Features:**
-- SVG icon rendering
-- Design token color integration
-- Accessibility attributes
-- Consistent sizing
+- **High-Performance SVG Rendering:** Direct SVG manipulation with optimized attribute reactivity
+- **Interactive Scaling:** Real-time size control (16px-64px) without performance lag
+- **Dynamic Color System:** Instant color changes with proper CSS token integration
+- **Responsive Grid Layout:** Content-aware multi-column display (180px → 120px responsive)
+- **Smart Typography:** Uses proper font size tokens (14px) instead of "tiny" (9.6px) for readability
+- **Modular Architecture:** Self-contained shadow DOM with CSS custom properties and fallbacks
+
+**New v2.1.0 Capabilities:**
+- **Attribute Observation:** Width, height, color attributes trigger immediate re-rendering
+- **SVG Processing:** Direct fill attribute replacement for reliable color control
+- **Text Wrapping:** Smart code snippet wrapping that breaks at natural word boundaries
+- **Performance Optimized:** Removed debug logging for smooth interactions
 
 ### labs-settings-overlay
 **Features:**

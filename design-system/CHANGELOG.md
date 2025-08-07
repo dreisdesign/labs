@@ -1,5 +1,38 @@
 # Labs Design System Changelog
 
+## [v2.1.0] - 2025-08-06 - Icons Grid & Component Performance Overhaul
+
+### 🎯 Major Icons System Improvements
+- **Complete Icons Grid Rebuild:** From scratch responsive multi-column layout using CSS Grid
+- **Fixed Icon Scaling:** Icons now properly resize with interactive size controls (16px-64px range)
+- **Enhanced labs-icon Component:** Complete SVG rendering overhaul with proper attribute reactivity
+- **Performance Optimization:** Removed debug logging that caused resize lag, now smooth interactions
+
+### 📱 Responsive Design Excellence  
+- **Content-Aware Grid:** Uses `auto-fit` with intelligent minimum widths (180px desktop, 140px tablet, 120px mobile)
+- **Typography Fixes:** Replaced "tiny" font tokens (9.6px) with proper "small" tokens (14px) for readability
+- **Smart Text Wrapping:** Fixed code snippets breaking inappropriately, now breaks at natural word boundaries
+- **Progressive Enhancement:** Optimal column counts across all screen sizes
+
+### 🔧 Technical Architecture
+- **SVG Processing:** Direct color/size attribute replacement for reliable rendering
+- **Attribute Observation:** Added width, height, color to observedAttributes for real-time updates
+- **Storybook Organization:** Resolved import conflicts, clean story structure
+- **Modularity Compliance:** Self-contained shadow DOM styling, CSS custom properties with fallbacks
+
+### 🎨 User Experience Enhancements
+- **Interactive Controls:** Size and color sliders work immediately without lag
+- **Improved Visual Hierarchy:** Better spacing, hover effects, and card proportions  
+- **Enhanced Readability:** Icon names and usage code now clearly visible at appropriate sizes
+- **Professional Layout:** Production-ready component showcase following design system guidelines
+
+### 📊 Performance Metrics
+- **Files Changed:** 24 files with 1,789 insertions and 741 deletions
+- **Grid Performance:** Eliminated resize lag through optimized rendering pipeline
+- **Component Efficiency:** Streamlined SVG manipulation for faster icon loading
+
+---
+
 ## [v2.0.0] - 2025-08-05 - Complete Theme System Overhaul
 
 ### ✨ Major Features
