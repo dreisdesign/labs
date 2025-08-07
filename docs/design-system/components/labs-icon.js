@@ -14,7 +14,9 @@ const icons = {
     change_circle: ICON_BASE + 'change_circle--labs-icons.svg',
     check: ICON_BASE + 'check--labs-icons.svg',
     close: ICON_BASE + 'close--labs-icons.svg',
+    code: ICON_BASE + 'code--labs-icons.svg',
     comment: ICON_BASE + 'comment--labs-icons.svg',
+    content_copy: ICON_BASE + 'content_copy--labs-icons.svg',
     delete_forever: ICON_BASE + 'delete_forever--labs-icons.svg',
     edit: ICON_BASE + 'edit--labs-icons.svg',
     rate_review: ICON_BASE + 'rate_review--labs-icons.svg',
@@ -29,7 +31,7 @@ class LabsIcon extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ["name", "style"];
+    return ["name", "width", "height", "color", "style"];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -51,8 +53,8 @@ class LabsIcon extends HTMLElement {
     }
 
     const style = window.getComputedStyle(this);
-    const width = this.getAttribute("width") || style.width || "24px";
-    const height = this.getAttribute("height") || style.height || "24px";
+    const width = this.getAttribute("width") ? this.getAttribute("width") + "px" : style.width || "24px";
+    const height = this.getAttribute("height") ? this.getAttribute("height") + "px" : style.height || "24px";
     // Always resolve color to a real value (not a CSS variable or currentColor)
     let color = this.getAttribute("color") || "#000";
     // If color is a CSS variable (token), resolve it to a real value
@@ -74,10 +76,15 @@ class LabsIcon extends HTMLElement {
       const response = await fetch(url);
       if (!response.ok) throw new Error("SVG fetch failed");
       let svg = await response.text();
-      // Replace all fill attributes (except fill="none") with fill="currentColor"
-      svg = svg.replace(/fill=("|')(?!none)([^"']*)("|')/gi, 'fill="currentColor"');
-      // Set width/height on SVG root
-      svg = svg.replace(/<svg\b([^>]*)>/, `<svg$1 width=\"${width}\" height=\"${height}\">`);
+
+      // Simple approach: just set the color directly on fill attributes
+      svg = svg.replace(/fill="#[^"]*"/gi, `fill="${color}"`);
+      svg = svg.replace(/fill='#[^']*'/gi, `fill='${color}'`);
+
+      // Set width and height
+      svg = svg.replace(/width="[^"]*"/gi, `width="${width}"`);
+      svg = svg.replace(/height="[^"]*"/gi, `height="${height}"`);
+
       this.shadowRoot.innerHTML = svg;
       return;
     } catch (e) {
