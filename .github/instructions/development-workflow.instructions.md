@@ -13,8 +13,13 @@ applyTo: '**'
 # Interactive menu with all options
 npm run menu
 
+# Then select:
 # Option 1: Local Storybook development
 # Option 2: Build and deploy to GitHub Pages
+
+# Or use direct menu commands:
+echo "1" | npm run menu    # Start local development
+echo "2" | npm run menu    # Build and deploy to production
 ```
 
 ### **Direct Commands (Available as fallback)**
@@ -74,6 +79,7 @@ npm run deploy
 
 ### **Command Preferences**
 - **Use menu system** - `npm run menu` for all Storybook operations
+- **Direct menu commands** - Use `echo "1" | npm run menu` for local dev, `echo "2" | npm run menu` for deployment
 - **Avoid new terminals** - Use existing sessions when possible
 - **Reference documentation** - Use main README and design system docs for project overview
 
