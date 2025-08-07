@@ -7,6 +7,12 @@ const ICON_BASE = (() => {
 
   console.log('🔍 Icon path debug:', { path, hostname, href: window.location.href });
 
+  // Force GitHub Pages path for now to test
+  if (hostname === 'dreisdesign.github.io') {
+    console.log('🚀 Force using GitHub Pages path: /labs/design-system/icons/');
+    return "/labs/design-system/icons/";
+  }
+
   // If we're in GitHub Pages with /labs/ prefix (check this first!)
   if (path.includes("/labs/")) {
     console.log('✅ Using GitHub Pages path: /labs/design-system/icons/');
