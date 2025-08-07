@@ -40,6 +40,11 @@ npm run deploy
 /Users/danielreis/labs/          # Project root (start here)
 ├── design-system/               # Labs Design System v2.1.0
 │   ├── src/                    # Components, tokens, stories
+│   │   ├── components/         # Web component source files
+│   │   ├── stories/            # Storybook story files (.stories.js)
+│   │   ├── tokens/             # Design token configurations
+│   │   ├── styles/             # CSS and style files
+│   │   └── Tokens.*.stories.js # Token documentation stories (stay in src/)
 │   ├── .storybook/             # Storybook configuration
 │   └── storybook-static/       # Generated production build
 ├── docs/                       # GitHub Pages deployment
@@ -47,6 +52,12 @@ npm run deploy
 │   ├── timer/, tracker/, etc.  # Deployed apps
 └── scripts/                    # Build and deployment automation
 ```
+
+### **⚠️ Important File Organization Rules:**
+- **Token stories** (`Tokens.*.stories.js`) must stay in `design-system/src/` (NOT `src/stories/`)
+- **Component stories** go in `design-system/src/stories/`
+- **Never move files from `src/`** without understanding the Storybook configuration
+- **Story pattern**: `../src/**/*.stories.@(js|jsx|mjs|ts|tsx)` finds all story files
 
 ## 🔧 **Enhanced Build System**
 
@@ -67,7 +78,7 @@ npm run deploy
 - **[📖 Main README](../../README.md)** - Project overview and index
 - **[📋 Global Changelog](../../CHANGELOG.md)** - Project milestones
 - **[🎨 Design System README](../../design-system/README.md)** - Component docs
-- **[📋 Storybook Improvements](../../design-system/STORYBOOK_IMPROVEMENTS.md)** - Current UI priorities
+- **[📋 Design System Features](../../design-system/FEATURES.md)** - Component API and features
 
 ### **Documentation Principles**
 - **One README per project** - Single source of truth
