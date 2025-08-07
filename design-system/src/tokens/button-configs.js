@@ -59,15 +59,15 @@ export const buttonConfigs = {
   },
 
   settings: {
-    icon: "settings", // Changed from iconRight to icon for icon-only
-    variant: "icon", // Changed to icon variant for truly icon-only
+    label: "Settings",
+    icon: "settings",
+    variant: "transparent",
     iconcolor: "var(--color-on-surface)",
-    "aria-label": "Settings", // Added for accessibility
   },
 
-  allApps: {
+  apps: {
     label: "All Apps",
-    icon: "settings", // Using settings icon until we add a proper apps/grid icon
+    icon: "apps",
     variant: "transparent",
     iconcolor: "var(--color-on-surface)",
   },
@@ -93,9 +93,9 @@ export const buttonConfigs = {
     iconcolor: "var(--color-primary-75)",
   },
 
-  allAppsContainer: {
+  appsContainer: {
     label: "All Apps",
-    icon: "settings", // Using settings icon until we add a proper apps/grid icon
+    icon: "apps",
     variant: "container",
     description: "Full-width container button for overlay/panel use",
     iconcolor: "var(--color-primary-75)",
@@ -169,8 +169,8 @@ export const iconOnlyButtons = {
     "aria-label": "Settings", // Accessibility
   },
 
-  allAppsIcon: {
-    icon: "settings", // Using settings icon until we add a proper apps/grid icon
+  appsIcon: {
+    icon: "apps",
     variant: "icon",
     iconcolor: "var(--color-on-surface)",
     "aria-label": "All Apps",

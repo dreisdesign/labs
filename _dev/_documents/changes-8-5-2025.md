@@ -15,7 +15,7 @@ Is there a more common / modern, better way to organize the sidebar?
 3. Tokens / Spacing http://localhost:6006/?path=/story/tokens-spacing--spacing
 - Is there a more common / modern , better way to showcase Spacing tokens?
 
-4. Tokens / Button Configs / Usage Guide http://localhost:6006/?path=/story/tokens-button-configs--usage
+4. Components / Button / Button Shop http://localhost:6006/?path=/story/components-labs-button--button-shop
 Destructive Actions:
 -  Reset All Data should be red and then red with white text on hover
 

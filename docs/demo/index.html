@@ -1,27 +1,84 @@
-<!-- Test 1142am-->
 <!doctype html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Labs Design System Demo</title>
+  <title>Labs Design System v2.0 - Full Demo</title>
   <link rel="icon" href="/labs/design-system/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="/labs/design-system/main.css" />
   <style>
     body {
-      margin: 20px;
-    }
-
-    #button-demo-debug {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: flex-start;
-      gap: 0.75em 1em;
-    }
-
-    #button-demo-debug labs-button {
       margin: 0;
+      padding: 2rem;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .demo-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .demo-section {
+      margin-bottom: 3rem;
+    }
+
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      padding: 1.5rem;
+      background: var(--color-surface);
+      border-radius: 12px;
+      border: 1px solid var(--color-primary-25);
+    }
+
+    .demo-grid-large {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .demo-card {
+      padding: 1.5rem;
+      background: var(--color-surface);
+      border-radius: 12px;
+      border: 1px solid var(--color-primary-25);
+    }
+
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .button-group-horizontal {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      color: var(--color-on-background);
+      margin-top: 0;
+    }
+
+    p {
+      color: var(--color-on-background);
+      opacity: 0.8;
+      line-height: 1.6;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
     }
   </style>
   <script type="module" src="/labs/design-system/components/labs-button.js"></script>
@@ -29,40 +86,184 @@
   <script type="module" src="/labs/design-system/components/labs-settings-overlay.js"></script>
 </head>
 
-
 <body class="theme-light" style="background: var(--color-background);">
-  <h1>Labs Design System Demo</h1>
-  <div id="button-demo-debug" style="padding-right: 1em">
-    <labs-settings-overlay></labs-settings-overlay>
-    <!-- All pre-configured buttons from buttonConfigs.js for 1:1 demo/Storybook match -->
-    <labs-button label="Add" icon="add" variant="primary" checkmark iconcolor="var(--color-on-primary)"></labs-button>
-    <labs-button label="Save" icon="check" variant="primary" checkmark
-      iconcolor="var(--color-on-primary)"></labs-button>
-    <labs-button label="Edit" icon="edit" variant="secondary" iconcolor="var(--color-on-surface)"></labs-button>
-    <labs-button label="Undo" icon="undo" variant="secondary" iconcolor="var(--color-on-surface)"></labs-button>
-    <labs-button label="Delete" icon="delete_forever" variant="danger" iconcolor="var(--color-on-error)"></labs-button>
-    <labs-button label="Delete" icon="delete_forever" variant="transparent" class="button-delete-subtle"
-      iconcolor="var(--color-on-surface)"></labs-button>
-    <labs-button label="Reset All Data" icon="delete_forever" variant="transparent" class="button-delete-subtle"
-      iconcolor="var(--color-on-surface)"></labs-button>
-    <labs-button label="Close" icon="close" variant="transparent" iconcolor="var(--color-on-surface)"></labs-button>
-    <labs-button label="Settings" icon-right="settings" variant="transparent"
-      iconcolor="var(--color-on-surface)"></labs-button>
-    <labs-button label="All Apps" icon="settings" variant="transparent"
-      iconcolor="var(--color-on-surface)"></labs-button>
-    <labs-button label="Toggle Theme" icon="bedtime" variant="transparent"
-      iconcolor="var(--color-on-surface)"></labs-button>
-    <labs-button label="Turn on dark mode" icon="bedtime" variant="transparent"
-      iconcolor="var(--color-on-surface)"></labs-button>
-    <labs-button label="Settings" icon-right="settings" variant="container"
-      iconcolor="var(--color-primary-75)"></labs-button>
-    <labs-button label="All Apps" icon="settings" variant="container" iconcolor="var(--color-primary-75)"></labs-button>
-    <labs-button label="Turn on dark mode" icon="bedtime" variant="container"
-      iconcolor="var(--color-primary-75)"></labs-button>
-    <labs-button label="Reset All Data" icon="delete_forever" variant="container-danger"
-      iconcolor="var(--color-error)"></labs-button>
-    <labs-button label="Add Comment" icon="add_comment" variant="secondary"
-      iconcolor="var(--color-on-surface)"></labs-button>
+  <div class="demo-container">
+    <!-- Header -->
+    <div class="demo-section text-center">
+      <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem;">
+        Labs Design System v2.0
+      </h1>
+      <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+        Complete modular design system with theme support, pre-configured components, and self-contained styling
+      </p>
+      <labs-settings-overlay></labs-settings-overlay>
+    </div>
+
+    <!-- Button Variants Overview -->
+    <div class="demo-section">
+      <h2 style="font-size: 1.8rem; margin-bottom: 2rem;">Button Variants Overview</h2>
+
+      <!-- Standard Variants -->
+      <div class="demo-section">
+        <h3 style="font-size: 1.3rem; margin-bottom: 1rem;">Standard Variants</h3>
+        <div class="demo-grid">
+          <labs-button label="Primary" variant="primary"></labs-button>
+          <labs-button label="Secondary" variant="secondary"></labs-button>
+          <labs-button label="Success" variant="success"></labs-button>
+          <labs-button label="Danger" variant="danger"></labs-button>
+          <labs-button label="Transparent" variant="transparent"></labs-button>
+        </div>
+      </div>
+
+      <!-- Icon Combinations -->
+      <div class="demo-section">
+        <h3 style="font-size: 1.3rem; margin-bottom: 1rem;">Icon Combinations</h3>
+        <div class="demo-grid">
+          <labs-button label="Add Comment" icon="add_comment" variant="primary"></labs-button>
+          <labs-button label="Settings" icon-right="settings" variant="secondary"></labs-button>
+          <labs-button label="Edit Note" icon="edit" icon-right="rate_review" variant="transparent"></labs-button>
+          <labs-button label="Delete" icon="delete_forever" variant="danger"></labs-button>
+          <labs-button label="Check Task" icon="check" variant="success" checkmark></labs-button>
+        </div>
+      </div>
+
+      <!-- Container Variants -->
+      <div class="demo-section">
+        <h3 style="font-size: 1.3rem; margin-bottom: 1rem;">Container Variants (for overlays/panels)</h3>
+        <div class="demo-grid demo-grid-large">
+          <div class="demo-card">
+            <h4 style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--color-on-surface);">Regular Container</h4>
+            <div class="button-group">
+              <labs-button label="All Apps" icon="apps" variant="container"></labs-button>
+              <labs-button label="Dark Mode" icon="bedtime" variant="container"></labs-button>
+              <labs-button label="Settings" icon-right="settings" variant="container"></labs-button>
+            </div>
+          </div>
+          <div class="demo-card">
+            <h4 style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--color-on-surface);">Danger Container</h4>
+            <div class="button-group">
+              <labs-button label="Reset All Data" icon="delete_forever" variant="container-danger"></labs-button>
+              <labs-button label="Clear History" icon="cancel" variant="container-danger"></labs-button>
+              <labs-button label="Remove Account" icon="close" variant="container-danger"></labs-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pre-Configured Components -->
+    <div class="demo-section">
+      <h2 style="font-size: 1.8rem; margin-bottom: 1rem;">Pre-Configured Button Components</h2>
+      <p style="margin-bottom: 2rem;">
+        Ready-to-use button configurations for common patterns. These match the button-configs.js tokens.
+      </p>
+
+      <div class="demo-grid demo-grid-large">
+        <div class="demo-card">
+          <h4 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--color-on-surface);">Common Actions</h4>
+          <p style="font-size: 0.875rem; margin-bottom: 1.5rem;">Standard app actions with consistent styling</p>
+          <div class="button-group-horizontal">
+            <labs-button label="Add" icon="add" variant="primary" checkmark
+              iconcolor="var(--color-on-primary)"></labs-button>
+            <labs-button label="Save" icon="check" variant="primary" checkmark
+              iconcolor="var(--color-on-primary)"></labs-button>
+            <labs-button label="Edit" icon="edit" variant="secondary" iconcolor="var(--color-on-surface)"></labs-button>
+            <labs-button label="Undo" icon="undo" variant="secondary" iconcolor="var(--color-on-surface)"></labs-button>
+          </div>
+        </div>
+
+        <div class="demo-card">
+          <h4 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--color-on-surface);">Destructive Actions</h4>
+          <p style="font-size: 0.875rem; margin-bottom: 1.5rem;">High-impact actions requiring confirmation</p>
+          <div class="button-group-horizontal">
+            <labs-button label="Delete" icon="delete_forever" variant="danger"
+              iconcolor="var(--color-on-error)"></labs-button>
+            <labs-button label="Reset All Data" icon="delete_forever" variant="danger"
+              iconcolor="var(--color-on-error)"></labs-button>
+          </div>
+        </div>
+
+        <div class="demo-card">
+          <h4 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--color-on-surface);">UI Navigation</h4>
+          <p style="font-size: 0.875rem; margin-bottom: 1.5rem;">Interface controls and navigation elements</p>
+          <div class="button-group-horizontal">
+            <labs-button label="Close" icon="close" variant="transparent"
+              iconcolor="var(--color-on-surface)"></labs-button>
+            <labs-button label="Settings" icon="settings" variant="transparent"
+              iconcolor="var(--color-on-surface)"></labs-button>
+            <labs-button label="All Apps" icon="apps" variant="transparent"
+              iconcolor="var(--color-on-surface)"></labs-button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive States -->
+    <div class="demo-section">
+      <h2 style="font-size: 1.8rem; margin-bottom: 1rem;">Interactive States</h2>
+      <div class="demo-grid">
+        <labs-button label="Click for Success" icon="check" variant="primary" checkmark></labs-button>
+        <labs-button label="Hover Effect" icon="change_circle" variant="secondary"></labs-button>
+        <labs-button label="Icon Animation" icon="rate_review" variant="transparent"></labs-button>
+        <labs-button label="Success State" icon="check" variant="success" checkmark></labs-button>
+      </div>
+      <p style="margin-top: 1rem; font-size: 0.875rem; opacity: 0.7;">
+        Buttons with checkmark attribute will show a success animation when clicked.
+      </p>
+    </div>
+
+    <!-- Key Features -->
+    <div class="demo-section">
+      <h2 style="font-size: 1.8rem; margin-bottom: 2rem;">Key Features & Benefits</h2>
+      <div class="features-grid">
+        <div class="demo-card">
+          <h4 style="color: var(--color-primary); font-size: 1.2rem; margin-bottom: 1rem;">🎯 Modularity First</h4>
+          <p style="margin: 0; opacity: 0.9;">
+            Every component is fully self-contained with shadow DOM encapsulation. No external CSS dependencies.
+          </p>
+        </div>
+        <div class="demo-card">
+          <h4 style="color: var(--color-primary); font-size: 1.2rem; margin-bottom: 1rem;">🎨 Theming Ready</h4>
+          <p style="margin: 0; opacity: 0.9;">
+            Built-in dark/light mode support with CSS custom properties for complete customization.
+          </p>
+        </div>
+        <div class="demo-card">
+          <h4 style="color: var(--color-primary); font-size: 1.2rem; margin-bottom: 1rem;">⚡ Performance</h4>
+          <p style="margin: 0; opacity: 0.9;">
+            Lightweight, native web components with efficient icon system and minimal footprint.
+          </p>
+        </div>
+        <div class="demo-card">
+          <h4 style="color: var(--color-primary); font-size: 1.2rem; margin-bottom: 1rem;">🔧 Developer Experience</h4>
+          <p style="margin: 0; opacity: 0.9;">
+            Pre-configured components, comprehensive documentation, and consistent patterns across all elements.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Usage Guidelines -->
+    <div class="demo-card">
+      <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">Usage Guidelines</h2>
+      <div
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; font-size: 0.875rem;">
+        <div>
+          <strong style="color: var(--color-primary); font-size: 1rem;">Primary:</strong> Main actions, form
+          submissions<br>
+          <strong style="color: var(--color-secondary); font-size: 1rem;">Secondary:</strong> Secondary actions, cancel
+          buttons<br>
+          <strong style="color: var(--color-success); font-size: 1rem;">Success:</strong> Confirmation actions, positive
+          states
+        </div>
+        <div>
+          <strong style="color: var(--color-error); font-size: 1rem;">Danger:</strong> Destructive actions, delete
+          operations<br>
+          <strong style="font-size: 1rem;">Transparent:</strong> Subtle actions, menu items<br>
+          <strong style="font-size: 1rem;">Container:</strong> Panel/overlay buttons with full-width hover
+        </div>
+      </div>
+    </div>
   </div>
 
   <script type="module">

@@ -33,14 +33,16 @@ const preview = {
 
       storySort: {
         order: [
-          "Patterns",
-          ["Demo Page"],
+          "Welcome",
+          ["System Overview"],
           "Tokens",
-          ["Colors", "Typography", "Spacing", "Button Configs"],
+          ["Colors", "Typography", "Spacing"],
           "Icons",
           ["Default", "Preview"],
           "Components",
           ["Button"],
+          "Patterns",
+          ["Settings Overlay"],
         ],
       },
     },

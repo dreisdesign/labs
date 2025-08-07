@@ -251,6 +251,29 @@ class LabsButton extends HTMLElement {
           display: none; /* Hide label in icon variant */
         }
         
+        /* Transparent icon variant - for hover actions and minimal icons */
+        .labs-button.icon-transparent {
+          background: transparent !important;
+          border: none;
+          padding: 0;
+          min-width: auto;
+          min-height: auto;
+          width: auto;
+          height: auto;
+          border-radius: 0;
+        }
+        .labs-button.icon-transparent:hover {
+          background: transparent !important;
+          transform: none;
+        }
+        .labs-button.icon-transparent:active {
+          background: transparent !important;
+          transform: none;
+        }
+        .labs-button.icon-transparent .labs-label {
+          display: none; /* Hide label in icon variant */
+        }
+        
         /* Container variants for overlay use */
         .labs-button.container {
           background: transparent;
@@ -261,7 +284,7 @@ class LabsButton extends HTMLElement {
           height: 100%;
           box-sizing: border-box;
           justify-content: flex-start;
-          padding: 1rem;
+          padding: 1.25rem;
         }
         .labs-button.container:hover {
           background: var(--color-hover-light);
@@ -279,7 +302,7 @@ class LabsButton extends HTMLElement {
           height: 100%;
           box-sizing: border-box;
           justify-content: flex-start;
-          padding: 1rem;
+          padding: 1.25rem;
         }
         .labs-button.container-danger:hover {
           background: var(--color-error);
