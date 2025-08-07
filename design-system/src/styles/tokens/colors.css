@@ -47,6 +47,10 @@
   /* Hover color tokens */
   --color-hover-light: rgba(0, 0, 0, 0.05);
   --color-hover-medium: rgba(0, 0, 0, 0.1);
+
+  /* Glass/glassmorphism tokens */
+  --color-surface-glass: rgba(255, 255, 255, 0.15);
+  --color-border-glass: rgba(255, 255, 255, 0.5);
 }
 
 .theme-dark {
@@ -69,4 +73,8 @@
   /* Dark theme hover color tokens */
   --color-hover-light: rgba(255, 255, 255, 0.05);
   --color-hover-medium: rgba(255, 255, 255, 0.1);
+
+  /* Glass/glassmorphism tokens for dark theme */
+  --color-surface-glass: rgba(30, 30, 30, 0.15);
+  --color-border-glass: rgba(255, 255, 255, 0.2);
 }
