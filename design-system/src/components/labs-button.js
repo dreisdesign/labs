@@ -19,12 +19,37 @@ class LabsButton extends HTMLElement {
     this.shadowRoot
       .querySelector("button")
       .addEventListener("click", this.handleClick);
+
+    // Listen for theme changes to re-render when CSS variables change
+    this.themeObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' &&
+          (mutation.attributeName === 'class' &&
+            (mutation.target.classList.contains('theme-dark') ||
+              mutation.target.classList.contains('theme-light')))) {
+          // Theme changed, re-render to update CSS variable resolution
+          this.render();
+        }
+      });
+    });
+
+    // Watch for class changes on body (where theme classes are applied)
+    this.themeObserver.observe(document.body, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
   }
 
   disconnectedCallback() {
-    this.shadowRoot
-      .querySelector("button")
-      .removeEventListener("click", this.handleClick);
+    const button = this.shadowRoot.querySelector("button");
+    if (button) {
+      button.removeEventListener("click", this.handleClick);
+    }
+
+    // Clean up theme observer
+    if (this.themeObserver) {
+      this.themeObserver.disconnect();
+    }
   }
 
   attributeChangedCallback() {
