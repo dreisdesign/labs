@@ -5,28 +5,17 @@ const ICON_BASE = (() => {
   const path = window.location.pathname;
   const hostname = window.location.hostname;
 
-  console.log('🔍 Icon path debug:', { path, hostname, href: window.location.href });
-
-  // Force GitHub Pages path for now to test
+  // GitHub Pages production - always use full path
   if (hostname === 'dreisdesign.github.io') {
-    console.log('🚀 Force using GitHub Pages path: /labs/design-system/icons/');
     return "/labs/design-system/icons/";
   }
 
-  // If we're in GitHub Pages with /labs/ prefix (check this first!)
-  if (path.includes("/labs/")) {
-    console.log('✅ Using GitHub Pages path: /labs/design-system/icons/');
-    return "/labs/design-system/icons/";
-  }
-
-  // If we're in local Storybook (iframe or main), use icons/ because of staticDirs config
+  // Local Storybook development - use relative path
   if (path.includes('iframe.html') || path.includes('storybook') || window.parent !== window) {
-    console.log('🏠 Using local Storybook path: /icons/');
     return "/icons/";
   }
 
-  // Default for local development
-  console.log('🔧 Using default dev path: /design-system/icons/');
+  // Default for other local development
   return "/design-system/icons/";
 })();
 const icons = {
