@@ -75,7 +75,7 @@ npm run deploy
 ### **Command Preferences**
 - **Use menu system** - `npm run menu` for all Storybook operations
 - **Avoid new terminals** - Use existing sessions when possible
-- **Reference documentation** - Use `#file:README.md` for project overview
+- **Reference documentation** - Use main README and design system docs for project overview
 
 ### **Development Workflow**
 1. **Start from project root** - `/Users/danielreis/labs/`
