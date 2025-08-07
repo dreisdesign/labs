@@ -105,9 +105,9 @@ npm run build-storybook    # Build for deployment
 - [Global Monorepo README](../README.md)
 - [Labs Storybook (Live)](https://dreisdesign.github.io/labs/design-system/)
 - [Design System Changelog](CHANGELOG.md)
-- [Modularity Guidelines](MODULARITY-GUIDELINES.md) 📋 **Component Development Standards**
-- [Changelog & Roadmap](../docs/CHANGELOG.md)
-- [Migration Guide](../_dev/_documents/DESIGN-SYSTEM-MIGRATION-GUIDE.md)
+- [Theme Implementation Guide](THEME_IMPLEMENTATION.md) 🎨 **Complete theme system documentation**
+- [Storybook Improvements](STORYBOOK_IMPROVEMENTS.md) 🔧 **UI enhancement tasks**
+- [Modularity Guidelines](../.github/instructions/Modularity.instructions.md) 📋 **Component development standards**
 
 ## Troubleshooting: SVG Icon MIME Type Error
 
