@@ -4,14 +4,14 @@
 const ICON_BASE = (() => {
   const path = window.location.pathname;
 
-  // If we're in Storybook (iframe or main), use icons/ because of staticDirs config
-  if (path.includes('iframe.html') || path.includes('storybook') || window.parent !== window) {
-    return "/icons/";
-  }
-
-  // If we're in GitHub Pages with /labs/ prefix
+  // If we're in GitHub Pages with /labs/ prefix (check this first!)
   if (path.includes("/labs/")) {
     return "/labs/design-system/icons/";
+  }
+
+  // If we're in local Storybook (iframe or main), use icons/ because of staticDirs config
+  if (path.includes('iframe.html') || path.includes('storybook') || window.parent !== window) {
+    return "/icons/";
   }
 
   // Default for local development
