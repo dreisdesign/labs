@@ -62,7 +62,7 @@ npm run deploy
 - **[📖 Main README](../../README.md)** - Project overview and index
 - **[📋 Global Changelog](../../CHANGELOG.md)** - Project milestones
 - **[🎨 Design System README](../../design-system/README.md)** - Component docs
-- **[📋 Active Tasks](_dev/_documents/ACTIVE_TASKS.md)** - Current priorities
+- **[📋 Storybook Improvements](../../design-system/STORYBOOK_IMPROVEMENTS.md)** - Current UI priorities
 
 ### **Documentation Principles**
 - **One README per project** - Single source of truth
