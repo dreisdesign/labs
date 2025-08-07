@@ -1,9 +1,22 @@
 // Dynamic icon loading - Vite-friendly approach
 // Use the correct base path for both local dev and GitHub Pages
-// Icons are served under icons/ in both environments
-const ICON_BASE = window.location.pathname.includes("/labs/")
-  ? "/labs/design-system/icons/"
-  : "icons/";
+// Icons are served under design-system/icons/ for local dev, icons/ for Storybook
+const ICON_BASE = (() => {
+  const path = window.location.pathname;
+
+  // If we're in Storybook (iframe or main), use icons/ because of staticDirs config
+  if (path.includes('iframe.html') || path.includes('storybook') || window.parent !== window) {
+    return "/icons/";
+  }
+
+  // If we're in GitHub Pages with /labs/ prefix
+  if (path.includes("/labs/")) {
+    return "/labs/design-system/icons/";
+  }
+
+  // Default for local development
+  return "/design-system/icons/";
+})();
 const icons = {
     add: ICON_BASE + 'add--labs-icons.svg',
     add_comment: ICON_BASE + 'add_comment--labs-icons.svg',
@@ -40,6 +53,32 @@ class LabsIcon extends HTMLElement {
 
   connectedCallback() {
     this.render();
+
+    // Listen for theme changes to re-render when CSS variables change
+    this.themeObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' &&
+          (mutation.attributeName === 'class' &&
+            (mutation.target.classList.contains('theme-dark') ||
+              mutation.target.classList.contains('theme-light')))) {
+          // Theme changed, re-render to update CSS variable resolution
+          this.render();
+        }
+      });
+    });
+
+    // Watch for class changes on body (where theme classes are applied)
+    this.themeObserver.observe(document.body, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+  }
+
+  disconnectedCallback() {
+    // Clean up theme observer
+    if (this.themeObserver) {
+      this.themeObserver.disconnect();
+    }
   }
 
   async render() {
