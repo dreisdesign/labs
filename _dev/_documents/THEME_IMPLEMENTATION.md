@@ -39,15 +39,43 @@
 - ✅ Configured theme switcher in `.storybook/preview.js`
 - ✅ Theme toolbar now available in all stories
 
+### 4. Modular Theme Toggle Implementation (August 7, 2025)
+
+#### Problem Solved
+- Initial standalone `labs-theme-toggle` component had event propagation issues
+- Theme toggle clicks were not firing in Settings Overlay patterns
+- Build errors from incomplete component cleanup
+
+#### Solution: Function-Based Architecture
+- ✅ Switched to function-based theme toggle using `button-configs.js`
+- ✅ Uses `createButtonElement("themeToggleContainer")` + `setupThemeToggle()`
+- ✅ Pattern matches production site implementation
+- ✅ Theme toggle now working in both Footer and Settings Overlay patterns
+
+#### Implementation Details
+- **File**: `/design-system/src/components/labs-settings-overlay.js`
+- **Method**: Uses `createButtonElement()` in render() method
+- **Event Handling**: `setupThemeToggle()` manages theme switching
+- **Text Labels**: "Dark Theme" / "Light Theme" (matches production)
+- **Icons**: `moon` / `sun` (consistent with production pattern)
+
+#### Cleanup Completed
+- ✅ Removed unused `labs-theme-toggle.js` component
+- ✅ Removed empty `labs-theme-toggle.stories.js` file
+- ✅ Fixed Storybook build errors
+- ✅ Verified no lingering references in codebase
+
 ## 🎯 Current Status
 
 Your design system now has:
 
 1. **Complete theme switching** - Users can toggle between light and dark themes
-2. **Storybook theme support** - Theme switcher in the toolbar works across all components
+2. **Storybook theme support** - Theme switcher in the toolbar works across all components  
 3. **Persistent preferences** - Theme choice is saved and restored
 4. **System integration** - Respects user's OS theme preference by default
 5. **Consistent naming** - All grid stories follow the same pattern
+6. **Modular theme toggle** - Function-based pattern working in all UI patterns
+7. **Clean build process** - Storybook builds without errors
 
 ## 🚀 Next Steps (Optional Enhancements)
 

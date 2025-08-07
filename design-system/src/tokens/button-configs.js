@@ -297,8 +297,8 @@ export function updateThemeToggleButton(button, isDarkMode) {
   button.setAttribute("icon", isDarkMode ? "bedtime_off" : "bedtime");
   // Update label based on current state  
   button.setAttribute("label", isDarkMode ? "Turn off dark mode" : "Turn on dark mode");
-  // Keep consistent iconcolor
-  button.setAttribute("iconcolor", "var(--color-on-surface)");
+  // Keep consistent iconcolor with other container buttons
+  button.setAttribute("iconcolor", "var(--color-primary-75)");
 }
 
 /**
@@ -388,3 +388,6 @@ export function setupThemeToggle(button, onThemeChange) {
   // Return toggle function for manual use
   return toggleTheme;
 }
+
+// Make setupThemeToggle available globally for components
+window.setupThemeToggle = setupThemeToggle;
