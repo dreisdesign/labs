@@ -6,9 +6,11 @@
   "scripts": {
     "generate-icons-list": "node ../scripts/generate-icons-list.mjs",
     "prestorybook": "npm run generate-icons-list",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "bash scripts/start-storybook.sh",
+    "storybook-original": "storybook dev -p 6006",
     "prebuild-storybook": "npm run generate-icons-list",
-    "build-storybook": "storybook build",
+    "build-storybook": "bash scripts/build-storybook.sh",
+    "build-storybook-original": "storybook build",
     "build": "node ../scripts/update-static-paths.js --public",
     "public": "node ../scripts/update-static-paths.js --public",
     "local": "node scripts/open-storybook-local.js",

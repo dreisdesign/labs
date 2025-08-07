@@ -20,14 +20,15 @@ const preview = {
       disable: true,
     },
 
-    // Configure Storybook interface
-    options: {
-      // Light theme for Storybook interface
-      theme: {
-        base: 'light',
-        brandTitle: 'Labs Design System',
-      },
+    a11y: {
+      // 'todo' - show a11y violations in the test UI only
+      // 'error' - fail CI on a11y violations
+      // 'off' - skip a11y checks entirely
+      test: "todo",
+    },
 
+    // Configure Storybook interface options
+    options: {
       // Controls panel on the right
       panelPosition: 'right',
 
@@ -45,13 +46,6 @@ const preview = {
           ["Settings Overlay"],
         ],
       },
-    },
-
-    a11y: {
-      // 'todo' - show a11y violations in the test UI only
-      // 'error' - fail CI on a11y violations
-      // 'off' - skip a11y checks entirely
-      test: "todo",
     },
   },
 
