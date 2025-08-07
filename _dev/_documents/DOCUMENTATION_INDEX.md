@@ -31,6 +31,7 @@ The Labs project now uses a clean, hierarchical documentation system:
 - ✅ **Global Changelog Created** - Project-wide updates and milestones
 - ✅ **Clear Hierarchy Established** - One README + CHANGELOG per project
 - ✅ **Development Docs Organized** - Active vs. reference vs. archive separation
+- ✅ **Outdated Docs Archived** - Superseded planning documents moved to archive
 
 ### 📋 **Documentation Principles**
 1. **One README per project** - Single source of truth for each app/system
