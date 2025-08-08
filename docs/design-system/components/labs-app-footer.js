@@ -30,19 +30,7 @@ class LabsAppFooter extends HTMLElement {
             if (footer && overlay) {
                 // Connect footer to overlay
                 footer.addEventListener('settings-click', () => overlay.open());
-
-                // Forward add clicks to parent
-                footer.addEventListener('add-click', () => {
-                    this.dispatchEvent(new CustomEvent('add-click', { bubbles: true }));
-                });
-
-                // Forward overlay actions to parent
-                overlay.addEventListener('action-click', (e) => {
-                    this.dispatchEvent(new CustomEvent('action-click', {
-                        bubbles: true,
-                        detail: e.detail
-                    }));
-                });
+                // Let native bubbling handle other events (add-click, action-click)
             } else {
                 console.warn('labs-app-footer: Child components not found', { footer, overlay });
             }
