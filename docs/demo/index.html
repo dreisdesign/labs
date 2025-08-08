@@ -27,19 +27,27 @@
 <body class="theme-light">
   <!-- Minimal page: footer-only -->
 
-  <!-- Minimal Footer Demo -->
-  <labs-footer add-label="+ Add" settings-hidden></labs-footer>
-  <labs-settings-overlay></labs-settings-overlay>
+  <!-- Footer with Settings Pattern -->
+  <labs-app-footer add-label="+ Add"></labs-app-footer>
 
-  <!-- Load Component (relative path works locally and on GitHub Pages) -->
-  <script type="module" src="../design-system/components/labs-footer.js"></script>
-  <script type="module" src="../design-system/components/labs-settings-overlay.js"></script>
+  <!-- Load Pattern Component (imports its parts internally) -->
+  <script type="module" src="../design-system/components/labs-app-footer.js"></script>
   <script type="module">
     document.addEventListener('DOMContentLoaded', () => {
-      const footer = document.querySelector('labs-footer');
-      const overlay = document.querySelector('labs-settings-overlay');
-      if (footer) footer.addEventListener('add-click', handleAddClick);
-      if (footer && overlay) footer.addEventListener('settings-click', () => overlay.open());
+      const appFooter = document.querySelector('labs-app-footer');
+      if (appFooter) {
+        appFooter.addEventListener('add-click', handleAddClick);
+        appFooter.addEventListener('action-click', (e) => {
+          const action = e.detail.action;
+          if (action === 'reset') {
+            if (confirm('Are you sure you want to reset all data?')) {
+              alert('Reset functionality coming soon!');
+            }
+          } else if (action === 'apps') {
+            alert('Apps functionality coming soon!');
+          }
+        });
+      }
     });
   </script>
 
