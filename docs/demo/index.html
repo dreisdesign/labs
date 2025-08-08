@@ -9,7 +9,7 @@
   <!-- Load consolidated styles (includes tokens) copied by deploy script -->
   <link rel="stylesheet" href="../design-system/main.css" />
   <style>
-    /* Reset and base styles */
+    /* Minimal reset and base styles */
     * {
       margin: 0;
       padding: 0;
@@ -20,55 +20,12 @@
       font-family: var(--font-family-base, system-ui, -apple-system, sans-serif);
       background: var(--color-background);
       color: var(--color-on-background);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Main content area */
-    .main-content {
-      flex: 1;
-      padding: var(--space-lg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding-bottom: 120px;
-      /* Space for footer */
-    }
-
-    .content-container {
-      max-width: 600px;
-    }
-
-    .app-title {
-      font-size: var(--font-size-h1);
-      font-weight: var(--font-weight-bold);
-      margin-bottom: var(--space-md);
-      color: var(--color-on-background);
-    }
-
-    .app-subtitle {
-      font-size: var(--font-size-large);
-      color: var(--color-on-background);
-      opacity: 0.8;
-      margin-bottom: var(--space-lg);
-      line-height: 1.6;
     }
   </style>
 </head>
 
 <body class="theme-light">
-  <!-- Main Content -->
-  <div class="main-content">
-    <div class="content-container">
-      <h1 class="app-title">Your Next App</h1>
-      <p class="app-subtitle">
-        Start building your application using the Labs Design System.
-        Use the add button below to create your first item, and access settings from the gear icon.
-      </p>
-    </div>
-  </div>
+  <!-- Minimal page: footer-only -->
 
   <!-- Minimal Footer Demo -->
   <labs-footer add-label="+ Add" settings-hidden></labs-footer>
@@ -92,7 +49,7 @@
       alert('Add functionality coming soon!');
     }
 
-  // No settings overlay in this minimal demo
+    // No settings overlay in this minimal demo
   </script>
 </body>
 
