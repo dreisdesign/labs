@@ -4,62 +4,75 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Labs Demo - Footer</title>
+  <title>Labs Demo — Footer with Settings</title>
   <link rel="icon" href="../design-system/favicon.svg" type="image/svg+xml" />
   <!-- Load consolidated styles (includes tokens) copied by deploy script -->
   <link rel="stylesheet" href="../design-system/main.css" />
   <style>
     /* Minimal reset and base styles */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: var(--font-family-base, system-ui, -apple-system, sans-serif);
       background: var(--color-background);
       color: var(--color-on-background);
+      min-height: 100vh;
     }
+    .container {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 120px; /* keep space for footer */
+      text-align: center;
+    }
+    .container .content { max-width: 560px; padding: 2rem; }
+    .container h2 { margin-bottom: 1rem; }
+    .container p { opacity: 0.85; }
   </style>
 </head>
 
 <body class="theme-light">
-  <!-- Minimal page: footer-only -->
-
-  <!-- Footer with Settings Pattern -->
+  <div class="container">
+    <div class="content">
+      <h2>Footer with Settings</h2>
+      <p>Complete footer with settings overlay pre-connected. Click the settings button to see the overlay in action.</p>
+    </div>
+  </div>
+  <!-- Footer with Settings Pattern (fixed at bottom) -->
   <labs-app-footer add-label="+ Add"></labs-app-footer>
 
   <!-- Load Pattern Component (imports its parts internally) -->
   <script type="module" src="../design-system/components/labs-app-footer.js"></script>
   <script type="module">
-    document.addEventListener('DOMContentLoaded', () => {
-      const appFooter = document.querySelector('labs-app-footer');
-      if (appFooter) {
-        appFooter.addEventListener('add-click', handleAddClick);
-        appFooter.addEventListener('action-click', (e) => {
-          const action = e.detail.action;
-          if (action === 'reset') {
-            if (confirm('Are you sure you want to reset all data?')) {
-              alert('Reset functionality coming soon!');
-            }
-          } else if (action === 'apps') {
-            alert('Apps functionality coming soon!');
+    // Wire once on load
+    const appFooter = document.querySelector('labs-app-footer');
+    if (appFooter) {
+      appFooter.addEventListener('add-click', () => {
+        alert('Add functionality coming soon!');
+      }, { once: false });
+
+      appFooter.addEventListener('action-click', (e) => {
+        const action = e?.detail?.action;
+        if (!action) return;
+        if (action === 'reset') {
+          if (confirm('Are you sure you want to reset all data?')) {
+            alert('Reset functionality coming soon!');
           }
-        });
-      }
-    });
+        } else if (action === 'apps') {
+          alert('Apps functionality coming soon!');
+        } else if (action === 'settings') {
+          // Settings button lives in overlay list; nothing extra here
+        } else if (action === 'theme-toggle') {
+          // Theme toggle handled by component
+        }
+      });
+    }
   </script>
 
   <!-- App Logic -->
   <script>
-    // App functions
-    function handleAddClick() {
-      console.log('Add button clicked');
-      alert('Add functionality coming soon!');
-    }
-
-    // No settings overlay in this minimal demo
+    // No extra app logic for this minimal demo
   </script>
 </body>
 

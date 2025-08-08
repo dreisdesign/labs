@@ -23,6 +23,10 @@ cp design-system/src/components/*.js docs/design-system/components/
 cp design-system/components/*.js docs/design-system/components/ 2>/dev/null || true
 cp design-system/src/styles/components/*.css docs/design-system/components/ 2>/dev/null || true
 cp design-system/src/styles/main.css docs/design-system/ 2>/dev/null || true
+mkdir -p docs/design-system/styles/tokens
+cp design-system/src/styles/tokens/*.css docs/design-system/styles/tokens/ 2>/dev/null || true
+mkdir -p docs/design-system/tokens
+cp design-system/src/styles/tokens/*.css docs/design-system/tokens/ 2>/dev/null || true
 
 git add docs/design-system docs/demo/index.html
 commit_msg="Deploy (automation): $(date '+%Y-%m-%d %H:%M') - ensure all public assets in docs/design-system for GitHub Pages"

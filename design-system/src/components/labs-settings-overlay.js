@@ -175,9 +175,9 @@ class LabsSettingsOverlay extends HTMLElement {
     const buttonContainer = this.shadowRoot.querySelector('.button-container');
 
     // Create buttons the same way as the working story
-    const appsButton = createButtonElement("appsContainer");
-    const settingsButton = createButtonElement("settingsContainer");
-    const resetButton = createButtonElement("resetAllDataContainer");
+  const appsButton = createButtonElement("appsContainer");
+  const settingsButton = createButtonElement("settingsContainer");
+  const resetButton = createButtonElement("resetAllDataContainer");
 
     // Use the reusable theme toggle component (container variant)
     const themeToggleEl = document.createElement('labs-theme-toggle-button');
@@ -189,7 +189,23 @@ class LabsSettingsOverlay extends HTMLElement {
     buttonContainer.appendChild(settingsButton);
     buttonContainer.appendChild(resetButton);
 
-    // Setup event listeners after rendering
+    // Wire action events for container buttons
+    appsButton.addEventListener('labs-click', () => {
+      this.dispatchEvent(new CustomEvent('action-click', { bubbles: true, detail: { action: 'apps' } }));
+    });
+    settingsButton.addEventListener('labs-click', () => {
+      this.dispatchEvent(new CustomEvent('action-click', { bubbles: true, detail: { action: 'settings' } }));
+    });
+    resetButton.addEventListener('labs-click', () => {
+      this.dispatchEvent(new CustomEvent('action-click', { bubbles: true, detail: { action: 'reset' } }));
+    });
+
+    // Theme toggle handled internally; optionally announce action
+    themeToggleEl.addEventListener('labs-click', () => {
+      this.dispatchEvent(new CustomEvent('action-click', { bubbles: true, detail: { action: 'theme-toggle' } }));
+    });
+
+    // Setup generic listeners (close etc.) after rendering
     this.setupEventListeners();
   }
 }
