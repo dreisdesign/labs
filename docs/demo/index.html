@@ -4,12 +4,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Labs App - Your Next Project</title>
-  <link rel="icon" href="/design-system/favicon.svg" type="image/svg+xml" />
-  <!-- Import Design System Tokens -->
-  <link rel="stylesheet" href="/design-system/src/styles/tokens/colors.css" />
-  <link rel="stylesheet" href="/design-system/src/styles/tokens/spacing.css" />
-  <link rel="stylesheet" href="/design-system/src/styles/tokens/typography.css" />
+  <title>Labs Demo - Footer</title>
+  <link rel="icon" href="../design-system/favicon.svg" type="image/svg+xml" />
+  <!-- Load consolidated styles (includes tokens) copied by deploy script -->
+  <link rel="stylesheet" href="../design-system/main.css" />
   <style>
     /* Reset and base styles */
     * {
@@ -72,68 +70,18 @@
     </div>
   </div>
 
-  <!-- App Footer Pattern (Footer + Settings Overlay) -->
-  <labs-app-footer add-label="+ Add"></labs-app-footer>
+  <!-- Minimal Footer Demo -->
+  <labs-footer add-label="+ Add" settings-hidden></labs-footer>
 
-  <!-- Load the App Footer Pattern -->
-  <script type="module" src="/design-system/src/components/labs-app-footer.js"></script>
+  <!-- Load Component (relative path works locally and on GitHub Pages) -->
+  <script type="module" src="../design-system/components/labs-footer.js"></script>
   <script type="module">
-    // Import theme toggle functionality
-    import { setupThemeToggle, createButtonElement } from "/design-system/src/tokens/button-configs.js";
-
-    // Initialize app footer when DOM is ready
     document.addEventListener('DOMContentLoaded', () => {
-      console.log('DOM ready, setting up app...');
-
-      const appFooter = document.querySelector('labs-app-footer');
-
-      // App footer event handlers
-      if (appFooter) {
-        appFooter.addEventListener('add-click', handleAddClick);
-
-        appFooter.addEventListener('action-click', (e) => {
-          const action = e.detail.action;
-
-          switch (action) {
-            case 'apps':
-              handleAppsClick();
-              break;
-            case 'theme-toggle':
-              handleThemeToggle();
-              break;
-            case 'settings':
-              handleSettingsClick();
-              break;
-            case 'reset':
-              handleResetClick();
-              break;
-          }
-        });
+      const footer = document.querySelector('labs-footer');
+      if (footer) {
+        footer.addEventListener('add-click', handleAddClick);
       }
     });
-
-    // Theme toggle with proper button replacement
-    function handleThemeToggle() {
-      // Find the theme toggle button in the overlay
-      const overlay = document.querySelector('labs-settings-overlay');
-
-      if (overlay) {
-        const themeButton = overlay.shadowRoot.querySelector('[data-action="theme-toggle"]');
-
-        if (themeButton) {
-          // Create proper theme toggle using button configs
-          const properThemeButton = createButtonElement("themeToggleContainer");
-          setupThemeToggle(properThemeButton);
-
-          // Replace the button
-          const buttonContainer = themeButton.parentElement;
-          buttonContainer.replaceChild(properThemeButton, themeButton);
-
-          // Trigger the theme toggle
-          properThemeButton.click();
-        }
-      }
-    }
   </script>
 
   <!-- App Logic -->
@@ -144,22 +92,7 @@
       alert('Add functionality coming soon!');
     }
 
-    function handleAppsClick() {
-      console.log('Apps clicked');
-      alert('Apps functionality coming soon!');
-    }
-
-    function handleSettingsClick() {
-      console.log('Settings clicked');
-      alert('Additional settings coming soon!');
-    }
-
-    function handleResetClick() {
-      console.log('Reset clicked');
-      if (confirm('Are you sure you want to reset all data?')) {
-        alert('Reset functionality coming soon!');
-      }
-    }
+  // No settings overlay in this minimal demo
   </script>
 </body>
 
