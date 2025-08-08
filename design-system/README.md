@@ -47,9 +47,10 @@ This folder contains the Labs Design System: shared UI components, tokens, Story
 - `README.md` — This file
 ## Components
 
-- **`labs-button`**: Comprehensive button component with variants (primary, secondary, danger, transparent, container, icon), icon support, checkmark animations, and theme integration
-- **`labs-icon`**: High-performance SVG icon component with real-time scaling (16px-64px), interactive color controls, responsive grid layout, and optimized attribute reactivity  
-- **`labs-settings-overlay`**: Modular settings modal overlay as a custom element with container button integration
+- **`labs-button`** — Components/Button: Comprehensive button component with variants (primary, secondary, danger, transparent, container, icon), icon support, checkmark animations, and theme integration
+- **`labs-icon`** — Patterns/Icons: High-performance SVG icon component with real-time scaling (16px-64px), interactive color controls, responsive grid layout, and optimized attribute reactivity  
+- **`labs-settings-overlay`** — Components/Settings Overlay: Modular settings modal overlay as a custom element with container button integration
+- **`labs-theme-toggle-button`** — Components/Theme Toggle Button: Reusable theme toggle control that wraps shared setupThemeToggle logic. Variants: `transparent` (default), `container`, and `icon`. Fully modular and drop-in.
 
 ### Button System:
 - **Pre-configured buttons:** `createButton()` and `createButtonElement()` with 15+ ready-to-use combinations
@@ -58,6 +59,43 @@ This folder contains the Labs Design System: shared UI components, tokens, Story
 - **Container variants:** Full-width buttons optimized for overlays and panels
 
 See `src/tokens/button-configs.js` for all available configurations and `src/stories/` for complete documentation.
+
+### Tokens in Storybook
+
+- Tokens/Colors — Color tokens and usage examples
+- Tokens/Typography — Type scale, weights, and examples
+- Tokens/Spacing — Spacing scale and examples
+
+
+## Component nesting (composition)
+
+This section shows how the new theme toggle component nests within other components, demonstrating modular composition:
+
+### Tree view
+
+```
+labs-settings-overlay (host)
+└─ .overlay-content
+  └─ .button-container
+    ├─ labs-button (appsContainer)
+    │  └─ labs-icon (apps)
+    ├─ labs-theme-toggle-button variant="container"
+    │  └─ labs-button (internal)
+    │     └─ labs-icon (bedtime/bedtime_off)
+    ├─ labs-button (settingsContainer)
+    │  └─ labs-icon (settings)
+    └─ labs-button (resetAllDataContainer)
+      └─ labs-icon (delete_forever)
+
+labs-theme-toggle-button (standalone usage)
+└─ labs-button (variant depends on attribute)
+  └─ labs-icon (bedtime/bedtime_off)
+```
+
+Notes:
+- `labs-theme-toggle-button` encapsulates theme logic and updates icon/label automatically.
+- Use `variant="container"` in overlays/panels, `transparent` for inline, and `icon` for icon-only placements.
+- All components are self-contained with Shadow DOM and CSS custom properties.
 
 
 
@@ -105,7 +143,7 @@ npm run build-storybook    # Build for deployment
 - [Global Monorepo README](../README.md)
 - [Labs Storybook (Live)](https://dreisdesign.github.io/labs/design-system/)
 - [Design System Changelog](CHANGELOG.md)
-- [Theme Implementation Guide](THEME_IMPLEMENTATION.md) 🎨 **Complete theme system documentation**
+- Theme Implementation Guide (archived) — See src/tokens/button-configs.js and the Component nesting section in this README for current details
 - [Storybook Improvements](STORYBOOK_IMPROVEMENTS.md) 🔧 **UI enhancement tasks**
 - [Modularity Guidelines](../.github/instructions/Modularity.instructions.md) 📋 **Component development standards**
 

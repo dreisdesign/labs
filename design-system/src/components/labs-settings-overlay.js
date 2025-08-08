@@ -1,96 +1,97 @@
 /* eslint-disable */
 import "./labs-button.js";
 import "./labs-icon.js";
-import { createButtonElement, setupThemeToggle } from "../tokens/button-configs.js";
+import "./labs-theme-toggle-button.js";
+import { createButtonElement } from "../tokens/button-configs.js";
 
 class LabsSettingsOverlay extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({ mode: "open" });
-    }
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+  }
 
-    static get observedAttributes() {
-        return ["active"];
-    }
+  static get observedAttributes() {
+    return ["active"];
+  }
 
-    attributeChangedCallback() {
-        this.render();
-    }
+  attributeChangedCallback() {
+    this.render();
+  }
 
-    connectedCallback() {
-        this.render();
-        this.setupEventListeners();
-        this.setupThemeObserver();
-    }
+  connectedCallback() {
+    this.render();
+    this.setupEventListeners();
+    this.setupThemeObserver();
+  }
 
-    setupThemeObserver() {
-        // Watch for theme changes on document.body
-        this.themeObserver = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                    this.updateIconColors();
-                }
-            });
-        });
-
-        this.themeObserver.observe(document.body, {
-            attributes: true,
-            attributeFilter: ['class']
-        });
-    }
-
-    updateIconColors() {
-        const closeIcon = this.shadowRoot.querySelector('.close-button labs-icon');
-        if (closeIcon) {
-            closeIcon.setAttribute('color', 'var(--color-on-surface)');
+  setupThemeObserver() {
+    // Watch for theme changes on document.body
+    this.themeObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          this.updateIconColors();
         }
+      });
+    });
+
+    this.themeObserver.observe(document.body, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+  }
+
+  updateIconColors() {
+    const closeIcon = this.shadowRoot.querySelector('.close-button labs-icon');
+    if (closeIcon) {
+      closeIcon.setAttribute('color', 'var(--color-on-surface)');
     }
+  }
 
-    setupEventListeners() {
-        // Close when clicking overlay background (the host element itself)
-        this.shadowRoot.addEventListener('click', (e) => {
-            if (e.target === this.shadowRoot.host || e.target.classList.contains('overlay-background')) {
-                this.close();
-            }
-        });
+  setupEventListeners() {
+    // Close when clicking overlay background (the host element itself)
+    this.shadowRoot.addEventListener('click', (e) => {
+      if (e.target === this.shadowRoot.host || e.target.classList.contains('overlay-background')) {
+        this.close();
+      }
+    });
 
-        // Close button
-        setTimeout(() => {
-            const closeButton = this.shadowRoot.querySelector('.close-button');
-            if (closeButton) {
-                closeButton.addEventListener('click', () => this.close());
-            }
-        }, 0);
+    // Close button
+    setTimeout(() => {
+      const closeButton = this.shadowRoot.querySelector('.close-button');
+      if (closeButton) {
+        closeButton.addEventListener('click', () => this.close());
+      }
+    }, 0);
 
-        // Escape key handler
-        this.handleEscape = (e) => {
-            if (e.key === 'Escape' && this.hasAttribute('active')) {
-                this.close();
-            }
-        };
-        document.addEventListener('keydown', this.handleEscape);
+    // Escape key handler
+    this.handleEscape = (e) => {
+      if (e.key === 'Escape' && this.hasAttribute('active')) {
+        this.close();
+      }
+    };
+    document.addEventListener('keydown', this.handleEscape);
+  }
+
+  disconnectedCallback() {
+    document.removeEventListener('keydown', this.handleEscape);
+    if (this.themeObserver) {
+      this.themeObserver.disconnect();
     }
+  }
 
-    disconnectedCallback() {
-        document.removeEventListener('keydown', this.handleEscape);
-        if (this.themeObserver) {
-            this.themeObserver.disconnect();
-        }
-    }
+  open() {
+    this.setAttribute('active', '');
+  }
 
-    open() {
-        this.setAttribute('active', '');
-    }
+  close() {
+    this.removeAttribute('active');
+    this.dispatchEvent(new CustomEvent('overlay-close', { bubbles: true }));
+  }
 
-    close() {
-        this.removeAttribute('active');
-        this.dispatchEvent(new CustomEvent('overlay-close', { bubbles: true }));
-    }
+  render() {
+    const isActive = this.hasAttribute('active');
 
-    render() {
-        const isActive = this.hasAttribute('active');
-
-        this.shadowRoot.innerHTML = `
+    this.shadowRoot.innerHTML = `
       <style>
         :host {
           position: fixed;
@@ -170,27 +171,27 @@ class LabsSettingsOverlay extends HTMLElement {
       </div>
     `;
 
-        // Create buttons using the working pattern from production
-        const buttonContainer = this.shadowRoot.querySelector('.button-container');
+    // Create buttons using the working pattern from production
+    const buttonContainer = this.shadowRoot.querySelector('.button-container');
 
-        // Create buttons the same way as the working story
-        const appsButton = createButtonElement("appsContainer");
-        const themeButton = createButtonElement("themeToggleContainer");
-        const settingsButton = createButtonElement("settingsContainer");
-        const resetButton = createButtonElement("resetAllDataContainer");
+    // Create buttons the same way as the working story
+    const appsButton = createButtonElement("appsContainer");
+    const settingsButton = createButtonElement("settingsContainer");
+    const resetButton = createButtonElement("resetAllDataContainer");
 
-        // Make theme button functional (same as working story)
-        setupThemeToggle(themeButton);
+    // Use the reusable theme toggle component (container variant)
+    const themeToggleEl = document.createElement('labs-theme-toggle-button');
+    themeToggleEl.setAttribute('variant', 'container');
 
-        // Add buttons to container
-        buttonContainer.appendChild(appsButton);
-        buttonContainer.appendChild(themeButton);
-        buttonContainer.appendChild(settingsButton);
-        buttonContainer.appendChild(resetButton);
+    // Add buttons to container
+    buttonContainer.appendChild(appsButton);
+    buttonContainer.appendChild(themeToggleEl);
+    buttonContainer.appendChild(settingsButton);
+    buttonContainer.appendChild(resetButton);
 
-        // Setup event listeners after rendering
-        this.setupEventListeners();
-    }
+    // Setup event listeners after rendering
+    this.setupEventListeners();
+  }
 }
 
 customElements.define("labs-settings-overlay", LabsSettingsOverlay);

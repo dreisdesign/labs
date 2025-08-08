@@ -1,5 +1,19 @@
 # Labs Design System Changelog
 
+## [v2.1.1] - 2025-08-08 - Theme Toggle Componentization & Docs
+
+### ✨ New
+- Added `labs-theme-toggle-button` component (variants: transparent, container, icon)
+- Integrated the theme toggle into `labs-settings-overlay`
+
+### 📚 Docs
+- Documented component composition (tree view) in README
+- Labeled Components with Storybook sidebar names
+- Archived Theme Implementation doc (moved to `_dev/_documents/`)
+
+### 🔧 Misc
+- Minor cleanup and alignment with modularity guidelines
+
 ## [v2.1.0] - 2025-08-06 - Icons Grid & Component Performance Overhaul
 
 ### 🎯 Major Icons System Improvements

@@ -1,3 +1,6 @@
+<!-- Archived: Consolidated into README and component docs in v2.1.0 -->
+
+{ This document has been archived. See design-system/README.md (Theme System and Component nesting) and src/tokens/button-configs.js for current API. }
 # Theme Implementation Summary
 
 ## ✅ Completed Features
