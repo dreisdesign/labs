@@ -1,8 +1,7 @@
 /* eslint-disable */
-import "./labs-button.js";
-import "./labs-icon.js";
-import "./labs-theme-toggle-button.js";
-import { createButtonElement } from "../tokens/button-configs.js";
+import './labs-button.js';
+import './labs-icon.js';
+import './labs-settings.js';
 
 class LabsSettingsOverlay extends HTMLElement {
   constructor() {
@@ -117,17 +116,17 @@ class LabsSettingsOverlay extends HTMLElement {
         }
 
         .overlay-content {
-          background: var(--color-surface);
-          border-radius: 12px;
-          padding: var(--space-lg);
+          background: var(--surface-color, #ffffff);
+          border-radius: var(--border-radius-large, 12px);
+          padding: var(--spacing-large, 24px);
+          max-width: 90vw;
+          max-height: 90vh;
+          width: 100%;
           max-width: 400px;
-          width: 90%;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-          position: relative;
-          z-index: 1001;
-        }
-
-        .overlay-header {
+          box-shadow: var(--shadow-large, 0 8px 32px rgba(0, 0, 0, 0.15));
+          border: 1px solid var(--border-color, #e0e0e0);
+          overflow-y: auto;
+        }        .overlay-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -148,12 +147,6 @@ class LabsSettingsOverlay extends HTMLElement {
           padding: var(--space-xs);
           border-radius: 8px;
         }
-
-        .button-container {
-          display: flex;
-          flex-direction: column;
-          gap: var(--space-sm);
-        }
       </style>
       
       <div class="overlay-background"></div>
@@ -165,40 +158,26 @@ class LabsSettingsOverlay extends HTMLElement {
           </button>
         </div>
 
-          <div class="button-container">
-          </div>
-        </div>
+        <labs-settings></labs-settings>
       </div>
     `;
 
-    // Create buttons using the working pattern from production
-    const buttonContainer = this.shadowRoot.querySelector('.button-container');
+    // Handle settings events
+    const settingsComponent = this.shadowRoot.querySelector('labs-settings');
+    if (settingsComponent) {
+      settingsComponent.addEventListener('settings-action', (e) => {
+        const { action, data } = e.detail;
+        this.dispatchEvent(new CustomEvent('action-click', {
+          bubbles: true,
+          detail: { action, data }
+        }));
 
-    // Create buttons the same way as the working story
-    const appsButton = createButtonElement("appsContainer");
-    const resetButton = createButtonElement("resetAllDataContainer");
-
-    // Use the reusable theme toggle component (container variant)
-    const themeToggleEl = document.createElement('labs-theme-toggle-button');
-    themeToggleEl.setAttribute('variant', 'container');
-
-    // Add buttons to container (3 buttons total)
-    buttonContainer.appendChild(appsButton);
-    buttonContainer.appendChild(themeToggleEl);
-    buttonContainer.appendChild(resetButton);
-
-    // Wire action events for container buttons
-    appsButton.addEventListener('labs-click', () => {
-      this.dispatchEvent(new CustomEvent('action-click', { bubbles: true, detail: { action: 'apps' } }));
-    });
-    resetButton.addEventListener('labs-click', () => {
-      this.dispatchEvent(new CustomEvent('action-click', { bubbles: true, detail: { action: 'reset' } }));
-    });
-
-    // Theme toggle handled internally; optionally announce action
-    themeToggleEl.addEventListener('labs-click', () => {
-      this.dispatchEvent(new CustomEvent('action-click', { bubbles: true, detail: { action: 'theme-toggle' } }));
-    });
+        // Close overlay for navigation actions
+        if (action === 'apps' || action === 'reset') {
+          this.close();
+        }
+      });
+    }
 
     // Setup generic listeners (close etc.) after rendering
     this.setupEventListeners();
