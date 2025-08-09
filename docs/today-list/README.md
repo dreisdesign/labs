@@ -1,193 +1,150 @@
-# Today List App
+# 📝 Today List - Daily Task Management
 
-A simple daily checklist application that combines the best features of the Tracker and Note apps with a focused, minimalist approach to daily task management.
+> **Focus on what matters - 5 essential tasks for today**
 
-## 🎯 Concept Overview
+## 🎯 Overview
 
-**Today List** is a daily reset checklist app designed for simplicity and focus. Each day starts fresh with a clean slate, encouraging users to focus on what matters most for that specific day.
+Today List is a minimalist daily task management app designed around the principle that focusing on 5 key tasks per day leads to better productivity and less overwhelm.
 
-### Core Philosophy
+## ✨ Features
 
-- **Daily Reset**: Like the Note app, the list clears automatically at the end of each day
-- **Focused Scope**: Limited to 5 items by default to encourage prioritization
-- **Simple Interaction**: Basic checkbox functionality with clear visual feedback
-- **Reliable Foundation**: Built on proven patterns from existing apps
+### 📋 Daily Task Management
+- **5-Task Focus:** Simple limit encourages prioritization
+- **Daily Reset:** Tasks automatically reset at midnight
+- **Progress Tracking:** Visual progress bar shows completion
+- **Checkbox Interface:** Clean, accessible task completion
 
-## ✨ Version 1.0 - MVP Features
+### 💾 Data Persistence
+- **Local Storage:** All data saved locally in your browser
+- **Automatic Reset:** Fresh start each day with default tasks
+- **Date Tracking:** Detects new days and resets appropriately
 
-### Core Functionality
+### 🎨 Design Integration
+- **Labs Design System:** Consistent UI with theme support
+- **Responsive Design:** Works on desktop, tablet, and mobile
+- **Theme Toggle:** Light/dark mode with system preference detection
+- **Accessibility:** Keyboard navigation and screen reader support
 
-- **5 Default Items**: Pre-populated with 5 checklist items, first one shows "add note" placeholder
-- **Simple Checkboxes**: Click to toggle checked/unchecked state
-- **Guided Entry**: First item includes helpful placeholder text to encourage usage
-- **Daily Reset**: Automatically clears all items and states at midnight
-- **Responsive Layout**: Works seamlessly across mobile, tablet, and desktop
-- **No Scrolling**: Fixed layout that fits within viewport
+## 🚀 Usage
 
-### UI Components
+### Daily Workflow
+1. **Morning Setup:** Review the 5 default tasks or customize them
+2. **Add Custom Tasks:** Use the "+" button to replace default tasks with your priorities
+3. **Track Progress:** Check off tasks as you complete them
+4. **Visual Feedback:** Watch the progress bar fill as you accomplish goals
+5. **Next Day:** Tasks automatically reset at midnight for a fresh start
 
+### Default Tasks
+The app provides thoughtful default tasks that encourage a balanced approach:
+1. **Start the day with intention** - Mindful beginning
+2. **Make progress on a key project** - Important work focus
+3. **Connect with someone important** - Relationship building
+4. **Take care of your wellbeing** - Self-care reminder
+5. **Reflect and plan for tomorrow** - Intentional closure
+
+### Customization
+- **Replace Tasks:** Use the add button to replace any default task with your priority
+- **Completion Tracking:** Click checkboxes or task text to toggle completion
+- **Progress Monitoring:** Visual progress bar updates in real-time
+- **Reset Option:** Clear all progress and start fresh (via settings)
+## 🛠️ Technical Implementation
+
+### Architecture
+- **Vanilla JavaScript:** No framework dependencies, fast loading
+- **Web Components:** Uses Labs Design System components
+- **Local Storage API:** Client-side data persistence
+- **CSS Custom Properties:** Theme-aware styling
+
+### Key Components
+- **TodayListApp Class:** Main application logic and state management
+- **Task Rendering:** Dynamic task list generation with completion states
+- **Progress Tracking:** Real-time progress calculation and visual updates
+- **Date Detection:** Automatic new day detection for daily resets
+
+### Data Model
+```javascript
+{
+  id: 1,
+  text: "Task description",
+  completed: false
+}
 ```
-┌─────────────────────────────────┐
-│     Tuesday, July 19, 2025      │
-│                                 │
-│  ☐ add note...                  │
-│  ☐ ________________________     │
-│  ☐ ________________________     │
-│  ☐ ________________________     │
-│  ☐ ________________________     │
-│                                 │
-│           [Settings]            │
-└─────────────────────────────────┘
+
+### Storage Keys
+- `today-list-tasks` - Array of task objects
+- `today-list-date` - Last access date for reset detection
+
+## 🎨 Design Principles
+
+### Simplicity First
+- **5-Task Limit:** Prevents overwhelm and encourages focus
+- **Clean Interface:** Minimal UI reduces cognitive load
+- **One-Click Actions:** Simple interactions for task management
+
+### Daily Rhythm
+- **Fresh Start:** Automatic daily reset encourages consistency
+- **Progress Visualization:** Clear feedback on daily accomplishments
+- **Intentional Defaults:** Thoughtful starter tasks promote balance
+
+### Accessibility
+- **Keyboard Navigation:** Full functionality without mouse
+- **Screen Reader Support:** Proper ARIA labels and semantic HTML
+- **Color Contrast:** Theme-aware colors meet WCAG guidelines
+- **Touch Friendly:** Adequate touch targets for mobile use
+
+## 🚀 Future Enhancements
+
+### Planned Features
+- **Custom Task Templates:** Save and reuse common task sets
+- **Weekly/Monthly Views:** Longer-term planning and review
+- **Task Categories:** Color-coding for different types of tasks
+- **Achievement Tracking:** Celebrate completion streaks
+- **Export Data:** Download task history and completion patterns
+
+### Integration Opportunities
+- **Timer App Connection:** Link tasks to focus timer sessions
+- **Tracker App Sync:** Connect daily tasks to habit tracking
+- **Note App Integration:** Add task notes and reflections
+
+## 📱 Installation
+
+Today List works as a Progressive Web App (PWA):
+
+1. **Open in Browser:** Visit the live app URL
+2. **Install Prompt:** Browser may offer "Add to Home Screen"
+3. **Offline Support:** Works without internet after first visit
+4. **App-Like Experience:** Full-screen usage on mobile devices
+
+## 🔗 Related Apps
+
+- **[🎨 Design System](../design-system/)** - Shared component library
+- **[⏰ Focus Timer](../timer/)** - Pomodoro-style productivity timer
+- **[📊 Daily Tracker](../tracker/)** - Habit and activity tracking
+- **[📝 Daily Note](../note/)** - Simple daily note-taking
+
+---
+
+## 🛠️ Development
+
+### Local Development
+```bash
+# Serve locally for testing
+python3 -m http.server 8000
+# Open http://localhost:8000/docs/today-list/
 ```
-
-### Technical Structure
-
-- **Header**: Day of week and date (e.g., "Tuesday, July 19, 2025")
-- **Layout**: Fixed container, no scrolling required
-- **Footer**: Settings button with consistent styling from other apps
-- **Overlay System**: Edit note overlay for individual item editing (from Note app)
-- **Theming**: Full light/dark mode support with toggle
-- **Settings Menu**: Consistent with Tracker/Note apps (theme toggle, all apps link)
-- **Persistence**: localStorage for same-day persistence
-- **Responsive Design**: CSS Grid/Flexbox for reliable layout
-- **Accessibility**: Proper checkbox semantics and keyboard navigation
-
-## 🏗️ Technical Architecture
-
-### Leveraging Existing Apps
-
-**From Tracker App:**
-
-- Color scheme and theming system (CSS custom properties)
-- Dark/light mode toggle functionality
-- Settings overlay structure and styling
-- Footer layout with settings button
-- Responsive design patterns
-- Button interaction styles and animations
-- PWA manifest structure
-
-**From Note App:**
-
-- Daily reset functionality and date handling
-- localStorage management patterns
-- Edit overlay system for individual items
-- Simple, clean interface approach
-- Timestamp header formatting (day/date only)
-
-**New Patterns:**
-
-- Checkbox state management and styling
-- List item focus states and interactions
-- Fixed-layout responsive design (no scrolling)
-- Multiple item persistence (vs single note)
 
 ### File Structure
-
 ```
 today-list/
-├── index.html          # Main app structure
-├── manifest.json       # PWA configuration
-├── sw.js              # Service worker
-├── favicon.svg        # App icon
-├── styles/
-│   └── main.css       # All styles (MVP approach)
-├── js/
-│   └── main.js        # Core functionality
+├── index.html          # Main application
 └── README.md          # This documentation
 ```
 
-## 🎨 Design Principles (V1 Focus)
+### Integration
+The app uses the Labs Design System components and follows the established patterns from other apps in the suite.
 
-### Layout First Approach
+---
 
-1. **Structure Over Style**: Focus on reliable layout mechanics
-2. **Responsive Foundation**: Ensure functionality across all devices
-3. **Accessibility Core**: Build proper semantics from the start
-4. **Progressive Enhancement**: Start simple, add complexity thoughtfully
-
-### Minimal Styling Strategy
-
-- Use system fonts initially
-- Simple border/padding for visual structure
-- Basic hover states for interaction feedback
-- Clean checkbox styling (custom or enhanced native)
-
-## 📱 User Experience
-
-### Daily Workflow
-
-1. **Morning**: Open app to see 5 fresh checklist items (first shows "add note" placeholder)
-2. **Throughout Day**: Add tasks and check them off as completed
-3. **Evening**: Review completed items for sense of accomplishment
-4. **Midnight**: App automatically resets for the next day
-
-### Interaction Patterns
-
-- **Add/Edit Task**: Click on text line or placeholder to open edit overlay (Note app style)
-- **Complete Task**: Click checkbox to toggle checked/unchecked state
-- **Settings Access**: Click settings button in footer to open overlay
-- **Theme Toggle**: Switch between light/dark modes from settings
-- **Navigation**: "All Apps" link to return to Labs homepage
-- **Visual Feedback**: Checked items show completed state, placeholder guides first entry
-- **Keyboard Navigation**: Tab through items, Space to toggle checkboxes, Enter to edit
-
-## 🚀 Future Enhancements (Post-MVP)
-
-### Phase 2: Enhanced Functionality
-
-- **Dynamic Item Count**: Setting to choose 3-10 items per day
-- **Add/Remove Items**: Plus/minus buttons for daily customization
-- **Task Categories**: Optional color coding or icons
-- **Quick Actions**: Keyboard shortcuts for common operations
-
-### Phase 3: Advanced Features
-
-- **Progress Tracking**: Weekly/monthly completion statistics
-- **Template Lists**: Save frequently used task lists
-- **Theme System**: Full dark/light mode integration
-- **Export Options**: Share or backup completed lists
-
-### Phase 4: Integration
-
-- **Cross-App Navigation**: Seamless switching between Lab apps
-- **Unified Theming**: Consistent design language across all apps
-- **Data Insights**: Connection with Tracker for habit correlation
-
-## 🛠️ Development Plan
-
-### Step 1: Foundation (Week 1)
-
-- [ ] Create basic HTML structure with timestamp header (day/date format)
-- [ ] Build 5 checkbox/text pairs with proper semantics
-- [ ] Add "add note" placeholder to first input field
-- [ ] Implement CSS layout system (Grid-based, fixed height)
-- [ ] Set up color system and basic theming from Tracker app
-- [ ] Add basic JavaScript for checkbox state management
-- [ ] Set up localStorage for same-day persistence
-
-### Step 2: Core Functionality (Week 2)
-
-- [ ] Implement daily reset logic and date handling
-- [ ] Create edit overlay system (adapted from Note app)
-- [ ] Add text input functionality with overlay editing
-- [ ] Build settings overlay with theme toggle and all apps link
-- [ ] Implement light/dark mode switching
-- [ ] Create responsive breakpoints
-- [ ] Basic keyboard navigation support
-
-### Step 3: Polish & Integration (Week 3)
-
-- [ ] Add footer with settings button (Tracker app style)
-- [ ] Implement consistent button animations and interactions
-- [ ] Add service worker for offline functionality
-- [ ] Implement PWA manifest
-- [ ] Cross-browser testing and fixes
-- [ ] Accessibility audit and improvements
-
-### Step 4: Deployment & Labs Integration (Week 4)
-
-- [ ] Add to Labs homepage with consistent styling
-- [ ] Create navigation elements and favicon
 - [ ] Final testing across devices and themes
 - [ ] Documentation and deployment
 - [ ] User testing and refinements

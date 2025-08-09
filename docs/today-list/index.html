@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Today List - Daily Task Management</title>
+    <link rel="icon" type="image/svg+xml" href="../design-system/favicon.svg">
+
+    <!-- Design System Assets -->
+    <link rel="stylesheet" href="../design-system/main.css">
+    <link rel="stylesheet" href="../design-system/tokens/colors.css">
+    <link rel="stylesheet" href="../design-system/tokens/typography.css">
+    <link rel="stylesheet" href="../design-system/tokens/spacing.css">
+
+    <!-- Components -->
+    <script type="module" src="../design-system/components/labs-app-footer.js"></script>
+    <script type="module" src="../design-system/components/labs-task-overlay.js"></script>
+
+    <style>
+        /* App-specific styles */
+        body {
+            margin: 0;
+            font-family: var(--font-family-base);
+            background: var(--color-surface);
+            color: var(--color-on-surface);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: var(--space-lg);
+            padding-bottom: calc(80px + var(--space-lg));
+            /* Footer height + padding */
+        }
+
+        .app-header {
+            text-align: center;
+            margin-bottom: var(--space-xl);
+        }
+
+        .app-title {
+            font-size: var(--font-size-h1);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+            margin: 0 0 var(--space-sm) 0;
+        }
+
+        .app-subtitle {
+            font-size: var(--font-size-body);
+            color: var(--color-on-surface-variant);
+            margin: 0;
+        }
+
+        .today-date {
+            font-size: var(--font-size-small);
+            color: var(--color-primary);
+            font-weight: var(--font-weight-medium);
+            margin-top: var(--space-xs);
+        }
+
+        .task-list {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-sm);
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md);
+            background: var(--color-surface-container);
+            border-radius: var(--border-radius-md);
+            border: 1px solid var(--color-outline-variant);
+            transition: all 0.2s ease;
+        }
+
+        .task-item:hover {
+            background: var(--color-surface-container-high);
+            border-color: var(--color-outline);
+        }
+
+        .task-item.completed {
+            opacity: 0.6;
+            background: var(--color-surface-container-low);
+        }
+
+        .task-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--color-outline);
+            border-radius: var(--border-radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .task-checkbox:hover {
+            border-color: var(--color-primary);
+        }
+
+        .task-checkbox.checked {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+
+        .task-checkbox.checked::after {
+            content: '✓';
+            color: var(--color-on-primary);
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .task-text {
+            flex: 1;
+            font-size: var(--font-size-body);
+            color: var(--color-on-surface);
+            user-select: none;
+            cursor: pointer;
+            padding: var(--space-xs);
+            border-radius: var(--border-radius-sm);
+            transition: background-color 0.2s ease;
+        }
+
+        .task-text:hover {
+            background: var(--color-surface-container-high);
+        }
+
+        .task-text.empty {
+            color: var(--color-on-surface-variant);
+            font-style: italic;
+        }
+
+        .task-item.completed .task-text {
+            text-decoration: line-through;
+            color: var(--color-on-surface-variant);
+        }
+
+        .task-number {
+            font-size: var(--font-size-small);
+            color: var(--color-on-surface-variant);
+            font-weight: var(--font-weight-medium);
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .progress-section {
+            margin-top: var(--space-lg);
+            padding: var(--space-md);
+            background: var(--color-surface-container);
+            border-radius: var(--border-radius-md);
+            text-align: center;
+        }
+
+        .progress-text {
+            font-size: var(--font-size-small);
+            color: var(--color-on-surface-variant);
+            margin-bottom: var(--space-xs);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--color-surface-container-low);
+            border-radius: var(--border-radius-sm);
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--color-primary);
+            transition: width 0.3s ease;
+            border-radius: var(--border-radius-sm);
+        }
+
+        .reset-info {
+            margin-top: var(--space-lg);
+            padding: var(--space-md);
+            background: var(--color-surface-container-low);
+            border-radius: var(--border-radius-md);
+            text-align: center;
+            border: 1px solid var(--color-outline-variant);
+        }
+
+        .reset-text {
+            font-size: var(--font-size-small);
+            color: var(--color-on-surface-variant);
+            margin: 0;
+        }
+
+        /* Dark theme adjustments */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: var(--color-surface);
+            }
+        }
+    </style>
+</head>
+
+<body class="theme-light" id="app-body">
+    <div class="app-container">
+        <header class="app-header">
+            <h1 class="app-title">Today List</h1>
+            <p class="app-subtitle">Your daily focus - 5 tasks to accomplish today</p>
+            <div class="today-date" id="today-date"></div>
+        </header>
+
+        <main class="task-list" id="task-list">
+            <!-- Tasks will be generated dynamically -->
+        </main>
+
+        <section class="progress-section">
+            <div class="progress-text" id="progress-text">0 of 5 tasks completed</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </section>
+
+        <div class="reset-info">
+            <p class="reset-text">Tasks reset automatically at midnight</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <labs-app-footer add-label="+ Add Task"></labs-app-footer>
+
+    <!-- Task Overlay -->
+    <labs-task-overlay id="task-overlay"></labs-task-overlay>
+
+    <script>
+        class TodayListApp {
+            constructor() {
+                this.tasks = this.loadTasks();
+                this.init();
+            }
+
+            init() {
+                this.updateDate();
+                this.renderTasks();
+                this.updateProgress();
+                this.setupEventListeners();
+                this.checkForNewDay();
+            }
+
+            updateDate() {
+                const today = new Date();
+                const options = {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                };
+                document.getElementById('today-date').textContent = today.toLocaleDateString('en-US', options);
+            }
+
+            loadTasks() {
+                const stored = localStorage.getItem('today-list-tasks');
+                const lastDate = localStorage.getItem('today-list-date');
+                const today = new Date().toDateString();
+
+                // Reset if new day
+                if (lastDate !== today) {
+                    localStorage.setItem('today-list-date', today);
+                    const defaultTasks = this.getDefaultTasks();
+                    this.saveTasks(defaultTasks);
+                    return defaultTasks;
+                }
+
+                return stored ? JSON.parse(stored) : this.getDefaultTasks();
+            }
+
+            getDefaultTasks() {
+                return [
+                    { id: 1, text: '', completed: false },
+                    { id: 2, text: '', completed: false },
+                    { id: 3, text: '', completed: false },
+                    { id: 4, text: '', completed: false },
+                    { id: 5, text: '', completed: false }
+                ];
+            }
+
+            saveTasks(tasks = this.tasks) {
+                localStorage.setItem('today-list-tasks', JSON.stringify(tasks));
+            }
+
+            renderTasks() {
+                const taskList = document.getElementById('task-list');
+                taskList.innerHTML = '';
+
+                this.tasks.forEach((task, index) => {
+                    const taskElement = document.createElement('div');
+                    taskElement.className = `task-item ${task.completed ? 'completed' : ''}`;
+
+                    const isEmpty = !task.text || task.text.trim() === '';
+                    const displayText = isEmpty ? 'Click to add task...' : task.text;
+                    const textClass = isEmpty ? 'task-text empty' : 'task-text';
+
+                    taskElement.innerHTML = `
+            <div class="task-number">${index + 1}</div>
+            <div class="task-checkbox ${task.completed ? 'checked' : ''}" data-task-id="${task.id}"></div>
+            <div class="${textClass}" data-task-id="${task.id}" data-task-index="${index}">${displayText}</div>
+          `;
+
+                    taskList.appendChild(taskElement);
+                });
+            }
+
+            toggleTask(taskId) {
+                const task = this.tasks.find(t => t.id === parseInt(taskId));
+                if (task) {
+                    task.completed = !task.completed;
+                    this.saveTasks();
+                    this.renderTasks();
+                    this.updateProgress();
+                }
+            }
+
+            updateProgress() {
+                const completed = this.tasks.filter(t => t.completed).length;
+                const total = this.tasks.length;
+                const percentage = (completed / total) * 100;
+
+                document.getElementById('progress-text').textContent = `${completed} of ${total} tasks completed`;
+                document.getElementById('progress-fill').style.width = `${percentage}%`;
+            }
+
+            setupEventListeners() {
+                // Task interactions
+                document.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('task-checkbox')) {
+                        const taskId = e.target.dataset.taskId;
+                        if (taskId) {
+                            this.toggleTask(taskId);
+                        }
+                    } else if (e.target.classList.contains('task-text')) {
+                        const taskIndex = parseInt(e.target.dataset.taskIndex);
+                        const task = this.tasks[taskIndex];
+                        this.showEditTaskDialog(task.text || '', taskIndex);
+                    }
+                });
+
+                // Footer events
+                const footer = document.querySelector('labs-app-footer');
+                footer.addEventListener('add-click', () => {
+                    this.showAddTaskDialog();
+                });
+
+                footer.addEventListener('action-click', (e) => {
+                    const action = e.detail?.action;
+                    if (action === 'reset') {
+                        this.resetTasks();
+                    }
+                });
+
+                // Task overlay events
+                const taskOverlay = document.getElementById('task-overlay');
+                taskOverlay.addEventListener('task-save', (e) => {
+                    const { text, index } = e.detail;
+                    if (index !== null) {
+                        this.updateTask(index, text);
+                    } else {
+                        this.addTask(text);
+                    }
+                });
+            }
+
+            showAddTaskDialog() {
+                const taskOverlay = document.getElementById('task-overlay');
+                taskOverlay.open();
+            }
+
+            showEditTaskDialog(text, index) {
+                const taskOverlay = document.getElementById('task-overlay');
+                taskOverlay.open(text, index);
+            }
+
+            updateTask(index, text) {
+                if (this.tasks[index]) {
+                    this.tasks[index].text = text;
+                    this.saveTasks();
+                    this.renderTasks();
+                    this.updateProgress();
+                }
+            }
+
+            addTask(text) {
+                // Find the first empty task
+                const emptyTask = this.tasks.find(t => !t.text || t.text.trim() === '');
+                if (emptyTask) {
+                    emptyTask.text = text;
+                    this.saveTasks();
+                    this.renderTasks();
+                    this.updateProgress();
+                } else {
+                    alert('All 5 task slots are filled! Complete or edit an existing task.');
+                }
+            }
+
+            resetTasks() {
+                if (confirm('Reset all tasks for today? This will clear your progress.')) {
+                    this.tasks = this.getDefaultTasks();
+                    this.saveTasks();
+                    this.renderTasks();
+                    this.updateProgress();
+                }
+            }
+
+            checkForNewDay() {
+                // Check every minute if it's a new day
+                setInterval(() => {
+                    const today = new Date().toDateString();
+                    const lastDate = localStorage.getItem('today-list-date');
+
+                    if (lastDate !== today) {
+                        // New day detected - reload to reset
+                        window.location.reload();
+                    }
+                }, 60000); // Check every minute
+            }
+        }
+
+        // Initialize app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new TodayListApp();
+        });
+    </script>
+</body>
+
+</html>
