@@ -175,9 +175,9 @@ class LabsSettingsOverlay extends HTMLElement {
     const buttonContainer = this.shadowRoot.querySelector('.button-container');
 
     // Create buttons the same way as the working story
-  const appsButton = createButtonElement("appsContainer");
-  const settingsButton = createButtonElement("settingsContainer");
-  const resetButton = createButtonElement("resetAllDataContainer");
+    const appsButton = createButtonElement("appsContainer");
+    const settingsButton = createButtonElement("settingsContainer");
+    const resetButton = createButtonElement("resetAllDataContainer");
 
     // Use the reusable theme toggle component (container variant)
     const themeToggleEl = document.createElement('labs-theme-toggle-button');
