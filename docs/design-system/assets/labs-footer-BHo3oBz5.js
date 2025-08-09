@@ -1,55 +1,4 @@
-/* eslint-disable */
-import "./labs-button.js";
-
-class LabsFooter extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({ mode: "open" });
-  }
-
-  static get observedAttributes() {
-    return ["add-label", "settings-hidden", "variant"];
-  }
-
-  attributeChangedCallback() {
-    this.render();
-  }
-
-  connectedCallback() {
-    this.render();
-    this.setupEventListeners();
-  }
-
-  setupEventListeners() {
-    // Clear any existing listeners to prevent duplicates
-    const addButton = this.shadowRoot.querySelector('.add-button');
-    const settingsButton = this.shadowRoot.querySelector('.settings-button');
-
-    if (addButton) {
-      // Remove existing listener if any
-      addButton.replaceWith(addButton.cloneNode(true));
-      const newAddButton = this.shadowRoot.querySelector('.add-button');
-      newAddButton.addEventListener('click', () => {
-        this.dispatchEvent(new CustomEvent('add-click', { bubbles: true }));
-      });
-    }
-
-    if (settingsButton) {
-      // Remove existing listener if any
-      settingsButton.replaceWith(settingsButton.cloneNode(true));
-      const newSettingsButton = this.shadowRoot.querySelector('.settings-button');
-      newSettingsButton.addEventListener('click', () => {
-        this.dispatchEvent(new CustomEvent('settings-click', { bubbles: true }));
-      });
-    }
-  }
-
-  render() {
-    const addLabel = this.getAttribute("add-label") || "+ Add";
-    const settingsHidden = this.hasAttribute("settings-hidden");
-    const variant = this.getAttribute("variant") || "default";
-
-    this.shadowRoot.innerHTML = `
+import"./labs-button-JZi7o1_n.js";class s extends HTMLElement{constructor(){super(),this.attachShadow({mode:"open"})}static get observedAttributes(){return["add-label","settings-hidden","variant"]}attributeChangedCallback(){this.render()}connectedCallback(){this.render(),this.setupEventListeners()}setupEventListeners(){const t=this.shadowRoot.querySelector(".add-button"),e=this.shadowRoot.querySelector(".settings-button");t&&(t.replaceWith(t.cloneNode(!0)),this.shadowRoot.querySelector(".add-button").addEventListener("click",()=>{this.dispatchEvent(new CustomEvent("add-click",{bubbles:!0}))})),e&&(e.replaceWith(e.cloneNode(!0)),this.shadowRoot.querySelector(".settings-button").addEventListener("click",()=>{this.dispatchEvent(new CustomEvent("settings-click",{bubbles:!0}))}))}render(){const t=this.getAttribute("add-label")||"+ Add",e=this.hasAttribute("settings-hidden");this.getAttribute("variant"),this.shadowRoot.innerHTML=`
       <style>
         :host {
           /* Use design tokens instead of hard-coded values */
@@ -143,7 +92,7 @@ class LabsFooter extends HTMLElement {
           <!-- Primary Add Button (centered) -->
           <labs-button 
             class="add-button" 
-            label="${addLabel}" 
+            label="${t}" 
             variant="primary" 
             checkmark
           ></labs-button>
@@ -155,15 +104,8 @@ class LabsFooter extends HTMLElement {
             variant="icon" 
             aria-label="Open Settings"
             iconcolor="var(--color-primary-75)"
-            ${settingsHidden ? 'hidden' : ''}
+            ${e?"hidden":""}
           ></labs-button>
         </div>
       </div>
-    `;
-
-    // Re-setup event listeners after re-render
-    this.setupEventListeners();
-  }
-}
-
-customElements.define("labs-footer", LabsFooter);
+    `,this.setupEventListeners()}}customElements.define("labs-footer",s);
