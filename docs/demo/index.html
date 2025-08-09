@@ -10,25 +10,42 @@
   <link rel="stylesheet" href="../design-system/main.css" />
   <style>
     /* Minimal reset and base styles */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       font-family: var(--font-family-base, system-ui, -apple-system, sans-serif);
       background: var(--color-background);
       color: var(--color-on-background);
       min-height: 100vh;
     }
+
     .container {
       min-height: 100vh;
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding-bottom: 120px; /* keep space for footer */
+      padding-bottom: 120px;
+      /* keep space for footer */
       text-align: center;
     }
-    .container .content { max-width: 560px; padding: 2rem; }
-    .container h2 { margin-bottom: 1rem; }
-    .container p { opacity: 0.85; }
+
+    .container .content {
+      max-width: 560px;
+      padding: 2rem;
+    }
+
+    .container h2 {
+      margin-bottom: 1rem;
+    }
+
+    .container p {
+      opacity: 0.85;
+    }
   </style>
 </head>
 
@@ -36,7 +53,8 @@
   <div class="container">
     <div class="content">
       <h2>Footer with Settings</h2>
-      <p>Complete footer with settings overlay pre-connected. Click the settings button to see the overlay in action.</p>
+      <p>Complete footer with settings overlay pre-connected. Click the settings button to see the overlay in action.
+      </p>
     </div>
   </div>
   <!-- Footer with Settings Pattern (fixed at bottom) -->
