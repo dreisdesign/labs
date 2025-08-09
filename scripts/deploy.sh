@@ -17,6 +17,11 @@ cd ..
 # 3. Copy static build to deploy directory
 cp -r design-system/storybook-static/* docs/design-system/
 
+# 4. Update demo timestamp version indicator
+TIMESTAMP=$(date '+%Y%m%d-%H%M%S')
+sed -i.bak "s/__DEPLOY_TIMESTAMP__/$TIMESTAMP/g" docs/demo/index.html
+rm -f docs/demo/index.html.bak
+
 # 4. Copy web components and main CSS for public demo compatibility
 mkdir -p docs/design-system/components
 cp design-system/src/components/*.js docs/design-system/components/
