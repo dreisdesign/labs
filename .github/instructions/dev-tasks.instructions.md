@@ -6,9 +6,18 @@ applyTo: '**'
 
 ## 🚧 **Active Work** (In Progress)
 
-### Current Sprint - Demo Fixes & Today List MVP
-- **[IN PROGRESS]** Today List app development - Daily checklist with 5 items, daily reset, localStorage
-- **[TESTING]** Settings overlay rogue button fix - Removed redundant "Settings" button from overlay (3 buttons total: Apps, Theme, Reset)
+### Production Stability & Component Architecture - URGENT
+- **[TESTING]** Storybook build automation - Components now automatically included in builds, no more manual copying
+- **[TESTING]** Reusable settings component - labs-settings created for cross-app scalability
+- **[RESOLVED]** Icon path resolution for demo page - 404 errors eliminated via automated checking
+- **[IN PROGRESS]** Settings button issue recurrence - Extra button appearing under footer  
+- **[TESTING]** Today List app refinement - Empty task list, overlay for task creation, tracker-like UI
+
+### Today List App Improvements - TESTING  
+- **[COMPLETED]** Remove pre-populated tasks, make task list start empty
+- **[COMPLETED]** Create task creation overlay component (labs-task-overlay)
+- **[COMPLETED]** Update to match tracker app visual style
+- **[COMPLETED]** Add checkbox functionality for task completion
 
 ---
 

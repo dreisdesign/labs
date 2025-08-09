@@ -88,6 +88,19 @@ npm run deploy
 
 ## 🤖 **AI Assistant Guidelines**
 
+### **Request Optimization & Efficiency**
+- **Maximize each request:** Always look for additional cleanup, suggestions, or improvements to include in each response
+- **Proactive issue detection:** Automatically check for 404s, errors, inconsistencies when making changes
+- **Bundle related tasks:** Group related fixes, improvements, and suggestions into single comprehensive responses
+- **Include validation:** Test changes and provide verification steps when implementing solutions
+- **Suggest next steps:** Always provide 2-3 follow-up improvements or related tasks to consider
+
+### **Automated Quality Checks**
+- **Run 404 checker:** Use `npm run check-404s` after deployment changes
+- **Validate builds:** Ensure Storybook builds complete without errors
+- **Cross-app consistency:** Check that component changes work across all apps
+- **Performance impact:** Consider bundle size and loading performance in suggestions
+
 ### **Command Preferences**
 - **Use menu system** - `npm run menu` for all Storybook operations
 - **Direct menu commands** - Use `echo "1" | npm run menu` for local dev, `echo "2" | npm run menu` for deployment
