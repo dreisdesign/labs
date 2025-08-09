@@ -64,7 +64,7 @@ DEPLOYED_TIMESTAMP="$TIMESTAMP"
 echo "🎯 Looking for timestamp: $DEPLOYED_TIMESTAMP"
 
 # Start validation script in background
-node ../scripts/validate-github-pages.mjs "$DEPLOYED_TIMESTAMP" &
+node scripts/validate-github-pages.mjs "$DEPLOYED_TIMESTAMP" &
 VALIDATION_PID=$!
 
 echo "✅ Validation running in background (PID: $VALIDATION_PID)"
