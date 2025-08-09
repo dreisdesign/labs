@@ -22,9 +22,18 @@ TIMESTAMP=$(date '+%Y%m%d-%H%M%S')
 sed -i.bak "s/__DEPLOY_TIMESTAMP__/$TIMESTAMP/g" docs/demo/index.html
 rm -f docs/demo/index.html.bak
 
-# 4. Copy web components and main CSS for public demo compatibility
+# 4. Copy web components and styles for public demo compatibility
+# Components are now included in the Storybook build, but ensure they're available
 mkdir -p docs/design-system/components
-cp design-system/src/components/*.js docs/design-system/components/
+if [ -d "design-system/storybook-static/components" ]; then
+    cp design-system/storybook-static/components/*.js docs/design-system/components/
+    echo "✅ Using components from Storybook build"
+else
+    cp design-system/src/components/*.js docs/design-system/components/
+    echo "⚠️  Fallback: Using components from src"
+fi
+
+# Copy additional assets that may be needed
 cp design-system/components/*.js docs/design-system/components/ 2>/dev/null || true
 cp design-system/src/styles/components/*.css docs/design-system/components/ 2>/dev/null || true
 cp design-system/src/styles/main.css docs/design-system/ 2>/dev/null || true
