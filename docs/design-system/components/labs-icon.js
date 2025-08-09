@@ -15,6 +15,11 @@ const ICON_BASE = (() => {
     return "/icons/";
   }
 
+  // Demo page or other local contexts - check for design-system directory existence
+  if (path.includes('/demo/') || path.includes('/docs/')) {
+    return "/design-system/icons/";
+  }
+
   // Default for other local development
   return "/design-system/icons/";
 })();
