@@ -49,17 +49,18 @@
 
     .version-indicator {
       position: fixed;
-      top: 1rem;
-      right: 1rem;
+      top: var(--space-md);
+      right: var(--space-md);
       background: var(--color-surface);
       color: var(--color-on-surface);
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--space-sm);
       font-family: monospace;
-      font-size: 0.75rem;
+      font-size: var(--font-size-sm);
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       z-index: 999;
-      opacity: 0.7;
+      opacity: 0.8;
+      border: 1px solid var(--color-primary-25);
     }
   </style>
 </head>
@@ -81,16 +82,21 @@
   <!-- Load Pattern Component (imports its parts internally) -->
   <script type="module" src="../design-system/components/labs-app-footer.js"></script>
   <script type="module">
-    // Wire once on load
+    // Wire events once on load with once: true to prevent duplicates
     const appFooter = document.querySelector('labs-app-footer');
     if (appFooter) {
+      let addClickCount = 0;
       appFooter.addEventListener('add-click', () => {
+        addClickCount++;
+        console.log(`Add clicked (count: ${addClickCount})`);
         alert('Add functionality coming soon!');
-      }, { once: false });
+      });
 
       appFooter.addEventListener('action-click', (e) => {
         const action = e?.detail?.action;
+        console.log('Action received:', action);
         if (!action) return;
+
         if (action === 'reset') {
           if (confirm('Are you sure you want to reset all data?')) {
             alert('Reset functionality coming soon!');
@@ -98,9 +104,9 @@
         } else if (action === 'apps') {
           alert('Apps functionality coming soon!');
         } else if (action === 'settings') {
-          // Settings button lives in overlay list; nothing extra here
+          console.log('Settings action received (handled by overlay)');
         } else if (action === 'theme-toggle') {
-          // Theme toggle handled by component
+          console.log('Theme toggle action received (handled by component)');
         }
       });
     }

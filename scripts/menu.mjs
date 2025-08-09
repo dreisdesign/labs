@@ -37,6 +37,10 @@ async function main() {
             value: "serveStorybook",
           },
           {
+            name: "Preview Demo (local, for testing)",
+            value: "previewDemo",
+          },
+          {
             name: "Build & Deploy (publishes, then preview demo)",
             value: "deploy",
           },
@@ -98,6 +102,39 @@ async function main() {
           "You can close this menu. The server will continue to run.",
         );
       }
+    } else if (action === "previewDemo") {
+      console.log("\nStarting local demo preview server...");
+
+      const demoProcess = exec("python3 -m http.server 8080", {
+        stdio: "inherit",
+        cwd: process.cwd(),
+      });
+
+      const demoUrl = "http://localhost:8080/docs/demo/";
+
+      // Give server time to start, then open URL
+      setTimeout(() => {
+        openUrls([demoUrl]);
+      }, 1500);
+
+      demoProcess.on("exit", (code) => {
+        console.log(`Demo server stopped with exit code ${code}`);
+      });
+
+      demoProcess.stdout.on("data", (data) => {
+        console.log(data.toString());
+      });
+
+      demoProcess.stderr.on("data", (data) => {
+        console.error(data.toString());
+      });
+
+      console.log(
+        "\nDemo server is starting on http://localhost:8080/docs/demo/",
+      );
+      console.log(
+        "You can close this menu. The server will continue to run.",
+      );
     } else if (action === "deploy") {
       // Always update the Storybook sitemap before deploying
       execSync("node design-system/scripts/generate-storybook-sitemap.js", {

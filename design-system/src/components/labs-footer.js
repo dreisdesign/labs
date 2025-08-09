@@ -2,48 +2,54 @@
 import "./labs-button.js";
 
 class LabsFooter extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({ mode: "open" });
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+  }
+
+  static get observedAttributes() {
+    return ["add-label", "settings-hidden", "variant"];
+  }
+
+  attributeChangedCallback() {
+    this.render();
+  }
+
+  connectedCallback() {
+    this.render();
+    this.setupEventListeners();
+  }
+
+  setupEventListeners() {
+    // Clear any existing listeners to prevent duplicates
+    const addButton = this.shadowRoot.querySelector('.add-button');
+    const settingsButton = this.shadowRoot.querySelector('.settings-button');
+
+    if (addButton) {
+      // Remove existing listener if any
+      addButton.replaceWith(addButton.cloneNode(true));
+      const newAddButton = this.shadowRoot.querySelector('.add-button');
+      newAddButton.addEventListener('click', () => {
+        this.dispatchEvent(new CustomEvent('add-click', { bubbles: true }));
+      });
     }
 
-    static get observedAttributes() {
-        return ["add-label", "settings-hidden", "variant"];
+    if (settingsButton) {
+      // Remove existing listener if any
+      settingsButton.replaceWith(settingsButton.cloneNode(true));
+      const newSettingsButton = this.shadowRoot.querySelector('.settings-button');
+      newSettingsButton.addEventListener('click', () => {
+        this.dispatchEvent(new CustomEvent('settings-click', { bubbles: true }));
+      });
     }
+  }
 
-    attributeChangedCallback() {
-        this.render();
-    }
+  render() {
+    const addLabel = this.getAttribute("add-label") || "+ Add";
+    const settingsHidden = this.hasAttribute("settings-hidden");
+    const variant = this.getAttribute("variant") || "default";
 
-    connectedCallback() {
-        this.render();
-        this.setupEventListeners();
-    }
-
-    setupEventListeners() {
-        // Forward clicks to parent with custom events
-        const addButton = this.shadowRoot.querySelector('.add-button');
-        const settingsButton = this.shadowRoot.querySelector('.settings-button');
-
-        if (addButton) {
-            addButton.addEventListener('click', () => {
-                this.dispatchEvent(new CustomEvent('add-click', { bubbles: true }));
-            });
-        }
-
-        if (settingsButton) {
-            settingsButton.addEventListener('click', () => {
-                this.dispatchEvent(new CustomEvent('settings-click', { bubbles: true }));
-            });
-        }
-    }
-
-    render() {
-        const addLabel = this.getAttribute("add-label") || "+ Add";
-        const settingsHidden = this.hasAttribute("settings-hidden");
-        const variant = this.getAttribute("variant") || "default";
-
-        this.shadowRoot.innerHTML = `
+    this.shadowRoot.innerHTML = `
       <style>
         :host {
           /* Use design tokens instead of hard-coded values */
@@ -155,9 +161,9 @@ class LabsFooter extends HTMLElement {
       </div>
     `;
 
-        // Re-setup event listeners after re-render
-        this.setupEventListeners();
-    }
+    // Re-setup event listeners after re-render
+    this.setupEventListeners();
+  }
 }
 
 customElements.define("labs-footer", LabsFooter);
