@@ -46,3 +46,33 @@ git add docs/design-system docs/demo/index.html
 commit_msg="Deploy (automation): $(date '+%Y-%m-%d %H:%M') - ensure all public assets in docs/design-system for GitHub Pages"
 git commit -m "$commit_msg"
 git push
+
+# Automated GitHub Pages validation
+echo ""
+echo "🚀 Deployment complete! Starting automated validation..."
+echo "📋 Relevant testing links:"
+echo "   🎨 Storybook: https://dreisdesign.github.io/labs/design-system/"
+echo "   🔧 Settings Overlay: https://dreisdesign.github.io/labs/design-system/?path=/story/components-settings-overlay--default"
+echo "   🏠 Demo Page: https://dreisdesign.github.io/labs/demo/"
+echo "   📝 Today List: https://dreisdesign.github.io/labs/today-list/"
+echo "   🎯 Homepage: https://dreisdesign.github.io/labs/"
+echo ""
+echo "⏳ Waiting for GitHub Pages to update (checking every 30 seconds)..."
+
+# Get the timestamp we just deployed
+DEPLOYED_TIMESTAMP="$TIMESTAMP"
+echo "🎯 Looking for timestamp: $DEPLOYED_TIMESTAMP"
+
+# Start validation script in background
+node ../scripts/validate-github-pages.mjs "$DEPLOYED_TIMESTAMP" &
+VALIDATION_PID=$!
+
+echo "✅ Validation running in background (PID: $VALIDATION_PID)"
+echo "🌐 Opening Storybook for immediate testing..."
+
+# Open the main Storybook page
+if command -v open >/dev/null 2>&1; then
+    open "https://dreisdesign.github.io/labs/design-system/"
+else
+    echo "🔗 Open manually: https://dreisdesign.github.io/labs/design-system/"
+fi

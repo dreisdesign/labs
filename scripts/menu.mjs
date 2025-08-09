@@ -44,6 +44,10 @@ async function main() {
             name: "Build & Deploy (publishes, then preview demo)",
             value: "deploy",
           },
+          {
+            name: "🧪 Quick Test - Open all testing pages",
+            value: "quickTest",
+          },
           { name: "Exit", value: "exit" },
         ],
       },
@@ -150,6 +154,9 @@ async function main() {
       const demoUrl = "https://dreisdesign.github.io/labs/demo/";
 
       openUrls([storybookUrl, demoUrl]);
+    } else if (action === "quickTest") {
+      console.log("\n🧪 Opening all testing pages...");
+      execSync("npm run quick-test", { stdio: "inherit" });
     } else if (action === "exit") {
       console.log("Goodbye!");
       process.exit(0);

@@ -11,7 +11,8 @@
     "storybook": "npm --prefix design-system run storybook",
     "premenu": "node scripts/generate-icons-list.mjs",
     "menu": "node scripts/menu.mjs",
-    "check-404s": "node scripts/check-404s.mjs"
+    "check-404s": "node scripts/check-404s.mjs",
+    "quick-test": "node scripts/quick-test.mjs"
   },
   "devDependencies": {
     "inquirer": "^12.8.2"

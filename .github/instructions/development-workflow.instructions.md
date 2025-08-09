@@ -101,6 +101,12 @@ npm run deploy
 - **Cross-app consistency:** Check that component changes work across all apps
 - **Performance impact:** Consider bundle size and loading performance in suggestions
 
+### **Testing Links & Validation**
+- **Always provide relevant testing links:** Include direct URLs to test changes in responses
+- **Component-specific links:** Link to specific Storybook stories when discussing components
+- **App testing links:** Provide direct links to apps when making changes
+- **GitHub Pages validation:** Deployment script automatically opens testing pages and validates updates
+
 ### **Command Preferences**
 - **Use menu system** - `npm run menu` for all Storybook operations
 - **Direct menu commands** - Use `echo "1" | npm run menu` for local dev, `echo "2" | npm run menu` for deployment
