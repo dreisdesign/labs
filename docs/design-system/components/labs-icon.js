@@ -15,32 +15,27 @@ const ICON_BASE = (() => {
     return "/icons/";
   }
 
-  // Demo page or other local contexts - check for design-system directory existence
-  if (path.includes('/demo/') || path.includes('/docs/')) {
-    return "/design-system/icons/";
-  }
-
   // Default for other local development
   return "/design-system/icons/";
 })();
 const icons = {
-    add: ICON_BASE + 'add--labs-icons.svg',
-    add_comment: ICON_BASE + 'add_comment--labs-icons.svg',
-    apps: ICON_BASE + 'apps--labs-icons.svg',
-    bedtime: ICON_BASE + 'bedtime--labs-icons.svg',
-    bedtime_off: ICON_BASE + 'bedtime_off--labs-icons.svg',
-    cancel: ICON_BASE + 'cancel--labs-icons.svg',
-    change_circle: ICON_BASE + 'change_circle--labs-icons.svg',
-    check: ICON_BASE + 'check--labs-icons.svg',
-    close: ICON_BASE + 'close--labs-icons.svg',
-    code: ICON_BASE + 'code--labs-icons.svg',
-    comment: ICON_BASE + 'comment--labs-icons.svg',
-    content_copy: ICON_BASE + 'content_copy--labs-icons.svg',
-    delete_forever: ICON_BASE + 'delete_forever--labs-icons.svg',
-    edit: ICON_BASE + 'edit--labs-icons.svg',
-    rate_review: ICON_BASE + 'rate_review--labs-icons.svg',
-    settings: ICON_BASE + 'settings--labs-icons.svg',
-    undo: ICON_BASE + 'undo--labs-icons.svg'
+  add: ICON_BASE + 'add--labs-icons.svg',
+  add_comment: ICON_BASE + 'add_comment--labs-icons.svg',
+  apps: ICON_BASE + 'apps--labs-icons.svg',
+  bedtime: ICON_BASE + 'bedtime--labs-icons.svg',
+  bedtime_off: ICON_BASE + 'bedtime_off--labs-icons.svg',
+  cancel: ICON_BASE + 'cancel--labs-icons.svg',
+  change_circle: ICON_BASE + 'change_circle--labs-icons.svg',
+  check: ICON_BASE + 'check--labs-icons.svg',
+  close: ICON_BASE + 'close--labs-icons.svg',
+  code: ICON_BASE + 'code--labs-icons.svg',
+  comment: ICON_BASE + 'comment--labs-icons.svg',
+  content_copy: ICON_BASE + 'content_copy--labs-icons.svg',
+  delete_forever: ICON_BASE + 'delete_forever--labs-icons.svg',
+  edit: ICON_BASE + 'edit--labs-icons.svg',
+  rate_review: ICON_BASE + 'rate_review--labs-icons.svg',
+  settings: ICON_BASE + 'settings--labs-icons.svg',
+  undo: ICON_BASE + 'undo--labs-icons.svg'
 };
 
 class LabsIcon extends HTMLElement {
@@ -98,8 +93,15 @@ class LabsIcon extends HTMLElement {
     }
 
     const style = window.getComputedStyle(this);
-    const width = this.getAttribute("width") ? this.getAttribute("width") + "px" : style.width || "24px";
-    const height = this.getAttribute("height") ? this.getAttribute("height") + "px" : style.height || "24px";
+    const rawWidth = this.getAttribute("width") || style.width || "24";
+    const rawHeight = this.getAttribute("height") || style.height || "24";
+
+    // Ensure width and height are never "auto" or invalid values
+    const width = (rawWidth === "auto" || !rawWidth || rawWidth === "0px") ? "24" : rawWidth.replace("px", "");
+    const height = (rawHeight === "auto" || !rawHeight || rawHeight === "0px") ? "24" : rawHeight.replace("px", "");
+
+    const widthPx = width + "px";
+    const heightPx = height + "px";
     // Always resolve color to a real value (not a CSS variable or currentColor)
     let color = this.getAttribute("color") || "#000";
     // If color is a CSS variable (token), resolve it to a real value
@@ -126,7 +128,7 @@ class LabsIcon extends HTMLElement {
       svg = svg.replace(/fill="#[^"]*"/gi, `fill="${color}"`);
       svg = svg.replace(/fill='#[^']*'/gi, `fill='${color}'`);
 
-      // Set width and height
+      // Set width and height with proper pixel values
       svg = svg.replace(/width="[^"]*"/gi, `width="${width}"`);
       svg = svg.replace(/height="[^"]*"/gi, `height="${height}"`);
 

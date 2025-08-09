@@ -10,9 +10,7 @@
     "private": "npm --prefix design-system run local && (sleep 2 && open -a 'Google Chrome' http://localhost:8080/docs/demo/index.html &) && python3 -m http.server 8080",
     "storybook": "npm --prefix design-system run storybook",
     "premenu": "node scripts/generate-icons-list.mjs",
-    "menu": "node scripts/menu.mjs",
-    "check-404s": "node scripts/check-404s.mjs",
-    "quick-test": "node scripts/quick-test.mjs"
+    "menu": "node scripts/menu.mjs"
   },
   "devDependencies": {
     "inquirer": "^12.8.2"

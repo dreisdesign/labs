@@ -174,22 +174,27 @@ class LabsSettingsOverlay extends HTMLElement {
     // Create buttons using the working pattern from production
     const buttonContainer = this.shadowRoot.querySelector('.button-container');
 
-    // Create buttons - NO settings button inside the settings overlay!
+    // Create buttons the same way as the working story
     const appsButton = createButtonElement("appsContainer");
+    const settingsButton = createButtonElement("settingsContainer");
     const resetButton = createButtonElement("resetAllDataContainer");
 
     // Use the reusable theme toggle component (container variant)
     const themeToggleEl = document.createElement('labs-theme-toggle-button');
     themeToggleEl.setAttribute('variant', 'container');
 
-    // Add buttons to container (apps, theme toggle, reset - NO settings)
+    // Add buttons to container
     buttonContainer.appendChild(appsButton);
     buttonContainer.appendChild(themeToggleEl);
+    buttonContainer.appendChild(settingsButton);
     buttonContainer.appendChild(resetButton);
 
     // Wire action events for container buttons
     appsButton.addEventListener('labs-click', () => {
       this.dispatchEvent(new CustomEvent('action-click', { bubbles: true, detail: { action: 'apps' } }));
+    });
+    settingsButton.addEventListener('labs-click', () => {
+      this.dispatchEvent(new CustomEvent('action-click', { bubbles: true, detail: { action: 'settings' } }));
     });
     resetButton.addEventListener('labs-click', () => {
       this.dispatchEvent(new CustomEvent('action-click', { bubbles: true, detail: { action: 'reset' } }));

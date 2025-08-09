@@ -21,24 +21,18 @@ class LabsFooter extends HTMLElement {
   }
 
   setupEventListeners() {
-    // Clear any existing listeners to prevent duplicates
+    // Forward clicks to parent with custom events
     const addButton = this.shadowRoot.querySelector('.add-button');
     const settingsButton = this.shadowRoot.querySelector('.settings-button');
 
     if (addButton) {
-      // Remove existing listener if any
-      addButton.replaceWith(addButton.cloneNode(true));
-      const newAddButton = this.shadowRoot.querySelector('.add-button');
-      newAddButton.addEventListener('click', () => {
+      addButton.addEventListener('click', () => {
         this.dispatchEvent(new CustomEvent('add-click', { bubbles: true }));
       });
     }
 
     if (settingsButton) {
-      // Remove existing listener if any
-      settingsButton.replaceWith(settingsButton.cloneNode(true));
-      const newSettingsButton = this.shadowRoot.querySelector('.settings-button');
-      newSettingsButton.addEventListener('click', () => {
+      settingsButton.addEventListener('click', () => {
         this.dispatchEvent(new CustomEvent('settings-click', { bubbles: true }));
       });
     }

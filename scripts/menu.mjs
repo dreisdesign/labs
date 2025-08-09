@@ -37,16 +37,8 @@ async function main() {
             value: "serveStorybook",
           },
           {
-            name: "Preview Demo (local, for testing)",
-            value: "previewDemo",
-          },
-          {
             name: "Build & Deploy (publishes, then preview demo)",
             value: "deploy",
-          },
-          {
-            name: "🧪 Quick Test - Open all testing pages",
-            value: "quickTest",
           },
           { name: "Exit", value: "exit" },
         ],
@@ -106,39 +98,6 @@ async function main() {
           "You can close this menu. The server will continue to run.",
         );
       }
-    } else if (action === "previewDemo") {
-      console.log("\nStarting local demo preview server...");
-
-      const demoProcess = exec("python3 -m http.server 8080", {
-        stdio: "inherit",
-        cwd: process.cwd(),
-      });
-
-      const demoUrl = "http://localhost:8080/docs/demo/";
-
-      // Give server time to start, then open URL
-      setTimeout(() => {
-        openUrls([demoUrl]);
-      }, 1500);
-
-      demoProcess.on("exit", (code) => {
-        console.log(`Demo server stopped with exit code ${code}`);
-      });
-
-      demoProcess.stdout.on("data", (data) => {
-        console.log(data.toString());
-      });
-
-      demoProcess.stderr.on("data", (data) => {
-        console.error(data.toString());
-      });
-
-      console.log(
-        "\nDemo server is starting on http://localhost:8080/docs/demo/",
-      );
-      console.log(
-        "You can close this menu. The server will continue to run.",
-      );
     } else if (action === "deploy") {
       // Always update the Storybook sitemap before deploying
       execSync("node design-system/scripts/generate-storybook-sitemap.js", {
@@ -154,9 +113,6 @@ async function main() {
       const demoUrl = "https://dreisdesign.github.io/labs/demo/";
 
       openUrls([storybookUrl, demoUrl]);
-    } else if (action === "quickTest") {
-      console.log("\n🧪 Opening all testing pages...");
-      execSync("npm run quick-test", { stdio: "inherit" });
     } else if (action === "exit") {
       console.log("Goodbye!");
       process.exit(0);

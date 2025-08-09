@@ -6,7 +6,6 @@ class LabsAppFooter extends HTMLElement {
     constructor() {
         super();
         // No shadow DOM - this is just a composition pattern
-        this._listenersSetup = false;
     }
 
     static get observedAttributes() {
@@ -23,23 +22,33 @@ class LabsAppFooter extends HTMLElement {
     }
 
     setupEventListeners() {
-        // Prevent duplicate setup
-        if (this._listenersSetup) return;
+        // Wait for custom elements to be defined
+        Promise.all([
+            customElements.whenDefined('labs-footer'),
+            customElements.whenDefined('labs-settings-overlay')
+        ]).then(() => {
+            // Use additional timeout to ensure components are rendered
+            setTimeout(() => {
+                const footer = this.querySelector('labs-footer');
+                const overlay = this.querySelector('labs-settings-overlay');
 
-        // Use a timeout to ensure components are fully rendered
-        setTimeout(() => {
-            const footer = this.querySelector('labs-footer');
-            const overlay = this.querySelector('labs-settings-overlay');
-
-            if (footer && overlay) {
-                // Connect footer to overlay
-                footer.addEventListener('settings-click', () => overlay.open());
-                // Let native bubbling handle other events (add-click, action-click)
-                this._listenersSetup = true;
-            } else {
-                console.warn('labs-app-footer: Child components not found', { footer, overlay });
-            }
-        }, 0);
+                if (footer && overlay) {
+                    // Connect footer to overlay
+                    footer.addEventListener('settings-click', () => {
+                        if (typeof overlay.open === 'function') {
+                            overlay.open();
+                        } else {
+                            console.error('labs-settings-overlay: open method not available');
+                        }
+                    });
+                    // Let native bubbling handle other events (add-click, action-click)
+                } else {
+                    console.warn('labs-app-footer: Child components not found', { footer, overlay });
+                }
+            }, 10);
+        }).catch(error => {
+            console.error('labs-app-footer: Error waiting for component definitions', error);
+        });
     }
 
     render() {
@@ -57,10 +66,8 @@ class LabsAppFooter extends HTMLElement {
       <labs-settings-overlay></labs-settings-overlay>
     `;
 
-        // Only setup listeners once - render() can be called multiple times
-        if (!this._listenersSetup) {
-            this.setupEventListeners();
-        }
+        // Re-setup event listeners after re-render
+        this.setupEventListeners();
     }
 }
 

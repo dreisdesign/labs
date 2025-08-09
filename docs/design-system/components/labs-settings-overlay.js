@@ -1,180 +1,208 @@
+/* eslint-disable */
 import "./labs-button.js";
 import "./labs-icon.js";
+import "./labs-theme-toggle-button.js";
+import { createButtonElement } from "../tokens/button-configs.js";
 
 class LabsSettingsOverlay extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({ mode: "open" });
-        this.render();
-    }
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+  }
 
-    render() {
-        this.shadowRoot.innerHTML = `
+  static get observedAttributes() {
+    return ["active"];
+  }
+
+  attributeChangedCallback() {
+    this.render();
+  }
+
+  connectedCallback() {
+    this.render();
+    this.setupEventListeners();
+    this.setupThemeObserver();
+  }
+
+  setupThemeObserver() {
+    // Watch for theme changes on document.body
+    this.themeObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          this.updateIconColors();
+        }
+      });
+    });
+
+    this.themeObserver.observe(document.body, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+  }
+
+  updateIconColors() {
+    const closeIcon = this.shadowRoot.querySelector('.close-button labs-icon');
+    if (closeIcon) {
+      closeIcon.setAttribute('color', 'var(--color-on-surface)');
+    }
+  }
+
+  setupEventListeners() {
+    // Close when clicking overlay background (the host element itself)
+    this.shadowRoot.addEventListener('click', (e) => {
+      if (e.target === this.shadowRoot.host || e.target.classList.contains('overlay-background')) {
+        this.close();
+      }
+    });
+
+    // Close button
+    setTimeout(() => {
+      const closeButton = this.shadowRoot.querySelector('.close-button');
+      if (closeButton) {
+        closeButton.addEventListener('click', () => this.close());
+      }
+    }, 0);
+
+    // Escape key handler
+    this.handleEscape = (e) => {
+      if (e.key === 'Escape' && this.hasAttribute('active')) {
+        this.close();
+      }
+    };
+    document.addEventListener('keydown', this.handleEscape);
+  }
+
+  disconnectedCallback() {
+    document.removeEventListener('keydown', this.handleEscape);
+    if (this.themeObserver) {
+      this.themeObserver.disconnect();
+    }
+  }
+
+  open() {
+    this.setAttribute('active', '');
+  }
+
+  close() {
+    this.removeAttribute('active');
+    this.dispatchEvent(new CustomEvent('overlay-close', { bubbles: true }));
+  }
+
+  render() {
+    const isActive = this.hasAttribute('active');
+
+    this.shadowRoot.innerHTML = `
       <style>
         :host {
-          display: inline-block;
-        }
-
-        .settings-overlay {
           position: fixed;
           top: 0;
           left: 0;
           width: 100%;
           height: 100%;
-          background-color: var(--overlay-background, rgba(0, 0, 0, 0.5));
-          backdrop-filter: blur(var(--overlay-blur, 25px));
-          -webkit-backdrop-filter: blur(var(--overlay-blur, 16px));
-          display: flex;
-          flex-direction: column;
-          align-items: center;
+          background-color: rgba(0, 0, 0, 0.5);
+          backdrop-filter: blur(4px);
+          display: ${isActive ? 'flex' : 'none'};
           justify-content: center;
-          z-index: var(--overlay-z-index, 1000);
-          transition: opacity 0.3s ease;
+          align-items: center;
+          z-index: 1000;
         }
 
-        .settings-overlay.hidden {
-          opacity: 0;
-          pointer-events: none;
-          visibility: hidden;
+        .overlay-background {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          cursor: pointer;
         }
 
         .overlay-content {
-          background-color: var(--surface-color, #fff);
-          color: var(--on-surface-color, #1c1b1f);
-          padding: var(--overlay-padding, 20px);
-          border-radius: var(--border-radius, 12px);
-          box-shadow: var(--overlay-shadow, 0 5px 20px rgba(0, 0, 0, 0.2));
+          background: var(--color-surface);
+          border-radius: 12px;
+          padding: var(--space-lg);
+          max-width: 400px;
           width: 90%;
-          max-width: var(--overlay-max-width, 400px);
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
           position: relative;
-          margin: auto;
-          max-height: 80dvh;
-          overflow-y: auto;
-          overflow-x: hidden;
-          transition: all 0.3s ease-out;
-          display: flex;
-          flex-direction: column;
-          box-sizing: border-box;
+          z-index: 1001;
         }
 
         .overlay-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin-bottom: var(--header-margin, 0.75rem);
+          margin-bottom: var(--space-md);
         }
 
         .overlay-header h2 {
+          font-size: var(--font-size-h2);
+          font-weight: var(--font-weight-semibold);
+          color: var(--color-on-surface);
           margin: 0;
-          font-size: var(--title-size, 1.5rem);
-          color: var(--on-surface-color, #1c1b1f);
-          font-family: var(--font-family, inherit);
         }
 
         .close-button {
           background: none;
           border: none;
           cursor: pointer;
-          border-radius: 50%;
-          transition: background-color 0.2s;
-          width: var(--close-button-size, 3rem);
-          height: var(--close-button-size, 3rem);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 0;
-        }
-
-        .close-button:hover {
-          background-color: var(--close-button-hover, rgba(46, 43, 116, 0.1));
-        }
-
-        .close-icon {
-          width: var(--close-icon-size, 1.5rem);
-          height: var(--close-icon-size, 1.5rem);
-          display: block;
+          padding: var(--space-xs);
+          border-radius: 8px;
         }
 
         .button-container {
           display: flex;
           flex-direction: column;
-          gap: var(--button-gap, 0.5rem);
-          margin-top: var(--button-container-margin, 1rem);
-        }
-
-        /* Container button styles within shadow DOM */
-        .button-container labs-button[variant="container"],
-        .button-container labs-button[variant="container-danger"] {
-          width: 100%;
-          font-size: var(--button-font-size, 1.125rem);
-          padding: var(--button-padding, 1rem);
-          text-align: left;
-          justify-content: flex-start;
-          border-radius: var(--button-radius, 0.7rem);
-          background: transparent;
-          transition: background 0.2s, color 0.2s;
-          box-shadow: none;
-          outline: none;
-          color: var(--on-surface-color, #1c1b1f);
-          box-sizing: border-box;
-          border: none;
-        }
-
-        .button-container labs-button[variant="container"]:hover {
-          background: var(--button-hover-bg, rgba(46, 43, 116, 0.1));
-        }
-
-        .button-container labs-button[variant="container-danger"] {
-          color: var(--error-color, #b5005a);
-        }
-
-        .button-container labs-button[variant="container-danger"]:hover {
-          background: var(--error-color, #b5005a);
-          color: var(--on-error-color, #fff);
+          gap: var(--space-sm);
         }
       </style>
+      
+      <div class="overlay-background"></div>
+      <div class="overlay-content">
+        <div class="overlay-header">
+          <h2>Settings</h2>
+          <button class="close-button">
+            <labs-icon name="close" width="24" height="24" color="var(--color-on-surface)"></labs-icon>
+          </button>
+        </div>
 
-      <labs-button id="open-settings-btn" icon="settings" iconcolor="#fff" variant="primary" label="Settings"></labs-button>
-      <div id="overlay" class="settings-overlay" style="display:none;">
-        <div class="overlay-content">
-          <div class="overlay-header">
-            <h2>Settings</h2>
-            <button class="close-button">
-              <labs-icon name="close" class="close-icon" color="#000"></labs-icon>
-            </button>
-          </div>
           <div class="button-container">
-            <labs-button label="All Apps" icon="add" iconcolor="var(--color-primary-75)" variant="container"></labs-button>
-            <labs-button label="Turn On Dark Mode" icon="bedtime" iconcolor="var(--color-primary-75)" variant="container"></labs-button>
-            <labs-button label="Reset All Data" icon="delete_forever" iconcolor="var(--color-error)" variant="container-danger"></labs-button>
           </div>
         </div>
       </div>
     `;
 
-        const openBtn = this.shadowRoot.getElementById("open-settings-btn");
-        const overlay = this.shadowRoot.getElementById("overlay");
-        const closeBtn = this.shadowRoot.querySelector(".close-button");
+    // Create buttons using the working pattern from production
+    const buttonContainer = this.shadowRoot.querySelector('.button-container');
 
-        openBtn.addEventListener("click", () => {
-            overlay.style.display = "flex";
-        });
+    // Create buttons - NO settings button inside the settings overlay!
+    const appsButton = createButtonElement("appsContainer");
+    const resetButton = createButtonElement("resetAllDataContainer");
 
-        closeBtn.addEventListener("click", () => {
-            overlay.style.display = "none";
-        });
+    // Use the reusable theme toggle component (container variant)
+    const themeToggleEl = document.createElement('labs-theme-toggle-button');
+    themeToggleEl.setAttribute('variant', 'container');
 
-        overlay.addEventListener("click", (e) => {
-            if (e.target === overlay) overlay.style.display = "none";
-        });
+    // Add buttons to container (apps, theme toggle, reset - NO settings)
+    buttonContainer.appendChild(appsButton);
+    buttonContainer.appendChild(themeToggleEl);
+    buttonContainer.appendChild(resetButton);
 
-        // Ensure all labs-icon elements are upgraded and rendered
-        customElements.whenDefined('labs-icon').then(() => {
-            this.shadowRoot.querySelectorAll('labs-icon').forEach(icon => {
-                if (typeof icon.render === 'function') icon.render();
-            });
-        });
-    }
+    // Wire action events for container buttons
+    appsButton.addEventListener('labs-click', () => {
+      this.dispatchEvent(new CustomEvent('action-click', { bubbles: true, detail: { action: 'apps' } }));
+    });
+    resetButton.addEventListener('labs-click', () => {
+      this.dispatchEvent(new CustomEvent('action-click', { bubbles: true, detail: { action: 'reset' } }));
+    });
+
+    // Theme toggle handled internally; optionally announce action
+    themeToggleEl.addEventListener('labs-click', () => {
+      this.dispatchEvent(new CustomEvent('action-click', { bubbles: true, detail: { action: 'theme-toggle' } }));
+    });
+
+    // Setup generic listeners (close etc.) after rendering
+    this.setupEventListeners();
+  }
 }
 
 customElements.define("labs-settings-overlay", LabsSettingsOverlay);

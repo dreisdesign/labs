@@ -88,25 +88,6 @@ npm run deploy
 
 ## 🤖 **AI Assistant Guidelines**
 
-### **Request Optimization & Efficiency**
-- **Maximize each request:** Always look for additional cleanup, suggestions, or improvements to include in each response
-- **Proactive issue detection:** Automatically check for 404s, errors, inconsistencies when making changes
-- **Bundle related tasks:** Group related fixes, improvements, and suggestions into single comprehensive responses
-- **Include validation:** Test changes and provide verification steps when implementing solutions
-- **Suggest next steps:** Always provide 2-3 follow-up improvements or related tasks to consider
-
-### **Automated Quality Checks**
-- **Run 404 checker:** Use `npm run check-404s` after deployment changes
-- **Validate builds:** Ensure Storybook builds complete without errors
-- **Cross-app consistency:** Check that component changes work across all apps
-- **Performance impact:** Consider bundle size and loading performance in suggestions
-
-### **Testing Links & Validation**
-- **Always provide relevant testing links:** Include direct URLs to test changes in responses
-- **Component-specific links:** Link to specific Storybook stories when discussing components
-- **App testing links:** Provide direct links to apps when making changes
-- **GitHub Pages validation:** Deployment script automatically opens testing pages and validates updates
-
 ### **Command Preferences**
 - **Use menu system** - `npm run menu` for all Storybook operations
 - **Direct menu commands** - Use `echo "1" | npm run menu` for local dev, `echo "2" | npm run menu` for deployment
@@ -133,7 +114,34 @@ npm run deploy
 - ✅ **Menu-driven commands** - Simplified developer interface
 - ✅ **Documentation consolidation** - Clean hierarchical structure
 
-## 🛠️ **Troubleshooting**
+## � **Common Issues & Solutions**
+
+### **Component Loading & Timing Issues**
+- **Problem**: `overlay.open is not a function` or undefined component methods
+- **Solution**: Use `customElements.whenDefined()` + `setTimeout()` for proper component loading
+- **Prevention**: Always wait for custom elements before connecting event listeners
+
+### **Double Event Listeners**
+- **Problem**: Multiple alerts or duplicate actions when clicking buttons
+- **Solution**: Wait for component setup before adding app-specific listeners
+- **Pattern**: Use `customElements.whenDefined()` in demo/app files
+
+### **Cache & Build Issues**  
+- **Problem**: Components not updating despite code changes
+- **Solution**: Clear `storybook-static/` and `docs/design-system/` then rebuild
+- **Command**: `rm -rf design-system/storybook-static docs/design-system && npm run menu`
+
+### **Styling Conflicts**
+- **Problem**: Hardcoded styles instead of design system tokens
+- **Solution**: Replace inline styles with CSS custom properties
+- **Reference**: Use tracker app pattern as reference for proper token usage
+
+### **Git Large Change Sets**
+- **Problem**: 600+ file changes during architectural shifts
+- **Expectation**: Normal during design system migration and component rebuilds
+- **Review**: Focus on component patterns rather than individual file counts
+
+## �🛠️ **Troubleshooting**
 
 ### **Common Issues**
 - **Port conflicts** - Auto-resolved by enhanced build scripts

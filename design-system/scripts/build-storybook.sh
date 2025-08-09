@@ -86,15 +86,5 @@ if [ ! -f "storybook-static/index.html" ]; then
 fi
 
 echo "✅ Build complete! Output in storybook-static/"
-
-# Copy component files for demo pages
-echo "📋 Copying component files for demo integration..."
-mkdir -p storybook-static/components
-if cp src/components/*.js storybook-static/components/; then
-    echo "✅ Component files copied to storybook-static/components/"
-else
-    echo "⚠️  Warning: Could not copy component files"
-fi
-
 echo "📊 Build size: $(du -sh storybook-static | cut -f1)"
 echo "📁 Files generated: $(find storybook-static -type f | wc -l | tr -d ' ')"

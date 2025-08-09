@@ -93,15 +93,8 @@ class LabsIcon extends HTMLElement {
     }
 
     const style = window.getComputedStyle(this);
-    const rawWidth = this.getAttribute("width") || style.width || "24";
-    const rawHeight = this.getAttribute("height") || style.height || "24";
-
-    // Ensure width and height are never "auto" or invalid values
-    const width = (rawWidth === "auto" || !rawWidth || rawWidth === "0px") ? "24" : rawWidth.replace("px", "");
-    const height = (rawHeight === "auto" || !rawHeight || rawHeight === "0px") ? "24" : rawHeight.replace("px", "");
-
-    const widthPx = width + "px";
-    const heightPx = height + "px";
+    const width = this.getAttribute("width") ? this.getAttribute("width") + "px" : style.width || "24px";
+    const height = this.getAttribute("height") ? this.getAttribute("height") + "px" : style.height || "24px";
     // Always resolve color to a real value (not a CSS variable or currentColor)
     let color = this.getAttribute("color") || "#000";
     // If color is a CSS variable (token), resolve it to a real value
@@ -128,7 +121,7 @@ class LabsIcon extends HTMLElement {
       svg = svg.replace(/fill="#[^"]*"/gi, `fill="${color}"`);
       svg = svg.replace(/fill='#[^']*'/gi, `fill='${color}'`);
 
-      // Set width and height with proper pixel values
+      // Set width and height
       svg = svg.replace(/width="[^"]*"/gi, `width="${width}"`);
       svg = svg.replace(/height="[^"]*"/gi, `height="${height}"`);
 
