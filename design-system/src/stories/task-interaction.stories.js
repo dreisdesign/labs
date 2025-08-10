@@ -2,6 +2,7 @@ import "../components/labs-task-item.js";
 import "../components/labs-checkbox.js";
 import "../components/labs-button.js";
 import "../components/labs-icon.js";
+import "../components/labs-input-overlay.js";
 
 export default {
     title: "Patterns/Task Interaction",
@@ -17,14 +18,35 @@ export default {
 const TaskItemTemplate = () => {
     // Use setTimeout to ensure the component is fully rendered before adding event listeners
     setTimeout(() => {
+        const overlay = document.querySelector('labs-input-overlay');
+
         document.addEventListener('labs-checkbox-change', (e) => {
             console.log('Task changed:', e.detail);
         });
 
         document.addEventListener('labs-task-edit', (e) => {
-            alert(`Edit task ${e.detail.taskId}: "${e.detail.text}"
+            console.log('Edit task requested:', e.detail);
 
-In real app, this would open the input overlay.`);
+            // Open input overlay for editing
+            overlay.open(
+                "Edit Task",
+                "Update task text...",
+                e.detail.text,
+                e.detail.taskId
+            );
+        });
+
+        // Handle task save from overlay
+        document.addEventListener('task-save', (e) => {
+            console.log('Task saved:', e.detail);
+
+            // In real app, this would update the task data
+            // For demo, just show what was saved
+            const message = e.detail.index
+                ? `Updated task ${e.detail.index}: "${e.detail.text}"`
+                : `Created new task: "${e.detail.text}"`;
+
+            alert(message);
         });
     }, 100);
 
@@ -81,7 +103,7 @@ In real app, this would open the input overlay.`);
           • Click anywhere on task to toggle completion<br>
           • Hover to reveal edit button<br>
           • Check animation plays on state change<br>
-          • Edit button shows alert (would open input overlay)
+          • Edit button opens input overlay for text editing
         </p>
         
         <div class="task-list">
@@ -91,6 +113,9 @@ In real app, this would open the input overlay.`);
           ></labs-task-item>
         </div>
       </div>
+      
+      <!-- Input overlay for editing -->
+      <labs-input-overlay></labs-input-overlay>
     </div>
   `;
 }; export const TaskItems = TaskItemTemplate.bind({});

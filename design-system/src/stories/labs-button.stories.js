@@ -192,23 +192,6 @@ const CheckboxTemplate = ({ checked, iconcolor }) => {
         ${checked ? 'checked' : ''}
         ${iconcolor ? `iconcolor="${iconcolor}"` : ''}
       ></labs-checkbox>
-      <span>Task item with checkbox</span>
-    </div>
-    
-    <h3>Interactive Demo:</h3>
-    <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem;">
-      <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <labs-checkbox></labs-checkbox>
-        <span>Unchecked task</span>
-      </div>
-      <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <labs-checkbox checked></labs-checkbox>
-        <span>Completed task</span>
-      </div>
-      <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <labs-checkbox iconcolor="var(--color-error)"></labs-checkbox>
-        <span>Custom color task</span>
-      </div>
     </div>
   `;
 };
@@ -233,5 +216,99 @@ Checkbox.argTypes = {
   iconcolor: {
     control: "color",
     description: "Color for unchecked state (checked state uses primary color)"
+  },
+};
+
+// Form Variants Template
+const FormVariantsTemplate = () => {
+  setTimeout(() => {
+    document.addEventListener('labs-click', (e) => {
+      console.log('Button clicked:', e.detail);
+    });
+  }, 100);
+
+  return `
+    <style>
+      .form-variants-demo {
+        max-width: 600px;
+        margin: 0 auto;
+        font-family: var(--font-family-primary);
+      }
+      
+      .variant-section {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        border: 1px solid var(--color-outline-variant);
+        border-radius: var(--border-radius-lg);
+        background: var(--color-surface-container);
+      }
+      
+      .variant-section h3 {
+        margin-bottom: 1rem;
+        color: var(--color-on-surface);
+        font-size: var(--font-size-h4);
+      }
+      
+      .button-group {
+        display: flex;
+        gap: var(--space-md);
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      
+      .description {
+        color: var(--color-on-surface-variant);
+        font-size: var(--font-size-body-sm);
+        margin-bottom: 1rem;
+      }
+    </style>
+    
+    <div class="form-variants-demo">
+      <div class="variant-section">
+        <h3>Pill Buttons</h3>
+        <p class="description">Fully rounded buttons ideal for forms and compact interfaces</p>
+        <div class="button-group">
+          <labs-button label="Save" icon="check" variant="pill" checkmark="true" iconcolor="var(--color-on-primary)"></labs-button>
+          <labs-button label="Cancel" variant="pill-secondary" iconcolor="var(--color-primary)"></labs-button>
+          <labs-button label="Add Task" icon="add" variant="pill" checkmark="true" iconcolor="var(--color-on-primary)"></labs-button>
+          <labs-button label="Edit" icon="edit" variant="pill-secondary" iconcolor="var(--color-primary)"></labs-button>
+        </div>
+      </div>
+      
+      <div class="variant-section">
+        <h3>Rounded Rectangle Buttons</h3>
+        <p class="description">Softly rounded buttons perfect for overlays and modal interfaces</p>
+        <div class="button-group">
+          <labs-button label="Save Changes" icon="check" variant="rounded" checkmark="true" iconcolor="var(--color-on-primary)"></labs-button>
+          <labs-button label="Cancel" variant="rounded-secondary" iconcolor="var(--color-primary)"></labs-button>
+          <labs-button label="Delete Item" icon="delete_forever" variant="rounded" iconcolor="var(--color-on-primary)"></labs-button>
+          <labs-button label="Undo" icon="undo" variant="rounded-secondary" iconcolor="var(--color-primary)"></labs-button>
+        </div>
+      </div>
+      
+      <div class="variant-section">
+        <h3>Form Integration Example</h3>
+        <p class="description">How these variants work together in typical form scenarios</p>
+        <div style="background: var(--color-surface); padding: 1.5rem; border-radius: var(--border-radius-md); border: 1px solid var(--color-outline-variant);">
+          <div style="margin-bottom: 1rem;">
+            <label style="display: block; margin-bottom: 0.5rem; color: var(--color-on-surface);">Task Description</label>
+            <input type="text" placeholder="Enter task details..." style="width: 100%; padding: 0.75rem; border: 2px solid var(--color-outline-variant); border-radius: var(--border-radius-md); font-size: var(--font-size-body);" />
+          </div>
+          <div class="button-group" style="justify-content: flex-end;">
+            <labs-button label="Cancel" variant="pill-secondary" iconcolor="var(--color-primary)"></labs-button>
+            <labs-button label="Save Task" icon="check" variant="pill" checkmark="true" iconcolor="var(--color-on-primary)"></labs-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+};
+
+export const FormVariants = FormVariantsTemplate.bind({});
+FormVariants.parameters = {
+  docs: {
+    description: {
+      story: "New button variants designed for form interfaces: pill buttons (fully rounded) and rounded rectangle buttons (softly rounded). These variants provide better visual hierarchy and modern styling for overlay forms, input dialogs, and compact interfaces.",
+    },
   },
 };

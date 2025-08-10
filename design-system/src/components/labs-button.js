@@ -341,6 +341,66 @@ class LabsButton extends HTMLElement {
           color: var(--color-on-error);
         }
         
+        /* Pill variant - Fully rounded buttons for forms */
+        .labs-button.pill {
+          background: var(--color-primary);
+          color: var(--color-on-primary);
+          border-radius: 2rem; /* Full pill shape */
+          padding: 0.75rem 1.5rem;
+          min-height: auto;
+        }
+        .labs-button.pill:hover {
+          background: var(--color-secondary);
+        }
+        .labs-button.pill:active {
+          background: var(--color-primary-darker);
+        }
+        
+        /* Pill secondary variant */
+        .labs-button.pill-secondary {
+          background: transparent;
+          color: var(--color-primary);
+          border: 2px solid var(--color-primary);
+          border-radius: 2rem;
+          padding: 0.75rem 1.5rem;
+          min-height: auto;
+        }
+        .labs-button.pill-secondary:hover {
+          background: var(--color-primary-25);
+        }
+        .labs-button.pill-secondary:active {
+          background: var(--color-primary-75);
+        }
+        
+        /* Rounded rectangle variant - Softer corners for overlays */
+        .labs-button.rounded {
+          background: var(--color-primary);
+          color: var(--color-on-primary);
+          border-radius: 1rem; /* Softer rounded corners */
+          padding: 0.875rem 1.25rem;
+        }
+        .labs-button.rounded:hover {
+          background: var(--color-secondary);
+        }
+        .labs-button.rounded:active {
+          background: var(--color-primary-darker);
+        }
+        
+        /* Rounded secondary variant */
+        .labs-button.rounded-secondary {
+          background: transparent;
+          color: var(--color-primary);
+          border: 2px solid var(--color-primary);
+          border-radius: 1rem;
+          padding: 0.875rem 1.25rem;
+        }
+        .labs-button.rounded-secondary:hover {
+          background: var(--color-primary-25);
+        }
+        .labs-button.rounded-secondary:active {
+          background: var(--color-primary-75);
+        }
+        
         .labs-icon {
           width: 1.5rem;
           height: 1.5rem;

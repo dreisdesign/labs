@@ -169,6 +169,50 @@ export const buttonConfigs = {
     variant: "secondary",
     iconcolor: "var(--color-on-surface)",
   },
+
+  // === Form/Overlay Buttons (Pill & Rounded Variants) ===
+  savePill: {
+    label: "Save",
+    icon: "check",
+    variant: "pill",
+    checkmark: true,
+    iconcolor: "var(--color-on-primary)",
+  },
+
+  cancelPill: {
+    label: "Cancel",
+    variant: "pill-secondary",
+    iconcolor: "var(--color-primary)",
+  },
+
+  saveRounded: {
+    label: "Save",
+    icon: "check",
+    variant: "rounded",
+    checkmark: true,
+    iconcolor: "var(--color-on-primary)",
+  },
+
+  cancelRounded: {
+    label: "Cancel",
+    variant: "rounded-secondary",
+    iconcolor: "var(--color-primary)",
+  },
+
+  addPill: {
+    label: "Add",
+    icon: "add",
+    variant: "pill",
+    checkmark: true,
+    iconcolor: "var(--color-on-primary)",
+  },
+
+  editPill: {
+    label: "Edit",
+    icon: "edit",
+    variant: "pill-secondary",
+    iconcolor: "var(--color-primary)",
+  },
 };
 
 /**
