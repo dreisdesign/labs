@@ -3,6 +3,7 @@ import "../components/labs-checkbox.js";
 import "../components/labs-button.js";
 import "../components/labs-icon.js";
 import "../components/labs-input-overlay.js";
+import "../components/labs-undo-button.js";
 
 export default {
     title: "Patterns/Task Interaction",
@@ -19,6 +20,7 @@ const TaskItemTemplate = () => {
     // Use setTimeout to ensure the component is fully rendered before adding event listeners
     setTimeout(() => {
         const overlay = document.querySelector('labs-input-overlay');
+        const undoButton = document.querySelector('labs-undo-button');
 
         document.addEventListener('labs-checkbox-change', (e) => {
             console.log('Task changed:', e.detail);
@@ -39,11 +41,36 @@ const TaskItemTemplate = () => {
         document.addEventListener('labs-task-delete', (e) => {
             console.log('Delete task requested:', e.detail);
 
-            // In real app, this would show confirmation or undo pattern
-            const confirmed = confirm(`Delete task: "${e.detail.text}"?`);
-            if (confirmed) {
-                alert(`Task "${e.detail.text}" deleted!\n\nIn real app, this would use an undo pattern instead of confirmation.`);
+            // Show undo notification instead of confirmation
+            undoButton.show(`"${e.detail.text}" deleted`, "delete", 5000);
+
+            // Visually dim the task (in real app, would be removed from data)
+            const taskElements = document.querySelectorAll('labs-task-item');
+            taskElements.forEach(task => {
+                if (task.getAttribute('task-id') === e.detail.taskId) {
+                    task.style.opacity = '0.5';
+                    task.style.pointerEvents = 'none';
+                }
+            });
+        });
+
+        // Handle undo events
+        document.addEventListener('labs-undo-action', (e) => {
+            console.log('Undo action triggered:', e.detail);
+
+            if (e.detail.actionType === 'delete') {
+                // Restore task appearance
+                const taskElements = document.querySelectorAll('labs-task-item');
+                taskElements.forEach(task => {
+                    task.style.opacity = '1';
+                    task.style.pointerEvents = 'auto';
+                });
+                console.log('Task restored');
             }
+        });
+
+        document.addEventListener('labs-undo-dismiss', (e) => {
+            console.log('Delete action confirmed (not undone):', e.detail);
         });        // Handle task save from overlay
         document.addEventListener('task-save', (e) => {
             console.log('Task saved:', e.detail);
@@ -112,7 +139,7 @@ const TaskItemTemplate = () => {
           • Hover to reveal edit and delete buttons<br>
           • Check animation plays on state change<br>
           • Edit button opens input overlay for text editing<br>
-          • Delete button shows confirmation (will use undo pattern)
+          • Delete button shows undo notification (no confirmation needed!)
         </p>
         
         <div class="task-list">
@@ -125,6 +152,9 @@ const TaskItemTemplate = () => {
       
       <!-- Input overlay for editing -->
       <labs-input-overlay></labs-input-overlay>
+      
+      <!-- Undo notification for delete actions -->
+      <labs-undo-button></labs-undo-button>
     </div>
   `;
 }; export const TaskItems = TaskItemTemplate.bind({});
