@@ -219,6 +219,24 @@ export const iconOnlyButtons = {
     iconcolor: "var(--color-on-surface)",
     "aria-label": "Add Comment",
   },
+
+  // === Checkbox Icons ===
+  checkboxUnchecked: {
+    icon: "check_box_outline_blank",
+    variant: "icon",
+    checkmark: true, // Enable animation
+    iconcolor: "var(--color-on-surface)",
+    "aria-label": "Mark as complete",
+    "data-checkbox-state": "unchecked",
+  },
+
+  checkboxChecked: {
+    icon: "check_box",
+    variant: "icon",
+    iconcolor: "var(--color-primary)",
+    "aria-label": "Mark as incomplete", 
+    "data-checkbox-state": "checked",
+  },
 };
 
 /**

@@ -8,6 +8,9 @@ export default [
     "cancel",
     "change_circle",
     "check",
+    "check_box",
+    "check_box_outline_blank",
+    "check_indeterminate_small",
     "close",
     "code",
     "comment",
@@ -15,6 +18,7 @@ export default [
     "delete_forever",
     "edit",
     "history",
+    "indeterminate_check_box",
     "rate_review",
     "settings",
     "undo"

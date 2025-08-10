@@ -182,3 +182,58 @@ IconOnly.args = {
   checkmark: false,
   variant: "icon",
 };
+
+// Import the checkbox component for checkbox stories
+import "../components/labs-checkbox.js";
+
+// Checkbox-specific template using the labs-checkbox component
+const CheckboxTemplate = ({ checked, iconcolor }) => {
+  return `
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <labs-checkbox 
+        ${checked ? 'checked' : ''}
+        ${iconcolor ? `iconcolor="${iconcolor}"` : ''}
+      ></labs-checkbox>
+      <span>Task item with checkbox</span>
+    </div>
+    
+    <h3>Interactive Demo:</h3>
+    <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem;">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <labs-checkbox></labs-checkbox>
+        <span>Unchecked task</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <labs-checkbox checked></labs-checkbox>
+        <span>Completed task</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <labs-checkbox iconcolor="var(--color-error)"></labs-checkbox>
+        <span>Custom color task</span>
+      </div>
+    </div>
+  `;
+};
+
+export const Checkbox = CheckboxTemplate.bind({});
+Checkbox.args = {
+  checked: false,
+  iconcolor: "var(--color-on-surface)",
+};
+Checkbox.parameters = {
+  docs: {
+    description: {
+      story: "Checkbox functionality using icon-only button with state management. Shows checkmark animation on state change and proper icon switching between checked/unchecked states.",
+    },
+  },
+};
+Checkbox.argTypes = {
+  checked: {
+    control: "boolean",
+    description: "Whether the checkbox is checked"
+  },
+  iconcolor: {
+    control: "color", 
+    description: "Color for unchecked state (checked state uses primary color)"
+  },
+};

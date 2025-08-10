@@ -389,6 +389,11 @@ class LabsButton extends HTMLElement {
           transform: translateY(-10px);
           transition: opacity 0.3s ease-out, transform 0.3s ease-out;
         }
+        /* Hide primary icon during animation to prevent overlap */
+        .success .labs-icon:not(.labs-checkmark .labs-icon) {
+          opacity: 0;
+          transition: opacity 0.3s ease-out;
+        }
         .success .labs-checkmark {
           opacity: 1;
           transform: scale(1) rotate(0deg);

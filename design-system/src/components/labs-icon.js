@@ -27,6 +27,9 @@ const icons = {
     cancel: ICON_BASE + 'cancel--labs-icons.svg',
     change_circle: ICON_BASE + 'change_circle--labs-icons.svg',
     check: ICON_BASE + 'check--labs-icons.svg',
+    check_box: ICON_BASE + 'check_box--labs-icons.svg',
+    check_box_outline_blank: ICON_BASE + 'check_box_outline_blank--labs-icons.svg',
+    check_indeterminate_small: ICON_BASE + 'check_indeterminate_small--labs-icons.svg',
     close: ICON_BASE + 'close--labs-icons.svg',
     code: ICON_BASE + 'code--labs-icons.svg',
     comment: ICON_BASE + 'comment--labs-icons.svg',
@@ -34,6 +37,7 @@ const icons = {
     delete_forever: ICON_BASE + 'delete_forever--labs-icons.svg',
     edit: ICON_BASE + 'edit--labs-icons.svg',
     history: ICON_BASE + 'history--labs-icons.svg',
+    indeterminate_check_box: ICON_BASE + 'indeterminate_check_box--labs-icons.svg',
     rate_review: ICON_BASE + 'rate_review--labs-icons.svg',
     settings: ICON_BASE + 'settings--labs-icons.svg',
     undo: ICON_BASE + 'undo--labs-icons.svg'
