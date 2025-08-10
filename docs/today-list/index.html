@@ -38,6 +38,10 @@
     <!-- Components -->
     <script type="module" src="../design-system/components/labs-app-footer.js"></script>
     <script type="module" src="../design-system/components/labs-input-overlay.js"></script>
+    <script type="module" src="../design-system/components/labs-task-item.js"></script>
+    <script type="module" src="../design-system/components/labs-timestamp.js"></script>
+    <script type="module" src="../design-system/components/labs-undo-button.js"></script>
+    <script type="module" src="../design-system/components/labs-badge.js"></script>
 
     <style>
         /* Minimal override styles - use design system tokens */
@@ -97,68 +101,9 @@
             opacity: 0.7;
         }
 
-        .task-item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-md);
-            padding: var(--space-md);
-            background: var(--color-surface-container);
-            border-radius: var(--border-radius-md);
-            border: 1px solid var(--color-outline-variant);
-            margin-bottom: var(--space-sm);
-            transition: all 0.2s ease;
-        }
-
-        .task-item:hover {
-            background: var(--color-surface-container-high);
-            border-color: var(--color-outline);
-        }
-
-        .task-item.completed {
+        /* Task item override for completed state */
+        labs-task-item.completed {
             opacity: 0.6;
-        }
-
-        .task-checkbox {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--color-outline);
-            border-radius: var(--border-radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            flex-shrink: 0;
-        }
-
-        .task-checkbox.checked {
-            background: var(--color-primary);
-            border-color: var(--color-primary);
-        }
-
-        .task-checkbox.checked::after {
-            content: '✓';
-            color: var(--color-on-primary);
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .task-text {
-            flex: 1;
-            font-size: var(--font-size-body);
-            color: var(--color-on-surface);
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .task-text.empty {
-            color: var(--color-on-surface-variant);
-            font-style: italic;
-        }
-
-        .task-item.completed .task-text {
-            text-decoration: line-through;
-            color: var(--color-on-surface-variant);
         }
 
         /* Archived tasks section */
@@ -392,20 +337,55 @@
                 } else {
                     taskList.innerHTML = '';
                     this.tasks.forEach((task, index) => {
-                        const taskElement = document.createElement('div');
-                        taskElement.className = `task-item ${task.completed ? 'completed' : ''}`;
+                        const taskElement = document.createElement('labs-task-item');
+                        taskElement.setAttribute('label', task.text);
+                        taskElement.setAttribute('task-id', `task-${index}`);
+                        taskElement.setAttribute('data-index', index);
 
-                        taskElement.innerHTML = `
-                            <div class="task-checkbox ${task.completed ? 'checked' : ''}" data-index="${index}"></div>
-                            <div class="task-text" data-index="${index}">${task.text}</div>
-                        `;
+                        if (task.completed) {
+                            taskElement.setAttribute('checked', '');
+                            taskElement.classList.add('completed');
+                        }
 
                         taskList.appendChild(taskElement);
                     });
+
+                    // Setup event listeners for the new task items
+                    this.setupTaskEventListeners();
                 }
 
                 // Add archived tasks section
                 this.renderArchivedTasks(taskList);
+            }
+
+            setupTaskEventListeners() {
+                // Listen for checkbox changes
+                document.addEventListener('labs-checkbox-change', (e) => {
+                    const taskItem = e.target.closest('labs-task-item');
+                    if (taskItem) {
+                        const index = parseInt(taskItem.getAttribute('data-index'));
+                        this.toggleTask(index);
+                    }
+                });
+
+                // Listen for edit events
+                document.addEventListener('labs-task-edit', (e) => {
+                    const taskItem = e.target.closest('labs-task-item');
+                    if (taskItem) {
+                        const index = parseInt(taskItem.getAttribute('data-index'));
+                        const currentText = this.tasks[index].text;
+                        this.openEditOverlay(index, currentText);
+                    }
+                });
+
+                // Listen for delete events
+                document.addEventListener('labs-task-delete', (e) => {
+                    const taskItem = e.target.closest('labs-task-item');
+                    if (taskItem) {
+                        const index = parseInt(taskItem.getAttribute('data-index'));
+                        this.deleteTask(index);
+                    }
+                });
             }
 
             renderArchivedTasks(taskList) {
@@ -486,6 +466,37 @@
                 }
             }
 
+            deleteTask(index) {
+                if (this.tasks[index]) {
+                    const deletedTask = this.tasks[index];
+                    this.tasks.splice(index, 1);
+                    this.saveTasks();
+                    this.renderTasks();
+                    this.updateProgress();
+
+                    // Show undo notification
+                    this.showUndoNotification(deletedTask, index);
+                }
+            }
+
+            showUndoNotification(deletedTask, originalIndex) {
+                // Create undo button if it doesn't exist
+                let undoButton = document.querySelector('labs-undo-button');
+                if (!undoButton) {
+                    undoButton = document.createElement('labs-undo-button');
+                    document.body.appendChild(undoButton);
+                }
+
+                // Show the undo notification
+                undoButton.show('Task deleted', () => {
+                    // Undo callback - restore the task
+                    this.tasks.splice(originalIndex, 0, deletedTask);
+                    this.saveTasks();
+                    this.renderTasks();
+                    this.updateProgress();
+                });
+            }
+
             updateProgress() {
                 const completed = this.tasks.filter(t => t.completed).length;
                 const total = this.tasks.length;
@@ -505,18 +516,9 @@
             }
 
             setupEventListeners() {
-                // Task interactions
+                // Handle restore button clicks (for archived tasks)
                 document.addEventListener('click', (e) => {
-                    if (e.target.classList.contains('task-checkbox')) {
-                        const index = parseInt(e.target.dataset.index);
-                        this.toggleTask(index);
-                    } else if (e.target.classList.contains('task-text')) {
-                        const index = parseInt(e.target.dataset.index);
-                        const task = this.tasks[index];
-                        if (task && task.text) {
-                            this.showEditDialog(task.text, index);
-                        }
-                    } else if (e.target.classList.contains('restore-icon') || e.target.closest('.restore-icon')) {
+                    if (e.target.classList.contains('restore-icon') || e.target.closest('.restore-icon')) {
                         const restoreButton = e.target.classList.contains('restore-icon') ? e.target : e.target.closest('.restore-icon');
                         const date = restoreButton.dataset.date;
                         const taskId = restoreButton.dataset.taskId;
@@ -560,18 +562,14 @@
                 inputOverlay.open('Add Task', 'Enter your task...');
             }
 
-            showEditDialog(text, index) {
+            openEditOverlay(index, currentText) {
                 const inputOverlay = document.getElementById('taskInputOverlay');
-                inputOverlay.open('Edit Task', 'Enter your task...', text, index);
+                inputOverlay.open('Edit Task', 'Enter your task...', currentText, index);
             }
 
-            deleteTask(index) {
-                if (confirm('Delete this task?')) {
-                    this.tasks.splice(index, 1);
-                    this.saveTasks();
-                    this.renderTasks();
-                    this.updateProgress();
-                }
+            showEditDialog(text, index) {
+                // Legacy method - redirect to new method
+                this.openEditOverlay(index, text);
             }
 
             resetTasks() {
