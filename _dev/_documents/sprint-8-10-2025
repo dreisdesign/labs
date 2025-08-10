@@ -1,14 +1,39 @@
 # 🚀 Sprint: August 10, 2025 - Today List v3.0 & Design System Enhancement
 
 
-## Added - needs to be groomed
-- http://localhost:6006/?path=/story/components-input-overlay--pre-opened when pre-opened
-- Components are not supposed to contain documentation - all documentation should be handled in patterns. (please confirm if this is recommended - since it is how i have organized things already)
-  - http://localhost:6006/?path=/story/components-button--form-variants 
-  - We should update http://localhost:6006/?path=/story/patterns--buttons to include the newest buttons
-    - The "Active" badge on the button cards overlaps with the hover edit and copy icon buttons
-    - Can we add a badge component while we're at it?
+## 🆕 **NEW REQUIREMENTS - Bundle 4: Pattern Integration & Today List**
 
+### **Pattern & Component Issues**
+- **📋 Tasks by Date Pattern:** Should be a variation on Task Items using same components
+  - URL: http://localhost:6006/?path=/story/patterns-date-lists--tasks-by-date
+  - **Goal:** Ensure consistent task item usage across date list patterns
+
+- **🔧 Input Overlay Pre-opened Issue:** Component doesn't work when pre-opened
+  - URL: http://localhost:6006/?path=/story/components-input-overlay--pre-opened
+  - **Fix Required:** Debug initialization and event handling for pre-opened state
+
+- **📚 Documentation Organization:** Confirm pattern-based documentation approach
+  - **Current Issue:** Form variants documentation in components instead of patterns
+  - URL: http://localhost:6006/?path=/story/components-button--form-variants
+  - **Recommendation:** Move component documentation to patterns section
+
+### **Pattern Enhancement Tasks**
+- **🔄 Update Button Patterns:** Include newest button variants
+  - URL: http://localhost:6006/?path=/story/patterns--buttons
+  - **Add:** pill, rounded, rounded-secondary, and other new variants
+  - **Fix:** "Active" badge overlapping with hover edit/copy icon buttons
+  - **Create:** New badge component for pattern cards
+
+### **🎯 Final Integration**
+- **📱 Today List App Update:** Apply all new components and patterns
+  - Use new task interaction system
+  - Implement input overlay with new button variants
+  - Apply timestamp and date list patterns
+  - Integrate undo functionality
+
+---
+
+## Added - needs to be groomed
 Under Consideration
 - Checkbox animation should be added to the checkbox button - however since the checkbox is made of 2 icons this might be overcomplicated for now
 ---
@@ -141,24 +166,36 @@ Systematic implementation of Today List improvements and design system component
 
 ---
 
-## 📋 **BUNDLE 3: Design System Components**
+## 📋 **BUNDLE 3: Design System Components** 🔄 IN PROGRESS
 
-### **4. Icon Color Fixes for Dark Mode**
+### **✅ Undo Button Component Enhancement**
+- **✅ Goal:** Convert undo button to use labs-button components
+- **✅ Implementation:** Updated labs-undo-button to use rounded-secondary and transparent variants
+- **✅ Consistency:** Now uses design system button components instead of native buttons
+- **✅ Event handling:** Integrated labs-click events for proper component communication
+
+### **✅ Rounded Rectangle Button Controls**
+- **✅ Goal:** Make rounded rectangle buttons available as universal controls
+- **✅ Implementation:** Added rounded/rounded-secondary to button variant controls
+- **✅ Storybook:** Enhanced variant selection with 12 total button variants
+- **✅ Documentation:** Added dedicated RoundedRectangle and RoundedSecondary story examples
+
+### **4. Icon Color Fixes for Dark Mode** 🔄 TODO
 - **Issue:** Icons not switching colors properly in dark theme
 - **Focus:** Settings and close icons specifically mentioned
 - **Solution:** Enhanced theme-aware color token resolution
 
-### **5. Header Component (#/# + Date)**
+### **5. Header Component (#/# + Date)** 🔄 TODO
 - **Goal:** Match tracker app header pattern
 - **Component:** Progress counter + formatted date header
 - **Pattern:** Reusable header pattern for all apps
 
-### **6. Version Display Component**
+### **6. Version Display Component** 🔄 TODO
 - **Goal:** Top-right version number like tracker
 - **Component:** `labs-version` or pattern integration
 - **Positioning:** Fixed top-right with proper theming
 
-### **7. Settings Hover Rotation Animation**
+### **7. Settings Hover Rotation Animation** 🔄 TODO
 - **Goal:** Match tracker settings icon rotation on hover
 - **Enhancement:** Add rotation transform to existing button
 - **Integration:** Update in Storybook for consistency

@@ -19,18 +19,6 @@ export default {
 };
 
 const Template = (args) => {
-    const overlay = document.createElement('labs-input-overlay');
-
-    if (args.active) {
-        overlay.setAttribute('active', '');
-    }
-
-    // Add event listeners for demo purposes
-    overlay.addEventListener('task-save', (e) => {
-        console.log('Task saved:', e.detail);
-        alert(`Task saved: "${e.detail.text}"`);
-    });
-
     return `
     <div style="position: relative; height: 400px; background: var(--color-surface); padding: 20px; border-radius: 8px;">
       <h3>Input Overlay Demo</h3>
@@ -51,7 +39,22 @@ const Template = (args) => {
         Open Input Overlay
       </button>
       
-      ${overlay.outerHTML}
+      <labs-input-overlay ${args.active ? 'active' : ''}></labs-input-overlay>
+      
+      <script>
+        setTimeout(() => {
+          const overlay = document.querySelector('labs-input-overlay');
+          
+          // Add event listeners for demo purposes
+          overlay.addEventListener('task-save', (e) => {
+            console.log('Task saved:', e.detail);
+            alert('Task saved: "' + e.detail.text + '"');
+          });
+          
+          // If pre-opened, open it with demo content
+          ${args.active ? `overlay.open('Edit Task', 'Enter your task...', 'Sample task content');` : ''}
+        }, 100);
+      </script>
     </div>
   `;
 };

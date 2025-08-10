@@ -505,3 +505,110 @@ Buttons.parameters = {
 };
 
 Buttons.storyName = "Buttons";
+
+// Form Variants Pattern
+const FormVariantsTemplate = () => {
+  setTimeout(() => {
+    document.addEventListener('labs-click', (e) => {
+      console.log('Button clicked:', e.detail);
+    });
+  }, 100);
+
+  return `
+    <style>
+      .form-variants-demo {
+        max-width: 600px;
+        margin: 0 auto;
+        font-family: var(--font-family-primary);
+      }
+      
+      .variant-section {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        border: 1px solid var(--color-outline-variant);
+        border-radius: var(--border-radius-lg);
+        background: var(--color-surface-container);
+      }
+      
+      .variant-section h3 {
+        margin-bottom: 1rem;
+        color: var(--color-on-surface);
+        font-size: var(--font-size-h4);
+      }
+      
+      .button-group {
+        display: flex;
+        gap: var(--space-md);
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      
+      .description {
+        color: var(--color-on-surface-variant);
+        font-size: var(--font-size-body-sm);
+        margin-bottom: 1rem;
+      }
+    </style>
+    
+    <div class="form-variants-demo">
+      <div class="variant-section">
+        <h3>Pill Buttons</h3>
+        <p class="description">Fully rounded buttons ideal for forms and compact interfaces</p>
+        <div class="button-group">
+          <labs-button label="Save" icon="check" variant="pill" checkmark="true" iconcolor="var(--color-on-primary)"></labs-button>
+          <labs-button label="Cancel" variant="pill-secondary" iconcolor="var(--color-primary)"></labs-button>
+          <labs-button label="Add Task" icon="add" variant="pill" checkmark="true" iconcolor="var(--color-on-primary)"></labs-button>
+          <labs-button label="Edit" icon="edit" variant="pill-secondary" iconcolor="var(--color-primary)"></labs-button>
+        </div>
+      </div>
+      
+      <div class="variant-section">
+        <h3>Rounded Rectangle Buttons</h3>
+        <p class="description">Softly rounded buttons perfect for overlays and modal interfaces</p>
+        <div class="button-group">
+          <labs-button label="Save Changes" icon="check" variant="rounded" checkmark="true" iconcolor="var(--color-on-primary)"></labs-button>
+          <labs-button label="Cancel" variant="rounded-secondary" iconcolor="var(--color-primary)"></labs-button>
+          <labs-button label="Delete Item" icon="delete_forever" variant="rounded" iconcolor="var(--color-on-primary)"></labs-button>
+          <labs-button label="Undo" icon="undo" variant="rounded-secondary" iconcolor="var(--color-primary)"></labs-button>
+        </div>
+      </div>
+      
+      <div class="variant-section">
+        <h3>Container Buttons (Full-Width for Overlays)</h3>
+        <p class="description">Full-width buttons designed for settings overlays and panels</p>
+        <div style="max-width: 300px;">
+          <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
+            <labs-button label="Settings" icon-right="settings" variant="container" iconcolor="var(--color-primary-75)"></labs-button>
+            <labs-button label="All Apps" icon="apps" variant="container" iconcolor="var(--color-primary-75)"></labs-button>
+            <labs-button label="Reset All Data" icon="delete_forever" variant="container-danger" iconcolor="var(--color-error)"></labs-button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="variant-section">
+        <h3>Form Integration Example</h3>
+        <p class="description">How these variants work together in typical form scenarios</p>
+        <div style="background: var(--color-surface); padding: 1.5rem; border-radius: var(--border-radius-md); border: 1px solid var(--color-outline-variant);">
+          <div style="margin-bottom: 1rem;">
+            <label style="display: block; margin-bottom: 0.5rem; color: var(--color-on-surface);">Task Description</label>
+            <input type="text" placeholder="Enter task details..." style="width: 100%; padding: 0.75rem; border: 2px solid var(--color-outline-variant); border-radius: var(--border-radius-md); font-size: var(--font-size-body);" />
+          </div>
+          <div class="button-group" style="justify-content: flex-end;">
+            <labs-button label="Cancel" variant="pill-secondary" iconcolor="var(--color-primary)"></labs-button>
+            <labs-button label="Save Task" icon="check" variant="pill" checkmark="true" iconcolor="var(--color-on-primary)"></labs-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+};
+
+export const FormVariants = FormVariantsTemplate.bind({});
+FormVariants.parameters = {
+  docs: {
+    description: {
+      story: "Comprehensive button variants for form interfaces including pill buttons (fully rounded), rounded rectangle buttons (softly rounded), and container buttons (full-width). These variants provide better visual hierarchy and modern styling for overlay forms, input dialogs, and compact interfaces.",
+    },
+  },
+};
+FormVariants.storyName = "Form Variants";

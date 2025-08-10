@@ -1,4 +1,7 @@
 import "../components/labs-timestamp.js";
+import "../components/labs-task-item.js";
+import "../components/labs-checkbox.js";
+import "../components/labs-button.js";
 
 export default {
     title: "Patterns/Date Lists",
@@ -257,45 +260,6 @@ const TaskListByDateTemplate = () => {
         gap: var(--space-sm);
       }
       
-      .task-item {
-        display: flex;
-        align-items: center;
-        gap: var(--space-md);
-        padding: var(--space-md);
-        background: var(--color-surface);
-        border-radius: var(--border-radius-md);
-        border: 1px solid var(--color-outline-variant);
-        transition: background-color 0.2s ease;
-      }
-      
-      .task-item:hover {
-        background: var(--color-surface-container-high);
-      }
-      
-      .task-checkbox {
-        width: 20px;
-        height: 20px;
-        border: 2px solid var(--color-outline);
-        border-radius: var(--border-radius-sm);
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
-      
-      .task-checkbox:hover {
-        border-color: var(--color-primary);
-      }
-      
-      .task-text {
-        flex: 1;
-        color: var(--color-on-surface);
-        font-size: var(--font-size-body);
-      }
-      
-      .task-due {
-        font-size: var(--font-size-body-sm);
-        color: var(--color-on-surface-variant);
-      }
-      
       .section-stats {
         text-align: center;
         margin-bottom: 1rem;
@@ -311,14 +275,12 @@ const TaskListByDateTemplate = () => {
         </div>
         <div class="section-stats">${todayTasks.length} tasks today</div>
         <div class="task-list">
-          ${todayTasks.map(task => `
-            <div class="task-item">
-              <div class="task-checkbox"></div>
-              <div class="task-text">${task}</div>
-              <div class="task-due">
-                <labs-timestamp datetime="${today.toISOString()}" format="short-date" size="small"></labs-timestamp>
-              </div>
-            </div>
+          ${todayTasks.map((task, index) => `
+            <labs-task-item 
+              label="${task}" 
+              task-id="today-${index}"
+              data-date="${today.toISOString()}"
+            ></labs-task-item>
           `).join('')}
         </div>
       </div>
@@ -329,14 +291,12 @@ const TaskListByDateTemplate = () => {
         </div>
         <div class="section-stats">${tomorrowTasks.length} tasks scheduled</div>
         <div class="task-list">
-          ${tomorrowTasks.map(task => `
-            <div class="task-item">
-              <div class="task-checkbox"></div>
-              <div class="task-text">${task}</div>
-              <div class="task-due">
-                <labs-timestamp datetime="${tomorrow.toISOString()}" format="short-date" size="small"></labs-timestamp>
-              </div>
-            </div>
+          ${tomorrowTasks.map((task, index) => `
+            <labs-task-item 
+              label="${task}" 
+              task-id="tomorrow-${index}"
+              data-date="${tomorrow.toISOString()}"
+            ></labs-task-item>
           `).join('')}
         </div>
       </div>
@@ -347,14 +307,12 @@ const TaskListByDateTemplate = () => {
         </div>
         <div class="section-stats">${nextWeekTasks.length} tasks planned</div>
         <div class="task-list">
-          ${nextWeekTasks.map(task => `
-            <div class="task-item">
-              <div class="task-checkbox"></div>
-              <div class="task-text">${task}</div>
-              <div class="task-due">
-                <labs-timestamp datetime="${nextWeek.toISOString()}" format="short-date" size="small"></labs-timestamp>
-              </div>
-            </div>
+          ${nextWeekTasks.map((task, index) => `
+            <labs-task-item 
+              label="${task}" 
+              task-id="nextweek-${index}"
+              data-date="${nextWeek.toISOString()}"
+            ></labs-task-item>
           `).join('')}
         </div>
       </div>
