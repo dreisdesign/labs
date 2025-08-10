@@ -9,6 +9,7 @@
  * - Event-driven workflow (Action → Undo → Auto-dismiss)
  */
 import "./labs-icon.js";
+import "./labs-button.js";
 
 class LabsUndoButton extends HTMLElement {
     constructor() {
@@ -36,16 +37,16 @@ class LabsUndoButton extends HTMLElement {
     }
 
     setupEventListeners() {
-        // Handle undo button click
-        const undoButton = this.shadowRoot.querySelector('.undo-button');
-        undoButton?.addEventListener('click', () => {
-            this.dispatchUndo();
-        });
+        // Handle undo button click using labs-click event
+        this.shadowRoot.addEventListener('labs-click', (e) => {
+            const undoButton = e.target.closest('[data-action="undo"]');
+            const dismissButton = e.target.closest('[data-action="dismiss"]');
 
-        // Handle dismiss button click
-        const dismissButton = this.shadowRoot.querySelector('.dismiss-button');
-        dismissButton?.addEventListener('click', () => {
-            this.dismiss();
+            if (undoButton) {
+                this.dispatchUndo();
+            } else if (dismissButton) {
+                this.dismiss();
+            }
         });
 
         // Handle escape key
@@ -187,47 +188,6 @@ class LabsUndoButton extends HTMLElement {
           align-items: center;
         }
 
-        .undo-button {
-          background: transparent;
-          border: none;
-          color: var(--color-primary, #007bff);
-          font-size: var(--font-size-body-sm, 0.875rem);
-          font-weight: var(--font-weight-medium, 500);
-          cursor: pointer;
-          padding: var(--space-xs, 4px) var(--space-sm, 8px);
-          border-radius: var(--border-radius-sm, 4px);
-          transition: background-color 0.2s ease;
-        }
-
-        .undo-button:hover {
-          background: var(--color-primary-25, rgba(0, 123, 255, 0.1));
-        }
-
-        .undo-button:focus {
-          outline: 2px solid var(--color-primary, #007bff);
-          outline-offset: 2px;
-        }
-
-        .dismiss-button {
-          background: transparent;
-          border: none;
-          color: var(--color-on-surface-variant, #6b6b6b);
-          font-size: var(--font-size-body-sm, 0.875rem);
-          cursor: pointer;
-          padding: var(--space-xs, 4px) var(--space-sm, 8px);
-          border-radius: var(--border-radius-sm, 4px);
-          transition: background-color 0.2s ease;
-        }
-
-        .dismiss-button:hover {
-          background: var(--color-surface-container-highest, #e8e8e8);
-        }
-
-        .dismiss-button:focus {
-          outline: 2px solid var(--color-outline, #d0d0d0);
-          outline-offset: 2px;
-        }
-
         /* Action type styling */
         .notification-delete {
           border-left: 4px solid var(--color-error, #dc3545);
@@ -249,10 +209,6 @@ class LabsUndoButton extends HTMLElement {
 
         :host-context(.theme-dark) .undo-message {
           color: var(--color-on-surface, #e0e0e0);
-        }
-
-        :host-context(.theme-dark) .dismiss-button {
-          color: var(--color-on-surface-variant, #a0a0a0);
         }
 
         @keyframes slideUp {
@@ -290,8 +246,16 @@ class LabsUndoButton extends HTMLElement {
         <div class="undo-content">
           <p class="undo-message">${message}</p>
           <div class="undo-actions">
-            <button class="undo-button">Undo</button>
-            <button class="dismiss-button">Dismiss</button>
+            <labs-button 
+              label="Undo" 
+              variant="rounded-secondary"
+              data-action="undo"
+            ></labs-button>
+            <labs-button 
+              label="Dismiss" 
+              variant="transparent"
+              data-action="dismiss"
+            ></labs-button>
           </div>
         </div>
       </div>

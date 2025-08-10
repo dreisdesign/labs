@@ -2,7 +2,18 @@
 
 
 ## Added - needs to be groomed
-- http://localhost:6006/?path=/story/components-input-overlay--pre-opened when pre-opened ### **Completed Bundles**
+- http://localhost:6006/?path=/story/components-input-overlay--pre-opened when pre-opened
+- Components are not supposed to contain documentation - all documentation should be handled in patterns. (please confirm if this is recommended - since it is how i have organized things already)
+  - http://localhost:6006/?path=/story/components-button--form-variants 
+  - We should update http://localhost:6006/?path=/story/patterns--buttons to include the newest buttons
+    - The "Active" badge on the button cards overlaps with the hover edit and copy icon buttons
+    - Can we add a badge component while we're at it?
+
+Under Consideration
+- Checkbox animation should be added to the checkbox button - however since the checkbox is made of 2 icons this might be overcomplicated for now
+---
+
+### **Completed Bundles**
 - ✅ **Bundle 1:** Task Interaction System (fully functional)
 - ✅ **Input System Enhancement:** Reusable components and new button variants
 - ✅ **Bundle 2:** Visual Design Alignment (timestamp, dates, delete/undo)

@@ -89,6 +89,12 @@ export default {
         "success",
         "transparent",
         "icon",
+        "container",
+        "container-danger",
+        "pill",
+        "pill-secondary",
+        "rounded",
+        "rounded-secondary",
       ],
     },
   },
@@ -182,6 +188,42 @@ IconOnly.args = {
   iconRightName: "",
   checkmark: false,
   variant: "icon",
+};
+
+export const RoundedRectangle = Template.bind({});
+RoundedRectangle.args = {
+  label: "Save Changes",
+  iconLeft: true,
+  icon: "check",
+  iconRight: false,
+  iconRightName: "",
+  checkmark: true,
+  variant: "rounded",
+};
+RoundedRectangle.parameters = {
+  docs: {
+    description: {
+      story: "Rounded rectangle buttons with soft corners (border-radius: 12px). Perfect for modal overlays, form actions, and modern interfaces. Available in both primary (`rounded`) and secondary (`rounded-secondary`) variants.",
+    },
+  },
+};
+
+export const RoundedSecondary = Template.bind({});
+RoundedSecondary.args = {
+  label: "Cancel",
+  iconLeft: false,
+  icon: "",
+  iconRight: false,
+  iconRightName: "",
+  checkmark: false,
+  variant: "rounded-secondary",
+};
+RoundedSecondary.parameters = {
+  docs: {
+    description: {
+      story: "Secondary variant of rounded rectangle buttons. Provides visual hierarchy when paired with primary rounded buttons in dialogs and forms.",
+    },
+  },
 };
 
 // Checkbox-specific template using the labs-checkbox component
