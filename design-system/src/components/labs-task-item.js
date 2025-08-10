@@ -28,7 +28,7 @@ class LabsTaskItem extends HTMLElement {
         // Clean up any existing shadow DOM listeners
         this.shadowRoot.removeEventListener('labs-click', this.handleEditClick);
         this.shadowRoot.removeEventListener('click', this.handleTaskClick);
-        
+
         // Handle checkbox changes (these bubble up from checkbox component)
         this.addEventListener('labs-checkbox-change', (e) => {
             e.stopPropagation();
@@ -155,7 +155,7 @@ class LabsTaskItem extends HTMLElement {
         ></labs-button>
       </div>
     `;
-        
+
         // Setup event listeners after DOM is rendered
         this.setupEventListeners();
     }

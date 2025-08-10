@@ -16,11 +16,6 @@ class LabsCheckbox extends HTMLElement {
         this.render();
     }
 
-    setupEventListeners() {
-        // Listen for labs-click events from the button inside shadow DOM
-        this.shadowRoot.addEventListener("labs-click", this.handleClick);
-    }
-
     disconnectedCallback() {
         this.shadowRoot?.removeEventListener("labs-click", this.handleClick);
     }
@@ -76,7 +71,7 @@ class LabsCheckbox extends HTMLElement {
         data-checkbox-state="${this.checked ? 'checked' : 'unchecked'}"
       ></labs-button>
     `;
-        
+
         // Setup event listeners after DOM is rendered
         this.setupEventListeners();
     }

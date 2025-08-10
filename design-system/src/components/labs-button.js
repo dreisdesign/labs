@@ -16,9 +16,7 @@ class LabsButton extends HTMLElement {
   connectedCallback() {
     console.log("[LabsButton] LOCAL COMPONENT LOADED - DEMO TEST");
     this.render();
-    this.shadowRoot
-      .querySelector("button")
-      .addEventListener("click", this.handleClick);
+    // Event listener is now added in render() method
 
     // Listen for theme changes to re-render when CSS variables change
     this.themeObserver = new MutationObserver((mutations) => {
@@ -428,6 +426,11 @@ class LabsButton extends HTMLElement {
         ${checkmark ? `<span class="labs-checkmark"><labs-icon name="check" class="labs-icon" color="${iconColor || "white"}"></labs-icon></span>` : ""}
       </button>
     `;
+
+    // Re-add event listener after DOM recreation
+    this.shadowRoot
+      .querySelector("button")
+      .addEventListener("click", this.handleClick);
   }
 }
 
