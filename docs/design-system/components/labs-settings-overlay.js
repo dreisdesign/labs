@@ -182,7 +182,7 @@ class LabsSettingsOverlay extends HTMLElement {
     const themeToggleEl = document.createElement('labs-theme-toggle-button');
     themeToggleEl.setAttribute('variant', 'container');
 
-    // Add buttons to container (apps, theme toggle, reset - NO settings)
+    // Add buttons to container (apps, theme toggle, reset - NO settings or restore)
     buttonContainer.appendChild(appsButton);
     buttonContainer.appendChild(themeToggleEl);
     buttonContainer.appendChild(resetButton);

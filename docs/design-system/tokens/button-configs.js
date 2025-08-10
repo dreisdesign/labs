@@ -50,6 +50,13 @@ export const buttonConfigs = {
     iconcolor: "var(--color-on-error)",
   },
 
+  restore: {
+    label: "Restore Tasks",
+    icon: "restore",
+    variant: "secondary",
+    iconcolor: "var(--color-on-surface)",
+  },
+
   // === Navigation/UI Actions ===
   close: {
     label: "Close",
@@ -115,6 +122,14 @@ export const buttonConfigs = {
     variant: "container-danger",
     description: "Full-width danger container button for overlay/panel use",
     iconcolor: "var(--color-error)",
+  },
+
+  restoreContainer: {
+    label: "Restore Tasks",
+    icon: "restore",
+    variant: "container",
+    description: "Full-width container button for overlay/panel use",
+    iconcolor: "var(--color-primary-75)",
   },
 
   // === Comment Actions ===

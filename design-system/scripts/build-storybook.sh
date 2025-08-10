@@ -88,3 +88,22 @@ fi
 echo "✅ Build complete! Output in storybook-static/"
 echo "📊 Build size: $(du -sh storybook-static | cut -f1)"
 echo "📁 Files generated: $(find storybook-static -type f | wc -l | tr -d ' ')"
+
+# Sync design system files after successful build
+echo "🔄 Syncing design system files..."
+if command -v fswatch >/dev/null 2>&1; then
+    echo "📡 fswatch detected - running full sync"
+else
+    echo "⚠️  fswatch not installed - partial sync only"
+fi
+
+# Run sync script from project root
+cd ..
+if ./scripts/dev-sync.sh; then
+    echo "✅ Design system files synced successfully"
+else
+    echo "❌ Warning: Sync failed but build completed"
+fi
+
+# Return to design-system directory for consistent exit
+cd design-system

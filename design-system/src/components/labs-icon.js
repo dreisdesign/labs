@@ -19,23 +19,24 @@ const ICON_BASE = (() => {
   return "/design-system/icons/";
 })();
 const icons = {
-  add: ICON_BASE + 'add--labs-icons.svg',
-  add_comment: ICON_BASE + 'add_comment--labs-icons.svg',
-  apps: ICON_BASE + 'apps--labs-icons.svg',
-  bedtime: ICON_BASE + 'bedtime--labs-icons.svg',
-  bedtime_off: ICON_BASE + 'bedtime_off--labs-icons.svg',
-  cancel: ICON_BASE + 'cancel--labs-icons.svg',
-  change_circle: ICON_BASE + 'change_circle--labs-icons.svg',
-  check: ICON_BASE + 'check--labs-icons.svg',
-  close: ICON_BASE + 'close--labs-icons.svg',
-  code: ICON_BASE + 'code--labs-icons.svg',
-  comment: ICON_BASE + 'comment--labs-icons.svg',
-  content_copy: ICON_BASE + 'content_copy--labs-icons.svg',
-  delete_forever: ICON_BASE + 'delete_forever--labs-icons.svg',
-  edit: ICON_BASE + 'edit--labs-icons.svg',
-  rate_review: ICON_BASE + 'rate_review--labs-icons.svg',
-  settings: ICON_BASE + 'settings--labs-icons.svg',
-  undo: ICON_BASE + 'undo--labs-icons.svg'
+    add: ICON_BASE + 'add--labs-icons.svg',
+    add_comment: ICON_BASE + 'add_comment--labs-icons.svg',
+    apps: ICON_BASE + 'apps--labs-icons.svg',
+    bedtime: ICON_BASE + 'bedtime--labs-icons.svg',
+    bedtime_off: ICON_BASE + 'bedtime_off--labs-icons.svg',
+    cancel: ICON_BASE + 'cancel--labs-icons.svg',
+    change_circle: ICON_BASE + 'change_circle--labs-icons.svg',
+    check: ICON_BASE + 'check--labs-icons.svg',
+    close: ICON_BASE + 'close--labs-icons.svg',
+    code: ICON_BASE + 'code--labs-icons.svg',
+    comment: ICON_BASE + 'comment--labs-icons.svg',
+    content_copy: ICON_BASE + 'content_copy--labs-icons.svg',
+    delete_forever: ICON_BASE + 'delete_forever--labs-icons.svg',
+    edit: ICON_BASE + 'edit--labs-icons.svg',
+    history: ICON_BASE + 'history--labs-icons.svg',
+    rate_review: ICON_BASE + 'rate_review--labs-icons.svg',
+    settings: ICON_BASE + 'settings--labs-icons.svg',
+    undo: ICON_BASE + 'undo--labs-icons.svg'
 };
 
 class LabsIcon extends HTMLElement {
@@ -102,20 +103,34 @@ class LabsIcon extends HTMLElement {
 
     const widthPx = width + "px";
     const heightPx = height + "px";
-    // Always resolve color to a real value (not a CSS variable or currentColor)
-    let color = this.getAttribute("color") || "#000";
+    // Color handling with theme awareness
+    let color = this.getAttribute("color") || "var(--color-on-surface)";
+
     // If color is a CSS variable (token), resolve it to a real value
     if (color.startsWith('var(')) {
-      // Create a temp element to resolve the variable
+      // Create a temp element to resolve the variable with current theme
       const temp = document.createElement('div');
       temp.style.color = color;
+      temp.style.position = 'absolute';
+      temp.style.visibility = 'hidden';
       document.body.appendChild(temp);
-      color = getComputedStyle(temp).color;
+      const computedColor = getComputedStyle(temp).color;
       document.body.removeChild(temp);
+
+      // Only use computed color if it's valid (not transparent or empty)
+      if (computedColor && computedColor !== 'rgba(0, 0, 0, 0)' && computedColor !== 'transparent') {
+        color = computedColor;
+      } else {
+        // Fallback based on current theme
+        const isDark = document.body.classList.contains('theme-dark');
+        color = isDark ? "#ffffff" : "#000000";
+      }
     }
-    // If color is still not a hex/rgb value, default to #000
-    if (!color || color === "currentColor" || color.startsWith("var(")) {
-      color = "#000";
+
+    // Handle currentColor by checking theme
+    if (color === "currentColor") {
+      const isDark = document.body.classList.contains('theme-dark');
+      color = isDark ? "#ffffff" : "#000000";
     }
 
     // Try to fetch and inline the SVG

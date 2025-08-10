@@ -14,6 +14,7 @@ export default [
     "content_copy",
     "delete_forever",
     "edit",
+    "history",
     "rate_review",
     "settings",
     "undo"

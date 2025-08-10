@@ -84,8 +84,8 @@
         .task-list {
             flex: 1;
             padding: 0 var(--space-md);
-            margin-bottom: 100px;
-            /* Footer space */
+            margin-bottom: 80px;
+            /* Match tracker footer space */
             overflow-y: auto;
         }
 
@@ -161,6 +161,73 @@
             color: var(--color-on-surface-variant);
         }
 
+        /* Archived tasks section */
+        .archived-section {
+            margin-top: var(--space-lg);
+            border-top: 1px solid var(--color-outline-variant);
+            padding-top: var(--space-lg);
+        }
+
+        .archived-header {
+            font-size: var(--font-size-h3);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-on-surface-variant);
+            margin-bottom: var(--space-md);
+            text-align: center;
+        }
+
+        .archived-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-md);
+            background: var(--color-surface-container-low);
+            border-radius: var(--border-radius-md);
+            border: 1px solid var(--color-outline-variant);
+            margin-bottom: var(--space-sm);
+            transition: all 0.2s ease;
+            opacity: 0.6;
+        }
+
+        .archived-item:hover {
+            background: var(--color-surface-container);
+            opacity: 0.8;
+        }
+
+        .archived-date {
+            font-size: var(--font-size-small);
+            color: var(--color-on-surface-variant);
+            font-weight: var(--font-weight-medium);
+            min-width: 80px;
+        }
+
+        .archived-task-text {
+            flex: 1;
+            font-size: var(--font-size-body);
+            color: var(--color-on-surface-variant);
+            text-decoration: line-through;
+        }
+
+        /* Restore icon (hidden by default, shown on hover) */
+        .restore-icon {
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            cursor: pointer;
+            padding: var(--space-xs);
+            border-radius: var(--border-radius-sm);
+            background: transparent;
+            border: none;
+        }
+
+        .archived-item:hover .restore-icon {
+            opacity: 0.75;
+        }
+
+        .restore-icon:hover {
+            opacity: 1 !important;
+            background: var(--color-surface-container-high);
+        }
+
         .version-indicator {
             position: fixed;
             top: var(--space-md);
@@ -187,7 +254,7 @@
     <div class="app">
         <!-- Metric card showing progress -->
         <div class="metric-card">
-            <div class="metric-label">Today's Progress</div>
+            <div class="metric-label" id="dateLabel">Today's Progress</div>
             <div class="metric-value" id="progressValue">0 / 5</div>
         </div>
 
@@ -213,6 +280,7 @@
             init() {
                 this.renderTasks();
                 this.updateProgress();
+                this.updateDateLabel();
                 this.setupEventListeners();
                 this.checkForNewDay();
             }
@@ -222,13 +290,94 @@
                 const lastDate = localStorage.getItem('today-list-date');
                 const today = new Date().toDateString();
 
-                // Reset if new day
-                if (lastDate !== today) {
+                // Archive previous day's tasks if new day
+                if (lastDate && lastDate !== today) {
+                    this.archivePreviousDay(lastDate, stored);
                     localStorage.setItem('today-list-date', today);
+                    localStorage.removeItem('today-list-tasks'); // Clear today's tasks
                     return [];
                 }
 
+                // Set date if first time
+                if (!lastDate) {
+                    localStorage.setItem('today-list-date', today);
+                }
+
                 return stored ? JSON.parse(stored) : [];
+            }
+
+            archivePreviousDay(date, tasksJson) {
+                if (tasksJson) {
+                    const archiveKey = `today-list-archive-${date}`;
+                    localStorage.setItem(archiveKey, tasksJson);
+                    console.log(`📚 Archived tasks for ${date}`);
+                }
+            }
+
+            getArchivedDates() {
+                const dates = [];
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key && key.startsWith('today-list-archive-')) {
+                        const date = key.replace('today-list-archive-', '');
+                        dates.push(date);
+                    }
+                }
+                return dates.sort().reverse(); // Most recent first
+            }
+
+            restoreFromDate(date) {
+                const archiveKey = `today-list-archive-${date}`;
+                const archived = localStorage.getItem(archiveKey);
+                if (archived) {
+                    const archivedTasks = JSON.parse(archived);
+                    // Copy uncompleted tasks
+                    const uncompletedTasks = archivedTasks.filter(task => !task.completed);
+                    if (uncompletedTasks.length > 0) {
+                        if (confirm(`Restore ${uncompletedTasks.length} uncompleted tasks from ${date}?`)) {
+                            uncompletedTasks.forEach(task => {
+                                task.completed = false; // Ensure they're uncompleted
+                                task.id = Date.now() + Math.random(); // New ID
+                            });
+                            this.tasks = [...this.tasks, ...uncompletedTasks];
+                            this.saveTasks();
+                            this.renderTasks();
+                            this.updateProgress();
+                        }
+                    } else {
+                        alert(`No uncompleted tasks found for ${date}`);
+                    }
+                }
+            }
+
+            restoreSpecificTask(date, taskId) {
+                if (this.tasks.length >= 5) {
+                    alert('Maximum 5 tasks per day! Complete or edit existing tasks.');
+                    return;
+                }
+
+                const archiveKey = `today-list-archive-${date}`;
+                const archived = localStorage.getItem(archiveKey);
+                if (archived) {
+                    const archivedTasks = JSON.parse(archived);
+                    const taskToRestore = archivedTasks.find(task => task.id == taskId);
+
+                    if (taskToRestore && !taskToRestore.completed) {
+                        // Create a copy with new ID
+                        const restoredTask = {
+                            id: Date.now() + Math.random(),
+                            text: taskToRestore.text,
+                            completed: false
+                        };
+
+                        this.tasks.push(restoredTask);
+                        this.saveTasks();
+                        this.renderTasks();
+                        this.updateProgress();
+
+                        console.log(`✅ Restored task: "${taskToRestore.text}" from ${date}`);
+                    }
+                }
             }
 
             saveTasks() {
@@ -240,21 +389,67 @@
 
                 if (this.tasks.length === 0) {
                     taskList.innerHTML = '<div class="placeholder-entry">Click + Add Task to start your day</div>';
-                    return;
+                } else {
+                    taskList.innerHTML = '';
+                    this.tasks.forEach((task, index) => {
+                        const taskElement = document.createElement('div');
+                        taskElement.className = `task-item ${task.completed ? 'completed' : ''}`;
+
+                        taskElement.innerHTML = `
+                            <div class="task-checkbox ${task.completed ? 'checked' : ''}" data-index="${index}"></div>
+                            <div class="task-text" data-index="${index}">${task.text}</div>
+                        `;
+
+                        taskList.appendChild(taskElement);
+                    });
                 }
 
-                taskList.innerHTML = '';
-                this.tasks.forEach((task, index) => {
-                    const taskElement = document.createElement('div');
-                    taskElement.className = `task-item ${task.completed ? 'completed' : ''}`;
+                // Add archived tasks section
+                this.renderArchivedTasks(taskList);
+            }
 
-                    taskElement.innerHTML = `
-                        <div class="task-checkbox ${task.completed ? 'checked' : ''}" data-index="${index}"></div>
-                        <div class="task-text" data-index="${index}">${task.text}</div>
-                    `;
+            renderArchivedTasks(taskList) {
+                const archivedDates = this.getArchivedDates().slice(0, 3); // Show last 3 days
 
-                    taskList.appendChild(taskElement);
-                });
+                if (archivedDates.length > 0) {
+                    const archivedSection = document.createElement('div');
+                    archivedSection.className = 'archived-section';
+
+                    const archivedHeader = document.createElement('div');
+                    archivedHeader.className = 'archived-header';
+                    archivedHeader.textContent = 'Recent Archived Tasks';
+                    archivedSection.appendChild(archivedHeader);
+
+                    archivedDates.forEach(date => {
+                        const archiveKey = `today-list-archive-${date}`;
+                        const archived = localStorage.getItem(archiveKey);
+                        if (archived) {
+                            const archivedTasks = JSON.parse(archived);
+                            archivedTasks.forEach(task => {
+                                if (!task.completed) { // Only show uncompleted archived tasks
+                                    const archivedItem = document.createElement('div');
+                                    archivedItem.className = 'archived-item';
+
+                                    const formattedDate = new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+
+                                    archivedItem.innerHTML = `
+                                        <div class="archived-date">${formattedDate}</div>
+                                        <div class="archived-task-text">${task.text}</div>
+                                        <button class="restore-icon" data-date="${date}" data-task-id="${task.id}" aria-label="Restore task">
+                                            <labs-icon name="history" color="var(--color-primary)"></labs-icon>
+                                        </button>
+                                    `;
+
+                                    archivedSection.appendChild(archivedItem);
+                                }
+                            });
+                        }
+                    });
+
+                    if (archivedSection.children.length > 1) { // More than just the header
+                        taskList.appendChild(archivedSection);
+                    }
+                }
             }
 
             addTask(text) {
@@ -294,7 +489,19 @@
             updateProgress() {
                 const completed = this.tasks.filter(t => t.completed).length;
                 const total = this.tasks.length;
-                document.getElementById('progressValue').textContent = `${completed} / ${Math.max(total, 5)}`;
+                document.getElementById('progressValue').textContent = `${completed} / ${total}`;
+            }
+
+            updateDateLabel() {
+                const today = new Date();
+                const options = {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                };
+                const formattedDate = today.toLocaleDateString('en-US', options);
+                document.getElementById('dateLabel').textContent = formattedDate;
             }
 
             setupEventListeners() {
@@ -306,7 +513,14 @@
                     } else if (e.target.classList.contains('task-text')) {
                         const index = parseInt(e.target.dataset.index);
                         const task = this.tasks[index];
-                        this.showEditDialog(task.text, index);
+                        if (task && task.text) {
+                            this.showEditDialog(task.text, index);
+                        }
+                    } else if (e.target.classList.contains('restore-icon') || e.target.closest('.restore-icon')) {
+                        const restoreButton = e.target.classList.contains('restore-icon') ? e.target : e.target.closest('.restore-icon');
+                        const date = restoreButton.dataset.date;
+                        const taskId = restoreButton.dataset.taskId;
+                        this.restoreSpecificTask(date, taskId);
                     }
                 });
 
@@ -366,24 +580,104 @@
                     this.saveTasks();
                     this.renderTasks();
                     this.updateProgress();
+
+                    // Also clear any debugging data
+                    console.log('🧹 Reset completed - all tasks cleared');
                 }
             }
 
-            checkForNewDay() {
+            showRestoreOptions() {
+                const archivedDates = this.getArchivedDates();
+                if (archivedDates.length === 0) {
+                    alert('No archived tasks found. Complete some tasks and let a day pass to see archived data.');
+                    return;
+                }
+
+                let options = 'Select a date to restore uncompleted tasks from:\n\n';
+                archivedDates.forEach((date, index) => {
+                    options += `${index + 1}. ${date}\n`;
+                });
+                options += '\nEnter the number of your choice (or cancel):';
+
+                const choice = prompt(options);
+                if (choice && !isNaN(choice)) {
+                    const index = parseInt(choice) - 1;
+                    if (index >= 0 && index < archivedDates.length) {
+                        this.restoreFromDate(archivedDates[index]);
+                    } else {
+                        alert('Invalid choice. Please try again.');
+                    }
+                }
+            }
+
+            // Test function to simulate date changes for testing auto-archive
+            simulateNewDay() {
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+                const yesterdayString = yesterday.toDateString();
+
+                // Set the date to yesterday to trigger archive on next check
+                localStorage.setItem('today-list-date', yesterdayString);
+                console.log(`🧪 Test: Set date to ${yesterdayString}. Reload to trigger archive.`);
+                alert(`Test mode: Date set to ${yesterdayString}. Reload the page to trigger auto-archive.`);
+            }
+
+            // Test function to create sample archived data for demo
+            createTestArchivedData() {
+                const testDates = [];
+                for (let i = 1; i <= 3; i++) {
+                    const date = new Date();
+                    date.setDate(date.getDate() - i);
+                    testDates.push(date.toDateString());
+                }
+
+                const sampleTasks = [
+                    { id: 1, text: "Review project proposal", completed: false },
+                    { id: 2, text: "Call dentist for appointment", completed: true },
+                    { id: 3, text: "Grocery shopping", completed: false },
+                    { id: 4, text: "Walk the dog", completed: true },
+                    { id: 5, text: "Read chapter 5", completed: false }
+                ];
+
+                testDates.forEach((date, index) => {
+                    const archiveKey = `today-list-archive-${date}`;
+                    const tasksForDate = sampleTasks.slice(index, index + 2); // 2 tasks per day
+                    localStorage.setItem(archiveKey, JSON.stringify(tasksForDate));
+                });
+
+                console.log('🧪 Test archived data created for last 3 days');
+                alert('Test archived data created! Refresh to see archived tasks.');
+            } checkForNewDay() {
+                // Check every minute for testing (normally would be every hour)
                 setInterval(() => {
                     const today = new Date().toDateString();
                     const lastDate = localStorage.getItem('today-list-date');
 
-                    if (lastDate !== today) {
+                    if (lastDate && lastDate !== today) {
+                        console.log(`🗓️ New day detected! Previous: ${lastDate}, Current: ${today}`);
+                        // Archive current tasks before reloading
+                        const currentTasks = localStorage.getItem('today-list-tasks');
+                        if (currentTasks) {
+                            this.archivePreviousDay(lastDate, currentTasks);
+                        }
                         window.location.reload();
                     }
-                }, 60000);
+                }, 60000); // Every minute for testing
             }
         }
 
         // Initialize app
         document.addEventListener('DOMContentLoaded', () => {
-            new TodayListApp();
+            window.todayListApp = new TodayListApp();
+
+            // Expose test functions for debugging
+            window.simulateNewDay = () => window.todayListApp.simulateNewDay();
+            window.createTestArchivedData = () => window.todayListApp.createTestArchivedData();
+            window.showArchivedDates = () => {
+                const dates = window.todayListApp.getArchivedDates();
+                console.log('📚 Archived dates:', dates);
+                return dates;
+            };
         });
     </script>
 </body>

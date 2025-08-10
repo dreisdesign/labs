@@ -37,6 +37,10 @@ async function main() {
             value: "serveStorybook",
           },
           {
+            name: "Sync design system to docs (dev workflow)",
+            value: "devSync",
+          },
+          {
             name: "Build & Deploy (publishes, then preview demo)",
             value: "deploy",
           },
@@ -97,6 +101,31 @@ async function main() {
         console.log(
           "You can close this menu. The server will continue to run.",
         );
+      }
+    } else if (action === "devSync") {
+      console.log("\n🔄 Syncing design system files to docs for localhost development...");
+      execSync("./scripts/dev-sync.sh", { stdio: "inherit" });
+      console.log("\n✅ Design system files synced successfully!");
+      console.log("📝 Your localhost:8080 apps should now reflect the latest changes.");
+
+      // Optionally open the demo pages
+      const localUrls = [
+        "http://localhost:8080/docs/demo/",
+        "http://localhost:8080/docs/today-list/"
+      ];
+
+      console.log("\n🌐 Testing URLs:");
+      localUrls.forEach(url => console.log(`   ${url}`));
+
+      const { openPages } = await inquirer.prompt([{
+        type: "confirm",
+        name: "openPages",
+        message: "Open test pages in browser?",
+        default: true
+      }]);
+
+      if (openPages) {
+        openUrls(localUrls);
       }
     } else if (action === "deploy") {
       // Always update the Storybook sitemap before deploying
