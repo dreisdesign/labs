@@ -233,7 +233,7 @@ Checkbox.argTypes = {
     description: "Whether the checkbox is checked"
   },
   iconcolor: {
-    control: "color", 
+    control: "color",
     description: "Color for unchecked state (checked state uses primary color)"
   },
 };

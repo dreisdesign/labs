@@ -3,18 +3,18 @@ import "../components/labs-button.js";
 import "../components/labs-icon.js";
 
 export default {
-  title: "Patterns/Task Interaction",
-  parameters: {
-    docs: {
-      description: {
-        component: "Complete task interaction patterns showing checkbox functionality, edit on hover, and task state management as used in Today List app.",
-      },
+    title: "Patterns/Task Interaction",
+    parameters: {
+        docs: {
+            description: {
+                component: "Complete task interaction patterns showing checkbox functionality, edit on hover, and task state management as used in Today List app.",
+            },
+        },
     },
-  },
 };
 
 const TaskItemTemplate = () => {
-  return `
+    return `
     <style>
       .task-demo {
         max-width: 400px;
@@ -165,9 +165,9 @@ const TaskItemTemplate = () => {
 
 export const TaskItems = TaskItemTemplate.bind({});
 TaskItems.parameters = {
-  docs: {
-    description: {
-      story: "Complete task interaction pattern showing checkbox state management, hover-revealed edit buttons, and visual feedback for completed tasks. This demonstrates the default behavior where clicking tasks opens edit functionality instead of creating new tasks.",
+    docs: {
+        description: {
+            story: "Complete task interaction pattern showing checkbox state management, hover-revealed edit buttons, and visual feedback for completed tasks. This demonstrates the default behavior where clicking tasks opens edit functionality instead of creating new tasks.",
+        },
     },
-  },
 };
