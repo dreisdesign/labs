@@ -234,7 +234,7 @@ export const iconOnlyButtons = {
     icon: "check_box",
     variant: "icon",
     iconcolor: "var(--color-primary)",
-    "aria-label": "Mark as incomplete", 
+    "aria-label": "Mark as incomplete",
     "data-checkbox-state": "checked",
   },
 };

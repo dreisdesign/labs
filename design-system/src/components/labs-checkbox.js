@@ -14,11 +14,15 @@ class LabsCheckbox extends HTMLElement {
 
     connectedCallback() {
         this.render();
-        this.addEventListener("labs-click", this.handleClick);
+    }
+
+    setupEventListeners() {
+        // Listen for labs-click events from the button inside shadow DOM
+        this.shadowRoot.addEventListener("labs-click", this.handleClick);
     }
 
     disconnectedCallback() {
-        this.removeEventListener("labs-click", this.handleClick);
+        this.shadowRoot?.removeEventListener("labs-click", this.handleClick);
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -72,6 +76,16 @@ class LabsCheckbox extends HTMLElement {
         data-checkbox-state="${this.checked ? 'checked' : 'unchecked'}"
       ></labs-button>
     `;
+        
+        // Setup event listeners after DOM is rendered
+        this.setupEventListeners();
+    }
+
+    setupEventListeners() {
+        // Remove any existing listeners first
+        this.shadowRoot.removeEventListener("labs-click", this.handleClick);
+        // Listen for labs-click events from the button inside shadow DOM  
+        this.shadowRoot.addEventListener("labs-click", this.handleClick);
     }
 }
 

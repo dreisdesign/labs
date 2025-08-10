@@ -3,7 +3,7 @@
 
 ## Added - needs to be groomed
 - http://localhost:6006/?path=/story/components-input-overlay--pre-opened when pre-opened Cancel doesn't work (but it does if opened from the "Open Input Overlay" button)
-
+- Should we have demo's in the components themselves? Ie http://localhost:6006/?path=/story/components-button--checkbox 
 
 ---
 
@@ -43,12 +43,31 @@ Systematic implementation of Today List improvements and design system component
 
 ---
 
-## 🐛 **RESOLVED ISSUES**
+## 🐛 **ACTIVE DEBUGGING - CRITICAL SHADOW DOM EVENT ISSUES**
 
-### **~~Priority 1: Task Interaction Demo Bugs~~ ✅ FIXED**
-- **✅ Checkbox clicks now working** in Storybook demo
-- **✅ Edit button clicks now triggering** alerts (ready for input overlay)
-- **✅ Event handling fixed** with proper component architecture
+### **❌ Primary Issues Identified & Fixed:**
+
+| Component | Issue | Root Cause | Status |
+|-----------|-------|-------------|--------|
+| Checkbox Demo | Not responding to clicks | ❌ Event listener on wrong element - needed shadowRoot.addEventListener | 🔧 **FIXING** |
+| Task Interaction | Checkbox not working | ❌ Same shadow DOM event issue | 🔧 **FIXING** |  
+| Task Interaction | Edit button not working | ❌ Shadow DOM event delegation issue | 🔧 **FIXING** |
+| Task Interaction | Transparent hover | ✅ Fixed | ✅ **FIXED** |
+| Input Overlay | Non-design system buttons | ✅ Fixed | ✅ **FIXED** |
+
+### **🔧 Technical Root Cause Analysis:**
+- **Problem**: Event listeners were attached to component host, but `labs-click` events fire from buttons inside shadow DOM
+- **Solution**: Move event listeners to `shadowRoot.addEventListener()` to catch internal events
+- **Architecture**: Shadow DOM events need different handling than regular DOM events
+
+### **💡 Key Insight:**
+Shadow DOM encapsulation means events from inner components don't bubble to the host element the same way. Need to listen on the shadow root itself.
+
+### **🎯 Current Fix Status:**
+- ✅ Updated `labs-checkbox` to listen on shadowRoot for labs-click events
+- ✅ Updated `labs-task-item` to listen on shadowRoot for edit button events  
+- ✅ Added proper event cleanup and bound methods
+- 🔬 **Testing in progress...**
 
 ### **~~Priority 2: UX Improvements~~ ✅ COMPLETED**
 - **✅ Entire task item is clickable** (not just checkbox)

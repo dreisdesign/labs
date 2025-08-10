@@ -73,11 +73,11 @@ class LabsButton extends HTMLElement {
     if (this.hasAttribute("checkmark")) {
       if (this.animating) return;
       this.animating = true;
-      btn.classList.remove("success");
+      btn.classList.remove("checkmark-animation");
       void btn.offsetWidth;
-      btn.classList.add("success");
+      btn.classList.add("checkmark-animation");
       setTimeout(() => {
-        btn.classList.remove("success");
+        btn.classList.remove("checkmark-animation");
         this.animating = false;
       }, 800);
     }
@@ -384,17 +384,17 @@ class LabsButton extends HTMLElement {
           width: 36px;
           height: 36px;
         }
-        .success .labs-label {
+        .checkmark-animation .labs-label {
           opacity: 0;
           transform: translateY(-10px);
           transition: opacity 0.3s ease-out, transform 0.3s ease-out;
         }
         /* Hide primary icon during animation to prevent overlap */
-        .success .labs-icon:not(.labs-checkmark .labs-icon) {
+        .checkmark-animation .labs-icon:not(.labs-checkmark .labs-icon) {
           opacity: 0;
           transition: opacity 0.3s ease-out;
         }
-        .success .labs-checkmark {
+        .checkmark-animation .labs-checkmark {
           opacity: 1;
           transform: scale(1) rotate(0deg);
           animation: rollInCheckmark 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
