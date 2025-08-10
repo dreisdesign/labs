@@ -177,37 +177,6 @@ class LabsInputOverlay extends HTMLElement {
           justify-content: flex-end;
         }
 
-        .action-button {
-          padding: var(--space-md, 12px) var(--space-lg, 20px);
-          border-radius: var(--border-radius-md, 8px);
-          font-size: var(--font-size-body, 1rem);
-          font-family: var(--font-family-base, system-ui);
-          font-weight: var(--font-weight-medium, 500);
-          cursor: pointer;
-          transition: all 0.2s ease;
-          border: none;
-          min-width: 80px;
-        }
-
-        .action-button.cancel {
-          background: transparent;
-          color: var(--color-on-surface, #1f1f1f);
-          border: 1px solid var(--color-outline-variant, #e0e0e0);
-        }
-
-        .action-button.cancel:hover {
-          background: var(--color-surface-container-high, #f0f0f0);
-        }
-
-        .action-button.save {
-          background: var(--color-primary, #007bff);
-          color: var(--color-on-primary, #ffffff);
-        }
-
-        .action-button.save:hover {
-          background: var(--color-primary-dark, #0056b3);
-        }
-
         @keyframes fadeIn {
           from { opacity: 0; }
           to { opacity: 1; }
@@ -258,8 +227,8 @@ class LabsInputOverlay extends HTMLElement {
         />
 
         <div class="overlay-actions">
-          <button class="action-button cancel" id="cancelButton">Cancel</button>
-          <button class="action-button save" id="saveButton">Save</button>
+          <labs-button id="cancelButton" label="Cancel" variant="secondary"></labs-button>
+          <labs-button id="saveButton" label="Save" variant="primary"></labs-button>
         </div>
       </div>
     `;
@@ -271,8 +240,8 @@ class LabsInputOverlay extends HTMLElement {
         const input = this.shadowRoot.querySelector('.task-input');
 
         closeButton?.addEventListener('click', () => this.close());
-        cancelButton?.addEventListener('click', () => this.close());
-        saveButton?.addEventListener('click', () => this.save());
+        cancelButton?.addEventListener('labs-click', () => this.close());
+        saveButton?.addEventListener('labs-click', () => this.save());
 
         // Handle enter key to save
         input?.addEventListener('keydown', (e) => {

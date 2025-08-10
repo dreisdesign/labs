@@ -1,5 +1,6 @@
 import "../components/labs-button.js";
 import "../components/labs-icon.js";
+import "../components/labs-checkbox.js";
 import "../styles/components/settings-overlay.css";
 import { createButton, createIconButton, buttonConfigs, iconOnlyButtons } from "../tokens/button-configs.js";
 
@@ -182,9 +183,6 @@ IconOnly.args = {
   checkmark: false,
   variant: "icon",
 };
-
-// Import the checkbox component for checkbox stories
-import "../components/labs-checkbox.js";
 
 // Checkbox-specific template using the labs-checkbox component
 const CheckboxTemplate = ({ checked, iconcolor }) => {

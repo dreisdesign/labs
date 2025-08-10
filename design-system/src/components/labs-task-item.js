@@ -52,7 +52,7 @@ class LabsTaskItem extends HTMLElement {
 
         // Handle edit button clicks
         this.addEventListener('labs-click', (e) => {
-            if (e.target.closest('.edit-button')) {
+            if (e.target.closest('labs-button[icon="edit"]')) {
                 e.stopPropagation();
                 this.dispatchEvent(new CustomEvent("labs-task-edit", {
                     bubbles: true,
@@ -64,14 +64,14 @@ class LabsTaskItem extends HTMLElement {
             }
         });
 
-        // Handle task item clicks (entire area)
+        // Handle task item clicks (entire area) - but exclude checkbox and edit button
         this.shadowRoot.addEventListener('click', (e) => {
-            // Don't trigger if clicking edit button or checkbox
-            if (e.target.closest('.edit-button') || e.target.closest('labs-checkbox')) {
+            // Don't trigger if clicking edit button or checkbox directly
+            if (e.target.closest('labs-button') || e.target.closest('labs-checkbox')) {
                 return;
             }
 
-            // Toggle checkbox when clicking anywhere else
+            // Toggle checkbox when clicking anywhere else in the task area
             const checkbox = this.shadowRoot.querySelector('labs-checkbox');
             if (checkbox) {
                 checkbox.toggleState();
@@ -92,9 +92,9 @@ class LabsTaskItem extends HTMLElement {
         .task-item {
           display: flex;
           align-items: center;
-          gap: 0.75rem;
-          padding: 0.75rem;
-          border-radius: 8px;
+          gap: var(--space-md, 0.75rem);
+          padding: var(--space-md, 0.75rem);
+          border-radius: var(--border-radius-md, 8px);
           background: var(--color-surface);
           border: 1px solid var(--color-outline);
           position: relative;
@@ -103,29 +103,31 @@ class LabsTaskItem extends HTMLElement {
         }
         
         .task-item:hover {
-          background: var(--color-surface-variant);
+          background: var(--color-surface-container);
           border-color: var(--color-primary);
         }
         
         .task-text {
           flex: 1;
           cursor: pointer;
-          font-size: var(--font-size-body-md);
-          line-height: 1.4;
+          font-size: var(--font-size-body, 1rem);
+          line-height: var(--line-height-normal, 1.4);
+          color: var(--color-on-surface);
           transition: all 0.2s ease;
         }
         
         .task-completed .task-text {
           text-decoration: line-through;
           opacity: 0.6;
+          color: var(--color-on-surface-variant);
         }
         
         .edit-button {
           opacity: 0;
-          transform: translateX(8px);
-          transition: all 0.2s ease;
+          transform: translateX(var(--space-sm, 8px));
+          transition: all var(--motion-duration-short, 0.2s) ease;
           position: absolute;
-          right: 0.5rem;
+          right: var(--space-sm, 0.5rem);
         }
         
         .task-item:hover .edit-button {
@@ -141,7 +143,6 @@ class LabsTaskItem extends HTMLElement {
           class="edit-button"
           icon="edit" 
           variant="icon" 
-          iconcolor="var(--color-primary)"
           aria-label="Edit task"
         ></labs-button>
       </div>

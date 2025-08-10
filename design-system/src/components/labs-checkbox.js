@@ -68,7 +68,6 @@ class LabsCheckbox extends HTMLElement {
         icon="${this.checked ? 'check_box' : 'check_box_outline_blank'}"
         variant="icon"
         iconcolor="${this.checked ? 'var(--color-primary)' : iconColor}"
-        ${this.checked ? '' : 'checkmark'}
         aria-label="${this.checked ? 'Mark as incomplete' : 'Mark as complete'}"
         data-checkbox-state="${this.checked ? 'checked' : 'unchecked'}"
       ></labs-button>
