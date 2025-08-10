@@ -21,7 +21,7 @@ const TaskItemTemplate = () => {
             console.log('Task changed:', e.detail);
         });
 
-        document.addEventListener('labs-click', (e) => {
+        document.addEventListener('labs-task-edit', (e) => {
             alert(`Edit task ${e.detail.taskId}: "${e.detail.text}"
 
 In real app, this would open the input overlay.`);

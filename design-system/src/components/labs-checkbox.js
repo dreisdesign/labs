@@ -50,6 +50,9 @@ class LabsCheckbox extends HTMLElement {
 
     render() {
         const iconColor = this.getAttribute("iconcolor") || "var(--color-on-surface)";
+        // Use the custom iconcolor for both states if provided, otherwise use defaults
+        const uncheckedColor = iconColor;
+        const checkedColor = this.getAttribute("iconcolor") ? iconColor : "var(--color-primary)";
 
         this.shadowRoot.innerHTML = `
       <style>
@@ -66,7 +69,7 @@ class LabsCheckbox extends HTMLElement {
       <labs-button
         icon="${this.checked ? 'check_box' : 'check_box_outline_blank'}"
         variant="icon"
-        iconcolor="${this.checked ? 'var(--color-primary)' : iconColor}"
+        iconcolor="${this.checked ? checkedColor : uncheckedColor}"
         aria-label="${this.checked ? 'Mark as incomplete' : 'Mark as complete'}"
         data-checkbox-state="${this.checked ? 'checked' : 'unchecked'}"
       ></labs-button>

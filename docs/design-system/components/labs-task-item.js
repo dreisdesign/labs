@@ -15,7 +15,6 @@ class LabsTaskItem extends HTMLElement {
 
     connectedCallback() {
         this.render();
-        this.setupEventListeners();
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -26,7 +25,11 @@ class LabsTaskItem extends HTMLElement {
     }
 
     setupEventListeners() {
-        // Handle checkbox changes
+        // Clean up any existing shadow DOM listeners
+        this.shadowRoot.removeEventListener('labs-click', this.handleEditClick);
+        this.shadowRoot.removeEventListener('click', this.handleTaskClick);
+
+        // Handle checkbox changes (these bubble up from checkbox component)
         this.addEventListener('labs-checkbox-change', (e) => {
             e.stopPropagation();
             this.completed = e.detail.checked;
@@ -50,8 +53,8 @@ class LabsTaskItem extends HTMLElement {
             }));
         });
 
-        // Handle edit button clicks
-        this.addEventListener('labs-click', (e) => {
+        // Create bound methods for cleanup
+        this.handleEditClick = (e) => {
             if (e.target.closest('labs-button[icon="edit"]')) {
                 e.stopPropagation();
                 this.dispatchEvent(new CustomEvent("labs-task-edit", {
@@ -62,10 +65,9 @@ class LabsTaskItem extends HTMLElement {
                     }
                 }));
             }
-        });
+        };
 
-        // Handle task item clicks (entire area) - but exclude checkbox and edit button
-        this.shadowRoot.addEventListener('click', (e) => {
+        this.handleTaskClick = (e) => {
             // Don't trigger if clicking edit button or checkbox directly
             if (e.target.closest('labs-button') || e.target.closest('labs-checkbox')) {
                 return;
@@ -76,7 +78,13 @@ class LabsTaskItem extends HTMLElement {
             if (checkbox) {
                 checkbox.toggleState();
             }
-        });
+        };
+
+        // Handle edit button clicks within shadow DOM
+        this.shadowRoot.addEventListener('labs-click', this.handleEditClick);
+
+        // Handle task item clicks (entire area) - but exclude checkbox and edit button
+        this.shadowRoot.addEventListener('click', this.handleTaskClick);
     }
 
     render() {
@@ -147,6 +155,9 @@ class LabsTaskItem extends HTMLElement {
         ></labs-button>
       </div>
     `;
+
+        // Setup event listeners after DOM is rendered
+        this.setupEventListeners();
     }
 }
 

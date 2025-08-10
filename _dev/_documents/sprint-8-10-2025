@@ -3,7 +3,6 @@
 
 ## Added - needs to be groomed
 - http://localhost:6006/?path=/story/components-input-overlay--pre-opened when pre-opened Cancel doesn't work (but it does if opened from the "Open Input Overlay" button)
-- Should we have demo's in the components themselves? Ie http://localhost:6006/?path=/story/components-button--checkbox 
 
 ---
 
@@ -43,31 +42,30 @@ Systematic implementation of Today List improvements and design system component
 
 ---
 
-## 🐛 **ACTIVE DEBUGGING - CRITICAL SHADOW DOM EVENT ISSUES**
+## 🐛 **CURRENT TESTING & FIXES**
 
-### **❌ Primary Issues Identified & Fixed:**
+### **✅ FIXES APPLIED:**
 
 | Component | Issue | Root Cause | Status |
 |-----------|-------|-------------|--------|
-| Checkbox Demo | Not responding to clicks | ❌ Event listener on wrong element - needed shadowRoot.addEventListener | 🔧 **FIXING** |
-| Task Interaction | Checkbox not working | ❌ Same shadow DOM event issue | 🔧 **FIXING** |  
-| Task Interaction | Edit button not working | ❌ Shadow DOM event delegation issue | 🔧 **FIXING** |
-| Task Interaction | Transparent hover | ✅ Fixed | ✅ **FIXED** |
-| Input Overlay | Non-design system buttons | ✅ Fixed | ✅ **FIXED** |
+| Checkbox Demo | Not responding to clicks | ✅ **FIXED** - Event listener lost on render | ✅ **WORKING** |
+| Task Interaction | Checkbox not working | ✅ **FIXED** - Same issue | ✅ **WORKING** |
+| Task Interaction | Edit button not working | ✅ **FIXED** - Wrong event name in story | 🔧 **TESTING** |
+| Checkbox iconcolor | Color not persisting when checked | ✅ **FIXED** - Override logic improved | 🔧 **TESTING** |
+| Checkbox iconcolor | Only affects first checkbox | ❌ **Need to investigate** - Story issue | 🔧 **FIXING** |
+| Task Interaction | Transparent hover | ✅ Fixed | ✅ **WORKING** |
+| Input Overlay | Non-design system buttons | ✅ Fixed | ✅ **WORKING** |
 
-### **🔧 Technical Root Cause Analysis:**
-- **Problem**: Event listeners were attached to component host, but `labs-click` events fire from buttons inside shadow DOM
-- **Solution**: Move event listeners to `shadowRoot.addEventListener()` to catch internal events
-- **Architecture**: Shadow DOM events need different handling than regular DOM events
+### **🏗️ ARCHITECTURE QUESTION:**
+- **Design Pattern Question**: Should checkbox demos be in Components/Button or moved to Patterns?
+- **Current**: Checkbox story in Components/Button with interactive demos
+- **Alternative**: Move to Patterns/Checkbox as standalone pattern
+- **User Feedback**: "Should we really have demos in the components themselves? Shouldn't that exist in patterns?"
 
-### **💡 Key Insight:**
-Shadow DOM encapsulation means events from inner components don't bubble to the host element the same way. Need to listen on the shadow root itself.
-
-### **🎯 Current Fix Status:**
-- ✅ Updated `labs-checkbox` to listen on shadowRoot for labs-click events
-- ✅ Updated `labs-task-item` to listen on shadowRoot for edit button events  
-- ✅ Added proper event cleanup and bound methods
-- 🔬 **Testing in progress...**
+### **🎯 RECENTLY FIXED:**
+1. **✅ Event Listener Architecture**: Fixed labs-button render() destroying event listeners
+2. **✅ Checkbox Color Persistence**: Fixed iconcolor being overridden when checked  
+3. **✅ Edit Button Events**: Fixed task-interaction story listening for wrong event name
 
 ### **~~Priority 2: UX Improvements~~ ✅ COMPLETED**
 - **✅ Entire task item is clickable** (not just checkbox)
