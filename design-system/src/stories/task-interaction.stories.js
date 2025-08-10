@@ -36,7 +36,15 @@ const TaskItemTemplate = () => {
             );
         });
 
-        // Handle task save from overlay
+        document.addEventListener('labs-task-delete', (e) => {
+            console.log('Delete task requested:', e.detail);
+
+            // In real app, this would show confirmation or undo pattern
+            const confirmed = confirm(`Delete task: "${e.detail.text}"?`);
+            if (confirmed) {
+                alert(`Task "${e.detail.text}" deleted!\n\nIn real app, this would use an undo pattern instead of confirmation.`);
+            }
+        });        // Handle task save from overlay
         document.addEventListener('task-save', (e) => {
             console.log('Task saved:', e.detail);
 
@@ -101,9 +109,10 @@ const TaskItemTemplate = () => {
         <h3>Interaction Demo</h3>
         <p style="color: var(--color-on-surface-variant); margin-bottom: 1rem; font-size: var(--font-size-body-sm);">
           • Click anywhere on task to toggle completion<br>
-          • Hover to reveal edit button<br>
+          • Hover to reveal edit and delete buttons<br>
           • Check animation plays on state change<br>
-          • Edit button opens input overlay for text editing
+          • Edit button opens input overlay for text editing<br>
+          • Delete button shows confirmation (will use undo pattern)
         </p>
         
         <div class="task-list">

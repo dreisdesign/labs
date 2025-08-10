@@ -1,6 +1,8 @@
 /* eslint-disable */
 import "./labs-button.js";
 import "./labs-icon.js";
+import "./labs-input.js";
+import { createButtonElement } from "../tokens/button-configs.js";
 
 class LabsInputOverlay extends HTMLElement {
     constructor() {
@@ -43,18 +45,18 @@ class LabsInputOverlay extends HTMLElement {
 
         // Update content
         const titleEl = this.shadowRoot.querySelector('.overlay-title');
-        const input = this.shadowRoot.querySelector('.task-input');
+        const input = this.shadowRoot.querySelector('#taskInput');
 
         titleEl.textContent = title;
-        input.placeholder = placeholder;
-        input.value = value;
+        input.setAttribute('placeholder', placeholder);
+        input.setValue(value);
 
+        // Show overlay
         this.setAttribute('active', '');
 
-        // Focus input after overlay is visible
+        // Focus input after animation
         setTimeout(() => {
             input.focus();
-            input.select();
         }, 100);
     }
 
@@ -64,8 +66,8 @@ class LabsInputOverlay extends HTMLElement {
     }
 
     save() {
-        const input = this.shadowRoot.querySelector('.task-input');
-        const text = input.value.trim();
+        const input = this.shadowRoot.querySelector('#taskInput');
+        const text = input.getValue().trim();
 
         if (text) {
             // Dispatch save event with text and index
@@ -149,32 +151,11 @@ class LabsInputOverlay extends HTMLElement {
           background: var(--color-surface-container-high, #f0f0f0);
         }
 
-        .task-input {
-          width: 100%;
-          padding: var(--space-md, 12px);
-          border: 2px solid var(--color-outline-variant, #e0e0e0);
-          border-radius: var(--border-radius-md, 8px);
-          font-size: var(--font-size-body, 1rem);
-          font-family: var(--font-family-base, system-ui);
-          background: var(--color-surface, #ffffff);
-          color: var(--color-on-surface, #1f1f1f);
-          margin-bottom: var(--space-lg, 20px);
-          transition: border-color 0.2s ease;
-        }
-
-        .task-input:focus {
-          outline: none;
-          border-color: var(--color-primary, #007bff);
-        }
-
-        .task-input::placeholder {
-          color: var(--color-on-surface-variant, #6b6b6b);
-        }
-
         .overlay-actions {
           display: flex;
           gap: var(--space-md, 12px);
           justify-content: flex-end;
+          margin-top: var(--space-lg, 20px);
         }
 
         @keyframes fadeIn {
@@ -219,33 +200,40 @@ class LabsInputOverlay extends HTMLElement {
           </button>
         </div>
 
-        <input 
-          type="text" 
-          class="task-input" 
+        <labs-input 
+          id="taskInput"
           placeholder="Enter task..."
           maxlength="100"
-        />
+        ></labs-input>
 
         <div class="overlay-actions">
-          <labs-button id="cancelButton" label="Cancel" variant="secondary"></labs-button>
-          <labs-button id="saveButton" label="Save" variant="primary"></labs-button>
+          <div id="cancelButtonContainer"></div>
+          <div id="saveButtonContainer"></div>
         </div>
       </div>
     `;
 
-        // Setup button event listeners
+        // Create buttons using new configurations
+        const cancelButtonContainer = this.shadowRoot.querySelector('#cancelButtonContainer');
+        const saveButtonContainer = this.shadowRoot.querySelector('#saveButtonContainer');
+
+        const cancelButton = createButtonElement('cancelRounded');
+        const saveButton = createButtonElement('saveRounded');
+
+        cancelButtonContainer.appendChild(cancelButton);
+        saveButtonContainer.appendChild(saveButton);
+
+        // Setup event listeners
         const closeButton = this.shadowRoot.querySelector('#closeButton');
-        const cancelButton = this.shadowRoot.querySelector('#cancelButton');
-        const saveButton = this.shadowRoot.querySelector('#saveButton');
-        const input = this.shadowRoot.querySelector('.task-input');
+        const input = this.shadowRoot.querySelector('#taskInput');
 
         closeButton?.addEventListener('click', () => this.close());
         cancelButton?.addEventListener('labs-click', () => this.close());
         saveButton?.addEventListener('labs-click', () => this.save());
 
         // Handle enter key to save
-        input?.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
+        input?.addEventListener('labs-keydown', (e) => {
+            if (e.detail.key === 'Enter') {
                 this.save();
             }
         });

@@ -68,7 +68,7 @@ class LabsTaskItem extends HTMLElement {
         };
 
         this.handleTaskClick = (e) => {
-            // Don't trigger if clicking edit button or checkbox directly
+            // Don't trigger if clicking edit button, delete button, or checkbox directly
             if (e.target.closest('labs-button') || e.target.closest('labs-checkbox')) {
                 return;
             }
@@ -83,7 +83,24 @@ class LabsTaskItem extends HTMLElement {
         // Handle edit button clicks within shadow DOM
         this.shadowRoot.addEventListener('labs-click', this.handleEditClick);
 
-        // Handle task item clicks (entire area) - but exclude checkbox and edit button
+        // Handle delete button clicks
+        this.handleDeleteClick = (e) => {
+            const deleteButton = e.target.closest('[data-action="delete"]');
+            if (deleteButton) {
+                e.stopPropagation();
+                this.dispatchEvent(new CustomEvent("labs-task-delete", {
+                    bubbles: true,
+                    detail: {
+                        taskId: this.getAttribute("task-id"),
+                        text: this.getAttribute("task-text")
+                    }
+                }));
+            }
+        };
+
+        this.shadowRoot.addEventListener('labs-click', this.handleDeleteClick);
+
+        // Handle task item clicks (entire area) - but exclude checkbox, edit, and delete buttons
         this.shadowRoot.addEventListener('click', this.handleTaskClick);
     }
 
@@ -130,15 +147,17 @@ class LabsTaskItem extends HTMLElement {
           color: var(--color-on-surface-variant);
         }
         
-        .edit-button {
+        .action-buttons {
+          position: absolute;
+          right: var(--space-sm, 0.5rem);
+          display: flex;
+          gap: var(--space-xs, 0.25rem);
           opacity: 0;
           transform: translateX(var(--space-sm, 8px));
           transition: all var(--motion-duration-short, 0.2s) ease;
-          position: absolute;
-          right: var(--space-sm, 0.5rem);
         }
         
-        .task-item:hover .edit-button {
+        .task-item:hover .action-buttons {
           opacity: 1;
           transform: translateX(0);
         }
@@ -147,12 +166,22 @@ class LabsTaskItem extends HTMLElement {
       <div class="task-item ${this.completed ? 'task-completed' : ''}" data-task-id="${taskId}">
         <labs-checkbox ${this.completed ? 'checked' : ''}></labs-checkbox>
         <span class="task-text">${taskText}</span>
-        <labs-button 
-          class="edit-button"
-          icon="edit" 
-          variant="icon" 
-          aria-label="Edit task"
-        ></labs-button>
+        <div class="action-buttons">
+          <labs-button 
+            icon="edit" 
+            variant="icon-transparent" 
+            iconcolor="var(--color-on-surface-variant)"
+            data-action="edit"
+            aria-label="Edit task"
+          ></labs-button>
+          <labs-button 
+            icon="delete_forever" 
+            variant="icon-transparent" 
+            iconcolor="var(--color-error)"
+            data-action="delete"
+            aria-label="Delete task"
+          ></labs-button>
+        </div>
       </div>
     `;
 
