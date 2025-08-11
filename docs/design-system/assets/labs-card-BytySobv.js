@@ -1,32 +1,8 @@
-class LabsCard extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({ mode: "open" });
-    }
-
-    static get observedAttributes() {
-        return ["title", "subtitle", "variant", "width"];
-    }
-
-    connectedCallback() {
-        this.render();
-    }
-
-    attributeChangedCallback() {
-        this.render();
-    }
-
-    render() {
-        const title = this.getAttribute("title") || "";
-        const subtitle = this.getAttribute("subtitle") || "";
-        const variant = this.getAttribute("variant") || "default";
-        const width = this.getAttribute("width") || "auto";
-
-        this.shadowRoot.innerHTML = `
+class o extends HTMLElement{constructor(){super(),this.attachShadow({mode:"open"})}static get observedAttributes(){return["title","subtitle","variant","width"]}connectedCallback(){this.render()}attributeChangedCallback(){this.render()}render(){const a=this.getAttribute("title")||"",r=this.getAttribute("subtitle")||"",t=this.getAttribute("variant")||"default",e=this.getAttribute("width")||"auto";this.shadowRoot.innerHTML=`
             <style>
                 :host {
                     display: block;
-                    width: ${width === 'full' ? '100%' : width === 'constrained' ? 'min(500px, 100%)' : width};
+                    width: ${e==="full"?"100%":e==="constrained"?"min(500px, 100%)":e};
                     margin: var(--card-margin, 0);
                 }
 
@@ -148,33 +124,13 @@ class LabsCard extends HTMLElement {
                 }
             </style>
             
-            <div class="card ${variant}">
+            <div class="card ${t}">
                 <div class="card-header">
-                    ${title ? `<h3 class="card-title">${title}</h3>` : ''}
-                    ${subtitle ? `<p class="card-subtitle">${subtitle}</p>` : ''}
+                    ${a?`<h3 class="card-title">${a}</h3>`:""}
+                    ${r?`<p class="card-subtitle">${r}</p>`:""}
                 </div>
                 <div class="card-content">
                     <slot></slot>
                 </div>
             </div>
-        `;
-
-        // Handle click events for clickable variant
-        if (variant === 'clickable') {
-            this.shadowRoot.addEventListener('click', (e) => {
-                this.dispatchEvent(new CustomEvent('card-click', {
-                    detail: {
-                        title,
-                        subtitle,
-                        target: this
-                    },
-                    bubbles: true
-                }));
-            });
-        }
-    }
-}
-
-customElements.define("labs-card", LabsCard);
-
-export default LabsCard;
+        `,t==="clickable"&&this.shadowRoot.addEventListener("click",d=>{this.dispatchEvent(new CustomEvent("card-click",{detail:{title:a,subtitle:r,target:this},bubbles:!0}))})}}customElements.define("labs-card",o);

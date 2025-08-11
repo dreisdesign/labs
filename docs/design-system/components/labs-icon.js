@@ -38,6 +38,7 @@ const icons = {
     edit: ICON_BASE + 'edit--labs-icons.svg',
     history: ICON_BASE + 'history--labs-icons.svg',
     indeterminate_check_box: ICON_BASE + 'indeterminate_check_box--labs-icons.svg',
+    open_in_new: ICON_BASE + 'open_in_new--labs-icons.svg',
     rate_review: ICON_BASE + 'rate_review--labs-icons.svg',
     settings: ICON_BASE + 'settings--labs-icons.svg',
     undo: ICON_BASE + 'undo--labs-icons.svg'
