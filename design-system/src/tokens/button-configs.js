@@ -65,6 +65,13 @@ export const buttonConfigs = {
     iconcolor: "var(--color-on-surface)",
   },
 
+  closeRounded: {
+    label: "Close",
+    icon: "close",
+    variant: "rounded-secondary",
+    iconcolor: "var(--color-primary)",
+  },
+
   settings: {
     label: "Settings",
     icon: "settings",

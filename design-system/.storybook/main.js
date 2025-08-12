@@ -5,11 +5,8 @@ const config = {
     "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"
   ],
   addons: [
-    "@chromatic-com/storybook",
     "@storybook/addon-docs",
-    "@storybook/addon-a11y",
-    "@storybook/addon-vitest",
-    "@storybook/addon-themes",
+    "@storybook/addon-themes"
   ],
   // Serve all static assets (including icons) for Storybook
   staticDirs: [

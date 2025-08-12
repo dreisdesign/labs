@@ -1,6 +1,7 @@
 /* eslint-disable */
 import "./labs-button.js";
 import "./labs-icon.js";
+import "./labs-card.js";
 import "./labs-theme-toggle-button.js";
 import { createButtonElement } from "../tokens/button-configs.js";
 
@@ -116,13 +117,7 @@ class LabsSettingsOverlay extends HTMLElement {
           cursor: pointer;
         }
 
-        .overlay-content {
-          background: var(--color-surface);
-          border-radius: 12px;
-          padding: var(--space-lg);
-          max-width: 400px;
-          width: 90%;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        .settings-card {
           position: relative;
           z-index: 1001;
         }
@@ -157,7 +152,7 @@ class LabsSettingsOverlay extends HTMLElement {
       </style>
       
       <div class="overlay-background"></div>
-      <div class="overlay-content">
+      <labs-card class="settings-card" variant="overlay">
         <div class="overlay-header">
           <h2>Settings</h2>
           <button class="close-button">
@@ -165,10 +160,9 @@ class LabsSettingsOverlay extends HTMLElement {
           </button>
         </div>
 
-          <div class="button-container">
-          </div>
+        <div class="button-container">
         </div>
-      </div>
+      </labs-card>
     `;
 
     // Create buttons using the working pattern from production

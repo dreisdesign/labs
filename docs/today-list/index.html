@@ -40,8 +40,9 @@
     <script type="module" src="../design-system/components/labs-input-overlay.js"></script>
     <script type="module" src="../design-system/components/labs-task-item.js"></script>
     <script type="module" src="../design-system/components/labs-timestamp.js"></script>
-    <script type="module" src="../design-system/components/labs-undo-button.js"></script>
+    <script type="module" src="../design-system/components/labs-alert.js"></script>
     <script type="module" src="../design-system/components/labs-badge.js"></script>
+    <script type="module" src="../design-system/components/labs-card.js"></script>
 
     <style>
         /* Minimal override styles - use design system tokens */
@@ -63,27 +64,7 @@
             position: relative;
         }
 
-        .metric-card {
-            background: var(--color-surface-container);
-            border-radius: var(--border-radius-lg);
-            padding: var(--space-lg);
-            margin: var(--space-lg) var(--space-md) var(--space-md);
-            border: 1px solid var(--color-outline-variant);
-            text-align: center;
-        }
-
-        .metric-label {
-            font-size: var(--font-size-h3);
-            font-weight: var(--font-weight-medium);
-            color: var(--color-on-surface);
-            margin-bottom: var(--space-xs);
-        }
-
-        .metric-value {
-            font-size: var(--font-size-h1);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-primary);
-        }
+        /* Remove metric-card styles - now using labs-card component */
 
         .task-list {
             flex: 1;
@@ -197,11 +178,12 @@
 
     <!-- Main application container -->
     <div class="app">
-        <!-- Metric card showing progress -->
-        <div class="metric-card">
-            <div class="metric-label" id="dateLabel">Today's Progress</div>
-            <div class="metric-value" id="progressValue">0 / 5</div>
-        </div>
+        <!-- Progress card using design system component -->
+        <labs-card title="Today's Progress" variant="stats" width="full"
+            style="margin: var(--space-lg) var(--space-md) var(--space-md);">
+            <div style="font-size: var(--font-size-h1); font-weight: var(--font-weight-bold); color: var(--color-primary);"
+                id="progressValue">0 / 5</div>
+        </labs-card>
 
         <!-- Task list (scrollable) -->
         <div class="task-list" id="task-list">
@@ -480,21 +462,15 @@
             }
 
             showUndoNotification(deletedTask, originalIndex) {
-                // Create undo button if it doesn't exist
-                let undoButton = document.querySelector('labs-undo-button');
-                if (!undoButton) {
-                    undoButton = document.createElement('labs-undo-button');
-                    document.body.appendChild(undoButton);
+                // Create alert if it doesn't exist
+                let alert = document.querySelector('labs-alert');
+                if (!alert) {
+                    alert = document.createElement('labs-alert');
+                    document.body.appendChild(alert);
                 }
 
-                // Show the undo notification
-                undoButton.show('Task deleted', () => {
-                    // Undo callback - restore the task
-                    this.tasks.splice(originalIndex, 0, deletedTask);
-                    this.saveTasks();
-                    this.renderTasks();
-                    this.updateProgress();
-                });
+                // Show the success notification
+                alert.show('Task deleted', 'success', 2000);
             }
 
             updateProgress() {
@@ -573,14 +549,30 @@
             }
 
             resetTasks() {
-                if (confirm('Reset all tasks for today? This will clear your progress.')) {
+                if (confirm('Reset all tasks and archived data? This will completely clear all your progress and history.')) {
+                    // Clear current tasks
                     this.tasks = [];
                     this.saveTasks();
+
+                    // Clear all archived data
+                    const keysToRemove = [];
+                    for (let i = 0; i < localStorage.length; i++) {
+                        const key = localStorage.key(i);
+                        if (key && key.startsWith('today-list-archive-')) {
+                            keysToRemove.push(key);
+                        }
+                    }
+
+                    // Remove archived keys
+                    keysToRemove.forEach(key => {
+                        localStorage.removeItem(key);
+                    });
+
                     this.renderTasks();
                     this.updateProgress();
 
                     // Also clear any debugging data
-                    console.log('🧹 Reset completed - all tasks cleared');
+                    console.log('🧹 Reset completed - all tasks and archived data cleared');
                 }
             }
 

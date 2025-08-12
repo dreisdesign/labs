@@ -1,5 +1,24 @@
 # Labs Design System Changelog
 
+## [v2.1.2] - 2025-08-11 - Native Storybook Integration
+
+### 🎯 Major Achievement
+- **Native "Show Code" Feature:** Successfully implemented Storybook's built-in source code display
+- **Dual Pattern Approach:** Both custom consolidated view and native individual stories
+- **Clean Configuration:** Fixed Storybook config corruption, added `autodocs` tags for automatic docs generation
+- **Streamlined Addons:** Removed incompatible v8 addons, leveraging built-in Storybook v9 features
+
+### 🔧 Technical Improvements
+- Added `tags: ['autodocs']` to patterns-buttons-storybook-native.stories.js and labs-button.stories.js
+- Enhanced preview.js with `docs: { autodocs: 'tag' }` configuration
+- Fixed corrupted main.js configuration for clean addon loading
+- Real-time code updates with built-in copy functionality
+
+### 📚 Documentation
+- **Native Approach:** Access via `/docs/patterns-buttons--docs` for individual stories with built-in "Show code"
+- **Custom Approach:** Maintained consolidated view for overview and comparison
+- Updated README with native Storybook integration details
+
 ## [v2.1.1] - 2025-08-08 - Theme Toggle Componentization & Docs
 
 ### ✨ New

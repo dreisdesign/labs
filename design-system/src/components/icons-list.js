@@ -5,6 +5,7 @@ export default [
     "apps",
     "bedtime",
     "bedtime_off",
+    "build",
     "cancel",
     "change_circle",
     "check",
@@ -19,6 +20,7 @@ export default [
     "edit",
     "history",
     "indeterminate_check_box",
+    "open_in_new",
     "rate_review",
     "settings",
     "undo"

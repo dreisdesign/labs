@@ -3,10 +3,11 @@ import "../components/labs-badge.js";
 export default {
     title: "Components/Badge",
     component: "labs-badge",
+    tags: ['autodocs'],
     parameters: {
         docs: {
             description: {
-                component: "Small status and label badges for indicating states, categories, and highlighting information. Supports multiple variants, custom colors, and automatic contrast calculation.",
+                component: "Comprehensive badge component for status indicators and labels. Supports multiple variants, custom colors, and automatic contrast calculation. Use controls to explore all variants or 'Show code' for implementation.",
             },
         },
     },

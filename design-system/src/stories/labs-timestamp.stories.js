@@ -1,46 +1,47 @@
 import "../components/labs-timestamp.js";
 
 export default {
-    title: "Components/Timestamp",
-    parameters: {
-        docs: {
-            description: {
-                component: "Timestamp component matching tracker app styling. Provides consistent time and date formatting with design token integration and accessibility features.",
-            },
-        },
+  title: "Components/Timestamp",
+  tags: ['autodocs'],
+  parameters: {
+    docs: {
+      description: {
+        component: "Timestamp component matching tracker app styling. Provides consistent time and date formatting with design token integration and accessibility features.",
+      },
     },
-    argTypes: {
-        datetime: {
-            control: "text",
-            description: "ISO datetime string or timestamp"
-        },
-        format: {
-            control: { type: "select" },
-            options: ["time", "date-header", "short-date"],
-            description: "Display format"
-        },
-        size: {
-            control: { type: "select" },
-            options: ["small", "normal", "large"],
-            description: "Size variant"
-        },
-        interactive: {
-            control: "boolean",
-            description: "Enable hover effects for clickable timestamps"
-        },
+  },
+  argTypes: {
+    datetime: {
+      control: "text",
+      description: "ISO datetime string or timestamp"
     },
+    format: {
+      control: { type: "select" },
+      options: ["time", "date-header", "short-date"],
+      description: "Display format"
+    },
+    size: {
+      control: { type: "select" },
+      options: ["small", "normal", "large"],
+      description: "Size variant"
+    },
+    interactive: {
+      control: "boolean",
+      description: "Enable hover effects for clickable timestamps"
+    },
+  },
 };
 
 const Template = (args) => {
-    setTimeout(() => {
-        document.addEventListener('click', (e) => {
-            if (e.target.tagName === 'LABS-TIMESTAMP') {
-                console.log('Timestamp clicked:', e.target.getFormattedText());
-            }
-        });
-    }, 100);
+  setTimeout(() => {
+    document.addEventListener('click', (e) => {
+      if (e.target.tagName === 'LABS-TIMESTAMP') {
+        console.log('Timestamp clicked:', e.target.getFormattedText());
+      }
+    });
+  }, 100);
 
-    return `
+  return `
     <style>
       .timestamp-demo {
         max-width: 400px;
@@ -63,71 +64,71 @@ const Template = (args) => {
 
 export const TimeFormat = Template.bind({});
 TimeFormat.args = {
-    datetime: new Date().toISOString(),
-    format: "time",
-    size: "normal",
-    interactive: false,
+  datetime: new Date().toISOString(),
+  format: "time",
+  size: "normal",
+  interactive: false,
 };
 TimeFormat.parameters = {
-    docs: {
-        description: {
-            story: "Time format matching tracker app style: H:MM AM/PM (e.g., 4:42 PM). Uses non-padded hours for natural reading.",
-        },
+  docs: {
+    description: {
+      story: "Time format matching tracker app style: H:MM AM/PM (e.g., 4:42 PM). Uses non-padded hours for natural reading.",
     },
+  },
 };
 
 export const DateHeader = Template.bind({});
 DateHeader.args = {
-    datetime: new Date().toISOString(),
-    format: "date-header",
-    size: "normal",
-    interactive: false,
+  datetime: new Date().toISOString(),
+  format: "date-header",
+  size: "normal",
+  interactive: false,
 };
 DateHeader.parameters = {
-    docs: {
-        description: {
-            story: "Date header format matching tracker app: Weekday, Month Day, Year (e.g., Monday, January 15, 2024). Bold and centered styling.",
-        },
+  docs: {
+    description: {
+      story: "Date header format matching tracker app: Weekday, Month Day, Year (e.g., Monday, January 15, 2024). Bold and centered styling.",
     },
+  },
 };
 
 export const ShortDate = Template.bind({});
 ShortDate.args = {
-    datetime: new Date().toISOString(),
-    format: "short-date",
-    size: "normal",
-    interactive: false,
+  datetime: new Date().toISOString(),
+  format: "short-date",
+  size: "normal",
+  interactive: false,
 };
 ShortDate.parameters = {
-    docs: {
-        description: {
-            story: "Short date format for compact display: Month Day (e.g., Jan 15). Useful for task lists and compact interfaces.",
-        },
+  docs: {
+    description: {
+      story: "Short date format for compact display: Month Day (e.g., Jan 15). Useful for task lists and compact interfaces.",
     },
+  },
 };
 
 const TimestampVariantsTemplate = () => {
-    // Create sample times throughout the day
-    const now = new Date();
-    const morning = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 15);
-    const afternoon = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 14, 30);
-    const evening = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 21, 45);
+  // Create sample times throughout the day
+  const now = new Date();
+  const morning = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 15);
+  const afternoon = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 14, 30);
+  const evening = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 21, 45);
 
-    const yesterday = new Date(now);
-    yesterday.setDate(yesterday.getDate() - 1);
+  const yesterday = new Date(now);
+  yesterday.setDate(yesterday.getDate() - 1);
 
-    const nextWeek = new Date(now);
-    nextWeek.setDate(nextWeek.getDate() + 7);
+  const nextWeek = new Date(now);
+  nextWeek.setDate(nextWeek.getDate() + 7);
 
-    setTimeout(() => {
-        document.addEventListener('click', (e) => {
-            if (e.target.tagName === 'LABS-TIMESTAMP') {
-                console.log('Timestamp clicked:', e.target.getFormattedText(), e.target.getDateTime());
-            }
-        });
-    }, 100);
+  setTimeout(() => {
+    document.addEventListener('click', (e) => {
+      if (e.target.tagName === 'LABS-TIMESTAMP') {
+        console.log('Timestamp clicked:', e.target.getFormattedText(), e.target.getDateTime());
+      }
+    });
+  }, 100);
 
-    return `
+  return `
     <style>
       .variants-demo {
         max-width: 600px;
@@ -288,9 +289,9 @@ const TimestampVariantsTemplate = () => {
 
 export const TimestampVariants = TimestampVariantsTemplate.bind({});
 TimestampVariants.parameters = {
-    docs: {
-        description: {
-            story: "Complete showcase of timestamp variants showing all formats, sizes, and interactive states. Demonstrates real-world usage patterns in task lists and time tracking interfaces.",
-        },
+  docs: {
+    description: {
+      story: "Complete showcase of timestamp variants showing all formats, sizes, and interactive states. Demonstrates real-world usage patterns in task lists and time tracking interfaces.",
     },
+  },
 };

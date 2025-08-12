@@ -54,10 +54,13 @@ class LabsInputOverlay extends HTMLElement {
         // Show overlay
         this.setAttribute('active', '');
 
-        // Focus input after animation
+        // Focus input after animation and component setup
         setTimeout(() => {
-            input.focus();
-        }, 100);
+            const input = this.shadowRoot.querySelector('#taskInput');
+            if (input && input.focus) {
+                input.focus();
+            }
+        }, 200);
     }
 
     close() {
@@ -136,20 +139,7 @@ class LabsInputOverlay extends HTMLElement {
           margin: 0;
         }
 
-        .close-button {
-          background: none;
-          border: none;
-          padding: var(--space-sm, 8px);
-          cursor: pointer;
-          border-radius: var(--border-radius-sm, 6px);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .close-button:hover {
-          background: var(--color-surface-container-high, #f0f0f0);
-        }
+        /* Remove close-button styles - now using labs-button component */
 
         .overlay-actions {
           display: flex;
@@ -195,9 +185,7 @@ class LabsInputOverlay extends HTMLElement {
       <div class="overlay-content">
         <div class="overlay-header">
           <h2 class="overlay-title">Add Task</h2>
-          <button class="close-button" id="closeButton">
-            <labs-icon name="close" size="20" color="var(--color-on-surface)"></labs-icon>
-          </button>
+          <div id="closeButtonContainer"></div>
         </div>
 
         <labs-input 
@@ -214,20 +202,22 @@ class LabsInputOverlay extends HTMLElement {
     `;
 
         // Create buttons using new configurations
+        const closeButtonContainer = this.shadowRoot.querySelector('#closeButtonContainer');
         const cancelButtonContainer = this.shadowRoot.querySelector('#cancelButtonContainer');
         const saveButtonContainer = this.shadowRoot.querySelector('#saveButtonContainer');
 
+        const closeButton = createButtonElement('closeRounded');
         const cancelButton = createButtonElement('cancelRounded');
         const saveButton = createButtonElement('saveRounded');
 
+        closeButtonContainer.appendChild(closeButton);
         cancelButtonContainer.appendChild(cancelButton);
         saveButtonContainer.appendChild(saveButton);
 
         // Setup event listeners
-        const closeButton = this.shadowRoot.querySelector('#closeButton');
         const input = this.shadowRoot.querySelector('#taskInput');
 
-        closeButton?.addEventListener('click', () => this.close());
+        closeButton?.addEventListener('labs-click', () => this.close());
         cancelButton?.addEventListener('labs-click', () => this.close());
         saveButton?.addEventListener('labs-click', () => this.save());
 

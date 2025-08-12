@@ -103,9 +103,9 @@ class LabsButton extends HTMLElement {
       iconColor = "var(--color-on-primary)";
       iconColorActive = "var(--color-on-primary)";
     } else if (["icon left", "icon right"].includes(label)) {
-      iconColorActive = "#000";
+      iconColorActive = "var(--color-on-surface, #000000)";
     } else if (["settings", "default"].includes(label)) {
-      iconColorActive = "#fff";
+      iconColorActive = "var(--color-on-primary, #ffffff)";
     }
     // Map legacy icon names to icon registry keys
     const mapIconName = (name) => {
@@ -169,28 +169,28 @@ class LabsButton extends HTMLElement {
             .labs-button:active[data-buttontype="settings"],
             .labs-button[data-active="true"][data-buttontype="default"],
             .labs-button:active[data-buttontype="default"] {
-              background: #fff !important;
-              color: #000 !important;
+              background: var(--color-surface, #ffffff) !important;
+              color: var(--color-on-surface, #000000) !important;
             }
             .labs-button[data-active="true"][data-buttontype="settings"] .labs-icon,
             .labs-button:active[data-buttontype="settings"] .labs-icon,
             .labs-button[data-active="true"][data-buttontype="default"] .labs-icon,
             .labs-button:active[data-buttontype="default"] .labs-icon {
-              color: #000 !important;
+              color: var(--color-on-surface, #000000) !important;
             }
             /* Icon Left/Right: on press, bg is white, text is black, icon is black */
             .labs-button[data-active="true"][data-buttontype="iconleft"],
             .labs-button:active[data-buttontype="iconleft"],
             .labs-button[data-active="true"][data-buttontype="iconright"],
             .labs-button:active[data-buttontype="iconright"] {
-              background: #fff !important;
-              color: #000 !important;
+              background: var(--color-surface, #ffffff) !important;
+              color: var(--color-on-surface, #000000) !important;
             }
             .labs-button[data-active="true"][data-buttontype="iconleft"] .labs-icon,
             .labs-button:active[data-buttontype="iconleft"] .labs-icon,
             .labs-button[data-active="true"][data-buttontype="iconright"] .labs-icon,
             .labs-button:active[data-buttontype="iconright"] .labs-icon {
-              color: #000 !important;
+              color: var(--color-on-surface, #000000) !important;
             }
         
         /* Remove default hover - let variants handle their own hover states */
@@ -406,6 +406,13 @@ class LabsButton extends HTMLElement {
           height: 1.5rem;
           display: inline-block;
           vertical-align: middle;
+          transition: transform 0.3s ease;
+        }
+
+        /* Settings icon rotation animation */
+        .labs-button[icon="settings"]:hover .labs-icon,
+        .labs-button[icon="settings"]:active .labs-icon {
+          transform: rotate(180deg);
         }
         
         /* Icon colors for container variants */

@@ -1,5 +1,13 @@
 
-## 🆕 Recent Improvements - v2.1.0 Icons & Performance Overhaul
+## 🆕 Recent Improvements - v2.1.0 Native Storybook Integration
+
+- **🎯 Native "Show Code" Feature:** Successfully implemented Storybook's built-in source code display with `autodocs` tags and proper configuration
+- **📚 Dual Pattern Approach:** Both custom consolidated view (Patterns/Buttons Consolidated) and native individual stories (Patterns/Buttons) for maximum flexibility
+- **⚡ Enhanced Documentation:** Fixed Storybook configuration corruption, added `docs: { autodocs: 'tag' }` to preview.js for automatic docs generation
+- **🔧 Streamlined Addons:** Removed incompatible v8 addons, leveraging built-in Storybook v9 features for source code display and controls
+- **📱 Clean Integration:** Real-time code updates, built-in copy functionality, consistent UI without custom maintenance overhead
+
+## 🎨 Previous v2.1.0 Icons & Performance Overhaul
 
 - **🎯 Complete Icons Grid Rebuild:** Responsive multi-column layout with interactive size/color controls (16px-64px range)
 - **⚡ Performance Optimized:** Eliminated resize lag, smooth real-time icon scaling and color changes
@@ -47,12 +55,14 @@ This folder contains the Labs Design System: shared UI components, tokens, Story
 - `README.md` — This file
 ## Components
 
-- **`labs-button`** — Components/Button: Comprehensive button component with variants (primary, secondary, danger, transparent, container, icon), icon support, checkmark animations, and theme integration
+- **`labs-button`** — Components/Button: Comprehensive button component with variants (primary, secondary, danger, transparent, container, icon), icon support, checkmark animations, theme integration, and **native Storybook "Show code" feature**
 - **`labs-icon`** — Patterns/Icons: High-performance SVG icon component with real-time scaling (16px-64px), interactive color controls, responsive grid layout, and optimized attribute reactivity  
 - **`labs-settings-overlay`** — Components/Settings Overlay: Modular settings modal overlay as a custom element with container button integration
 - **`labs-theme-toggle-button`** — Components/Theme Toggle Button: Reusable theme toggle control that wraps shared setupThemeToggle logic. Variants: `transparent` (default), `container`, and `icon`. Fully modular and drop-in.
 
-### Button System:
+### Button System & Documentation:
+- **Native Storybook Integration:** Access **Patterns/Buttons** for individual stories with built-in "Show code" feature at `/docs/patterns-buttons--docs`
+- **Custom Consolidated View:** Access **Patterns/Buttons (Consolidated)** for overview with custom copy/navigation features
 - **Pre-configured buttons:** `createButton()` and `createButtonElement()` with 15+ ready-to-use combinations
 - **Icon-only buttons:** `createIconButton()` and `createIconButtonElement()` for persistent UI elements  
 - **Theme integration:** `setupThemeToggle()` and `updateThemeToggleButton()` for complete theme switching

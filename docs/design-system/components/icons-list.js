@@ -5,6 +5,7 @@ export default [
     "apps",
     "bedtime",
     "bedtime_off",
+    "build",
     "cancel",
     "change_circle",
     "check",

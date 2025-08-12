@@ -3,6 +3,10 @@ import { withThemeByClassName } from '@storybook/addon-themes';
 
 const preview = {
   parameters: {
+    // Enable docs for all stories
+    docs: {
+      autodocs: 'tag',
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,

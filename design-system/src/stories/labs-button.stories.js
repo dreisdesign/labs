@@ -6,257 +6,181 @@ import { createButton, createIconButton, buttonConfigs, iconOnlyButtons } from "
 
 export default {
   title: "Components/Button",
+  tags: ['autodocs'],
   parameters: {
     docs: {
       description: {
-        component: "The primary button component of the Labs Design System. Supports multiple variants, icons, and interactive states.",
+        component: "The comprehensive button component of the Labs Design System. Supports all variants, icons, theme toggles, and interactive states. Use the controls below to explore all possibilities or the 'Show code' feature to get copy-ready HTML.",
       },
     },
   },
   argTypes: {
+    // === Basic Properties ===
     label: {
       control: "text",
-      description: "Button text content"
-    },
-    iconLeft: {
-      control: "boolean",
-      name: "Left Icon",
-      description: "Show icon on the left side"
-    },
-    icon: {
-      control: { type: "select" },
-      name: "Left Icon Name",
-      description: "Icon name from Labs icon system",
-      options: [
-        "",
-        "add",
-        "add_comment",
-        "apps",
-        "bedtime",
-        "bedtime_off",
-        "cancel",
-        "change_circle",
-        "check",
-        "close",
-        "comment",
-        "delete_forever",
-        "edit",
-        "rate_review",
-        "settings",
-        "undo",
-      ],
-    },
-    iconRight: {
-      control: "boolean",
-      name: "Right Icon",
-      description: "Show icon on the right side"
-    },
-    iconRightName: {
-      control: { type: "select" },
-      name: "Right Icon Name",
-      description: "Icon name from Labs icon system",
-      options: [
-        "",
-        "add",
-        "add_comment",
-        "apps",
-        "bedtime",
-        "bedtime_off",
-        "cancel",
-        "change_circle",
-        "check",
-        "close",
-        "comment",
-        "delete_forever",
-        "edit",
-        "rate_review",
-        "settings",
-        "undo",
-      ],
-    },
-    checkmark: {
-      control: "boolean",
-      name: "Success Animation",
-      description: "Show checkmark animation on click"
+      description: "Button text content",
+      table: { category: "Content" }
     },
     variant: {
       control: { type: "select" },
-      description: "Button variant/style",
+      options: ["primary", "secondary", "danger", "transparent", "container", "container-danger", "icon"],
+      description: "Button visual style and behavior",
+      table: { category: "Appearance" }
+    },
+
+    // === Icon Configuration ===
+    icon: {
+      control: { type: "select" },
       options: [
-        "primary",
-        "secondary",
-        "danger",
-        "success",
-        "transparent",
-        "icon",
-        "container",
-        "container-danger",
-        "pill",
-        "pill-secondary",
-        "rounded",
-        "rounded-secondary",
+        "", "add", "add_comment", "apps", "bedtime", "bedtime_off", "build",
+        "cancel", "change_circle", "check", "close", "comment", "content_copy",
+        "delete_forever", "edit", "open_in_new", "rate_review", "settings",
+        "undo", "refresh"
       ],
+      description: "Icon name (left side by default)",
+      table: { category: "Icons" }
+    },
+    iconRight: {
+      control: { type: "select" },
+      options: [
+        "", "add", "add_comment", "apps", "bedtime", "bedtime_off", "build",
+        "cancel", "change_circle", "check", "close", "comment", "content_copy",
+        "delete_forever", "edit", "open_in_new", "rate_review", "settings",
+        "undo", "refresh"
+      ],
+      description: "Icon on the right side",
+      table: { category: "Icons" }
+    },
+    iconcolor: {
+      control: "color",
+      description: "Icon color (CSS value)",
+      table: { category: "Icons" }
+    },
+
+    // === Interactive Features ===
+    checkmark: {
+      control: "boolean",
+      description: "Enable checkmark animation on click",
+      table: { category: "Interaction" }
+    },
+
+    // === Pre-configured Variants ===
+    preset: {
+      control: { type: "select" },
+      options: [
+        "", "add", "save", "edit", "undo", "delete", "resetAllData",
+        "themeToggle", "close", "settings", "allApps", "refresh"
+      ],
+      description: "Load a pre-configured button setup",
+      table: { category: "Presets" }
+    }
+  },
+};
+
+// Template function for generating button HTML
+const Template = (args) => {
+  // If preset is selected, use that configuration
+  if (args.preset && buttonConfigs[args.preset]) {
+    const config = buttonConfigs[args.preset];
+    const attrs = [];
+    if (config.label) attrs.push(`label="${config.label}"`);
+    if (config.variant && config.variant !== 'primary') attrs.push(`variant="${config.variant}"`);
+    if (config.icon) attrs.push(`icon="${config.icon}"`);
+    if (config.iconRight) attrs.push(`icon-right="${config.iconRight}"`);
+    if (config.checkmark) attrs.push(`checkmark="${config.checkmark}"`);
+    if (config.iconcolor) attrs.push(`iconcolor="${config.iconcolor}"`);
+
+    return `<labs-button ${attrs.join(' ')}></labs-button>`;
+  }
+
+  // Otherwise use manual args
+  const attrs = [];
+  if (args.label) attrs.push(`label="${args.label}"`);
+  if (args.variant && args.variant !== 'primary') attrs.push(`variant="${args.variant}"`);
+  if (args.icon) attrs.push(`icon="${args.icon}"`);
+  if (args.iconRight) attrs.push(`icon-right="${args.iconRight}"`);
+  if (args.checkmark) attrs.push(`checkmark="${args.checkmark}"`);
+  if (args.iconcolor) attrs.push(`iconcolor="${args.iconcolor}"`);
+
+  return `<labs-button ${attrs.join(' ')}></labs-button>`;
+};
+
+// === Primary Stories ===
+
+export const Default = Template.bind({});
+Default.args = {
+  label: "Button",
+  variant: "primary"
+};
+Default.parameters = {
+  docs: {
+    description: {
+      story: "The default primary button. Use the controls to explore all variants and configurations.",
     },
   },
 };
 
-const Template = ({
-  label,
-  iconLeft,
-  icon,
-  iconRight,
-  iconRightName,
-  checkmark,
-  variant,
-}) => {
-  let leftIcon = iconLeft ? icon || "undo" : "";
-  let rightIcon = iconRight ? iconRightName || "settings" : "";
-
-  return `
-    <labs-button
-      label="${label || ""}"
-      ${leftIcon ? `icon="${leftIcon}"` : ""}
-      ${rightIcon ? `icon-right="${rightIcon}"` : ""}
-      ${checkmark ? "checkmark" : ""}
-      variant="${variant || "primary"}"
-    ></labs-button>
-  `;
+export const AllVariants = Template.bind({});
+AllVariants.args = {
+  label: "Try all variants",
+  variant: "primary"
+};
+AllVariants.parameters = {
+  docs: {
+    description: {
+      story: "Use the variant control to see all button styles: primary, secondary, danger, transparent, container, container-danger, and icon.",
+    },
+  },
 };
 
-export const Default = Template.bind({});
-Default.args = {
-  label: "Primary Button",
-  iconLeft: false,
-  icon: "",
-  iconRight: false,
-  iconRightName: "",
-  checkmark: false,
-  variant: "primary",
-};
-Default.storyName = "Primary";
-
-export const Secondary = Template.bind({});
-Secondary.args = {
-  label: "Secondary Button",
-  iconLeft: false,
-  icon: "",
-  iconRight: false,
-  iconRightName: "",
-  checkmark: false,
-  variant: "secondary",
-};
-
-export const Danger = Template.bind({});
-Danger.args = {
-  label: "Delete",
-  iconLeft: true,
-  icon: "delete_forever",
-  iconRight: false,
-  iconRightName: "",
-  checkmark: false,
-  variant: "danger",
-};
-
-export const Success = Template.bind({});
-Success.args = {
+export const WithIcons = Template.bind({});
+WithIcons.args = {
   label: "Save",
-  iconLeft: true,
   icon: "check",
-  iconRight: false,
-  iconRightName: "",
-  checkmark: true,
-  variant: "success",
+  variant: "primary",
+  checkmark: true
 };
-
-export const Transparent = Template.bind({});
-Transparent.args = {
-  label: "Settings",
-  iconLeft: true,
-  icon: "settings",
-  iconRight: false,
-  iconRightName: "",
-  checkmark: false,
-  variant: "transparent",
+WithIcons.parameters = {
+  docs: {
+    description: {
+      story: "Buttons with icons support checkmark animations and color customization.",
+    },
+  },
 };
 
 export const IconOnly = Template.bind({});
 IconOnly.args = {
-  label: "",
-  iconLeft: true,
   icon: "settings",
-  iconRight: false,
-  iconRightName: "",
-  checkmark: false,
-  variant: "icon",
+  variant: "icon"
 };
-
-export const RoundedRectangle = Template.bind({});
-RoundedRectangle.args = {
-  label: "Save Changes",
-  iconLeft: true,
-  icon: "check",
-  iconRight: false,
-  iconRightName: "",
-  checkmark: true,
-  variant: "rounded",
-};
-RoundedRectangle.parameters = {
+IconOnly.parameters = {
   docs: {
     description: {
-      story: "Rounded rectangle buttons with soft corners (border-radius: 12px). Perfect for modal overlays, form actions, and modern interfaces. Available in both primary (`rounded`) and secondary (`rounded-secondary`) variants.",
+      story: "Icon-only buttons for persistent UI elements. Use variant='icon' for circular style.",
     },
   },
 };
 
-export const RoundedSecondary = Template.bind({});
-RoundedSecondary.args = {
-  label: "Cancel",
-  iconLeft: false,
-  icon: "",
-  iconRight: false,
-  iconRightName: "",
-  checkmark: false,
-  variant: "rounded-secondary",
+export const ThemeToggle = Template.bind({});
+ThemeToggle.args = {
+  preset: "themeToggle"
 };
-RoundedSecondary.parameters = {
+ThemeToggle.parameters = {
   docs: {
     description: {
-      story: "Secondary variant of rounded rectangle buttons. Provides visual hierarchy when paired with primary rounded buttons in dialogs and forms.",
+      story: "Pre-configured theme toggle button. Try other presets like 'add', 'save', 'delete', etc.",
     },
   },
 };
 
-// Checkbox-specific template using the labs-checkbox component
-const CheckboxTemplate = ({ checked, iconcolor }) => {
-  return `
-    <div style="display: flex; align-items: center; gap: 1rem;">
-      <labs-checkbox 
-        ${checked ? 'checked' : ''}
-        ${iconcolor ? `iconcolor="${iconcolor}"` : ''}
-      ></labs-checkbox>
-    </div>
-  `;
+export const DangerActions = Template.bind({});
+DangerActions.args = {
+  preset: "delete"
 };
-
-export const Checkbox = CheckboxTemplate.bind({});
-Checkbox.args = {
-  checked: false,
-  iconcolor: "var(--color-on-surface)",
-};
-Checkbox.parameters = {
+DangerActions.parameters = {
   docs: {
     description: {
-      story: "Checkbox functionality using icon-only button with state management. Shows checkmark animation on state change and proper icon switching between checked/unchecked states.",
+      story: "Destructive actions with danger styling. Also try 'resetAllData' preset.",
     },
-  },
-};
-Checkbox.argTypes = {
-  checked: {
-    control: "boolean",
-    description: "Whether the checkbox is checked"
-  },
-  iconcolor: {
-    control: "color",
-    description: "Color for unchecked state (checked state uses primary color)"
   },
 };
