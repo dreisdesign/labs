@@ -257,11 +257,23 @@ const TimestampVariantsTemplate = () => {
   `;
 };
 
-export const AllVariants = TimestampVariantsTemplate.bind({});
-AllVariants.parameters = {
-  docs: {
-    description: {
-      story: "Complete showcase of timestamp variants showing all formats, sizes, and interactive states. Demonstrates real-world usage patterns in task lists and time tracking interfaces matching the tracker app.",
-    },
-  },
+export const Time = Template.bind({});
+Time.args = {
+  datetime: new Date().toISOString(),
+  format: "time",
+  size: "normal",
+};
+
+export const DateHeader = Template.bind({});
+DateHeader.args = {
+  datetime: new Date().toISOString(),
+  format: "date-header",
+  size: "normal",
+};
+
+export const ShortDate = Template.bind({});
+ShortDate.args = {
+  datetime: new Date().toISOString(),
+  format: "short-date",
+  size: "normal",
 };

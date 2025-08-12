@@ -3,9 +3,14 @@ import iconsList from '../components/icons-list.js';
 import '../components/labs-icon.js';
 
 export default {
-  title: 'Patterns/Icons',
+  title: 'Components/Icons',
   parameters: {
     layout: 'fullscreen',
+    docs: {
+      description: {
+        component: 'Complete icon library for the Labs Design System. All icons are SVG-based with customizable size and color. Use the controls to test different sizes and colors across all available icons.'
+      }
+    }
   },
   argTypes: {
     size: {

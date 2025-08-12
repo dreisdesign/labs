@@ -30,27 +30,15 @@ export default {
 const Template = (args) => {
     setTimeout(() => {
         const alert = document.querySelector('labs-alert');
+        const triggerButton = document.querySelector('.trigger-alert');
 
-        // Trigger buttons to show different alerts
-        const successButton = document.querySelector('.trigger-success');
-        const errorButton = document.querySelector('.trigger-error');
-        const infoButton = document.querySelector('.trigger-info');
-        const copyButton = document.querySelector('.trigger-copy');
+        // Clear any existing alert first to prevent flashes
+        if (alert && alert.dismiss) {
+            alert.dismiss();
+        }
 
-        successButton?.addEventListener('click', () => {
-            alert.show(args.message || "Action completed successfully", "success", args.timeout || 2000);
-        });
-
-        errorButton?.addEventListener('click', () => {
-            alert.show("Something went wrong", "error", args.timeout || 3000);
-        });
-
-        infoButton?.addEventListener('click', () => {
-            alert.show("Here's some information", "info", args.timeout || 2000);
-        });
-
-        copyButton?.addEventListener('click', () => {
-            alert.show("Copied to clipboard", "success", 1500);
+        triggerButton?.addEventListener('click', () => {
+            alert.show(args.message, args.variant, args.timeout);
         });
 
         // Handle alert events
@@ -65,18 +53,13 @@ const Template = (args) => {
 
     return `
         <div style="padding: 2rem; display: flex; flex-direction: column; gap: 1rem; align-items: center;">
-            <h3 style="margin: 0 0 2rem 0;">Click buttons to trigger alerts</h3>
+            <h3 style="margin: 0 0 2rem 0;">Click button to trigger alert</h3>
             
-            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                <labs-button class="trigger-success" variant="primary" label="Success Alert" icon="check"></labs-button>
-                <labs-button class="trigger-error" variant="danger" label="Error Alert" icon="cancel"></labs-button>
-                <labs-button class="trigger-info" variant="secondary" label="Info Alert" icon="info"></labs-button>
-                <labs-button class="trigger-copy" variant="transparent" label="Copy Alert" icon="content_copy"></labs-button>
-            </div>
+            <labs-button class="trigger-alert" variant="primary" label="Show ${args.variant || 'success'} Alert" icon="${args.variant === 'error' ? 'cancel' : args.variant === 'info' ? 'change_circle' : 'check'}"></labs-button>
 
             <p style="margin: 2rem 0 0 0; color: var(--color-text-secondary); font-size: var(--font-size-small); text-align: center; max-width: 400px;">
                 Alerts appear at the bottom center of the screen and auto-dismiss after the specified timeout. 
-                They follow the same pattern as the tracker app's success messages.
+                Use controls to test different variants, messages, and timeouts.
             </p>
         </div>
         
@@ -85,25 +68,18 @@ const Template = (args) => {
     `;
 };
 
-export const Default = Template.bind({});
-Default.args = {
-    message: "Action completed successfully",
-    variant: "success",
-    timeout: 2000,
-};
-Default.parameters = {
-    docs: {
-        description: {
-            story: "Default success alert with interactive controls. Use controls to explore different variants, messages, and timeout durations.",
-        },
-    },
-};
-
 export const Success = Template.bind({});
 Success.args = {
     message: "Task completed successfully!",
     variant: "success",
     timeout: 3000,
+};
+Success.parameters = {
+    docs: {
+        description: {
+            story: "Success alert with interactive controls. Use controls to explore different messages and timeout durations.",
+        },
+    },
 };
 
 export const Error = Template.bind({});

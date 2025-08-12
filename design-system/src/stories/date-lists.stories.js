@@ -4,58 +4,58 @@ import "../components/labs-checkbox.js";
 import "../components/labs-button.js";
 
 export default {
-    title: "Patterns/Date Lists",
-    parameters: {
-        docs: {
-            description: {
-                component: "Date list patterns showing how timestamp components organize content by date. Features bold centered date headers matching tracker app styling with grouped content sections.",
-            },
-        },
+  title: "Patterns/Date Lists",
+  parameters: {
+    docs: {
+      description: {
+        component: "Date list patterns showing how timestamp components organize content by date. Features bold centered date headers matching tracker app styling with grouped content sections.",
+      },
     },
+  },
 };
 
 const DateListTemplate = () => {
-    // Create sample data for different days
-    const now = new Date();
-    const today = new Date(now);
+  // Create sample data for different days
+  const now = new Date();
+  const today = new Date(now);
 
-    const yesterday = new Date(now);
-    yesterday.setDate(yesterday.getDate() - 1);
+  const yesterday = new Date(now);
+  yesterday.setDate(yesterday.getDate() - 1);
 
-    const twoDaysAgo = new Date(now);
-    twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+  const twoDaysAgo = new Date(now);
+  twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
 
-    // Sample time entries for each day
-    const todayEntries = [
-        { time: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 9, 15), text: "Morning standup" },
-        { time: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 11, 30), text: "Design review" },
-        { time: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 14, 45), text: "Development session" },
-        { time: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 16, 20), text: "Team sync" },
-    ];
+  // Sample time entries for each day
+  const todayEntries = [
+    { time: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 9, 15), text: "Morning standup" },
+    { time: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 11, 30), text: "Design review" },
+    { time: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 14, 45), text: "Development session" },
+    { time: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 16, 20), text: "Team sync" },
+  ];
 
-    const yesterdayEntries = [
-        { time: new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate(), 8, 45), text: "Daily planning" },
-        { time: new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate(), 13, 15), text: "Client call" },
-        { time: new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate(), 17, 30), text: "Code review" },
-    ];
+  const yesterdayEntries = [
+    { time: new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate(), 8, 45), text: "Daily planning" },
+    { time: new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate(), 13, 15), text: "Client call" },
+    { time: new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate(), 17, 30), text: "Code review" },
+  ];
 
-    const twoDaysAgoEntries = [
-        { time: new Date(twoDaysAgo.getFullYear(), twoDaysAgo.getMonth(), twoDaysAgo.getDate(), 10, 0), text: "Sprint planning" },
-        { time: new Date(twoDaysAgo.getFullYear(), twoDaysAgo.getMonth(), twoDaysAgo.getDate(), 15, 45), text: "Architecture discussion" },
-    ];
+  const twoDaysAgoEntries = [
+    { time: new Date(twoDaysAgo.getFullYear(), twoDaysAgo.getMonth(), twoDaysAgo.getDate(), 10, 0), text: "Sprint planning" },
+    { time: new Date(twoDaysAgo.getFullYear(), twoDaysAgo.getMonth(), twoDaysAgo.getDate(), 15, 45), text: "Architecture discussion" },
+  ];
 
-    setTimeout(() => {
-        document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('time-entry')) {
-                console.log('Time entry clicked:', e.target.textContent);
-            }
-        });
-    }, 100);
+  setTimeout(() => {
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('time-entry')) {
+        console.log('Time entry clicked:', e.target.textContent);
+      }
+    });
+  }, 100);
 
-    return `
+  return `
     <style>
       .date-list-demo {
-        max-width: 500px;
+        max-width: 800px;
         margin: 0 auto;
         font-family: var(--font-family-primary);
       }
@@ -83,8 +83,8 @@ const DateListTemplate = () => {
         padding: 0.75rem;
         background: var(--color-surface);
         border-radius: 0.7rem;
-        width: 75%;
-        max-width: 85%;
+        width: 90%;
+        max-width: 95%;
         box-sizing: border-box;
         cursor: pointer;
         transition: transform 0.3s ease-out, opacity 0.15s ease-out;
@@ -205,43 +205,43 @@ const DateListTemplate = () => {
 
 export const ActivityTimeline = DateListTemplate.bind({});
 ActivityTimeline.parameters = {
-    docs: {
-        description: {
-            story: "Activity timeline showing how date headers organize time entries. Matches tracker app styling with bold centered date headers and clickable time entries.",
-        },
+  docs: {
+    description: {
+      story: "Activity timeline showing how date headers organize time entries. Matches tracker app styling with bold centered date headers and clickable time entries.",
     },
+  },
 };
 
 const TaskListByDateTemplate = () => {
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
 
-    const nextWeek = new Date(today);
-    nextWeek.setDate(nextWeek.getDate() + 7);
+  const nextWeek = new Date(today);
+  nextWeek.setDate(nextWeek.getDate() + 7);
 
-    const todayTasks = [
-        "Review design system updates",
-        "Implement timestamp component",
-        "Update Storybook documentation",
-        "Team standup meeting"
-    ];
+  const todayTasks = [
+    "Review design system updates",
+    "Implement timestamp component",
+    "Update Storybook documentation",
+    "Team standup meeting"
+  ];
 
-    const tomorrowTasks = [
-        "Begin Bundle 3 development",
-        "Dark mode icon fixes",
-        "Header component design"
-    ];
+  const tomorrowTasks = [
+    "Begin Bundle 3 development",
+    "Dark mode icon fixes",
+    "Header component design"
+  ];
 
-    const nextWeekTasks = [
-        "Sprint retrospective",
-        "Plan next iteration"
-    ];
+  const nextWeekTasks = [
+    "Sprint retrospective",
+    "Plan next iteration"
+  ];
 
-    return `
+  return `
     <style>
       .task-list-demo {
-        max-width: 450px;
+        max-width: 700px;
         margin: 0 auto;
         font-family: var(--font-family-primary);
       }
@@ -322,9 +322,9 @@ const TaskListByDateTemplate = () => {
 
 export const TasksByDate = TaskListByDateTemplate.bind({});
 TasksByDate.parameters = {
-    docs: {
-        description: {
-            story: "Task list organized by date headers. Shows how timestamp components create clear visual hierarchy for planning and organization interfaces.",
-        },
+  docs: {
+    description: {
+      story: "Task list organized by date headers. Shows how timestamp components create clear visual hierarchy for planning and organization interfaces.",
     },
+  },
 };

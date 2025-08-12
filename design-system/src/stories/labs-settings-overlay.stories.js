@@ -1,7 +1,7 @@
 import "../components/labs-settings-overlay.js";
 
 export default {
-  title: "Components/Settings Overlay",
+  title: "Patterns/Settings Overlay",
   component: "labs-settings-overlay",
   parameters: {
     docs: {
@@ -104,50 +104,6 @@ Default.parameters = {
   docs: {
     description: {
       story: "Default settings overlay component. Click button to open and explore all actions (apps, theme-toggle, settings, reset). Provides modular settings interface with action events.",
-    },
-  },
-};
-
-const SettingsOverlayVariantsTemplate = () => {
-  const container = document.createElement("div");
-  container.style.cssText = `
-    min-height: 100vh;
-    background: var(--color-background);
-    position: relative;
-  `;
-
-  container.innerHTML = `
-    <div style="position: absolute; top: 2rem; left: 2rem; z-index: 1001;">
-      <h2 style="color: var(--color-on-primary); margin-bottom: 0.5rem; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">Always Open Demo</h2>
-      <p style="color: var(--color-on-primary); opacity: 0.9; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">
-        This shows the overlay in its open state for easier inspection
-      </p>
-    </div>
-    <labs-settings-overlay active></labs-settings-overlay>
-  `;
-
-  const overlay = container.querySelector('labs-settings-overlay');
-
-  if (overlay) {
-    overlay.addEventListener('action-click', (e) => {
-      const action = e.detail.action;
-      alert(`Action clicked: ${action}`);
-    });
-
-    overlay.addEventListener('overlay-close', () => {
-      // Re-open immediately for demo purposes
-      setTimeout(() => overlay.open(), 100);
-    });
-  }
-
-  return container;
-};
-
-export const AllVariants = SettingsOverlayVariantsTemplate.bind({});
-AllVariants.parameters = {
-  docs: {
-    description: {
-      story: "Settings overlay variants showing always-open state for easier inspection. Demonstrates all action buttons and automatically re-opens when closed for demo purposes.",
     },
   },
 };

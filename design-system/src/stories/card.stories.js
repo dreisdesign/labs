@@ -36,31 +36,49 @@ export default {
 
 // Basic Examples
 export const Default = {
+  args: {
+    title: "",
+    subtitle: "",
+    variant: "default",
+    width: "constrained"
+  },
   render: (args) => `
-    <div class="card">
-      <p>This is a default card using the design system styling. Clean, minimal, and uses CSS custom properties for theming.</p>
+    <div style="display: flex; justify-content: center; padding: 2rem; min-height: 200px;">
+      <labs-card 
+        ${args.title ? `title="${args.title}"` : ''} 
+        ${args.subtitle ? `subtitle="${args.subtitle}"` : ''} 
+        variant="${args.variant}" 
+        width="${args.width}"
+      >
+        <slot>
+          <p>This is default card content. Use the controls above to add title/subtitle, or replace this content with your own components and patterns.</p>
+        </slot>
+      </labs-card>
     </div>
   `,
   parameters: {
     docs: {
       description: {
-        story: "Default card component with design system styling. Uses CSS custom properties for theming and consistent spacing/borders.",
+        story: "Default empty card with slot content. Use controls to configure title, subtitle, variant, and width. Content goes in the default slot.",
       },
     },
   },
 };
 
-const CardVariantsTemplate = () => `
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
-      <labs-card title="Default" subtitle="Standard styling" variant="default" width="full">
-        <p style="margin: 0;">Subtle background with border, perfect for general content.</p>
+export const Elevated = {
+  render: () => `
+    <div style="display: flex; justify-content: center; padding: 2rem;">
+      <labs-card title="Elevated Card" subtitle="With shadow elevation" variant="elevated" width="constrained">
+        <p>Clean white background with shadow, ideal for important content that needs to stand out from the page.</p>
       </labs-card>
-      
-      <labs-card title="Elevated" subtitle="Shadow elevation" variant="elevated" width="full">
-        <p style="margin: 0;">Clean white background with shadow, ideal for important content.</p>
-      </labs-card>
-      
-      <labs-card title="Stats" subtitle="Data display" variant="stats" width="full">
+    </div>
+  `,
+};
+
+export const Stats = {
+  render: () => `
+    <div style="display: flex; justify-content: center; padding: 2rem;">
+      <labs-card title="Stats Dashboard" subtitle="Data display variant" variant="stats" width="constrained">
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem;">
           <div style="text-align: center;">
             <div style="font-size: 1.5rem; font-weight: bold; color: var(--color-primary);">24</div>
@@ -72,84 +90,43 @@ const CardVariantsTemplate = () => `
           </div>
         </div>
       </labs-card>
-      
-      <labs-card title="Clickable Card" subtitle="Interactive" variant="clickable" width="full" onclick="alert('Card clicked!')">
-        <p style="margin: 0;">Hover effects and click events. Perfect for navigation or actions.</p>
+    </div>
+  `,
+};
+
+export const Clickable = {
+  render: () => `
+    <div style="display: flex; justify-content: center; padding: 2rem;">
+      <labs-card title="Clickable Card" subtitle="Interactive with hover effects" variant="clickable" width="constrained" onclick="alert('Card clicked!')">
+        <p>Hover effects and click events. Perfect for navigation cards or action items that lead to other pages.</p>
       </labs-card>
     </div>
-    
-    <labs-card title="Header Card" subtitle="Page section header" variant="header" width="full">
-      <p style="margin: 0; text-align: center; color: var(--color-on-surface-variant);">
-        Centered title and subtitle, ideal for page sections or dashboard headers.
-      </p>
-    </labs-card>
-`;
-CardVariantsTemplate.parameters = {
-  docs: {
-    description: {
-      story: "All card variants showcasing different visual styles: default (subtle), elevated (shadow), stats (data display), clickable (interactive), and header (section titles).",
-    },
-  },
+  `,
 };
 
-export const AllVariants = CardVariantsTemplate.bind({});
-AllVariants.parameters = {
-  docs: {
-    description: {
-      story: "Card component variants showing different states (default, elevated, outline) and content types. Each variant serves specific UI purposes with consistent spacing and theming.",
-    },
+export const Header = {
+  args: {
+    title: "Header Card",
+    subtitle: "Page section header",
+    variant: "header",
+    width: "full",
+    fontSize: "large"
   },
-};
-
-export const LayoutPatterns = () => `
-    <div style="display: flex; flex-direction: column; gap: 2rem;">
-      <div>
-        <h3 style="margin-bottom: 1rem;">Width Options</h3>
-        <div style="display: flex; flex-direction: column; gap: 1rem;">
-          <labs-card title="Auto Width" subtitle="Adapts to content" variant="default" width="auto">
-            <p style="margin: 0;">This card uses auto width and adapts to its content.</p>
-          </labs-card>
-          
-          <labs-card title="Full Width" subtitle="100% container width" variant="elevated" width="full">
-            <p style="margin: 0;">This card takes the full width of its container.</p>
-          </labs-card>
-          
-          <labs-card title="Constrained Width" subtitle="Max 500px responsive" variant="outline" width="constrained">
-            <p style="margin: 0;">This card is constrained to max 500px but responsive on smaller screens.</p>
-          </labs-card>
-        </div>
-      </div>
-      
-      <div>
-        <h3 style="margin-bottom: 1rem;">Dashboard Grid Example</h3>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
-          <labs-card title="Quick Stats" variant="stats" width="full">
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 0.75rem;">
-              <div style="text-align: center;">
-                <div style="font-size: 1.5rem; font-weight: bold; color: var(--color-primary);">156</div>
-                <div style="font-size: 0.875rem; color: var(--color-on-surface-variant);">This Week</div>
-              </div>
-              <div style="text-align: center;">
-                <div style="font-size: 1.5rem; font-weight: bold; color: var(--color-secondary);">24</div>
-                <div style="font-size: 0.875rem; color: var(--color-on-surface-variant);">Today</div>
-              </div>
-            </div>
-          </labs-card>
-          
-          <labs-card title="Quick Actions" variant="elevated" width="full">
-            <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.75rem;">
-              ${createButton('add', { label: 'Add New Item' })}
-              ${createButton('settings', { label: 'Open Settings' })}
-            </div>
-          </labs-card>
-        </div>
-      </div>
+  argTypes: {
+    fontSize: {
+      control: 'select',
+      options: ['small', 'medium', 'large', 'xlarge'],
+      description: 'Header title font size'
+    }
+  },
+  render: (args) => `
+    <div style="display: flex; justify-content: center; padding: 2rem;">
+      <labs-card title="${args.title}" subtitle="${args.subtitle}" variant="${args.variant}" width="${args.width}" style="--card-title-size: var(--font-size-h${args.fontSize === 'small' ? '5' : args.fontSize === 'medium' ? '4' : args.fontSize === 'large' ? '3' : '2'});">
+        <p style="text-align: center; color: var(--color-on-surface-variant);">
+          Centered title and subtitle, ideal for page sections or dashboard headers that organize content.
+        </p>
+      </labs-card>
     </div>
-`;
-LayoutPatterns.parameters = {
-  docs: {
-    description: {
-      story: "Real-world layout patterns showing width constraints and dashboard grid usage. Demonstrates responsive behavior and practical card combinations for applications.",
-    },
-  },
+  `,
 };
+

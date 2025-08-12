@@ -22,12 +22,6 @@ export default {
       description: "Hide the settings button",
       defaultValue: false,
     },
-    "variant": {
-      control: { type: "select" },
-      options: ["default", "floating"],
-      description: "Footer variant style - default (fixed) or floating",
-      defaultValue: "default",
-    },
   },
 };
 
@@ -35,7 +29,6 @@ export const Default = (args) => {
   const footer = document.createElement("labs-footer");
   if (args["add-label"]) footer.setAttribute("add-label", args["add-label"]);
   if (args["settings-hidden"]) footer.setAttribute("settings-hidden", "");
-  if (args["variant"]) footer.setAttribute("variant", args["variant"]);
 
   const container = document.createElement("div");
   container.style.cssText = `
@@ -81,91 +74,6 @@ Default.parameters = {
   docs: {
     description: {
       story: "Default footer component with glassmorphic design. Use controls to modify add button label, toggle settings visibility, and change variant (default/floating). Click buttons to see event handling.",
-    },
-  },
-};
-
-export const FooterVariants = () => {
-  const createFooterDemo = (title, description, attributes = {}) => {
-    const footer = document.createElement("labs-footer");
-    Object.entries(attributes).forEach(([key, value]) => {
-      if (value === true) {
-        footer.setAttribute(key, "");
-      } else if (value) {
-        footer.setAttribute(key, value);
-      }
-    });
-
-    const container = document.createElement("div");
-    container.style.cssText = `
-        min-height: 300px;
-        background: var(--color-background);
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding-bottom: 100px;
-        margin-bottom: 1.5rem;
-        border: 1px solid var(--color-outline-variant);
-        border-radius: 8px;
-      `;
-
-    container.innerHTML = `
-        <div style="text-align: center; max-width: 350px; padding: 1rem;">
-          <h3 style="color: var(--color-on-background); margin-bottom: 0.5rem; font-size: 1.125rem;">${title}</h3>
-          <p style="color: var(--color-on-background); opacity: 0.8; font-size: 0.875rem; margin: 0;">
-            ${description}
-          </p>
-        </div>
-      `;
-
-    container.appendChild(footer);
-
-    footer.addEventListener('add-click', () => {
-      alert(`${title}: Add clicked!`);
-    });
-
-    footer.addEventListener('settings-click', () => {
-      alert(`${title}: Settings clicked!`);
-    });
-
-    return container;
-  };
-
-  const wrapper = document.createElement("div");
-
-  wrapper.appendChild(createFooterDemo(
-    "Default Footer",
-    "Standard footer with both add and settings buttons",
-    { "add-label": "+ Add" }
-  ));
-
-  wrapper.appendChild(createFooterDemo(
-    "Custom Label",
-    "Footer with custom add button text",
-    { "add-label": "Create New" }
-  ));
-
-  wrapper.appendChild(createFooterDemo(
-    "No Settings",
-    "Footer with settings button hidden",
-    { "add-label": "+ Add", "settings-hidden": true }
-  ));
-
-  wrapper.appendChild(createFooterDemo(
-    "Floating Variant",
-    "Floating footer variant with enhanced glassmorphic effects",
-    { "add-label": "+ Add", "variant": "floating" }
-  ));
-
-  return wrapper;
-};
-
-FooterVariants.parameters = {
-  docs: {
-    description: {
-      story: "All footer configurations: default (standard), custom label (personalized text), no settings (hidden button), and floating variant (enhanced glassmorphic design).",
     },
   },
 };

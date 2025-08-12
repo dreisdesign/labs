@@ -1,18 +1,27 @@
 import '../components/labs-input-overlay.js';
 
 export default {
-  title: 'Components/Input Overlay',
+  title: 'Patterns/Input Overlay',
   component: 'labs-input-overlay',
+  tags: ['autodocs'],
   argTypes: {
     active: {
       control: 'boolean',
       description: 'Whether the overlay is active/visible'
+    },
+    title: {
+      control: 'text',
+      description: 'Overlay title text'
+    },
+    placeholder: {
+      control: 'text',
+      description: 'Input placeholder text'
     }
   },
   parameters: {
     docs: {
       description: {
-        component: 'Input overlay component for text input dialogs. Used for adding and editing tasks.'
+        component: 'Modal input overlay pattern for task creation and editing. Features automatic focus, keyboard shortcuts (Enter to submit, Escape to close), and icon-only close button. Commonly used for adding/editing tasks in productivity apps.'
       }
     }
   }
@@ -59,69 +68,30 @@ const Template = (args) => {
   `;
 };
 
-export const Default = Template.bind({});
-Default.args = {
+export const Opened = Template.bind({});
+Opened.args = {
+  active: true,
+  title: "Add Task",
+  placeholder: "Enter your task..."
+};
+Opened.parameters = {
+  docs: {
+    description: {
+      story: "Opened input overlay showing the active state. Features automatic input focus, keyboard shortcuts (Enter to submit, Escape to close), and uses icon-only close button for clean UI. Perfect for testing interaction flows.",
+    },
+  },
+};
+
+export const Closed = Template.bind({});
+Closed.args = {
   active: false
 };
-Default.parameters = {
+Closed.parameters = {
   docs: {
     description: {
-      story: "Default input overlay component. Use controls to explore states (active/inactive) and test opening with different content. Provides modal input functionality with save/cancel actions.",
+      story: "Closed/inactive state. Click the trigger button to open the overlay and test the interaction flow.",
     },
   },
 };
 
-const InputOverlayVariantsTemplate = () => {
-  return `
-    <div style="display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; padding: 2rem;">
-      <div style="text-align: center; padding: 1.5rem; border: 1px solid var(--color-outline); border-radius: 8px; min-width: 300px;">
-        <div style="margin-bottom: 1rem; font-weight: bold;">New Task Mode</div>
-        <button 
-          onclick="document.querySelector('#overlay1').open('Add Task', 'Enter your task...')"
-          style="padding: 12px 24px; background: var(--color-primary); color: var(--color-on-primary); border: none; border-radius: 8px; cursor: pointer;"
-        >
-          Add New Task
-        </button>
-        <labs-input-overlay id="overlay1"></labs-input-overlay>
-      </div>
-      
-      <div style="text-align: center; padding: 1.5rem; border: 1px solid var(--color-outline); border-radius: 8px; min-width: 300px;">
-        <div style="margin-bottom: 1rem; font-weight: bold;">Edit Mode</div>
-        <button 
-          onclick="document.querySelector('#overlay2').open('Edit Task', 'Edit your task...', 'Existing task text', 0)"
-          style="padding: 12px 24px; background: var(--color-secondary); color: var(--color-on-secondary); border: none; border-radius: 8px; cursor: pointer;"
-        >
-          Edit Existing Task
-        </button>
-        <labs-input-overlay id="overlay2"></labs-input-overlay>
-      </div>
-    </div>
-    
-    <script>
-      // Add event listeners for both overlays
-      setTimeout(() => {
-        ['overlay1', 'overlay2'].forEach(id => {
-          const overlay = document.getElementById(id);
-          if (overlay) {
-            overlay.addEventListener('task-save', (e) => {
-              console.log('Task saved:', e.detail);
-              alert(\`Task saved: "\${e.detail.text}"\`);
-            });
-            overlay.addEventListener('task-cancel', () => {
-              console.log('Task cancelled');
-            });
-          }
-        });
-      }, 100);
-    </script>
-  `;
-};
 
-export const AllVariants = InputOverlayVariantsTemplate.bind({});
-AllVariants.parameters = {
-  docs: {
-    description: {
-      story: "Input overlay variants showing new task creation and edit modes. Each overlay maintains separate state and demonstrates the complete interaction flow with save/cancel events.",
-    },
-  },
-};

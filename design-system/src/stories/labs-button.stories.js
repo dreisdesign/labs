@@ -107,15 +107,15 @@ const Template = (args) => {
 
 // === Primary Stories ===
 
-export const Default = Template.bind({});
-Default.args = {
+export const Primary = Template.bind({});
+Primary.args = {
   label: "Button",
   variant: "primary"
 };
-Default.parameters = {
+Primary.parameters = {
   docs: {
     description: {
-      story: "Default primary button with comprehensive controls. Explore all options using the controls panel to see real-time changes and copy the generated code.",
+      story: "Primary button with comprehensive controls. Explore all options using the controls panel to see real-time changes and copy the generated code.",
     },
   },
 };

@@ -28,9 +28,9 @@ export default {
       options: ["text", "email", "password", "search", "url"],
       description: "Input type attribute"
     },
-    disabled: {
+    inactive: {
       control: "boolean",
-      description: "Whether the input is disabled"
+      description: "Whether the input is inactive"
     },
   },
 };
@@ -71,7 +71,7 @@ const Template = (args) => {
         value="${args.value || ''}"
         maxlength="${args.maxlength || '100'}"
         type="${args.type || 'text'}"
-        ${args.disabled ? 'disabled' : ''}
+        ${args.inactive ? 'disabled' : ''}
       ></labs-input>
     </div>
   `;
@@ -83,7 +83,7 @@ Default.args = {
   value: "",
   maxlength: 100,
   type: "text",
-  disabled: false,
+  inactive: false,
 };
 Default.parameters = {
   docs: {
@@ -158,57 +158,10 @@ const InputVariantsTemplate = () => {
       </div>
       
       <div class="input-group">
-        <label>Notes (Disabled State)</label>
+        <label>Notes (Inactive State)</label>
         <labs-input placeholder="Notes are not editable" value="This field is read-only" disabled></labs-input>
-        <div class="description">Disabled state for read-only content</div>
+        <div class="description">Inactive state for read-only content</div>
       </div>
     </div>
   `;
-};
-
-export const Default = Template.bind({});
-Default.args = {
-  placeholder: "Enter text here...",
-  value: "",
-  maxlength: 100,
-  type: "text",
-  disabled: false,
-};
-Default.parameters = {
-  docs: {
-    description: {
-      story: "Default input component with design system styling. Use controls to explore all input types and attributes.",
-    },
-  },
-};
-
-export const Text = Template.bind({});
-Text.args = {
-  placeholder: "Enter text...",
-  type: "text",
-};
-
-export const Email = Template.bind({});
-Email.args = {
-  placeholder: "email@example.com",
-  type: "email",
-};
-
-export const Password = Template.bind({});
-Password.args = {
-  placeholder: "Enter password...",
-  type: "password",
-};
-
-export const Search = Template.bind({});
-Search.args = {
-  placeholder: "Search...",
-  type: "search",
-};
-
-export const Disabled = Template.bind({});
-Disabled.args = {
-  placeholder: "Cannot edit",
-  value: "Read-only content",
-  disabled: true,
 };
