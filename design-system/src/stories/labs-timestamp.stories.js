@@ -22,7 +22,7 @@ export default {
     },
     size: {
       control: { type: "select" },
-      options: ["small", "normal", "large"],
+      options: ["small", "medium", "large"],
       description: "Size variant"
     },
     interactive: {
@@ -62,17 +62,17 @@ const Template = (args) => {
   `;
 };
 
-export const Default = Template.bind({});
-Default.args = {
+export const Time = Template.bind({});
+Time.args = {
   datetime: new Date().toISOString(),
   format: "time",
-  size: "normal",
+  size: "medium",
   interactive: false,
 };
-Default.parameters = {
+Time.parameters = {
   docs: {
     description: {
-      story: "Default timestamp component. Use controls to explore all formats (time, date-header, short-date), sizes (small, normal, large), and interactive states. Matches tracker app styling.",
+      story: "Time format timestamp component. Use controls to explore all sizes (small, medium, large) and interactive states. Matches tracker app styling.",
     },
   },
 };
@@ -257,23 +257,16 @@ const TimestampVariantsTemplate = () => {
   `;
 };
 
-export const Time = Template.bind({});
-Time.args = {
-  datetime: new Date().toISOString(),
-  format: "time",
-  size: "normal",
-};
-
 export const DateHeader = Template.bind({});
 DateHeader.args = {
   datetime: new Date().toISOString(),
   format: "date-header",
-  size: "normal",
+  size: "medium",
 };
 
 export const ShortDate = Template.bind({});
 ShortDate.args = {
   datetime: new Date().toISOString(),
   format: "short-date",
-  size: "normal",
+  size: "medium",
 };

@@ -22,30 +22,19 @@ export default {
             options: [
                 "primary",
                 "secondary",
+                "danger",
                 "success",
-                "warning",
-                "danger"
+                "warning"
             ],
-        },
-        size: {
-            control: { type: "select" },
-            description: "Badge size variant",
-            options: ["small", "medium", "large"],
-        },
-        color: {
-            control: "color",
-            description: "Custom background color (overrides variant)"
         },
     },
 };
 
-const Template = ({ label, variant, color, size }) => {
+const Template = ({ label, variant }) => {
     return `
         <labs-badge 
             label="${label || 'Badge'}"
-            variant="${variant || 'default'}"
-            ${size ? `size="${size}"` : ''}
-            ${color ? `color="${color}"` : ''}
+            variant="${variant || 'primary'}"
         ></labs-badge>
     `;
 };
@@ -54,7 +43,6 @@ export const Default = Template.bind({});
 Default.args = {
     label: "New",
     variant: "primary",
-    size: "medium",
 };
 Default.parameters = {
     docs: {
@@ -64,16 +52,16 @@ Default.parameters = {
     },
 };
 
-export const Primary = Template.bind({});
-Primary.args = {
-    label: "Important",
-    variant: "primary",
-};
-
 export const Secondary = Template.bind({});
 Secondary.args = {
     label: "Draft",
     variant: "secondary",
+};
+
+export const Danger = Template.bind({});
+Danger.args = {
+    label: "Failed",
+    variant: "danger",
 };
 
 export const Success = Template.bind({});
@@ -86,12 +74,6 @@ export const Warning = Template.bind({});
 Warning.args = {
     label: "Pending",
     variant: "warning",
-};
-
-export const Danger = Template.bind({});
-Danger.args = {
-    label: "Failed",
-    variant: "danger",
 };
 
 

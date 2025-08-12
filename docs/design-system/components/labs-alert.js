@@ -80,22 +80,27 @@ class LabsAlert extends HTMLElement {
         let backgroundColor, textColor, icon;
         switch (variant) {
             case 'success':
-                backgroundColor = 'var(--color-success, #10b981)';
+                backgroundColor = 'var(--color-success, #00B56A)';
                 textColor = 'var(--color-on-success, #ffffff)';
                 icon = 'check';
                 break;
             case 'error':
-                backgroundColor = 'var(--color-error, #ef4444)';
+                backgroundColor = 'var(--color-error, #B5005A)';
                 textColor = 'var(--color-on-error, #ffffff)';
                 icon = 'cancel';
+                break;
+            case 'warning':
+                backgroundColor = 'var(--color-warning, #FFC634)';
+                textColor = 'var(--color-on-warning, #000000)';
+                icon = 'change_circle';
                 break;
             case 'info':
                 backgroundColor = 'var(--color-primary, #3b82f6)';
                 textColor = 'var(--color-on-primary, #ffffff)';
-                icon = 'info';
+                icon = 'change_circle';
                 break;
             default:
-                backgroundColor = 'var(--color-success, #10b981)';
+                backgroundColor = 'var(--color-success, #00B56A)';
                 textColor = 'var(--color-on-success, #ffffff)';
                 icon = 'check';
         }

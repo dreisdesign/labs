@@ -70,14 +70,14 @@ const Template = (args) => {
 
 export const Opened = Template.bind({});
 Opened.args = {
-  active: true,
+  active: false, // Start closed to prevent flash
   title: "Add Task",
   placeholder: "Enter your task..."
 };
 Opened.parameters = {
   docs: {
     description: {
-      story: "Opened input overlay showing the active state. Features automatic input focus, keyboard shortcuts (Enter to submit, Escape to close), and uses icon-only close button for clean UI. Perfect for testing interaction flows.",
+      story: "Input overlay in opened state. Click the trigger button to test the interaction flow with automatic input focus, keyboard shortcuts (Enter to submit, Escape to close), and icon-only close button.",
     },
   },
 };

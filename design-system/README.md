@@ -1,5 +1,13 @@
 
-## 🆕 Recent Improvements - v2.1.0 Native Storybook Integration
+## 🆕 Recent Improvements - v2.1.3 Alert Flash Prevention & Storybook v9.1.2
+
+- **🐛 Alert Flash Prevention:** Fixed critical "Action Completed" green alert flash appearing unexpectedly during component initialization
+- **🔧 Demo Button Reliability:** Resolved alert demo buttons not showing consistently in Storybook stories with proper component loading
+- **⚡ Storybook v9.1.2:** Successfully upgraded from v9.1.1 with all packages updated and enhanced stability
+- **🎯 Component Dependencies:** Added missing imports and improved initialization timing with `customElements.whenDefined()`
+- **🎨 UX Polish:** Warning alerts now use proper warning icons, and component interactions are consistently reliable
+
+## 🎯 Previous v2.1.2 Native Storybook Integration
 
 - **🎯 Native "Show Code" Feature:** Successfully implemented Storybook's built-in source code display with `autodocs` tags and proper configuration
 - **📚 Dual Pattern Approach:** Both custom consolidated view (Patterns/Buttons Consolidated) and native individual stories (Patterns/Buttons) for maximum flexibility

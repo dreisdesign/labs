@@ -1,5 +1,23 @@
 # Labs Design System Changelog
 
+## [v2.1.3] - 2025-08-12 - Alert Flash Prevention & Storybook v9.1.2
+
+### 🐛 Critical Bug Fixes
+- **Alert Flash Prevention:** Fixed unwanted "Action Completed" green alert flash on component initialization
+- **Demo Button Reliability:** Resolved alert demo buttons not appearing consistently in Storybook stories
+- **Component Loading:** Improved component initialization timing with `customElements.whenDefined()`
+
+### 🔧 Technical Improvements
+- **Storybook Upgrade:** Updated from v9.1.1 → v9.1.2 across all packages
+- **Alert Component:** Modified render method to prevent content display when inactive
+- **Component Dependencies:** Added missing `labs-button` import to alert stories
+- **Event Handling:** Added duplicate listener prevention and proper component waiting
+
+### 🎨 UX Enhancements
+- **Warning Icons:** Added proper warning icon for warning variant alerts
+- **Reliable Interactions:** Alert demo buttons now consistently show and function properly
+- **Clean State Management:** Eliminated unwanted component flashes during story navigation
+
 ## [v2.1.2] - 2025-08-11 - Native Storybook Integration
 
 ### 🎯 Major Achievement

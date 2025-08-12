@@ -2,6 +2,23 @@
 
 > **Global project updates, releases, and major milestones**
 
+## 🚀 v2.1.3 - Component Stability & Storybook Enhancement (August 12, 2025)
+
+### 🐛 **Critical Bug Fixes**
+- **Alert Flash Prevention** - Eliminated unwanted "Action Completed" green alert flashes during component initialization
+- **Demo Button Reliability** - Fixed alert demo buttons not appearing consistently in Storybook stories
+- **Component Dependencies** - Resolved missing imports and improved initialization timing
+
+### ⚡ **Storybook Upgrade**
+- **Version Update** - Successfully upgraded from v9.1.1 → v9.1.2 across all packages
+- **Enhanced Stability** - Improved component loading and interaction reliability
+- **Clean Dependencies** - Updated addon ecosystem for better compatibility
+
+### 🎨 **UX Improvements**
+- **Warning Icons** - Added proper warning icons for alert warning variants
+- **Consistent Interactions** - Alert demo buttons now reliably show and function
+- **State Management** - Eliminated UI flashes during story navigation and component switching
+
 ## 🚀 v2.1.0 - Production Stability & Icon Resolution (August 7, 2025)
 
 ### ✨ **Major Improvements**

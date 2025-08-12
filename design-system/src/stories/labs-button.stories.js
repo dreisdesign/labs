@@ -23,7 +23,7 @@ export default {
     },
     variant: {
       control: { type: "select" },
-      options: ["primary", "secondary", "danger", "transparent", "container", "container-danger", "icon"],
+      options: ["primary", "secondary", "container", "container-danger", "danger", "icon", "transparent"],
       description: "Button visual style and behavior",
       table: { category: "Appearance" }
     },
