@@ -73,6 +73,19 @@ class LabsAlert extends HTMLElement {
 
     render() {
         const isActive = this.hasAttribute('active');
+
+        // Don't render anything if not active
+        if (!isActive) {
+            this.shadowRoot.innerHTML = `
+                <style>
+                    :host {
+                        display: none;
+                    }
+                </style>
+            `;
+            return;
+        }
+
         const message = this.getAttribute('message') || 'Action completed';
         const variant = this.getAttribute('variant') || 'success';
 
