@@ -52,54 +52,48 @@ Default.args = {
     label: "Default",
     variant: "default",
 };
-
-export const Primary = Template.bind({});
-Primary.args = {
-    label: "Primary",
-    variant: "primary",
-};
-
-export const Secondary = Template.bind({});
-Secondary.args = {
-    label: "Secondary",
-    variant: "secondary",
-};
-
-export const Success = Template.bind({});
-Success.args = {
-    label: "Success",
-    variant: "success",
-};
-
-export const Warning = Template.bind({});
-Warning.args = {
-    label: "Warning",
-    variant: "warning",
-};
-
-export const Danger = Template.bind({});
-Danger.args = {
-    label: "Danger",
-    variant: "danger",
-};
-
-export const Active = Template.bind({});
-Active.args = {
-    label: "Active",
-    variant: "active",
-};
-Active.parameters = {
+Default.parameters = {
     docs: {
         description: {
-            story: "Active badge variant for highlighting the current or selected state. Features border styling and container colors.",
+            story: "Default badge variant. Use controls to explore all variants (primary, secondary, success, warning, danger, active, outline) or custom colors.",
         },
     },
 };
 
-export const Outline = Template.bind({});
-Outline.args = {
-    label: "Outline",
-    variant: "outline",
+export const StatusBadges = () => {
+    return `
+        <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap; align-items: center;">
+            <labs-badge label="Success" variant="success"></labs-badge>
+            <labs-badge label="Warning" variant="warning"></labs-badge>
+            <labs-badge label="Danger" variant="danger"></labs-badge>
+            <labs-badge label="Active" variant="active"></labs-badge>
+        </div>
+    `;
+};
+StatusBadges.parameters = {
+    docs: {
+        description: {
+            story: "Common status variants for system states and user feedback. Each variant has semantic meaning and appropriate colors.",
+        },
+    },
+};
+
+export const CustomColors = () => {
+    return `
+        <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap; align-items: center;">
+            <labs-badge label="Purple" color="#8b5cf6"></labs-badge>
+            <labs-badge label="Orange" color="#f97316"></labs-badge>
+            <labs-badge label="Teal" color="#0d9488"></labs-badge>
+            <labs-badge label="Pink" color="#ec4899"></labs-badge>
+        </div>
+    `;
+};
+CustomColors.parameters = {
+    docs: {
+        description: {
+            story: "Badges with custom background colors. Text color is automatically calculated for optimal contrast.",
+        },
+    },
 };
 
 const BadgeVariantsTemplate = () => {
@@ -189,12 +183,11 @@ const BadgeVariantsTemplate = () => {
     `;
 };
 
-export const BadgeVariants = BadgeVariantsTemplate.bind({});
-BadgeVariants.parameters = {
+export const AllVariants = BadgeVariantsTemplate.bind({});
+AllVariants.parameters = {
     docs: {
         description: {
-            story: "Comprehensive badge examples showing different variants, use cases, and integration patterns. Includes status badges, category labels, custom colors, and real-world usage scenarios.",
+            story: "Comprehensive showcase of all badge variants in real-world usage patterns including status indicators, category labels, and component integration examples.",
         },
     },
 };
-BadgeVariants.storyName = "All Variants";

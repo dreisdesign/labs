@@ -85,54 +85,60 @@ const Template = (args) => {
     `;
 };
 
-export const Alert = Template.bind({});
-Alert.args = {
+export const Default = Template.bind({});
+Default.args = {
     message: "Action completed successfully",
     variant: "success",
     timeout: 2000,
 };
-
-export const SuccessAlert = Template.bind({});
-SuccessAlert.args = {
-    message: "Copied to clipboard",
-    variant: "success",
-    timeout: 1500,
-};
-
-SuccessAlert.parameters = {
+Default.parameters = {
     docs: {
         description: {
-            story: "Success alerts with checkmark icon, typically used for completed actions like copying to clipboard.",
+            story: "Interactive alert component with trigger buttons. Use controls to modify message, variant (success, error, info), and timeout duration. Click buttons to see alerts in action.",
         },
     },
 };
 
-export const ErrorAlert = Template.bind({});
-ErrorAlert.args = {
-    message: "Something went wrong",
-    variant: "error",
-    timeout: 3000,
-};
+export const AllVariants = () => {
+    setTimeout(() => {
+        // Auto-trigger all alert variants for showcase
+        const alert = document.querySelector('labs-alert');
 
-ErrorAlert.parameters = {
+        setTimeout(() => alert?.show("Success: Action completed", "success", 2000), 500);
+        setTimeout(() => alert?.show("Error: Something went wrong", "error", 3000), 2800);
+        setTimeout(() => alert?.show("Info: Here's some information", "info", 2000), 6200);
+    }, 100);
+
+    return `
+        <div style="padding: 2rem; text-align: center;">
+            <h3 style="margin: 0 0 1rem 0;">All Alert Variants</h3>
+            <p style="color: var(--color-text-secondary); margin-bottom: 2rem;">
+                Watch as each variant displays automatically with proper timing
+            </p>
+            
+            <div style="display: flex; gap: 1rem; justify-content: center; margin-bottom: 2rem;">
+                <div style="padding: 1rem; border: 1px solid var(--color-outline); border-radius: 8px; text-align: left;">
+                    <strong>Success:</strong> Green background, checkmark icon<br>
+                    <em>Used for: Completions, saves, copies</em>
+                </div>
+                <div style="padding: 1rem; border: 1px solid var(--color-outline); border-radius: 8px; text-align: left;">
+                    <strong>Error:</strong> Red background, cancel icon<br>
+                    <em>Used for: Failures, validation errors</em>
+                </div>
+                <div style="padding: 1rem; border: 1px solid var(--color-outline); border-radius: 8px; text-align: left;">
+                    <strong>Info:</strong> Blue background, info icon<br>
+                    <em>Used for: General notifications</em>
+                </div>
+            </div>
+            
+            <labs-alert></labs-alert>
+        </div>
+    `;
+};
+AllVariants.parameters = {
     docs: {
         description: {
-            story: "Error alerts with cancel icon for showing failures or validation errors.",
-        },
-    },
-};
-
-export const InfoAlert = Template.bind({});
-InfoAlert.args = {
-    message: "Here's some information",
-    variant: "info",
-    timeout: 2000,
-};
-
-InfoAlert.parameters = {
-    docs: {
-        description: {
-            story: "Info alerts for general notifications and status updates.",
+            story: "Automatic showcase of all alert variants (success, error, info) with their semantic meanings and use cases. Each variant has appropriate colors, icons, and timing.",
         },
     },
 };

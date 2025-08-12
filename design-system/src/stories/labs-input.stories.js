@@ -85,39 +85,48 @@ Default.args = {
   type: "text",
   disabled: false,
 };
-
-export const WithValue = Template.bind({});
-WithValue.args = {
-  placeholder: "Enter text here...",
-  value: "Pre-filled value",
-  maxlength: 100,
-  type: "text",
-  disabled: false,
-};
-
-export const TaskInput = Template.bind({});
-TaskInput.args = {
-  placeholder: "Enter task description...",
-  value: "",
-  maxlength: 200,
-  type: "text",
-  disabled: false,
-};
-TaskInput.parameters = {
+Default.parameters = {
   docs: {
     description: {
-      story: "Input configured for task entry with appropriate placeholder and length limits.",
+      story: "Default input component with design system styling. Use controls to explore all input types (text, email, password, search, url), states, and attributes. Forwards all standard input events.",
     },
   },
 };
 
-export const Disabled = Template.bind({});
-Disabled.args = {
-  placeholder: "This input is disabled",
-  value: "Cannot edit this text",
-  maxlength: 100,
-  type: "text",
-  disabled: true,
+export const InputTypes = () => {
+  setTimeout(() => {
+    document.addEventListener('labs-input', (e) => {
+      console.log('Input changed:', e.detail.value);
+    });
+  }, 100);
+
+  return `
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; padding: 2rem;">
+      <div style="min-width: 200px;">
+        <div style="margin-bottom: 0.5rem; font-weight: bold;">Text Input</div>
+        <labs-input placeholder="Enter text..." type="text"></labs-input>
+      </div>
+      <div style="min-width: 200px;">
+        <div style="margin-bottom: 0.5rem; font-weight: bold;">Search Input</div>
+        <labs-input placeholder="Search..." type="search"></labs-input>
+      </div>
+      <div style="min-width: 200px;">
+        <div style="margin-bottom: 0.5rem; font-weight: bold;">Email Input</div>
+        <labs-input placeholder="email@example.com" type="email"></labs-input>
+      </div>
+      <div style="min-width: 200px;">
+        <div style="margin-bottom: 0.5rem; font-weight: bold;">Disabled State</div>
+        <labs-input placeholder="Cannot edit" value="Read-only" disabled></labs-input>
+      </div>
+    </div>
+  `;
+};
+InputTypes.parameters = {
+  docs: {
+    description: {
+      story: "Different input types and states showing semantic HTML types (text, search, email) and disabled state for accessibility and browser features.",
+    },
+  },
 };
 
 const InputVariantsTemplate = () => {
@@ -193,11 +202,11 @@ const InputVariantsTemplate = () => {
   `;
 };
 
-export const InputVariants = InputVariantsTemplate.bind({});
-InputVariants.parameters = {
+export const AllVariants = InputVariantsTemplate.bind({});
+AllVariants.parameters = {
   docs: {
     description: {
-      story: "Different input variants and use cases showing the component's flexibility for various data types and contexts.",
+      story: "Comprehensive showcase of input component usage patterns with proper labeling, different types (task, search, email, URL), and accessibility considerations for real-world applications.",
     },
   },
 };

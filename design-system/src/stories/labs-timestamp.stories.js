@@ -62,47 +62,51 @@ const Template = (args) => {
   `;
 };
 
-export const TimeFormat = Template.bind({});
-TimeFormat.args = {
+export const Default = Template.bind({});
+Default.args = {
   datetime: new Date().toISOString(),
   format: "time",
   size: "normal",
   interactive: false,
 };
-TimeFormat.parameters = {
+Default.parameters = {
   docs: {
     description: {
-      story: "Time format matching tracker app style: H:MM AM/PM (e.g., 4:42 PM). Uses non-padded hours for natural reading.",
+      story: "Default timestamp component. Use controls to explore all formats (time, date-header, short-date), sizes (small, normal, large), and interactive states. Matches tracker app styling.",
     },
   },
 };
 
-export const DateHeader = Template.bind({});
-DateHeader.args = {
-  datetime: new Date().toISOString(),
-  format: "date-header",
-  size: "normal",
-  interactive: false,
-};
-DateHeader.parameters = {
-  docs: {
-    description: {
-      story: "Date header format matching tracker app: Weekday, Month Day, Year (e.g., Monday, January 15, 2024). Bold and centered styling.",
-    },
-  },
-};
+export const FormatExamples = () => {
+  const now = new Date();
+  const morning = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 15);
 
-export const ShortDate = Template.bind({});
-ShortDate.args = {
-  datetime: new Date().toISOString(),
-  format: "short-date",
-  size: "normal",
-  interactive: false,
+  return `
+    <div style="display: flex; gap: 2rem; justify-content: center; align-items: center; flex-wrap: wrap; padding: 2rem;">
+      <div style="text-align: center; padding: 1rem; border: 1px solid var(--color-outline); border-radius: 8px;">
+        <div style="margin-bottom: 0.5rem; font-weight: bold;">Time Format</div>
+        <labs-timestamp datetime="${morning.toISOString()}" format="time"></labs-timestamp>
+        <div style="font-size: var(--font-size-small); color: var(--color-text-secondary); margin-top: 0.5rem;">H:MM AM/PM</div>
+      </div>
+      
+      <div style="text-align: center; padding: 1rem; border: 1px solid var(--color-outline); border-radius: 8px;">
+        <div style="margin-bottom: 0.5rem; font-weight: bold;">Date Header</div>
+        <labs-timestamp datetime="${now.toISOString()}" format="date-header"></labs-timestamp>
+        <div style="font-size: var(--font-size-small); color: var(--color-text-secondary); margin-top: 0.5rem;">Full date</div>
+      </div>
+      
+      <div style="text-align: center; padding: 1rem; border: 1px solid var(--color-outline); border-radius: 8px;">
+        <div style="margin-bottom: 0.5rem; font-weight: bold;">Short Date</div>
+        <labs-timestamp datetime="${now.toISOString()}" format="short-date"></labs-timestamp>
+        <div style="font-size: var(--font-size-small); color: var(--color-text-secondary); margin-top: 0.5rem;">Month Day</div>
+      </div>
+    </div>
+  `;
 };
-ShortDate.parameters = {
+FormatExamples.parameters = {
   docs: {
     description: {
-      story: "Short date format for compact display: Month Day (e.g., Jan 15). Useful for task lists and compact interfaces.",
+      story: "Quick comparison of all timestamp formats: time (H:MM AM/PM), date-header (full date), and short-date (Month Day). Each format serves specific UI needs.",
     },
   },
 };
@@ -287,11 +291,11 @@ const TimestampVariantsTemplate = () => {
   `;
 };
 
-export const TimestampVariants = TimestampVariantsTemplate.bind({});
-TimestampVariants.parameters = {
+export const AllVariants = TimestampVariantsTemplate.bind({});
+AllVariants.parameters = {
   docs: {
     description: {
-      story: "Complete showcase of timestamp variants showing all formats, sizes, and interactive states. Demonstrates real-world usage patterns in task lists and time tracking interfaces.",
+      story: "Complete showcase of timestamp variants showing all formats, sizes, and interactive states. Demonstrates real-world usage patterns in task lists and time tracking interfaces matching the tracker app.",
     },
   },
 };
