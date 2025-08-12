@@ -49,54 +49,61 @@ const Template = ({ label, variant, color }) => {
 
 export const Default = Template.bind({});
 Default.args = {
-    label: "Default",
-    variant: "default",
+  label: "New",
+  variant: "primary",
+  size: "medium",
 };
 Default.parameters = {
-    docs: {
-        description: {
-            story: "Default badge variant. Use controls to explore all variants (primary, secondary, success, warning, danger, active, outline) or custom colors.",
-        },
+  docs: {
+    description: {
+      story: "Default badge with comprehensive controls. Explore all variants, sizes, and configurations using the controls panel.",
     },
+  },
 };
 
-export const StatusBadges = () => {
-    return `
-        <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap; align-items: center;">
-            <labs-badge label="Success" variant="success"></labs-badge>
-            <labs-badge label="Warning" variant="warning"></labs-badge>
-            <labs-badge label="Danger" variant="danger"></labs-badge>
-            <labs-badge label="Active" variant="active"></labs-badge>
-        </div>
-    `;
-};
-StatusBadges.parameters = {
-    docs: {
-        description: {
-            story: "Common status variants for system states and user feedback. Each variant has semantic meaning and appropriate colors.",
-        },
-    },
+export const Primary = Template.bind({});
+Primary.args = {
+  label: "Important",
+  variant: "primary",
 };
 
-export const CustomColors = () => {
-    return `
-        <div style="display: flex; gap: var(--space-sm); flex-wrap: wrap; align-items: center;">
-            <labs-badge label="Purple" color="#8b5cf6"></labs-badge>
-            <labs-badge label="Orange" color="#f97316"></labs-badge>
-            <labs-badge label="Teal" color="#0d9488"></labs-badge>
-            <labs-badge label="Pink" color="#ec4899"></labs-badge>
-        </div>
-    `;
-};
-CustomColors.parameters = {
-    docs: {
-        description: {
-            story: "Badges with custom background colors. Text color is automatically calculated for optimal contrast.",
-        },
-    },
+export const Secondary = Template.bind({});
+Secondary.args = {
+  label: "Draft",
+  variant: "secondary",
 };
 
-const BadgeVariantsTemplate = () => {
+export const Success = Template.bind({});
+Success.args = {
+  label: "Complete",
+  variant: "success",
+};
+
+export const Warning = Template.bind({});
+Warning.args = {
+  label: "Pending",
+  variant: "warning",
+};
+
+export const Error = Template.bind({});
+Error.args = {
+  label: "Failed",
+  variant: "error",
+};
+
+export const Small = Template.bind({});
+Small.args = {
+  label: "Small",
+  variant: "primary",
+  size: "small",
+};
+
+export const Large = Template.bind({});
+Large.args = {
+  label: "Large",
+  variant: "primary",
+  size: "large",
+};const BadgeVariantsTemplate = () => {
     return `
         <style>
             .badge-demo {

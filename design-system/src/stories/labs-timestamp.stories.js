@@ -77,40 +77,6 @@ Default.parameters = {
   },
 };
 
-export const FormatExamples = () => {
-  const now = new Date();
-  const morning = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 15);
-
-  return `
-    <div style="display: flex; gap: 2rem; justify-content: center; align-items: center; flex-wrap: wrap; padding: 2rem;">
-      <div style="text-align: center; padding: 1rem; border: 1px solid var(--color-outline); border-radius: 8px;">
-        <div style="margin-bottom: 0.5rem; font-weight: bold;">Time Format</div>
-        <labs-timestamp datetime="${morning.toISOString()}" format="time"></labs-timestamp>
-        <div style="font-size: var(--font-size-small); color: var(--color-text-secondary); margin-top: 0.5rem;">H:MM AM/PM</div>
-      </div>
-      
-      <div style="text-align: center; padding: 1rem; border: 1px solid var(--color-outline); border-radius: 8px;">
-        <div style="margin-bottom: 0.5rem; font-weight: bold;">Date Header</div>
-        <labs-timestamp datetime="${now.toISOString()}" format="date-header"></labs-timestamp>
-        <div style="font-size: var(--font-size-small); color: var(--color-text-secondary); margin-top: 0.5rem;">Full date</div>
-      </div>
-      
-      <div style="text-align: center; padding: 1rem; border: 1px solid var(--color-outline); border-radius: 8px;">
-        <div style="margin-bottom: 0.5rem; font-weight: bold;">Short Date</div>
-        <labs-timestamp datetime="${now.toISOString()}" format="short-date"></labs-timestamp>
-        <div style="font-size: var(--font-size-small); color: var(--color-text-secondary); margin-top: 0.5rem;">Month Day</div>
-      </div>
-    </div>
-  `;
-};
-FormatExamples.parameters = {
-  docs: {
-    description: {
-      story: "Quick comparison of all timestamp formats: time (H:MM AM/PM), date-header (full date), and short-date (Month Day). Each format serves specific UI needs.",
-    },
-  },
-};
-
 const TimestampVariantsTemplate = () => {
   // Create sample times throughout the day
   const now = new Date();

@@ -115,72 +115,55 @@ Default.args = {
 Default.parameters = {
   docs: {
     description: {
-      story: "The default primary button. Use the controls to explore all variants and configurations.",
+      story: "Default primary button with comprehensive controls. Explore all options using the controls panel to see real-time changes and copy the generated code.",
     },
   },
 };
 
-export const AllVariants = Template.bind({});
-AllVariants.args = {
-  label: "Try all variants",
-  variant: "primary"
-};
-AllVariants.parameters = {
-  docs: {
-    description: {
-      story: "Use the variant control to see all button styles: primary, secondary, danger, transparent, container, container-danger, and icon.",
-    },
-  },
+export const Secondary = Template.bind({});
+Secondary.args = {
+  label: "Secondary Button",
+  variant: "secondary"
 };
 
-export const WithIcons = Template.bind({});
-WithIcons.args = {
-  label: "Save",
-  icon: "check",
-  variant: "primary",
-  checkmark: true
+export const Danger = Template.bind({});
+Danger.args = {
+  label: "Delete",
+  variant: "danger",
+  icon: "delete_forever"
 };
-WithIcons.parameters = {
-  docs: {
-    description: {
-      story: "Buttons with icons support checkmark animations and color customization.",
-    },
-  },
+
+export const Transparent = Template.bind({});
+Transparent.args = {
+  label: "Cancel",
+  variant: "transparent"
+};
+
+export const Container = Template.bind({});
+Container.args = {
+  label: "Settings",
+  variant: "container",
+  icon: "settings"
 };
 
 export const IconOnly = Template.bind({});
 IconOnly.args = {
-  icon: "settings",
-  variant: "icon"
+  label: "Add",
+  variant: "icon",
+  icon: "add"
 };
-IconOnly.parameters = {
-  docs: {
-    description: {
-      story: "Icon-only buttons for persistent UI elements. Use variant='icon' for circular style.",
-    },
-  },
+
+export const WithIcons = Template.bind({});
+WithIcons.args = {
+  label: "Save Changes",
+  variant: "primary",
+  icon: "check"
 };
 
 export const ThemeToggle = Template.bind({});
 ThemeToggle.args = {
+  label: "Dark Mode",
+  variant: "transparent",
+  icon: "bedtime",
   preset: "themeToggle"
-};
-ThemeToggle.parameters = {
-  docs: {
-    description: {
-      story: "Pre-configured theme toggle button. Try other presets like 'add', 'save', 'delete', etc.",
-    },
-  },
-};
-
-export const DangerActions = Template.bind({});
-DangerActions.args = {
-  preset: "delete"
-};
-DangerActions.parameters = {
-  docs: {
-    description: {
-      story: "Destructive actions with danger styling. Also try 'resetAllData' preset.",
-    },
-  },
 };

@@ -93,42 +93,6 @@ Default.parameters = {
   },
 };
 
-export const InputTypes = () => {
-  setTimeout(() => {
-    document.addEventListener('labs-input', (e) => {
-      console.log('Input changed:', e.detail.value);
-    });
-  }, 100);
-
-  return `
-    <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; padding: 2rem;">
-      <div style="min-width: 200px;">
-        <div style="margin-bottom: 0.5rem; font-weight: bold;">Text Input</div>
-        <labs-input placeholder="Enter text..." type="text"></labs-input>
-      </div>
-      <div style="min-width: 200px;">
-        <div style="margin-bottom: 0.5rem; font-weight: bold;">Search Input</div>
-        <labs-input placeholder="Search..." type="search"></labs-input>
-      </div>
-      <div style="min-width: 200px;">
-        <div style="margin-bottom: 0.5rem; font-weight: bold;">Email Input</div>
-        <labs-input placeholder="email@example.com" type="email"></labs-input>
-      </div>
-      <div style="min-width: 200px;">
-        <div style="margin-bottom: 0.5rem; font-weight: bold;">Disabled State</div>
-        <labs-input placeholder="Cannot edit" value="Read-only" disabled></labs-input>
-      </div>
-    </div>
-  `;
-};
-InputTypes.parameters = {
-  docs: {
-    description: {
-      story: "Different input types and states showing semantic HTML types (text, search, email) and disabled state for accessibility and browser features.",
-    },
-  },
-};
-
 const InputVariantsTemplate = () => {
   setTimeout(() => {
     document.addEventListener('labs-input', (e) => {
@@ -202,11 +166,49 @@ const InputVariantsTemplate = () => {
   `;
 };
 
-export const AllVariants = InputVariantsTemplate.bind({});
-AllVariants.parameters = {
+export const Default = Template.bind({});
+Default.args = {
+  placeholder: "Enter text here...",
+  value: "",
+  maxlength: 100,
+  type: "text",
+  disabled: false,
+};
+Default.parameters = {
   docs: {
     description: {
-      story: "Comprehensive showcase of input component usage patterns with proper labeling, different types (task, search, email, URL), and accessibility considerations for real-world applications.",
+      story: "Default input component with design system styling. Use controls to explore all input types and attributes.",
     },
   },
+};
+
+export const Text = Template.bind({});
+Text.args = {
+  placeholder: "Enter text...",
+  type: "text",
+};
+
+export const Email = Template.bind({});
+Email.args = {
+  placeholder: "email@example.com",
+  type: "email",
+};
+
+export const Password = Template.bind({});
+Password.args = {
+  placeholder: "Enter password...",
+  type: "password",
+};
+
+export const Search = Template.bind({});
+Search.args = {
+  placeholder: "Search...",
+  type: "search",
+};
+
+export const Disabled = Template.bind({});
+Disabled.args = {
+  placeholder: "Cannot edit",
+  value: "Read-only content",
+  disabled: true,
 };

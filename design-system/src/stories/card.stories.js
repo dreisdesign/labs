@@ -36,31 +36,21 @@ export default {
 
 // Basic Examples
 export const Default = {
-  args: {
-    title: "Default Card",
-    subtitle: "Standard card styling with subtle background",
-    variant: "default",
-    width: "auto"
-  },
+  render: (args) => `
+    <div class="card">
+      <p>This is a default card using the design system styling. Clean, minimal, and uses CSS custom properties for theming.</p>
+    </div>
+  `,
   parameters: {
     docs: {
       description: {
-        story: "Default card component with comprehensive controls. Use variant selector to explore all card types (default, elevated, stats, header, outline, clickable) and width options (auto, full, constrained, custom).",
+        story: "Default card component with design system styling. Uses CSS custom properties for theming and consistent spacing/borders.",
       },
     },
   },
-  render: (args) => `
-    <labs-card 
-      title="${args.title}" 
-      subtitle="${args.subtitle}"
-      variant="${args.variant}"
-      width="${args.width}">
-      <p>This is the default card variant with a subtle background and border. Perfect for general content containers and information displays.</p>
-    </labs-card>
-  `
 };
 
-export const CardVariants = () => `
+const CardVariantsTemplate = () => `
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
       <labs-card title="Default" subtitle="Standard styling" variant="default" width="full">
         <p style="margin: 0;">Subtle background with border, perfect for general content.</p>
@@ -94,10 +84,19 @@ export const CardVariants = () => `
       </p>
     </labs-card>
 `;
-CardVariants.parameters = {
+CardVariantsTemplate.parameters = {
   docs: {
     description: {
       story: "All card variants showcasing different visual styles: default (subtle), elevated (shadow), stats (data display), clickable (interactive), and header (section titles).",
+    },
+  },
+};
+
+export const AllVariants = CardVariantsTemplate.bind({});
+AllVariants.parameters = {
+  docs: {
+    description: {
+      story: "Card component variants showing different states (default, elevated, outline) and content types. Each variant serves specific UI purposes with consistent spacing and theming.",
     },
   },
 };

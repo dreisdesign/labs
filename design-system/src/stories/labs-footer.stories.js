@@ -1,7 +1,7 @@
 import "../components/labs-footer.js";
 
 export default {
-  title: "Components/Footer",
+  title: "Patterns/Footer",
   component: "labs-footer",
   tags: ['autodocs'],
   parameters: {

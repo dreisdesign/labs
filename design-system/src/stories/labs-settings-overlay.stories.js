@@ -1,12 +1,12 @@
 import "../components/labs-settings-overlay.js";
 
 export default {
-    title: "Components/Settings Overlay",
-    component: "labs-settings-overlay",
-    parameters: {
-        docs: {
-            description: {
-                component: `
+  title: "Components/Settings Overlay",
+  component: "labs-settings-overlay",
+  parameters: {
+    docs: {
+      description: {
+        component: `
 A modal overlay component for settings and configuration options with a glassmorphic backdrop.
 
 ## Features
@@ -42,14 +42,14 @@ overlay.close(); // Hide the overlay
 - \`settings\`: Additional Settings
 - \`reset\`: Reset Data (danger action)
         `,
-            },
-        },
+      },
     },
+  },
 };
 
 export const Default = () => {
-    const container = document.createElement("div");
-    container.style.cssText = `
+  const container = document.createElement("div");
+  container.style.cssText = `
     min-height: 100vh;
     background: var(--color-background);
     display: flex;
@@ -58,85 +58,96 @@ export const Default = () => {
     padding: 2rem;
   `;
 
-    container.innerHTML = `
-    <div style="text-align: center;">
-      <h2 style="color: var(--color-on-background); margin-bottom: 1rem;">Settings Overlay Demo</h2>
-      <p style="color: var(--color-on-background); opacity: 0.8; margin-bottom: 2rem;">
-        Click the button below to open the settings overlay
-      </p>
-      <button id="openSettings" style="
-        background: var(--color-primary);
-        color: var(--color-on-primary);
-        border: none;
-        padding: 0.75rem 1.5rem;
-        border-radius: 0.5rem;
-        cursor: pointer;
-        font-size: 1rem;
-      ">Open Settings</button>
+  container.innerHTML = `
+    <div>
+      <h2 style="text-align: center; margin-bottom: 2rem;">Settings Overlay Demo</h2>
+      <button 
+        id="openOverlay"
+        style="
+          padding: 16px 32px;
+          background: var(--color-primary);
+          color: var(--color-on-primary);
+          border: none;
+          border-radius: 8px;
+          font-size: 16px;
+          cursor: pointer;
+          box-shadow: var(--shadow-elevation-medium);
+        "
+      >
+        Open Settings
+      </button>
     </div>
-    
-    <labs-settings-overlay id="settingsOverlay"></labs-settings-overlay>
+    <labs-settings-overlay></labs-settings-overlay>
   `;
 
-    const openButton = container.querySelector('#openSettings');
-    const overlay = container.querySelector('#settingsOverlay');
+  setTimeout(() => {
+    const overlay = container.querySelector("labs-settings-overlay");
+    const openButton = container.querySelector("#openOverlay");
 
-    if (openButton && overlay) {
-        openButton.addEventListener('click', () => {
-            overlay.open();
-        });
+    openButton.addEventListener("click", () => {
+      overlay.open();
+    });
 
-        overlay.addEventListener('action-click', (e) => {
-            const action = e.detail.action;
+    overlay.addEventListener('action', (e) => {
+      console.log('Settings action:', e.detail.action);
+      alert(`Action: ${e.detail.action}`);
+    });
 
-            if (action === 'theme-toggle') {
-                // Don't show alert for theme toggle - it's handled automatically by the component
-                // Don't close overlay for theme toggle - it's a toggle action
-            } else {
-                alert(`Action clicked: ${action}`);
-                // Close overlay after other actions
-                overlay.close();
-            }
-        }); overlay.addEventListener('overlay-close', () => {
-            console.log('Settings overlay closed');
-        });
-    }
+    overlay.addEventListener('overlay-close', () => {
+      console.log('Settings overlay closed');
+    });
+  }, 100);
 
-    return container;
+  return container;
+};
+Default.parameters = {
+  docs: {
+    description: {
+      story: "Default settings overlay component. Click button to open and explore all actions (apps, theme-toggle, settings, reset). Provides modular settings interface with action events.",
+    },
+  },
 };
 
-export const AlwaysOpen = () => {
-    const container = document.createElement("div");
-    container.style.cssText = `
+const SettingsOverlayVariantsTemplate = () => {
+  const container = document.createElement("div");
+  container.style.cssText = `
     min-height: 100vh;
     background: var(--color-background);
     position: relative;
   `;
 
-    container.innerHTML = `
+  container.innerHTML = `
     <div style="position: absolute; top: 2rem; left: 2rem; z-index: 1001;">
       <h2 style="color: var(--color-on-primary); margin-bottom: 0.5rem; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">Always Open Demo</h2>
       <p style="color: var(--color-on-primary); opacity: 0.9; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">
-        This shows the overlay in its open state
+        This shows the overlay in its open state for easier inspection
       </p>
     </div>
-    
     <labs-settings-overlay active></labs-settings-overlay>
   `;
 
-    const overlay = container.querySelector('labs-settings-overlay');
+  const overlay = container.querySelector('labs-settings-overlay');
 
-    if (overlay) {
-        overlay.addEventListener('action-click', (e) => {
-            const action = e.detail.action;
-            alert(`Action clicked: ${action}`);
-        });
+  if (overlay) {
+    overlay.addEventListener('action-click', (e) => {
+      const action = e.detail.action;
+      alert(`Action clicked: ${action}`);
+    });
 
-        overlay.addEventListener('overlay-close', () => {
-            // Re-open immediately for demo purposes
-            setTimeout(() => overlay.open(), 100);
-        });
-    }
+    overlay.addEventListener('overlay-close', () => {
+      // Re-open immediately for demo purposes
+      setTimeout(() => overlay.open(), 100);
+    });
+  }
 
-    return container;
+  return container;
+};
+
+export const AllVariants = SettingsOverlayVariantsTemplate.bind({});
+AllVariants.parameters = {
+  docs: {
+    description: {
+      story: "Settings overlay variants showing always-open state for easier inspection. Demonstrates all action buttons and automatically re-opens when closed for demo purposes.",
+    },
+  },
 };
