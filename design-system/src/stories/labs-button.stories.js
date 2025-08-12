@@ -10,7 +10,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: "The comprehensive button component of the Labs Design System. Supports all variants, icons, theme toggles, and interactive states. Use the controls below to explore all possibilities or the 'Show code' feature to get copy-ready HTML.",
+        component: "The comprehensive button component of the Labs Design System. Supports all variants, icons, theme toggles, and interactive states. Only the top button is interactive—use the controls panel to explore all options and copy the generated code.",
       },
     },
   },
@@ -109,12 +109,17 @@ const Template = (args) => {
 export const Primary = Template.bind({});
 Primary.args = {
   label: "Button",
-  variant: "primary"
+  variant: "primary",
+  iconLeft: "",
+  iconRight: "",
+  container: false,
+  checkmark: false,
+  preset: ""
 };
 Primary.parameters = {
   docs: {
     description: {
-      story: "Primary button with comprehensive controls. Explore all options using the controls panel to see real-time changes and copy the generated code.",
+      story: "Primary button with comprehensive controls. Only the top button is interactive—use the controls panel to see real-time changes and copy the generated code.",
     },
   },
 };
@@ -122,47 +127,76 @@ Primary.parameters = {
 export const Secondary = Template.bind({});
 Secondary.args = {
   label: "Secondary Button",
-  variant: "secondary"
+  variant: "secondary",
+  iconLeft: "",
+  iconRight: "",
+  container: false,
+  checkmark: false,
+  preset: ""
 };
 
 export const Danger = Template.bind({});
 Danger.args = {
   label: "Delete",
   variant: "danger",
-  icon: "delete_forever"
+  iconLeft: "delete_forever",
+  iconRight: "",
+  container: false,
+  checkmark: false,
+  preset: ""
 };
 
 export const Transparent = Template.bind({});
 Transparent.args = {
   label: "Cancel",
-  variant: "transparent"
+  variant: "transparent",
+  iconLeft: "",
+  iconRight: "",
+  container: false,
+  checkmark: false,
+  preset: ""
 };
 
 export const Container = Template.bind({});
 Container.args = {
   label: "Settings",
   variant: "container",
-  icon: "settings"
+  iconLeft: "settings",
+  iconRight: "",
+  container: true,
+  checkmark: false,
+  preset: ""
 };
 
 export const IconOnly = Template.bind({});
 IconOnly.args = {
   label: "Add",
   variant: "icon",
-  icon: "add"
+  iconLeft: "add",
+  iconRight: "",
+  container: false,
+  checkmark: false,
+  preset: ""
 };
 
 export const WithIcons = Template.bind({});
 WithIcons.args = {
   label: "Save Changes",
   variant: "primary",
-  icon: "check"
+  iconLeft: "check",
+  iconRight: "",
+  container: false,
+  checkmark: false,
+  preset: ""
 };
 
 export const ThemeToggle = Template.bind({});
 ThemeToggle.args = {
   label: "Dark Mode",
   variant: "transparent",
-  icon: "bedtime",
+  iconLeft: "bedtime",
+  iconRight: "",
+  container: false,
+  checkmark: false,
   preset: "themeToggle"
 };

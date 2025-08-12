@@ -25,6 +25,11 @@ This document tracks new features, improvements, and remaining tasks for the Lab
   - Add more alert variants (info, success, error, etc.)
   - Ensure proper icon and color usage for each variant
 - Improve overlay and alert documentation/examples in Storybook
+- **Storybook Controls/UX Review:**
+  - Remove all legacy `icon` args/controls from button stories (use only `iconLeft`/`iconRight`)
+  - Ensure all boolean/select controls have explicit defaults to avoid "Set Boolean"
+  - Regularly review story descriptions and controls for accuracy and clarity
+  - Keep FEATURES-TODO.md updated with new findings and review tasks
 
 ---
 
