@@ -3,7 +3,7 @@ import "./labs-icon.js";
 
 class LabsButton extends HTMLElement {
   static get observedAttributes() {
-    return ["variant", "icon", "icon-right", "checkmark", "label", "iconcolor"];
+    return ["variant", "icon-left", "icon-right", "checkmark", "label"];
   }
 
   constructor() {
@@ -53,7 +53,7 @@ class LabsButton extends HTMLElement {
   attributeChangedCallback() {
     console.log("[LabsButton] attributeChangedCallback:", {
       variant: this.getAttribute("variant"),
-      icon: this.getAttribute("icon"),
+      iconLeft: this.getAttribute("icon-left"),
       iconRight: this.getAttribute("icon-right"),
       checkmark: this.getAttribute("checkmark"),
       label: this.getAttribute("label"),
@@ -87,26 +87,9 @@ class LabsButton extends HTMLElement {
     const labelRaw = this.getAttribute("label") || "";
     const label = labelRaw.toLowerCase();
     const variant = this.getAttribute("variant") || "primary";
-    let iconColor = this.getAttribute("iconcolor") || "";
-    // If iconColor is a CSS variable (token), resolve it to a real value
-    if (iconColor.startsWith('var(')) {
-      const temp = document.createElement('div');
-      temp.style.color = iconColor;
-      document.body.appendChild(temp);
-      iconColor = getComputedStyle(temp).color;
-      document.body.removeChild(temp);
-    }
-    // Default: icon color matches text color
-    let iconColorActive = iconColor;
-    // Save and Add: use on-primary color for icon (same as text)
-    if (["add", "save"].includes(label)) {
-      iconColor = "var(--color-on-primary)";
-      iconColorActive = "var(--color-on-primary)";
-    } else if (["icon left", "icon right"].includes(label)) {
-      iconColorActive = "var(--color-on-surface, #000000)";
-    } else if (["settings", "default"].includes(label)) {
-      iconColorActive = "var(--color-on-primary, #ffffff)";
-    }
+    // Icon color is now determined by theme and variant, not by control
+    let iconColor = "";
+    let iconColorActive = "";
     // Map legacy icon names to icon registry keys
     const mapIconName = (name) => {
       if (!name) return "";
@@ -117,7 +100,7 @@ class LabsButton extends HTMLElement {
         .replace(/-/g, "_");
     };
 
-    const icon = mapIconName(this.getAttribute("icon"));
+    const icon = mapIconName(this.getAttribute("icon-left"));
     let iconRight = mapIconName(this.getAttribute("icon-right"));
     // Only use the default icon if the attribute 'default-icon-right' is present and icon-right is not set
     if (!iconRight && this.hasAttribute("default-icon-right")) {
@@ -487,7 +470,7 @@ class LabsButton extends HTMLElement {
       <button class="labs-button ${variant}" part="button"
         data-buttontype="${buttonType}"
         style="--icon-active-color: ${iconColorActive}; ${addIconColorVar}">
-        ${icon ? `<labs-icon class="labs-icon" name="${icon}" color="${iconColor}"></labs-icon>` : ""}
+  ${icon ? `<labs-icon class="labs-icon" name="${icon}"></labs-icon>` : ""}
         <span class="labs-label">${labelRaw}</span>
         ${iconRight ? `<labs-icon class="labs-icon" name="${iconRight}" color="${iconColor}"></labs-icon>` : ""}
         ${checkmark ? `<span class="labs-checkmark"><labs-icon name="check" class="labs-icon" color="${iconColor || "white"}"></labs-icon></span>` : ""}

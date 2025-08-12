@@ -3,7 +3,7 @@
 ## 🎨 Theme System
 
 ### Global Theme Switching
-- **Storybook Integration:** Built-in theme switcher in toolbar using `@storybook/addon-themes`
+- **Storybook Integration:** Built-in theme switcher in toolbar using `@storybook/addon-themes` (v9.1.2)
 - **CSS Classes:** `theme-light` and `theme-dark` applied to document body
 - **Storage:** Automatic localStorage persistence with system preference fallback
 - **Inheritance:** CSS custom properties cascade properly through shadow DOM
@@ -98,6 +98,10 @@ const customSave = createButton('save', {
 - Theme-aware colors
 - Touch-friendly sizing
 - Accessibility support
+
+---
+**Note:**
+Labs Design System and Storybook are now on v9.1.2. If you see version mismatch or upgrade banners, see the troubleshooting section in `FEATURES-TODO.md`.
 
 ### labs-icon
 **Features:**

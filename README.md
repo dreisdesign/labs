@@ -104,11 +104,15 @@ npm run deploy
 
 ## 🔧 Technical Stack
 
-- **Web Components** - Native browser APIs, no framework lock-in
-- **Lit** - Lightweight web component base class
-- **Storybook v9.1.1** - Component development and documentation
-- **Vite** - Fast build tool and development server
-- **GitHub Pages** - Static site hosting and deployment
+**Web Components** - Native browser APIs, no framework lock-in
+**Lit** - Lightweight web component base class
+**Storybook v9.1.2** - Component development and documentation
+**Vite** - Fast build tool and development server
+**GitHub Pages** - Static site hosting and deployment
+
+---
+**Troubleshooting Storybook version issues?**
+See the new troubleshooting section in `design-system/FEATURES-TODO.md` for step-by-step fixes if the version or upgrade banner is wrong.
 
 ## 🏆 Recent Achievements
 

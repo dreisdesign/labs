@@ -21,15 +21,15 @@ export default {
       description: "Button text content",
       table: { category: "Content" }
     },
-    variant: {
-      control: { type: "select" },
-      options: ["primary", "secondary", "container", "container-danger", "danger", "icon", "transparent"],
-      description: "Button visual style and behavior",
+
+    container: {
+      control: "boolean",
+      description: "Use container style (full-width, overlay/panel)",
       table: { category: "Appearance" }
     },
 
     // === Icon Configuration ===
-    icon: {
+    iconLeft: {
       control: { type: "select" },
       options: [
         "", "add", "add_comment", "apps", "bedtime", "bedtime_off", "build",
@@ -37,7 +37,7 @@ export default {
         "delete_forever", "edit", "open_in_new", "rate_review", "settings",
         "undo", "refresh"
       ],
-      description: "Icon name (left side by default)",
+      description: "Icon name (left side)",
       table: { category: "Icons" }
     },
     iconRight: {
@@ -49,11 +49,6 @@ export default {
         "undo", "refresh"
       ],
       description: "Icon on the right side",
-      table: { category: "Icons" }
-    },
-    iconcolor: {
-      control: "color",
-      description: "Icon color (CSS value)",
       table: { category: "Icons" }
     },
 
@@ -84,24 +79,28 @@ const Template = (args) => {
     const config = buttonConfigs[args.preset];
     const attrs = [];
     if (config.label) attrs.push(`label="${config.label}"`);
-    if (config.variant && config.variant !== 'primary') attrs.push(`variant="${config.variant}"`);
-    if (config.icon) attrs.push(`icon="${config.icon}"`);
+    if (args.container || config.variant === 'container' || config.variant === 'container-danger') {
+      attrs.push(`variant="${config.variant}"`);
+    } else if (config.variant && config.variant !== 'primary') {
+      attrs.push(`variant="${config.variant}"`);
+    }
+    if (config.iconLeft) attrs.push(`icon-left="${config.iconLeft}"`);
     if (config.iconRight) attrs.push(`icon-right="${config.iconRight}"`);
     if (config.checkmark) attrs.push(`checkmark="${config.checkmark}"`);
-    if (config.iconcolor) attrs.push(`iconcolor="${config.iconcolor}"`);
-
     return `<labs-button ${attrs.join(' ')}></labs-button>`;
   }
 
   // Otherwise use manual args
   const attrs = [];
   if (args.label) attrs.push(`label="${args.label}"`);
-  if (args.variant && args.variant !== 'primary') attrs.push(`variant="${args.variant}"`);
-  if (args.icon) attrs.push(`icon="${args.icon}"`);
+  if (args.container) {
+    attrs.push(`variant="container"`);
+  } else if (args.variant && args.variant !== 'primary') {
+    attrs.push(`variant="${args.variant}"`);
+  }
+  if (args.iconLeft) attrs.push(`icon-left="${args.iconLeft}"`);
   if (args.iconRight) attrs.push(`icon-right="${args.iconRight}"`);
   if (args.checkmark) attrs.push(`checkmark="${args.checkmark}"`);
-  if (args.iconcolor) attrs.push(`iconcolor="${args.iconcolor}"`);
-
   return `<labs-button ${attrs.join(' ')}></labs-button>`;
 };
 
