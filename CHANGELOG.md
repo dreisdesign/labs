@@ -1,3 +1,5 @@
+### 🛠️ Technical Enhancements
+- **Menu-Driven Workflow & AI Chat Policy** - Adopted explicit, menu-driven workflow and AI Chat task continuation policy for all development and documentation. See `.github/instructions/development-workflow.instructions.md` for details.
 # 📋 Labs Project Changelog
 
 > **Global project updates, releases, and major milestones**

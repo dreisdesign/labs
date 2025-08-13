@@ -1,5 +1,18 @@
 # Focus Timer v2.4.2
 
+---
+## 🛠️ Development Workflow & AI Chat Policy
+
+For development, use the menu-driven workflow for consistency and automation:
+
+```bash
+echo "1" | npm run menu
+```
+
+See [Development Workflow Instructions](../../.github/instructions/development-workflow.instructions.md) for the latest workflow and AI Chat task continuation policy. All contributors should follow the explicit options and completion logic described there.
+
+---
+
 A beautifully designed, minimalist Focus Timer Progressive Web App (PWA). Built with vanilla HTML, CSS, and JavaScript for a distraction-free focus experience that works as a standalone app on any device.
 
 ## Features

@@ -1,5 +1,13 @@
 # 🆕 Feature & Task Wrangling Doc
 
+---
+## 🛠️ Development Workflow & AI Chat Policy
+
+See [Development Workflow Instructions](../../.github/instructions/development-workflow.instructions.md) for the latest menu-driven workflow and AI Chat task continuation policy. All contributors should follow the explicit options and completion logic described there.
+
+---
+# 🆕 Feature & Task Wrangling Doc
+
 ## Purpose
 This document tracks new features, improvements, and remaining tasks for the Labs Design System and Storybook UI. Use this as the single source of truth for ongoing and upcoming work.
 
@@ -25,11 +33,18 @@ This document tracks new features, improvements, and remaining tasks for the Lab
   - Add more alert variants (info, success, error, etc.)
   - Ensure proper icon and color usage for each variant
 - Improve overlay and alert documentation/examples in Storybook
-- **Storybook Controls/UX Review:**
-  - Remove all legacy `icon` args/controls from button stories (use only `iconLeft`/`iconRight`)
-  - Ensure all boolean/select controls have explicit defaults to avoid "Set Boolean"
-  - Regularly review story descriptions and controls for accuracy and clarity
-  - Keep FEATURES-TODO.md updated with new findings and review tasks
+
+#### Button System & Storybook Controls Refactor (Planned)
+- Refactor button stories and controls:
+  - Use a `variant` select control for color combos (primary, secondary, danger, transparent)
+  - Remove `container` from variants; make it a boolean control
+  - Ensure `checkmark` is a boolean control
+  - Make "icon only" a type (if label is empty, or as a toggle)
+  - Keep presets for quick access, but allow full manual control
+- Update Storybook Docs page to allow customizing variant, container, checkmark, icons, and label
+- Sidebar stories can remain for quick demos, but Docs should be the main playground
+- Clarify in docs that variants are color/style only; container is a layout control
+- Update all docs and usage examples to match new button system
 
 ---
 

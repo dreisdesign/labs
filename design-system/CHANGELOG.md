@@ -1,3 +1,5 @@
+### 🛠️ Technical Improvements
+- **Menu-Driven Workflow & AI Chat Policy** - Adopted explicit, menu-driven workflow and AI Chat task continuation policy for all design system development. See `.github/instructions/development-workflow.instructions.md` for details.
 # Labs Design System Changelog
 
 ## [v2.1.3] - 2025-08-12 - Alert Flash Prevention & Storybook v9.1.2

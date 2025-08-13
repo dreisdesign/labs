@@ -87,7 +87,29 @@ npm run deploy
 - **Shared Design Language** - Consistent UI across all apps
 - **No Framework Dependencies** - Vanilla JavaScript with Web Components
 
-## 🛠️ Development Workflow
+
+## 🛠️ Development Workflow & AI Chat Policy
+
+### Menu-Driven Workflow (Recommended)
+All development and testing should use the menu-driven workflow for consistency and automation:
+
+```bash
+echo "1" | npm run menu
+```
+
+This ensures the correct environment, auto-port-kill, and the interactive "continue" button in the VS Code terminal. Avoid using `npm run menu` alone for AI-driven workflows.
+
+### Explicit AI Chat Task Continuation Policy
+For all AI-driven development, the assistant will:
+- Always provide explicit, numbered options for next steps
+- Only prompt for completion when all tasks are truly complete
+- Never end a turn without either fully completing all tasks or providing the next actionable step
+- See `.github/instructions/development-workflow.instructions.md` for the full policy and details
+
+**Reference:** See [Development Workflow Instructions](.github/instructions/development-workflow.instructions.md) for the latest workflow and AI Chat guidelines.
+
+---
+
 
 ### **Enhanced Build System**
 - **Auto-Port-Kill** - Seamless development without port conflicts

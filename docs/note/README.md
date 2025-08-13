@@ -1,5 +1,18 @@
 # DailyNote
 
+---
+## 🛠️ Development Workflow & AI Chat Policy
+
+For development, use the menu-driven workflow for consistency and automation:
+
+```bash
+echo "1" | npm run menu
+```
+
+See [Development Workflow Instructions](../../.github/instructions/development-workflow.instructions.md) for the latest workflow and AI Chat task continuation policy. All contributors should follow the explicit options and completion logic described there.
+
+---
+
 A simple note-taking app that clears at the end of each day. Perfect for daily thoughts, tasks, or reminders.
 
 ## Features

@@ -1,5 +1,29 @@
 # Design System v2.0 Features & API
 
+---
+## 🛠️ Development Workflow & AI Chat Policy
+
+### Menu-Driven Workflow (Recommended)
+Use the menu-driven workflow for all Storybook and design system development:
+
+```bash
+echo "1" | npm run menu
+```
+
+This ensures the correct environment, auto-port-kill, and the interactive "continue" button in the VS Code terminal. Avoid using `npm run menu` alone for AI-driven workflows.
+
+### Explicit AI Chat Task Continuation Policy
+For all AI-driven development, the assistant will:
+- Always provide explicit, numbered options for next steps
+- Only prompt for completion when all tasks are truly complete
+- Never end a turn without either fully completing all tasks or providing the next actionable step
+- See `.github/instructions/development-workflow.instructions.md` for the full policy and details
+
+**Reference:** See [Development Workflow Instructions](../.github/instructions/development-workflow.instructions.md) for the latest workflow and AI Chat guidelines.
+
+---
+# Design System v2.0 Features & API
+
 ## 🎨 Theme System
 
 ### Global Theme Switching
