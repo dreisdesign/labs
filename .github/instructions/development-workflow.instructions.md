@@ -1,3 +1,22 @@
+
+### **AI Chat Task Continuation Policy**
+
+- **After completing a task, always review the conversation for any recently discussed but incomplete tasks.**
+- **If there are pending tasks, immediately return to them and provide the next command, step, or context needed to continue.**
+- **Never end your turn without either fully completing all tasks or clearly providing the next actionable step for the user.**
+		- **After completing a task (and only when you believe the task is fully complete), always ask the user to confirm if the task is complete, and provide actionable next-step options such as:**
+		- **1. Yes, review and provide next steps**
+		- **2. No, keep trying**
+		- **3. No, review and consider more options**
+		- **4. Return to previous work (list recent tasks that would make sense to return to)**
+        - **5. Update documentation and commit changes
+                    ** AI Chat: If user chooses "5", search for relevant documentation to update, then proceed.
+			- *(Options can be dynamic and context-aware as appropriate)*
+				- **If there are options, always provide them as explicit numbered choices for the user to pick.**
+					- **At the end of the options, add:**
+						- *Choose an option like "1" or "2" or say "c" to continue with something else.*
+                           - **If the user picks "c" continue with the next logical step in the conversation.**
+
 ---
 applyTo: '**'
 ---
@@ -8,19 +27,23 @@ applyTo: '**'
 
 ## 🚀 **Quick Start Commands**
 
+
+
 ### **Menu-Driven Development (Recommended)**
+
+**AI Chat: Always use the following command to ensure the menu item is pre-selected and the interactive "continue" button is shown in the terminal:**
+
 ```bash
-# Interactive menu with all options
-npm run menu
-
-# Then select:
-# Option 1: Local Storybook development
-# Option 2: Build and deploy to GitHub Pages
-
-# Or use direct menu commands:
-echo "1" | npm run menu    # Start local development
-echo "2" | npm run menu    # Build and deploy to production
+echo "1" | npm run menu
 ```
+
+This is the default and preferred workflow for all AI-driven development and testing. It guarantees:
+- The menu runs with option 1 pre-selected (local development)
+- The "continue" button is always provided in the VS Code terminal for the next step
+
+> **Important:** If you do not see the "continue" button, make sure you are using the built-in VS Code terminal. This is the only supported and tested environment for interactive prompts.
+
+**Never use `npm run menu` alone for AI-driven workflows.** That command requires manual selection and does not guarantee the "continue" button will appear.
 
 ### **Direct Commands (Available as fallback)**
 ```bash
@@ -86,11 +109,12 @@ npm run deploy
 - **Hierarchical organization** - Main → Project → Component docs
 - **Archive outdated content** - Keep only current, relevant docs
 
-## 🤖 **AI Assistant Guidelines**
+
+### **AI Assistant Guidelines**
 
 ### **Command Preferences**
-- **Use menu system** - `npm run menu` for all Storybook operations
-- **Direct menu commands** - Use `echo "1" | npm run menu` for local dev, `echo "2" | npm run menu` for deployment
+- **Use menu system** - `npm run menu` for all Storybook operations (shows "continue" button and interactive prompts)
+- **Direct menu commands** - Use `echo "1" | npm run menu` for local dev, `echo "2" | npm run menu` for deployment (no interactive prompt)
 - **Avoid new terminals** - Use existing sessions when possible
 - **Reference documentation** - Use main README and design system docs for project overview
 
@@ -99,6 +123,10 @@ npm run deploy
 2. **Use menu commands** - Interactive interface for common tasks
 3. **Commit frequently** - Document changes and progress
 4. **Deploy automatically** - Menu option 2 for production updates
+
+### **AI Assistant Response Policy**
+- **Always proceed with clear solutions:**
+	- When the user asks a question and you have a clear solution, proceed with the solution directly rather than asking for confirmation. Take action to resolve the user's request efficiently.
 
 ## 🎯 **Current Development Priorities**
 
