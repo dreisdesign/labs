@@ -3,7 +3,7 @@ import "./labs-icon.js";
 
 class LabsButton extends HTMLElement {
   static get observedAttributes() {
-    return ["variant", "icon-left", "icon-right", "checkmark", "label"];
+    return ["variant", "icon-left", "icon-right", "checkmark", "label", "size"];
   }
 
   constructor() {
@@ -58,6 +58,7 @@ class LabsButton extends HTMLElement {
       checkmark: this.getAttribute("checkmark"),
       label: this.getAttribute("label"),
       iconcolor: this.getAttribute("iconcolor"),
+      size: this.getAttribute("size"),
     });
     this.render();
   }
@@ -87,8 +88,9 @@ class LabsButton extends HTMLElement {
     const labelRaw = this.getAttribute("label") || "";
     const label = labelRaw.toLowerCase();
     const variant = this.getAttribute("variant") || "primary";
+    const size = this.getAttribute("size") || "lg";
     // Icon color is now determined by theme and variant, not by control
-    let iconColor = "";
+    let iconColor = this.getAttribute("iconcolor") || "";
     let iconColorActive = "";
     // Map legacy icon names to icon registry keys
     const mapIconName = (name) => {
@@ -111,6 +113,10 @@ class LabsButton extends HTMLElement {
     const buttonType = label.replace(/\s/g, "");
     // No special icon color variable for Add button
     const addIconColorVar = '';
+    // Determine if icon-only: size='sm' or label is empty and icon is present
+    const isIconOnly = size === "sm" || (!labelRaw && (icon || iconRight));
+    const sizeClass = isIconOnly ? "icon" : size === "lg" ? "large" : "";
+
     this.shadowRoot.innerHTML = `
       <style>
         :host { 
@@ -467,13 +473,13 @@ class LabsButton extends HTMLElement {
           display: inline-block !important;
         }
       </style>
-      <button class="labs-button ${variant}" part="button"
+      <button class="labs-button ${variant} ${sizeClass}" part="button"
         data-buttontype="${buttonType}"
         style="--icon-active-color: ${iconColorActive}; ${addIconColorVar}">
-  ${icon ? `<labs-icon class="labs-icon" name="${icon}"></labs-icon>` : ""}
-        <span class="labs-label">${labelRaw}</span>
-        ${iconRight ? `<labs-icon class="labs-icon" name="${iconRight}" color="${iconColor}"></labs-icon>` : ""}
-        ${checkmark ? `<span class="labs-checkmark"><labs-icon name="check" class="labs-icon" color="${iconColor || "white"}"></labs-icon></span>` : ""}
+  ${icon ? `<labs-icon class="labs-icon" name="${icon}"${iconColor ? ` color=\"${iconColor}\"` : ""}></labs-icon>` : ""}
+  <span class="labs-label">${labelRaw}</span>
+  ${iconRight ? `<labs-icon class="labs-icon" name="${iconRight}" color="${iconColor}"></labs-icon>` : ""}
+  ${checkmark ? `<span class="labs-checkmark"><labs-icon name="check" class="labs-icon" color="${iconColor || "white"}"></labs-icon></span>` : ""}
       </button>
     `;
 

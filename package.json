@@ -13,6 +13,7 @@
     "menu": "node scripts/menu.mjs"
   },
   "devDependencies": {
-    "inquirer": "^12.8.2"
+    "inquirer": "^12.8.2",
+    "svgo": "^4.0.0"
   }
 }

@@ -10,11 +10,11 @@
 		- **3. No, review and consider more options**
 		- **4. Return to previous work (list recent tasks that would make sense to return to)**
         - **5. Update documentation and commit changes
-                    ** AI Chat: If user chooses "5", search for relevant documentation to update, then proceed.
+                    ** AI Chat: If user chooses "5", Review git status and see what other documentation should be updated in #codebase.
 			- *(Options can be dynamic and context-aware as appropriate)*
 				- **If there are options, always provide them as explicit numbered choices for the user to pick.**
 					- **At the end of the options, add:**
-						- *Choose an option like "1" or "2" or say "c" to continue with something else.*
+						- *Choose an option like "1" or "2", "c" to continue with something else, or "r" to provide recommendations.*
                            - **If the user picks "c" continue with the next logical step in the conversation.**
 
 ---

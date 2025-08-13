@@ -67,4 +67,5 @@ const preview = {
 };
 
 import "../src/styles/main.css";
+
 export default preview;

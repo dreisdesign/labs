@@ -1,8 +1,3 @@
-/**
- * Pre-configured button combinations for common use cases
- * These provide "grab and go" button configurations
- */
-
 export const buttonConfigs = {
   // === Action Buttons ===
   add: {
@@ -83,6 +78,7 @@ export const buttonConfigs = {
     label: "All Apps",
     icon: "apps",
     variant: "transparent",
+    iconcolor: "var(--color-on-surface)",
     iconcolor: "var(--color-on-surface)",
   },
 
@@ -219,7 +215,7 @@ export const buttonConfigs = {
     icon: "edit",
     variant: "pill-secondary",
     iconcolor: "var(--color-primary)",
-  },
+  }
 };
 
 /**

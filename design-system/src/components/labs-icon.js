@@ -20,6 +20,7 @@ const ICON_BASE = (() => {
 })();
 const icons = {
     add: ICON_BASE + 'add--labs-icons.svg',
+    add_circle: ICON_BASE + 'add_circle--labs-icons.svg',
     add_comment: ICON_BASE + 'add_comment--labs-icons.svg',
     apps: ICON_BASE + 'apps--labs-icons.svg',
     bedtime: ICON_BASE + 'bedtime--labs-icons.svg',
@@ -42,6 +43,7 @@ const icons = {
     open_in_new: ICON_BASE + 'open_in_new--labs-icons.svg',
     rate_review: ICON_BASE + 'rate_review--labs-icons.svg',
     settings: ICON_BASE + 'settings--labs-icons.svg',
+    star: ICON_BASE + 'star--labs-icons.svg',
     undo: ICON_BASE + 'undo--labs-icons.svg'
 };
 
@@ -91,8 +93,10 @@ class LabsIcon extends HTMLElement {
 
   async render() {
 
+
     const iconName = this.getAttribute("name");
     let url = icons[iconName];
+    console.log('[labs-icon] render:', { iconName, url, icons });
 
     if (!url) {
       this.shadowRoot.innerHTML = "";
