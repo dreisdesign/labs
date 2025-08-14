@@ -1,3 +1,14 @@
+# 🗂️ v2.1.x - Documentation Consolidation & CSF3 Migration (August 2025)
+
+### 📝 Documentation Overhaul
+- **Single Source of Truth:** All design system, Storybook, and UI development docs consolidated into `docs/DEVELOPMENT.md`
+- **Legacy Docs Archived:** Old migration, features, and sprint docs moved to `_dev/_archive`
+- **README Updated:** Main README now points to the new development guide
+
+### 🚧 In Progress
+- **CSF3 Migration:** Incremental migration of all stories to CSF3 for advanced controls and future-proofing
+- **Alert System Integration:** `labs-alert` being integrated across all apps and overlays
+- **Overlay Refactor:** Consistent close button and modularity improvements in overlays
 ### 🛠️ Technical Enhancements
 - **Menu-Driven Workflow & AI Chat Policy** - Adopted explicit, menu-driven workflow and AI Chat task continuation policy for all development and documentation. See `.github/instructions/development-workflow.instructions.md` for details.
 # 📋 Labs Project Changelog

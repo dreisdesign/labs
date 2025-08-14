@@ -1,3 +1,4 @@
+# LEGACY/ARCHIVED: This document is superseded by docs/DEVELOPMENT.md. See that file for all current migration, features, and roadmap documentation.
 # 🆕 Feature & Task Wrangling Doc
 
 ---

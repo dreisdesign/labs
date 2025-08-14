@@ -1,3 +1,4 @@
+# LEGACY/ARCHIVED: This document is superseded by docs/DEVELOPMENT.md. See that file for all current migration, features, and roadmap documentation.
 # 🔧 Refinement Tasks - August 11, 2025
 
 > **Post-Sprint Refinements and Polish Items**

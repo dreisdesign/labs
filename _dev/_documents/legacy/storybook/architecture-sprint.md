@@ -1,3 +1,4 @@
+# LEGACY/ARCHIVED: This document is superseded by docs/DEVELOPMENT.md. See that file for all current migration, features, and roadmap documentation.
 # 🏗️ Storybook Architecture Sprint - Complete Reorganization
 
 > **Goal:** Leverage native Storybook features to drastically simplify our design system documentation and eliminate redundancy.

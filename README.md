@@ -29,7 +29,17 @@ labs/
 │   ├── today-list/         # Today List app (production)
 │   └── README.md           # Public documentation
 ├── scripts/                # 🔧 Build and deployment automation
+│
 └── _dev/                   # 👨‍💻 Developer tools and documentation
+	└── _documents/         # All project documentation (active + legacy)
+		├── DEVELOPMENT.md  # Single source of truth for active dev
+		└── legacy/         # Archived/legacy docs, organized by topic
+			├── storybook/
+			├── features/
+			├── migration/
+			├── sprints/
+			├── documentation/
+			└── misc/
 ```
 
 ## 🚀 Quick Start
@@ -54,12 +64,14 @@ npm run menu
 npm run deploy
 ```
 
+
 ## 📚 Documentation
 
 ### **Design System**
 - **[📖 Design System README](design-system/README.md)** - Setup, usage, components
 - **[📋 Design System Changelog](design-system/CHANGELOG.md)** - Releases and updates
 - **[🎨 Storybook (Live)](https://dreisdesign.github.io/labs/design-system/)** - Interactive component docs
+- **[🛠️ Development Guide](docs/DEVELOPMENT.md)** - Single source for all design system, Storybook, and UI development
 
 ### **Applications**
 - **[📝 Timer Documentation](docs/timer/README.md)** - Focus timer features and usage
@@ -69,7 +81,11 @@ npm run deploy
 
 ### **Project Management**
 - **[📋 Global Changelog](CHANGELOG.md)** - Overall project updates
-- **[🔧 Development Documentation](_dev/_documents/)** - Development guides and plans
+
+### **Legacy & Archived Docs**
+- **[Legacy Documentation](./_dev/_documents/legacy/README.md)** — All legacy, historical, and superseded docs, organized by topic for reference only
+
+> For all migration, architecture, and roadmap details, see [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md). Legacy docs are now in `_dev/_documents/legacy/`.
 
 ## ✨ Key Features
 
@@ -111,20 +127,20 @@ For all AI-driven development, the assistant will:
 ---
 
 
-### **Enhanced Build System**
+### **Enhanced Build System & Features**
 - **Auto-Port-Kill** - Seamless development without port conflicts
 - **Pre-Error Checking** - Validates build environment before compilation
 - **Automatic Icon Generation** - Updates icon lists and imports
 - **Build Size Reporting** - Tracks bundle size and optimization
 - **Menu-Driven Commands** - Simple interface for common tasks
 
-### **Deployment Pipeline**
+### **Deployment Pipeline & Roadmap**
 - **GitHub Pages Integration** - Automatic deployment from `docs/` folder
 - **Build Automation** - One-command build and deploy process
 - **Production Optimization** - Minified builds with asset optimization
 - **Multi-App Deployment** - All apps and Storybook deployed together
 
-## 🔧 Technical Stack
+## 🔧 Technical Stack & Roadmap
 
 **Web Components** - Native browser APIs, no framework lock-in
 **Lit** - Lightweight web component base class
@@ -136,19 +152,14 @@ For all AI-driven development, the assistant will:
 **Troubleshooting Storybook version issues?**
 See the new troubleshooting section in `design-system/FEATURES-TODO.md` for step-by-step fixes if the version or upgrade banner is wrong.
 
-## 🏆 Recent Achievements
 
-### **v2.1.0 - Icon Path Resolution (Aug 7, 2025)**
-- ✅ **Fixed Production 404s** - Icons now load correctly in GitHub Pages
-- ✅ **Clean Path Detection** - Hostname-based environment detection
-- ✅ **Enhanced Build Scripts** - Auto-port-kill and error prevention
-- ✅ **Theme Toggle Implementation** - Working across all UI patterns
+## 🏆 Current Roadmap
 
-### **v2.0.0 - Modular Architecture (July 2025)**
-- ✅ **Complete Rewrite** - Modern Web Components architecture
-- ✅ **Design System Upgrade** - Comprehensive token system
-- ✅ **Storybook Integration** - Interactive component documentation
-- ✅ **Build System Overhaul** - Automated deployment pipeline
+- Complete CSF3 migration for all stories (advanced controls, future-proofing)
+- Integrate labs-alert for all notification/undo patterns
+- Refactor overlays for consistent close button usage and modularity
+
+See the [CHANGELOG.md](CHANGELOG.md) for detailed version history and recent achievements.
 
 ---
 
