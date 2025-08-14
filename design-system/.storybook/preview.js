@@ -35,20 +35,8 @@ const preview = {
     options: {
       // Controls panel on the right
       panelPosition: 'right',
-
       storySort: {
-        order: [
-          "Welcome",
-          ["System Overview"],
-          "Tokens",
-          ["Colors", "Typography", "Spacing"],
-          "Icons",
-          ["Default", "Preview"],
-          "Components",
-          ["Button"],
-          "Patterns",
-          ["Settings Overlay"],
-        ],
+        method: 'alphabetical',
       },
     },
   },

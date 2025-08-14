@@ -11,296 +11,144 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: "The comprehensive button component of the Labs Design System. Supports all variants, icons, theme toggles, and interactive states. Only the top button is interactive—use the controls panel to explore all options and copy the generated code.",
+        component: `The comprehensive button component of the Labs Design System. Supports all variants, icons, theme toggles, and interactive states.\n\n**To share or bookmark a button preset:**\n- Select a preset from the Preset dropdown in the controls panel.\n- The URL will update (e.g., \`&args=preset:add\`).\n- Copy the URL to share or bookmark this exact button configuration.\n\nIf you change other controls, re-select the preset to update the URL and state.`,
       },
     },
   },
   argTypes: {
-    // === Preset (top for quick access) ===
-    preset: {
-      control: { type: "select" },
-      options: [
-        "", "add", "save", "edit", "undo", "delete", "resetAllData",
-        "themeToggle", "close", "settings", "allApps", "refresh", "iconOnly"
-      ],
-      description: "Load a pre-configured button setup",
-      table: { category: "Presets" },
-      order: 1
-    },
-    // === Basic Properties ===
     label: {
       control: "text",
       description: "Button text content",
       table: { category: "Content" },
-      if: { arg: "iconPlacement", neq: "Icon Center (no label)" },
-      order: 2
+      order: 1
     },
-    variant: {
+    style: {
       control: { type: "select" },
       options: ["primary", "secondary", "danger", "transparent"],
-      description: "Button color/style variant",
+      description: "Button style (color/intent)",
+      table: { category: "Appearance" },
+      order: 2
+    },
+    shape: {
+      control: { type: "inline-radio" },
+      options: ["pill", "rounded"],
+      description: "Button shape",
       table: { category: "Appearance" },
       order: 3
     },
     container: {
       control: "boolean",
-      description: "Use container style (full-width, overlay/panel)",
+      description: "Full-width container style",
       table: { category: "Appearance" },
       order: 4
     },
-    // === Icon Controls ===
-    iconOnly: {
-      control: 'boolean',
-      description: 'Show only a single icon (icon-only button)',
-      table: { category: 'Icons' },
-      order: 5,
-      defaultValue: false
-    },
     iconLeft: {
-      control: { type: 'select' },
+      control: { type: "select" },
       options: ["", ...iconList],
-      description: 'Icon name (left side)',
-      table: { category: 'Icons' },
+      description: "Icon on the left",
+      table: { category: "Icons" },
       order: 6
     },
     iconRight: {
-      control: { type: 'select' },
+      control: { type: "select" },
       options: ["", ...iconList],
-      description: 'Icon name (right side)',
-      table: { category: 'Icons' },
+      description: "Icon on the right",
+      table: { category: "Icons" },
       order: 7
     },
-    // === Interactive Features ===
-    checkmark: {
-      control: "boolean",
-      description: "Enable checkmark animation on click",
-      table: { category: "Interaction" },
+    iconCenter: {
+      control: { type: "select" },
+      options: ["", ...iconList],
+      description: "Icon only (centered)",
+      table: { category: "Icons" },
       order: 8
     },
-  },
+    checkmark: {
+      control: "boolean",
+      description: "Show checkmark animation on click",
+      table: { category: "State" },
+      order: 8
+    },
+    darkMode: {
+      control: "boolean",
+      description: "Theme toggle state (for theme toggle button only)",
+      table: { category: "State" },
+      order: 9
+    }
+  }
 };
 
-// Map preset to args using buttonConfigs
-const presetToArgs = (preset) => {
-  if (!preset) return {};
-  const config = buttonConfigs[preset];
-  if (!config) return {};
-  // Map config to Storybook args, always clear unused icon arg
-  let iconPlacement = "None";
-  if ((config.iconLeft || config.icon) && config.iconRight) iconPlacement = "Icon Left & Icon Right";
-  else if ((config.iconLeft || config.icon) && !config.label) iconPlacement = "Icon Center (no label)";
-  else if (config.iconLeft || config.icon) iconPlacement = "Icon Left";
-  else if (config.iconRight) iconPlacement = "Icon Right";
+// === Story Template ===
 
-  let iconLeft = "";
-  let iconRight = "";
-  if (iconPlacement === "Icon Left & Icon Right") {
-    iconLeft = config.iconLeft || config.icon || "";
-    iconRight = config.iconRight || "";
-  } else if (iconPlacement === "Icon Left") {
-    iconLeft = config.iconLeft || config.icon || "";
-    iconRight = "";
-  } else if (iconPlacement === "Icon Right") {
-    iconLeft = "";
-    iconRight = config.iconRight || "";
-  } else if (iconPlacement === "Icon Center (no label)") {
-    iconLeft = config.iconLeft || config.icon || "";
-    iconRight = "";
+const Template = (args) => {
+  // Compute variant from controls
+  // Icon-only button logic
+  if (args.iconCenter) {
+    return `<labs-button
+      icon="${args.iconCenter}"
+      variant="icon"
+      aria-label="${args.label || args.iconCenter}"
+      ${args.checkmark ? 'checkmark' : ''}
+    ></labs-button>`;
   }
-
-  const args = {
-    label: config.label || "",
-    iconLeft,
-    iconRight,
-    variant: config.variant || "primary",
-    container: config.variant === "container" || config.variant === "container-danger" ? true : false,
-    checkmark: !!config.checkmark,
-    iconcolor: config.iconcolor || "",
-    iconPlacement,
-  };
-  return args;
-};
-
-// Template function for generating button HTML
-const Template = (args, { updateArgs }) => {
-  // If a preset is selected, update all controls to match the preset (one-time per change)
-  if (args.preset && args._lastPreset !== args.preset) {
-    const presetArgs = presetToArgs(args.preset);
-    updateArgs && updateArgs({
-      ...args,
-      ...presetArgs,
-      _lastPreset: args.preset
-    });
-    return `<div>Loading preset...</div>`;
+  // Theme toggle button logic
+  if (args.label === 'Turn on dark mode' || args.label === 'Turn off dark mode' || args.themeToggle) {
+    const isDark = args.darkMode;
+    return `<labs-button
+      label="${isDark ? 'Turn off dark mode' : 'Turn on dark mode'}"
+      icon="${isDark ? 'bedtime_off' : 'bedtime'}"
+      variant="${args.variant || 'transparent'}"
+      ${args.checkmark ? 'checkmark' : ''}
+    ></labs-button>`;
   }
-
-  let label = args.label;
-  let iconLeft = args.iconLeft || "";
-  let iconRight = args.iconRight || "";
-
-  // Icon Only logic: if iconOnly is true, show only iconLeft (or fallback to 'add'), hide label and iconRight
-  if (args.iconOnly) {
-    label = "";
-    iconLeft = args.iconLeft || "add";
-    iconRight = "";
-  }
-
-  const attrs = [];
-  if (label) attrs.push(`label="${label}"`);
+  let variant = args.style || "primary";
   if (args.container) {
-    attrs.push(`variant="container"`);
-  } else if (args.variant && args.variant !== 'primary') {
-    attrs.push(`variant="${args.variant}"`);
+    variant = "container";
+  } else if (args.shape === "rounded") {
+    variant = (args.style === "secondary") ? "rounded-secondary" : "rounded";
+  } else if (args.shape === "pill") {
+    variant = (args.style === "secondary") ? "pill-secondary" : "pill";
   }
-  if (iconLeft) attrs.push(`icon-left="${iconLeft}"`);
-  if (iconRight) attrs.push(`icon-right="${iconRight}"`);
-  if (args.checkmark) attrs.push(`checkmark="${args.checkmark}"`);
-  if (args.iconcolor) attrs.push(`iconcolor=\"${args.iconcolor}\"`);
-  return `<labs-button ${attrs.join(' ')}></labs-button>`;
+  return `<labs-button
+    label="${args.label}"
+    variant="${variant}"
+    icon-left="${args.iconLeft}"
+    icon-right="${args.iconRight}"
+    ${args.checkmark ? 'checkmark' : ''}
+  ></labs-button>`;
 };
 
-// === Primary Stories ===
-
-// === Preset Stories (for sidebar quick demos) ===
 export const Primary = Template.bind({});
 Primary.args = {
   label: "Button",
-  variant: "primary",
+  style: "primary",
+  shape: "pill",
+  container: false,
   iconLeft: "",
   iconRight: "",
-  iconOnly: false,
-  container: false,
+  iconCenter: "",
   checkmark: false,
-  preset: ""
-};
-Primary.parameters = {
-  docs: {
-    description: {
-      story: "Primary button with comprehensive controls. Only the top button is interactive—use the controls panel to see real-time changes and copy the generated code.",
-    },
-  },
+  darkMode: false
 };
 
-export const Secondary = Template.bind({});
-Secondary.args = {
-  label: "Secondary Button",
-  variant: "secondary",
-  iconLeft: "",
-  iconRight: "",
-  container: false,
-  checkmark: false,
-  preset: ""
-};
-
-export const Danger = Template.bind({});
-Danger.args = {
-  label: "Delete",
-  variant: "danger",
-  iconLeft: "delete_forever",
-  iconRight: "",
-  container: false,
-  checkmark: false,
-  preset: ""
-};
-
-export const Transparent = Template.bind({});
-Transparent.args = {
-  label: "Cancel",
-  variant: "transparent",
-  iconLeft: "",
-  iconRight: "",
-  container: false,
-  checkmark: false,
-  preset: ""
-};
-
-// Icon Only is now a preset (label: "", iconLeft: "add", size: "sm", variant: "primary")
-// Use the main controls to reproduce icon-only style
-
-export const WithIcons = Template.bind({});
-WithIcons.args = {
-  label: "Save Changes",
-  variant: "primary",
-  iconLeft: "check",
-  iconRight: "",
-  container: false,
-  checkmark: false,
-  preset: ""
-};
-
-// === Toggle Button Pattern ===
-const ToggleTemplate = (args, { globals }) => {
-  // Use a boolean control to switch state
-  const isToggled = args.toggled;
-  const state = isToggled ? args.state2 : args.state1;
-  const attrs = [];
-  if (state.label) attrs.push(`label=\"${state.label}\"`);
-  if (args.container) attrs.push(`variant=\"container\"`);
-  else if (state.variant && state.variant !== 'primary') attrs.push(`variant=\"${state.variant}\"`);
-  if (state.iconLeft) attrs.push(`icon-left=\"${state.iconLeft}\"`);
-  if (state.iconRight) attrs.push(`icon-right=\"${state.iconRight}\"`);
-  if (state.checkmark) attrs.push(`checkmark=\"${state.checkmark}\"`);
-  return `<labs-button ${attrs.join(' ')}></labs-button>`;
-};
-
-export const ToggleButton = ToggleTemplate.bind({});
-ToggleButton.args = {
-  toggled: false,
-  container: false,
-  state1: {
-    label: "Turn on Dark Mode",
-    iconLeft: "bedtime",
-    iconRight: "",
-    variant: "transparent",
-    checkmark: false
-  },
-  state2: {
-    label: "Turn off Dark Mode",
-    iconLeft: "bedtime_off",
-    iconRight: "",
-    variant: "transparent",
-    checkmark: false
-  }
-};
-ToggleButton.argTypes = {
-  toggled: { control: "boolean", description: "Toggle state (for demo)" },
-  container: { control: "boolean" },
-  state1: { table: { disable: true } },
-  state2: { table: { disable: true } }
-};
-ToggleButton.parameters = {
-  docs: {
-    description: {
-      story: "Generic Toggle Button pattern. Use the boolean control to switch between two states. Theme Toggle is a preset of this pattern. Actual theme logic is handled by a separate component (labs-theme-toggle-button).",
-    },
-  },
-};
-
-// Theme Toggle (visual only, no theme logic)
-export const ThemeToggle = ToggleTemplate.bind({});
+// Dedicated Theme Toggle story
+export const ThemeToggle = Template.bind({});
 ThemeToggle.args = {
-  toggled: false,
+  label: 'Turn on dark mode',
+  style: 'transparent',
+  shape: 'pill',
   container: false,
-  state1: {
-    label: "Turn on Dark Mode",
-    iconLeft: "bedtime",
-    iconRight: "",
-    variant: "transparent",
-    checkmark: false
-  },
-  state2: {
-    label: "Turn off Dark Mode",
-    iconLeft: "bedtime_off",
-    iconRight: "",
-    variant: "transparent",
-    checkmark: false
-  }
+  iconLeft: '',
+  iconRight: '',
+  iconCenter: '',
+  checkmark: false,
+  darkMode: false,
+  themeToggle: true
 };
-ThemeToggle.argTypes = ToggleButton.argTypes;
 ThemeToggle.parameters = {
   docs: {
     description: {
-      story: "Theme Toggle preset using the generic Toggle Button. This is a visual toggle only; actual theme switching is handled by labs-theme-toggle-button.",
-    },
-  },
+      story: 'Theme toggle button. Use the darkMode control to toggle state. For real app integration, use setupThemeToggle(button) from button-configs.js.'
+    }
+  }
 };
