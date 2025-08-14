@@ -1,5 +1,7 @@
 # 🗂️ v2.1.x - Documentation Consolidation & CSF3 Migration (August 2025)
 
+> For detailed design system component changes, see [`design-system/CHANGELOG.md`](design-system/CHANGELOG.md).
+
 ### 📝 Documentation Overhaul
 - **Single Source of Truth:** All design system, Storybook, and UI development docs consolidated into `docs/DEVELOPMENT.md`
 - **Legacy Docs Archived:** Old migration, features, and sprint docs moved to `_dev/_archive`

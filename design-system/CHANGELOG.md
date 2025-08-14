@@ -1,3 +1,6 @@
+
+> This changelog tracks only the Labs Design System package. For global project milestones, see the [main Labs changelog](../CHANGELOG.md).
+
 ### 🛠️ Technical Improvements
 - **Menu-Driven Workflow & AI Chat Policy** - Adopted explicit, menu-driven workflow and AI Chat task continuation policy for all design system development. See `.github/instructions/development-workflow.instructions.md` for details.
 # Labs Design System Changelog
