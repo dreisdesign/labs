@@ -54,41 +54,26 @@ export default {
             description: 'Icon only (centered)',
             table: { category: 'Icons' },
         },
-        checkmark: {
-            control: "boolean",
-            description: "Show checkmark animation on click",
-            table: { category: "State" },
-        },
-        darkMode: {
-            control: "boolean",
-            description: "Theme toggle state (for theme toggle button only)",
-            table: { category: "State" },
-        },
     },
 };
 
-const Template = (args) => {
-    // Icon-only button logic: always render icon-left, omit label, set aria-label.
-    // Note: Hiding iconLeft/iconRight controls in the Storybook UI requires Storybook-level config (not possible in plain JS stories).
+
+const renderButton = (args) => {
     if (args.iconCenter) {
-        // Use label if provided, else fallback to icon name for aria-label
         const ariaLabel = args.label && args.label.trim() ? args.label : args.iconCenter;
         return `<labs-button
             icon-left="${args.iconCenter}"
             icon-right=""
             variant="icon"
             aria-label="${ariaLabel}"
-            ${args.checkmark ? 'checkmark' : ''}
         ></labs-button>`;
     }
-    // Theme toggle button logic
     if (args.label === 'Turn on dark mode' || args.label === 'Turn off dark mode' || args.themeToggle) {
         const isDark = args.darkMode;
         return `<labs-button
             label="${isDark ? 'Turn off dark mode' : 'Turn on dark mode'}"
             icon="${isDark ? 'bedtime_off' : 'bedtime'}"
-            variant="${args.variant || 'transparent'}"
-            ${args.checkmark ? 'checkmark' : ''}
+            variant="transparent"
         ></labs-button>`;
     }
     let variant = args.style || "primary";
@@ -104,34 +89,9 @@ const Template = (args) => {
         variant="${variant}"
         icon-left="${args.iconLeft || ''}"
         icon-right="${args.iconRight || ''}"
-        ${args.checkmark ? 'checkmark' : ''}
     ></labs-button>`;
-}
-
-// Dedicated Theme Toggle pattern story
-export const ThemeToggle = Template.bind({});
-ThemeToggle.args = {
-    label: 'Turn on dark mode',
-    style: 'transparent',
-    shape: 'pill',
-    container: false,
-    iconLeft: '',
-    iconRight: '',
-    iconCenter: '',
-    checkmark: false,
-    darkMode: false,
-    themeToggle: true
-};
-ThemeToggle.parameters = {
-    docs: {
-        description: {
-            story: 'Theme toggle button. Use the darkMode control to toggle state. For real app integration, use setupThemeToggle(button) from button-configs.js.'
-        }
-    }
 };
 
-// Alphabetized pattern stories
-export const Add = Template.bind({});
 const safeArgs = (config) => {
     return {
         ...config,
@@ -140,55 +100,111 @@ const safeArgs = (config) => {
     };
 };
 
-Add.args = safeArgs(buttonConfigs.add);
-if (Add.args.icon) delete Add.args.icon;
-Add.parameters = { docs: { description: { story: "Add button preset." } } };
-
-export const AllApps = Template.bind({});
-AllApps.args = {
-    label: "All Apps",
-    style: "transparent",
-    shape: "pill",
-    container: false,
-    iconLeft: "apps",
-    iconRight: "",
-    checkmark: false
+export const ThemeToggle = {
+    render: renderButton,
+    args: {
+        label: 'Turn on dark mode',
+        style: 'transparent',
+        shape: 'pill',
+        container: false,
+        iconLeft: '',
+        iconRight: '',
+        iconCenter: '',
+        darkMode: false,
+        themeToggle: true
+    },
+    argTypes: {
+        darkMode: {
+            control: 'boolean',
+            description: 'Theme toggle state (for theme toggle button only)',
+            table: { category: 'State' },
+        },
+    },
+    parameters: {
+        docs: {
+            description: {
+                story: 'Theme toggle button. Use the darkMode control to toggle state. For real app integration, use setupThemeToggle(button) from button-configs.js.'
+            }
+        }
+    }
 };
-AllApps.parameters = { docs: { description: { story: "All Apps button preset (icon centered)." } } };
 
-export const Close = Template.bind({});
-Close.args = safeArgs(buttonConfigs.close);
-if (Close.args.icon) delete Close.args.icon;
-Close.parameters = { docs: { description: { story: "Close button preset." } } };
+export const Add = {
+    render: renderButton,
+    args: (() => { const a = safeArgs(buttonConfigs.add); if (a.icon) delete a.icon; return a; })(),
+    parameters: { docs: { description: { story: "Add button preset." } } }
+};
 
-export const Delete = Template.bind({});
-Delete.args = safeArgs(buttonConfigs.delete);
-if (Delete.args.icon) delete Delete.args.icon;
-Delete.parameters = { docs: { description: { story: "Delete button preset." } } };
+export const AllApps = {
+    render: renderButton,
+    args: {
+        label: "All Apps",
+        style: "transparent",
+        shape: "pill",
+        container: false,
+        iconLeft: "apps",
+        iconRight: ""
+    },
+    parameters: { docs: { description: { story: "All Apps button preset (icon centered)." } } }
+};
 
-export const Edit = Template.bind({});
-Edit.args = safeArgs(buttonConfigs.edit);
-if (Edit.args.icon) delete Edit.args.icon;
-Edit.parameters = { docs: { description: { story: "Edit button preset." } } };
+export const Close = {
+    render: renderButton,
+    args: (() => { const a = safeArgs(buttonConfigs.close); if (a.icon) delete a.icon; return a; })(),
+    parameters: { docs: { description: { story: "Close button preset." } } }
+};
 
-export const ResetAllData = Template.bind({});
-ResetAllData.args = safeArgs(buttonConfigs.resetAllData);
-if (ResetAllData.args.icon) delete ResetAllData.args.icon;
-ResetAllData.parameters = { docs: { description: { story: "Reset All Data button preset." } } };
+export const Delete = {
+    render: renderButton,
+    args: (() => { const a = safeArgs(buttonConfigs.delete); if (a.icon) delete a.icon; return a; })(),
+    parameters: { docs: { description: { story: "Delete button preset." } } }
+};
 
-export const Save = Template.bind({});
-Save.args = safeArgs(buttonConfigs.save);
-if (Save.args.icon) delete Save.args.icon;
-Save.parameters = { docs: { description: { story: "Save button preset." } } };
+export const Edit = {
+    render: renderButton,
+    args: (() => { const a = safeArgs(buttonConfigs.edit); if (a.icon) delete a.icon; return a; })(),
+    parameters: { docs: { description: { story: "Edit button preset." } } }
+};
 
-export const Settings = Template.bind({});
-Settings.args = safeArgs(buttonConfigs.settings);
-if (Settings.args.icon) delete Settings.args.icon;
-Settings.parameters = { docs: { description: { story: "Settings button preset." } } };
+export const ResetAllData = {
+    render: renderButton,
+    args: (() => { const a = safeArgs(buttonConfigs.resetAllData); if (a.icon) delete a.icon; return a; })(),
+    parameters: { docs: { description: { story: "Reset All Data button preset." } } }
+};
 
+export const Save = {
+    render: renderButton,
+    args: (() => { const a = safeArgs(buttonConfigs.save); if (a.icon) delete a.icon; return a; })(),
+    parameters: { docs: { description: { story: "Save button preset." } } }
+};
 
-export const Undo = Template.bind({});
-Undo.args = safeArgs(buttonConfigs.undo);
-if (Undo.args.icon) delete Undo.args.icon;
-Undo.parameters = { docs: { description: { story: "Undo button preset." } } };
+export const Settings = {
+    render: renderButton,
+    args: (() => { const a = safeArgs(buttonConfigs.settings); if (a.icon) delete a.icon; return a; })(),
+    parameters: { docs: { description: { story: "Settings button preset." } } }
+};
+
+export const Undo = {
+    render: renderButton,
+    args: (() => { const a = safeArgs(buttonConfigs.undo); if (a.icon) delete a.icon; return a; })(),
+    parameters: { docs: { description: { story: "Undo button preset." } } }
+};
+
+export const SettingsIconOnly = {
+    args: {
+        label: "Settings",
+        style: "transparent",
+        iconLeft: "settings",
+        iconRight: "",
+        iconCenter: "settings"
+    },
+    render: renderButton,
+    parameters: {
+        docs: {
+            description: {
+                story: "Settings button preset."
+            }
+        }
+    }
+};
 
