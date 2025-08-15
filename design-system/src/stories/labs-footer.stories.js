@@ -25,55 +25,56 @@ export default {
   },
 };
 
-export const Default = (args) => {
-  const footer = document.createElement("labs-footer");
-  if (args["add-label"]) footer.setAttribute("add-label", args["add-label"]);
-  if (args["settings-hidden"]) footer.setAttribute("settings-hidden", "");
 
-  const container = document.createElement("div");
-  container.style.cssText = `
-    min-height: 100vh;
-    background: var(--color-background);
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-bottom: 120px;
-  `;
+export const Default = {
+  render: (args) => {
+    const footer = document.createElement("labs-footer");
+    if (args["add-label"]) footer.setAttribute("add-label", args["add-label"]);
+    if (args["settings-hidden"]) footer.setAttribute("settings-hidden", "");
 
-  container.innerHTML = `
-    <div style="text-align: center; max-width: 500px; padding: 2rem;">
-      <h2 style="color: var(--color-on-background); margin-bottom: 1rem;">Footer Component</h2>
-      <p style="color: var(--color-on-background); opacity: 0.8;">
-        Glassmorphic footer with configurable add button and optional settings. Use controls to customize label, hide settings, or change variant.
-      </p>
-    </div>
-  `;
+    const container = document.createElement("div");
+    container.style.cssText = `
+      min-height: 100vh;
+      background: var(--color-background);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 120px;
+    `;
 
-  container.appendChild(footer);
+    container.innerHTML = `
+      <div style="text-align: center; max-width: 500px; padding: 2rem;">
+        <h2 style="color: var(--color-on-background); margin-bottom: 1rem;">Footer Component</h2>
+        <p style="color: var(--color-on-background); opacity: 0.8;">
+          Glassmorphic footer with configurable add button and optional settings. Use controls to customize label, hide settings, or change variant.
+        </p>
+      </div>
+    `;
 
-  // Add event listeners for demonstration
-  footer.addEventListener('add-click', () => {
-    alert('Add button clicked!');
-  });
+    container.appendChild(footer);
 
-  footer.addEventListener('settings-click', () => {
-    alert('Settings button clicked!');
-  });
+    // Add event listeners for demonstration
+    footer.addEventListener('add-click', () => {
+      alert('Add button clicked!');
+    });
 
-  return container;
-};
+    footer.addEventListener('settings-click', () => {
+      alert('Settings button clicked!');
+    });
 
-Default.args = {
-  "add-label": "+ Add",
-  "settings-hidden": false,
-  "variant": "default"
-};
-
-Default.parameters = {
-  docs: {
-    description: {
-      story: "Default footer component with glassmorphic design. Use controls to modify add button label, toggle settings visibility, and change variant (default/floating). Click buttons to see event handling.",
+    return container;
+  },
+  args: {
+    "add-label": "+ Add",
+    "settings-hidden": false,
+    "variant": "default"
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "Default footer component with glassmorphic design. Use controls to modify add button label, toggle settings visibility, and change variant (default/floating). Click buttons to see event handling.",
+      },
     },
   },
 };

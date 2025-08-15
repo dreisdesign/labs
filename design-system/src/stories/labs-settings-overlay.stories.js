@@ -47,63 +47,56 @@ overlay.close(); // Hide the overlay
   },
 };
 
-export const Default = () => {
-  const container = document.createElement("div");
-  container.style.cssText = `
-    min-height: 100vh;
-    background: var(--color-background);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-  `;
+export const Default = {
+  render: () => {
+    const container = document.createElement("div");
+    container.style.cssText = `
+      min-height: 100vh;
+      background: var(--color-background);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    `;
 
-  container.innerHTML = `
-    <div>
-      <h2 style="text-align: center; margin-bottom: 2rem;">Settings Overlay Demo</h2>
-      <button 
-        id="openOverlay"
-        style="
-          padding: 16px 32px;
-          background: var(--color-primary);
-          color: var(--color-on-primary);
-          border: none;
-          border-radius: 8px;
-          font-size: 16px;
-          cursor: pointer;
-          box-shadow: var(--shadow-elevation-medium);
-        "
-      >
-        Open Settings
-      </button>
-    </div>
-    <labs-settings-overlay></labs-settings-overlay>
-  `;
+    container.innerHTML = `
+      <div>
+        <h2 style="text-align: center; margin-bottom: 2rem;">Settings Overlay Demo</h2>
+        <button 
+          id="openOverlay"
+          style="
+            padding: 16px 32px;
+            background: var(--color-primary);
+            color: var(--color-on-primary);
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: var(--shadow-elevation-medium);
+          "
+        >
+          Open Settings
+        </button>
+      </div>
+      <labs-settings-overlay></labs-settings-overlay>
+    `;
 
-  setTimeout(() => {
-    const overlay = container.querySelector("labs-settings-overlay");
-    const openButton = container.querySelector("#openOverlay");
+    setTimeout(() => {
+      const overlay = container.querySelector('labs-settings-overlay');
+      const openBtn = container.querySelector('#openOverlay');
+      if (openBtn && overlay) {
+        openBtn.addEventListener('click', () => overlay.open());
+      }
+    }, 100);
 
-    openButton.addEventListener("click", () => {
-      overlay.open();
-    });
-
-    overlay.addEventListener('action', (e) => {
-      console.log('Settings action:', e.detail.action);
-      alert(`Action: ${e.detail.action}`);
-    });
-
-    overlay.addEventListener('overlay-close', () => {
-      console.log('Settings overlay closed');
-    });
-  }, 100);
-
-  return container;
-};
-Default.parameters = {
-  docs: {
-    description: {
-      story: "Default settings overlay component. Click button to open and explore all actions (apps, theme-toggle, settings, reset). Provides modular settings interface with action events.",
-    },
+    return container;
   },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Settings overlay demo with open button. Shows modal overlay with glassmorphic backdrop and event-driven actions.'
+      }
+    }
+  }
 };
+

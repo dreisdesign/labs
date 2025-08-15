@@ -32,47 +32,46 @@ export default {
   },
 };
 
-const Template = (args) => {
-  setTimeout(() => {
-    document.addEventListener('click', (e) => {
-      if (e.target.tagName === 'LABS-TIMESTAMP') {
-        console.log('Timestamp clicked:', e.target.getFormattedText());
-      }
-    });
-  }, 100);
 
-  return `
-    <style>
-      .timestamp-demo {
-        max-width: 400px;
-        margin: 0 auto;
-        font-family: var(--font-family-primary);
-        text-align: center;
-      }
-    </style>
-    
-    <div class="timestamp-demo">
-      <labs-timestamp 
-        datetime="${args.datetime || new Date().toISOString()}"
-        format="${args.format || 'time'}"
-        size="${args.size || 'normal'}"
-        ${args.interactive ? 'interactive' : ''}
-      ></labs-timestamp>
-    </div>
-  `;
-};
-
-export const Time = Template.bind({});
-Time.args = {
-  datetime: new Date().toISOString(),
-  format: "time",
-  size: "medium",
-  interactive: false,
-};
-Time.parameters = {
-  docs: {
-    description: {
-      story: "Time format timestamp component. Use controls to explore all sizes (small, medium, large) and interactive states. Matches tracker app styling.",
+export const Time = {
+  render: (args) => {
+    setTimeout(() => {
+      document.addEventListener('click', (e) => {
+        if (e.target.tagName === 'LABS-TIMESTAMP') {
+          console.log('Timestamp clicked:', e.target.getFormattedText());
+        }
+      });
+    }, 100);
+    return `
+      <style>
+        .timestamp-demo {
+          max-width: 400px;
+          margin: 0 auto;
+          font-family: var(--font-family-primary);
+          text-align: center;
+        }
+      </style>
+      <div class="timestamp-demo">
+        <labs-timestamp 
+          datetime="${args.datetime || new Date().toISOString()}"
+          format="${args.format || 'time'}"
+          size="${args.size || 'normal'}"
+          ${args.interactive ? 'interactive' : ''}
+        ></labs-timestamp>
+      </div>
+    `;
+  },
+  args: {
+    datetime: new Date().toISOString(),
+    format: 'time',
+    size: 'medium',
+    interactive: false,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Time format timestamp component. Use controls to explore all sizes (small, medium, large) and interactive states. Matches tracker app styling.',
+      },
     },
   },
 };

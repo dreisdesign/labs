@@ -34,14 +34,7 @@ export default {
   }
 };
 
-// Basic Examples
 export const Default = {
-  args: {
-    title: "",
-    subtitle: "",
-    variant: "default",
-    width: "constrained"
-  },
   render: (args) => `
     <div style="display: flex; justify-content: center; padding: 2rem; min-height: 200px;">
       <labs-card 
@@ -56,10 +49,16 @@ export const Default = {
       </labs-card>
     </div>
   `,
+  args: {
+    title: '',
+    subtitle: '',
+    variant: 'default',
+    width: 'constrained',
+  },
   parameters: {
     docs: {
       description: {
-        story: "Default empty card with slot content. Use controls to configure title, subtitle, variant, and width. Content goes in the default slot.",
+        story: 'Default empty card with slot content. Use controls to configure title, subtitle, variant, and width. Content goes in the default slot.',
       },
     },
   },

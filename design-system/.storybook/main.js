@@ -5,9 +5,33 @@ const config = {
     "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"
   ],
   addons: [
-    "@storybook/addon-docs",
+    {
+      name: "@storybook/addon-docs",
+      options: {},
+    },
     "@storybook/addon-themes"
   ],
+  parameters: {
+    options: {
+      storySort: (a, b) => {
+        const order = ["Tokens", "Icons", "Components", "Patterns"];
+        const getGroupIndex = (item) => {
+          const group = item[1].kind.split("/")[0];
+          const idx = order.indexOf(group);
+          return idx === -1 ? order.length : idx;
+        };
+        const aIdx = getGroupIndex(a);
+        const bIdx = getGroupIndex(b);
+        if (aIdx !== bIdx) return aIdx - bIdx;
+        // Within group, sort alphabetically, but "docs" or "default" first
+        const aName = a[1].name.toLowerCase();
+        const bName = b[1].name.toLowerCase();
+        if (aName === "docs" || aName === "default") return -1;
+        if (bName === "docs" || bName === "default") return 1;
+        return aName.localeCompare(bName);
+      },
+    },
+  },
   // Serve all static assets (including icons) for Storybook
   staticDirs: [
     { from: "../icons", to: "/icons" },

@@ -27,14 +27,16 @@ export default {
   }
 };
 
-const Template = (args) => {
-  return `
-    <div style="position: relative; height: 400px; background: var(--color-surface); padding: 20px; border-radius: 8px;">
+
+export const Opened = {
+  render: (args) => {
+    const container = document.createElement('div');
+    container.style.cssText = 'position: relative; height: 400px; background: var(--color-surface); padding: 20px; border-radius: 8px;';
+    container.innerHTML = `
       <h3>Input Overlay Demo</h3>
       <p>Click the button below to open the input overlay.</p>
-      
       <button 
-        onclick="document.querySelector('labs-input-overlay').open('Add Task', 'Enter your task...')"
+        id="openInputOverlayBtn"
         style="
           padding: 12px 24px;
           background: var(--color-primary);
@@ -47,51 +49,52 @@ const Template = (args) => {
       >
         Open Input Overlay
       </button>
-      
       <labs-input-overlay ${args.active ? 'active' : ''}></labs-input-overlay>
-      
-      <script>
-        setTimeout(() => {
-          const overlay = document.querySelector('labs-input-overlay');
-          
-          // Add event listeners for demo purposes
-          overlay.addEventListener('task-save', (e) => {
-            console.log('Task saved:', e.detail);
-            alert('Task saved: "' + e.detail.text + '"');
-          });
-          
-          // If pre-opened, open it with demo content
-          ${args.active ? `overlay.open('Edit Task', 'Enter your task...', 'Sample task content');` : ''}
-        }, 100);
-      </script>
-    </div>
-  `;
+    `;
+    setTimeout(() => {
+      const overlay = container.querySelector('labs-input-overlay');
+      const openBtn = container.querySelector('#openInputOverlayBtn');
+      if (overlay && openBtn) {
+        openBtn.addEventListener('click', () => overlay.open('Add Task', 'Enter your task...'));
+        overlay.addEventListener('task-save', (e) => {
+          alert('Task saved: "' + e.detail.text + '"');
+        });
+        if (args.active) {
+          overlay.open('Edit Task', 'Enter your task...', 'Sample task content');
+        }
+      }
+    }, 100);
+    return container;
+  },
+  args: {
+    active: false,
+    title: "Add Task",
+    placeholder: "Enter your task..."
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "Input overlay in opened state. Click the trigger button to test the interaction flow with automatic input focus, keyboard shortcuts (Enter to submit, Escape to close), and icon-only close button."
+      }
+    }
+  }
 };
 
-export const Opened = Template.bind({});
-Opened.args = {
-  active: false, // Start closed to prevent flash
-  title: "Add Task",
-  placeholder: "Enter your task..."
-};
-Opened.parameters = {
-  docs: {
-    description: {
-      story: "Input overlay in opened state. Click the trigger button to test the interaction flow with automatic input focus, keyboard shortcuts (Enter to submit, Escape to close), and icon-only close button.",
-    },
-  },
-};
 
-export const Closed = Template.bind({});
-Closed.args = {
-  active: false
-};
-Closed.parameters = {
-  docs: {
-    description: {
-      story: "Closed/inactive state. Click the trigger button to open the overlay and test the interaction flow.",
-    },
+export const Closed = {
+  render: (args) => Opened.render(args),
+  args: {
+    active: false,
+    title: "Add Task",
+    placeholder: "Enter your task..."
   },
+  parameters: {
+    docs: {
+      description: {
+        story: "Closed/inactive state. Click the trigger button to open the overlay and test the interaction flow.",
+      },
+    },
+  }
 };
 
 

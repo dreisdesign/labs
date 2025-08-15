@@ -1,5 +1,3 @@
-import "../components/labs-badge.js";
-
 export default {
     title: "Components/Badge",
     component: "labs-badge",
@@ -29,51 +27,79 @@ export default {
         },
     },
 };
+import "../components/labs-badge.js";
 
-const Template = ({ label, variant }) => {
-    return `
+export const Default = {
+    render: (args) => `
         <labs-badge 
-            label="${label || 'Badge'}"
-            variant="${variant || 'primary'}"
+            label="${args.label || 'Badge'}"
+            variant="${args.variant || 'primary'}"
         ></labs-badge>
-    `;
-};
-
-export const Default = Template.bind({});
-Default.args = {
-    label: "New",
-    variant: "primary",
-};
-Default.parameters = {
-    docs: {
-        description: {
-            story: "Default badge with comprehensive controls. Explore all variants, sizes, and configurations using the controls panel.",
-        },
+    `,
+    args: {
+        label: "New",
+        variant: "primary",
     },
+    parameters: {
+        docs: {
+            description: {
+                story: "Default badge with comprehensive controls. Explore all variants, sizes, and configurations using the controls panel."
+            }
+        }
+    }
 };
 
-export const Secondary = Template.bind({});
-Secondary.args = {
-    label: "Draft",
-    variant: "secondary",
+export const Danger = {
+    render: (args) => `
+        <labs-badge 
+            label="${args.label || 'Badge'}"
+            variant="${args.variant || 'danger'}"
+        ></labs-badge>
+    `,
+    args: {
+        label: "Failed",
+        variant: "danger",
+    }
 };
 
-export const Danger = Template.bind({});
-Danger.args = {
-    label: "Failed",
-    variant: "danger",
+export const Secondary = {
+    render: (args) => `
+        <labs-badge 
+            label="${args.label || 'Badge'}"
+            variant="${args.variant || 'secondary'}"
+        ></labs-badge>
+    `,
+    args: {
+        label: "Draft",
+        variant: "secondary",
+    }
 };
 
-export const Success = Template.bind({});
-Success.args = {
-    label: "Complete",
-    variant: "success",
+export const Success = {
+    render: (args) => `
+        <labs-badge 
+            label="${args.label || 'Badge'}"
+            variant="${args.variant || 'success'}"
+        ></labs-badge>
+    `,
+    args: {
+        label: "Complete",
+        variant: "success",
+    }
 };
 
-export const Warning = Template.bind({});
-Warning.args = {
-    label: "Pending",
-    variant: "warning",
+export const Warning = {
+    render: (args) => `
+        <labs-badge 
+            label="${args.label || 'Badge'}"
+            variant="${args.variant || 'warning'}"
+        ></labs-badge>
+    `,
+    args: {
+        label: "Warning",
+        variant: "warning",
+    }
 };
+
 
 

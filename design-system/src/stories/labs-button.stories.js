@@ -78,21 +78,72 @@ export default {
   }
 };
 
-// === Story Template ===
 
-const Template = (args) => {
-  // Compute variant from controls
-  // Icon-only button logic
-  if (args.iconCenter) {
+/**
+ * Primary button story (CSF3 object format)
+ */
+export const Primary = {
+  render: (args) => {
+    // Icon-only button logic
+    if (args.iconCenter) {
+      return `<labs-button
+        icon="${args.iconCenter}"
+        variant="icon"
+        aria-label="${args.label || args.iconCenter}"
+        ${args.checkmark ? 'checkmark' : ''}
+      ></labs-button>`;
+    }
+    // Theme toggle button logic
+    if (args.label === 'Turn on dark mode' || args.label === 'Turn off dark mode' || args.themeToggle) {
+      const isDark = args.darkMode;
+      return `<labs-button
+        label="${isDark ? 'Turn off dark mode' : 'Turn on dark mode'}"
+        icon="${isDark ? 'bedtime_off' : 'bedtime'}"
+        variant="${args.variant || 'transparent'}"
+        ${args.checkmark ? 'checkmark' : ''}
+      ></labs-button>`;
+    }
+    let variant = args.style || "primary";
+    if (args.container) {
+      variant = "container";
+    } else if (args.shape === "rounded") {
+      variant = (args.style === "secondary") ? "rounded-secondary" : "rounded";
+    } else if (args.shape === "pill") {
+      variant = (args.style === "secondary") ? "pill-secondary" : "pill";
+    }
     return `<labs-button
-      icon="${args.iconCenter}"
-      variant="icon"
-      aria-label="${args.label || args.iconCenter}"
+      label="${args.label}"
+      variant="${variant}"
+      icon-left="${args.iconLeft}"
+      icon-right="${args.iconRight}"
       ${args.checkmark ? 'checkmark' : ''}
     ></labs-button>`;
+  },
+  args: {
+    label: "Button",
+    style: "primary",
+    shape: "pill",
+    container: false,
+    iconLeft: "",
+    iconRight: "",
+    iconCenter: "",
+    checkmark: false,
+    darkMode: false
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Primary button. Use controls to change style, shape, icons, and state.'
+      }
+    }
   }
-  // Theme toggle button logic
-  if (args.label === 'Turn on dark mode' || args.label === 'Turn off dark mode' || args.themeToggle) {
+};
+
+/**
+ * Theme toggle button story (CSF3 object format)
+ */
+export const ThemeToggle = {
+  render: (args) => {
     const isDark = args.darkMode;
     return `<labs-button
       label="${isDark ? 'Turn off dark mode' : 'Turn on dark mode'}"
@@ -100,55 +151,24 @@ const Template = (args) => {
       variant="${args.variant || 'transparent'}"
       ${args.checkmark ? 'checkmark' : ''}
     ></labs-button>`;
-  }
-  let variant = args.style || "primary";
-  if (args.container) {
-    variant = "container";
-  } else if (args.shape === "rounded") {
-    variant = (args.style === "secondary") ? "rounded-secondary" : "rounded";
-  } else if (args.shape === "pill") {
-    variant = (args.style === "secondary") ? "pill-secondary" : "pill";
-  }
-  return `<labs-button
-    label="${args.label}"
-    variant="${variant}"
-    icon-left="${args.iconLeft}"
-    icon-right="${args.iconRight}"
-    ${args.checkmark ? 'checkmark' : ''}
-  ></labs-button>`;
-};
-
-export const Primary = Template.bind({});
-Primary.args = {
-  label: "Button",
-  style: "primary",
-  shape: "pill",
-  container: false,
-  iconLeft: "",
-  iconRight: "",
-  iconCenter: "",
-  checkmark: false,
-  darkMode: false
-};
-
-// Dedicated Theme Toggle story
-export const ThemeToggle = Template.bind({});
-ThemeToggle.args = {
-  label: 'Turn on dark mode',
-  style: 'transparent',
-  shape: 'pill',
-  container: false,
-  iconLeft: '',
-  iconRight: '',
-  iconCenter: '',
-  checkmark: false,
-  darkMode: false,
-  themeToggle: true
-};
-ThemeToggle.parameters = {
-  docs: {
-    description: {
-      story: 'Theme toggle button. Use the darkMode control to toggle state. For real app integration, use setupThemeToggle(button) from button-configs.js.'
+  },
+  args: {
+    label: 'Turn on dark mode',
+    style: 'transparent',
+    shape: 'pill',
+    container: false,
+    iconLeft: '',
+    iconRight: '',
+    iconCenter: '',
+    checkmark: false,
+    darkMode: false,
+    themeToggle: true
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Theme toggle button. Use the darkMode control to toggle state. For real app integration, use setupThemeToggle(button) from button-configs.js.'
+      }
     }
   }
 };

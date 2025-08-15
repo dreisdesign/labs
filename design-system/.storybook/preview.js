@@ -35,8 +35,23 @@ const preview = {
     options: {
       // Controls panel on the right
       panelPosition: 'right',
-      storySort: {
-        method: 'alphabetical',
+      storySort: (a, b) => {
+        // V7+ API: a and b are objects with {title, id, name, ...}
+        const order = ["Tokens", "Icons", "Components", "Patterns"];
+        const getGroupIndex = (item) => {
+          const group = item.title.split("/")[0];
+          const idx = order.indexOf(group);
+          return idx === -1 ? order.length : idx;
+        };
+        const aIdx = getGroupIndex(a);
+        const bIdx = getGroupIndex(b);
+        if (aIdx !== bIdx) return aIdx - bIdx;
+        // Within group, sort alphabetically, but "docs" or "default" first
+        const aName = a.name?.toLowerCase() || "";
+        const bName = b.name?.toLowerCase() || "";
+        if (aName === "docs" || aName === "default") return -1;
+        if (bName === "docs" || bName === "default") return 1;
+        return aName.localeCompare(bName);
       },
     },
   },

@@ -77,7 +77,23 @@ const Template = (args) => {
   `;
 };
 
-export const Default = Template.bind({});
+export const Default = {
+  render: Template,
+  args: {
+    placeholder: '',
+    value: '',
+    maxlength: 100,
+    type: 'text',
+    inactive: false,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Default input component with all controls. Use the controls panel to test different input types, placeholder text, and states.',
+      },
+    },
+  },
+};
 Default.args = {
   placeholder: "Enter text here...",
   value: "",
