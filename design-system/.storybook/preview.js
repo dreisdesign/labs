@@ -63,8 +63,8 @@ const preview = {
         dark: 'theme-dark',
       },
       defaultTheme: 'light',
-      // Apply theme classes to the document body
-      parentSelector: 'body',
+      // Apply theme classes to the document root (safer across iframe boundaries)
+      // parentSelector: 'body' caused cross-window errors in some Storybook setups; omit to use default
     }),
   ],
 };
