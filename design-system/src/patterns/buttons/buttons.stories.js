@@ -1,5 +1,6 @@
 import '../../components/labs-button/labs-button.js';
 import '../../components/labs-icon.js';
+import icons from '../../components/icons-list.js';
 
 export default {
   title: 'Patterns/Buttons',
@@ -8,16 +9,16 @@ export default {
   argTypes: {
     variant: {
       control: { type: 'select' },
-      options: ['primary', 'secondary', 'destructive', 'icon'],
-      description: 'Visual variant for the button',
+      options: ['primary', 'secondary', 'destructive'],
+      description: 'Visual variant for the button (icon-only usage is provided as a Pattern)',
     },
     size: {
       control: { type: 'select' },
       options: ['small', 'medium', 'large'],
       description: 'Button size',
     },
-    'icon-left': { control: 'text', description: 'Name of left icon (optional)' },
-    'icon-right': { control: 'text', description: 'Name of right icon (optional)' },
+    'icon-left': { control: { type: 'select' }, options: icons, description: 'Name of left icon (optional)' },
+    'icon-right': { control: { type: 'select' }, options: icons, description: 'Name of right icon (optional)' },
     children: { control: 'text', name: 'Label', description: 'Button label text' },
   },
 };
@@ -39,16 +40,5 @@ export const Default = {
   },
   parameters: {
     docs: { description: { story: 'Default button example. Use controls to change variant, size and icons.' } },
-  },
-};
-
-export const IconOnly = {
-  name: 'Icon Only',
-  render: () =>
-    `<labs-button variant="icon" aria-label="Settings">
-      <labs-icon name="settings"></labs-icon>
-    </labs-button>`,
-  parameters: {
-    docs: { description: { story: 'Compact icon-only button. Provide an aria-label for accessibility.' } },
   },
 };

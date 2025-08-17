@@ -1,4 +1,5 @@
 // Icon Only Button Pattern — Storybook story for usage pattern, not a variant
+import '../../components/labs-button/labs-button.js';
 import '../../components/labs-icon.js';
 /**
  * @type { import('@storybook/web-components').Meta }
@@ -27,4 +28,7 @@ export const IconOnly = {
   `,
   name: 'Icon Only',
   args: {},
+  parameters: {
+    controls: { include: ['icon-left', 'icon-right', 'children'], hideNoControlsWarning: true }
+  },
 };
