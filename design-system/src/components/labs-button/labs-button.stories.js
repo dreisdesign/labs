@@ -11,7 +11,7 @@ export default {
   component: 'labs-button',
   tags: ['autodocs'],
   argTypes: {
-    variant: { control: 'select', options: ['primary', 'secondary', 'destructive', 'icon'] },
+    variant: { control: 'select', options: ['primary', 'secondary', 'destructive'] },
     'aria-label': { control: 'text', name: 'aria-label' },
   },
   parameters: {
@@ -40,5 +40,4 @@ Default.args = {
   'aria-label': '',
 };
 
-export const Primary = Template.bind({});
-Primary.args = { ...Default.args };
+// Keep a single Default story; other variants can be tested from controls in the Docs.

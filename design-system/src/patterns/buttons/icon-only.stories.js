@@ -6,6 +6,8 @@ import '../../components/labs-icon.js';
 
 export default {
   title: 'Patterns/Buttons/Icon Only',
+  component: 'labs-button',
+  tags: ['autodocs'],
   parameters: {
     docs: {
       autodocs: true,
