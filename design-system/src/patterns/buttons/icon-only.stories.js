@@ -1,6 +1,7 @@
 // Icon Only Button Pattern — Storybook story for usage pattern, not a variant
 import '../../components/labs-button/labs-button.js';
 import '../../components/labs-icon.js';
+import icons from '../../components/icons-list.js';
 /**
  * @type { import('@storybook/web-components').Meta }
  */
@@ -21,14 +22,19 @@ export default {
 };
 
 export const IconOnly = {
-  render: () => `
-    <labs-button variant="icon" aria-label="Settings">
-      <span slot="icon-left"><labs-icon name="settings"></labs-icon></span>
+  name: 'Icon Only',
+  args: {
+    icon: 'settings',
+  },
+  argTypes: {
+    icon: { control: { type: 'select' }, options: icons, description: 'Icon to display' },
+  },
+  render: ({ icon }) => `
+    <labs-button variant="icon" aria-label="${icon}">
+      <span slot="icon-left"><labs-icon name="${icon}"></labs-icon></span>
     </labs-button>
   `,
-  name: 'Icon Only',
-  args: {},
   parameters: {
-    controls: { include: ['icon-left', 'icon-right', 'children'], hideNoControlsWarning: true }
+    controls: { include: ['icon'], hideNoControlsWarning: true },
   },
 };
