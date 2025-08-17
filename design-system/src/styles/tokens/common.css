@@ -1,0 +1,65 @@
+/* Minimal cross-cutting utility tokens for the design system */
+:root {
+  /* Overlay */
+  --color-overlay-background: rgba(0, 0, 0, 0.5);
+
+  /* Surface container helpers */
+  --color-surface-container: #f7f7fb;
+  --color-surface-container-high: #eeeef4;
+  --color-surface-variant: #f0f0f4;
+  --color-on-surface-variant: rgba(28, 27, 31, .65);
+
+  /* Status colors (explicit root values provided by request) */
+  --color-success: #00B56A;
+  /* success */
+  --color-on-success: #ffffff;
+
+  --color-destructive: #B5005A;
+  /* destructive alias for clarity */
+  --color-error: var(--color-destructive);
+  --color-on-error: #ffffff;
+
+  --color-warning: #FFC634;
+  /* warning */
+  --color-on-warning: #000000;
+
+  /* Deprecated/compat tokens used in older components (kept as aliases) */
+  --color-status-success: var(--color-success);
+  --color-status-warning: var(--color-warning);
+  --color-status-destructive: var(--color-error);
+
+  /* Legacy compatibility aliases */
+  --color-accent: var(--color-primary);
+  --color-bg: var(--color-background);
+
+  /* Hover helpers */
+  --color-hover-light: rgba(0, 0, 0, .05);
+  --color-hover-medium: rgba(0, 0, 0, .1);
+
+  /* Transparent helpers for light/dark mapping */
+  --color-transparent-05: rgba(0, 0, 0, 0.05);
+  --color-transparent-10: rgba(0, 0, 0, 0.10);
+
+  /* Outline helpers */
+  --color-outline-variant: rgba(28, 27, 31, .08);
+
+  /* Typography helpers (shared) */
+  --font-family-base: "Source Sans 3", "Segoe UI", Arial, sans-serif;
+  --font-size-base: 1rem;
+  --font-size-body-xs: 12px;
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+
+  /* Small spacing aliases (ensure stories/components have defaults) */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+}
+
+/* Radius aliases (convenience) */
+:root {
+  --radius-full: 9999px;
+  --radius-lg: 12px;
+  --radius-md: 8px;
+}
