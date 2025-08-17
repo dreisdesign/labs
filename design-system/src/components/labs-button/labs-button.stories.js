@@ -1,5 +1,6 @@
 // labs-button.stories.js
 // Storybook story for Labs Button (modular web component)
+import "../labs-button.js";
 
 /**
  * @type { import('@storybook/web-components').Meta }
@@ -7,13 +8,14 @@
 
 export default {
   title: 'Components/Button',
+  component: 'labs-button',
+  tags: ['autodocs'],
   argTypes: {
-    variant: { control: 'select', options: ['primary', 'secondary', 'destructive'] },
+    variant: { control: 'select', options: ['primary', 'secondary', 'destructive', 'icon'] },
     'aria-label': { control: 'text', name: 'aria-label' },
   },
   parameters: {
     docs: {
-      autodocs: true,
       description: {
         component: 'Modular, theme-agnostic Labs Button web component. Uses CSS custom properties for all styling.\n\n**Note:** Icon Only is a usage pattern, not a variant. To create an icon-only button, use a regular variant (e.g. primary) and provide only a slotted icon with an aria-label.',
       },
@@ -32,8 +34,11 @@ const Template = (args) => {
   `;
 };
 
-export const Primary = Template.bind({});
-Primary.args = {
+export const Default = Template.bind({});
+Default.args = {
   variant: 'primary',
   'aria-label': '',
 };
+
+export const Primary = Template.bind({});
+Primary.args = { ...Default.args };
