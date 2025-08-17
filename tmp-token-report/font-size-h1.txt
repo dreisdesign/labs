@@ -1,7 +1,0 @@
-TOKEN: --font-size-h1
-DECLARATIONS:
-/Users/danielreis/labs/design-system/src/styles/tokens/typography.css:35:  --font-size-h1: 1.75rem;
-
-USAGES:
-/Users/danielreis/labs/design-system/src/styles/components/settings-overlay.css:56:  font-size: var(--font-size-h1);
-/Users/danielreis/labs/design-system/src/styles/tokens/typography.css:41:  --font-size-xxl: var(--font-size-h1);

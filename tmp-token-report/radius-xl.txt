@@ -1,6 +1,0 @@
-TOKEN: --radius-xl
-DECLARATIONS:
-/Users/danielreis/labs/design-system/src/styles/tokens/border-radius.css:14:    --radius-xl: 0.75rem;
-
-USAGES:
-/Users/danielreis/labs/design-system/src/styles/tokens/border-radius.css:26:    --radius-modal: var(--radius-xl);

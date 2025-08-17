@@ -1,8 +1,0 @@
-TOKEN: --radius-lg
-DECLARATIONS:
-/Users/danielreis/labs/design-system/src/styles/main.css:61:  --radius-lg: 12px;
-/Users/danielreis/labs/design-system/src/styles/tokens/common.css:63:  --radius-lg: 12px;
-/Users/danielreis/labs/design-system/src/styles/tokens/border-radius.css:12:    --radius-lg: 0.5rem;
-
-USAGES:
-/Users/danielreis/labs/design-system/src/styles/tokens/border-radius.css:25:    --radius-card: var(--radius-lg);

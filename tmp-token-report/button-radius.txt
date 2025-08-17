@@ -1,7 +1,0 @@
-TOKEN: --button-radius
-DECLARATIONS:
-/Users/danielreis/labs/design-system/src/styles/main.css:14:  --button-radius: 6px;
-/Users/danielreis/labs/design-system/src/components/labs-button.js:22:          --button-radius: 6px;
-
-USAGES:
-/Users/danielreis/labs/design-system/src/components/labs-button.js:45:          border-radius: var(--button-radius, 6px);

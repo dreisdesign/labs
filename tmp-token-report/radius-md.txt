@@ -1,8 +1,0 @@
-TOKEN: --radius-md
-DECLARATIONS:
-/Users/danielreis/labs/design-system/src/styles/main.css:60:  --radius-md: 8px;
-/Users/danielreis/labs/design-system/src/styles/tokens/common.css:64:  --radius-md: 8px;
-/Users/danielreis/labs/design-system/src/styles/tokens/border-radius.css:10:    --radius-md: 0.375rem;
-
-USAGES:
-/Users/danielreis/labs/design-system/src/styles/tokens/border-radius.css:27:    --radius-input: var(--radius-md);

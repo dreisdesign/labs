@@ -1,6 +1,0 @@
-TOKEN: --badge-font-size
-DECLARATIONS:
-/Users/danielreis/labs/design-system/src/components/labs-badge.js:29:                    --badge-font-size: var(--font-size-body-xs, 12px);
-
-USAGES:
-/Users/danielreis/labs/design-system/src/components/labs-badge.js:50:                    font-size: var(--badge-font-size, var(--font-size-body-xs, 12px));

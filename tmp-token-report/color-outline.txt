@@ -1,9 +1,0 @@
-TOKEN: --color-outline
-DECLARATIONS:
-/Users/danielreis/labs/design-system/src/styles/main.css:27:  --color-outline: rgba(28, 27, 31, .12);
-/Users/danielreis/labs/design-system/src/styles/main.css:47:  --color-outline: rgba(28, 27, 31, .12);
-/Users/danielreis/labs/design-system/src/styles/main.css:106:  --color-outline: rgba(255, 255, 255, 0.12);
-
-USAGES:
-/Users/danielreis/labs/design-system/src/components/labs-badge.js:78:                    border: 1px solid var(--color-outline);
-/Users/danielreis/labs/design-system/src/components/labs-badge.js:110:                    border-color: var(--color-outline);

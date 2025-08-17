@@ -1,9 +1,0 @@
-TOKEN: --font-size-base
-DECLARATIONS:
-/Users/danielreis/labs/design-system/src/styles/tokens/typography.css:3:  --font-size-base: 1rem;
-/Users/danielreis/labs/design-system/src/styles/tokens/typography.css:27:  --font-size-base: 1rem;
-/Users/danielreis/labs/design-system/src/styles/tokens/common.css:48:  --font-size-base: 1rem;
-
-USAGES:
-/Users/danielreis/labs/design-system/src/stories/tokens-typography.stories.js:16:  <div style="font-size: var(--font-size-base); font-weight: var(--font-weight-bold);">
-/Users/danielreis/labs/design-system/src/stories/tokens-typography.stories.js:17:    Base font size (var(--font-size-base)), Bold (var(--font-weight-bold))

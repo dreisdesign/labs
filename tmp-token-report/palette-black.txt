@@ -1,8 +1,0 @@
-TOKEN: --palette-black
-DECLARATIONS:
-/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:28:  --palette-black: rgb(0, 0, 0);
-/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:48:  --palette-black: var(--palette-black);
-
-USAGES:
-/Users/danielreis/labs/design-system/src/styles/flavors.css:19:  --color-background: var(--palette-black);
-/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:48:  --palette-black: var(--palette-black);

@@ -1,8 +1,0 @@
-TOKEN: --button-focus
-DECLARATIONS:
-/Users/danielreis/labs/design-system/src/components/labs-button.js:24:          --button-focus: 0 0 0 2px rgba(147,197,253,0.6);
-/Users/danielreis/labs/design-system/src/components/labs-button.js:33:          --button-focus: var(--button-focus, 0 0 0 2px rgba(147,197,253,0.6));
-
-USAGES:
-/Users/danielreis/labs/design-system/src/components/labs-button.js:33:          --button-focus: var(--button-focus, 0 0 0 2px rgba(147,197,253,0.6));
-/Users/danielreis/labs/design-system/src/components/labs-button.js:55:          box-shadow: 0 0 0 2px var(--button-focus, #93c5fd);

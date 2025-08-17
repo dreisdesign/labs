@@ -1,6 +1,0 @@
-TOKEN: --badge-font-weight
-DECLARATIONS:
-/Users/danielreis/labs/design-system/src/components/labs-badge.js:30:                    --badge-font-weight: 600;
-
-USAGES:
-/Users/danielreis/labs/design-system/src/components/labs-badge.js:51:                    font-weight: var(--badge-font-weight, 600);

@@ -1,9 +1,0 @@
-TOKEN: --radius-full
-DECLARATIONS:
-/Users/danielreis/labs/design-system/src/styles/main.css:62:  --radius-full: 9999px;
-/Users/danielreis/labs/design-system/src/styles/tokens/common.css:62:  --radius-full: 9999px;
-/Users/danielreis/labs/design-system/src/styles/tokens/border-radius.css:20:    --radius-full: 9999px;
-
-USAGES:
-/Users/danielreis/labs/design-system/src/styles/tokens/border-radius.css:24:    --radius-button: var(--radius-full);
-/Users/danielreis/labs/design-system/src/styles/tokens/border-radius.css:28:    --radius-badge: var(--radius-full);

@@ -1,8 +1,0 @@
-TOKEN: --badge-color
-DECLARATIONS:
-(none)
-
-USAGES:
-/Users/danielreis/labs/design-system/src/components/labs-badge.js:42:                    color: var(--badge-color, var(--color-on-surface));
-/Users/danielreis/labs/design-system/src/components/labs-badge.js:65:                    color: var(--badge-color, var(--color-on-surface));
-/Users/danielreis/labs/design-system/src/components/labs-badge.js:109:                    color: var(--badge-color, var(--color-on-surface));

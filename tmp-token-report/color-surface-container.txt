@@ -1,8 +1,0 @@
-TOKEN: --color-surface-container
-DECLARATIONS:
-/Users/danielreis/labs/design-system/src/styles/main.css:23:  --color-surface-container: #f7f7fb;
-/Users/danielreis/labs/design-system/src/styles/main.css:102:  --color-surface-container: rgb(42, 42, 42);
-/Users/danielreis/labs/design-system/src/styles/tokens/common.css:7:  --color-surface-container: #f7f7fb;
-
-USAGES:
-/Users/danielreis/labs/design-system/src/stories/tokens-colors.stories.js:19:  <div style="background: var(--color-surface-container); color: #333; padding: 1rem;">Surface Container (var(--color-surface-container))</div>

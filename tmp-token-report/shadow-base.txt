@@ -1,8 +1,0 @@
-TOKEN: --shadow-base
-DECLARATIONS:
-/Users/danielreis/labs/design-system/src/styles/main.css:52:  --shadow-base: 0 1px 3px rgba(0, 0, 0, 0.08);
-/Users/danielreis/labs/design-system/src/styles/tokens/shadows.css:6:    --shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-/Users/danielreis/labs/design-system/src/styles/tokens/shadows.css:27:    --shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-
-USAGES:
-/Users/danielreis/labs/design-system/src/styles/tokens/shadows.css:16:    --shadow-card: var(--shadow-base);
