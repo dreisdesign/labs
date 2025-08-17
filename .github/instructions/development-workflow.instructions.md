@@ -1,6 +1,10 @@
 
 ### **AI Chat Task Continuation Policy**
 
+**Setting Expectations**
+When ready to test, describe what I should see at each stage
+
+
 - **After completing a task, always review the conversation for any recently discussed but incomplete tasks.**
 - **If there are pending tasks, immediately return to them and provide the next command, step, or context needed to continue.**
 - **Never end your turn without either fully completing all tasks or clearly providing the next actionable step for the user.**
@@ -50,7 +54,7 @@ This is the default and preferred workflow for all AI-driven development and tes
 # Start local Storybook development
 npm run storybook
 
-# Build for production deployment  
+# Build for production deployment
 npm run build-storybook
 
 # Deploy to GitHub Pages
@@ -101,8 +105,6 @@ npm run deploy
 - **[📖 Main README](../../README.md)** - Project overview and index
 - **[📋 Global Changelog](../../CHANGELOG.md)** - Project milestones
 - **[🎨 Design System README](../../design-system/README.md)** - Component docs
-- **[📋 Design System Features](../../design-system/FEATURES.md)** - Component API and features
-
 ### **Documentation Principles**
 - **One README per project** - Single source of truth
 - **One CHANGELOG per project** - Clear release tracking
@@ -154,7 +156,7 @@ npm run deploy
 - **Solution**: Wait for component setup before adding app-specific listeners
 - **Pattern**: Use `customElements.whenDefined()` in demo/app files
 
-### **Cache & Build Issues**  
+### **Cache & Build Issues**
 - **Problem**: Components not updating despite code changes
 - **Solution**: Clear `storybook-static/` and `docs/design-system/` then rebuild
 - **Command**: `rm -rf design-system/storybook-static docs/design-system && npm run menu`

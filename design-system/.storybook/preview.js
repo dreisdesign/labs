@@ -1,7 +1,38 @@
 /** @type { import('@storybook/web-components-vite').Preview } */
+import "../src/components/labs-button/labs-button.js";
 import { withThemeByClassName } from '@storybook/addon-themes';
 
 const preview = {
+  globalTypes: {
+    flavor: {
+      name: 'Flavor',
+      description: 'Smoothie flavor (theme token set)',
+      defaultValue: 'blueberry',
+      toolbar: {
+        icon: 'arrowdown',
+        items: [
+          { value: 'blueberry', title: 'blueberry' },
+          { value: 'strawberry', title: 'strawberry' },
+        ],
+        showName: true,
+        dynamicTitle: true,
+      },
+    },
+    theme: {
+      name: 'Theme',
+      description: 'UI theme (light/dark)',
+      defaultValue: 'light',
+      toolbar: {
+        icon: 'sun',
+        items: [
+          { value: 'light', icon: 'sun', title: 'Light' },
+          { value: 'dark', icon: 'moon', title: 'Dark' },
+        ],
+        showName: true,
+        dynamicTitle: true,
+      },
+    },
+  },
   parameters: {
     // Enable docs for all stories
     docs: {
@@ -57,15 +88,22 @@ const preview = {
   },
 
   decorators: [
-    withThemeByClassName({
-      themes: {
-        light: 'theme-light',
-        dark: 'theme-dark',
-      },
-      defaultTheme: 'light',
-      // Apply theme classes to the document root (safer across iframe boundaries)
-      // parentSelector: 'body' caused cross-window errors in some Storybook setups; omit to use default
-    }),
+    (Story, context) => {
+      // Set theme class (light/dark) on document root
+      const theme = context.globals.theme || 'light';
+      const root = document.documentElement;
+      root.classList.remove('theme-light', 'theme-dark');
+      root.classList.add(`theme-${theme}`);
+      return Story();
+    },
+    (Story, context) => {
+      // Add smoothie flavor class to document root for blueberry/strawberry theme switching
+      const flavor = context.globals.flavor || 'blueberry';
+      const root = document.documentElement;
+      root.classList.remove('flavor-blueberry', 'flavor-strawberry');
+      root.classList.add(`flavor-${flavor}`);
+      return Story();
+    },
   ],
 };
 

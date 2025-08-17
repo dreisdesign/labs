@@ -44,6 +44,10 @@ export const Default = {
       background: var(--color-surface);
       border-radius: 8px;
       border: 1px solid var(--color-primary-25);
+      min-width: ${size + 32}px;
+      min-height: ${size + 32}px;
+      box-sizing: border-box;
+      overflow: visible;
     `;
 
     const icon = document.createElement("labs-icon");
@@ -51,9 +55,13 @@ export const Default = {
     icon.setAttribute("size", size.toString());
     icon.style.cssText = `
       color: ${color};
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: block;
+      width: ${size}px;
+      height: ${size}px;
+      min-width: ${size}px;
+      min-height: ${size}px;
+      box-sizing: content-box;
+      overflow: visible;
     `;
 
     const label = document.createElement("div");

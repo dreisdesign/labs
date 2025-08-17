@@ -92,27 +92,45 @@ class LabsIcon extends HTMLElement {
   }
 
   async render() {
-
+    // Modular icon sizing and alignment for design system integration
+    const styleBlock = `
+      <style>
+        :host {
+          display: inline-block;
+          width: 1em;
+          height: 1em;
+          vertical-align: middle;
+        }
+        svg {
+          width: 100%;
+          height: 100%;
+          display: block;
+        }
+        div {
+          width: 100%;
+          height: 100%;
+          display: block;
+        }
+      </style>
+    `;
 
     const iconName = this.getAttribute("name");
     let url = icons[iconName];
-    console.log('[labs-icon] render:', { iconName, url, icons });
+    // console.log('[labs-icon] render:', { iconName, url, icons });
 
     if (!url) {
-      this.shadowRoot.innerHTML = "";
+      this.shadowRoot.innerHTML = styleBlock;
       return;
     }
 
     const style = window.getComputedStyle(this);
-    const rawWidth = this.getAttribute("width") || style.width || "24";
-    const rawHeight = this.getAttribute("height") || style.height || "24";
+    const rawWidth = this.getAttribute("width") || style.width || "1em";
+    const rawHeight = this.getAttribute("height") || style.height || "1em";
 
     // Ensure width and height are never "auto" or invalid values
-    const width = (rawWidth === "auto" || !rawWidth || rawWidth === "0px") ? "24" : rawWidth.replace("px", "");
-    const height = (rawHeight === "auto" || !rawHeight || rawHeight === "0px") ? "24" : rawHeight.replace("px", "");
+    const width = (rawWidth === "auto" || !rawWidth || rawWidth === "0px") ? "1em" : rawWidth.replace("px", "");
+    const height = (rawHeight === "auto" || !rawHeight || rawHeight === "0px") ? "1em" : rawHeight.replace("px", "");
 
-    const widthPx = width + "px";
-    const heightPx = height + "px";
     // Color handling with theme awareness
     let color = this.getAttribute("color") || "var(--color-on-surface)";
 
@@ -157,18 +175,17 @@ class LabsIcon extends HTMLElement {
       svg = svg.replace(/width="[^"]*"/gi, `width="${width}"`);
       svg = svg.replace(/height="[^"]*"/gi, `height="${height}"`);
 
-      this.shadowRoot.innerHTML = svg;
+      this.shadowRoot.innerHTML = styleBlock + svg;
       return;
     } catch (e) {
       // Fallback to mask if fetch fails
-      this.shadowRoot.innerHTML = `
+      this.shadowRoot.innerHTML = styleBlock + `
         <div style="
-          width: ${width};
-          height: ${height};
+          width: 100%;
+          height: 100%;
           background-color: ${color};
           mask: url('${url}') no-repeat center / contain;
           -webkit-mask: url('${url}') no-repeat center / contain;
-          display: inline-block;
         "></div>
       `;
     }

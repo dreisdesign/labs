@@ -1,0 +1,47 @@
+/* Blueberry - Light (minimal, unique tokens) */
+.flavor-blueberry.theme-light {
+  --color-primary: rgb(46, 43, 116);
+  --color-background: rgb(193, 193, 255);
+  --color-surface: rgb(255, 255, 255);
+  --color-on-primary: rgb(255, 255, 255);
+  --color-on-background: rgb(22, 10, 56);
+  --color-error: rgb(181, 0, 90);
+  --color-on-error: rgb(255, 255, 255);
+  --settings-icon-color: rgba(28, 27, 31, .25);
+}
+
+/* Blueberry - Dark (minimal, unique tokens) */
+.flavor-blueberry.theme-dark {
+  --color-primary: rgb(46, 43, 116);
+  --color-background: rgb(18, 18, 18);
+  --color-surface: rgb(30, 30, 30);
+  --color-on-primary: rgb(255, 255, 255);
+  --color-on-background: rgb(193, 193, 255);
+  --color-error: rgb(207, 102, 121);
+  --color-on-error: rgb(0, 0, 0);
+  --settings-icon-color: rgba(255, 255, 255, .25);
+}
+
+/* Strawberry - Light (minimal, unique tokens) */
+.flavor-strawberry.theme-light {
+  --color-primary: rgb(128, 8, 0);
+  --color-background: rgb(254, 226, 225);
+  --color-surface: rgb(255, 255, 255);
+  --color-on-primary: rgb(255, 255, 255);
+  --color-on-background: rgb(34, 34, 34);
+  --color-error: rgb(229, 57, 53);
+  --color-on-error: rgb(255, 255, 255);
+  --settings-icon-color: rgb(102, 6, 0);
+}
+
+/* Strawberry - Dark (minimal, unique tokens) */
+.flavor-strawberry.theme-dark {
+  --color-primary: rgb(128, 8, 0);
+  --color-background: rgb(34, 34, 34);
+  --color-surface: rgb(24, 24, 24);
+  --color-on-primary: rgb(255, 255, 255);
+  --color-on-background: rgb(255, 255, 255);
+  --color-error: rgb(255, 111, 96);
+  --color-on-error: rgb(34, 34, 34);
+  --settings-icon-color: rgb(128, 8, 0);
+}
