@@ -58,6 +58,7 @@ For the design system philosophy and metaphor, see the [Smoothie Design System O
 ## Reference
 - [Storybook: Patterns/Buttons](../../../../storybook-static/index.html?path=/docs/patterns-buttons--docs)
 - [Button Configs Source](../../tokens/button-configs.js)
+ - [Color Tokens & Theme Docs](../styles/COLORS-DOCS.md)
 
 ---
 

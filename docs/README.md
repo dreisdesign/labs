@@ -23,6 +23,8 @@ All other documentation is archived. Use only the links below for current, canon
 - [Global Monorepo README](../README.md) — Project structure, workflow, and developer info
 - [Smoothie Design System Overview](../design-system/smoothie.md) — Philosophy and metaphor for all components
 - [Button Docs (Canonical)](../design-system/src/components/labs-button/BUTTON-DOCS.md)
+- [Button Docs (Canonical)](../design-system/src/components/labs-button/BUTTON-DOCS.md)
+- [Color Tokens & Theme Docs](../design-system/src/styles/COLORS-DOCS.md)
 - [Roadmap](../design-system/ROADMAP.md)
 - [Changelog](../design-system/CHANGELOG.md)
 - [Migration Guide](../_dev/_documents/DESIGN-SYSTEM-MIGRATION-GUIDE.md)

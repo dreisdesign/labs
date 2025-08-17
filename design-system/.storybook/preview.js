@@ -94,6 +94,14 @@ const preview = {
       const root = document.documentElement;
       root.classList.remove('theme-light', 'theme-dark');
       root.classList.add(`theme-${theme}`);
+      // Notify manager (docs UI) so it can mirror the same theme classes
+      try {
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage({ type: 'STORYBOOK_SYNC_THEME', theme }, '*');
+        }
+      } catch (e) {
+        // silent
+      }
       return Story();
     },
     (Story, context) => {
@@ -102,6 +110,14 @@ const preview = {
       const root = document.documentElement;
       root.classList.remove('flavor-blueberry', 'flavor-strawberry');
       root.classList.add(`flavor-${flavor}`);
+      // Notify manager (docs UI) so it can mirror the same flavor classes
+      try {
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage({ type: 'STORYBOOK_SYNC_THEME', flavor }, '*');
+        }
+      } catch (e) {
+        // silent
+      }
       return Story();
     },
   ],

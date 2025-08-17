@@ -1,7 +1,7 @@
 
 # 🥤 Smoothie Design System
 
-_This document is the conceptual and metaphorical guide for the Smoothie Design System. For concrete component APIs and usage, see the component docs (e.g., [BUTTON-DOCS.md](src/components/labs-button/BUTTON-DOCS.md)), the [ROADMAP](ROADMAP.md), or the main [README](../README.md)._
+_This document is the conceptual and metaphorical guide for the Smoothie Design System. For concrete component APIs and usage, see the component docs (e.g., [BUTTON-DOCS.md](src/components/labs-button/BUTTON-DOCS.md) and [Color Tokens & Theme Docs](src/styles/COLORS-DOCS.md)), the [ROADMAP](ROADMAP.md), or the main [README](../README.md)._
 
 A playful, modular approach to UI components—where every component is a smoothie, and every option is an ingredient!
 
