@@ -1,132 +1,57 @@
-/* Palette variables (single source of truth for raw colors) */
+/* Palette variables (single source of truth for raw colors)
+   Minimal anchor set: 5 shades per flavor and 5 neutral stops.
+*/
 :root {
-  /* Blueberry */
+  /* Blueberry (5 stops) */
+  --palette-blueberry-50: rgb(240, 239, 255);
+  --palette-blueberry-200: rgb(193, 193, 255);
+  /* existing blueberry-100 */
   --palette-blueberry-500: rgb(46, 43, 116);
-  --palette-blueberry-100: rgb(193, 193, 255);
-  --palette-blueberry-onbg: rgb(22, 10, 56);
-  --palette-blueberry-error: rgb(181, 0, 90);
-  --palette-blueberry-dark-error: rgb(207, 102, 121);
-  --palette-blueberry-settings-icon: rgba(28, 27, 31, .25);
-  --palette-blueberry-dark-settings-icon: rgba(255, 255, 255, .25);
+  /* brand */
+  --palette-blueberry-700: rgb(25, 23, 80);
+  --palette-blueberry-900: rgb(12, 10, 40);
 
-  /* Strawberry */
+  /* Strawberry (5 stops) */
+  --palette-strawberry-50: rgb(255, 246, 245);
+  --palette-strawberry-200: rgb(254, 226, 225);
+  /* existing strawberry-100 */
   --palette-strawberry-500: rgb(128, 8, 0);
-  --palette-strawberry-100: rgb(254, 226, 225);
-  --palette-strawberry-onbg: rgb(34, 34, 34);
-  --palette-strawberry-error: rgb(229, 57, 53);
-  --palette-strawberry-dark-error: rgb(255, 111, 96);
-  --palette-strawberry-settings-icon: rgb(102, 6, 0);
+  /* brand */
+  --palette-strawberry-700: rgb(102, 6, 0);
+  --palette-strawberry-900: rgb(56, 3, 0);
 
-  /* Neutrals / utils */
+  /* Neutral scale (5 stops) */
   --palette-white: rgb(255, 255, 255);
+  --palette-neutral-200: rgb(240, 240, 244);
+  --palette-neutral-500: rgb(128, 128, 138);
+  --palette-neutral-700: rgb(60, 60, 70);
   --palette-black: rgb(0, 0, 0);
-  --palette-dark-surface-1: rgb(30, 30, 30);
-  --palette-dark-surface-2: rgb(24, 24, 24);
-}
 
-/* Labs Design System - Color Tokens (Tracker palette integrated) */
-:root {
-  --color-primary: rgb(46, 43, 116);
-  --color-secondary: rgb(13, 11, 63);
-  --color-primary-darker: rgb(25, 23, 80);
-  --color-background: rgb(193, 193, 255);
-  --color-surface: rgb(255, 255, 255);
-  --color-success: rgb(0, 181, 106);
-  --color-error: rgb(181, 0, 90);
-  --color-warning: rgb(255, 198, 52);
-  --color-error-inactive: rgb(181, 181, 181);
-  --color-on-primary: rgb(255, 255, 255);
-  --color-on-background: rgb(22, 10, 56);
-  --color-on-surface: rgb(28, 27, 31);
-  --color-on-success: rgb(255, 255, 255);
-  --color-on-error: rgb(255, 255, 255);
-  --color-on-warning: rgb(0, 0, 0);
-  --color-on-error-inactive: rgb(255, 255, 255);
-  --color-primary-75: rgba(46, 43, 116, 0.75);
-  --color-primary-25: rgba(193, 193, 255, 0.25);
-  --color-secondary-75: rgba(13, 11, 63, 0.75);
-  --color-on-surface-75: rgba(28, 27, 31, 0.75);
-  --settings-icon-color: rgba(28, 27, 31, 0.25);
+  /* Broad legacy aliases (compat) */
+  --palette-blueberry: var(--palette-blueberry-500);
+  --palette-blueberry-10: var(--palette-blueberry-50);
+  --palette-blueberry-100: var(--palette-blueberry-200);
+  --palette-blueberry-200: var(--palette-blueberry-200);
+  --palette-blueberry-500: var(--palette-blueberry-500);
+  --palette-blueberry-700: var(--palette-blueberry-700);
+  --palette-blueberry-900: var(--palette-blueberry-900);
 
-  /* Hover color tokens */
-  --color-hover-light: rgba(0, 0, 0, 0.05);
-  --color-hover-medium: rgba(0, 0, 0, 0.1);
+  --palette-strawberry: var(--palette-strawberry-500);
+  --palette-strawberry-100: var(--palette-strawberry-200);
+  --palette-strawberry-200: var(--palette-strawberry-200);
+  --palette-strawberry-500: var(--palette-strawberry-500);
+  --palette-strawberry-700: var(--palette-strawberry-700);
+  --palette-strawberry-900: var(--palette-strawberry-900);
 
-  /* Surface container tokens */
-  --color-surface-container: rgb(247, 247, 251);
-  --color-surface-container-high: rgb(238, 238, 244);
-  --color-surface-variant: rgb(240, 240, 244);
-  --color-on-surface-variant: rgba(28, 27, 31, 0.65);
-  --color-outline: rgba(28, 27, 31, 0.12);
-  --color-outline-variant: rgba(28, 27, 31, 0.08);
-}
+  --palette-dark-surface-1: var(--palette-neutral-700);
+  --palette-white: var(--palette-white);
+  --palette-black: var(--palette-black);
 
-.theme-light {
-  --color-primary: rgb(46, 43, 116);
-  --color-secondary: rgb(13, 11, 63);
-  --color-primary-darker: rgb(25, 23, 80);
-  --color-background: rgb(193, 193, 255);
-  --color-surface: rgb(255, 255, 255);
-  --color-success: rgb(0, 181, 106);
-  --color-error: rgb(181, 0, 90);
-  --color-warning: rgb(255, 198, 52);
-  --color-error-inactive: rgb(181, 181, 181);
-  --color-on-primary: rgb(255, 255, 255);
-  --color-on-background: rgb(22, 10, 56);
-  --color-on-surface: rgb(28, 27, 31);
-  --color-on-success: rgb(255, 255, 255);
-  --color-on-error: rgb(255, 255, 255);
-  --color-on-warning: rgb(0, 0, 0);
-  --color-on-error-inactive: rgb(255, 255, 255);
-  --color-primary-75: rgba(46, 43, 116, 0.75);
-  --color-primary-25: rgba(193, 193, 255, 0.25);
-  --color-secondary-75: rgba(13, 11, 63, 0.75);
-  --color-on-surface-75: rgba(28, 27, 31, 0.75);
-  --settings-icon-color: rgba(28, 27, 31, 0.25);
-
-  /* Hover color tokens */
-  --color-hover-light: rgba(0, 0, 0, 0.05);
-  --color-hover-medium: rgba(0, 0, 0, 0.1);
-
-  /* Glass/glassmorphism tokens */
-  --color-surface-glass: rgba(255, 255, 255, 0.15);
-  --color-border-glass: rgba(255, 255, 255, 0.5);
-}
-
-.theme-dark {
-  --color-background: rgb(18, 18, 18);
-  --color-on-background: rgb(193, 193, 255);
-  --color-surface: rgb(30, 30, 30);
-  --color-on-surface: rgb(255, 255, 255);
-  --color-primary: rgb(149, 117, 205);
-  --color-secondary: rgb(126, 87, 194);
-  --color-primary-darker: rgb(110, 85, 160);
-  --color-success: rgb(0, 181, 106);
-  --color-error: rgb(207, 102, 121);
-  --color-warning: rgb(255, 198, 52);
-  --color-on-primary: rgb(0, 0, 0);
-  --color-on-success: rgb(255, 255, 255);
-  --color-on-error: rgb(0, 0, 0);
-  --color-on-warning: rgb(0, 0, 0);
-  --color-primary-75: rgba(149, 117, 205, 0.75);
-  --color-primary-25: rgba(149, 117, 205, 0.25);
-  --color-secondary-75: rgba(126, 87, 194, 0.75);
-  --color-on-surface-75: rgba(255, 255, 255, 0.75);
-  --settings-icon-color: rgba(255, 255, 255, 0.25);
-
-  /* Dark theme hover color tokens */
-  --color-hover-light: rgba(255, 255, 255, 0.05);
-  --color-hover-medium: rgba(255, 255, 255, 0.1);
-
-  /* Surface container tokens for dark theme */
-  --color-surface-container: rgb(42, 42, 42);
-  --color-surface-container-high: rgb(55, 55, 55);
-  --color-surface-variant: rgb(48, 48, 48);
-  --color-on-surface-variant: rgba(255, 255, 255, 0.65);
-  --color-outline: rgba(255, 255, 255, 0.12);
-  --color-outline-variant: rgba(255, 255, 255, 0.08);
-
-  /* Glass/glassmorphism tokens for dark theme */
-  --color-surface-glass: rgba(30, 30, 30, 0.15);
-  --color-border-glass: rgba(255, 255, 255, 0.2);
+  /* Legacy aliases (compat) - map old names to the new minimal anchors */
+  --palette-blueberry: var(--palette-blueberry-500);
+  --palette-blueberry-10: var(--palette-blueberry-50);
+  --palette-blueberry-100: var(--palette-blueberry-200);
+  --palette-strawberry: var(--palette-strawberry-500);
+  --palette-strawberry-100: var(--palette-strawberry-200);
+  --palette-dark-surface-1: var(--palette-neutral-700);
 }

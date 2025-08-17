@@ -1,0 +1,7 @@
+TOKEN: --font-size-lg
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/tokens/typography.css:7:  --font-size-lg: 1.25rem;
+/Users/danielreis/labs/design-system/src/styles/tokens/typography.css:40:  --font-size-lg: var(--font-size-h3);
+
+USAGES:
+/Users/danielreis/labs/design-system/src/stories/tokens-typography.stories.js:19:  <div style="font-size: var(--font-size-lg);">Large font size (var(--font-size-lg))</div>

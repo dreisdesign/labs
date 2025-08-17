@@ -1,6 +1,7 @@
 @import "./tokens/colors.css";
 @import "./tokens/typography.css";
 @import "./tokens/spacing.css";
+@import "./tokens/common.css";
 @import "./flavors.css";
 
 /* Labs Design System - Main CSS */
@@ -25,6 +26,89 @@
   --color-on-surface-variant: rgba(28, 27, 31, .65);
   --color-outline: rgba(28, 27, 31, .12);
   --color-outline-variant: rgba(28, 27, 31, .08);
+}
+
+/* Semantic token fallbacks — these make the system usable without flavor classes
+   (keeps sensible defaults for docs / server-rendered pages). */
+:root {
+  --color-primary: var(--palette-blueberry-500, rgb(46, 43, 116));
+  --color-background: var(--palette-blueberry-200, rgb(193, 193, 255));
+  --color-surface: var(--palette-white, rgb(255, 255, 255));
+  --color-on-primary: var(--palette-white, rgb(255, 255, 255));
+  --color-on-background: var(--palette-blueberry-900, rgb(22, 10, 56));
+  --color-error: var(--palette-strawberry-500, rgb(229, 57, 53));
+}
+
+/* Small semantic helpers used widely in the codebase; keep these as compact helpers */
+:root {
+  --color-primary-75: rgba(46, 43, 116, 0.75);
+  --color-primary-25: rgba(193, 193, 255, 0.25);
+  --color-on-surface: rgb(28, 27, 31);
+  --color-outline: rgba(28, 27, 31, .12);
+}
+
+/* Minimal shadow tokens used across components */
+:root {
+  --shadow-base: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.12);
+  --shadow-overlay: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Radius tokens (small contract) */
+:root {
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 9999px;
+}
+
+/* Theme helpers (fallbacks when theme classes are used without flavor) */
+.theme-light {
+  --color-primary: var(--palette-blueberry-500, rgb(46, 43, 116));
+  --color-background: var(--palette-blueberry-200, rgb(193, 193, 255));
+  --color-surface: var(--palette-white, rgb(255, 255, 255));
+  --color-on-primary: var(--palette-white, rgb(255, 255, 255));
+  --color-on-background: var(--palette-blueberry-900, rgb(22, 10, 56));
+  --color-error: var(--palette-strawberry-500, rgb(229, 57, 53));
+
+  /* Glass/glassmorphism tokens */
+  --color-surface-glass: rgba(255, 255, 255, 0.15);
+  --color-border-glass: rgba(255, 255, 255, 0.5);
+}
+
+.theme-dark {
+  --color-background: rgb(18, 18, 18);
+  --color-on-background: var(--palette-blueberry-100, rgb(193, 193, 255));
+  --color-surface: var(--palette-dark-surface-1, rgb(30, 30, 30));
+  --color-on-surface: var(--palette-white, rgb(255, 255, 255));
+  --color-primary: rgb(149, 117, 205);
+  --color-secondary: rgb(126, 87, 194);
+  --color-primary-darker: rgb(110, 85, 160);
+  --color-error: rgb(207, 102, 121);
+  --color-on-primary: rgb(0, 0, 0);
+  --color-on-success: rgb(255, 255, 255);
+  --color-on-error: rgb(0, 0, 0);
+  --color-primary-75: rgba(149, 117, 205, 0.75);
+  --color-primary-25: rgba(149, 117, 205, 0.25);
+  --color-secondary-75: rgba(126, 87, 194, 0.75);
+  --color-on-surface-75: rgba(255, 255, 255, 0.75);
+  --settings-icon-color: rgba(255, 255, 255, 0.25);
+
+  /* Dark theme hover color tokens */
+  --color-hover-light: rgba(255, 255, 255, 0.05);
+  --color-hover-medium: rgba(255, 255, 255, 0.1);
+
+  /* Surface container tokens for dark theme */
+  --color-surface-container: rgb(42, 42, 42);
+  --color-surface-container-high: rgb(55, 55, 55);
+  --color-surface-variant: rgb(48, 48, 48);
+  --color-on-surface-variant: rgba(255, 255, 255, 0.65);
+  --color-outline: rgba(255, 255, 255, 0.12);
+  --color-outline-variant: rgba(255, 255, 255, 0.08);
+
+  /* Glass/glassmorphism tokens for dark theme */
+  --color-surface-glass: rgba(30, 30, 30, 0.15);
+  --color-border-glass: rgba(255, 255, 255, 0.2);
 }
 
 

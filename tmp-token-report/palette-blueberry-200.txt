@@ -1,0 +1,13 @@
+TOKEN: --palette-blueberry-200
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:7:  --palette-blueberry-200: rgb(193, 193, 255);
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:34:  --palette-blueberry-200: var(--palette-blueberry-200);
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/main.css:35:  --color-background: var(--palette-blueberry-200, rgb(193, 193, 255));
+/Users/danielreis/labs/design-system/src/styles/main.css:68:  --color-background: var(--palette-blueberry-200, rgb(193, 193, 255));
+/Users/danielreis/labs/design-system/src/styles/flavors.css:8:  --color-background: var(--palette-blueberry-200);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:22:  --color-on-background: var(--palette-blueberry-200);
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:33:  --palette-blueberry-100: var(--palette-blueberry-200);
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:34:  --palette-blueberry-200: var(--palette-blueberry-200);
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:53:  --palette-blueberry-100: var(--palette-blueberry-200);

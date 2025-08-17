@@ -1,0 +1,8 @@
+TOKEN: --palette-strawberry-900
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:21:  --palette-strawberry-900: rgb(56, 3, 0);
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:44:  --palette-strawberry-900: var(--palette-strawberry-900);
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/flavors.css:33:  --color-on-background: var(--palette-strawberry-900);
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:44:  --palette-strawberry-900: var(--palette-strawberry-900);

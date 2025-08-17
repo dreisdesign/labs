@@ -17,7 +17,21 @@ class LabsButton extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>
         :host {
+          /* component-local token defaults */
+          --button-padding: 0.5em 1.25em;
+          --button-radius: 6px;
+          --button-shadow: 0 1px 2px rgba(0,0,0,0.04);
+          --button-focus: 0 0 0 2px rgba(147,197,253,0.6);
+          --button-font: 600 20px/1.2 system-ui, sans-serif;
+          --button-icon-padding: 0.5em;
+          --button-icon-size: 1.25em;
+
           display: inline-block;
+        }
+        button {
+          /* Provide component-scoped color fallbacks so globals stay tiny */
+          --button-focus: var(--button-focus, 0 0 0 2px rgba(147,197,253,0.6));
+          --button-icon-only-hover-bg: var(--button-icon-only-hover-bg, #f1f5f9);
         }
         button {
           display: inline-flex;
@@ -49,8 +63,8 @@ class LabsButton extends HTMLElement {
         /* Destructive variant */
         :host([variant="destructive"]) button {
           background: var(--color-surface, #fff);
-          color: var(--color-error, #b5005a);
-          border: 1px solid var(--color-error, #b5005a);
+          color: var(--color-error, #B5005A);
+          border: 1px solid var(--color-error, #B5005A);
         }
         /* Icon-only variant */
         :host([variant="icon"]) button {
@@ -68,7 +82,7 @@ class LabsButton extends HTMLElement {
         }
         :host([variant="icon"]) button:hover,
         :host([variant="icon"]) button:focus-visible {
-          background: var(--button-icon-only-hover-bg, #f1f5f9);
+          background: var(--color-hover-light, #f1f5f9);
         }
         /* Icon sizing */
         ::slotted([slot="icon-left"]),

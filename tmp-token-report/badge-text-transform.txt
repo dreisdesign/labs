@@ -1,0 +1,6 @@
+TOKEN: --badge-text-transform
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/components/labs-badge.js:33:                    --badge-text-transform: uppercase;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/components/labs-badge.js:54:                    text-transform: var(--badge-text-transform, uppercase);

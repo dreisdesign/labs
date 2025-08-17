@@ -1,0 +1,7 @@
+TOKEN: --palette-blueberry-50
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:6:  --palette-blueberry-50: rgb(240, 239, 255);
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:32:  --palette-blueberry-10: var(--palette-blueberry-50);
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:52:  --palette-blueberry-10: var(--palette-blueberry-50);

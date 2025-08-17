@@ -1,0 +1,18 @@
+TOKEN: --color-background
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:67:  --color-background: var(--palette-blueberry-10);
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:78:  --color-background: var(--palette-blueberry-10);
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:83:  --color-background: #121212;
+/Users/danielreis/labs/design-system/src/styles/main.css:35:  --color-background: var(--palette-blueberry-200, rgb(193, 193, 255));
+/Users/danielreis/labs/design-system/src/styles/main.css:68:  --color-background: var(--palette-blueberry-200, rgb(193, 193, 255));
+/Users/danielreis/labs/design-system/src/styles/main.css:80:  --color-background: rgb(18, 18, 18);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:8:  --color-background: var(--palette-blueberry-200);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:19:  --color-background: var(--palette-black);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:30:  --color-background: var(--palette-strawberry-200);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:40:  --color-background: var(--palette-neutral-700);
+
+USAGES:
+/Users/danielreis/labs/design-system/src/labs-icon.stories.js:78:      background: var(--color-background);
+/Users/danielreis/labs/design-system/src/styles/main.css:117:  background: var(--color-background);
+/Users/danielreis/labs/design-system/src/styles/storybook-tokens.css:5:  background: var(--color-background, #fff);
+/Users/danielreis/labs/design-system/src/styles/tokens/common.css:33:  --color-bg: var(--color-background);

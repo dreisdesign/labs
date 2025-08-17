@@ -1,0 +1,6 @@
+TOKEN: --badge-custom-color
+DECLARATIONS:
+(none)
+
+USAGES:
+/Users/danielreis/labs/design-system/src/components/labs-badge.js:116:                    color: var(--badge-custom-color) !important;

@@ -1,0 +1,7 @@
+TOKEN: --color-primary-75
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/main.css:44:  --color-primary-75: rgba(46, 43, 116, 0.75);
+/Users/danielreis/labs/design-system/src/styles/main.css:91:  --color-primary-75: rgba(149, 117, 205, 0.75);
+
+USAGES:
+/Users/danielreis/labs/design-system/src/components/labs-badge.js:83:                    background: var(--badge-bg, var(--color-primary-75));

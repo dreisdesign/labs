@@ -1,47 +1,46 @@
-/* Blueberry - Light (minimal, unique tokens) */
+/* Flavors map the small canonical semantic set to palette anchors.
+   Each flavor defines the same semantic names. Don't add new global names here.
+*/
+
+/* Blueberry */
 .flavor-blueberry.theme-light {
   --color-primary: var(--palette-blueberry-500);
-  --color-background: var(--palette-blueberry-100);
+  --color-background: var(--palette-blueberry-200);
   --color-surface: var(--palette-white);
   --color-on-primary: var(--palette-white);
-  --color-on-background: var(--palette-blueberry-onbg);
-  --color-error: var(--palette-blueberry-error);
-  --color-on-error: var(--palette-white);
-  --settings-icon-color: var(--palette-blueberry-settings-icon);
+  --color-on-background: var(--palette-blueberry-900);
+  --color-error: var(--palette-blueberry-500);
+  /* reuse for now; main.css fallbacks provide distinct error if needed */
+  --settings-icon-color: rgba(28, 27, 31, .25);
 }
 
-/* Blueberry - Dark (minimal, unique tokens) */
 .flavor-blueberry.theme-dark {
   --color-primary: var(--palette-blueberry-500);
   --color-background: var(--palette-black);
-  --color-surface: var(--palette-dark-surface-1);
+  --color-surface: var(--palette-neutral-700);
   --color-on-primary: var(--palette-white);
-  --color-on-background: var(--palette-blueberry-100);
-  --color-error: var(--palette-blueberry-dark-error);
-  --color-on-error: var(--palette-black);
-  --settings-icon-color: var(--palette-blueberry-dark-settings-icon);
+  --color-on-background: var(--palette-blueberry-200);
+  --color-error: var(--palette-blueberry-700);
+  --settings-icon-color: rgba(255, 255, 255, 0.25);
 }
 
-/* Strawberry - Light (minimal, unique tokens) */
+/* Strawberry */
 .flavor-strawberry.theme-light {
   --color-primary: var(--palette-strawberry-500);
-  --color-background: var(--palette-strawberry-100);
+  --color-background: var(--palette-strawberry-200);
   --color-surface: var(--palette-white);
   --color-on-primary: var(--palette-white);
-  --color-on-background: var(--palette-strawberry-onbg);
-  --color-error: var(--palette-strawberry-error);
-  --color-on-error: var(--palette-white);
-  --settings-icon-color: var(--palette-strawberry-settings-icon);
+  --color-on-background: var(--palette-strawberry-900);
+  --color-error: var(--palette-strawberry-500);
+  --settings-icon-color: var(--palette-strawberry-700);
 }
 
-/* Strawberry - Dark (minimal, unique tokens) */
 .flavor-strawberry.theme-dark {
   --color-primary: var(--palette-strawberry-500);
-  --color-background: var(--palette-strawberry-onbg);
-  --color-surface: var(--palette-dark-surface-2);
+  --color-background: var(--palette-neutral-700);
+  --color-surface: var(--palette-neutral-700);
   --color-on-primary: var(--palette-white);
   --color-on-background: var(--palette-white);
-  --color-error: var(--palette-strawberry-dark-error);
-  --color-on-error: var(--palette-strawberry-onbg);
+  --color-error: var(--palette-strawberry-700);
   --settings-icon-color: var(--palette-strawberry-500);
 }

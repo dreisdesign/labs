@@ -1,0 +1,9 @@
+TOKEN: --color-surface-container-high
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/main.css:24:  --color-surface-container-high: #eeeef4;
+/Users/danielreis/labs/design-system/src/styles/main.css:103:  --color-surface-container-high: rgb(55, 55, 55);
+/Users/danielreis/labs/design-system/src/styles/tokens/common.css:8:  --color-surface-container-high: #eeeef4;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/components/labs-badge.js:41:                    background: var(--badge-bg, var(--color-surface-container-high));
+/Users/danielreis/labs/design-system/src/components/labs-badge.js:64:                    background: var(--badge-bg, var(--color-surface-container-high));

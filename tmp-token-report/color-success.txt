@@ -1,0 +1,8 @@
+TOKEN: --color-success
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:61:  --color-success: rgb(0, 181, 106);
+/Users/danielreis/labs/design-system/src/styles/main.css:15:  --color-success: rgb(0, 181, 106);
+/Users/danielreis/labs/design-system/src/styles/tokens/common.css:13:  --color-success: #00B56A;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/tokens/common.css:27:  --color-status-success: var(--color-success);

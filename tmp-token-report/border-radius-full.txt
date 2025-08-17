@@ -1,0 +1,6 @@
+TOKEN: --border-radius-full
+DECLARATIONS:
+(none)
+
+USAGES:
+/Users/danielreis/labs/design-system/src/components/labs-badge.js:53:                    border-radius: var(--badge-border-radius, var(--border-radius-full, 9999px));

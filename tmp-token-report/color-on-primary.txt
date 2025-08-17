@@ -1,0 +1,12 @@
+TOKEN: --color-on-primary
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/main.css:37:  --color-on-primary: var(--palette-white, rgb(255, 255, 255));
+/Users/danielreis/labs/design-system/src/styles/main.css:70:  --color-on-primary: var(--palette-white, rgb(255, 255, 255));
+/Users/danielreis/labs/design-system/src/styles/main.css:88:  --color-on-primary: rgb(0, 0, 0);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:10:  --color-on-primary: var(--palette-white);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:21:  --color-on-primary: var(--palette-white);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:32:  --color-on-primary: var(--palette-white);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:42:  --color-on-primary: var(--palette-white);
+
+USAGES:
+/Users/danielreis/labs/design-system/src/components/labs-button.js:43:          color: var(--color-on-primary, #fff);

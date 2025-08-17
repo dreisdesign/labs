@@ -1,0 +1,10 @@
+TOKEN: --palette-strawberry-200
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:16:  --palette-strawberry-200: rgb(254, 226, 225);
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:41:  --palette-strawberry-200: var(--palette-strawberry-200);
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/flavors.css:30:  --color-background: var(--palette-strawberry-200);
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:40:  --palette-strawberry-100: var(--palette-strawberry-200);
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:41:  --palette-strawberry-200: var(--palette-strawberry-200);
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:55:  --palette-strawberry-100: var(--palette-strawberry-200);

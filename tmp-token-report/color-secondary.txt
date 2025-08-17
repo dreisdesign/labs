@@ -1,0 +1,6 @@
+TOKEN: --color-secondary
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/main.css:85:  --color-secondary: rgb(126, 87, 194);
+
+USAGES:
+/Users/danielreis/labs/design-system/src/components/labs-badge.js:71:                    background: var(--badge-bg, var(--color-secondary));

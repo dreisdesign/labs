@@ -1,0 +1,10 @@
+TOKEN: --palette-neutral-700
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:27:  --palette-neutral-700: rgb(60, 60, 70);
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/flavors.css:20:  --color-surface: var(--palette-neutral-700);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:40:  --color-background: var(--palette-neutral-700);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:41:  --color-surface: var(--palette-neutral-700);
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:46:  --palette-dark-surface-1: var(--palette-neutral-700);
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:56:  --palette-dark-surface-1: var(--palette-neutral-700);

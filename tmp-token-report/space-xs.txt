@@ -1,0 +1,9 @@
+TOKEN: --space-xs
+
+Declared in:
+  design-system/src/styles/tokens/common.css:54
+  design-system/src/styles/tokens/spacing.css:3
+  design-system/src/styles/tokens/spacing.css:11
+
+Usages:
+  design-system/src/stories/tokens-spacing.stories.js:16

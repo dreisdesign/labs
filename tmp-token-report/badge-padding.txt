@@ -1,0 +1,6 @@
+TOKEN: --badge-padding
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/components/labs-badge.js:28:                    --badge-padding: 0.25rem 0.5rem;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/components/labs-badge.js:49:                    padding: var(--badge-padding, 0.25rem 0.5rem);

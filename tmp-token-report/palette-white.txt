@@ -1,0 +1,19 @@
+TOKEN: --palette-white
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:24:  --palette-white: rgb(255, 255, 255);
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:47:  --palette-white: var(--palette-white);
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/main.css:36:  --color-surface: var(--palette-white, rgb(255, 255, 255));
+/Users/danielreis/labs/design-system/src/styles/main.css:37:  --color-on-primary: var(--palette-white, rgb(255, 255, 255));
+/Users/danielreis/labs/design-system/src/styles/main.css:69:  --color-surface: var(--palette-white, rgb(255, 255, 255));
+/Users/danielreis/labs/design-system/src/styles/main.css:70:  --color-on-primary: var(--palette-white, rgb(255, 255, 255));
+/Users/danielreis/labs/design-system/src/styles/main.css:83:  --color-on-surface: var(--palette-white, rgb(255, 255, 255));
+/Users/danielreis/labs/design-system/src/styles/flavors.css:9:  --color-surface: var(--palette-white);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:10:  --color-on-primary: var(--palette-white);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:21:  --color-on-primary: var(--palette-white);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:31:  --color-surface: var(--palette-white);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:32:  --color-on-primary: var(--palette-white);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:42:  --color-on-primary: var(--palette-white);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:43:  --color-on-background: var(--palette-white);
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:47:  --palette-white: var(--palette-white);

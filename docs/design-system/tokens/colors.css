@@ -1,3 +1,29 @@
+/* Palette variables (single source of truth for raw colors) */
+:root {
+  /* Blueberry */
+  --palette-blueberry-500: rgb(46, 43, 116);
+  --palette-blueberry-100: rgb(193, 193, 255);
+  --palette-blueberry-onbg: rgb(22, 10, 56);
+  --palette-blueberry-error: rgb(181, 0, 90);
+  --palette-blueberry-dark-error: rgb(207, 102, 121);
+  --palette-blueberry-settings-icon: rgba(28, 27, 31, .25);
+  --palette-blueberry-dark-settings-icon: rgba(255, 255, 255, .25);
+
+  /* Strawberry */
+  --palette-strawberry-500: rgb(128, 8, 0);
+  --palette-strawberry-100: rgb(254, 226, 225);
+  --palette-strawberry-onbg: rgb(34, 34, 34);
+  --palette-strawberry-error: rgb(229, 57, 53);
+  --palette-strawberry-dark-error: rgb(255, 111, 96);
+  --palette-strawberry-settings-icon: rgb(102, 6, 0);
+
+  /* Neutrals / utils */
+  --palette-white: rgb(255, 255, 255);
+  --palette-black: rgb(0, 0, 0);
+  --palette-dark-surface-1: rgb(30, 30, 30);
+  --palette-dark-surface-2: rgb(24, 24, 24);
+}
+
 /* Labs Design System - Color Tokens (Tracker palette integrated) */
 :root {
   --color-primary: rgb(46, 43, 116);

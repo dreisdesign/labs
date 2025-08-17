@@ -1,0 +1,7 @@
+TOKEN: --badge-bg
+DECLARATIONS:
+(none)
+
+USAGES:
+/Users/danielreis/labs/design-system/src/components/labs-badge.js:41:                    background: var(--badge-bg, var(--color-surface-container-high));
+/Users/danielreis/labs/design-system/src/components/labs-badge.js:64:                    background: var(--badge-bg, var(--color-surface-container-high));

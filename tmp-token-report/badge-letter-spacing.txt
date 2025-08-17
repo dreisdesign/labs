@@ -1,0 +1,6 @@
+TOKEN: --badge-letter-spacing
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/components/labs-badge.js:32:                    --badge-letter-spacing: 0.025em;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/components/labs-badge.js:55:                    letter-spacing: var(--badge-letter-spacing, 0.025em);

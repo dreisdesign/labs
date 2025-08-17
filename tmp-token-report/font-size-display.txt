@@ -1,0 +1,6 @@
+TOKEN: --font-size-display
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/tokens/typography.css:9:  --font-size-display: 2rem;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/main.css:178:  font-size: var(--font-size-display);
