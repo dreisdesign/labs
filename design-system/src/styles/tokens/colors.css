@@ -46,12 +46,4 @@
   --palette-dark-surface-1: var(--palette-neutral-700);
   --palette-white: var(--palette-white);
   --palette-black: var(--palette-black);
-
-  /* Legacy aliases (compat) - map old names to the new minimal anchors */
-  --palette-blueberry: var(--palette-blueberry-500);
-  --palette-blueberry-10: var(--palette-blueberry-50);
-  --palette-blueberry-100: var(--palette-blueberry-200);
-  --palette-strawberry: var(--palette-strawberry-500);
-  --palette-strawberry-100: var(--palette-strawberry-200);
-  --palette-dark-surface-1: var(--palette-neutral-700);
 }

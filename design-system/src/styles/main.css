@@ -6,27 +6,8 @@
 
 /* Labs Design System - Main CSS */
 
-:root {
-  /* Root/global tokens only. Theme/flavor tokens live in flavors.css */
-  --font-family-base: "Source Sans 3", "Segoe UI", Arial, sans-serif;
-  --color-overlay-background: rgba(0, 0, 0, 0.5);
-  --shadow-overlay: 0 5px 20px rgba(0, 0, 0, 0.2);
-  --button-radius: 6px;
-  --color-success: rgb(0, 181, 106);
-  --color-warning: rgb(255, 198, 52);
-  --color-error-inactive: rgb(181, 181, 181);
-  --color-on-success: #fff;
-  --color-on-warning: #000;
-  --color-on-error-inactive: #fff;
-  --color-hover-light: rgba(0, 0, 0, .05);
-  --color-hover-medium: rgba(0, 0, 0, .1);
-  --color-surface-container: #f7f7fb;
-  --color-surface-container-high: #eeeef4;
-  --color-surface-variant: #f0f0f4;
-  --color-on-surface-variant: rgba(28, 27, 31, .65);
-  --color-outline: rgba(28, 27, 31, .12);
-  --color-outline-variant: rgba(28, 27, 31, .08);
-}
+/* Root/global tokens that are not duplicated live in tokens/common.css;
+  main.css focuses on semantic fallbacks and theme classes. */
 
 /* Semantic token fallbacks — these make the system usable without flavor classes
    (keeps sensible defaults for docs / server-rendered pages). */
