@@ -3,9 +3,9 @@ const config = {
   stories: [
     "../src/**/*.mdx",
     "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-  "!../src/**/_archive/*.stories.@(js|jsx|mjs|ts|tsx)",
-  // Exclude any archived docs or files in _archive directories (MDX, stories, etc.)
-  "!../src/**/_archive/**"
+    "!../src/**/_archive/*.stories.@(js|jsx|mjs|ts|tsx)",
+    // Exclude any archived docs or files in _archive directories (MDX, stories, etc.)
+    "!../src/**/_archive/**"
   ],
   addons: [
     {
