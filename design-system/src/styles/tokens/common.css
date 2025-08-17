@@ -63,3 +63,20 @@
   --radius-lg: 12px;
   --radius-md: 8px;
 }
+
+/* Shadow tokens (shared) */
+:root {
+  --shadow-base: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.12);
+  --shadow-overlay: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Small semantic helpers used across the system */
+:root {
+  --color-primary-75: rgba(46, 43, 116, 0.75);
+  --color-primary-25: rgba(193, 193, 255, 0.25);
+  --color-on-surface: rgb(28, 27, 31);
+  --color-outline: rgba(28, 27, 31, .12);
+  /* radius-sm used by a few components */
+  --radius-sm: 4px;
+}
