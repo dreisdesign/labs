@@ -18,7 +18,7 @@
 ```
 labs/
 ├── design-system/          # 🎨 Labs Design System v2.1.0
-│   ├── src/                # Components, tokens, styles  
+│   ├── src/                # Components, tokens, styles
 │   ├── .storybook/         # Storybook configuration
 │   └── README.md           # Design system documentation
 ├── docs/                   # 📦 GitHub Pages deployment
@@ -57,7 +57,7 @@ npm run storybook
 ### **Deployment**
 ```bash
 # Build and deploy to GitHub Pages
-npm run menu  
+npm run menu
 # Choose option 2 for production deployment
 
 # Or run deploy script directly
@@ -73,9 +73,12 @@ npm run deploy
 - **[🎨 Storybook (Live)](https://dreisdesign.github.io/labs/design-system/)** - Interactive component docs
 - **[🛠️ Development Guide](docs/DEVELOPMENT.md)** - Single source for all design system, Storybook, and UI development
 
+### Theming & Color Tokens
+We now maintain a canonical theming guide at `design-system/src/styles/COLORS-DOCS.md`. It explains the palette anchors (tokens/colors.css), semantic fallbacks (main.css), and flavor → semantic mappings (flavors.css), plus boot snippets to prevent FOUC and Storybook wiring examples.
+
 ### **Applications**
 - **[📝 Timer Documentation](docs/timer/README.md)** - Focus timer features and usage
-- **[📊 Tracker Documentation](docs/tracker/README.md)** - Habit tracking and analytics  
+- **[📊 Tracker Documentation](docs/tracker/README.md)** - Habit tracking and analytics
 - **[📓 Note Documentation](docs/note/README.md)** - Daily note-taking features
 - **[✅ Today List Documentation](docs/today-list/README.md)** - Task management features
 
