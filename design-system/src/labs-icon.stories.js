@@ -75,7 +75,7 @@ export const Default = {
     const code = document.createElement("code");
     code.textContent = `<labs-icon name=\"${args.name}\"></labs-icon>`;
     code.style.cssText = `
-      background: var(--color-background);
+  background: var(--color-surface);
       padding: 0.5rem;
       border-radius: 4px;
       font-size: 0.75rem;

@@ -2,7 +2,7 @@
 
 .tokens-container {
   padding: 2rem;
-  background: var(--color-background, #fff);
+  background: var(--color-surface, #fff);
   max-width: 1100px;
   margin: auto;
 }

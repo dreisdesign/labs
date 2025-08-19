@@ -14,7 +14,8 @@
     "build": "node ../scripts/update-static-paths.js --public",
     "public": "node ../scripts/update-static-paths.js --public",
     "local": "node scripts/open-storybook-local.js",
-    "github": "node ../scripts/update-static-paths.js --github"
+    "github": "node ../scripts/update-static-paths.js --github",
+    "lint:tokens:rgb": "node ../scripts/lint-rgb.js"
   },
   "keywords": [
     "storybook",

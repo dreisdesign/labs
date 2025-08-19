@@ -1,132 +1,62 @@
-/* Palette variables (single source of truth for raw colors) */
+/* Palette variables (single source of truth for raw colors)
+   Minimal anchor set: 5 shades per flavor and 5 neutral stops.
+*/
 :root {
-  /* Blueberry */
-  --palette-blueberry-500: rgb(46, 43, 116);
-  --palette-blueberry-100: rgb(193, 193, 255);
-  --palette-blueberry-onbg: rgb(22, 10, 56);
-  --palette-blueberry-error: rgb(181, 0, 90);
-  --palette-blueberry-dark-error: rgb(207, 102, 121);
-  --palette-blueberry-settings-icon: rgba(28, 27, 31, .25);
-  --palette-blueberry-dark-settings-icon: rgba(255, 255, 255, .25);
+  /* Blueberry (5 stops) — canonical anchors */
+  --palette-blueberry-100: #F0EEFF;
+  /* intermediate 200 stop (added back for theme pages) */
+  --palette-blueberry-200: #DBD7FF;
+  --palette-blueberry-300: #C6C1FF;
+  --palette-blueberry-500: #2E2B74;
+  --palette-blueberry-700: #26225A;
+  /* generated 800 stop (midpoint between 700 #26225A and 900 #15122B) */
+  --palette-blueberry-800: #1E193E;
+  --palette-blueberry-900: #15122B;
 
-  /* Strawberry */
-  --palette-strawberry-500: rgb(128, 8, 0);
-  --palette-strawberry-100: rgb(254, 226, 225);
-  --palette-strawberry-onbg: rgb(34, 34, 34);
-  --palette-strawberry-error: rgb(229, 57, 53);
-  --palette-strawberry-dark-error: rgb(255, 111, 96);
-  --palette-strawberry-settings-icon: rgb(102, 6, 0);
+  /* Strawberry (5 stops) — canonical anchors */
+  --palette-strawberry-100: #FFF2F1;
+  /* intermediate 200 stop (added back for theme pages) */
+  --palette-strawberry-200: #FFD3D2;
+  --palette-strawberry-300: #FFB4B4;
+  --palette-strawberry-500: #800800;
+  --palette-strawberry-700: #9B2F2B;
+  /* generated 800 stop (midpoint between 700 #9B2F2B and 900 #5C1A18) */
+  --palette-strawberry-800: #7E241F;
+  --palette-strawberry-900: #5C1A18;
 
-  /* Neutrals / utils */
-  --palette-white: rgb(255, 255, 255);
-  --palette-black: rgb(0, 0, 0);
-  --palette-dark-surface-1: rgb(30, 30, 30);
-  --palette-dark-surface-2: rgb(24, 24, 24);
-}
+  /* Neutral scale (5 stops) */
+  --palette-white: #FFFFFF;
+  /* lighter neutral for UI backgrounds */
+  --palette-neutral-100: #FBFBFD;
+  --palette-neutral-200: #F0F0F4;
+  --palette-neutral-300: #E6E6EA;
+  --palette-neutral-500: #80808A;
+  --palette-neutral-700: #3C3C46;
+  /* darker neutral anchor used for deep surfaces */
+  --palette-neutral-800: #2A2A30;
+  --palette-black: #000000;
 
-/* Labs Design System - Color Tokens (Tracker palette integrated) */
-:root {
-  --color-primary: rgb(46, 43, 116);
-  --color-secondary: rgb(13, 11, 63);
-  --color-primary-darker: rgb(25, 23, 80);
-  --color-background: rgb(193, 193, 255);
-  --color-surface: rgb(255, 255, 255);
-  --color-success: rgb(0, 181, 106);
-  --color-error: rgb(181, 0, 90);
-  --color-warning: rgb(255, 198, 52);
-  --color-error-inactive: rgb(181, 181, 181);
-  --color-on-primary: rgb(255, 255, 255);
-  --color-on-background: rgb(22, 10, 56);
-  --color-on-surface: rgb(28, 27, 31);
-  --color-on-success: rgb(255, 255, 255);
-  --color-on-error: rgb(255, 255, 255);
-  --color-on-warning: rgb(0, 0, 0);
-  --color-on-error-inactive: rgb(255, 255, 255);
-  --color-primary-75: rgba(46, 43, 116, 0.75);
-  --color-primary-25: rgba(193, 193, 255, 0.25);
-  --color-secondary-75: rgba(13, 11, 63, 0.75);
-  --color-on-surface-75: rgba(28, 27, 31, 0.75);
-  --settings-icon-color: rgba(28, 27, 31, 0.25);
+  /* Helpful aliases (small compatibility layer) */
+  --palette-blueberry: var(--palette-blueberry-500);
+  --palette-blueberry-10: var(--palette-blueberry-100);
+  --palette-strawberry: var(--palette-strawberry-500);
 
-  /* Hover color tokens */
-  --color-hover-light: rgba(0, 0, 0, 0.05);
-  --color-hover-medium: rgba(0, 0, 0, 0.1);
+  /* Neutral convenience aliases — allow semantic tokens to reference
+    `--neutral-200` etc. without knowing the underlying palette variable name */
+  --neutral-200: var(--palette-neutral-200);
+  --neutral-500: var(--palette-neutral-500);
+  --neutral-700: var(--palette-neutral-700);
+  --neutral-100: var(--palette-neutral-100);
+  --neutral-300: var(--palette-neutral-300);
+  --neutral-800: var(--palette-neutral-800);
 
-  /* Surface container tokens */
-  --color-surface-container: rgb(247, 247, 251);
-  --color-surface-container-high: rgb(238, 238, 244);
-  --color-surface-variant: rgb(240, 240, 244);
-  --color-on-surface-variant: rgba(28, 27, 31, 0.65);
-  --color-outline: rgba(28, 27, 31, 0.12);
-  --color-outline-variant: rgba(28, 27, 31, 0.08);
-}
+  --palette-dark-surface-1: var(--palette-neutral-700);
 
-.theme-light {
-  --color-primary: rgb(46, 43, 116);
-  --color-secondary: rgb(13, 11, 63);
-  --color-primary-darker: rgb(25, 23, 80);
-  --color-background: rgb(193, 193, 255);
-  --color-surface: rgb(255, 255, 255);
-  --color-success: rgb(0, 181, 106);
-  --color-error: rgb(181, 0, 90);
-  --color-warning: rgb(255, 198, 52);
-  --color-error-inactive: rgb(181, 181, 181);
-  --color-on-primary: rgb(255, 255, 255);
-  --color-on-background: rgb(22, 10, 56);
-  --color-on-surface: rgb(28, 27, 31);
-  --color-on-success: rgb(255, 255, 255);
-  --color-on-error: rgb(255, 255, 255);
-  --color-on-warning: rgb(0, 0, 0);
-  --color-on-error-inactive: rgb(255, 255, 255);
-  --color-primary-75: rgba(46, 43, 116, 0.75);
-  --color-primary-25: rgba(193, 193, 255, 0.25);
-  --color-secondary-75: rgba(13, 11, 63, 0.75);
-  --color-on-surface-75: rgba(28, 27, 31, 0.75);
-  --settings-icon-color: rgba(28, 27, 31, 0.25);
-
-  /* Hover color tokens */
-  --color-hover-light: rgba(0, 0, 0, 0.05);
-  --color-hover-medium: rgba(0, 0, 0, 0.1);
-
-  /* Glass/glassmorphism tokens */
-  --color-surface-glass: rgba(255, 255, 255, 0.15);
-  --color-border-glass: rgba(255, 255, 255, 0.5);
-}
-
-.theme-dark {
-  --color-background: rgb(18, 18, 18);
-  --color-on-background: rgb(193, 193, 255);
-  --color-surface: rgb(30, 30, 30);
-  --color-on-surface: rgb(255, 255, 255);
-  --color-primary: rgb(149, 117, 205);
-  --color-secondary: rgb(126, 87, 194);
-  --color-primary-darker: rgb(110, 85, 160);
-  --color-success: rgb(0, 181, 106);
-  --color-error: rgb(207, 102, 121);
-  --color-warning: rgb(255, 198, 52);
-  --color-on-primary: rgb(0, 0, 0);
-  --color-on-success: rgb(255, 255, 255);
-  --color-on-error: rgb(0, 0, 0);
-  --color-on-warning: rgb(0, 0, 0);
-  --color-primary-75: rgba(149, 117, 205, 0.75);
-  --color-primary-25: rgba(149, 117, 205, 0.25);
-  --color-secondary-75: rgba(126, 87, 194, 0.75);
-  --color-on-surface-75: rgba(255, 255, 255, 0.75);
-  --settings-icon-color: rgba(255, 255, 255, 0.25);
-
-  /* Dark theme hover color tokens */
-  --color-hover-light: rgba(255, 255, 255, 0.05);
-  --color-hover-medium: rgba(255, 255, 255, 0.1);
-
-  /* Surface container tokens for dark theme */
-  --color-surface-container: rgb(42, 42, 42);
-  --color-surface-container-high: rgb(55, 55, 55);
-  --color-surface-variant: rgb(48, 48, 48);
-  --color-on-surface-variant: rgba(255, 255, 255, 0.65);
-  --color-outline: rgba(255, 255, 255, 0.12);
-  --color-outline-variant: rgba(255, 255, 255, 0.08);
-
-  /* Glass/glassmorphism tokens for dark theme */
-  --color-surface-glass: rgba(30, 30, 30, 0.15);
-  --color-border-glass: rgba(255, 255, 255, 0.2);
+  /* Back-compat aliases: some flavor files reference -50 and -200 stops.
+    Map those to the nearest canonical stops so variables don't resolve to unset. */
+  --palette-blueberry-50: var(--palette-blueberry-100);
+  --palette-strawberry-50: var(--palette-strawberry-100);
+  /* expose 800 aliases for consumers expecting a mid/darker stop */
+  /* 800 aliases are defined above as concrete values; avoid self-referential aliases which leave the var unset */
+  /* Back-compat: -200 now exists explicitly above (explicit values defined earlier) */
 }

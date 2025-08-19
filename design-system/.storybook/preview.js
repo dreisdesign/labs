@@ -1,6 +1,6 @@
 /** @type { import('@storybook/web-components-vite').Preview } */
 import "../src/components/labs-button/labs-button.js";
-import { withThemeByClassName } from '@storybook/addon-themes';
+import { applyTheme, initSystemTheme } from '../src/utils/theme.js';
 
 const preview = {
   globalTypes: {
@@ -89,14 +89,36 @@ const preview = {
 
   decorators: [
     (Story, context) => {
-      // Set theme class (light/dark) on document root
-      const theme = context.globals.theme || 'light';
-      const root = document.documentElement;
-      root.classList.remove('theme-light', 'theme-dark');
-      root.classList.add(`theme-${theme}`);
+      // Disable theme switching for specific pages (Tokens/Colors)
+      const storyTitle = context.title || context.kind || '';
+      if (storyTitle && storyTitle.indexOf('Tokens/Colors') === 0) {
+        // Hide the Theme toolbar button for Colors pages and force a stable theme
+        try {
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage({ type: 'STORYBOOK_SET_TOOL_VISIBILITY', tool: 'Theme', hide: true }, '*');
+            // Ensure the manager mirrors a deterministic theme so token CSS rules match
+            window.parent.postMessage({ type: 'STORYBOOK_SYNC_THEME', theme: 'light' }, '*');
+          }
+        } catch (e) {
+          // ignore
+        }
+
+        // Force a deterministic theme class so flavor-scoped token rules (e.g. .flavor-strawberry.theme-light)
+        // are applied. We choose 'light' as the stable token set for Colors pages.
+        // Force deterministic light theme for Colors pages
+        try { applyTheme({ theme: 'light' }); } catch (e) { }
+
+        // Return the story; flavor classes (blueberry/strawberry) will still be applied by the flavor decorator
+        return Story();
+      }
+
+      // Set theme class (light/dark) on document root and data attribute for system consumers
+      // Apply theme globally via helper
+      try { applyTheme({ theme: context.globals.theme || 'light' }); } catch (e) { }
       // Notify manager (docs UI) so it can mirror the same theme classes
       try {
         if (window.parent && window.parent !== window) {
+          window.parent.postMessage({ type: 'STORYBOOK_SET_TOOL_VISIBILITY', tool: 'Theme', hide: false }, '*');
           window.parent.postMessage({ type: 'STORYBOOK_SYNC_THEME', theme }, '*');
         }
       } catch (e) {
@@ -106,10 +128,20 @@ const preview = {
     },
     (Story, context) => {
       // Add smoothie flavor class to document root for blueberry/strawberry theme switching
-      const flavor = context.globals.flavor || 'blueberry';
-      const root = document.documentElement;
-      root.classList.remove('flavor-blueberry', 'flavor-strawberry');
-      root.classList.add(`flavor-${flavor}`);
+      // For Tokens/Colors stories, prefer a deterministic flavor based on the story name
+      const storyTitle = context.title || context.kind || '';
+      let flavor = context.globals.flavor || 'blueberry';
+      if (storyTitle && storyTitle.indexOf('Tokens/Colors') === 0) {
+        const storyName = (context.name || '').toLowerCase();
+        if (storyName.includes('strawberry')) {
+          flavor = 'strawberry';
+        } else if (storyName.includes('blueberry')) {
+          flavor = 'blueberry';
+        }
+      }
+
+      // apply flavor via helper (keeps class + data attribute in sync)
+      try { applyTheme({ flavor }); } catch (e) { }
       // Notify manager (docs UI) so it can mirror the same flavor classes
       try {
         if (window.parent && window.parent !== window) {
