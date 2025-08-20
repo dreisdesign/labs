@@ -1,14 +1,90 @@
 @import "./tokens/colors.css";
 @import "./tokens/typography.css";
 @import "./tokens/spacing.css";
+@import "./tokens/common.css";
+@import "./flavors.css";
 
 /* Labs Design System - Main CSS */
 
+/* Root/global tokens that are not duplicated live in tokens/common.css;
+  main.css focuses on semantic fallbacks and theme classes. */
+
+/* Semantic token fallbacks — these make the system usable without flavor classes
+   (keeps sensible defaults for docs / server-rendered pages). */
 :root {
-  --font-family-base: "Source Sans 3", "Segoe UI", Arial, sans-serif;
-  --color-overlay-background: rgba(0, 0, 0, 0.5);
-  --shadow-overlay: 0 5px 20px rgba(0, 0, 0, 0.2);
+  --color-primary: var(--palette-blueberry-500, #2E2B74);
+  /* Note: page background is handled by theme/flavor classes.
+     Keep neutral, non-opinionated fallbacks out of :root to avoid biasing themes.
+     Components should consume `--color-surface` for panel/card surfaces. */
+  --color-surface: var(--palette-white, #FFFFFF);
+  --color-on-primary: var(--palette-white, #FFFFFF);
+  --color-on-background: var(--palette-blueberry-900, #15122B);
+  --color-error: #CF6679;
+  --color-danger: var(--palette-strawberry-500, #E53935);
 }
+
+/* Small semantic helpers used widely in the codebase; keep these as compact helpers */
+/* Small semantic helpers moved to tokens/common.css */
+
+/* Minimal shadow tokens used across components */
+/* Shadows moved to tokens/common.css */
+
+/* Radius tokens (small contract) */
+/* Radius tokens consolidated in tokens/common.css */
+
+/* Theme helpers (fallbacks when theme classes are used without flavor) */
+.theme-light {
+  --color-primary: var(--palette-blueberry-500, #2E2B74);
+  /* Light theme: favor neutral background by default; flavors may override */
+  --color-background: var(--palette-neutral-200, #F0F0F4);
+  --color-surface: var(--palette-white, #FFFFFF);
+  --color-on-primary: var(--palette-white, #FFFFFF);
+  --color-on-background: var(--palette-blueberry-900, #15122B);
+  --color-error: var(--palette-strawberry-500, #E53935);
+  --color-danger: var(--palette-strawberry-500, #E53935);
+
+  /* Glass/glassmorphism tokens */
+  --color-surface-glass: rgba(255, 255, 255, 0.15);
+  --color-border-glass: #FFFFFF80;
+}
+
+.theme-dark {
+  --color-background: #121212;
+  --color-on-background: var(--palette-blueberry-100, #C1C1FF);
+  --color-surface: var(--palette-dark-surface-1, #1E1E1E);
+  --color-on-surface: var(--palette-white, #FFFFFF);
+  --color-primary: #9575CD;
+  --color-secondary: #7E57C2;
+  --color-primary-darker: #6E55A0;
+  --color-error: #CF6679;
+  --color-danger: #CF6679;
+  --color-on-primary: #000000;
+  --color-on-success: #FFFFFF;
+  --color-on-error: #000000;
+  --color-primary-75: rgba(149, 117, 205, 0.75);
+  --color-primary-25: #C193FF40;
+  --color-secondary-75: rgba(126, 87, 194, 0.75);
+  --color-on-surface-75: rgba(255, 255, 255, 0.75);
+  --settings-icon-color: rgba(255, 255, 255, 0.25);
+
+  /* Dark theme hover color tokens */
+  --color-hover-light: rgba(255, 255, 255, 0.05);
+  --color-hover-medium: rgba(255, 255, 255, 0.1);
+
+  /* Surface container tokens for dark theme */
+  --color-surface-container: #2A2A2A;
+  --color-surface-container-high: #373737;
+  --color-surface-variant: #303030;
+  --color-surface-container: #2A2A2A;
+  --color-on-surface-variant: rgba(255, 255, 255, 0.65);
+  --color-outline: rgba(255, 255, 255, 0.12);
+  --color-outline-variant: rgba(255, 255, 255, 0.08);
+
+  /* Glass/glassmorphism tokens for dark theme */
+  --color-surface-glass: rgba(30, 30, 30, 0.15);
+  --color-border-glass: rgba(255, 255, 255, 0.2);
+}
+
 
 body {
   font-family: var(--font-family-base);
@@ -18,29 +94,8 @@ body {
   padding: 0;
 }
 
-.button {
-  font-size: 1rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 2.5rem;
-  background: var(--color-primary);
-  color: var(--color-on-primary);
-  cursor: pointer;
-  padding: 0.75rem 1.5rem;
-  transition:
-    background 0.2s,
-    transform 0.1s;
-}
 
-.button:active {
-  background: var(--color-secondary);
-  transform: scale(0.97);
-}
-
-.button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
+/* Button styles are now handled in the component for modularity. */
 
 /* === Settings Overlay Styles === */
 
@@ -128,11 +183,3 @@ body.dark-mode .close-icon {
 
 /* === Container Button System === */
 /* Container buttons are now fully modular - all styling handled in component */
-
-/* Button container spacing */
-.button-container {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}

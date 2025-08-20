@@ -15,12 +15,20 @@ Welcome to the Labs suite of productivity web applications and design system.
 
 Labs is a collection of modern, responsive productivity apps and a shared design system. All apps are installable as PWAs and optimized for desktop and mobile.
 
+
 ## More Info & Docs
 
+All other documentation is archived. Use only the links below for current, canonical information:
+
 - [Global Monorepo README](../README.md) — Project structure, workflow, and developer info
-- [Design System README](../design-system/README.md) — Usage, setup, and component docs
-- [Changelog & Roadmap](CHANGELOG.md)
-- [Developer & Migration Docs](../_dev/_documents/DESIGN-SYSTEM-MIGRATION-GUIDE.md)
+- [Smoothie Design System Overview](../design-system/smoothie.md) — Philosophy and metaphor for all components
+- [Button Docs (Canonical)](../design-system/src/components/labs-button/BUTTON-DOCS.md)
+- [Button Docs (Canonical)](../design-system/src/components/labs-button/BUTTON-DOCS.md)
+- [Color Tokens & Theme Docs](../design-system/src/styles/COLORS-DOCS.md)
+- [Roadmap](../design-system/ROADMAP.md)
+- [Changelog](../design-system/CHANGELOG.md)
+- [Migration Guide](../_dev/_documents/DESIGN-SYSTEM-MIGRATION-GUIDE.md)
+- [Modularity Guidelines](../design-system/../.github/instructions/Modularity.instructions.md)
 
 ## Features
 
@@ -40,3 +48,9 @@ All apps can be installed as desktop applications:
 ---
 
 For developer setup and local preview, see the [global README](../README.md) and [Design System README](../design-system/README.md).
+
+---
+
+## Archive Notice
+
+This file is retained for reference only. All new documentation should be added to the canonical docs above or Storybook ([Live](https://dreisdesign.github.io/labs/design-system/)).

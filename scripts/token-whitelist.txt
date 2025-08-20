@@ -1,0 +1,21 @@
+--badge-bg
+--badge-border-radius
+--badge-color
+--badge-font-size
+--button-shadow
+--button-padding
+--button-radius
+--button-font
+--button-icon-size
+--button-icon-padding
+--icon-size
+--story-grid-gap
+--story-max-width
+--story-padding
+--avatar-size
+--card-elevation
+--chip-padding
+--chip-radius
+--chip-bg
+--chip-color
+--labs-internal-*  # wildcard style: script will treat this as prefix match

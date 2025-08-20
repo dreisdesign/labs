@@ -33,3 +33,7 @@ design-system/storybook-static/
 
 # Local dev documents
 _dev/documents/
+
+# Token scanner outputs (local, generated)
+tmp-token-scan/
+tmp-token-report/

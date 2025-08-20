@@ -1,0 +1,84 @@
+/* Minimal cross-cutting utility tokens for the design system */
+:root {
+  /* Overlay */
+  --color-overlay-background: #00000080;
+
+  /* Surface container helpers */
+  --color-surface-container: #F7F7FB;
+  --color-surface-container-high: #EEEFF4;
+  --color-surface-variant: #F0F0F4;
+  --color-on-surface-variant: #1C1B1FA6;
+
+  /* Status colors (explicit root values provided by request) */
+  --color-success: #00B56A;
+  /* success */
+  --color-on-success: #FFFFFF;
+
+  --color-destructive: #B5005A;
+  /* destructive mapped directly to strawberry palette anchor for consistency */
+  --color-error: var(--palette-strawberry-500, #800800);
+  /* prefer --color-danger name for semantic clarity; keep alias for backward-compat */
+  --color-danger: var(--palette-strawberry-500, #800800);
+  --color-on-error: #FFFFFF;
+
+  --color-warning: #FFC634;
+  /* warning */
+  --color-on-warning: #000000;
+
+  /* Deprecated/compat tokens used in older components (kept as aliases) */
+  --color-status-success: var(--color-success);
+  --color-status-warning: var(--color-warning);
+  --color-status-destructive: var(--palette-strawberry-500, #800800);
+
+  /* Legacy compatibility aliases (flattened to palette anchors for stability) */
+  --color-accent: var(--palette-blueberry-500, #2E2B74);
+  --color-bg: var(--palette-neutral-200, #F0F0F4);
+
+  /* Hover helpers */
+  --color-hover-light: #0000000D;
+  --color-hover-medium: #0000001A;
+
+  /* Transparent helpers for light/dark mapping */
+  --color-transparent-05: #0000000D;
+  --color-transparent-10: #0000001A;
+
+  /* Outline helpers */
+  --color-outline-variant: #1C1B1F14;
+
+  /* Typography helpers (shared) */
+  --font-family-base: "Source Sans 3", "Segoe UI", Arial, sans-serif;
+  --font-size-base: 1rem;
+  --font-size-body-xs: 12px;
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+
+  /* Small spacing aliases (ensure stories/components have defaults) */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+}
+
+/* Radius aliases (convenience) */
+:root {
+  --radius-full: 9999px;
+  --radius-lg: 12px;
+  --radius-md: 8px;
+}
+
+/* Shadow tokens (shared) */
+:root {
+  --shadow-base: 0 1px 3px #00000014;
+  --shadow-md: 0 6px 18px #0000001F;
+  --shadow-overlay: 0 10px 30px #00000033;
+}
+
+/* Small semantic helpers used across the system */
+:root {
+  --color-primary-75: #2E2B74BF;
+  --color-primary-25: #C1C1FF40;
+  --color-on-surface: #1C1B1F;
+  --color-outline: #1C1B1F1F;
+  /* radius-sm used by a few components */
+  --radius-sm: 4px;
+}

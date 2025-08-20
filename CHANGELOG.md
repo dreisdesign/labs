@@ -2,6 +2,12 @@
 
 > For detailed design system component changes, see [`design-system/CHANGELOG.md`](design-system/CHANGELOG.md).
 
+### Unreleased — feature/theme-cleanup/docs-and-scan (2025-08-19)
+- docs(theme): add canonical Color Tokens & Theme System guide (design-system/src/styles/COLORS-DOCS.md)
+- feat(theme): wire Storybook preview to init/apply system theme; add semantic token mapping (flavors.css, main.css)
+- chore(docs): update tokens stories and housekeeping docs; prepare token-scan tooling (scripts)
+- misc: add early-load IIFE to demo pages to prevent FOUC; small docs and README references
+
 ### 📝 Documentation Overhaul
 - **Single Source of Truth:** All design system, Storybook, and UI development docs consolidated into `docs/DEVELOPMENT.md`
 - **Legacy Docs Archived:** Old migration, features, and sprint docs moved to `_dev/_archive`
@@ -116,7 +122,7 @@
 - [ ] **Color Token Display** - Better light/dark mode visibility in swatches
 - [ ] **Production Testing** - Comprehensive testing of GitHub Pages deployment
 
-### **Medium Priority** 
+### **Medium Priority**
 - [ ] **Documentation Consolidation** - Complete migration to new structure
 - [ ] **Token Showcase Improvements** - Better typography and spacing displays
 - [ ] **Icon Grid Enhancements** - Larger default size, improved controls
@@ -134,7 +140,7 @@
 
 ### **August 7, 2025**
 - `e6d1025` - Deploy: Clean icon path logic to production ✅
-- `cb7ca4b` - Deploy: Force GitHub Pages hostname detection ✅  
+- `cb7ca4b` - Deploy: Force GitHub Pages hostname detection ✅
 - `d212e1d` - Deploy: Enhanced build with fixed icon paths ✅
 - `1938562` - Fix: Update production Storybook build ✅
 - `aa14e72` - Feat: Auto-port-kill scripts for seamless development ✅

@@ -7,14 +7,50 @@ import { execSync, exec } from "child_process";
 
 const openUrls = (urls) => {
   urls.forEach((url) => {
-    console.log(`Opening or focusing ${url} ...`);
+    console.log(`Opening or focusing ${url} in Chrome...`);
     try {
       if (process.platform === "darwin") {
-        execSync(`open "${url}"`);
+        // Try to open with Google Chrome specifically
+        try {
+          execSync(`open -a "Google Chrome" "${url}"`);
+        } catch (e) {
+          // Fallback: try Chromium or default browser
+          try {
+            execSync(`open -a "Chromium" "${url}"`);
+          } catch (e2) {
+            console.error(`Chrome not found. Opening in default browser.`);
+            execSync(`open "${url}"`);
+          }
+        }
       } else if (process.platform === "win32") {
-        execSync(`start chrome "${url}"`);
+        // Windows: start chrome
+        try {
+          execSync(`start chrome "${url}"`);
+        } catch (e) {
+          console.error(`Chrome not found. Opening in default browser.`);
+          execSync(`start "" "${url}"`);
+        }
       } else {
-        execSync(`xdg-open "${url}"`);
+        // Linux: try google-chrome, chromium-browser, or fallback
+        let opened = false;
+        try {
+          execSync(`google-chrome "${url}"`);
+          opened = true;
+        } catch (e) { }
+        if (!opened) {
+          try {
+            execSync(`chromium-browser "${url}"`);
+            opened = true;
+          } catch (e2) { }
+        }
+        if (!opened) {
+          try {
+            execSync(`xdg-open "${url}"`);
+            opened = true;
+          } catch (e3) {
+            console.error(`Failed to open ${url}: Chrome not found. Please open it manually.`);
+          }
+        }
       }
     } catch (e) {
       console.error(
@@ -85,15 +121,48 @@ async function main() {
 
         storybookProcess.stdout.on("data", (data) => {
           console.log(data.toString());
-          // A better check would be to see if the server is connectable
-          if (data.toString().includes("Storybook started")) {
-            openUrls([storybookUrl]);
-          }
         });
 
         storybookProcess.stderr.on("data", (data) => {
           console.error(data.toString());
         });
+
+
+        // Wait for the server to be up before opening the browser (prevents double open)
+        const waitForPort = async (port, callback, retries = 20, interval = 250) => {
+          const net = (await import('net'));
+          let attempts = 0;
+          const check = () => {
+            const socket = net.createConnection(port, '127.0.0.1');
+            socket.on('connect', () => {
+              socket.end();
+              callback();
+            });
+            socket.on('error', () => {
+              socket.destroy();
+              if (++attempts < retries) {
+                setTimeout(check, interval);
+              } else {
+                console.error(`Timed out waiting for port ${port} to open.`);
+              }
+            });
+          };
+          check();
+        };
+
+        waitForPort(port, () => openUrls([storybookUrl]));
+        // --- Keypress handler: Press 'q' to exit preview menu ---
+        if (process.stdin.isTTY) {
+          process.stdin.setRawMode(true);
+          process.stdin.resume();
+          process.stdin.setEncoding('utf8');
+          process.stdin.on('data', (key) => {
+            if (key === 'q' || key === 'Q') {
+              console.log('\nPreview closed by user.');
+              process.exit(0);
+            }
+          });
+        }
 
         console.log(
           "\nStorybook dev server is starting in the background. It may take a moment.",

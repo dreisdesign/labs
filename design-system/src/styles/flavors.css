@@ -1,0 +1,97 @@
+/* Flavors map the small canonical semantic set to palette anchors.
+   Each flavor defines the same semantic names. Don't add new global names here.
+*/
+
+/* Blueberry */
+.flavor-blueberry.theme-light {
+  /* palette overrides (theme-scoped): simplified stops 100,300,500,700,900 */
+  /* palette derived from palette-500 (#2E2B74) */
+  --palette-blueberry-100: #F0EEFF;
+  --palette-blueberry-300: #C6C1FF;
+  --palette-blueberry-500: #2E2B74;
+  /* base */
+  --palette-blueberry-700: #26225A;
+  --color-primary-darker: var(--palette-blueberry-800);
+  --palette-blueberry-900: #15122B;
+  --color-primary: var(--palette-blueberry-500);
+  --color-background: var(--palette-blueberry-200);
+  --color-surface: var(--palette-white);
+  --color-on-primary: var(--palette-white);
+  /* consistent on-background rule: when background is a low stop (<=300) use palette-900; when background is a high stop (>=400) use palette-50
+    For light themes where we often use palette-200 here, we pick palette-900 to ensure readable on-background text. */
+  --color-on-background: var(--palette-blueberry-900);
+  /* Use a destructive red for error in light blueberry theme */
+  --color-error: #B5005A;
+  /* reuse for now; main.css fallbacks provide distinct error if needed */
+  --color-on-primary-darker: var(--palette-white);
+  --settings-icon-color: #1c1b1f40;
+  /* rgba(28,27,31,0.25) -> hex8 */
+}
+
+.flavor-blueberry.theme-dark {
+  /* palette overrides (theme-scoped): simplified stops 100,300,500,700,900 */
+  /* palette derived from palette-500 (#2E2B74) */
+  --palette-blueberry-100: #F0EEFF;
+  --palette-blueberry-300: #C6C1FF;
+  --palette-blueberry-500: #2E2B74;
+  /* base */
+  --palette-blueberry-700: #26225A;
+  --color-primary-darker: var(--palette-blueberry-800);
+  --palette-blueberry-900: #15122B;
+  --color-primary: var(--palette-blueberry-500);
+  --color-background: var(--palette-black);
+  --color-surface: var(--palette-neutral-700);
+  --color-on-primary: var(--palette-white);
+  /* For dark themes (dark backgrounds), prefer a light on-background so text reads on dark surfaces */
+  --color-on-background: var(--palette-blueberry-50);
+  /* Dark blueberry uses the CF6679 error tone */
+  --color-error: #CF6679;
+  --color-on-primary-darker: var(--palette-white);
+  --settings-icon-color: #ffffff40;
+  /* rgba(255,255,255,0.25) -> hex8 */
+}
+
+/* Strawberry */
+.flavor-strawberry.theme-light {
+  /* palette overrides (theme-scoped): simplified stops 100,300,500,700,900 */
+  /* palette derived from palette-500 (#800800) */
+  --palette-strawberry-100: #FFF2F1;
+  --palette-strawberry-300: #FFB4B4;
+  --palette-strawberry-500: #800800;
+  /* base */
+  --palette-strawberry-700: #9B2F2B;
+  --color-primary-darker: var(--palette-strawberry-800);
+  --palette-strawberry-900: #5C1A18;
+  --color-primary: var(--palette-strawberry-500);
+  --color-background: var(--palette-strawberry-200);
+  --color-surface: var(--palette-white);
+  --color-on-primary: var(--palette-white);
+  /* consistent on-background rule: background at palette-200 -> use palette-900 for on-background text */
+  --color-on-background: var(--palette-strawberry-900);
+  /* Strawberry light uses a dedicated error red */
+  --color-error: #E53935;
+  --color-on-primary-darker: var(--palette-white);
+  --settings-icon-color: var(--palette-strawberry-700);
+}
+
+.flavor-strawberry.theme-dark {
+  /* palette overrides (theme-scoped): simplified stops 100,300,500,700,900 */
+  /* palette derived from palette-500 (#800800) */
+  --palette-strawberry-100: #FFF2F1;
+  --palette-strawberry-300: #FFB4B4;
+  --palette-strawberry-500: #800800;
+  /* base */
+  --palette-strawberry-700: #9B2F2B;
+  --color-primary-darker: var(--palette-strawberry-800);
+  --palette-strawberry-900: #5C1A18;
+  --color-primary: var(--palette-strawberry-500);
+  --color-background: var(--palette-neutral-700);
+  --color-surface: var(--palette-neutral-700);
+  --color-on-primary: var(--palette-white);
+  /* For dark backgrounds prefer a light on-background; map to palette-50 for consistency */
+  --color-on-background: var(--palette-strawberry-50);
+  /* Strawberry dark uses a brighter error tone */
+  --color-error: #FF6F60;
+  --color-on-primary-darker: var(--palette-white);
+  --settings-icon-color: var(--palette-strawberry-500);
+}
