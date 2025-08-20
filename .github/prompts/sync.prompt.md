@@ -1,39 +1,58 @@
 ---
 mode: agent
 ---
-Define the task to achieve, including specific requirements, constraints, and success criteria.
 
-Please help sync my local changes with the remote main branch and ensure everything is committed, merged, and up to date.
+
+**Autonomy Directive:**
+- If you have clear next steps and are at least 90% confident that user permission is not necessary, proceed without waiting for explicit approval. Only pause for confirmation if the action is destructive, ambiguous, or could result in data loss.
+
+**AGENT INSTRUCTIONS: Follow these steps to sync the user's local changes with the remote main branch.**
+
+Your task: Ensure all local changes are committed, merged, and up to date with the remote main branch, following the workflow below. Use imperative language and act autonomously.
+
+**Before you begin:**
+- Agent: Always investigate the nature of the change (project-wide/organizational vs. feature-specific) before proceeding. Choose the correct workflow accordingly.
 
 ---
 
+
 ### Standard Solo Developer Workflow
 
+
+**Before making any changes directly to main:**
+- Agent: Always check the current branch.
+- If not on `main`, switch to `main` and pull the latest changes before making project-wide or organizational updates.
+
+**For feature-specific work:**
+- Agent: Create and work on a feature branch from `main`.
+- Only merge feature branches into `main` via PR.
+
+
 1. **Start on a new branch:**
-   Create a feature or fix branch from `main` (e.g., `git checkout -b feature/my-update`).
+   Agent: Create a feature or fix branch from `main` (e.g., `git checkout -b feature/my-update`).
 
 2. **Make and commit changes:**
-   Work on your changes, staging and committing as you go.
+   Agent: Work on the changes, staging and committing as you go.
 
 3. **Push your branch:**
-   Push the branch to the remote repo (`git push -u origin feature/my-update`).
+   Agent: Push the branch to the remote repo (`git push -u origin feature/my-update`).
 
 4. **Create a PR:**
-   Open a pull request from your feature branch to `main` on GitHub.
+   Agent: Open a pull request from the feature branch to `main` on GitHub.
    - Even solo, this gives you a chance to review the diff, run CI, and see Copilot or other bot suggestions before merging.
 
 5. **Review and merge:**
-   Review the PR (optionally address any suggestions), then merge it into `main` using the GitHub UI.
+   Agent: Review the PR (optionally address any suggestions), then merge it into `main` using the GitHub UI.
 
 6. **Sync your local main:**
-   After merging, check out `main` locally and pull the latest changes:
+   Agent: After merging, check out `main` locally and pull the latest changes:
    ```sh
    git checkout main
    git pull origin main
    ```
 
 7. **Delete the feature branch:**
-   Optionally delete the feature branch locally and remotely to keep things tidy.
+   Agent: Optionally delete the feature branch locally and remotely to keep things tidy.
 
 ---
 
