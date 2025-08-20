@@ -41,6 +41,9 @@ Your task: Ensure all local changes are committed, merged, and up to date with t
 ### Project Task & Sync Workflow
 
 1. **Add new tasks to TODO.md as you work.**
+   - Before syncing or merging, search for and review all `TODO.md` files in the workspace, including area-specific files like `COLORS-DOCS--TODO.md`.
+   - Summarize outstanding tasks, remove completed items, and add new actionable items as needed.
+   - Reference area-specific TODOs from the global `TODO.md` and ensure all checklists are up to date.
    - Always keep the global `TODO.md` at the root of the repository as the canonical project-wide checklist.
    - For area-specific or feature-specific work (e.g., colors/theming), maintain focused TODO files (such as `COLORS-DOCS--TODO.md`) and reference them from the global TODO as needed.
    - Never rename the TODO file for each branch; keep a single canonical file for continuity.
