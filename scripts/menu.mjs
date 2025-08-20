@@ -73,6 +73,10 @@ async function main() {
             value: "serveStorybook",
           },
           {
+            name: "Run Storybook theme checks (build static + run checks)",
+            value: "runThemeChecks",
+          },
+          {
             name: "Sync design system to docs (dev workflow)",
             value: "devSync",
           },
@@ -214,6 +218,62 @@ async function main() {
     } else if (action === "exit") {
       console.log("Goodbye!");
       process.exit(0);
+    } else if (action === "runThemeChecks") {
+      console.log('\n🔬 Running Storybook theme checks (static build)...');
+      // update sitemap
+      execSync("node design-system/scripts/generate-storybook-sitemap.js", { stdio: 'inherit' });
+      console.log('\nBuilding static Storybook...');
+      execSync("npm run build-storybook", { cwd: "./design-system", stdio: 'inherit' });
+
+      const port = 6007; // serve static on a different port to avoid clashes
+      const storybookUrl = `http://localhost:${port}`;
+
+      // start a simple static server for the built output
+      console.log(`\nServing static Storybook at ${storybookUrl} ...`);
+      const storybookStaticProcess = exec("python3 -m http.server 6007", {
+        cwd: "./design-system/storybook-static",
+      });
+
+      storybookStaticProcess.stdout.on('data', (d) => console.log(d.toString()));
+      storybookStaticProcess.stderr.on('data', (d) => console.error(d.toString()));
+
+      // wait for port to be available (re-use waitForPort logic)
+      const waitForPort = async (port, callback, retries = 40, interval = 250) => {
+        const net = (await import('net'));
+        let attempts = 0;
+        const check = () => {
+          const socket = net.createConnection(port, '127.0.0.1');
+          socket.on('connect', () => {
+            socket.end();
+            callback();
+          });
+          socket.on('error', () => {
+            socket.destroy();
+            if (++attempts < retries) {
+              setTimeout(check, interval);
+            } else {
+              console.error(`Timed out waiting for port ${port} to open.`);
+            }
+          });
+        };
+        check();
+      };
+
+      await waitForPort(port, () => console.log(`Static Storybook is up at ${storybookUrl}`));
+
+      try {
+        // run the theme check script against an authoritative tokens story iframe
+        console.log('\nRunning theme check script against tokens Colors story...');
+        execSync(`node scripts/check-storybook-theme.js 'http://localhost:${port}/iframe.html?id=tokens-colors--colors'`, { stdio: 'inherit' });
+        console.log('\nTheme checks completed successfully.');
+      } catch (e) {
+        console.error('\nTheme checks failed or returned an error.');
+      } finally {
+        try {
+          storybookStaticProcess.kill();
+          console.log('\nStopped static Storybook server.');
+        } catch (e) { }
+      }
     }
   } catch (error) {
     if (error.message.includes("User force closed the prompt")) {
