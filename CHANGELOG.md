@@ -2,6 +2,10 @@
 
 > For detailed design system component changes, see [`design-system/CHANGELOG.md`](design-system/CHANGELOG.md).
 
+-### Unreleased — main (2025-08-20)
+- docs(workflow): update sync prompt to include unified project task/TODO/changelog process
+- docs: add dedicated TODO prompt for checklist/project hygiene
+
 ### Unreleased — feature/theme-cleanup/docs-and-scan (2025-08-19)
 - docs(theme): add canonical Color Tokens & Theme System guide (design-system/src/styles/COLORS-DOCS.md)
 - feat(theme): wire Storybook preview to init/apply system theme; add semantic token mapping (flavors.css, main.css)
