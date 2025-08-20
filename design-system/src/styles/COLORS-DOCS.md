@@ -73,10 +73,10 @@ Keep component CSS semantic-only: use `var(--color-*)` values in components rath
 
 .flavor-blueberry.theme-dark {
   --color-primary: var(--palette-blueberry-500);
-  --color-background: #121212;
-  --color-surface: #1e1e1e;
-  --color-on-primary: #ffffff;
-  --color-on-background: var(--palette-blueberry-100);
+  --color-background: var(--palette-black);
+  --color-surface: var(--palette-neutral-700);
+  --color-on-primary: var(--palette-white);
+  --color-on-background: var(--palette-blueberry-50);
 }
 ```
 
@@ -175,7 +175,7 @@ Strawberry — dark
 | --color-surface      | var(--palette-white) = #FFFFFF  |
 | --color-on-primary   | var(--palette-white) = #FFFFFF  |
 | --color-on-background| var(--palette-blueberry-900) = #15122B |
-| --color-error        | var(--palette-strawberry-500) = #800800 |
+| --color-error        | #B5005A (light blueberry destructive/error tone)
 
 ### Blueberry — dark
 
@@ -185,8 +185,8 @@ Strawberry — dark
 | --color-background   | var(--palette-black) = #000000  |
 | --color-surface      | var(--palette-neutral-700) = #3C3C46 |
 | --color-on-primary   | var(--palette-white) = #FFFFFF  |
-| --color-on-background| var(--palette-blueberry-100) = #F0EEFF |
-| --color-error        | var(--palette-strawberry-500) = #800800 |
+| --color-on-background| var(--palette-blueberry-50) = #F0EEFF |
+| --color-error        | #CF6679 (dark blueberry error tone)
 
 ### Strawberry — light
 
@@ -197,7 +197,7 @@ Strawberry — dark
 | --color-surface      | var(--palette-white) = #FFFFFF  |
 | --color-on-primary   | var(--palette-white) = #FFFFFF  |
 | --color-on-background| var(--palette-strawberry-900) = #5C1A18 |
-| --color-error        | var(--palette-strawberry-500) = #800800 |
+| --color-error        | #E53935 (strawberry light error tone)
 
 ### Strawberry — dark
 
@@ -207,8 +207,8 @@ Strawberry — dark
 | --color-background   | var(--palette-neutral-700) = #3C3C46 |
 | --color-surface      | var(--palette-neutral-700) = #3C3C46 |
 | --color-on-primary   | var(--palette-white) = #FFFFFF  |
-| --color-on-background| var(--palette-strawberry-100) = #FFF2F1 |
-| --color-error        | var(--palette-strawberry-500) = #800800 |
+| --color-on-background| var(--palette-strawberry-50) = #FFF2F1 |
+| --color-error        | #FF6F60 (strawberry dark error tone)
 
 (These are a human-readable snapshot — the canonical values live in `flavors.css` and palette anchors in `tokens/colors.css`. Always refer to the source files for the latest mappings.)
 
