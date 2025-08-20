@@ -180,4 +180,5 @@ Strawberry — dark
 (These are a human-readable snapshot — the canonical values live in `flavors.css` and palette anchors in `tokens/colors.css`.)
 
 ## TODO and Next Steps
-See [`TODO.md`](../../../TODO.md) for all actionable and planned work related to theming and tokens.
+
+See [COLORS-DOCS--TODO.md](COLORS-DOCS--TODO.md) for work actively in progress and next steps.
