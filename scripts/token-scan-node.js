@@ -72,8 +72,10 @@ const declaredList = Array.from(declared.keys()).sort();
 fs.writeFileSync(path.join(outDir, 'used_tokens.txt'), usedList.map(t => '--' + t).join('\n'));
 fs.writeFileSync(path.join(outDir, 'declared_tokens.txt'), declaredList.map(t => '--' + t).join('\n'));
 
-// missing = used - declared
-const missing = usedList.filter(t => !declared.has(t));
+
+// missing = used - declared, but ignore prefix-only tokens (e.g., 'color-')
+const isValidToken = t => !/^color-$/.test(t); // add more patterns if needed
+const missing = usedList.filter(t => !declared.has(t) && isValidToken(t));
 fs.writeFileSync(path.join(outDir, 'missing_tokens.txt'), missing.map(t => '--' + t).join('\n'));
 
 console.log('Scan complete. Results in', outDir);
