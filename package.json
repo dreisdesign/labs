@@ -2,6 +2,7 @@
   "name": "labs-root",
   "private": true,
   "scripts": {
+    "check-storybook-theme": "node scripts/check-storybook-theme.js",
     "public": "npm --prefix design-system run public",
     "local": "npm --prefix design-system run local && (sleep 2 && open -a 'Google Chrome' http://localhost:8080/docs/demo/index.html &) && python3 -m http.server 8080",
     "github": "npm --prefix design-system run github",
@@ -16,5 +17,8 @@
   "devDependencies": {
     "inquirer": "^12.8.2",
     "svgo": "^4.0.0"
+  },
+  "dependencies": {
+    "puppeteer": "^24.16.2"
   }
 }

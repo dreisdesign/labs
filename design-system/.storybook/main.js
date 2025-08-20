@@ -12,7 +12,9 @@ const config = {
       name: "@storybook/addon-docs",
       options: {},
     },
-    "@storybook/addon-themes"
+    "@storybook/addon-themes",
+    // Essentials includes Backgrounds, Controls, Actions, Viewport, and more
+    "@storybook/addon-essentials"
   ],
   parameters: {
     options: {

@@ -12,6 +12,8 @@
 - chore(docs): update tokens stories and housekeeping docs; prepare token-scan tooling (scripts)
 - misc: add early-load IIFE to demo pages to prevent FOUC; small docs and README references
 
+- docs(theme): sync `COLORS-DOCS.md` snapshots with authoritative `tokens/colors.css` and `flavors.css`; validated with local Storybook static build (design-system/storybook-static)
+
 ### 📝 Documentation Overhaul
 - **Single Source of Truth:** All design system, Storybook, and UI development docs consolidated into `docs/DEVELOPMENT.md`
 - **Legacy Docs Archived:** Old migration, features, and sprint docs moved to `_dev/_archive`
