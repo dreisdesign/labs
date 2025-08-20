@@ -154,30 +154,63 @@ npm run storybook
 
 ## Current flavor snapshots (authoritative values come from `src/styles/flavors.css`)
 
-Blueberry — light
-- `--color-primary`: #2E2B74
-- `--color-background`: #C6C1FF
-- `--color-surface`: #FFFFFF
-- `--color-on-primary`: #FFFFFF
-- `--color-on-background`: #15122B
 
 Blueberry — dark
-- `--color-primary`: #2E2B74
-- `--color-background`: #121212
-- `--color-surface`: #1E1E1E
-- `--color-on-primary`: #FFFFFF
 
 Strawberry — light
-- `--color-primary`: #800800
-- `--color-background`: #FEE2E1
-- `--color-surface`: #FFFFFF
 
 Strawberry — dark
-- `--color-primary`: #800800
-- `--color-background`: #3C3C46
-- `--color-surface`: #3C3C46
 
 (These are a human-readable snapshot — the canonical values live in `flavors.css` and palette anchors in `tokens/colors.css`.)
+## Current flavor snapshots (authoritative values come from `src/styles/flavors.css`)
+
+> **Note:** Values shown as `var(--palette-...)` reference the palette anchors in `tokens/colors.css`. Hex values are shown for clarity, but the actual mapping uses CSS variables.
+
+### Blueberry — light
+
+| Token                | Value (resolved)                |
+|----------------------|---------------------------------|
+| --color-primary      | var(--palette-blueberry-500) = #2E2B74 |
+| --color-background   | var(--palette-blueberry-200) = #DBD7FF |
+| --color-surface      | var(--palette-white) = #FFFFFF  |
+| --color-on-primary   | var(--palette-white) = #FFFFFF  |
+| --color-on-background| var(--palette-blueberry-900) = #15122B |
+| --color-error        | var(--palette-strawberry-500) = #800800 |
+
+### Blueberry — dark
+
+| Token                | Value (resolved)                |
+|----------------------|---------------------------------|
+| --color-primary      | var(--palette-blueberry-500) = #2E2B74 |
+| --color-background   | var(--palette-black) = #000000  |
+| --color-surface      | var(--palette-neutral-700) = #3C3C46 |
+| --color-on-primary   | var(--palette-white) = #FFFFFF  |
+| --color-on-background| var(--palette-blueberry-100) = #F0EEFF |
+| --color-error        | var(--palette-strawberry-500) = #800800 |
+
+### Strawberry — light
+
+| Token                | Value (resolved)                |
+|----------------------|---------------------------------|
+| --color-primary      | var(--palette-strawberry-500) = #800800 |
+| --color-background   | var(--palette-strawberry-200) = #FFD3D2 |
+| --color-surface      | var(--palette-white) = #FFFFFF  |
+| --color-on-primary   | var(--palette-white) = #FFFFFF  |
+| --color-on-background| var(--palette-strawberry-900) = #5C1A18 |
+| --color-error        | var(--palette-strawberry-500) = #800800 |
+
+### Strawberry — dark
+
+| Token                | Value (resolved)                |
+|----------------------|---------------------------------|
+| --color-primary      | var(--palette-strawberry-500) = #800800 |
+| --color-background   | var(--palette-neutral-700) = #3C3C46 |
+| --color-surface      | var(--palette-neutral-700) = #3C3C46 |
+| --color-on-primary   | var(--palette-white) = #FFFFFF  |
+| --color-on-background| var(--palette-strawberry-100) = #FFF2F1 |
+| --color-error        | var(--palette-strawberry-500) = #800800 |
+
+(These are a human-readable snapshot — the canonical values live in `flavors.css` and palette anchors in `tokens/colors.css`. Always refer to the source files for the latest mappings.)
 
 ## TODO and Next Steps
 

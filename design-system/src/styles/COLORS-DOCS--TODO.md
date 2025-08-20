@@ -1,5 +1,18 @@
 Absolutely! cross-check the color values listed in your COLORS-DOCS.md "Current flavor snapshots" section against the actual palette and flavor definitions in your codebase to ensure they are accurate and up to date.
 
+---
+
+## NEXT STEPS (feature/colors-docs-finalization, PR #1, and Storybook)
+
+- [ ] Review Storybook: Ensure both light and dark theme values for all semantic tokens are visible and easy to toggle.
+- [ ] Clean up code: Remove commented-out debug lines and unnecessary `process.exit(0)`/`exit 0` statements.
+- [ ] Clarify or remove unclear comments in CSS and scripts.
+- [ ] Remove duplicate doc links and ensure only canonical docs are referenced.
+- [ ] Confirm that all old/archived MDX docs are out of `src` and not interfering with Storybook.
+- [ ] Double-check that legacy color aliases are only present for back-compat and not self-referential.
+
+---
+
 Here’s the plan:
 1. Check the palette anchor values in `tokens/colors.css`.
 2. Check the flavor+theme mappings in `flavors.css`.
