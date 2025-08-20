@@ -179,10 +179,5 @@ Strawberry — dark
 
 (These are a human-readable snapshot — the canonical values live in `flavors.css` and palette anchors in `tokens/colors.css`.)
 
-## Suggested next steps
-1. If you want, I can perform the mechanical cleanup to ensure `tokens/colors.css` contains only `--palette-*` anchors and move any `.theme-*` or `:root` semantic fallbacks into `main.css` (low-risk, reversible).
-2. Run the token usage scan to find any semantic tokens used by components that lack fallback or flavor mappings.
-3. Add a small grep-based CI check to fail on undeclared `--color-*` usages.
-
----
-_This doc focuses on light/dark correctness and deterministic theme application across Storybook and demos. If you'd like, I can now: run the token scan, implement the palette-only cleanup, or add the early-load IIFE to pages missing it — tell me which and I'll continue._
+## TODO and Next Steps
+See [`TODO.md`](../../../TODO.md) for all actionable and planned work related to theming and tokens.

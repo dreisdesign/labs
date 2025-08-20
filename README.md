@@ -156,13 +156,10 @@ For all AI-driven development, the assistant will:
 See the new troubleshooting section in `design-system/FEATURES-TODO.md` for step-by-step fixes if the version or upgrade banner is wrong.
 
 
+
 ## 🏆 Current Roadmap
 
-- Complete CSF3 migration for all stories (advanced controls, future-proofing)
-- Integrate labs-alert for all notification/undo patterns
-- Refactor overlays for consistent close button usage and modularity
-
-See the [CHANGELOG.md](CHANGELOG.md) for detailed version history and recent achievements.
+See [`TODO.md`](TODO.md) for all actionable and planned work. For detailed version history and recent achievements, see [CHANGELOG.md](CHANGELOG.md).
 
 ---
 

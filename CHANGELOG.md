@@ -14,9 +14,7 @@
 - **README Updated:** Main README now points to the new development guide
 
 ### 🚧 In Progress
-- **CSF3 Migration:** Incremental migration of all stories to CSF3 for advanced controls and future-proofing
-- **Alert System Integration:** `labs-alert` being integrated across all apps and overlays
-- **Overlay Refactor:** Consistent close button and modularity improvements in overlays
+See `TODO.md` for all current in-progress and planned work.
 ### 🛠️ Technical Enhancements
 - **Menu-Driven Workflow & AI Chat Policy** - Adopted explicit, menu-driven workflow and AI Chat task continuation policy for all development and documentation. See `.github/instructions/development-workflow.instructions.md` for details.
 # 📋 Labs Project Changelog
@@ -116,23 +114,7 @@
 
 ## 🎯 Current Development Priorities
 
-### **High Priority**
-- [ ] **Storybook UI Improvements** - Light theme default, improved controls layout
-- [ ] **Component Visibility Fixes** - Icon-only buttons and "All Apps" visibility
-- [ ] **Color Token Display** - Better light/dark mode visibility in swatches
-- [ ] **Production Testing** - Comprehensive testing of GitHub Pages deployment
-
-### **Medium Priority**
-- [ ] **Documentation Consolidation** - Complete migration to new structure
-- [ ] **Token Showcase Improvements** - Better typography and spacing displays
-- [ ] **Icon Grid Enhancements** - Larger default size, improved controls
-- [ ] **App Feature Expansions** - Enhanced functionality across all apps
-
-### **Technical Debt**
-- [ ] **Archive Management** - Complete migration of outdated documentation
-- [ ] **Build Optimization** - Further bundle size reduction
-- [ ] **Performance Testing** - Comprehensive performance analysis
-- [ ] **Accessibility Audit** - Full accessibility compliance review
+See `TODO.md` for all actionable, in-progress, and planned work.
 
 ---
 
