@@ -14,19 +14,15 @@
 
   --color-destructive: #B5005A;
   /* destructive mapped directly to strawberry palette anchor for consistency */
-  --color-error: var(--palette-strawberry-500, #800800);
-  /* prefer --color-danger name for semantic clarity; keep alias for backward-compat */
-  --color-danger: var(--palette-strawberry-500, #800800);
-  --color-on-error: #FFFFFF;
 
-  --color-warning: #FFC634;
-  /* warning */
-  --color-on-warning: #000000;
+  /* Status colors now inherited from colors.css - removed overrides */
+  /* --color-error and --color-warning are defined in colors.css */
+  /* --color-on-error and --color-on-warning are defined in colors.css */
 
   /* Deprecated/compat tokens used in older components (kept as aliases) */
   --color-status-success: var(--color-success);
   --color-status-warning: var(--color-warning);
-  --color-status-destructive: var(--palette-strawberry-500, #800800);
+  --color-status-destructive: var(--color-error);
 
   /* Legacy compatibility aliases (flattened to palette anchors for stability) */
   --color-accent: var(--palette-blueberry-500, #2E2B74);

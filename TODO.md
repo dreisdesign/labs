@@ -7,15 +7,15 @@ This is the canonical project-wide TODO file. Use this as an index of links to a
 ## Design System
 
 - [Design System TODOs](design-system/TODO.md)
-- [Color/Theming TODOs](design-system/src/styles/COLORS-DOCS--TODO.md)
+- ✅ **Color/Theming TODOs** — *Complete! Semantic token system fully operational with proper chain resolution, contrast calculations, and Storybook documentation*
 - [Design Tokens Migration Plan](DESIGN-TOKENS-MIGRATION.md) — ✅ *Complete! All 3 phases finished*
+- [Design Tokens Final Summary](DESIGN-TOKENS-MIGRATION-FINAL.md) — 🎯 *Architecture finalized and ready for components*
 
-### Storybook Documentation Improvements
+### Outstanding Storybook Enhancements
 
-- [ ] Fix theme switching in Storybook preview (background should match theme)
-- [ ] Add light/dark comparison table to Colors story
-- [ ] Clarify text color system documentation in UI
-- [ ] Resolve duplicate hex codes display issue in theme tables
+- [ ] Add theme switcher controls to Colors story (light/dark toggle in toolbar)
+- [ ] Add light/dark comparison table to Colors story UI
+- ✅ **Fixed color token resolution issues** — *Self-referential chain messages removed, improved text color calculations, all swatches now populate correctly*
 
 ---
 
