@@ -8,7 +8,14 @@ This is the canonical project-wide TODO file. Use this as an index of links to a
 
 - [Design System TODOs](design-system/TODO.md)
 - [Color/Theming TODOs](design-system/src/styles/COLORS-DOCS--TODO.md)
-- [Design Tokens Migration Plan](DESIGN-TOKENS-MIGRATION.md) — *Major architectural improvements for token system*
+- [Design Tokens Migration Plan](DESIGN-TOKENS-MIGRATION.md) — ✅ *Complete! All 3 phases finished*
+
+### Storybook Documentation Improvements
+
+- [ ] Fix theme switching in Storybook preview (background should match theme)
+- [ ] Add light/dark comparison table to Colors story
+- [ ] Clarify text color system documentation in UI
+- [ ] Resolve duplicate hex codes display issue in theme tables
 
 ---
 

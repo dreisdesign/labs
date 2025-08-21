@@ -17,11 +17,7 @@
   --color-on-primary: #fff;
   --color-on-primary-darker: #fff;
   --color-on-background: var(--palette-vanilla-800);
-  --color-success: #00B56A;
-  --color-warning: #FFB300;
-  --color-error: #D32F2F;
-  --color-on-error: #fff;
-  /* White text for error backgrounds in light theme */
+  /* Status colors inherit from global tokens */
 }
 
 .flavor-vanilla.theme-dark {
@@ -34,11 +30,7 @@
   --color-on-primary: var(--palette-vanilla-800);
   --color-on-primary-darker: #fff;
   --color-on-background: #fff;
-  --color-success: #00B56A;
-  --color-warning: #FFB300;
-  --color-error: #FF6F60;
-  --color-on-error: #000;
-  /* Black text for brighter error backgrounds in dark theme */
+  /* Status colors inherit from global tokens */
 }
 
 /* Flavors map the small canonical semantic set to palette anchors.
@@ -53,9 +45,8 @@
   --color-on-primary: var(--palette-white);
   --color-on-primary-darker: var(--palette-white);
   --color-on-background: var(--palette-blueberry-900);
-  --color-error: #B5005A;
-  --color-on-error: #fff;
   --settings-icon-color: #1c1b1f40;
+  /* Status colors inherit from global tokens */
 }
 
 .flavor-blueberry.theme-dark {
@@ -65,9 +56,8 @@
   --color-on-primary: var(--palette-white);
   --color-on-primary-darker: var(--palette-white);
   --color-on-background: var(--palette-blueberry-100);
-  --color-error: #CF6679;
-  --color-on-error: #000;
   --settings-icon-color: #ffffff40;
+  /* Status colors inherit from global tokens */
 }
 
 /* Strawberry */
@@ -78,9 +68,8 @@
   --color-on-primary: var(--palette-white);
   --color-on-primary-darker: var(--palette-white);
   --color-on-background: var(--palette-strawberry-900);
-  --color-error: #E53935;
-  --color-on-error: #fff;
   --settings-icon-color: var(--palette-strawberry-700);
+  /* Status colors inherit from global tokens */
 }
 
 .flavor-strawberry.theme-dark {
@@ -90,7 +79,6 @@
   --color-on-primary: var(--palette-white);
   --color-on-primary-darker: var(--palette-white);
   --color-on-background: var(--palette-strawberry-100);
-  --color-error: #FF6F60;
-  --color-on-error: #000;
   --settings-icon-color: var(--palette-strawberry-500);
+  /* Status colors inherit from global tokens */
 }

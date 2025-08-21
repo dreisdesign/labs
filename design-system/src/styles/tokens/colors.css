@@ -4,20 +4,27 @@
 :root {
   /*
     Global semantic tokens:
-    - Surface: background color (uses --neutral-100, #FBFBFD)
-      Text: On Surface (--color-on-surface)
-    - On Surface: text color (uses --neutral-800, #2A2A30)
-      Text: Surface (--color-surface)
-    These reference the neutral palette and are inherited by all flavors unless explicitly overridden.
+    - Surface: default background color (light neutral)
+    - Surface Alt: alternate background color (dark neutral)
+    - Background: theme-specific background (overridden per theme)
+
+    Text color pairings:
+    - On Surface: dark text for light backgrounds
+    - On Surface Alt: light text for dark backgrounds
+    - On Background: text for theme background (overridden per theme)
   */
   --color-surface: var(--base-100);
-  /* Surface: background color (Text: On Surface) */
+  /* Surface: default light background */
   --color-surface-alt: var(--base-800);
-  /* Surface Alt: dark surface background (Text: On Surface Alt) */
-  --color-on-surface-alt: var(--base-100);
-  /* On Surface Alt: text color for use on dark surface backgrounds */
+  /* Surface Alt: default dark background */
   --color-on-surface: var(--base-800);
-  /* On Surface: text color (Text: Surface) */
+  /* On Surface: dark text for light backgrounds */
+  --color-on-surface-alt: var(--base-100);
+  /* On Surface Alt: light text for dark backgrounds */
+  --color-background: var(--base-100);
+  /* Background: default background (themes override this) */
+  --color-on-background: var(--base-800);
+  /* On Background: default text for backgrounds (themes override this) */
   --palette-vanilla-00: #FFFFFF;
   /* Vanilla palette — for Vanilla theme and as a base for other flavors */
   --palette-vanilla-100: #F5F1E7;
@@ -79,10 +86,10 @@
   /* Map semantic tokens for status colors */
   --color-success: var(--palette-green-500);
   --color-on-success: #fff;
-  /* On Success: white text for high contrast on green #00B56A background */
+  /* On Success: white text for high contrast on green #00800C background */
   --color-warning: var(--palette-yellow-500);
-  --color-on-warning: #000;
-  /* On Warning: black text for high contrast on yellow #FFB300 background */
+  --color-on-warning: var(--color-on-surface);
+  /* On Warning: use surface text color for high contrast on yellow #FFB300 background */
   --color-error: var(--palette-red-500);
   --color-on-error: #fff;
   /* On Error: white text for high contrast on red #D32F2F background */
