@@ -1,11 +1,9 @@
 /** @type { import('@storybook/web-components-vite').StorybookConfig } */
 const config = {
   stories: [
-    "../src/**/*.mdx",
-    "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
-    "!../src/**/_archive/*.stories.@(js|jsx|mjs|ts|tsx)",
-    // Exclude any archived docs or files in _archive directories (MDX, stories, etc.)
-    "!../src/**/_archive/**"
+    '../src/stories/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+    '../src/components/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+    '../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'
   ],
   addons: [
     {
@@ -13,8 +11,8 @@ const config = {
       options: {},
     },
     "@storybook/addon-themes",
-    // Essentials includes Backgrounds, Controls, Actions, Viewport, and more
-    "@storybook/addon-essentials"
+    "@storybook/addon-a11y",
+    "@storybook/addon-vitest"
   ],
   parameters: {
     options: {

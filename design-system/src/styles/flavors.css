@@ -1,6 +1,45 @@
-/* Flavors map the small canonical semantic set to palette anchors.
-   Each flavor defines the same semantic names. Don't add new global names here.
+/*
+  All flavors inherit --color-surface and --color-on-surface from the global tokens in tokens/colors.css.
+  These are semantic tokens:
+    --color-surface: var(--neutral-100) (Surface: background, Text: On Surface)
+    --color-on-surface: var(--neutral-800) (On Surface: text, Text: Surface)
+  Only override if a flavor/theme needs a different mapping.
 */
+
+/* Vanilla */
+.flavor-vanilla.theme-light {
+  --color-primary: var(--palette-vanilla-500);
+  /* Use 500 (#6B5C4B) as primary */
+  --color-primary-darker: var(--palette-vanilla-800);
+  /* Use 800 (#372116) as primary-darker */
+  --color-background: var(--palette-vanilla-100);
+  /* #F5F1E7 */
+  --color-on-primary: #fff;
+  --color-on-primary-darker: #fff;
+  --color-on-background: var(--palette-vanilla-800);
+  --color-success: #00B56A;
+  --color-warning: #FFB300;
+  --color-error: #D32F2F;
+}
+
+.flavor-vanilla.theme-dark {
+  --color-primary: var(--palette-vanilla-300);
+  /* Use 300 for dark theme primary (#A89B8C) */
+  --color-primary-darker: var(--palette-vanilla-500);
+  /* Use 500 for dark theme primary-darker (#6B5C4B) */
+  --color-background: var(--palette-vanilla-800);
+  /* was 900, now 800 (#372116) */
+  --color-on-primary: var(--palette-vanilla-800);
+  --color-on-primary-darker: #fff;
+  --color-on-background: #fff;
+  --color-success: #00B56A;
+  --color-warning: #FFB300;
+  --color-error: #FF6F60;
+}
+
+/* Flavors map the small canonical semantic set to palette anchors.
+  Each flavor defines the same semantic names. Don't add new global names here.
+  Global neutral palette is now used only for the default theme, not for Vanilla. */
 
 /* Blueberry */
 .flavor-blueberry.theme-light {
@@ -15,7 +54,6 @@
   --palette-blueberry-900: #15122B;
   --color-primary: var(--palette-blueberry-500);
   --color-background: var(--palette-blueberry-200);
-  --color-surface: var(--palette-white);
   --color-on-primary: var(--palette-white);
   /* consistent on-background rule: when background is a low stop (<=300) use palette-900; when background is a high stop (>=400) use palette-50
     For light themes where we often use palette-200 here, we pick palette-900 to ensure readable on-background text. */
@@ -40,10 +78,9 @@
   --palette-blueberry-900: #15122B;
   --color-primary: var(--palette-blueberry-500);
   --color-background: var(--palette-black);
-  --color-surface: var(--palette-neutral-700);
   --color-on-primary: var(--palette-white);
   /* For dark themes (dark backgrounds), prefer a light on-background so text reads on dark surfaces */
-  --color-on-background: var(--palette-blueberry-50);
+  --color-on-background: var(--palette-blueberry-100);
   /* Dark blueberry uses the CF6679 error tone */
   --color-error: #CF6679;
   --color-on-primary-darker: var(--palette-white);
@@ -64,7 +101,6 @@
   --palette-strawberry-900: #5C1A18;
   --color-primary: var(--palette-strawberry-500);
   --color-background: var(--palette-strawberry-200);
-  --color-surface: var(--palette-white);
   --color-on-primary: var(--palette-white);
   /* consistent on-background rule: background at palette-200 -> use palette-900 for on-background text */
   --color-on-background: var(--palette-strawberry-900);
@@ -85,11 +121,10 @@
   --color-primary-darker: var(--palette-strawberry-800);
   --palette-strawberry-900: #5C1A18;
   --color-primary: var(--palette-strawberry-500);
-  --color-background: var(--palette-neutral-700);
-  --color-surface: var(--palette-neutral-700);
+  --color-background: var(--palette-base-800);
   --color-on-primary: var(--palette-white);
-  /* For dark backgrounds prefer a light on-background; map to palette-50 for consistency */
-  --color-on-background: var(--palette-strawberry-50);
+  /* For dark backgrounds prefer a light on-background; map to palette-100 for consistency */
+  --color-on-background: var(--palette-strawberry-100);
   /* Strawberry dark uses a brighter error tone */
   --color-error: #FF6F60;
   --color-on-primary-darker: var(--palette-white);

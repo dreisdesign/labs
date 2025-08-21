@@ -20,3 +20,8 @@ export const Strawberry = {
   name: 'Theme: Strawberry',
   render: () => renderColors({ onlyFlavor: 'strawberry' })
 };
+
+export const Vanilla = {
+  name: 'Theme: Vanilla',
+  render: () => renderColors({ onlyFlavor: 'vanilla' })
+};

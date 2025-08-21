@@ -4,10 +4,10 @@
   --color-overlay-background: #00000080;
 
   /* Surface container helpers */
-  --color-surface-container: #F7F7FB;
-  --color-surface-container-high: #EEEFF4;
-  --color-surface-variant: #F0F0F4;
-  --color-on-surface-variant: #1C1B1FA6;
+  --color-surface-container: var(--palette-vanilla-100);
+  --color-surface-container-high: var(--palette-vanilla-200);
+  --color-surface-variant: var(--palette-vanilla-200);
+  --color-on-surface-variant: var(--palette-vanilla-700);
 
   /* Status colors (explicit root values provided by request) */
   --color-success: #00B56A;
@@ -77,8 +77,7 @@
 :root {
   --color-primary-75: #2E2B74BF;
   --color-primary-25: #C1C1FF40;
-  --color-on-surface: #1C1B1F;
-  --color-outline: #1C1B1F1F;
+  --color-outline: var(--palette-vanilla-700);
   /* radius-sm used by a few components */
   --radius-sm: 4px;
 }

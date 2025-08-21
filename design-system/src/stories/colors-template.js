@@ -25,27 +25,34 @@ export function renderColors(opts = {}) {
   const tokenSets = {
     global: {
       label: 'Global',
-      // surface first; background is a theme-level responsibility and removed from global
-      tokens: ['--color-surface', '--color-success', '--color-warning', '--color-error'],
-      palette: ['--palette-neutral-100', '--palette-neutral-200', '--palette-neutral-300', '--palette-neutral-500', '--palette-neutral-800']
+      // surface and on-surface are semantic tokens mapped to base palette stops in the global context; background is a theme-level responsibility and removed from global
+      tokens: ['--color-surface', '--color-surface-alt', '--color-success', '--color-warning', '--color-error'],
+      palette: [
+        '--palette-base-100',
+        '--palette-base-800'
+      ],
+      statusPalette: [
+        '--palette-green-500',
+        '--palette-yellow-500',
+        '--palette-red-500'
+      ]
     },
     blueberry: {
       semantic: ['--color-primary', '--color-primary-darker'],
-      // show surface and the palette 200 stop (background is set at theme level)
-      // show surface and the theme-level background token so the card labels
-      // clearly indicate the background semantic (which maps to palette-200)
       neutrals: ['--color-surface', '--color-background'],
-      // combine 700+900 into 800 stop (renderer uses 800 as darker)
       palette: ['--palette-blueberry-100', '--palette-blueberry-200', '--palette-blueberry-300', '--palette-blueberry-500', '--palette-blueberry-800'],
       accents: []
     },
     strawberry: {
       semantic: ['--color-primary', '--color-primary-darker'],
-      // show surface and the palette 200 stop (background is set at theme level)
-      // show surface and the theme-level background token so the card labels
-      // clearly indicate the background semantic (which maps to palette-200)
       neutrals: ['--color-surface', '--color-background'],
       palette: ['--palette-strawberry-100', '--palette-strawberry-200', '--palette-strawberry-300', '--palette-strawberry-500', '--palette-strawberry-800'],
+      accents: []
+    },
+    vanilla: {
+      semantic: ['--color-primary', '--color-primary-darker'],
+      neutrals: ['--color-surface', '--color-background'],
+      palette: ['--palette-vanilla-100', '--palette-vanilla-200', '--palette-vanilla-300', '--palette-vanilla-500', '--palette-vanilla-800'],
       accents: []
     }
   };
@@ -67,9 +74,9 @@ export function renderColors(opts = {}) {
   details.flavor-column summary{list-style:none;cursor:pointer;padding:6px 8px}
   details.flavor-column summary::-webkit-details-marker{display:none}
   details.flavor-column summary h3{font-size:15px;display:inline}
-  .polaroid-card{border-radius:8px;padding:10px;border:1px solid var(--color-outline);background:var(--color-surface);}
+  .polaroid-card{border-radius:8px;padding:10px;border:1px solid var(--color-outline);background:var(--color-surface,#FBFBFD);}
   /* Make the swatch a square (1:1) so color area is consistent */
-  .card-swatch{width:100%;aspect-ratio:1/1;border-radius:6px;background-size:cover;margin-bottom:8px;position:relative;display:flex;align-items:center;justify-content:center}
+  .card-swatch{width:100%;aspect-ratio:1/1;border-radius:6px;background-size:cover;margin-bottom:8px;position:relative;display:flex;align-items:center;justify-content:center;background:var(--color-surface,#FBFBFD);}
   .swatch-text{font-weight:700;font-size:16px;line-height:1;color:var(--color-on-primary);pointer-events:none;text-shadow:0 1px 0 rgba(0,0,0,0.15);}
   /* polaroids are purely visual now; contrast is shown in the token tables */
   /* Theme layout: primary in a larger main column, other tokens flow in a masonry-like nested grid */
@@ -113,28 +120,63 @@ export function renderColors(opts = {}) {
   .token-list th,.token-list td{border:1px solid rgba(0,0,0,0.06);padding:6px 8px;text-align:left}
   .token-list th{background:rgba(0,0,0,0.02);font-weight:600}
   .token-list code{font-size:12px}
+  .swatch-thumb { box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+  .swatch-thumb-text { box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
       </style>
       ${!only ? `
       <div id="flavors-top">
         <h1 style="margin:8px 0">Design Tokens — Palette</h1>
         <details class="flavor-column flavor-global" ${hideIfNot('global')} ${(!only || only === 'global') ? 'open' : ''} style="margin-bottom:18px">
         <summary style="margin:8px 0"><h3 style="display:inline;margin:0">Global</h3></summary>
+        <div style="font-size:12px;color:rgba(0,0,0,0.5);margin-bottom:8px">Semantic Tokens</div>
         <div class="polaroid-row">
           ${renderTokenList('Global', tokenSets.global.tokens)}
         </div>
-        <div style="font-size:12px;color:rgba(0,0,0,0.5);margin-bottom:8px">Neutral Palette</div>
+        <div style="font-size:12px;color:rgba(0,0,0,0.5);margin-bottom:8px">Base Palette</div>
         <div class="polaroid-row polaroid-palette">
           ${renderTokenList('Global', tokenSets.global.palette)}
         </div>
+        <div style="font-size:12px;color:rgba(0,0,0,0.5);margin-bottom:8px">Status Palette</div>
+        <div class="polaroid-row polaroid-palette">
+          ${renderTokenList('Global', tokenSets.global.statusPalette)}
+        </div>
         <div class="token-list-wrap">
           <table class="token-list">
-            <thead><tr><th>Token</th><th>Resolved value</th><th>Text color</th><th>Contrast</th></tr></thead>
+            <thead><tr><th>Token</th><th>Swatch</th><th>Resolved value</th><th>Text color</th><th>Text Swatch</th><th>Contrast</th></tr></thead>
             <tbody>
-              ${[...tokenSets.global.tokens, ...tokenSets.global.palette].map(t => `
+              <!-- Semantic tokens -->
+              <tr><td colspan="6" style="font-size:12px;color:rgba(0,0,0,0.5);background:rgba(0,0,0,0.03)">Semantic</td></tr>
+              ${tokenSets.global.tokens.map(t => `
                 <tr>
                   <td><code>${t}</code></td>
+                  <td><span class="swatch-thumb" data-var="${t}" style="display:inline-block;width:20px;height:20px;border-radius:4px;border:1px solid #ccc;background:var(${t});vertical-align:middle;"></span></td>
                   <td class="list-resolved" data-var="${t}">resolving...</td>
                   <td class="list-text-color" data-var="${t}">computing...</td>
+                  <td><span class="swatch-thumb-text" data-var="${t}" style="display:inline-block;width:20px;height:20px;border-radius:4px;border:1px solid #ccc;background:#fff;vertical-align:middle;"></span></td>
+                  <td class="list-contrast" data-var="${t}">–</td>
+                </tr>
+              `).join('')}
+              <!-- Base palette -->
+              <tr><td colspan="6" style="font-size:12px;color:rgba(0,0,0,0.5);background:rgba(0,0,0,0.03)">Base Palette</td></tr>
+              ${tokenSets.global.palette.map(t => `
+                <tr>
+                  <td><code>${t}</code></td>
+                  <td><span class="swatch-thumb" data-var="${t}" style="display:inline-block;width:20px;height:20px;border-radius:4px;border:1px solid #ccc;background:var(${t});vertical-align:middle;"></span></td>
+                  <td class="list-resolved" data-var="${t}">resolving...</td>
+                  <td class="list-text-color" data-var="${t}">computing...</td>
+                  <td><span class="swatch-thumb-text" data-var="${t}" style="display:inline-block;width:20px;height:20px;border-radius:4px;border:1px solid #ccc;background:#fff;vertical-align:middle;"></span></td>
+                  <td class="list-contrast" data-var="${t}">–</td>
+                </tr>
+              `).join('')}
+              <!-- Status palette -->
+              <tr><td colspan="6" style="font-size:12px;color:rgba(0,0,0,0.5);background:rgba(0,0,0,0.03)">Status Palette</td></tr>
+              ${tokenSets.global.statusPalette.map(t => `
+                <tr>
+                  <td><code>${t}</code></td>
+                  <td><span class="swatch-thumb" data-var="${t}" style="display:inline-block;width:20px;height:20px;border-radius:4px;border:1px solid #ccc;background:var(${t});vertical-align:middle;"></span></td>
+                  <td class="list-resolved" data-var="${t}">resolving...</td>
+                  <td class="list-text-color" data-var="${t}">computing...</td>
+                  <td><span class="swatch-thumb-text" data-var="${t}" style="display:inline-block;width:20px;height:20px;border-radius:4px;border:1px solid #ccc;background:#fff;vertical-align:middle;"></span></td>
                   <td class="list-contrast" data-var="${t}">–</td>
                 </tr>
               `).join('')}
@@ -143,7 +185,7 @@ export function renderColors(opts = {}) {
         </div>
   </details>
       ` : ''}
-        ${['blueberry', 'strawberry'].map(f => `
+  ${['vanilla', 'blueberry', 'strawberry'].map(f => `
           <details class="flavor-column flavor-${f}" ${hideIfNot(f)} ${only ? 'open' : ''} style="margin-top:12px">
             <summary style="margin:8px 0"><h3 style="display:inline;margin:0">Theme: ${f.charAt(0).toUpperCase() + f.slice(1)}</h3></summary>
             <div class="theme-grid">
@@ -151,17 +193,17 @@ export function renderColors(opts = {}) {
                 ${polaroid(f.charAt(0).toUpperCase() + f.slice(1), '--color-primary', '--color-primary', tokenSets[f].palette[3])}
               </div>
               <div class="theme-rest">
-                ${[tokenSets[f].semantic[1], tokenSets[f].neutrals[0], tokenSets[f].neutrals[1]].map(v => {
-    // for non-primary tokens prefer to show base palette if possible; try to map semantic -> palette by index
-    var base = v;
-    if (v.indexOf('--color-') === 0) {
-      // map color-primary-darker etc. to palette 800 or palette 500 if available
-      if (/primary/.test(v)) base = tokenSets[f].palette[3];
-      // prefer the theme 200 stop for background/surface tokens so theme backgrounds use palette-*-200
-      if (/surface|background/.test(v)) base = tokenSets[f].palette[1] || base;
-    }
-    return polaroid(f.charAt(0).toUpperCase() + f.slice(1), v.replace(/^--/, ''), v, base);
-  }).join('')}
+                ${[tokenSets[f].semantic[1], tokenSets[f].neutrals[0], tokenSets[f].neutrals[1]]
+      .filter(Boolean)
+      .map(v => {
+        var base = v;
+        if (typeof v === 'string' && v.indexOf('--color-') === 0) {
+          if (/primary/.test(v)) base = tokenSets[f].palette[3];
+          if (/surface/.test(v)) base = '';
+          else if (/background/.test(v)) base = tokenSets[f].palette[1] || base;
+        }
+        return polaroid(f.charAt(0).toUpperCase() + f.slice(1), v.replace(/^--/, ''), v, base);
+      }).join('')}
               </div>
             </div>
             <hr style="width:100%;border:none;border-top:1px solid rgba(0,0,0,0.06);margin:12px 0">
@@ -176,13 +218,15 @@ export function renderColors(opts = {}) {
 
             <div class="token-list-wrap">
               <table class="token-list">
-                <thead><tr><th>Token</th><th>Resolved value</th><th>Text color</th><th>Contrast</th></tr></thead>
+                <thead><tr><th>Token</th><th>Swatch</th><th>Resolved value</th><th>Text color</th><th>Text Swatch</th><th>Contrast</th></tr></thead>
                 <tbody>
                   ${[...tokenSets[f].semantic, ...tokenSets[f].neutrals, ...tokenSets[f].palette, ...tokenSets[f].accents].map(t => `
                     <tr>
                       <td><code>${t}</code></td>
+                      <td><span class="swatch-thumb" data-var="${t}" style="display:inline-block;width:20px;height:20px;border-radius:4px;border:1px solid #ccc;background:var(${t});vertical-align:middle;"></span></td>
                       <td class="list-resolved" data-var="${t}">resolving...</td>
                       <td class="list-text-color" data-var="${t}">computing...</td>
+                      <td><span class="swatch-thumb-text" data-var="${t}" style="display:inline-block;width:20px;height:20px;border-radius:4px;border:1px solid #ccc;background:#fff;vertical-align:middle;"></span></td>
                       <td class="list-contrast" data-var="${t}">–</td>
                     </tr>
                   `).join('')}
@@ -306,7 +350,18 @@ export function renderColors(opts = {}) {
                       if(primOn && primOn !== 'unset') useOn = primOn;
                     }
                   }catch(e){}
-                  if(useOn && useOn!=='unset'){
+                  // If the swatch background is very dark, force text to white for contrast
+                  var bgVal = resolveToken(v,undefined,ctx2||document.documentElement).value;
+                  var parsedBg = parseColor(bgVal);
+                  var forceWhite = false;
+                  if(parsedBg){
+                    // Calculate luminance, force white if below threshold (e.g. < 0.2)
+                    var lum = luminance(parsedBg);
+                    if(lum < 0.2) forceWhite = true;
+                  }
+                  if(forceWhite){
+                    swText.style.color = '#fff';
+                  } else if(useOn && useOn!=='unset'){
                     try{ swText.style.color = colorToHex(useOn) || useOn; }catch(e){}
                   }
                 }
@@ -386,29 +441,125 @@ export function renderColors(opts = {}) {
                 var onVar = '--color-on-' + baseKey;
                 var resolvedOn = resolveToken(onVar,undefined,ctx||document.documentElement);
                 var onRes = resolvedOn && resolvedOn.value;
-                if(!onRes || onRes==='unset'){
-                  resolvedOn = resolveToken('--color-on-background',undefined,ctx||document.documentElement);
-                  onRes = resolvedOn && resolvedOn.value;
-                }
-                // For palette 500/800 prefer --color-on-primary token
-                try{ if(/--palette-.*-(500|800)$/.test(v)){ var primOnToken = '--color-on-primary'; var primOn = resolveToken(primOnToken, undefined, ctx||document.documentElement).value; if(primOn && primOn !== 'unset'){ resolvedOn = { token: primOnToken, value: primOn }; onRes = primOn; } } }catch(e){}
-                // If we have a resolved token chain, prefer to show the token name (from resolvedOn.chain) else show the token we used
                 var tokenName = (resolvedOn && resolvedOn.chain && resolvedOn.chain.length>1) ? resolvedOn.chain[resolvedOn.chain.length-1] : (resolvedOn && resolvedOn.token) || onVar;
-                td.textContent = tokenName || 'unset';
+
+                // Fix typo: color-on-on-surface -> color-on-surface
+                if(tokenName === '--color-on-on-surface') tokenName = '--color-on-surface';
+
+
+                // Robust mapping for palette tokens
+                var showToken = false;
+                if (/^--palette-blueberry-100$/.test(v)) {
+                  tokenName = '--color-on-background';
+                  onRes = resolveToken('--color-on-background',undefined,ctx||document.documentElement).value;
+                  showToken = !!(onRes && onRes !== 'unset');
+                } else if (/^--palette-blueberry-800$/.test(v)) {
+                  tokenName = '--color-on-surface-alt';
+                  onRes = resolveToken('--color-on-surface-alt',undefined,ctx||document.documentElement).value;
+                  showToken = !!(onRes && onRes !== 'unset');
+                } else if (/^--palette-/.test(v)) {
+                  // Only show a text color token if this palette stop is mapped to a semantic background
+                  var mappedSemantic = null;
+                  var thisVal = resolveToken(v,undefined,ctx||document.documentElement).value;
+                  // Check if this palette stop is used by a semantic token
+                  var semanticTokens = ['--color-surface','--color-surface-alt','--color-primary','--color-background'];
+                  for (var i=0; i<semanticTokens.length; ++i) {
+                    var semVal = resolveToken(semanticTokens[i],undefined,ctx||document.documentElement).value;
+                    if (semVal && thisVal && colorToHex(semVal) === colorToHex(thisVal)) {
+                      mappedSemantic = semanticTokens[i];
+                      break;
+                    }
+                  }
+                  if (mappedSemantic) {
+                    // Use the correct on-color for the mapped semantic
+                    let resolvedVar = null;
+                    if (mappedSemantic === '--color-surface') {
+                      resolvedVar = '--color-on-surface';
+                    } else if (mappedSemantic === '--color-surface-alt') {
+                      resolvedVar = '--color-on-surface-alt';
+                    } else if (mappedSemantic === '--color-primary') {
+                      resolvedVar = '--color-on-primary';
+                    } else if (mappedSemantic === '--color-background') {
+                      resolvedVar = '--color-on-background';
+                    }
+                    let resolved = resolveToken(resolvedVar,undefined,ctx||document.documentElement);
+                    tokenName = (resolved && resolved.chain && resolved.chain.length > 1)
+                      ? resolved.chain.join(' → ')
+                      : (resolvedVar || '--color-on-background');
+                    onRes = resolved && resolved.value;
+                    showToken = !!(onRes && onRes !== 'unset');
+                  } else {
+                    // Not mapped to a semantic background, so fallback to a sensible text color
+                    let fallbackResolved = resolveToken('--color-on-background',undefined,ctx||document.documentElement);
+                    tokenName = (fallbackResolved && fallbackResolved.chain && fallbackResolved.chain.length > 1)
+                      ? fallbackResolved.chain.join(' → ')
+                      : '--color-on-background';
+                    onRes = fallbackResolved && fallbackResolved.value;
+                    showToken = !!(onRes && onRes !== 'unset');
+                  }
+                } else if (onRes && onRes !== 'unset' && tokenName.startsWith('--color-on-') && getComputedStyle(document.documentElement).getPropertyValue(tokenName)) {
+                  showToken = true;
+                }
+
+
+                // For semantic tokens, use the correct on-color if defined
+                if(['--color-primary','--color-primary-darker'].includes(v)) {
+                  tokenName = '--color-on-primary';
+                  onRes = resolveToken('--color-on-primary',undefined,ctx||document.documentElement).value;
+                  showToken = !!(onRes && onRes !== 'unset');
+                } else if(['--color-surface','--color-surface-darker'].includes(v)) {
+                  tokenName = '--color-on-surface';
+                  onRes = resolveToken('--color-on-surface',undefined,ctx||document.documentElement).value;
+                  showToken = !!(onRes && onRes !== 'unset');
+                } else if(['--color-background','--color-background-darker'].includes(v)) {
+                  tokenName = '--color-on-background';
+                  onRes = resolveToken('--color-on-background',undefined,ctx||document.documentElement).value;
+                  showToken = !!(onRes && onRes !== 'unset');
+                }
+
+                // For success and error: use --color-on-surface-alt if defined
+                if(['--color-success','--color-error'].includes(v) && resolveToken('--color-on-surface-alt',undefined,ctx||document.documentElement).value && resolveToken('--color-on-surface-alt',undefined,ctx||document.documentElement).value !== 'unset') {
+                  tokenName = '--color-on-surface-alt';
+                  onRes = resolveToken('--color-on-surface-alt',undefined,ctx||document.documentElement).value;
+                  showToken = true;
+                }
+                // For warning: use --color-on-surface if defined
+                if(v === '--color-warning' && resolveToken('--color-on-surface',undefined,ctx||document.documentElement).value && resolveToken('--color-on-surface',undefined,ctx||document.documentElement).value !== 'unset') {
+                  tokenName = '--color-on-surface';
+                  onRes = resolveToken('--color-on-surface',undefined,ctx||document.documentElement).value;
+                  showToken = true;
+                }
+
+                // If no text color token is used, show the resolved value or 'none'
+                if (!showToken) {
+                  tokenName = tokenName === 'n/a' ? 'n/a' : (onRes && onRes !== 'unset' ? onRes : 'n/a');
+                }
+
+                // Show both the variable chain and the resolved color value
+                if (showToken && onRes && onRes !== 'unset') {
+                  var colorVal = colorToHex(onRes) || onRes;
+                  td.innerHTML = '<span title="' + tokenName + '">' + tokenName + '</span><br><span style="font-size:11px;color:#888">' + colorVal + '</span>';
+                } else {
+                  td.textContent = tokenName || 'n/a';
+                }
                 // populate contrast cell too
                 try{
                   var contrastCell = td.parentElement.querySelector('.list-contrast[data-var="'+v+'"]');
                   if(contrastCell){
+                    // Always resolve to the final computed color value for both background and text
                     var baseVal = resolveToken(v,undefined,ctx||document.documentElement).value;
+                    var textVal = (showToken && tokenName && tokenName.startsWith('--color-on-'))
+                      ? resolveToken(tokenName,undefined,ctx||document.documentElement).value
+                      : (onRes && !onRes.startsWith('--') ? onRes : null);
                     var p = parseColor(baseVal);
-                    var o = parseColor(onRes);
+                    var o = parseColor(textVal);
                     var ratio = (p && o) ? Math.round(contrastRatio(p,o)*100)/100 : null;
                     var aaa = ratio ? (ratio >= 7.0) : false;
-                    contrastCell.textContent = ratio ? ratio : 'n/a';
+                    contrastCell.textContent = (ratio && isFinite(ratio)) ? ratio : 'n/a';
                     if(aaa) contrastCell.textContent = '✅ ' + contrastCell.textContent;
                   }
                 }catch(e){}
-              }catch(e){ td.textContent = 'unset' }
+              }catch(e){ td.textContent = 'none' }
             });
           }
 
@@ -429,10 +580,69 @@ export function renderColors(opts = {}) {
           });
 
           // Initial populate and observers
-          requestAnimationFrame(populate);
-          setTimeout(populate,120);
+          function fillTextSwatches() {
+            document.querySelectorAll('.swatch-thumb-text[data-var]').forEach(function(span){
+              var v = span.getAttribute('data-var');
+              try {
+                var ctx=span;while(ctx&&ctx!==document.documentElement){if(ctx.classList&&Array.from(ctx.classList).some(function(cl){return cl.indexOf('flavor-')===0||cl.indexOf('theme-')===0}))break;ctx=ctx.parentElement}
+                var baseKey = v.replace(/^--color-/,'');
+                var onVar = '--color-on-' + baseKey;
+                var resolvedOn = resolveToken(onVar,undefined,ctx||document.documentElement);
+                var onRes = resolvedOn && resolvedOn.value;
+                // For palette tokens, try to map to semantic token
+                if (/^--palette-/.test(v)) {
+                  var mappedSemantic = null;
+                  var thisVal = resolveToken(v,undefined,ctx||document.documentElement).value;
+                  var semanticTokens = ['--color-surface','--color-surface-alt','--color-primary','--color-background'];
+                  for (var i=0; i<semanticTokens.length; ++i) {
+                    var semVal = resolveToken(semanticTokens[i],undefined,ctx||document.documentElement).value;
+                    if (semVal && thisVal && colorToHex(semVal) === colorToHex(thisVal)) {
+                      mappedSemantic = semanticTokens[i];
+                      break;
+                    }
+                  }
+                  if (mappedSemantic === '--color-surface') {
+                    onRes = resolveToken('--color-on-surface',undefined,ctx||document.documentElement).value;
+                  } else if (mappedSemantic === '--color-surface-alt') {
+                    onRes = resolveToken('--color-on-surface-alt',undefined,ctx||document.documentElement).value;
+                  } else if (mappedSemantic === '--color-primary') {
+                    onRes = resolveToken('--color-on-primary',undefined,ctx||document.documentElement).value;
+                  } else if (mappedSemantic === '--color-background') {
+                    onRes = resolveToken('--color-on-background',undefined,ctx||document.documentElement).value;
+                  }
+                }
+                // For semantic tokens, use the correct on-color if defined
+                if(['--color-primary','--color-primary-darker'].includes(v)) {
+                  onRes = resolveToken('--color-on-primary',undefined,ctx||document.documentElement).value;
+                } else if(['--color-surface','--color-surface-darker'].includes(v)) {
+                  onRes = resolveToken('--color-on-surface',undefined,ctx||document.documentElement).value;
+                } else if(['--color-background','--color-background-darker'].includes(v)) {
+                  onRes = resolveToken('--color-on-background',undefined,ctx||document.documentElement).value;
+                }
+                // For success and error: use --color-on-surface-alt if defined
+                if(['--color-success','--color-error'].includes(v) && resolveToken('--color-on-surface-alt',undefined,ctx||document.documentElement).value && resolveToken('--color-on-surface-alt',undefined,ctx||document.documentElement).value !== 'unset') {
+                  onRes = resolveToken('--color-on-surface-alt',undefined,ctx||document.documentElement).value;
+                }
+                // For warning: use --color-on-surface if defined
+                if(v === '--color-warning' && resolveToken('--color-on-surface',undefined,ctx||document.documentElement).value && resolveToken('--color-on-surface',undefined,ctx||document.documentElement).value !== 'unset') {
+                  onRes = resolveToken('--color-on-surface',undefined,ctx||document.documentElement).value;
+                }
+                // If no text color token is used, fallback to none
+                if (!onRes || onRes === 'unset') {
+                  onRes = '#fff';
+                }
+                span.style.background = onRes;
+              } catch(e) { span.style.background = '#fff'; }
+            });
+          }
+          function fullPopulate() {
+            populate();
+            fillTextSwatches();
+          }
+          requestAnimationFrame(fullPopulate);
+          setTimeout(fullPopulate,120);
           new MutationObserver(function(m){
-            if(m.some(function(x){return x.attributeName==='class'})) populate();
+            if(m.some(function(x){return x.attributeName==='class'})) fullPopulate();
           }).observe(document.documentElement,{attributes:true,attributeFilter:['class']});
         })()
       </script>

@@ -14,9 +14,8 @@
 :root {
   --color-primary: var(--palette-blueberry-500, #2E2B74);
   /* Note: page background is handled by theme/flavor classes.
-     Keep neutral, non-opinionated fallbacks out of :root to avoid biasing themes.
-     Components should consume `--color-surface` for panel/card surfaces. */
-  --color-surface: var(--palette-white, #FFFFFF);
+    Keep neutral, non-opinionated fallbacks out of :root to avoid biasing themes.
+    Components should consume `--color-surface` for panel/card surfaces. */
   --color-on-primary: var(--palette-white, #FFFFFF);
   --color-on-background: var(--palette-blueberry-900, #15122B);
   --color-error: #CF6679;
@@ -37,7 +36,6 @@
   --color-primary: var(--palette-blueberry-500, #2E2B74);
   /* Light theme: favor neutral background by default; flavors may override */
   --color-background: var(--palette-neutral-200, #F0F0F4);
-  --color-surface: var(--palette-white, #FFFFFF);
   --color-on-primary: var(--palette-white, #FFFFFF);
   --color-on-background: var(--palette-blueberry-900, #15122B);
   --color-error: var(--palette-strawberry-500, #E53935);
@@ -51,8 +49,6 @@
 .theme-dark {
   --color-background: #121212;
   --color-on-background: var(--palette-blueberry-100, #C1C1FF);
-  --color-surface: var(--palette-dark-surface-1, #1E1E1E);
-  --color-on-surface: var(--palette-white, #FFFFFF);
   --color-primary: #9575CD;
   --color-secondary: #7E57C2;
   --color-primary-darker: #6E55A0;

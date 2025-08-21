@@ -1,12 +1,47 @@
-Absolutely! cross-check the color values listed in your COLORS-DOCS.md "Current flavor snapshots" section against the actual palette and flavor definitions in your codebase to ensure they are accurate and up to date.
+
+
+# COLORS TODO: NEXT STEPS
+
+## Current Status ✅
+- [x] Added Vanilla theme with proper palette structure (100, 200, 300, 500, 800)
+- [x] Updated Storybook with color swatches and improved documentation
+- [x] Added semantic token separation (semantic, base palette, status palette)
+- [x] Fixed text color mappings for theme palette tokens
+
+## Next Steps - Design Token Modernization 🚀
+
+### High Priority
+- [ ] **Standardize Text Color Strategy**: Ensure every `--color-*` background token has a `--color-on-*` text token
+- [ ] **Simplify Theme Architecture**: Move from complex flavor files to simple override pattern
+- [ ] **Remove Token Complexity**: Eliminate deep variable chains that make debugging difficult
+- [ ] **Clean Up Unused Tokens**: Remove old neutral palette references and unused stops
+
+### Medium Priority
+- [ ] **Follow Industry Standards**: Adopt Material Design 3 or W3C Design Tokens patterns
+- [ ] **Improve Documentation**: Create comprehensive token usage guide
+- [ ] **Add Token Tests**: Automated tests to prevent token drift and circular references
+
+### Low Priority
+- [ ] **Performance Optimization**: Consider CSS custom property performance for large token sets
+- [ ] **Design Tool Integration**: Export tokens for Figma/Sketch integration
+
+## Migration Path
+See `/DESIGN-TOKENS-MIGRATION.md` for detailed migration plan and recommended architecture.
 
 ---
+
+## COMPLETED ✅
+
+
+---
+
+## DEPRECATED (saved for reference, as some of this may be useful)
+Absolutely! cross-check the color values listed in your COLORS-DOCS.md "Current flavor snapshots" section against the actual palette and flavor definitions in your codebase to ensure they are accurate and up to date.
 
 ## NEXT STEPS (feature/colors-docs-finalization, PR #1, and Storybook)
 
 - [x] Cross-checked palette anchors and flavor mappings vs `COLORS-DOCS.md` and updated snapshots where mismatches were found.
 - [x] Built Storybook (static) to validate docs changes and confirmed build artifacts in `design-system/storybook-static`.
-- [ ] Review Storybook: Ensure both light and dark theme values for all semantic tokens are visible and easy to toggle.
 - [ ] Clean up code: Remove commented-out debug lines and unnecessary `process.exit(0)`/`exit 0` statements.
 - [ ] Clarify or remove unclear comments in CSS and scripts.
 - [ ] Remove duplicate doc links and ensure only canonical docs are referenced.
