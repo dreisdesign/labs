@@ -14,8 +14,8 @@
   /* Use 800 (#372116) as primary-darker */
   --color-background: var(--palette-vanilla-100);
   /* #F5F1E7 */
-  --color-on-primary: #fff;
-  --color-on-primary-darker: #fff;
+  --color-on-primary: var(--palette-vanilla-00);
+  --color-on-primary-darker: var(--palette-vanilla-00);
   --color-on-background: var(--palette-vanilla-800);
   /* Status colors inherit from global tokens */
 }
@@ -28,8 +28,8 @@
   --color-background: var(--palette-vanilla-800);
   /* was 900, now 800 (#372116) */
   --color-on-primary: var(--palette-vanilla-800);
-  --color-on-primary-darker: #fff;
-  --color-on-background: #fff;
+  --color-on-primary-darker: var(--palette-vanilla-00);
+  --color-on-background: var(--palette-vanilla-00);
   /* Status colors inherit from global tokens */
 }
 

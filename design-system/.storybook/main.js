@@ -43,6 +43,20 @@ const config = {
   viteFinal: (config) => {
     config.assetsInclude = config.assetsInclude || [];
     config.assetsInclude.push("**/*.svg");
+
+    // Suppress chunk size warnings for Storybook build
+    config.build = config.build || {};
+    config.build.chunkSizeWarningLimit = 2000; // 2MB limit (default is 500kB)
+
+    // Configure Lit for production mode and prevent multiple versions
+    config.define = config.define || {};
+    config.define['process.env.NODE_ENV'] = JSON.stringify(process.env.NODE_ENV || 'development');
+
+    // Optimize Lit dependencies
+    config.optimizeDeps = config.optimizeDeps || {};
+    config.optimizeDeps.include = config.optimizeDeps.include || [];
+    config.optimizeDeps.include.push('lit', 'lit-html', 'lit-element');
+
     return config;
   },
   framework: {

@@ -64,10 +64,12 @@ if (typeof window !== 'undefined') {
     window.__STORYBOOK_ADDONS_CHANNEL__.on('storyRendered', () => {
       let globals = undefined;
       try {
-        if (window.__STORYBOOK_ADDONS_CHANNEL__._globalsStore) {
-          globals = window.__STORYBOOK_ADDONS_CHANNEL__._globalsStore.getAll();
-        } else if (window.__STORYBOOK_STORY_STORE__ && window.__STORYBOOK_STORY_STORE__.globals) {
-          globals = window.__STORYBOOK_STORY_STORE__.globals;
+        // Modern approach: get globals from channel events
+        if (window.__STORYBOOK_ADDONS_CHANNEL__) {
+          const channel = window.__STORYBOOK_ADDONS_CHANNEL__;
+          if (channel._globalsStore) {
+            globals = channel._globalsStore.getAll();
+          }
         }
       } catch (e) { /* ignore */ }
       syncFlavorTheme(globals);
