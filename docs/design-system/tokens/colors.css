@@ -64,17 +64,12 @@
   --palette-base-800: #2A2A30;
   --palette-black: #000000;
 
-  /* Helpful aliases (small compatibility layer) */
-  --palette-blueberry: var(--palette-blueberry-500);
-  --palette-blueberry-10: var(--palette-blueberry-100);
-  --palette-strawberry: var(--palette-strawberry-500);
-
   /* Base convenience aliases — allow semantic tokens to reference
     `--base-100` etc. without knowing the underlying palette variable name */
   --base-100: var(--palette-base-100);
   --base-800: var(--palette-base-800);
   /* Status palette (for semantic feedback colors) */
-  --palette-green-500: #00B56A;
+  --palette-green-500: #00800C;
   /* Success */
   --palette-yellow-500: #FFB300;
   /* Warning */
@@ -91,12 +86,4 @@
   --color-error: var(--palette-red-500);
   --color-on-error: #fff;
   /* On Error: white text for high contrast on red #D32F2F background */
-
-  /* Back-compat aliases: some flavor files reference -50 and -200 stops.
-    Map those to the nearest canonical stops so variables don't resolve to unset. */
-  --palette-blueberry-50: var(--palette-blueberry-100);
-  --palette-strawberry-50: var(--palette-strawberry-100);
-  /* expose 800 aliases for consumers expecting a mid/darker stop */
-  /* 800 aliases are defined above as concrete values; avoid self-referential aliases which leave the var unset */
-  /* Back-compat: -200 now exists explicitly above (explicit values defined earlier) */
 }

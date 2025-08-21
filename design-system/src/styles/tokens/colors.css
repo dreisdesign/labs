@@ -69,7 +69,7 @@
   --base-100: var(--palette-base-100);
   --base-800: var(--palette-base-800);
   /* Status palette (for semantic feedback colors) */
-  --palette-green-500: #00B56A;
+  --palette-green-500: #00800C;
   /* Success */
   --palette-yellow-500: #FFB300;
   /* Warning */
