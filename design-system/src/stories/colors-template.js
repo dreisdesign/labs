@@ -532,6 +532,21 @@ export function renderColors(opts = {}) {
                   showToken = true;
                 }
 
+                // For status palette tokens: use their corresponding semantic on-color tokens
+                if(v === '--palette-green-500') {
+                  tokenName = '--color-on-success';
+                  onRes = resolveToken('--color-on-success',undefined,ctx||document.documentElement).value;
+                  showToken = !!(onRes && onRes !== 'unset');
+                } else if(v === '--palette-yellow-500') {
+                  tokenName = '--color-on-warning';
+                  onRes = resolveToken('--color-on-warning',undefined,ctx||document.documentElement).value;
+                  showToken = !!(onRes && onRes !== 'unset');
+                } else if(v === '--palette-red-500') {
+                  tokenName = '--color-on-error';
+                  onRes = resolveToken('--color-on-error',undefined,ctx||document.documentElement).value;
+                  showToken = !!(onRes && onRes !== 'unset');
+                }
+
                 // If no text color token is used, show the resolved value or 'none'
                 if (!showToken) {
                   tokenName = tokenName === 'n/a' ? 'n/a' : (onRes && onRes !== 'unset' ? onRes : 'n/a');
@@ -627,6 +642,15 @@ export function renderColors(opts = {}) {
                 } else if(v === '--color-warning' && resolveToken('--color-on-warning',undefined,ctx||document.documentElement).value && resolveToken('--color-on-warning',undefined,ctx||document.documentElement).value !== 'unset') {
                   onRes = resolveToken('--color-on-warning',undefined,ctx||document.documentElement).value;
                 } else if(v === '--color-error' && resolveToken('--color-on-error',undefined,ctx||document.documentElement).value && resolveToken('--color-on-error',undefined,ctx||document.documentElement).value !== 'unset') {
+                  onRes = resolveToken('--color-on-error',undefined,ctx||document.documentElement).value;
+                }
+
+                // For status palette tokens: use their corresponding semantic on-color tokens
+                if(v === '--palette-green-500') {
+                  onRes = resolveToken('--color-on-success',undefined,ctx||document.documentElement).value;
+                } else if(v === '--palette-yellow-500') {
+                  onRes = resolveToken('--color-on-warning',undefined,ctx||document.documentElement).value;
+                } else if(v === '--palette-red-500') {
                   onRes = resolveToken('--color-on-error',undefined,ctx||document.documentElement).value;
                 }
                 // If no text color token is used, fallback to none

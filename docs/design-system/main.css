@@ -18,7 +18,7 @@
     Components should consume `--color-surface` for panel/card surfaces. */
   --color-on-primary: var(--palette-white, #FFFFFF);
   --color-on-background: var(--palette-blueberry-900, #15122B);
-  --color-error: #CF6679;
+  /* Status colors inherit from global tokens in colors.css */
   --color-danger: var(--palette-strawberry-500, #E53935);
 }
 
@@ -38,7 +38,7 @@
   --color-background: var(--palette-neutral-200, #F0F0F4);
   --color-on-primary: var(--palette-white, #FFFFFF);
   --color-on-background: var(--palette-blueberry-900, #15122B);
-  --color-error: var(--palette-strawberry-500, #E53935);
+  /* Status colors inherit from global tokens */
   --color-danger: var(--palette-strawberry-500, #E53935);
 
   /* Glass/glassmorphism tokens */
@@ -52,11 +52,11 @@
   --color-primary: #9575CD;
   --color-secondary: #7E57C2;
   --color-primary-darker: #6E55A0;
-  --color-error: #CF6679;
+  /* Status colors inherit from global tokens */
   --color-danger: #CF6679;
   --color-on-primary: #000000;
   --color-on-success: #FFFFFF;
-  --color-on-error: #000000;
+  /* Removed color-on-error - use global token */
   --color-primary-75: rgba(149, 117, 205, 0.75);
   --color-primary-25: #C193FF40;
   --color-secondary-75: rgba(126, 87, 194, 0.75);

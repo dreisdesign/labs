@@ -9,10 +9,8 @@
   --color-surface-variant: var(--palette-vanilla-200);
   --color-on-surface-variant: var(--palette-vanilla-700);
 
-  /* Status colors (explicit root values provided by request) */
-  --color-success: #00B56A;
-  /* success */
-  --color-on-success: #FFFFFF;
+  /* Status colors - inherit from global tokens in colors.css */
+  /* Removed explicit values - these now inherit from colors.css for consistency and accessibility */
 
   --color-destructive: #B5005A;
   /* destructive mapped directly to strawberry palette anchor for consistency */
