@@ -1,6 +1,6 @@
 # Project TODO
 
-_Last updated: 2025-08-20_
+_Last updated: 2025-08-21_
 
 This is the canonical project-wide TODO file. Use this as an index of links to area- and app-specific TODO files. Keep detailed todos in the linked files to maintain clarity and focus.
 
@@ -8,6 +8,7 @@ This is the canonical project-wide TODO file. Use this as an index of links to a
 
 - [Design System TODOs](design-system/TODO.md)
 - [Color/Theming TODOs](design-system/src/styles/COLORS-DOCS--TODO.md)
+- [Design Tokens Migration Plan](DESIGN-TOKENS-MIGRATION.md) — *Major architectural improvements for token system*
 
 ---
 

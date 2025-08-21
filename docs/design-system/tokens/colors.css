@@ -19,15 +19,16 @@
   --color-on-surface: var(--base-800);
   /* On Surface: text color (Text: Surface) */
   --palette-vanilla-00: #FFFFFF;
-  /* Vanilla (neutral) palette — for Vanilla theme and as a base for other flavors */
-  --palette-vanilla-50: #F9F6F2;
+  /* Vanilla palette — for Vanilla theme and as a base for other flavors */
   --palette-vanilla-100: #F5F1E7;
   /* background */
   --palette-vanilla-200: #E8E2D6;
-  --palette-vanilla-300: #D6CFC0;
-  --palette-vanilla-500: #A89B8C;
-  --palette-vanilla-700: #6B5C4B;
-  --palette-vanilla-900: #372116;
+  --palette-vanilla-300: #A89B8C;
+  /* was 500, now shifted to 300 */
+  --palette-vanilla-500: #6B5C4B;
+  /* was 700, now 500 */
+  --palette-vanilla-800: #372116;
+  /* was 900, now 800 */
   --palette-vanilla-1000: #000000;
   /* primary */
   --color-primary: var(--palette-blueberry-500);
@@ -73,16 +74,23 @@
   --base-100: var(--palette-base-100);
   --base-800: var(--palette-base-800);
   /* Status palette (for semantic feedback colors) */
-  --palette-green-500: #00B56A;   /* Success */
-  --palette-yellow-500: #FFB300;  /* Warning */
-  --palette-red-500: #D32F2F;     /* Error */
+  --palette-green-500: #00B56A;
+  /* Success */
+  --palette-yellow-500: #FFB300;
+  /* Warning */
+  --palette-red-500: #D32F2F;
+  /* Error */
 
   /* Map semantic tokens for status colors */
   --color-success: var(--palette-green-500);
+  --color-on-success: #fff;
+  /* On Success: white text for high contrast on green #00B56A background */
   --color-warning: var(--palette-yellow-500);
+  --color-on-warning: #000;
+  /* On Warning: black text for high contrast on yellow #FFB300 background */
   --color-error: var(--palette-red-500);
-
-  --palette-dark-surface-1: var(--palette-neutral-700);
+  --color-on-error: #fff;
+  /* On Error: white text for high contrast on red #D32F2F background */
 
   /* Back-compat aliases: some flavor files reference -50 and -200 stops.
     Map those to the nearest canonical stops so variables don't resolve to unset. */

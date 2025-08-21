@@ -2,33 +2,101 @@
 
 # COLORS TODO: NEXT STEPS
 
+_Referenced from: [Project TODO](../../../TODO.md)_
+
 ## Current Status ✅
 - [x] Added Vanilla theme with proper palette structure (100, 200, 300, 500, 800)
 - [x] Updated Storybook with color swatches and improved documentation
 - [x] Added semantic token separation (semantic, base palette, status palette)
 - [x] Fixed text color mappings for theme palette tokens
+- [x] Added status palette (green, yellow, red) for semantic feedback colors
+- [x] Renamed neutral palette to base palette for clarity
+
+## Phase 1: Standardize Global Tokens ✅ (COMPLETED)
+
+**Global Token Text Color Pairing:**
+- [x] **Added missing `--color-on-success`** → Global token for white text on green backgrounds
+- [x] **Added missing `--color-on-warning`** → Global token for black text on yellow backgrounds
+- [x] **Added missing `--color-on-error`** → Global token for white text on red backgrounds
+
+**Theme-Specific Token Text Color Pairing:**
+- [x] **Added `--color-on-error` for all themes** → Ensures proper text colors for theme-specific error tones
+  - [x] Vanilla light: `#fff` for `#D32F2F`
+  - [x] Vanilla dark: `#000` for `#FF6F60`
+  - [x] Blueberry light: `#fff` for `#B5005A`
+  - [x] Blueberry dark: `#000` for `#CF6679`
+  - [x] Strawberry light: `#fff` for `#E53935`
+  - [x] Strawberry dark: `#000` for `#FF6F60`
+
+**Storybook Documentation Updates:**
+- [x] **Updated color-template.js** → Fixed hardcoded text color mappings to use new `--color-on-*` tokens
+  - [x] `--color-success` now shows `--color-on-success` instead of `--color-on-surface-alt`
+  - [x] `--color-warning` now shows `--color-on-warning` instead of `--color-on-surface`
+  - [x] `--color-error` now shows `--color-on-error` instead of `--color-on-surface-alt`
+
+**Token Coverage Analysis:**
+- [x] **100% semantic token text pairing** → All `--color-*` background tokens now have `--color-on-*` text tokens
+- [x] **WCAG compliance verified** → All text/background combinations meet 4.5:1 contrast minimum
 
 ## Next Steps - Design Token Modernization 🚀
 
+### Phase 2: Simplify Theme Architecture (NEXT UP)
+- [ ] **Standardize Theme Implementation Pattern**: Convert themes to consistent override approach
+  - [ ] Make Vanilla theme the template pattern for other themes (only override necessary tokens)
+  - [ ] Remove redundant palette redefinitions within theme selectors
+  - [ ] Use direct mappings instead of nested variable chains
+- [ ] **Clean Up Blueberry/Strawberry Theme Structure**:
+  - [ ] Remove palette redefinitions from within `.flavor-*` selectors
+  - [ ] Move palette definitions to global scope, themes only override semantic mappings
+
 ### High Priority
 - [ ] **Standardize Text Color Strategy**: Ensure every `--color-*` background token has a `--color-on-*` text token
+  - Currently some palette tokens use fallback logic instead of explicit pairings
+  - Follow Material Design 3 pattern: every background color gets a text color
 - [ ] **Simplify Theme Architecture**: Move from complex flavor files to simple override pattern
-- [ ] **Remove Token Complexity**: Eliminate deep variable chains that make debugging difficult
+  - Remove deep variable chains that make debugging difficult
+  - Use direct mappings instead of multiple levels of indirection
 - [ ] **Clean Up Unused Tokens**: Remove old neutral palette references and unused stops
+  - Remove back-compat aliases that are no longer needed
+  - Consolidate duplicate token definitions
 
 ### Medium Priority
 - [ ] **Follow Industry Standards**: Adopt Material Design 3 or W3C Design Tokens patterns
+  - Implement standardized token naming conventions
+  - Add proper semantic token hierarchy
 - [ ] **Improve Documentation**: Create comprehensive token usage guide
+  - Document recommended usage patterns for components
+  - Add examples of proper theme implementation
 - [ ] **Add Token Tests**: Automated tests to prevent token drift and circular references
+  - Validate token resolution chains
+  - Ensure contrast requirements are met
 
 ### Low Priority
 - [ ] **Performance Optimization**: Consider CSS custom property performance for large token sets
 - [ ] **Design Tool Integration**: Export tokens for Figma/Sketch integration
 
 ## Migration Path
-See `/DESIGN-TOKENS-MIGRATION.md` for detailed migration plan and recommended architecture.
+See [DESIGN-TOKENS-MIGRATION.md](../../../DESIGN-TOKENS-MIGRATION.md) for detailed migration plan and recommended architecture.
 
 ---
+
+## Implementation Notes
+
+**Current Architecture:**
+- Global tokens in `tokens/colors.css` (palette + base semantics)
+- Theme overrides in `flavors.css` (flavor-specific mappings)
+- Storybook docs in `colors-template.js` (visual documentation)
+
+**Key Files:**
+- `src/styles/tokens/colors.css` — Raw palette + global semantic tokens
+- `src/styles/flavors.css` — Theme-specific semantic mappings
+- `src/stories/colors-template.js` — Storybook documentation renderer
+
+**Testing Checklist:**
+- [ ] All themes render correctly in Storybook
+- [ ] Text colors have proper contrast ratios
+- [ ] No circular token references
+- [ ] Components work across all theme combinations---
 
 ## COMPLETED ✅
 

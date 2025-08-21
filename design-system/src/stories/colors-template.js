@@ -517,16 +517,18 @@ export function renderColors(opts = {}) {
                   showToken = !!(onRes && onRes !== 'unset');
                 }
 
-                // For success and error: use --color-on-surface-alt if defined
-                if(['--color-success','--color-error'].includes(v) && resolveToken('--color-on-surface-alt',undefined,ctx||document.documentElement).value && resolveToken('--color-on-surface-alt',undefined,ctx||document.documentElement).value !== 'unset') {
-                  tokenName = '--color-on-surface-alt';
-                  onRes = resolveToken('--color-on-surface-alt',undefined,ctx||document.documentElement).value;
+                // For status tokens: use their specific on-color tokens
+                if(v === '--color-success' && resolveToken('--color-on-success',undefined,ctx||document.documentElement).value && resolveToken('--color-on-success',undefined,ctx||document.documentElement).value !== 'unset') {
+                  tokenName = '--color-on-success';
+                  onRes = resolveToken('--color-on-success',undefined,ctx||document.documentElement).value;
                   showToken = true;
-                }
-                // For warning: use --color-on-surface if defined
-                if(v === '--color-warning' && resolveToken('--color-on-surface',undefined,ctx||document.documentElement).value && resolveToken('--color-on-surface',undefined,ctx||document.documentElement).value !== 'unset') {
-                  tokenName = '--color-on-surface';
-                  onRes = resolveToken('--color-on-surface',undefined,ctx||document.documentElement).value;
+                } else if(v === '--color-warning' && resolveToken('--color-on-warning',undefined,ctx||document.documentElement).value && resolveToken('--color-on-warning',undefined,ctx||document.documentElement).value !== 'unset') {
+                  tokenName = '--color-on-warning';
+                  onRes = resolveToken('--color-on-warning',undefined,ctx||document.documentElement).value;
+                  showToken = true;
+                } else if(v === '--color-error' && resolveToken('--color-on-error',undefined,ctx||document.documentElement).value && resolveToken('--color-on-error',undefined,ctx||document.documentElement).value !== 'unset') {
+                  tokenName = '--color-on-error';
+                  onRes = resolveToken('--color-on-error',undefined,ctx||document.documentElement).value;
                   showToken = true;
                 }
 
@@ -619,13 +621,13 @@ export function renderColors(opts = {}) {
                 } else if(['--color-background','--color-background-darker'].includes(v)) {
                   onRes = resolveToken('--color-on-background',undefined,ctx||document.documentElement).value;
                 }
-                // For success and error: use --color-on-surface-alt if defined
-                if(['--color-success','--color-error'].includes(v) && resolveToken('--color-on-surface-alt',undefined,ctx||document.documentElement).value && resolveToken('--color-on-surface-alt',undefined,ctx||document.documentElement).value !== 'unset') {
-                  onRes = resolveToken('--color-on-surface-alt',undefined,ctx||document.documentElement).value;
-                }
-                // For warning: use --color-on-surface if defined
-                if(v === '--color-warning' && resolveToken('--color-on-surface',undefined,ctx||document.documentElement).value && resolveToken('--color-on-surface',undefined,ctx||document.documentElement).value !== 'unset') {
-                  onRes = resolveToken('--color-on-surface',undefined,ctx||document.documentElement).value;
+                // For status tokens: use their specific on-color tokens
+                if(v === '--color-success' && resolveToken('--color-on-success',undefined,ctx||document.documentElement).value && resolveToken('--color-on-success',undefined,ctx||document.documentElement).value !== 'unset') {
+                  onRes = resolveToken('--color-on-success',undefined,ctx||document.documentElement).value;
+                } else if(v === '--color-warning' && resolveToken('--color-on-warning',undefined,ctx||document.documentElement).value && resolveToken('--color-on-warning',undefined,ctx||document.documentElement).value !== 'unset') {
+                  onRes = resolveToken('--color-on-warning',undefined,ctx||document.documentElement).value;
+                } else if(v === '--color-error' && resolveToken('--color-on-error',undefined,ctx||document.documentElement).value && resolveToken('--color-on-error',undefined,ctx||document.documentElement).value !== 'unset') {
+                  onRes = resolveToken('--color-on-error',undefined,ctx||document.documentElement).value;
                 }
                 // If no text color token is used, fallback to none
                 if (!onRes || onRes === 'unset') {

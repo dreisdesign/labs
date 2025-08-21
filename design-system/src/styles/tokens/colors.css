@@ -83,8 +83,14 @@
 
   /* Map semantic tokens for status colors */
   --color-success: var(--palette-green-500);
+  --color-on-success: #fff;
+  /* On Success: white text for high contrast on green #00B56A background */
   --color-warning: var(--palette-yellow-500);
+  --color-on-warning: #000;
+  /* On Warning: black text for high contrast on yellow #FFB300 background */
   --color-error: var(--palette-red-500);
+  --color-on-error: #fff;
+  /* On Error: white text for high contrast on red #D32F2F background */
 
   /* Back-compat aliases: some flavor files reference -50 and -200 stops.
     Map those to the nearest canonical stops so variables don't resolve to unset. */

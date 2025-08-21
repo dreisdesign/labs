@@ -20,6 +20,8 @@
   --color-success: #00B56A;
   --color-warning: #FFB300;
   --color-error: #D32F2F;
+  --color-on-error: #fff;
+  /* White text for error backgrounds in light theme */
 }
 
 .flavor-vanilla.theme-dark {
@@ -35,6 +37,8 @@
   --color-success: #00B56A;
   --color-warning: #FFB300;
   --color-error: #FF6F60;
+  --color-on-error: #000;
+  /* Black text for brighter error backgrounds in dark theme */
 }
 
 /* Flavors map the small canonical semantic set to palette anchors.
@@ -60,6 +64,8 @@
   --color-on-background: var(--palette-blueberry-900);
   /* Use a destructive red for error in light blueberry theme */
   --color-error: #B5005A;
+  --color-on-error: #fff;
+  /* White text for dark error backgrounds */
   /* reuse for now; main.css fallbacks provide distinct error if needed */
   --color-on-primary-darker: var(--palette-white);
   --settings-icon-color: #1c1b1f40;
@@ -83,6 +89,8 @@
   --color-on-background: var(--palette-blueberry-100);
   /* Dark blueberry uses the CF6679 error tone */
   --color-error: #CF6679;
+  --color-on-error: #000;
+  /* Black text for light error backgrounds */
   --color-on-primary-darker: var(--palette-white);
   --settings-icon-color: #ffffff40;
   /* rgba(255,255,255,0.25) -> hex8 */
@@ -106,6 +114,8 @@
   --color-on-background: var(--palette-strawberry-900);
   /* Strawberry light uses a dedicated error red */
   --color-error: #E53935;
+  --color-on-error: #fff;
+  /* White text for dark error backgrounds */
   --color-on-primary-darker: var(--palette-white);
   --settings-icon-color: var(--palette-strawberry-700);
 }
@@ -127,6 +137,8 @@
   --color-on-background: var(--palette-strawberry-100);
   /* Strawberry dark uses a brighter error tone */
   --color-error: #FF6F60;
+  --color-on-error: #000;
+  /* Black text for light error backgrounds */
   --color-on-primary-darker: var(--palette-white);
   --settings-icon-color: var(--palette-strawberry-500);
 }
