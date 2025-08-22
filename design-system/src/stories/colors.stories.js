@@ -134,6 +134,7 @@ function executeColorLogic() {
         // Update text color calculation and swatch
         if (el.classList.contains('list-text-color') && displayVal && displayVal !== 'unset') {
           var onVal = null;
+          var tokenName = null; // Track the token name for display
 
           // For palette tokens, skip semantic token lookup and go straight to luminance calculation
           if (v.includes('--palette-')) {
@@ -147,8 +148,11 @@ function executeColorLogic() {
               } else {
                 onVal = '#ffffff';
               }
+              // For palette tokens, show computed value since there's no semantic token
+              tokenName = normalizeHex(onVal);
             } catch (e) {
               onVal = '#ffffff';
+              tokenName = '#ffffff';
             }
           } else {
             // For semantic color tokens, try to find the corresponding on-color token
@@ -158,6 +162,7 @@ function executeColorLogic() {
               var onRes = resolveToken(onVar, undefined, ctx || document.documentElement);
               if (onRes.value && onRes.value !== 'unset') {
                 onVal = onRes.value;
+                tokenName = onVar; // Show the token name
               }
             }
 
@@ -166,6 +171,7 @@ function executeColorLogic() {
               var onBgRes = resolveToken('--color-on-background', undefined, ctx || document.documentElement);
               if (onBgRes.value && onBgRes.value !== 'unset') {
                 onVal = onBgRes.value;
+                tokenName = '--color-on-background';
               }
             }
 
@@ -177,22 +183,25 @@ function executeColorLogic() {
                   var L = luminance(bg);
                   // Use 0.5 as threshold for semantic tokens
                   onVal = L > 0.5 ? '#000000' : '#ffffff';
+                  tokenName = normalizeHex(onVal); // Show computed value as fallback
                 } else {
                   onVal = '#ffffff';
+                  tokenName = '#ffffff';
                 }
               } catch (e) {
                 onVal = '#ffffff';
+                tokenName = '#ffffff';
               }
             }
           }
 
-          // Normalize the text color format for consistent display
-          var normalizedOnVal = normalizeHex(onVal);
-          el.textContent = normalizedOnVal || 'unset';
+          // Display the token name instead of the hex value when available
+          el.textContent = tokenName || 'unset';
 
-          // Update text swatch
+          // Update text swatch - still use the actual color value, not the token name
           var textSwatch = el.parentElement.querySelector('.swatch-thumb-text');
-          if (textSwatch && normalizedOnVal && normalizedOnVal !== 'unset') {
+          if (textSwatch && onVal && onVal !== 'unset') {
+            var normalizedOnVal = normalizeHex(onVal);
             textSwatch.style.background = normalizedOnVal;
           }
 

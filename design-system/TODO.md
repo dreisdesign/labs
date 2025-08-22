@@ -1,11 +1,5 @@
 # Design System TODO
 
-_Last updated: 2025-08-21_
-
-## Outstanding Tasks
-
-# Design System TODO
-
 _Last updated: 2025-08-22_
 
 ## ✅ Recently Completed
@@ -20,16 +14,22 @@ _Last updated: 2025-08-22_
 
 ## Outstanding Tasks
 
-- [ ] **Enhanced Colors Story Features**
-  - [ ] Add theme switcher controls to Colors story (light/dark toggle in toolbar)
-  - [ ] Add light/dark comparison table to Colors story UI
+- [ ] **Colors Story Refinements**
+  - [x] Rename "Resolved Value" column to "Resolved"
+  - [ ] Fix text color column to show token names instead of hex values (in progress)
+  - [ ] Add theme switcher controls (light/dark toggle in toolbar)
+  - [ ] Add light/dark comparison table to UI
   - [ ] Consider adding copy-to-clipboard functionality for token names
 
 - [ ] **Component Development**
-  - [ ] Implement components using the finalized semantic token system
-  - [ ] Create component usage examples that showcase theming capabilities
+  - [ ] Complete Button component with all variants
+  - [ ] Icon system refinements (current default color approach is correct)
+  - [ ] Implement Card, Input, and Alert components using semantic tokens
+  - [ ] Create component usage examples showcasing theming capabilities
 
----
+## Future App Ideas
 
-- [ ] Add theme switcher controls to Colors story (light/dark toggle in toolbar)
-- [ ] Add light/dark comparison table to Colors story UI
+- [ ] **Whiteboard App MVP**
+  - [ ] Accept Apple Pencil input for drawing
+  - [ ] Settings icon button in bottom right corner
+  - [ ] Basic drawing functionality with Labs theming

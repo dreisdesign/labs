@@ -176,7 +176,7 @@ export function renderColors(opts = {}) {
         </div>
         <div class="token-list-wrap">
           <table class="token-list">
-            <thead><tr><th>Semantic</th><th>Swatch</th><th>Resolved value</th><th>Base</th><th>Text</th><th>Text color</th><th>Contrast</th></tr></thead>
+            <thead><tr><th>Semantic</th><th>Swatch</th><th>Resolved</th><th>Base</th><th>Text</th><th>Text color</th><th>Contrast</th></tr></thead>
             <tbody>
               ${tokenSets.global.tokens.map(t => `
                 <tr>
@@ -201,7 +201,7 @@ export function renderColors(opts = {}) {
             </div>
             <div class="token-list-wrap">
               <table class="token-list">
-                <thead><tr><th>Semantic</th><th>Swatch</th><th>Resolved value</th><th>Base</th><th>Text</th><th>Text color</th><th>Contrast</th></tr></thead>
+                <thead><tr><th>Semantic</th><th>Swatch</th><th>Resolved</th><th>Base</th><th>Text</th><th>Text color</th><th>Contrast</th></tr></thead>
                 <tbody>
                   ${getSemanticTokens(f).map(t => `
                     <tr>
