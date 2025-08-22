@@ -16,12 +16,14 @@ _Last updated: 2025-08-22_
 
 - [Design System TODOs](design-system/TODO.md) — *Current outstanding tasks and enhancements*
 
----
+## Apps
 
-## App-Specific TODOs
-
+### Production Apps
 - [Note App TODOs](docs/note/TODO.md)
 - [Timer App TODOs](docs/timer/TODO.md)
 - [Today List App TODOs](docs/today-list/TODO.md)
 - [Tracker App TODOs](docs/tracker/TODO.md)
-- [Tracker App TODOs](docs/tracker/TODO.md)
+
+### New Apps & POCs
+- **Pad V0** — ✅ Apple Pencil drawing app POC complete (`docs/pad/`)
+  - Next: Add color palette, brush controls, save/export features
