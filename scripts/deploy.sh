@@ -21,7 +21,7 @@ cp -r design-system/storybook-static/* docs/design-system/
 echo "📦 Syncing design system files..."
 ./scripts/dev-sync.sh
 
-git add docs/design-system docs/demo/index.html
+git add docs/design-system
 commit_msg="Deploy (automation): $(date '+%Y-%m-%d %H:%M') - ensure all public assets in docs/design-system for GitHub Pages"
 git commit -m "$commit_msg"
 git push
