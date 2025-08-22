@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Last updated: August 22, 2025 at 7:50 PM EST -->
+<!-- Last updated: August 22, 2025 at 4:00 PM PT - Added drawing persistence -->
 <html lang="en">
 
 <head>
@@ -9,8 +9,8 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#FBFBFD">
-  <link rel="stylesheet" href="../design-system/src/styles/main.css">
-  <script type="module" src="../design-system/src/components/labs-icon.js"></script>
+  <link rel="stylesheet" href="../design-system/main.css">
+  <script type="module" src="../design-system/components/labs-icon.js"></script>
   <style>
     html,
     body {
@@ -39,8 +39,8 @@
       z-index: 100;
       width: 48px;
       height: 48px;
-      background: var(--color-surface, #FBFBFD);
-      border: 2px solid var(--color-error, #D32F2F);
+      background: transparent;
+      border: none;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -114,6 +114,7 @@
 
         this.setupCanvas();
         this.setupEventListeners();
+        this.restoreDrawing();
       }
 
       setupCanvas() {
@@ -241,6 +242,9 @@
 
         this.isDrawing = false;
         this.currentStroke = [];
+
+        // Save the drawing after each stroke
+        this.saveDrawing();
       }
 
       clearCanvas() {
@@ -250,6 +254,8 @@
         if (confirmed) {
           // Clear the entire canvas
           this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+          // Also clear saved drawing from localStorage
+          localStorage.removeItem('padDrawing');
         }
       }
 
@@ -287,6 +293,31 @@
       handlePointerUp(e) {
         if (e.pointerType !== 'touch' || !('ontouchstart' in window)) {
           this.endDrawing();
+        }
+      }
+
+      // Save and restore drawing functionality
+      saveDrawing() {
+        try {
+          const imageData = this.canvas.toDataURL('image/png');
+          localStorage.setItem('padDrawing', imageData);
+        } catch (e) {
+          console.warn('Could not save drawing:', e);
+        }
+      }
+
+      restoreDrawing() {
+        try {
+          const savedDrawing = localStorage.getItem('padDrawing');
+          if (savedDrawing) {
+            const img = new Image();
+            img.onload = () => {
+              this.ctx.drawImage(img, 0, 0);
+            };
+            img.src = savedDrawing;
+          }
+        } catch (e) {
+          console.warn('Could not restore drawing:', e);
         }
       }
     }
