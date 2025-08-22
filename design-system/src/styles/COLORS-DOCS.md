@@ -231,6 +231,13 @@ Strawberry — dark
 
 (These are a human-readable snapshot — the canonical values live in `flavors.css` and palette anchors in `tokens/colors.css`. Always refer to the source files for the latest mappings.)
 
-## TODO and Next Steps
+## Related Documentation
 
-See [COLORS-DOCS--TODO.md](COLORS-DOCS--TODO.md) for work actively in progress and next steps.
+**Technical Reference:**
+- [DESIGN-TOKENS-ARCHITECTURE.md](DESIGN-TOKENS-ARCHITECTURE.md) - Deep technical documentation of token architecture, migration patterns, and performance considerations
+
+**Component Design:**
+- [../smoothie.md](../smoothie.md) - Conceptual framework for component configuration using "Smoothie" metaphor
+
+**Archive:**
+- [../../../_dev/_documents/legacy/colors-system/COLORS-TODO-COMPLETED.md](../../../_dev/_documents/legacy/colors-system/COLORS-TODO-COMPLETED.md) - Completed color system development tasks (archived)
