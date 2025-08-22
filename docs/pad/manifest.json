@@ -1,7 +1,7 @@
 {
-  "name": "Pad V0 - Drawing App",
-  "short_name": "Pad V0",
-  "description": "Minimalist Apple Pencil drawing pad optimized for iPad/iOS",
+  "name": "Pad V1.0 - Drawing App",
+  "short_name": "Pad V1.0",
+  "description": "Minimalist Apple Pencil drawing pad with clear functionality",
   "start_url": "./index.html",
   "display": "fullscreen",
   "orientation": "any",

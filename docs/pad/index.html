@@ -4,82 +4,117 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pad V0</title>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#FBFBFD">
-  <link rel="stylesheet" href="../../design-system/src/styles/main.css">
-  <style>
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: var(--color-surface, #FBFBFD);
-      color: var(--color-on-surface, #372116);
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    }
+  <title>Pad V1.0</tit setupEventListeners() { // Clear button functionality const
+      clearButton=document.getElementById('clearButton'); clearButton.addEventListener('click', ()=>
+    this.clearCanvas());
 
-    .pad-container {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+    // Touch events (includes Apple Pencil)
+    this.canvas.addEventListener('touchstart', (e) => this.handleTouchStart(e));
+    this.canvas.addEventListener('touchmove', (e) => this.handleTouchMove(e));
+    this.canvas.addEventListener('touchend', (e) => this.handleTouchEnd(e));
 
-    .pad-header {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      z-index: 100;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--color-on-surface, #372116);
-      opacity: 0.6;
-    }
+    // Pointer events (fallback for other stylus/mouse)
+    this.canvas.addEventListener('pointerdown', (e) => this.handlePointerDown(e));
+    this.canvas.addEventListener('pointermove', (e) => this.handlePointerMove(e));
+    this.canvas.addEventListener('pointerup', (e) => this.handlePointerUp(e));
 
-    .pad-canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      cursor: crosshair;
-      touch-action: none;
-      /* Prevent scrolling/zooming */
-    }
+    // Prevent default behaviors
+    this.canvas.addEventListener('touchstart', (e) => e.preventDefault());
+    this.canvas.addEventListener('touchmove', (e) => e.preventDefault());
+    }="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#FBFBFD">
+    <link rel="stylesheet" href="../../design-system/src/styles/main.css">
+    <script type="module" src="../../design-system/src/components/labs-icon.js"></script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: var(--color-surface, #FBFBFD);
+        color: var(--color-on-surface, #372116);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
 
-    /* Ensure canvas fills entire screen */
-    .pad-canvas {
-      display: block;
-    }
+      .pad-container {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
 
-    /* Add some subtle visual feedback */
-    .pad-canvas:active {
-      cursor: none;
-      /* Hide cursor while drawing */
-    }
+      .pad-clear-button {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        z-index: 100;
+        width: 48px;
+        height: 48px;
+        background: var(--color-surface, #FBFBFD);
+        border: 2px solid var(--color-error, #D32F2F);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s ease;
+      }
 
-    /* Loading state for better UX */
-    .pad-loading {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: var(--color-on-surface, #372116);
-      opacity: 0.5;
-      font-size: 16px;
-      display: none;
-    }
-  </style>
+      .pad-clear-button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      .pad-clear-button:active {
+        transform: scale(0.95);
+      }
+
+      .pad-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        cursor: crosshair;
+        touch-action: none;
+        /* Prevent scrolling/zooming */
+      }
+
+      /* Ensure canvas fills entire screen */
+      .pad-canvas {
+        display: block;
+      }
+
+      /* Add some subtle visual feedback */
+      .pad-canvas:active {
+        cursor: none;
+        /* Hide cursor while drawing */
+      }
+
+      /* Loading state for better UX */
+      .pad-loading {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: var(--color-on-surface, #372116);
+        opacity: 0.5;
+        font-size: 16px;
+        display: none;
+      }
+    </style>
 </head>
 
 <body>
   <div class="pad-container">
-    <div class="pad-header">Pad V0</div>
+    <button id="clearButton" class="pad-clear-button" title="Clear canvas">
+      <labs-icon name="delete_forever" width="32" height="32" color="var(--color-error)"></labs-icon>
+    </button>
     <canvas id="drawingCanvas" class="pad-canvas" width="1024" height="768"></canvas>
   </div>
 
@@ -217,6 +252,16 @@
 
         this.isDrawing = false;
         this.currentStroke = [];
+      }
+
+      clearCanvas() {
+        // Show native browser confirmation dialog
+        const confirmed = confirm("This will delete everything, are you sure you want to continue?");
+
+        if (confirmed) {
+          // Clear the entire canvas
+          this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        }
       }
 
       // Touch event handlers
