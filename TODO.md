@@ -2,6 +2,8 @@
 
 _Last updated: 2025-08-22_
 
+**AI: THIS IS NOT A CHANGELOG. Use the proper changelog**
+
 **This is the canonical project-wide TODO index file.** Use this ONLY as an index of links to area- and feature-specific TODO files. This is NOT a changelog - do not track completed work here. Keep all detailed todos in the linked files to maintain clarity and focus.
 
 **Guidelines:**
@@ -25,5 +27,4 @@ _Last updated: 2025-08-22_
 - [Tracker App TODOs](docs/tracker/TODO.md)
 
 ### New Apps & POCs
-- **Pad V0** — ✅ Apple Pencil drawing app POC complete (`docs/pad/`)
-  - Next: Add color palette, brush controls, save/export features
+- [Pad App TODOs](docs/pad/TODO.md) — *Future enhancements and iterations*
