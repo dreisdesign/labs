@@ -1,0 +1,7 @@
+TOKEN: --grid-container-padding-md
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/tokens/grid.css:23:  --grid-container-padding-md: 20px;
+/Users/danielreis/labs/design-system/src/styles/tokens/grid.css:47:    --grid-container-padding-md: 18px;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/stories/grid.stories.js:16:      <div style="max-width:var(--grid-container-max); margin-top:18px; padding:0 var(--grid-container-padding-md);">

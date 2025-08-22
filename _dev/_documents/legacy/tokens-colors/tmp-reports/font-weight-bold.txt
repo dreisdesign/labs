@@ -1,0 +1,8 @@
+TOKEN: --font-weight-bold
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/tokens/typography.css:13:  --font-weight-bold: 700;
+/Users/danielreis/labs/design-system/src/styles/tokens/typography.css:46:  --font-weight-bold: 700;
+/Users/danielreis/labs/design-system/src/styles/tokens/common.css:53:  --font-weight-bold: 700;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/components/settings-overlay.css:57:  font-weight: var(--font-weight-bold);

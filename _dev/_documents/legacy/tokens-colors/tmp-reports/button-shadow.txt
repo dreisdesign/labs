@@ -1,0 +1,6 @@
+TOKEN: --button-shadow
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/components/labs-button.js:23:          --button-shadow: 0 1px 2px rgba(0,0,0,0.04);
+
+USAGES:
+/Users/danielreis/labs/design-system/src/components/labs-button.js:49:          box-shadow: var(--button-shadow, 0 1px 2px rgba(0,0,0,0.04));

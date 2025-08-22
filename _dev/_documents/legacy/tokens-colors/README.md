@@ -29,6 +29,7 @@ This directory contains the complete migration documentation and analysis files 
 
 ## Archive Contents
 
+### **Documentation Files**
 - **`COLORS-DOCS--TODO-legacy.md`** — Complete TODO tracking and final checklist
 - **`DESIGN-TOKENS-MIGRATION-FINAL.md`** — Architecture summary and developer guidelines
 - **`DESIGN-TOKENS-MIGRATION.md`** — Original migration planning and 3-phase approach
@@ -36,7 +37,9 @@ This directory contains the complete migration documentation and analysis files 
 - **`DESIGN-TOKENS-LIGHT-DARK-COMPARISON.md`** — Theme comparison tables
 - **`DESIGN-TOKENS-MIGRATION-AUDIT.md`** — Implementation audit and verification
 
-## Current Active Documentation
+### **Analysis & Debug Files**
+- **`tmp-reports/`** — Token usage analysis files generated during migration (70+ token reports)
+- **`tmp-scans/`** — Token scanning and validation output files## Current Active Documentation
 
 - **[COLORS-DOCS.md](../../../design-system/src/styles/COLORS-DOCS.md)** — Live theming guide
 - **[COLORS-TODO.md](../../../design-system/COLORS-TODO.md)** — Current enhancement TODOs

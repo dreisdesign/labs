@@ -1,0 +1,8 @@
+TOKEN: --color-overlay-background
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/components/settings-overlay.css:2:  --color-overlay-background: rgba(0, 0, 0, 0.5);
+/Users/danielreis/labs/design-system/src/styles/tokens/common.css:4:  --color-overlay-background: #00000080;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/main.css:108:  background-color: var(--color-overlay-background);
+/Users/danielreis/labs/design-system/src/styles/components/settings-overlay.css:12:  background-color: var(--color-overlay-background);

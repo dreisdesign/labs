@@ -1,0 +1,6 @@
+TOKEN: --palette-neutral-300
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:32:  --palette-neutral-300: #E6E6EA;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:50:  --neutral-300: var(--palette-neutral-300);

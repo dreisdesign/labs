@@ -1,0 +1,24 @@
+TOKEN: --color-primary
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:56:  --color-primary: var(--palette-blueberry-500);
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:66:  --color-primary: var(--palette-blueberry-500);
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:75:  --color-primary: var(--palette-blueberry-500);
+/Users/danielreis/labs/design-system/src/styles/main.css:15:  --color-primary: var(--palette-blueberry-500, #2E2B74);
+/Users/danielreis/labs/design-system/src/styles/main.css:37:  --color-primary: var(--palette-blueberry-500, #2E2B74);
+/Users/danielreis/labs/design-system/src/styles/main.css:56:  --color-primary: #9575CD;
+/Users/danielreis/labs/design-system/src/styles/flavors.css:16:  --color-primary: var(--palette-blueberry-500);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:41:  --color-primary: var(--palette-blueberry-500);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:65:  --color-primary: var(--palette-strawberry-500);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:87:  --color-primary: var(--palette-strawberry-500);
+
+USAGES:
+/Users/danielreis/labs/design-system/src/labs-icon.stories.js:46:      border: 1px solid var(--color-primary-25);
+/Users/danielreis/labs/design-system/src/styles/main.css:171:  background-color: var(--color-primary-25);
+/Users/danielreis/labs/design-system/src/styles/components/settings-overlay.css:76:  background-color: var(--color-primary-25);
+/Users/danielreis/labs/design-system/src/styles/storybook-tokens.css:30:  border: 1px solid var(--color-primary-25, #eee);
+/Users/danielreis/labs/design-system/src/components/labs-button.js:42:          background: var(--color-primary, #2563eb);
+/Users/danielreis/labs/design-system/src/components/labs-button.js:61:          border: 1px solid var(--color-primary, #2563eb);
+/Users/danielreis/labs/design-system/src/components/labs-button.js:72:          color: var(--color-primary, #2563eb);
+/Users/danielreis/labs/design-system/src/stories/spacing.stories.js:14:        <div style="width:var(--space-xs); height:24px; background:var(--color-primary); border-radius:3px;"></div>
+/Users/danielreis/labs/design-system/src/stories/spacing.stories.js:15:        <div style="width:var(--space-sm); height:24px; background:var(--color-primary); border-radius:3px;"></div>
+/Users/danielreis/labs/design-system/src/stories/spacing.stories.js:16:        <div style="width:var(--space-md); height:24px; background:var(--color-primary); border-radius:3px;"></div>

@@ -1,0 +1,17 @@
+TOKEN: --palette-blueberry-500
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:35:  --palette-blueberry-500: #2E2B74;
+/Users/danielreis/labs/design-system/src/styles/flavors.css:11:  --palette-blueberry-500: #2E2B74;
+/Users/danielreis/labs/design-system/src/styles/flavors.css:36:  --palette-blueberry-500: #2E2B74;
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:10:  --palette-blueberry-500: #2E2B74;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:56:  --color-primary: var(--palette-blueberry-500);
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:66:  --color-primary: var(--palette-blueberry-500);
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:75:  --color-primary: var(--palette-blueberry-500);
+/Users/danielreis/labs/design-system/src/styles/main.css:15:  --color-primary: var(--palette-blueberry-500, #2E2B74);
+/Users/danielreis/labs/design-system/src/styles/main.css:37:  --color-primary: var(--palette-blueberry-500, #2E2B74);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:16:  --color-primary: var(--palette-blueberry-500);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:41:  --color-primary: var(--palette-blueberry-500);
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:40:  --palette-blueberry: var(--palette-blueberry-500);
+/Users/danielreis/labs/design-system/src/styles/tokens/common.css:34:  --color-accent: var(--palette-blueberry-500, #2E2B74);

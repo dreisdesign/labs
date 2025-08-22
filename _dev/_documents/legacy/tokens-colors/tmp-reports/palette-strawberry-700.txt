@@ -1,0 +1,8 @@
+TOKEN: --palette-strawberry-700
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/flavors.css:62:  --palette-strawberry-700: #9B2F2B;
+/Users/danielreis/labs/design-system/src/styles/flavors.css:84:  --palette-strawberry-700: #9B2F2B;
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:22:  --palette-strawberry-700: #9B2F2B;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/flavors.css:74:  --settings-icon-color: var(--palette-strawberry-700);

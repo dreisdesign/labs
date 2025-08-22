@@ -1,0 +1,6 @@
+TOKEN: --button-icon-only-hover-bg
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/components/labs-button.js:34:          --button-icon-only-hover-bg: var(--button-icon-only-hover-bg, #f1f5f9);
+
+USAGES:
+/Users/danielreis/labs/design-system/src/components/labs-button.js:34:          --button-icon-only-hover-bg: var(--button-icon-only-hover-bg, #f1f5f9);

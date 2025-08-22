@@ -1,0 +1,6 @@
+TOKEN: --palette-black
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:37:  --palette-black: #000000;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/flavors.css:42:  --color-background: var(--palette-black);

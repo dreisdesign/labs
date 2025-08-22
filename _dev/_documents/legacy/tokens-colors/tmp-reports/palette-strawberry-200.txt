@@ -1,0 +1,7 @@
+TOKEN: --palette-strawberry-200
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:39:  --palette-strawberry-200: #FFD3D2;
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:19:  --palette-strawberry-200: #FFD3D2;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/flavors.css:66:  --color-background: var(--palette-strawberry-200);
