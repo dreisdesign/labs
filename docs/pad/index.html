@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Last updated: August 22, 2025 at 4:00 PM PT - Added drawing persistence -->
+<!-- Last updated: August 22, 2025 at 7:56 AM ET - Fixed CSS import and zoom issues -->
 <html lang="en">
 
 <head>
@@ -9,7 +9,7 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#FBFBFD">
-  <link rel="stylesheet" href="../design-system/main.css">
+  <link rel="stylesheet" href="../design-system/tokens/colors.css">
   <script type="module" src="../design-system/components/labs-icon.js"></script>
   <style>
     html,
@@ -114,7 +114,9 @@
 
         this.setupCanvas();
         this.setupEventListeners();
-        this.restoreDrawing();
+
+        // Restore drawing after a brief delay to ensure canvas is properly sized
+        setTimeout(() => this.restoreDrawing(), 100);
       }
 
       setupCanvas() {
@@ -312,7 +314,11 @@
           if (savedDrawing) {
             const img = new Image();
             img.onload = () => {
-              this.ctx.drawImage(img, 0, 0);
+              // Clear canvas first to avoid artifacts
+              this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+              // Draw the image to fit the current canvas size
+              const rect = this.canvas.getBoundingClientRect();
+              this.ctx.drawImage(img, 0, 0, rect.width, rect.height);
             };
             img.src = savedDrawing;
           }
