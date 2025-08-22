@@ -4,18 +4,30 @@ _Last updated: 2025-08-21_
 
 ## Outstanding Tasks
 
-- [ ] **Implement token-based text color logic for palette and theme backgrounds**
-  - Update JS logic to resolve and use tokens for text color, not hardcoded hex.
-  - For palette tokens:
-    - If the background is dark (e.g., 800), use a light text token (e.g., 100) or `--color-on-surface-alt`.
-    - If the background is light (e.g., 100), use a dark text token (e.g., 800) or `--color-on-surface`.
-  - For theme backgrounds:
-    - If the theme background is light (e.g., Blueberry 200), use the theme’s dark text (e.g., On Surface / 800).
-    - If the theme background is dark (e.g., 800), use the theme’s light text (e.g., 100).
-  - Use:
-    - `color: var(--color-on-surface);` for light backgrounds
-    - `color: var(--color-on-surface-alt);` for dark backgrounds
-  - This will make the system fully token-driven and ready for any theme or flavor.
+# Design System TODO
+
+_Last updated: 2025-08-22_
+
+## ✅ Recently Completed
+
+- [x] **Comprehensive color token system implementation** ✅ **Complete!**
+  - ✅ All semantic colors have corresponding "on-" text tokens
+  - ✅ JavaScript logic uses semantic tokens with luminance fallback
+  - ✅ Strategic Colors story reorganization with Base column fixes
+  - ✅ Polaroid layout improvements with 2-line semantic labels
+  - ✅ Token-based text color logic for all backgrounds
+  - ✅ WCAG AA accessibility compliance across all color combinations
+
+## Outstanding Tasks
+
+- [ ] **Enhanced Colors Story Features**
+  - [ ] Add theme switcher controls to Colors story (light/dark toggle in toolbar)
+  - [ ] Add light/dark comparison table to Colors story UI
+  - [ ] Consider adding copy-to-clipboard functionality for token names
+
+- [ ] **Component Development**
+  - [ ] Implement components using the finalized semantic token system
+  - [ ] Create component usage examples that showcase theming capabilities
 
 ---
 

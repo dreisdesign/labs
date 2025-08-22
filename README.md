@@ -74,7 +74,15 @@ npm run deploy
 - **[🛠️ Development Guide](docs/DEVELOPMENT.md)** - Single source for all design system, Storybook, and UI development
 
 ### Theming & Color Tokens
-We now maintain a canonical theming guide at `design-system/src/styles/COLORS-DOCS.md`. It explains the palette anchors (tokens/colors.css), semantic fallbacks (main.css), and flavor → semantic mappings (flavors.css), plus boot snippets to prevent FOUC and Storybook wiring examples.
+The Labs Design System now features a **complete two-layer token architecture** with comprehensive semantic color support:
+
+- **✅ Production-Ready Color System** — Fully implemented semantic tokens with "on-" text color pairings
+- **✅ Theme Support** — Light/dark themes across Vanilla, Blueberry, and Strawberry flavors
+- **✅ WCAG AA Compliance** — All color combinations meet accessibility standards
+- **✅ Smart Text Colors** — Semantic tokens with luminance fallbacks for optimal contrast
+- **📖 Complete Documentation** — See `design-system/src/styles/COLORS-DOCS.md` for the authoritative theming guide
+
+The system provides palette anchors (`tokens/colors.css`), semantic fallbacks (`main.css`), flavor mappings (`flavors.css`), and comprehensive Storybook documentation.
 
 ### **Applications**
 - **[📝 Timer Documentation](docs/timer/README.md)** - Focus timer features and usage

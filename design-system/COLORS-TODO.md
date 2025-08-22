@@ -4,18 +4,41 @@ _Last updated: 2025-08-21_
 
 ## Outstanding Tasks
 
-- [ ] **Implement token-based text color logic for palette and theme backgrounds**
-  - Update JS logic to resolve and use tokens for text color, not hardcoded hex.
-  - For palette tokens:
-    - If the background is dark (e.g., 800), use a light text token (e.g., 100) or `--color-on-surface-alt`.
-    - If the background is light (e.g., 100), use a dark text token (e.g., 800) or `--color-on-surface`.
-  - For theme backgrounds:
-    - If the theme background is light (e.g., Blueberry 200), use the theme’s dark text (e.g., On Surface / 800).
-    - If the theme background is dark (e.g., 800), use the theme’s light text (e.g., 100).
-  - Use:
-    - `color: var(--color-on-surface);` for light backgrounds
-    - `color: var(--color-on-surface-alt);` for dark backgrounds
-  - This will make the system fully token-driven and ready for any theme or flavor.
+# COLORS-TODO.md
+
+_Last updated: 2025-08-22_
+
+## ✅ COMPLETED - Token-Based Color System
+
+### **Strategic Colors Story Reorganization** ✅ **Complete!**
+- [x] **Base Column Implementation** — Shows actual palette tokens ("Blueberry 500", "Base 100") instead of semantic names
+- [x] **Polaroid Layout Improvements** — Separated semantic role labels to 2 lines with proper styling
+- [x] **Table Restructuring** — Clear Base/Status section separation with comprehensive theme token coverage
+- [x] **Visual Consistency** — Added `--palette-base-500` token and proper border styling
+
+### **Comprehensive Text Color Token System** ✅ **Complete!**
+- [x] **All "on-" semantic tokens implemented** — `--color-on-primary`, `--color-on-success`, `--color-on-warning`, `--color-on-error`, `--color-on-primary-darker`
+- [x] **Smart JavaScript resolution logic** — Uses semantic tokens first, falls back to luminance calculation for palette tokens
+- [x] **WCAG AA accessibility compliance** — All text/background combinations meet 4.5:1 contrast minimum
+- [x] **Token-based text colors** — Replaces hardcoded calculations with design system semantic decisions
+
+### **Architecture Finalization** ✅ **Complete!**
+- [x] **Two-layer token system** — Palette anchors + semantic mappings with theme override capabilities
+- [x] **Comprehensive token coverage** — Surface, background, primary, status, and text tokens complete
+- [x] **Storybook documentation** — Colors story accurately represents token usage and relationships
+
+## Outstanding Enhancements (Optional)
+
+- [ ] **Enhanced Colors Story Features**
+  - [ ] Add theme switcher controls to Colors story (light/dark toggle in toolbar)
+  - [ ] Add light/dark comparison table to Colors story UI
+  - [ ] Consider adding copy-to-clipboard functionality for token names
+
+---
+
+## Archive Note
+
+All legacy color migration documentation has been moved to `/_dev/_documents/legacy/tokens-colors/` for reference. The token system is now production-ready and fully documented.
 
 ---
 

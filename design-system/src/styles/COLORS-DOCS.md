@@ -1,6 +1,27 @@
 # Color Tokens & Theme System
 
-This document is the authoritative guide for flavors (Blueberry, Strawberry, etc.) and light/dark theming in the Labs Design System. It explains the recommended token structure, copyable examples for JS/CSS wiring, and quick verification steps to avoid FOUC or inconsistent theme behavior.
+> **✅ Production-Ready** — Complete two-layer token architecture with semantic "on-" color system
+
+This document is the authoritative guide for flavors (Blueberry, Strawberry, etc.) and light/dark theming in the Labs Design System. The token system is now fully implemented with comprehensive semantic color support, accessibility compliance, and strategic Storybook documentation.
+
+## 🎯 Current Status
+
+**✅ Complete Token Architecture**
+- Two-layer design system: palette anchors + semantic mappings
+- All semantic colors have corresponding "on-" text tokens
+- Smart JavaScript resolution: semantic tokens first, luminance fallback for palette
+- WCAG AA accessibility compliance (4.5:1+ contrast ratios)
+
+**✅ Strategic Storybook Documentation**
+- Colors story reorganized with Base/Status sections
+- Base column shows actual palette tokens ("Blueberry 500", "Base 100")
+- Polaroid labels separated to 2 lines with semantic role descriptions
+- Comprehensive theme token coverage including neutrals
+
+**✅ Three-Flavor Theming Support**
+- Vanilla, Blueberry, and Strawberry flavors with light/dark modes
+- Consistent status colors across all themes for accessibility
+- Theme-specific branding colors with proper text color pairings
 
 ## Goals
 - Keep `tokens/colors.css` as a minimal palette (single source of truth for raw color anchors).
