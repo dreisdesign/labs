@@ -1,0 +1,6 @@
+TOKEN: --button-font
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/components/labs-button.js:25:          --button-font: 600 20px/1.2 system-ui, sans-serif;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/components/labs-button.js:41:          font: var(--button-font, 600 20px/1.2 system-ui, sans-serif);

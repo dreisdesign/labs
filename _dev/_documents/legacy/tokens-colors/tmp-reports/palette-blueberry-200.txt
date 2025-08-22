@@ -1,0 +1,8 @@
+TOKEN: --palette-blueberry-200
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:33:  --palette-blueberry-200: #DBD7FF;
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:8:  --palette-blueberry-200: #DBD7FF;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:68:  --color-background: var(--palette-blueberry-200);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:17:  --color-background: var(--palette-blueberry-200);

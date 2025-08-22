@@ -1,0 +1,12 @@
+TOKEN: --palette-blueberry-100
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:32:  --palette-blueberry-100: #F0EEFF;
+/Users/danielreis/labs/design-system/src/styles/flavors.css:9:  --palette-blueberry-100: #F0EEFF;
+/Users/danielreis/labs/design-system/src/styles/flavors.css:34:  --palette-blueberry-100: #F0EEFF;
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:6:  --palette-blueberry-100: #F0EEFF;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:79:  --color-on-background: var(--palette-blueberry-100);
+/Users/danielreis/labs/design-system/src/styles/main.css:53:  --color-on-background: var(--palette-blueberry-100, #C1C1FF);
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:41:  --palette-blueberry-10: var(--palette-blueberry-100);
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:57:  --palette-blueberry-50: var(--palette-blueberry-100);

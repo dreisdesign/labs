@@ -1,0 +1,7 @@
+TOKEN: --color-success
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:52:  --color-success: #00B56A;
+/Users/danielreis/labs/design-system/src/styles/tokens/common.css:13:  --color-success: #00B56A;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/tokens/common.css:29:  --color-status-success: var(--color-success);

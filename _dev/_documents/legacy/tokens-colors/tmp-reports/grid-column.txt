@@ -1,0 +1,9 @@
+TOKEN: --grid-column
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/tokens/grid.css:19:  --grid-column: 64px;
+/Users/danielreis/labs/design-system/src/styles/tokens/grid.css:35:    --grid-column: 48px;
+/Users/danielreis/labs/design-system/src/styles/tokens/grid.css:44:    --grid-column: 56px;
+/Users/danielreis/labs/design-system/src/styles/tokens/grid.css:53:    --grid-column: 64px;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/stories/grid.stories.js:26:          <div><strong>--grid-column</strong>: <button style="padding:4px 8px; margin-left:8px;" onclick="navigator.clipboard.writeText('var(--grid-column)')">Copy</button> <code>var(--grid-column)</code></div>

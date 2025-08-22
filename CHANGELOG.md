@@ -1,4 +1,14 @@
-# 🗂️ v2.1.x - Documentation Consolidation & CSF3 Migration (August 2025)
+# � v2.2.0 - Color Palette Consolidation, Polaroid Sizing, and Docs Refactor (August 21, 2025)
+
+### 🎨 **Design System & Storybook Improvements**
+- **Palette Simplification:** Removed all `-300` color variants (vanilla-300, blueberry-300, strawberry-300) from palette, code, and docs for a leaner, more maintainable system.
+- **Strawberry-800 Update:** Darkened `--palette-strawberry-800` to match other 800 stops for visual consistency.
+- **Polaroid Sizing:** Global polaroids in the Colors story now match the size and padding of theme palette polaroids for a unified look.
+- **Token-Driven Color Planning:** All color/theming TODOs and next steps are now tracked in `COLORS-TODO.md` (see design-system), with main TODO file linking only to area-specific TODOs.
+- **Documentation Cleanup:** Updated all docs and architecture guides to reflect the new palette, removed references to deleted stops, and clarified the token-driven approach.
+- **Legacy/Backup Files:** Removed or archived backup and legacy TODO files for clarity.
+
+# �🗂️ v2.1.x - Documentation Consolidation & CSF3 Migration (August 2025)
 
 > For detailed design system component changes, see [`design-system/CHANGELOG.md`](design-system/CHANGELOG.md).
 

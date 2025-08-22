@@ -1,0 +1,7 @@
+TOKEN: --grid-container-max
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/tokens/grid.css:7:  --grid-container-max: 1200px;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/stories/grid.stories.js:16:      <div style="max-width:var(--grid-container-max); margin-top:18px; padding:0 var(--grid-container-padding-md);">
+/Users/danielreis/labs/design-system/src/stories/grid.stories.js:29:          <div><strong>--grid-container-max</strong>: <code>var(--grid-container-max)</code></div>

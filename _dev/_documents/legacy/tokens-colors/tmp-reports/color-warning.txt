@@ -1,0 +1,6 @@
+TOKEN: --color-warning
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/tokens/common.css:24:  --color-warning: #FFC634;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/tokens/common.css:30:  --color-status-warning: var(--color-warning);

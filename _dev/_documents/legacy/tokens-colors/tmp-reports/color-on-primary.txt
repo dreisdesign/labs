@@ -1,0 +1,15 @@
+TOKEN: --color-on-primary
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:70:  --color-on-primary: #ffffff;
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:78:  --color-on-primary: #ffffff;
+/Users/danielreis/labs/design-system/src/styles/main.css:20:  --color-on-primary: var(--palette-white, #FFFFFF);
+/Users/danielreis/labs/design-system/src/styles/main.css:41:  --color-on-primary: var(--palette-white, #FFFFFF);
+/Users/danielreis/labs/design-system/src/styles/main.css:61:  --color-on-primary: #000000;
+/Users/danielreis/labs/design-system/src/styles/flavors.css:19:  --color-on-primary: var(--palette-white);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:44:  --color-on-primary: var(--palette-white);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:68:  --color-on-primary: var(--palette-white);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:90:  --color-on-primary: var(--palette-white);
+
+USAGES:
+/Users/danielreis/labs/design-system/src/components/labs-button.js:43:          color: var(--color-on-primary, #fff);
+/Users/danielreis/labs/design-system/src/stories/colors-template.js:73:  .swatch-text{font-weight:700;font-size:16px;line-height:1;color:var(--color-on-primary);pointer-events:none;text-shadow:0 1px 0 rgba(0,0,0,0.15);}

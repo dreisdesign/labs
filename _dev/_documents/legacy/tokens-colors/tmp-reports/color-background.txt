@@ -1,0 +1,13 @@
+TOKEN: --color-background
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:68:  --color-background: var(--palette-blueberry-200);
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:76:  --color-background: #121212;
+/Users/danielreis/labs/design-system/src/styles/main.css:39:  --color-background: var(--palette-neutral-200, #F0F0F4);
+/Users/danielreis/labs/design-system/src/styles/main.css:52:  --color-background: #121212;
+/Users/danielreis/labs/design-system/src/styles/flavors.css:17:  --color-background: var(--palette-blueberry-200);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:42:  --color-background: var(--palette-black);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:66:  --color-background: var(--palette-strawberry-200);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:88:  --color-background: var(--palette-neutral-700);
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/main.css:91:  background: var(--color-background);

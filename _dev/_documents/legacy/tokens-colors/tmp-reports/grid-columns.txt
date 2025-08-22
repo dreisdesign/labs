@@ -1,0 +1,7 @@
+TOKEN: --grid-columns
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/tokens/grid.css:4:  --grid-columns: 12;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/stories/grid.stories.js:17:        <div style="display:grid; grid-template-columns: repeat(var(--grid-columns), 1fr); gap:var(--grid-gutter); align-items:start;">
+/Users/danielreis/labs/design-system/src/stories/grid.stories.js:24:          <div><strong>--grid-columns</strong>: <code>var(--grid-columns)</code></div>

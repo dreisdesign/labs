@@ -1,0 +1,11 @@
+TOKEN: --grid-gutter
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/tokens/grid.css:5:  --grid-gutter: 16px;
+/Users/danielreis/labs/design-system/src/styles/tokens/grid.css:36:    --grid-gutter: 12px;
+/Users/danielreis/labs/design-system/src/styles/tokens/grid.css:45:    --grid-gutter: 14px;
+/Users/danielreis/labs/design-system/src/styles/tokens/grid.css:54:    --grid-gutter: 16px;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/tokens/grid.css:16:  --grid-gutter-half: calc(var(--grid-gutter) / 2);
+/Users/danielreis/labs/design-system/src/stories/grid.stories.js:17:        <div style="display:grid; grid-template-columns: repeat(var(--grid-columns), 1fr); gap:var(--grid-gutter); align-items:start;">
+/Users/danielreis/labs/design-system/src/stories/grid.stories.js:25:          <div><strong>--grid-gutter</strong>: <button style="padding:4px 8px; margin-left:8px;" onclick="navigator.clipboard.writeText('var(--grid-gutter)')">Copy</button> <code>var(--grid-gutter)</code></div>

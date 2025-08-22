@@ -1,0 +1,8 @@
+TOKEN: --palette-blueberry-800
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:13:  --palette-blueberry-800: #1E193E;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:67:  --color-primary-darker: var(--palette-blueberry-800);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:14:  --color-primary-darker: var(--palette-blueberry-800);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:39:  --color-primary-darker: var(--palette-blueberry-800);

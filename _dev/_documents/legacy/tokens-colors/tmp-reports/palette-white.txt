@@ -1,0 +1,20 @@
+TOKEN: --palette-white
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:28:  --palette-white: #FFFFFF;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/main.css:19:  --color-surface: var(--palette-white, #FFFFFF);
+/Users/danielreis/labs/design-system/src/styles/main.css:20:  --color-on-primary: var(--palette-white, #FFFFFF);
+/Users/danielreis/labs/design-system/src/styles/main.css:40:  --color-surface: var(--palette-white, #FFFFFF);
+/Users/danielreis/labs/design-system/src/styles/main.css:41:  --color-on-primary: var(--palette-white, #FFFFFF);
+/Users/danielreis/labs/design-system/src/styles/main.css:55:  --color-on-surface: var(--palette-white, #FFFFFF);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:18:  --color-surface: var(--palette-white);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:19:  --color-on-primary: var(--palette-white);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:26:  --color-on-primary-darker: var(--palette-white);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:44:  --color-on-primary: var(--palette-white);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:49:  --color-on-primary-darker: var(--palette-white);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:67:  --color-surface: var(--palette-white);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:68:  --color-on-primary: var(--palette-white);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:73:  --color-on-primary-darker: var(--palette-white);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:90:  --color-on-primary: var(--palette-white);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:95:  --color-on-primary-darker: var(--palette-white);

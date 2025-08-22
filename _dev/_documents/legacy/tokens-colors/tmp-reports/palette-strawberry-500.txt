@@ -1,0 +1,19 @@
+TOKEN: --palette-strawberry-500
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:41:  --palette-strawberry-500: #800800;
+/Users/danielreis/labs/design-system/src/styles/flavors.css:60:  --palette-strawberry-500: #800800;
+/Users/danielreis/labs/design-system/src/styles/flavors.css:82:  --palette-strawberry-500: #800800;
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:21:  --palette-strawberry-500: #800800;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:53:  --color-error: var(--palette-strawberry-500, #800800);
+/Users/danielreis/labs/design-system/src/styles/main.css:23:  --color-danger: var(--palette-strawberry-500, #E53935);
+/Users/danielreis/labs/design-system/src/styles/main.css:43:  --color-error: var(--palette-strawberry-500, #E53935);
+/Users/danielreis/labs/design-system/src/styles/main.css:44:  --color-danger: var(--palette-strawberry-500, #E53935);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:65:  --color-primary: var(--palette-strawberry-500);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:87:  --color-primary: var(--palette-strawberry-500);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:96:  --settings-icon-color: var(--palette-strawberry-500);
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:42:  --palette-strawberry: var(--palette-strawberry-500);
+/Users/danielreis/labs/design-system/src/styles/tokens/common.css:19:  --color-error: var(--palette-strawberry-500, #800800);
+/Users/danielreis/labs/design-system/src/styles/tokens/common.css:21:  --color-danger: var(--palette-strawberry-500, #800800);
+/Users/danielreis/labs/design-system/src/styles/tokens/common.css:31:  --color-status-destructive: var(--palette-strawberry-500, #800800);

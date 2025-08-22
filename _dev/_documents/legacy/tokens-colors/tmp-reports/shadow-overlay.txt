@@ -1,0 +1,8 @@
+TOKEN: --shadow-overlay
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/components/settings-overlay.css:3:  --shadow-overlay: 0 5px 20px rgba(0, 0, 0, 0.2);
+/Users/danielreis/labs/design-system/src/styles/tokens/common.css:73:  --shadow-overlay: 0 10px 30px #00000033;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/main.css:129:  box-shadow: var(--shadow-overlay);
+/Users/danielreis/labs/design-system/src/styles/components/settings-overlay.css:33:  box-shadow: var(--shadow-overlay);

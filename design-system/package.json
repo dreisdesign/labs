@@ -9,8 +9,8 @@
     "storybook": "bash scripts/start-storybook.sh",
     "storybook-original": "storybook dev -p 6006",
     "prebuild-storybook": "npm run generate-icons-list",
-    "build-storybook": "bash scripts/build-storybook.sh",
-    "build-storybook-original": "storybook build",
+    "build-storybook": "NODE_ENV=production bash scripts/build-storybook.sh",
+    "build-storybook-original": "NODE_ENV=production storybook build",
     "build": "node ../scripts/update-static-paths.js --public",
     "public": "node ../scripts/update-static-paths.js --public",
     "local": "node scripts/open-storybook-local.js",
@@ -27,7 +27,6 @@
   "devDependencies": {
     "@storybook/addon-a11y": "^9.1.2",
     "@storybook/addon-docs": "^9.1.2",
-    "@storybook/addon-essentials": "^8.6.14",
     "@storybook/addon-themes": "^9.1.2",
     "@storybook/addon-vitest": "^9.1.2",
     "@storybook/web-components-vite": "^9.1.2",

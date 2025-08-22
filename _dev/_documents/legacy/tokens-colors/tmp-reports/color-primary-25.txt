@@ -1,0 +1,10 @@
+TOKEN: --color-primary-25
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/main.css:65:  --color-primary-25: #C193FF40;
+/Users/danielreis/labs/design-system/src/styles/tokens/common.css:79:  --color-primary-25: #C1C1FF40;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/labs-icon.stories.js:46:      border: 1px solid var(--color-primary-25);
+/Users/danielreis/labs/design-system/src/styles/main.css:171:  background-color: var(--color-primary-25);
+/Users/danielreis/labs/design-system/src/styles/components/settings-overlay.css:76:  background-color: var(--color-primary-25);
+/Users/danielreis/labs/design-system/src/styles/storybook-tokens.css:30:  border: 1px solid var(--color-primary-25, #eee);

@@ -2,11 +2,55 @@
    Minimal anchor set: 5 shades per flavor and 5 neutral stops.
 */
 :root {
+  /*
+    Global semantic tokens:
+
+    Surface System (global, consistent across themes):
+    - Surface: default light surface (#FBFBFD)
+    - Surface Alt: default dark surface (#2A2A30)
+    - On Surface: dark text for light surfaces
+    - On Surface Alt: light text for dark surfaces
+
+    Background System (theme-specific):
+    - Background: theme's page background (overridden per flavor/theme)
+    - On Background: text for the theme's background (overridden per flavor/theme)
+  */
+  --color-surface: var(--base-100);
+  /* Surface: light surface for cards, modals, etc. */
+  --color-surface-alt: var(--base-800);
+  /* Surface Alt: dark surface for contrast areas */
+  --color-on-surface: var(--base-800);
+  /* On Surface: dark text for light surfaces */
+  --color-on-surface-alt: var(--base-100);
+  /* On Surface Alt: light text for dark surfaces */
+  --color-background: var(--base-100);
+  /* Background: page background (themes customize this) */
+  --color-on-background: var(--base-800);
+  /* On Background: text for page background (themes customize this) */
+  /* On Background: default text for backgrounds (themes override this) */
+  --palette-vanilla-00: #FFFFFF;
+  /* Vanilla palette — for Vanilla theme and as a base for other flavors */
+  --palette-vanilla-100: #F5F1E7;
+  /* background */
+  --palette-vanilla-200: #E8E2D6;
+  --palette-vanilla-500: #6B5C4B;
+  /* was 700, now 500 */
+  --palette-vanilla-800: #372116;
+  /* was 900, now 800 */
+  --palette-vanilla-1000: #000000;
+  /* primary */
+  --color-primary: var(--palette-blueberry-500);
+  /* Primary: main brand color (Blueberry 500 by default) */
+  --color-on-primary: #fff;
+  /* On Primary: text color for use on primary backgrounds (white for contrast) */
+  --color-primary-darker: var(--palette-blueberry-800);
+  /* Primary Darker: darker variant of primary color */
+  --color-on-primary-darker: #fff;
+  /* On Primary Darker: text color for primary-darker backgrounds */
   /* Blueberry (5 stops) — canonical anchors */
   --palette-blueberry-100: #F0EEFF;
   /* intermediate 200 stop (added back for theme pages) */
   --palette-blueberry-200: #DBD7FF;
-  --palette-blueberry-300: #C6C1FF;
   --palette-blueberry-500: #2E2B74;
   --palette-blueberry-700: #26225A;
   /* generated 800 stop (midpoint between 700 #26225A and 900 #15122B) */
@@ -17,46 +61,42 @@
   --palette-strawberry-100: #FFF2F1;
   /* intermediate 200 stop (added back for theme pages) */
   --palette-strawberry-200: #FFD3D2;
-  --palette-strawberry-300: #FFB4B4;
   --palette-strawberry-500: #800800;
   --palette-strawberry-700: #9B2F2B;
-  /* generated 800 stop (midpoint between 700 #9B2F2B and 900 #5C1A18) */
-  --palette-strawberry-800: #7E241F;
+  /* made darker to match other 800 variants */
+  --palette-strawberry-800: #4A1614;
   --palette-strawberry-900: #5C1A18;
 
-  /* Neutral scale (5 stops) */
+  /* Base (gray) palette */
   --palette-white: #FFFFFF;
-  /* lighter neutral for UI backgrounds */
-  --palette-neutral-100: #FBFBFD;
-  --palette-neutral-200: #F0F0F4;
-  --palette-neutral-300: #E6E6EA;
-  --palette-neutral-500: #80808A;
-  --palette-neutral-700: #3C3C46;
-  /* darker neutral anchor used for deep surfaces */
-  --palette-neutral-800: #2A2A30;
+  --palette-base-100: #FBFBFD;
+  /* mid-tone base for borders and outlines */
+  --palette-base-500: #9E9E9E;
+  /* darker base anchor used for deep surfaces */
+  --palette-base-800: #2A2A30;
   --palette-black: #000000;
 
-  /* Helpful aliases (small compatibility layer) */
-  --palette-blueberry: var(--palette-blueberry-500);
-  --palette-blueberry-10: var(--palette-blueberry-100);
-  --palette-strawberry: var(--palette-strawberry-500);
+  /* Base convenience aliases — allow semantic tokens to reference
+    `--base-100` etc. without knowing the underlying palette variable name */
+  --base-100: var(--palette-base-100);
+  --base-500: var(--palette-base-500);
+  --base-800: var(--palette-base-800);
+  /* Status palette (for semantic feedback colors) */
+  --palette-green-500: #00800C;
+  /* Success */
+  --palette-yellow-500: #FFB300;
+  /* Warning */
+  --palette-red-500: #D32F2F;
+  /* Error */
 
-  /* Neutral convenience aliases — allow semantic tokens to reference
-    `--neutral-200` etc. without knowing the underlying palette variable name */
-  --neutral-200: var(--palette-neutral-200);
-  --neutral-500: var(--palette-neutral-500);
-  --neutral-700: var(--palette-neutral-700);
-  --neutral-100: var(--palette-neutral-100);
-  --neutral-300: var(--palette-neutral-300);
-  --neutral-800: var(--palette-neutral-800);
-
-  --palette-dark-surface-1: var(--palette-neutral-700);
-
-  /* Back-compat aliases: some flavor files reference -50 and -200 stops.
-    Map those to the nearest canonical stops so variables don't resolve to unset. */
-  --palette-blueberry-50: var(--palette-blueberry-100);
-  --palette-strawberry-50: var(--palette-strawberry-100);
-  /* expose 800 aliases for consumers expecting a mid/darker stop */
-  /* 800 aliases are defined above as concrete values; avoid self-referential aliases which leave the var unset */
-  /* Back-compat: -200 now exists explicitly above (explicit values defined earlier) */
+  /* Map semantic tokens for status colors */
+  --color-success: var(--palette-green-500);
+  --color-on-success: #fff;
+  /* On Success: white text for high contrast on green #00800C background */
+  --color-warning: var(--palette-yellow-500);
+  --color-on-warning: var(--color-on-surface);
+  /* On Warning: use surface text color for high contrast on yellow #FFB300 background */
+  --color-error: var(--palette-red-500);
+  --color-on-error: #fff;
+  /* On Error: white text for high contrast on red #D32F2F background */
 }

@@ -4,31 +4,25 @@
   --color-overlay-background: #00000080;
 
   /* Surface container helpers */
-  --color-surface-container: #F7F7FB;
-  --color-surface-container-high: #EEEFF4;
-  --color-surface-variant: #F0F0F4;
-  --color-on-surface-variant: #1C1B1FA6;
+  --color-surface-container: var(--palette-vanilla-100);
+  --color-surface-container-high: var(--palette-vanilla-200);
+  --color-surface-variant: var(--palette-vanilla-200);
+  --color-on-surface-variant: var(--palette-vanilla-700);
 
-  /* Status colors (explicit root values provided by request) */
-  --color-success: #00B56A;
-  /* success */
-  --color-on-success: #FFFFFF;
+  /* Status colors - inherit from global tokens in colors.css */
+  /* Removed explicit values - these now inherit from colors.css for consistency and accessibility */
 
   --color-destructive: #B5005A;
   /* destructive mapped directly to strawberry palette anchor for consistency */
-  --color-error: var(--palette-strawberry-500, #800800);
-  /* prefer --color-danger name for semantic clarity; keep alias for backward-compat */
-  --color-danger: var(--palette-strawberry-500, #800800);
-  --color-on-error: #FFFFFF;
 
-  --color-warning: #FFC634;
-  /* warning */
-  --color-on-warning: #000000;
+  /* Status colors now inherited from colors.css - removed overrides */
+  /* --color-error and --color-warning are defined in colors.css */
+  /* --color-on-error and --color-on-warning are defined in colors.css */
 
   /* Deprecated/compat tokens used in older components (kept as aliases) */
   --color-status-success: var(--color-success);
   --color-status-warning: var(--color-warning);
-  --color-status-destructive: var(--palette-strawberry-500, #800800);
+  --color-status-destructive: var(--color-error);
 
   /* Legacy compatibility aliases (flattened to palette anchors for stability) */
   --color-accent: var(--palette-blueberry-500, #2E2B74);
@@ -77,8 +71,7 @@
 :root {
   --color-primary-75: #2E2B74BF;
   --color-primary-25: #C1C1FF40;
-  --color-on-surface: #1C1B1F;
-  --color-outline: #1C1B1F1F;
+  --color-outline: var(--palette-vanilla-700);
   /* radius-sm used by a few components */
   --radius-sm: 4px;
 }

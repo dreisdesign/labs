@@ -1,0 +1,11 @@
+TOKEN: --palette-blueberry-900
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/flavors.css:15:  --palette-blueberry-900: #15122B;
+/Users/danielreis/labs/design-system/src/styles/flavors.css:40:  --palette-blueberry-900: #15122B;
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:14:  --palette-blueberry-900: #15122B;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:71:  --color-on-background: var(--palette-blueberry-900);
+/Users/danielreis/labs/design-system/src/styles/main.css:21:  --color-on-background: var(--palette-blueberry-900, #15122B);
+/Users/danielreis/labs/design-system/src/styles/main.css:42:  --color-on-background: var(--palette-blueberry-900, #15122B);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:22:  --color-on-background: var(--palette-blueberry-900);

@@ -1,0 +1,6 @@
+TOKEN: --button-icon-padding
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/components/labs-button.js:26:          --button-icon-padding: 0.5em;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/components/labs-button.js:74:          padding: var(--button-icon-padding, 0.5em);

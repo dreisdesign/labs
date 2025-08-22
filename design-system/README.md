@@ -1,11 +1,19 @@
 
 # Labs Design System
 
+> **Production-Ready Component Library with Complete Token Architecture**
+
 ---
 
 ## Overview
 
-This is the canonical design system for Labs apps. All UI components, tokens, and Storybook documentation are maintained here.
+This is the canonical design system for Labs apps, featuring a comprehensive two-layer token system, semantic color architecture, and modular Web Components. All UI components, design tokens, and documentation are maintained here with full theme support and accessibility compliance.
+
+**🎯 Current Status: Production-Ready**
+- ✅ Complete semantic token system with "on-" text color pairings
+- ✅ Three-flavor theming (Vanilla, Blueberry, Strawberry) with light/dark modes
+- ✅ WCAG AA accessibility compliance across all combinations
+- ✅ Strategic Storybook documentation with Base column and reorganized Colors story
 
 ---
 
@@ -13,14 +21,13 @@ This is the canonical design system for Labs apps. All UI components, tokens, an
 
 ## Key Docs & Links
 
-- [Button Docs (Canonical)](src/components/labs-button/BUTTON-DOCS.md)
-- [Button Docs (Canonical)](src/components/labs-button/BUTTON-DOCS.md)
-- [Color Tokens & Theme Docs](src/styles/COLORS-DOCS.md)
-- [Smoothie Design System Overview](smoothie.md) — Philosophy and metaphor for all components
-- [Storybook Live](https://dreisdesign.github.io/labs/design-system/)
-- [Changelog](CHANGELOG.md)
-- [Roadmap](ROADMAP.md)
-- [Modularity Guidelines](../.github/instructions/Modularity.instructions.md)
+- **[🎨 Color Tokens & Theme Docs](src/styles/COLORS-DOCS.md)** — Complete theming guide and token architecture
+- **[🎨 Storybook Live](https://dreisdesign.github.io/labs/design-system/)** — Interactive component documentation
+- **[🔘 Button Docs](src/components/labs-button/BUTTON-DOCS.md)** — Canonical button component documentation
+- **[🍹 Smoothie Design System Overview](smoothie.md)** — Philosophy and metaphor for all components
+- **[📋 Changelog](CHANGELOG.md)** — Version history and updates
+- **[🛤️ Roadmap](ROADMAP.md)** — Planned features and improvements
+- **[📐 Modularity Guidelines](../.github/instructions/Modularity.instructions.md)** — Development principles
 
 ---
 

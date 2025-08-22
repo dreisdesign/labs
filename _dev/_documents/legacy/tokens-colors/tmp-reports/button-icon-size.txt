@@ -1,0 +1,6 @@
+TOKEN: --button-icon-size
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/components/labs-button.js:27:          --button-icon-size: 1.25em;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/components/labs-button.js:92:          font-size: var(--button-icon-size, 1.25em);

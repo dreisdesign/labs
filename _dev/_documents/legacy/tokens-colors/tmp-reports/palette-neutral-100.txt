@@ -1,0 +1,6 @@
+TOKEN: --palette-neutral-100
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:30:  --palette-neutral-100: #FBFBFD;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:49:  --neutral-100: var(--palette-neutral-100);

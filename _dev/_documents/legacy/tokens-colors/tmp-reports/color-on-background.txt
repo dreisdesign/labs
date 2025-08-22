@@ -1,0 +1,24 @@
+TOKEN: --color-on-background
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:71:  --color-on-background: var(--palette-blueberry-900);
+/Users/danielreis/labs/design-system/src/styles/COLORS-DOCS.md:79:  --color-on-background: var(--palette-blueberry-100);
+/Users/danielreis/labs/design-system/src/styles/main.css:21:  --color-on-background: var(--palette-blueberry-900, #15122B);
+/Users/danielreis/labs/design-system/src/styles/main.css:42:  --color-on-background: var(--palette-blueberry-900, #15122B);
+/Users/danielreis/labs/design-system/src/styles/main.css:53:  --color-on-background: var(--palette-blueberry-100, #C1C1FF);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:22:  --color-on-background: var(--palette-blueberry-900);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:46:  --color-on-background: var(--palette-blueberry-50);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:70:  --color-on-background: var(--palette-strawberry-900);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:92:  --color-on-background: var(--palette-strawberry-50);
+
+USAGES:
+/Users/danielreis/labs/design-system/src/labs-icon.stories.js:82:      color: var(--color-on-background);
+/Users/danielreis/labs/design-system/src/styles/main.css:92:  color: var(--color-on-background);
+/Users/danielreis/labs/design-system/src/styles/storybook-tokens.css:12:  color: var(--color-on-background, #222);
+/Users/danielreis/labs/design-system/src/styles/storybook-tokens.css:18:  color: var(--color-on-background, #222);
+/Users/danielreis/labs/design-system/src/components/labs-button.js:60:          color: var(--color-on-background, #2563eb);
+/Users/danielreis/labs/design-system/src/stories/colors-template.js:100:  .card-token-label{font-size:12px;color:var(--color-on-background);margin-top:6px;word-break:break-all}
+/Users/danielreis/labs/design-system/src/stories/colors-template.js:101:  .card-base-label{font-size:11px;color:var(--color-on-background);opacity:0.8;margin-top:4px;word-break:break-all}
+/Users/danielreis/labs/design-system/src/stories/typography.stories.js:11:    <div style="padding:20px; font-family:var(--font-family-base); color:var(--color-on-background); background:var(--color-surface);">
+/Users/danielreis/labs/design-system/src/stories/tokens.stories.js:10:		<div style="padding:20px; font-family:var(--font-family-base); color:var(--color-on-background); background:var(--color-surface);">
+/Users/danielreis/labs/design-system/src/stories/grid.stories.js:12:    <div style="padding:20px; color:var(--color-on-background); background:var(--color-surface);">
+/Users/danielreis/labs/design-system/src/stories/spacing.stories.js:11:    <div style="padding:20px; color:var(--color-on-background); background:var(--color-surface);">

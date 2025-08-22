@@ -1,0 +1,7 @@
+TOKEN: --palette-strawberry-800
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:24:  --palette-strawberry-800: #7E241F;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/flavors.css:63:  --color-primary-darker: var(--palette-strawberry-800);
+/Users/danielreis/labs/design-system/src/styles/flavors.css:85:  --color-primary-darker: var(--palette-strawberry-800);

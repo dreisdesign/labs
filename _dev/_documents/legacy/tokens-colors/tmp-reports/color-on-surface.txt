@@ -1,0 +1,13 @@
+TOKEN: --color-on-surface
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/main.css:55:  --color-on-surface: var(--palette-white, #FFFFFF);
+/Users/danielreis/labs/design-system/src/styles/tokens/common.css:80:  --color-on-surface: #1C1B1F;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/labs-icon.stories.js:70:      color: var(--color-on-surface);
+/Users/danielreis/labs/design-system/src/styles/main.css:153:  color: var(--color-on-surface);
+/Users/danielreis/labs/design-system/src/styles/components/settings-overlay.css:58:  color: var(--color-on-surface);
+/Users/danielreis/labs/design-system/src/styles/storybook-tokens.css:57:  color: var(--color-on-surface, #222);
+/Users/danielreis/labs/design-system/src/styles/storybook-tokens.css:64:  color: var(--color-on-surface, #222);
+/Users/danielreis/labs/design-system/src/styles/storybook-tokens.css:70:  color: var(--color-on-surface, #222);
+/Users/danielreis/labs/design-system/src/components/labs-icon.js:135:    let color = this.getAttribute("color") || "var(--color-on-surface)";

@@ -1,0 +1,8 @@
+TOKEN: --font-size-small
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/tokens/typography.css:25:  --font-size-small: 0.875rem;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/tokens/typography.css:39:  --font-size-sm: var(--font-size-small);
+/Users/danielreis/labs/design-system/src/stories/icons-grid.stories.js:40:        .name { font-size: var(--font-size-small, 0.875rem); font-weight: 500; color: #374151; margin-top: 0.5rem; }
+/Users/danielreis/labs/design-system/src/stories/icons-grid.stories.js:41:        .usage { font-size: var(--font-size-small, 0.875rem); color: #6b7280; font-family: monospace; margin-top: 0.25rem; word-break: break-word; hyphens: none; max-width: 100%; overflow-wrap: break-word; white-space: pre-wrap; }

@@ -1,0 +1,6 @@
+TOKEN: --palette-dark-surface-1
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/tokens/colors.css:53:  --palette-dark-surface-1: var(--palette-neutral-700);
+
+USAGES:
+/Users/danielreis/labs/design-system/src/styles/main.css:54:  --color-surface: var(--palette-dark-surface-1, #1E1E1E);

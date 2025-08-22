@@ -1,0 +1,8 @@
+TOKEN: --space-md
+DECLARATIONS:
+/Users/danielreis/labs/design-system/src/styles/tokens/spacing.css:5:  --space-md: 16px;
+/Users/danielreis/labs/design-system/src/styles/tokens/spacing.css:13:  --space-md: 1rem;
+/Users/danielreis/labs/design-system/src/styles/tokens/common.css:58:  --space-md: 16px;
+
+USAGES:
+/Users/danielreis/labs/design-system/src/stories/spacing.stories.js:16:        <div style="width:var(--space-md); height:24px; background:var(--color-primary); border-radius:3px;"></div>
