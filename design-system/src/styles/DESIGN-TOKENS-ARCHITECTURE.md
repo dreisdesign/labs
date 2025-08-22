@@ -18,18 +18,24 @@ Raw color values organized by flavor families and purposes:
 /* Vanilla Palette */
 --palette-vanilla-100: #F5F1E7;    /* Light backgrounds */
 --palette-vanilla-200: #E8E2D6;    /* Theme backgrounds */
---palette-vanilla-300: #A89B8C;    /* Mid-tones */
 --palette-vanilla-500: #6B5C4B;    /* Primary colors */
 --palette-vanilla-800: #372116;    /* Dark colors */
 
 /* Blueberry Palette */
 --palette-blueberry-100: #F0EEFF;
 --palette-blueberry-200: #DBD7FF;
---palette-blueberry-300: #C6C1FF;
 --palette-blueberry-500: #2E2B74;
 --palette-blueberry-700: #26225A;
 --palette-blueberry-800: #1E193E;
 --palette-blueberry-900: #15122B;
+
+/* Strawberry Palette */
+--palette-strawberry-100: #FFF2F1;
+--palette-strawberry-200: #FFD3D2;
+--palette-strawberry-500: #800800;
+--palette-strawberry-700: #9B2F2B;
+--palette-strawberry-800: #4A1614;
+--palette-strawberry-900: #5C1A18;
 
 /* Status Palette */
 --palette-green-500: #00B56A;      /* Success */
@@ -100,7 +106,6 @@ Palette tokens follow Material Design-inspired naming:
 
 - **100**: Lightest tint (backgrounds)
 - **200**: Light tint (theme backgrounds)
-- **300**: Medium-light (accents)
 - **500**: Base color (primary use)
 - **700**: Dark shade (borders)
 - **800**: Darker shade (text on light)
@@ -148,7 +153,6 @@ Palette tokens follow Material Design-inspired naming:
 /* Orange Palette */
 --palette-orange-100: #FFF7ED;
 --palette-orange-200: #FFEDD5;
---palette-orange-300: #FED7AA;
 --palette-orange-500: #F97316;
 --palette-orange-800: #9A3412;
 ```

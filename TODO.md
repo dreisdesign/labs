@@ -4,6 +4,7 @@ _Last updated: 2025-08-21_
 
 This is the canonical project-wide TODO file. Use this as an index of links to area- and app-specific TODO files. Keep detailed todos in the linked files to maintain clarity and focus.
 
+
 ## Design System
 
 - [Design System TODOs](design-system/TODO.md)
@@ -11,11 +12,10 @@ This is the canonical project-wide TODO file. Use this as an index of links to a
 - [Design Tokens Migration Plan](DESIGN-TOKENS-MIGRATION.md) — ✅ *Complete! All 3 phases finished*
 - [Design Tokens Final Summary](DESIGN-TOKENS-MIGRATION-FINAL.md) — 🎯 *Architecture finalized and ready for components*
 
-### Outstanding Storybook Enhancements
 
-- [ ] Add theme switcher controls to Colors story (light/dark toggle in toolbar)
-- [ ] Add light/dark comparison table to Colors story UI
-- ✅ **Fixed color token resolution issues** — *Self-referential chain messages removed, improved text color calculations, all swatches now populate correctly*
+### Outstanding Storybook/Color Enhancements
+
+- [COLORS-TODO.md](design-system/COLORS-TODO.md) — *All color/theming and palette work tracked here*
 
 ---
 

@@ -24,19 +24,19 @@ function executeColorLogic() {
     vanilla: {
       semantic: ['--color-primary', '--color-primary-darker'],
       neutrals: ['--color-surface', '--color-background'],
-      palette: ['--palette-vanilla-100', '--palette-vanilla-200', '--palette-vanilla-300', '--palette-vanilla-500', '--palette-vanilla-800'],
+      palette: ['--palette-vanilla-100', '--palette-vanilla-200', '--palette-vanilla-500', '--palette-vanilla-800'],
       accents: []
     },
     blueberry: {
       semantic: ['--color-primary', '--color-primary-darker'],
       neutrals: ['--color-surface', '--color-background'],
-      palette: ['--palette-blueberry-100', '--palette-blueberry-200', '--palette-blueberry-300', '--palette-blueberry-500', '--palette-blueberry-800'],
+      palette: ['--palette-blueberry-100', '--palette-blueberry-200', '--palette-blueberry-500', '--palette-blueberry-800'],
       accents: []
     },
     strawberry: {
       semantic: ['--color-primary', '--color-primary-darker'],
       neutrals: ['--color-surface', '--color-background'],
-      palette: ['--palette-strawberry-100', '--palette-strawberry-200', '--palette-strawberry-300', '--palette-strawberry-500', '--palette-strawberry-800'],
+      palette: ['--palette-strawberry-100', '--palette-strawberry-200', '--palette-strawberry-500', '--palette-strawberry-800'],
       accents: []
     }
   };

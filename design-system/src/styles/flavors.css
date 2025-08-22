@@ -21,8 +21,8 @@
 }
 
 .flavor-vanilla.theme-dark {
-  --color-primary: var(--palette-vanilla-300);
-  /* Use 300 for dark theme primary (#A89B8C) */
+  --color-primary: var(--palette-vanilla-200);
+  /* Use 200 for dark theme primary (#E8E2D6) - lighter for dark backgrounds */
   --color-primary-darker: var(--palette-vanilla-500);
   /* Use 500 for dark theme primary-darker (#6B5C4B) */
   --color-background: var(--palette-vanilla-800);

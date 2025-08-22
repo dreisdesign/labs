@@ -31,13 +31,11 @@ Keep component CSS semantic-only: use `var(--color-*)` values in components rath
 :root {
   --palette-blueberry-100: #F0EEFF;
   --palette-blueberry-200: #DBD7FF;
-  --palette-blueberry-300: #C6C1FF;
   --palette-blueberry-500: #2E2B74;
   --palette-blueberry-700: #26225A;
 
   --palette-strawberry-100: #FFF2F1;
   --palette-strawberry-200: #FFD3D2;
-  --palette-strawberry-300: #FFB4B4;
   --palette-strawberry-500: #800800;
 }
 ```

@@ -40,19 +40,19 @@ export function renderColors(opts = {}) {
     blueberry: {
       semantic: ['--color-primary', '--color-primary-darker'],
       neutrals: ['--color-surface', '--color-background'],
-      palette: ['--palette-blueberry-100', '--palette-blueberry-200', '--palette-blueberry-300', '--palette-blueberry-500', '--palette-blueberry-800'],
+      palette: ['--palette-blueberry-100', '--palette-blueberry-200', '--palette-blueberry-500', '--palette-blueberry-800'],
       accents: []
     },
     strawberry: {
       semantic: ['--color-primary', '--color-primary-darker'],
       neutrals: ['--color-surface', '--color-background'],
-      palette: ['--palette-strawberry-100', '--palette-strawberry-200', '--palette-strawberry-300', '--palette-strawberry-500', '--palette-strawberry-800'],
+      palette: ['--palette-strawberry-100', '--palette-strawberry-200', '--palette-strawberry-500', '--palette-strawberry-800'],
       accents: []
     },
     vanilla: {
       semantic: ['--color-primary', '--color-primary-darker'],
       neutrals: ['--color-surface', '--color-background'],
-      palette: ['--palette-vanilla-100', '--palette-vanilla-200', '--palette-vanilla-300', '--palette-vanilla-500', '--palette-vanilla-800'],
+      palette: ['--palette-vanilla-100', '--palette-vanilla-200', '--palette-vanilla-500', '--palette-vanilla-800'],
       accents: []
     }
   };
@@ -69,8 +69,9 @@ export function renderColors(opts = {}) {
   const html = `
     <div class="tokens-doc-root ${flavorClass}" ${dataAttr}>
       <style>
+
   .tokens-doc-root{padding:16px 40px;font-family:var(--font-family-base);}
-    /* Responsive grid of compact polaroids */
+  /* Responsive grid of compact polaroids */
   .polaroid-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-bottom:12px}
   details.flavor-column{margin-bottom:12px;border-radius:8px;padding:8px;border:1px solid rgba(0,0,0,0.04);background:var(--color-surface)}
   details.flavor-column[open]{box-shadow:0 1px 0 rgba(0,0,0,0.04)}
@@ -111,11 +112,11 @@ export function renderColors(opts = {}) {
   .card-base-label{font-size:11px;color:var(--color-on-background);opacity:0.8;margin-top:4px;word-break:break-all}
   .resolve-chain{font-size:11px;color:rgba(28,27,31,0.6);margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-  /* Larger polaroids for Global and flavor palettes */
-  .flavor-global .polaroid-row{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
-  .flavor-global .polaroid-card{padding:12px}
-  .polaroid-palette{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
-  .polaroid-palette .polaroid-card{padding:12px}
+  /* Match global polaroid size to theme palettes */
+  .flavor-global .polaroid-row{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+  .flavor-global .polaroid-card{padding:10px}
+  .polaroid-palette{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+  .polaroid-palette .polaroid-card{padding:10px}
 
         /* Compact token list/table */
         .token-list-wrap{margin-top:8px}
