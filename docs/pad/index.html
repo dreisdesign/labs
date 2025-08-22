@@ -59,6 +59,18 @@
       cursor: none;
       /* Hide cursor while drawing */
     }
+
+    /* Loading state for better UX */
+    .pad-loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--color-on-surface, #372116);
+      opacity: 0.5;
+      font-size: 16px;
+      display: none;
+    }
   </style>
 </head>
 
