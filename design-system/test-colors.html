@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Color Tokens</title>
+  <link rel="stylesheet" href="src/styles/tokens/colors.css">
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      padding: 20px;
+      background: var(--color-background);
+      color: var(--color-on-background);
+    }
+
+    .test-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .color-test {
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .primary {
+      background: var(--color-primary);
+      color: var(--color-on-primary);
+    }
+
+    .success {
+      background: var(--color-success);
+      color: var(--color-on-success);
+    }
+
+    .warning {
+      background: var(--color-warning);
+      color: var(--color-on-warning);
+    }
+
+    .error {
+      background: var(--color-error);
+      color: var(--color-on-error);
+    }
+
+    .surface {
+      background: var(--color-surface);
+      color: var(--color-on-surface);
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Semantic Color Token Test</h1>
+  <p>Testing that "on-" tokens provide proper contrast for text on colored backgrounds.</p>
+
+  <div class="test-grid">
+    <div class="color-test primary">
+      Primary<br>
+      <small>--color-primary with --color-on-primary text</small>
+    </div>
+    <div class="color-test success">
+      Success<br>
+      <small>--color-success with --color-on-success text</small>
+    </div>
+    <div class="color-test warning">
+      Warning<br>
+      <small>--color-warning with --color-on-warning text</small>
+    </div>
+    <div class="color-test error">
+      Error<br>
+      <small>--color-error with --color-on-error text</small>
+    </div>
+    <div class="color-test surface">
+      Surface<br>
+      <small>--color-surface with --color-on-surface text</small>
+    </div>
+  </div>
+
+  <script>
+    // Test token resolution
+    const computedStyle = getComputedStyle(document.documentElement);
+    const tokens = [
+      '--color-primary', '--color-on-primary',
+      '--color-success', '--color-on-success',
+      '--color-warning', '--color-on-warning',
+      '--color-error', '--color-on-error',
+      '--color-surface', '--color-on-surface'
+    ];
+
+    console.log('Token Resolution Test:');
+    tokens.forEach(token => {
+      const value = computedStyle.getPropertyValue(token).trim();
+      console.log(`${token}: ${value}`);
+    });
+  </script>
+</body>
+
+</html>

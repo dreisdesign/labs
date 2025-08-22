@@ -54,6 +54,7 @@ function executeColorLogic() {
       }
     });
 
+
     // Resolved values for table cells
     document.querySelectorAll('[data-var]').forEach(function (el) {
       var v = el.getAttribute('data-var');
@@ -74,58 +75,47 @@ function executeColorLogic() {
         // Update resolved value cells
         if (el.classList.contains('list-resolved')) {
           el.textContent = displayVal || 'unset';
+        }
 
-          // Add chain resolution info
-          try {
-            el.title = '';
-            var chainEl = el.parentElement.querySelector('.resolve-chain');
-            if (chainEl) chainEl.parentElement.removeChild(chainEl);
-          } catch (e) { }
+        // Update chain column with the base palette token that produces the resolved color
+        if (el.classList.contains('list-chain')) {
+          if (res && res.value && res.value !== 'unset') {
+            var resolvedColor = res.value;
+            var baseTokenFound = null;
 
-          // Find palette source if available (but don't show self-references)
-          if (displayVal && displayVal !== 'unset') {
-            var found = null;
-            var currentToken = v.toLowerCase();
+            // Create a mapping of known color values to their palette tokens
+            var colorToTokenMap = {
+              '#FBFBFD': 'Base 100',      // --palette-base-100
+              '#9E9E9E': 'Base 500',      // --palette-base-500
+              '#2A2A30': 'Base 800',      // --palette-base-800
+              '#2E2B74': 'Blueberry 500', // --palette-blueberry-500
+              '#1E193E': 'Blueberry 800', // --palette-blueberry-800
+              '#DBD7FF': 'Blueberry 200', // --palette-blueberry-200
+              '#F0EEFF': 'Blueberry 100', // --palette-blueberry-100
+              '#800800': 'Strawberry 500', // --palette-strawberry-500
+              '#4A1614': 'Strawberry 800', // --palette-strawberry-800
+              '#FFD3D2': 'Strawberry 200', // --palette-strawberry-200
+              '#FFF2F1': 'Strawberry 100', // --palette-strawberry-100
+              '#6B5C4B': 'Vanilla 500',   // --palette-vanilla-500
+              '#372116': 'Vanilla 800',   // --palette-vanilla-800
+              '#E8E2D6': 'Vanilla 200',   // --palette-vanilla-200
+              '#F5F1E7': 'Vanilla 100',   // --palette-vanilla-100
+              '#00800C': 'Green 500',     // --palette-green-500
+              '#FFB300': 'Yellow 500',    // --palette-yellow-500
+              '#D32F2F': 'Red 500'        // --palette-red-500
+            };
 
-            // Check global status palette first (skip if this IS a status palette token)
-            if (tokenSets.global && tokenSets.global.statusPalette && !currentToken.includes('palette-')) {
-              tokenSets.global.statusPalette.forEach(function (pv) {
-                if (found || pv.toLowerCase() === currentToken) return;
-                try {
-                  var pvVal = resolveToken(pv, undefined, ctx || document.documentElement).value;
-                  if (pvVal) {
-                    var a = colorToHex(pvVal) || pvVal;
-                    var b = colorToHex(displayVal) || displayVal;
-                    if (a === b) found = pv;
-                  }
-                } catch (e) { }
-              });
+            // Look up the resolved color in our mapping
+            baseTokenFound = colorToTokenMap[resolvedColor.toUpperCase()];
+
+            if (baseTokenFound) {
+              el.innerHTML = '<code>' + baseTokenFound + '</code>';
+            } else {
+              // If we can't find it in our mapping, show a simplified version
+              el.innerHTML = '<small style="color:#888">Unknown base</small>';
             }
-            // Then check theme palettes (skip if this IS a palette token)
-            if (!found && !currentToken.includes('palette-')) {
-              ['vanilla', 'blueberry', 'strawberry'].forEach(function (f) {
-                if (found) return;
-                if (tokenSets[f] && tokenSets[f].palette) {
-                  tokenSets[f].palette.forEach(function (pv) {
-                    if (found || pv.toLowerCase() === currentToken) return;
-                    try {
-                      var pvVal = resolveToken(pv, undefined, ctx || document.documentElement).value;
-                      if (pvVal) {
-                        var a = colorToHex(pvVal) || pvVal;
-                        var b = colorToHex(displayVal) || displayVal;
-                        if (a === b) found = pv;
-                      }
-                    } catch (e) { }
-                  });
-                }
-              });
-            }
-            if (found) {
-              var chainDiv = document.createElement('div');
-              chainDiv.className = 'resolve-chain';
-              chainDiv.innerHTML = '<small>Resolved from: <code>' + found.replace(/^--/, '') + '</code></small>';
-              el.parentElement.appendChild(chainDiv);
-            }
+          } else {
+            el.innerHTML = '–';
           }
         }
 
