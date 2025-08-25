@@ -23,8 +23,10 @@ _Last updated: 2025-08-22_
 ### Production Apps
 - [Note App TODOs](docs/note/TODO.md)
 - [Timer App TODOs](docs/timer/TODO.md)
-- [Today List App TODOs](docs/today-list/TODO.md)
 - [Tracker App TODOs](docs/tracker/TODO.md)
 
 ### New Apps & POCs
 - [Pad App TODOs](docs/pad/TODO.md) — *Future enhancements and iterations*
+
+### Upcoming Apps ###
+- [Today List App TODOs](docs/today-list/TODO.md)
