@@ -20,12 +20,22 @@ export const About = () => {
     <p>A simple, modular approach to UI components.</p>
     <hr />
       <h2>Built with Smoothie</h2>
-      <div>
-        <a href="/docs/pad/index.html" target="_blank" rel="noopener noreferrer">
+      <div><svg width="32" height="32" viewBox="0 0 150 150" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;">
+      <g clip-path="url(#clip0_381_38)">
+        <rect width="150" height="150" fill="#202F48"/>
+        <path d="M110 71C110 84.8071 98.8071 96 85 96H72V125H45C42.2386 125 40 122.901 40 120.312V64H110V71ZM85 25C98.8071 25 110 36.1929 110 50V57H40V25H85Z" fill="white"/>
+      </g>
+      <defs>
+        <clipPath id="clip0_381_38">
+          <rect width="150" height="150" fill="white"/>
+        </clipPath>
+      </defs>
+    </svg>
+        <a href="https://dreisdesign.github.io/labs/pad/" target="_blank" rel="noopener noreferrer">
           Pad</a>
-        <span>
+        <p>
           A minimalist, cross-device drawing app.
-        </span>
+        </p>
       </div>
     <hr />
     <h3>Example: Smoothie Config Table</h3>

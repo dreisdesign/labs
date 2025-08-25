@@ -1,3 +1,10 @@
+
+# 🎨 v2.3.1 - About Page Branding & SVG Icon (August 25, 2025)
+
+### 🖼️ About Page Branding
+- **About Page Polished:** Improved Storybook About page with inlined Pad App SVG icon for better branding and onboarding
+- **Direct SVG Usage:** Pad App now features its SVG icon directly in the About page, matching design system branding
+
 # 🎨 v2.3.0 - Pad V1.0 & Documentation Consolidation (August 22, 2025)
 
 ### 🚀 **New Features**
