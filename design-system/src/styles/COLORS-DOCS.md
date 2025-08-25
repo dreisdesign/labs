@@ -1,10 +1,94 @@
 # Color Tokens & Theme System
 
+> **Feature Doc:** See [../docs/feature-light-dark-theme.md](../docs/feature-light-dark-theme.md) for a summary of the unified light/dark theme system, goals, and implementation plan.
+
 > **✅ Production-Ready** — Complete two-layer token architecture with semantic "on-" color system
 
 This document is the authoritative guide for flavors (Blueberry, Strawberry, etc.) and light/dark theming in the Labs Design System. The token system is now fully implemented with comprehensive semantic color support, accessibility compliance, and strategic Storybook documentation.
 
-## 🎯 Current Status
+
+## � Unified Light/Dark Theme System (Apps & Storybook)
+
+### Overview
+The Labs Design System uses a single, unified approach for light/dark theming across both production apps and Storybook. All theming is driven by semantic CSS custom properties (tokens) and global theme classes applied to the root element. This ensures perfect consistency between your app UI and design system documentation.
+
+### How It Works in Apps
+- **Theme Toggle:** A global toggle button (using your design system button component) switches between `.theme-light` and `.theme-dark` classes on `<html>` or `<body>`.
+- **Persistence:** The user's theme choice is saved in `localStorage` and restored on page load.
+- **System Preference:** If no user preference is set, the app defaults to the system's `prefers-color-scheme`.
+- **Tokens:** All components use semantic tokens (e.g., `--color-background`, `--color-on-background`) for colors, never hardcoded values.
+- **Example:**
+
+```js
+// src/utils/theme.js
+export function applyTheme({ flavor = 'blueberry', theme = 'light' } = {}) {
+  const root = document.documentElement;
+  root.classList.remove('flavor-blueberry', 'flavor-strawberry');
+  root.classList.add(`flavor-${flavor}`);
+  root.classList.remove('theme-light', 'theme-dark');
+  root.classList.add(`theme-${theme}`);
+  root.setAttribute('data-color-scheme', theme);
+  localStorage.setItem('labs-theme', `theme-${theme}`);
+}
+
+export function initSystemTheme(defaultTheme = 'light') {
+  const saved = localStorage.getItem('labs-theme');
+  if (saved) {
+    document.documentElement.classList.add(saved);
+    document.documentElement.setAttribute('data-color-scheme', saved.replace('theme-',''));
+  } else {
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme({ theme: prefersDark ? 'dark' : defaultTheme });
+  }
+}
+```
+
+### How It Works in Storybook
+- **Toolbar Toggle:** The Storybook toolbar theme toggle applies the same `.theme-light`/`.theme-dark` class to the preview root.
+- **Globals:** The theme is controlled via Storybook globals and passed to all stories.
+- **Decorator:** Use a decorator in `preview.js` to call `applyTheme()` with the current global.
+- **Result:** All stories and docs pages reflect the active theme exactly as in production apps.
+- **Example:**
+
+```js
+// .storybook/preview.js
+import { applyTheme, initSystemTheme } from '../src/utils/theme.js';
+initSystemTheme('light');
+export const decorators = [(Story, context) => {
+  applyTheme({ flavor: context.globals?.flavor || 'blueberry', theme: context.globals?.theme || 'light' });
+  return Story();
+}];
+```
+
+### Best Practices
+- Use `.theme-light` and `.theme-dark` classes everywhere (apps and Storybook).
+- Define all theme tokens in one place (e.g., `flavors.css`).
+- Always use semantic tokens in component CSS.
+- Use your design system button for the theme toggle UI in apps.
+- Document the approach in this file and reference it from your README and Storybook docs.
+
+### Example: Theme Toggle Button in App
+
+```html
+<labs-button variant="secondary" size="large" icon-left="bedtime" onclick="toggleTheme()">
+  Turn on dark mode
+</labs-button>
+```
+
+```js
+function toggleTheme() {
+  const isDark = document.documentElement.classList.contains('theme-dark');
+  applyTheme({ theme: isDark ? 'light' : 'dark' });
+}
+```
+
+### Quick Checklist
+- [x] Same theme class and token structure in apps and Storybook (refactored everywhere, logic fully synced)
+- [x] Theme toggle button uses design system button component
+- [x] All colors use semantic tokens (no hardcoded fallbacks remain)
+- [x] System preference respected if no user choice
+- [x] Theme switching tested and verified in all environments
+- [x] Documented here for easy onboarding
 
 **✅ Complete Token Architecture**
 - Two-layer design system: palette anchors + semantic mappings

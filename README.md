@@ -31,13 +31,17 @@ labs/
 ├── scripts/                # 🔧 Build and deployment automation
 │
 └── _dev/                   # 👨‍💻 Developer tools and documentation
-	└── _documents/         # All project documentation (active + legacy)
-		├── DEVELOPMENT.md  # Single source of truth for active dev
-		└── legacy/         # Archived/legacy docs, organized by topic
-			├── storybook/
-			├── features/
-			├── migration/
-			├── sprints/
+   └── _documents/         # All project documentation (active + legacy)
+	   ├── DEVELOPMENT.md  # Single source of truth for active dev
+	   └── legacy/         # Archived/legacy docs, organized by topic
+		   ├── storybook/
+		   ├── features/
+		   ├── migration/
+		   ├── sprints/
+
+## 📄 Feature Documentation
+
+- [Unified Light/Dark Theme System](design-system/docs/feature-light-dark-theme.md)
 			├── documentation/
 			└── misc/
 ```

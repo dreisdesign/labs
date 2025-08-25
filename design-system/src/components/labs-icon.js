@@ -149,16 +149,18 @@ class LabsIcon extends HTMLElement {
       if (computedColor && computedColor !== 'rgba(0, 0, 0, 0)' && computedColor !== 'transparent') {
         color = computedColor;
       } else {
-        // Fallback based on current theme
+        // Fallback based on current theme using semantic tokens
         const isDark = document.body.classList.contains('theme-dark');
-        color = isDark ? "#ffffff" : "#000000";
+        color = isDark ? getComputedStyle(document.documentElement).getPropertyValue('--color-on-primary')?.trim() || '#fff'
+          : getComputedStyle(document.documentElement).getPropertyValue('--color-on-background')?.trim() || '#000';
       }
     }
 
     // Handle currentColor by checking theme
     if (color === "currentColor") {
       const isDark = document.body.classList.contains('theme-dark');
-      color = isDark ? "#ffffff" : "#000000";
+      color = isDark ? getComputedStyle(document.documentElement).getPropertyValue('--color-on-primary')?.trim() || '#fff'
+        : getComputedStyle(document.documentElement).getPropertyValue('--color-on-background')?.trim() || '#000';
     }
 
     // Try to fetch and inline the SVG

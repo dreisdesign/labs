@@ -13,6 +13,8 @@ export default {
 };
 
 // Render About content directly in the Canvas view for maximum compatibility
+import { createThemeToggleButton } from './components/ThemeToggle.js';
+
 export const About = () => {
   const container = document.createElement('div');
   container.innerHTML = `
@@ -78,5 +80,9 @@ export const About = () => {
     <hr />
     <i>Designed by Dan Reis in Somerville</i>
   `;
+  // Add theme toggle button to the About story
+  setTimeout(() => {
+    createThemeToggleButton({ parent: container });
+  }, 0);
   return container;
 };
