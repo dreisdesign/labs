@@ -77,8 +77,8 @@ class LabsIcon extends HTMLElement {
       });
     });
 
-    // Watch for class changes on body (where theme classes are applied)
-    this.themeObserver.observe(document.body, {
+    // Watch for class changes on document.documentElement (where theme classes are applied)
+    this.themeObserver.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['class']
     });
@@ -149,16 +149,18 @@ class LabsIcon extends HTMLElement {
       if (computedColor && computedColor !== 'rgba(0, 0, 0, 0)' && computedColor !== 'transparent') {
         color = computedColor;
       } else {
-        // Fallback based on current theme
-        const isDark = document.body.classList.contains('theme-dark');
-        color = isDark ? "#ffffff" : "#000000";
+        // Fallback based on current theme using semantic tokens
+        const isDark = document.documentElement.classList.contains('theme-dark');
+        color = isDark ? getComputedStyle(document.documentElement).getPropertyValue('--color-on-primary')?.trim() || '#fff'
+          : getComputedStyle(document.documentElement).getPropertyValue('--color-on-background')?.trim() || '#000';
       }
     }
 
     // Handle currentColor by checking theme
     if (color === "currentColor") {
-      const isDark = document.body.classList.contains('theme-dark');
-      color = isDark ? "#ffffff" : "#000000";
+      const isDark = document.documentElement.classList.contains('theme-dark');
+      color = isDark ? getComputedStyle(document.documentElement).getPropertyValue('--color-on-primary')?.trim() || '#fff'
+        : getComputedStyle(document.documentElement).getPropertyValue('--color-on-background')?.trim() || '#000';
     }
 
     // Try to fetch and inline the SVG

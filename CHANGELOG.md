@@ -1,4 +1,39 @@
-# 🎨 v2.3.0 - Pad V1.0 & Documentation Consolidation (August 22, 2025)
+# � v2.4.0 - Unified Light/Dark Theme System & Interactive Components (August 26, 2025)
+
+### 🚀 **Major Features**
+- **Complete Light/Dark Theme System:** Unified theming architecture across apps and Storybook
+  - Semantic color tokens with automatic theme adaptation (`--color-background`, `--color-on-surface`, etc.)
+  - Global theme toggle button component using design system components
+  - Theme persistence in localStorage with system preference detection
+  - Proper theme class management (`.theme-light`, `.theme-dark`) on root element
+
+### 🎯 **Component Enhancements**
+- **Button Component Improvements:**
+  - Added hover effects for all variants using modern `color-mix()` CSS function
+  - Implemented click animations with scale-down effect (`transform: scale(0.95)`)
+  - Enhanced theme-aware styling with semantic tokens
+- **Icon System Fixes:**
+  - Fixed theme detection to use correct root element (`document.documentElement`)
+  - Proper SVG color inheritance and theme observer functionality
+  - Bedtime/bedtime_off icons for theme toggle with correct slot usage
+
+### 📚 **Documentation & Stories**
+- **New Theme System Documentation:** Complete interactive story at `Foundation/Theme System`
+  - Live theme toggle demonstration with real-time component updates
+  - Implementation guide with code examples for app integration
+  - Semantic token reference and accessibility notes
+- **Component Story Improvements:** Added icon integration examples and improved button documentation
+
+### 🛠️ **Technical Improvements**
+- **Storybook Integration:** Seamless theme switching between Storybook and production apps
+- **CSS Architecture:** Modern CSS features (color-mix, semantic tokens) for maintainable theming
+- **Component Registration:** Fixed labs-icon registration in Storybook preview for proper icon display
+
+### 🧹 **Code Quality**
+- **Import Organization:** Fixed import ordering in story files for proper Storybook parsing
+- **Duplicate Code Removal:** Cleaned up test buttons and consolidated theme toggle functionality
+
+# �🎨 v2.3.0 - Pad V1.0 & Documentation Consolidation (August 22, 2025)
 
 ### 🚀 **New Features**
 - **Pad V1.0 App:** Upgraded Apple Pencil drawing app with clear functionality

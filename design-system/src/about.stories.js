@@ -1,3 +1,5 @@
+import { createThemeToggleButton } from './components/ThemeToggle.js';
+
 export default {
   title: 'About',
   parameters: {
@@ -78,5 +80,9 @@ export const About = () => {
     <hr />
     <i>Designed by Dan Reis in Somerville</i>
   `;
+  // Add theme toggle button to the About story
+  setTimeout(() => {
+    createThemeToggleButton({ parent: container });
+  }, 0);
   return container;
 };

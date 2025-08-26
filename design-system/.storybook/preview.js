@@ -1,5 +1,6 @@
 import "../src/styles/main.css";
 import "../src/components/labs-button/labs-button.js";
+import "../src/components/labs-icon.js";
 import { applyTheme } from '../src/utils/theme.js';
 
 // Helper: sync flavor/theme classes on the document root

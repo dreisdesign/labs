@@ -30,8 +30,8 @@ class LabsButton extends HTMLElement {
         }
         button {
           /* Provide component-scoped color fallbacks so globals stay tiny */
-          --button-focus: var(--button-focus, 0 0 0 2px rgba(147,197,253,0.6));
-          --button-icon-only-hover-bg: var(--button-icon-only-hover-bg, #f1f5f9);
+          --button-focus: var(--button-focus, 0 0 0 2px var(--color-primary, #93c5fd));
+          --button-icon-only-hover-bg: var(--button-icon-only-hover-bg, var(--color-hover-light, #f1f5f9));
         }
         button {
           display: inline-flex;
@@ -39,37 +39,51 @@ class LabsButton extends HTMLElement {
           justify-content: center;
           gap: 0.5em;
           font: var(--button-font, 600 20px/1.2 system-ui, sans-serif);
-          background: var(--color-primary, #2563eb);
-          color: var(--color-on-primary, #fff);
+          background: var(--color-primary);
+          color: var(--color-on-primary);
           border: none;
           border-radius: var(--button-radius, 6px);
           padding: var(--button-padding, 0.5em 1.25em);
           cursor: pointer;
-          transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+          transition: background 0.15s, color 0.15s, box-shadow 0.15s, transform 0.1s;
           box-shadow: var(--button-shadow, 0 1px 2px rgba(0,0,0,0.04));
           outline: none;
           min-width: 2.5em;
           min-height: 2.5em;
         }
+        /* Click animation - scale down slightly */
+        button:active {
+          transform: scale(0.95);
+        }
         button:focus-visible {
-          box-shadow: 0 0 0 2px var(--button-focus, #93c5fd);
+          box-shadow: 0 0 0 2px var(--button-focus);
+        }
+        /* Hover effects for primary variant */
+        button:hover {
+          background: color-mix(in srgb, var(--color-primary) 85%, black);
         }
         /* Secondary variant */
         :host([variant="secondary"]) button {
-          background: var(--color-surface, #fff);
-          color: var(--color-on-background, #2563eb);
-          border: 1px solid var(--color-primary, #2563eb);
+          background: var(--color-surface);
+          color: var(--color-on-surface);
+          border: 1px solid var(--color-primary);
+        }
+        :host([variant="secondary"]) button:hover {
+          background: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface));
         }
         /* Destructive variant */
         :host([variant="destructive"]) button {
-          background: var(--color-surface, #fff);
-          color: var(--color-error, #B5005A);
-          border: 1px solid var(--color-error, #B5005A);
+          background: var(--color-surface);
+          color: var(--color-error);
+          border: 1px solid var(--color-error);
+        }
+        :host([variant="destructive"]) button:hover {
+          background: color-mix(in srgb, var(--color-error) 10%, var(--color-surface));
         }
         /* Icon-only variant */
         :host([variant="icon"]) button {
           background: none;
-          color: var(--color-primary, #2563eb);
+          color: var(--color-primary);
           border: none;
           padding: var(--button-icon-padding, 0.5em);
           min-width: 2.5em;
@@ -82,7 +96,7 @@ class LabsButton extends HTMLElement {
         }
         :host([variant="icon"]) button:hover,
         :host([variant="icon"]) button:focus-visible {
-          background: var(--color-hover-light, #f1f5f9);
+          background: var(--button-icon-only-hover-bg);
         }
         /* Icon sizing */
         ::slotted([slot="icon-left"]),

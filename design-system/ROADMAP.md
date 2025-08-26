@@ -6,7 +6,7 @@ For the design system philosophy and metaphor, see the [Smoothie Design System O
 ## Current Status: Foundation Complete ✅
 
 **Token Architecture**: Complete two-layer system (palette + semantic) with WCAG AA accessibility
-**Colors & Theming**: Full three-flavor support (Vanilla, Blueberry, Strawberry) with light/dark modes
+**Colors & Theming**: Full three-flavor support (Vanilla, Blueberry, Strawberry); light/dark modes in progress
 **Storybook Documentation**: Strategic reorganization with comprehensive token visualization
 
 ## Ultimate Goal
@@ -15,7 +15,7 @@ Rebuild all Labs productivity apps using the Smoothie Design System for fully mo
 
 ## Reference Apps (UX Targets)
 
-- [Today-List](https://dreisdesign.github.io/labs/today-list/) — *Primary target for first migration*
+- [Pad] (https://dreisdesign.github.io/labs/pad/)
 - [Tracker](https://dreisdesign.github.io/labs/tracker/)
 - [Note](https://dreisdesign.github.io/labs/note/)
 - [Focus Timer](https://dreisdesign.github.io/labs/timer/)
