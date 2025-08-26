@@ -17,9 +17,14 @@ cd ..
 # 3. Copy static build to deploy directory
 cp -r design-system/storybook-static/* docs/design-system/
 
+
 # 4. Sync design system files using dev-sync script
 echo "📦 Syncing design system files..."
 ./scripts/dev-sync.sh
+
+# Ensure all CSS stylesheets are always copied for production
+mkdir -p docs/design-system/styles
+cp design-system/src/styles/*.css docs/design-system/styles/ 2>/dev/null || true
 
 git add docs/design-system
 commit_msg="Deploy (automation): $(date '+%Y-%m-%d %H:%M') - ensure all public assets in docs/design-system for GitHub Pages"

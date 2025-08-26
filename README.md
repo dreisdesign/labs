@@ -9,8 +9,7 @@
 | **🎨 Design System** | Component library & tokens | [Storybook](https://dreisdesign.github.io/labs/design-system/) |
 | **⏰ Focus Timer** | Pomodoro-style productivity timer | [Timer App](https://dreisdesign.github.io/labs/timer/) |
 | **📊 Daily Tracker** | Habit and activity tracking | [Tracker App](https://dreisdesign.github.io/labs/tracker/) |
-| **📝 Daily Note** | Simple daily note-taking | [Note App](https://dreisdesign.github.io/labs/note/) |
-| **✅ Today List** | Daily task management | [Today List](https://dreisdesign.github.io/labs/today-list/) |
+| **🖊️ Pad** | Drawing app | [Pad App](https://dreisdesign.github.io/labs/pad/) |
 | **🏠 Labs Homepage** | App launcher and overview | [Homepage](https://dreisdesign.github.io/labs/) |
 
 ## 🏗️ Repository Structure
@@ -26,7 +25,7 @@ labs/
 │   ├── timer/              # Timer app (production)
 │   ├── tracker/            # Tracker app (production)
 │   ├── note/               # Note app (production)
-│   ├── today-list/         # Today List app (production)
+│   ├── pad/                # Pad app (production)
 │   └── README.md           # Public documentation
 ├── scripts/                # 🔧 Build and deployment automation
 │
