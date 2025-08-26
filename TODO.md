@@ -3,7 +3,7 @@
 _Last updated: 2025-08-26_
 
 **AI: THIS IS NOT A CHANGELOG.**
-Test
+
 **This is the canonical project-wide TODO index file.** Use this ONLY as an index of links to area- and feature-specific TODO files. This is NOT a changelog - do not track completed work here. Keep all detailed todos in the linked files to maintain clarity and focus.
 
 **Guidelines:**
