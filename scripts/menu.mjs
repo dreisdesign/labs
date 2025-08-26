@@ -52,9 +52,9 @@ const openUrls = (urls) => {
           }
         }
       }
-    } catch (e) {
+    } catch (error) {
       console.error(
-        `Failed to open ${url}: ${e.message}. Please open it manually.`,
+        `Failed to open ${url}: ${error.message}. Please open it manually.`,
       );
     }
   });
@@ -73,16 +73,12 @@ async function main() {
             value: "serveStorybook",
           },
           {
-            name: "Run Storybook theme checks (build static + run checks)",
-            value: "runThemeChecks",
-          },
-          {
-            name: "Sync design system to docs (dev workflow)",
-            value: "devSync",
-          },
-          {
             name: "Build & Deploy (publishes, then preview demo)",
             value: "deploy",
+          },
+          {
+            name: "Utilities",
+            value: "utilities"
           },
           { name: "Exit", value: "exit" },
         ],
@@ -131,7 +127,6 @@ async function main() {
           console.error(data.toString());
         });
 
-
         // Wait for the server to be up before opening the browser (prevents double open)
         const waitForPort = async (port, callback, retries = 20, interval = 250) => {
           const net = (await import('net'));
@@ -153,7 +148,6 @@ async function main() {
           };
           check();
         };
-
         waitForPort(port, () => openUrls([storybookUrl]));
         // --- Keypress handler: Press 'q' to exit preview menu ---
         if (process.stdin.isTTY) {
@@ -175,31 +169,26 @@ async function main() {
           "You can close this menu. The server will continue to run.",
         );
       }
-    } else if (action === "devSync") {
-      console.log("\n🔄 Syncing design system files to docs for localhost development...");
-      execSync("./scripts/dev-sync.sh", { stdio: "inherit" });
-      console.log("\n✅ Design system files synced successfully!");
-      console.log("📝 Your localhost:8080 apps should now reflect the latest changes.");
-
-      // Optionally open the demo pages
-      const localUrls = [
-        "http://localhost:8080/docs/demo/",
-        "http://localhost:8080/docs/today-list/"
-      ];
-
-      console.log("\n🌐 Testing URLs:");
-      localUrls.forEach(url => console.log(`   ${url}`));
-
-      const { openPages } = await inquirer.prompt([{
-        type: "confirm",
-        name: "openPages",
-        message: "Open test pages in browser?",
-        default: true
-      }]);
-
-      if (openPages) {
-        openUrls(localUrls);
+    } else if (action === "utilities") {
+      // Utilities submenu
+      const { utilAction } = await inquirer.prompt([
+        {
+          type: "list",
+          name: "utilAction",
+          message: "Utilities",
+          choices: [
+            { name: "Run Storybook theme checks (build static + run checks)", value: "runThemeChecks" },
+            { name: "Back", value: "back" }
+          ]
+        }
+      ]);
+      if (utilAction === "runThemeChecks") {
+        // Call the theme checks logic directly
+        await main.call({ action: "runThemeChecks" });
+      } else {
+        await main();
       }
+      return;
     } else if (action === "deploy") {
       // Always update the Storybook sitemap before deploying
       execSync("node design-system/scripts/generate-storybook-sitemap.js", {
@@ -212,7 +201,7 @@ async function main() {
 
       // Define URLs
       const storybookUrl = "https://dreisdesign.github.io/labs/design-system/";
-      const demoUrl = "https://dreisdesign.github.io/labs/demo/";
+      const demoUrl = "https://dreisdesign.github.io/labs/";
 
       openUrls([storybookUrl, demoUrl]);
     } else if (action === "exit") {

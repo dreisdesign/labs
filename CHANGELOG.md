@@ -1,3 +1,19 @@
+# 🖊️ v2.4.1 - Pad Theme-Aware Drawing & Design System Sync (August 26, 2025)
+
+### 🚀 **Pad App Improvements**
+- **Theme-Aware Drawing:** Existing lines now update color when switching between light/dark themes (vector-based storage, redraw on theme change)
+- **Performance:** Drawing is now stored as vector data, not PNG, for crisp scaling and theme adaptation
+
+### 🛠️ **Design System & Build**
+- **Robust Stylesheet Sync:** `dev-sync.sh` and `deploy.sh` now always copy all design system stylesheets for local and production use
+- **Production Styles:** All CSS (main.css, flavors.css, storybook-tokens.css) are always up to date in `docs/design-system/styles/`
+
+### 🧹 **Menu & Workflow**
+- **Menu Cleanup:** Utilities submenu for advanced tools; streamlined main menu
+- **README:** Pad app now featured in app list
+
+---
+
 # � v2.4.0 - Unified Light/Dark Theme System & Interactive Components (August 26, 2025)
 
 ### 🚀 **Major Features**
