@@ -1,4 +1,29 @@
-# 🖊️ v2.4.1 - Pad Theme-Aware Drawing & Design System Sync (August 26, 2025)
+# � v2.4.2 - Storybook Organization & Smoothie Metaphor System (August 26, 2025)
+
+### 🚀 **Storybook Infrastructure**
+- **Automated Sitemap Generation:** Complete sitemap generator matching actual Storybook sidebar structure
+  - Grouped tables by category (Tokens, Components, Patterns, Foundation)
+  - Enhanced parsing for story display names and file organization
+  - Timestamp tracking for generation history
+- **Story Organization:** Proper `/stories` structure with best practices
+  - Moved button stories to centralized `src/stories/` directory
+  - Added proper sidebar ordering with "Docs" first, alphabetical after
+  - Cleaned up duplicate story files
+
+### 🥤 **Design System Metaphor**
+- **Smoothie Metaphor Documentation:** Comprehensive metaphor system for component configuration
+  - Authentic smoothie terminology (ingredients, recipes, flavors)
+  - Clear mapping between Storybook structure and smoothie concepts
+  - Implementation guide for component variants and theming
+- **Cross-Reference Tables:** Direct mapping between Storybook paths and metaphor elements
+
+### 🛠️ **Developer Experience**
+- **Documentation Cleanup:** Restored corrupted smoothie.md with clean structure
+- **Workflow Integration:** Sitemap generation integrated into development workflow
+
+---
+
+# �🖊️ v2.4.1 - Pad Theme-Aware Drawing & Design System Sync (August 26, 2025)
 
 ### 🚀 **Pad App Improvements**
 - **Theme-Aware Drawing:** Existing lines now update color when switching between light/dark themes (vector-based storage, redraw on theme change)

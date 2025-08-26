@@ -21,15 +21,49 @@ function parseStoryFile(filePath) {
     /export default \{[^}]*title:\s*['"]([^'"]+)['"]/,
   );
   const title = titleMatch ? titleMatch[1] : "(no title)";
-  // Get all named exports (stories)
-  const exports = Array.from(content.matchAll(/export const (\w+)/g)).map(
-    (m) => m[1],
-  );
+  // Get all named exports (stories) and their display names
+  const exportRegex = /export const (\w+)\s*=\s*\{([\s\S]*?)};/g;
+  let match;
+  const exports = [];
+  while ((match = exportRegex.exec(content)) !== null) {
+    const exportName = match[1];
+    const exportBody = match[2];
+    // Try to extract the display name from the `name:` property
+    const nameMatch = exportBody.match(/name:\s*['"]([^'"]+)['"]/);
+    const displayName = nameMatch ? nameMatch[1] : exportName;
+    exports.push({ exportName, displayName });
+  }
   return { file: path.basename(filePath), title, exports };
 }
 
 function generateSitemap() {
   const files = getStoryFiles(STORIES_DIR);
+  // Parse all stories and collect their info
+  const allStories = files.map((filePath) => {
+    const { file, title, exports } = parseStoryFile(filePath);
+    // Split title into levels (e.g., Tokens/Colors)
+    const levels = title.split("/");
+    return exports.map(({ exportName, displayName }) => ({
+      group: levels[0] || "",
+      subgroup: levels[1] || "",
+      story: displayName,
+      file,
+      exportName,
+      title,
+    }));
+  }).flat();
+
+  // Storybook sidebar order (from .storybook/preview.js)
+  const sidebarOrder = ["Tokens", "Icons", "Components", "Patterns", "Foundation"];
+  // Sort by group order, then subgroup, then story
+  allStories.sort((a, b) => {
+    const aIdx = sidebarOrder.indexOf(a.group);
+    const bIdx = sidebarOrder.indexOf(b.group);
+    if (aIdx !== bIdx) return (aIdx === -1 ? 99 : aIdx) - (bIdx === -1 ? 99 : bIdx);
+    if (a.subgroup !== b.subgroup) return a.subgroup.localeCompare(b.subgroup);
+    return a.story.localeCompare(b.story);
+  });
+
   // Generate timestamp in 12-hour format
   const now = new Date();
   let hours = now.getHours();
@@ -40,17 +74,24 @@ function generateSitemap() {
   const dateStr = now.toLocaleDateString();
   const timeStr = `${hours}:${minutes} ${ampm}`;
   const timestamp = `> _Last generated: ${dateStr} ${timeStr}_\n\n`;
+
   let md = "# Storybook Sitemap\n" + timestamp;
-  files.forEach((filePath) => {
-    const { file, title, exports } = parseStoryFile(filePath);
-    md += `## ${title}\n`;
-    md += `*File:* \`src/stories/${file}\`\n`;
-    md += `<!-- Stories from: ${file} -->\n`;
-    exports.forEach((exp) => {
-      md += `- **${exp}**\n`;
-    });
-    md += "\n";
+  // Group stories by group
+  const grouped = {};
+  allStories.forEach((s) => {
+    if (!grouped[s.group]) grouped[s.group] = [];
+    grouped[s.group].push(s);
   });
+
+  Object.keys(grouped).forEach((group) => {
+    md += `\n## ${group}\n`;
+    md += `| Subgroup | Story | File |\n`;
+    md += `|----------|-------|------|\n`;
+    grouped[group].forEach(({ subgroup, story, file }) => {
+      md += `| ${subgroup} | ${story} | ${file} |\n`;
+    });
+  });
+  md += "\n";
   fs.writeFileSync(OUTPUT_FILE, md);
   console.log("Storybook sitemap generated at", OUTPUT_FILE);
 }
