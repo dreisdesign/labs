@@ -321,7 +321,7 @@ Strawberry — dark
 - [DESIGN-TOKENS-ARCHITECTURE.md](DESIGN-TOKENS-ARCHITECTURE.md) - Deep technical documentation of token architecture, migration patterns, and performance considerations
 
 **Component Design:**
-- [../smoothie.md](../smoothie.md) - Conceptual framework for component configuration using "Smoothie" metaphor
+- [../smoothie.md](../smoothie.md) - Smoothie Design System: playful metaphor and summary table for components, ingredients, patterns, and menu items
 
 **Archive:**
 - [../../../_dev/_documents/legacy/colors-system/COLORS-TODO-COMPLETED.md](../../../_dev/_documents/legacy/colors-system/COLORS-TODO-COMPLETED.md) - Completed color system development tasks (archived)
