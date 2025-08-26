@@ -1,6 +1,7 @@
 // labs-button.stories.js
 // Storybook story for Labs Button (modular web component)
 import "../labs-button.js";
+import "../labs-icon.js";
 
 /**
  * @type { import('@storybook/web-components').Meta }
@@ -39,5 +40,12 @@ Default.args = {
   variant: 'primary',
   'aria-label': '',
 };
+
+export const WithIcon = () => `
+  <labs-button variant="secondary">
+    <labs-icon slot="icon-left" name="bedtime"></labs-icon>
+    Theme Test Button
+  </labs-button>
+`;
 
 // Keep a single Default story; other variants can be tested from controls in the Docs.

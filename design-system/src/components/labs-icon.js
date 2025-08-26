@@ -77,8 +77,8 @@ class LabsIcon extends HTMLElement {
       });
     });
 
-    // Watch for class changes on body (where theme classes are applied)
-    this.themeObserver.observe(document.body, {
+    // Watch for class changes on document.documentElement (where theme classes are applied)
+    this.themeObserver.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['class']
     });
@@ -150,7 +150,7 @@ class LabsIcon extends HTMLElement {
         color = computedColor;
       } else {
         // Fallback based on current theme using semantic tokens
-        const isDark = document.body.classList.contains('theme-dark');
+        const isDark = document.documentElement.classList.contains('theme-dark');
         color = isDark ? getComputedStyle(document.documentElement).getPropertyValue('--color-on-primary')?.trim() || '#fff'
           : getComputedStyle(document.documentElement).getPropertyValue('--color-on-background')?.trim() || '#000';
       }
@@ -158,7 +158,7 @@ class LabsIcon extends HTMLElement {
 
     // Handle currentColor by checking theme
     if (color === "currentColor") {
-      const isDark = document.body.classList.contains('theme-dark');
+      const isDark = document.documentElement.classList.contains('theme-dark');
       color = isDark ? getComputedStyle(document.documentElement).getPropertyValue('--color-on-primary')?.trim() || '#fff'
         : getComputedStyle(document.documentElement).getPropertyValue('--color-on-background')?.trim() || '#000';
     }

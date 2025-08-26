@@ -1,3 +1,5 @@
+import { createThemeToggleButton } from './components/ThemeToggle.js';
+
 export default {
   title: 'About',
   parameters: {
@@ -13,8 +15,6 @@ export default {
 };
 
 // Render About content directly in the Canvas view for maximum compatibility
-import { createThemeToggleButton } from './components/ThemeToggle.js';
-
 export const About = () => {
   const container = document.createElement('div');
   container.innerHTML = `

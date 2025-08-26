@@ -45,14 +45,22 @@ class LabsButton extends HTMLElement {
           border-radius: var(--button-radius, 6px);
           padding: var(--button-padding, 0.5em 1.25em);
           cursor: pointer;
-          transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+          transition: background 0.15s, color 0.15s, box-shadow 0.15s, transform 0.1s;
           box-shadow: var(--button-shadow, 0 1px 2px rgba(0,0,0,0.04));
           outline: none;
           min-width: 2.5em;
           min-height: 2.5em;
         }
+        /* Click animation - scale down slightly */
+        button:active {
+          transform: scale(0.95);
+        }
         button:focus-visible {
           box-shadow: 0 0 0 2px var(--button-focus);
+        }
+        /* Hover effects for primary variant */
+        button:hover {
+          background: color-mix(in srgb, var(--color-primary) 85%, black);
         }
         /* Secondary variant */
         :host([variant="secondary"]) button {
@@ -60,11 +68,17 @@ class LabsButton extends HTMLElement {
           color: var(--color-on-surface);
           border: 1px solid var(--color-primary);
         }
+        :host([variant="secondary"]) button:hover {
+          background: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface));
+        }
         /* Destructive variant */
         :host([variant="destructive"]) button {
           background: var(--color-surface);
           color: var(--color-error);
           border: 1px solid var(--color-error);
+        }
+        :host([variant="destructive"]) button:hover {
+          background: color-mix(in srgb, var(--color-error) 10%, var(--color-surface));
         }
         /* Icon-only variant */
         :host([variant="icon"]) button {
