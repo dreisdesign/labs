@@ -24,9 +24,4 @@ _Last updated: 2025-08-26_
 - [Note App TODOs](docs/note/TODO.md)
 - [Timer App TODOs](docs/timer/TODO.md)
 - [Tracker App TODOs](docs/tracker/TODO.md)
-
-### New Apps & POCs
-- [Pad App TODOs](docs/pad/TODO.md) — *Future enhancements and iterations*
-TESTING HASH CHANGE 12345
-TESTING HASH CHANGE 12345
-HASH TEST 1756219842
+- [Pad App TODOs](docs/pad/TODO.md)
