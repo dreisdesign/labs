@@ -10,6 +10,7 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#FBFBFD">
   <link rel="stylesheet" href="../design-system/tokens/colors.css">
+  <link rel="stylesheet" href="../design-system/src/styles/flavors.css">
   <script type="module" src="../design-system/components/labs-icon.js"></script>
   <script type="module" src="../design-system/components/labs-button.js"></script>
   <style>
@@ -20,8 +21,8 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background: var(--color-surface, #FBFBFD);
-      color: var(--color-on-surface, #372116);
+      background: var(--color-background, #FBFBFD);
+      color: var(--color-on-background, #372116);
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
@@ -33,24 +34,6 @@
       flex-direction: column;
     }
 
-    .pad-clear-button {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      z-index: 100;
-      width: 48px;
-      height: 48px;
-      background: transparent;
-      border: none;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      transition: all 0.2s ease;
-    }
-
     .pad-theme-toggle {
       position: absolute;
       top: 20px;
@@ -58,13 +41,11 @@
       z-index: 100;
     }
 
-    .pad-clear-button:hover {
-      transform: scale(1.1);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-    }
-
-    .pad-clear-button:active {
-      transform: scale(0.95);
+    .pad-clear-button {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
     }
 
     .pad-canvas {
@@ -89,7 +70,7 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      color: var(--color-on-surface, #372116);
+      color: var(--color-on-background, #372116);
       opacity: 0.5;
       font-size: 16px;
       display: none;
@@ -109,12 +90,12 @@
     <labs-button id="themeToggle" class="pad-theme-toggle" variant="icon" aria-label="Toggle theme">
       <labs-icon id="themeIcon" slot="icon-left" name="bedtime"></labs-icon>
     </labs-button>
-    
+
     <!-- Clear button (bottom-right) -->
-    <button id="clearButton" class="pad-clear-button" title="Clear canvas">
-      <labs-icon name="delete_forever" width="32" height="32" color="var(--color-error)"></labs-icon>
-    </button>
-    
+    <labs-button id="clearButton" class="pad-clear-button" variant="icon" aria-label="Clear canvas">
+      <labs-icon slot="icon-left" name="delete_forever" color="var(--color-error)"></labs-icon>
+    </labs-button>
+
     <canvas id="drawingCanvas" class="pad-canvas" width="1024" height="768"></canvas>
   </div>
 
@@ -128,14 +109,14 @@
       root.classList.add(`theme-${theme}`);
       root.setAttribute('data-color-scheme', theme);
       localStorage.setItem('pad-theme', theme);
-      
+
       // Update meta theme-color for PWA
       const themeColorMeta = document.querySelector('meta[name="theme-color"]');
       const bgColor = getComputedStyle(root).getPropertyValue('--color-background').trim();
       if (themeColorMeta && bgColor) {
         themeColorMeta.setAttribute('content', bgColor);
       }
-      
+
       // Dispatch theme change event for canvas to update drawing color
       document.dispatchEvent(new CustomEvent('themeChanged'));
     }
@@ -143,10 +124,10 @@
     function initSystemTheme(defaultTheme = 'light') {
       const savedTheme = localStorage.getItem('pad-theme');
       if (savedTheme) {
-        applyTheme({ theme: savedTheme });
+        applyTheme({ flavor: 'vanilla', theme: savedTheme });
       } else {
         const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        applyTheme({ theme: prefersDark ? 'dark' : defaultTheme });
+        applyTheme({ flavor: 'vanilla', theme: prefersDark ? 'dark' : defaultTheme });
       }
     }
 
@@ -154,7 +135,7 @@
       const themeIcon = document.getElementById('themeIcon');
       const themeButton = document.getElementById('themeToggle');
       const isDark = document.documentElement.classList.contains('theme-dark');
-      
+
       if (themeIcon) {
         themeIcon.setAttribute('name', isDark ? 'bedtime_off' : 'bedtime');
       }
@@ -165,7 +146,7 @@
 
     function toggleTheme() {
       const isDark = document.documentElement.classList.contains('theme-dark');
-      applyTheme({ theme: isDark ? 'light' : 'dark' });
+      applyTheme({ flavor: 'vanilla', theme: isDark ? 'light' : 'dark' });
       updateThemeToggleButton();
     }
 
@@ -194,7 +175,7 @@
 
         // Configure drawing context
         this.updateDrawingStyle();
-        
+
         // Listen for theme changes to update drawing color
         document.addEventListener('themeChanged', () => this.updateDrawingStyle());
       }
@@ -203,7 +184,7 @@
         this.ctx.lineCap = 'round';
         this.ctx.lineJoin = 'round';
         this.ctx.strokeStyle = getComputedStyle(document.documentElement)
-          .getPropertyValue('--color-on-surface').trim() || '#372116';
+          .getPropertyValue('--color-on-background').trim() || '#372116';
       }
 
       resizeCanvas() {
@@ -403,7 +384,7 @@
     // Initialize the drawing pad when the page loads
     document.addEventListener('DOMContentLoaded', () => {
       new PadDrawing();
-      
+
       // Setup theme toggle button
       const themeToggle = document.getElementById('themeToggle');
       if (themeToggle) {

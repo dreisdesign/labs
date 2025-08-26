@@ -88,7 +88,7 @@ export const ThemeDemo = {
             Secondary with Icon
           </labs-button>
           <labs-button variant="destructive">Destructive Button</labs-button>
-          
+
           <!-- Icon-only theme toggle (like in Pad app) -->
           <labs-button id="iconThemeToggle" variant="icon" aria-label="Toggle theme (icon only)">
             <labs-icon id="iconThemeIcon" slot="icon-left" name="bedtime"></labs-icon>
@@ -108,7 +108,7 @@ export const ThemeDemo = {
             <li><strong>Icon-Only:</strong> Compact button with just bedtime/bedtime_off icon (like in Pad app)</li>
             <li><strong>Both:</strong> Use semantic tokens and respond to theme changes automatically</li>
           </ul>
-          
+
           <h3 style="color: var(--color-on-background);">Color Tokens in Action</h3>
           <ul style="color: var(--color-on-background);">
             <li><code>background: var(--color-background)</code></li>
@@ -123,11 +123,11 @@ export const ThemeDemo = {
     // Add theme toggle after a brief delay
     setTimeout(() => {
       createThemeToggleButton({ parent: container });
-      
+
       // Setup icon-only theme toggle (like in Pad app)
       const iconToggle = container.querySelector('#iconThemeToggle');
       const iconThemeIcon = container.querySelector('#iconThemeIcon');
-      
+
       function updateIconToggle() {
         const isDark = document.documentElement.classList.contains('theme-dark');
         if (iconThemeIcon) {
@@ -137,14 +137,14 @@ export const ThemeDemo = {
           iconToggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
         }
       }
-      
+
       if (iconToggle) {
         iconToggle.addEventListener('click', () => {
           const isDark = document.documentElement.classList.contains('theme-dark');
           const root = document.documentElement;
           const flavorClass = Array.from(root.classList).find(c => c.startsWith('flavor-'));
           const flavor = flavorClass ? flavorClass.replace('flavor-', '') : 'vanilla';
-          
+
           // Use the same applyTheme utility as the main toggle
           import('../utils/theme.js').then(({ applyTheme }) => {
             applyTheme({ flavor, theme: isDark ? 'light' : 'dark' });
