@@ -79,15 +79,20 @@ export const ThemeDemo = {
     container.innerHTML = `
       <div style="padding: 2rem; background: var(--color-background); color: var(--color-on-background); transition: all 0.2s;">
         <h2 style="color: var(--color-on-background);">Theme System Demo</h2>
-        <p style="color: var(--color-on-background);">This demo shows how components adapt to theme changes.</p>
+        <p style="color: var(--color-on-background);">This demo shows how components adapt to theme changes. Try both theme toggle buttons!</p>
 
-        <div style="display: flex; gap: 1rem; margin: 2rem 0; flex-wrap: wrap;">
+        <div style="display: flex; gap: 1rem; margin: 2rem 0; flex-wrap: wrap; align-items: center;">
           <labs-button variant="primary">Primary Button</labs-button>
           <labs-button variant="secondary">
             <labs-icon slot="icon-left" name="settings"></labs-icon>
             Secondary with Icon
           </labs-button>
           <labs-button variant="destructive">Destructive Button</labs-button>
+          
+          <!-- Icon-only theme toggle (like in Pad app) -->
+          <labs-button id="iconThemeToggle" variant="icon" aria-label="Toggle theme (icon only)">
+            <labs-icon id="iconThemeIcon" slot="icon-left" name="bedtime"></labs-icon>
+          </labs-button>
         </div>
 
         <div style="background: var(--color-surface); padding: 1.5rem; border-radius: 8px; margin: 1rem 0; border: 1px solid var(--color-primary); transition: all 0.2s;">
@@ -97,6 +102,13 @@ export const ThemeDemo = {
         </div>
 
         <div style="margin-top: 2rem;">
+          <h3 style="color: var(--color-on-background);">Theme Toggle Patterns</h3>
+          <ul style="color: var(--color-on-background);">
+            <li><strong>Full Toggle:</strong> Button with icon and text (top-right floating button)</li>
+            <li><strong>Icon-Only:</strong> Compact button with just bedtime/bedtime_off icon (like in Pad app)</li>
+            <li><strong>Both:</strong> Use semantic tokens and respond to theme changes automatically</li>
+          </ul>
+          
           <h3 style="color: var(--color-on-background);">Color Tokens in Action</h3>
           <ul style="color: var(--color-on-background);">
             <li><code>background: var(--color-background)</code></li>
@@ -111,6 +123,36 @@ export const ThemeDemo = {
     // Add theme toggle after a brief delay
     setTimeout(() => {
       createThemeToggleButton({ parent: container });
+      
+      // Setup icon-only theme toggle (like in Pad app)
+      const iconToggle = container.querySelector('#iconThemeToggle');
+      const iconThemeIcon = container.querySelector('#iconThemeIcon');
+      
+      function updateIconToggle() {
+        const isDark = document.documentElement.classList.contains('theme-dark');
+        if (iconThemeIcon) {
+          iconThemeIcon.setAttribute('name', isDark ? 'bedtime_off' : 'bedtime');
+        }
+        if (iconToggle) {
+          iconToggle.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+        }
+      }
+      
+      if (iconToggle) {
+        iconToggle.addEventListener('click', () => {
+          const isDark = document.documentElement.classList.contains('theme-dark');
+          const root = document.documentElement;
+          const flavorClass = Array.from(root.classList).find(c => c.startsWith('flavor-'));
+          const flavor = flavorClass ? flavorClass.replace('flavor-', '') : 'vanilla';
+          
+          // Use the same applyTheme utility as the main toggle
+          import('../utils/theme.js').then(({ applyTheme }) => {
+            applyTheme({ flavor, theme: isDark ? 'light' : 'dark' });
+            updateIconToggle();
+          });
+        });
+        updateIconToggle();
+      }
     }, 100);
 
     return container;

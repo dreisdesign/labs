@@ -11,6 +11,7 @@
   <meta name="theme-color" content="#FBFBFD">
   <link rel="stylesheet" href="../design-system/tokens/colors.css">
   <script type="module" src="../design-system/components/labs-icon.js"></script>
+  <script type="module" src="../design-system/components/labs-button.js"></script>
   <style>
     html,
     body {
@@ -48,6 +49,13 @@
       cursor: pointer;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       transition: all 0.2s ease;
+    }
+
+    .pad-theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 100;
     }
 
     .pad-clear-button:hover {
@@ -97,13 +105,73 @@
 
 <body>
   <div class="pad-container">
+    <!-- Theme toggle button (top-right) -->
+    <labs-button id="themeToggle" class="pad-theme-toggle" variant="icon" aria-label="Toggle theme">
+      <labs-icon id="themeIcon" slot="icon-left" name="bedtime"></labs-icon>
+    </labs-button>
+    
+    <!-- Clear button (bottom-right) -->
     <button id="clearButton" class="pad-clear-button" title="Clear canvas">
       <labs-icon name="delete_forever" width="32" height="32" color="var(--color-error)"></labs-icon>
     </button>
+    
     <canvas id="drawingCanvas" class="pad-canvas" width="1024" height="768"></canvas>
   </div>
 
   <script>
+    // Theme management utilities
+    function applyTheme({ flavor = 'vanilla', theme = 'light' } = {}) {
+      const root = document.documentElement;
+      root.classList.remove('flavor-vanilla', 'flavor-blueberry', 'flavor-strawberry');
+      root.classList.add(`flavor-${flavor}`);
+      root.classList.remove('theme-light', 'theme-dark');
+      root.classList.add(`theme-${theme}`);
+      root.setAttribute('data-color-scheme', theme);
+      localStorage.setItem('pad-theme', theme);
+      
+      // Update meta theme-color for PWA
+      const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+      const bgColor = getComputedStyle(root).getPropertyValue('--color-background').trim();
+      if (themeColorMeta && bgColor) {
+        themeColorMeta.setAttribute('content', bgColor);
+      }
+      
+      // Dispatch theme change event for canvas to update drawing color
+      document.dispatchEvent(new CustomEvent('themeChanged'));
+    }
+
+    function initSystemTheme(defaultTheme = 'light') {
+      const savedTheme = localStorage.getItem('pad-theme');
+      if (savedTheme) {
+        applyTheme({ theme: savedTheme });
+      } else {
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        applyTheme({ theme: prefersDark ? 'dark' : defaultTheme });
+      }
+    }
+
+    function updateThemeToggleButton() {
+      const themeIcon = document.getElementById('themeIcon');
+      const themeButton = document.getElementById('themeToggle');
+      const isDark = document.documentElement.classList.contains('theme-dark');
+      
+      if (themeIcon) {
+        themeIcon.setAttribute('name', isDark ? 'bedtime_off' : 'bedtime');
+      }
+      if (themeButton) {
+        themeButton.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+      }
+    }
+
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.contains('theme-dark');
+      applyTheme({ theme: isDark ? 'light' : 'dark' });
+      updateThemeToggleButton();
+    }
+
+    // Initialize theme system
+    initSystemTheme();
+
     class PadDrawing {
       constructor() {
         this.canvas = document.getElementById('drawingCanvas');
@@ -125,6 +193,13 @@
         window.addEventListener('resize', () => this.resizeCanvas());
 
         // Configure drawing context
+        this.updateDrawingStyle();
+        
+        // Listen for theme changes to update drawing color
+        document.addEventListener('themeChanged', () => this.updateDrawingStyle());
+      }
+
+      updateDrawingStyle() {
         this.ctx.lineCap = 'round';
         this.ctx.lineJoin = 'round';
         this.ctx.strokeStyle = getComputedStyle(document.documentElement)
@@ -147,10 +222,7 @@
         this.canvas.style.height = rect.height + 'px';
 
         // Reconfigure context after resize
-        this.ctx.lineCap = 'round';
-        this.ctx.lineJoin = 'round';
-        this.ctx.strokeStyle = getComputedStyle(document.documentElement)
-          .getPropertyValue('--color-on-surface').trim() || '#372116';
+        this.updateDrawingStyle();
       }
 
       setupEventListeners() {
@@ -331,6 +403,13 @@
     // Initialize the drawing pad when the page loads
     document.addEventListener('DOMContentLoaded', () => {
       new PadDrawing();
+      
+      // Setup theme toggle button
+      const themeToggle = document.getElementById('themeToggle');
+      if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+        updateThemeToggleButton();
+      }
     });
   </script>
 </body>
