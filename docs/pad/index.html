@@ -146,8 +146,8 @@
       if (savedTheme) {
         applyTheme({ flavor: 'vanilla', theme: savedTheme });
       } else {
-        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        applyTheme({ flavor: 'vanilla', theme: prefersDark ? 'dark' : defaultTheme });
+        // Always default to light mode, ignore system preference
+        applyTheme({ flavor: 'vanilla', theme: 'light' });
       }
     }
 
