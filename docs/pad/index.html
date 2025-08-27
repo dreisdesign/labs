@@ -141,13 +141,12 @@
       document.dispatchEvent(new CustomEvent('themeChanged'));
     }
 
-    function initSystemTheme(defaultTheme = 'light') {
+    function initSystemTheme() {
       const savedTheme = localStorage.getItem('pad-theme');
       if (savedTheme) {
         applyTheme({ flavor: 'vanilla', theme: savedTheme });
       } else {
-        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        applyTheme({ flavor: 'vanilla', theme: prefersDark ? 'dark' : defaultTheme });
+        applyTheme({ flavor: 'vanilla', theme: 'light' });
       }
     }
 

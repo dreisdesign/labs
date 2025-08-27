@@ -1,6 +1,8 @@
+
 # Project TODO
 
-_Last updated: 2025-08-26_
+_Last updated: 2025-08-27_
+
 
 **AI: THIS IS NOT A CHANGELOG.**
 
@@ -14,14 +16,22 @@ _Last updated: 2025-08-26_
 - This file should remain concise and focused on active work
 
 
-## Design System
 
+## Design System
 - [Design System TODOs](design-system/TODO.md) — *Current outstanding tasks and enhancements*
 
 ## Apps
-
 ### Production Apps
 - [Note App TODOs](docs/note/TODO.md)
 - [Timer App TODOs](docs/timer/TODO.md)
 - [Tracker App TODOs](docs/tracker/TODO.md)
 - [Pad App TODOs](docs/pad/TODO.md)
+
+## Outstanding Project Tasks (as of 2025-08-27)
+
+- [ ] **Sync favicon and theme updates across all apps**
+- [ ] **Review and refine Storybook color stories and theme system**
+- [ ] **Continue Smoothie metaphor integration and documentation**
+- [ ] **Implement remaining design system components (Card, Input, Alert)**
+
+See area-specific TODOs for detailed breakdowns.

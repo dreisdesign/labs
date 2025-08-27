@@ -1,3 +1,18 @@
+
+# 🥤 v2.4.3 - Favicon, Theme, and Storybook Sync (August 27, 2025)
+
+### 🚀 **App & Design System Updates**
+- **Favicon Refresh:** Updated all app and design system favicons to new SVG smoothie icons for consistent branding
+- **Pad App:** Defaults to light mode on first load; theme logic improved for user experience
+- **Storybook Colors:** Global colors story now only shows global palette; individual flavor pages render correctly
+- **Theme System:** Minor improvements and documentation refinements
+
+### 📝 **Documentation & Metaphor**
+- **Smoothie Metaphor:** Continued integration and mapping in onboarding docs and Storybook
+- **Sitemap:** Manual edits and sync to match Storybook sidebar
+
+---
+
 # � v2.4.2 - Storybook Organization & Smoothie Metaphor System (August 26, 2025)
 
 ### 🚀 **Storybook Infrastructure**

@@ -143,7 +143,7 @@ export const ThemeDemo = {
           const isDark = document.documentElement.classList.contains('theme-dark');
           const root = document.documentElement;
           const flavorClass = Array.from(root.classList).find(c => c.startsWith('flavor-'));
-          const flavor = flavorClass ? flavorClass.replace('flavor-', '') : 'vanilla';
+          const flavor = flavorClass ? flavorClass.replace('flavor-', '') : 'blueberry';
 
           // Use the same applyTheme utility as the main toggle
           import('../utils/theme.js').then(({ applyTheme }) => {

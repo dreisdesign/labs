@@ -110,6 +110,41 @@ export function renderColors(opts = {}) {
   const flavorClass = only ? `flavor-${only} theme-light` : 'flavor-vanilla theme-light';
   const dataAttr = only ? `data-only-flavor="${only}"` : '';
 
+  let flavorSections = '';
+  if (!only) {
+    // Show all flavors (for global story)
+    flavorSections = '';
+  } else if (['vanilla', 'blueberry', 'strawberry'].includes(only)) {
+    // Show only the selected flavor (for individual flavor stories)
+    const f = only;
+    flavorSections = `
+      <details class="flavor-column flavor-${f}" open style="margin-top:12px">
+        <summary style="margin:8px 0"><h3 style="display:inline;margin:0">Theme: ${f.charAt(0).toUpperCase() + f.slice(1)}</h3></summary>
+        <div class="polaroid-row polaroid-palette" style="margin-bottom:18px;">
+          ${tokenSets[f].palette.map(t => polaroid(f, t.replace(/^--/, ''), t)).join('')}
+        </div>
+        <div class="token-list-wrap">
+          <table class="token-list">
+            <thead><tr><th>Semantic</th><th>Swatch</th><th>Resolved</th><th>Base</th><th>Text</th><th>Text color</th><th>Contrast</th></tr></thead>
+            <tbody>
+              ${getSemanticTokens(f).map(t => `
+                <tr>
+                  <td><code>${t}</code></td>
+                  <td><span class="swatch-thumb" data-var="${t}" style="background:var(${t});"></span></td>
+                  <td class="list-resolved" data-var="${t}">resolving...</td>
+                  <td class="list-chain" data-var="${t}">–</td>
+                  <td><span class="swatch-thumb-text" data-var="${t}"></span></td>
+                  <td class="list-text-color" data-var="${t}">computing...</td>
+                  <td class="list-contrast" data-var="${t}">–</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </details>
+    `;
+  }
+
   const html = `
     <div class="tokens-doc-root ${flavorClass}" ${dataAttr}>
       <style>
@@ -193,32 +228,7 @@ export function renderColors(opts = {}) {
           </table>
         </div>
         </details>
-        ${['vanilla', 'blueberry', 'strawberry'].map(f => `
-          <details class="flavor-column flavor-${f}" ${hideIfNot(f)} ${only ? 'open' : ''} style="margin-top:12px">
-            <summary style="margin:8px 0"><h3 style="display:inline;margin:0">Theme: ${f.charAt(0).toUpperCase() + f.slice(1)}</h3></summary>
-            <div class="polaroid-row polaroid-palette" style="margin-bottom:18px;">
-              ${tokenSets[f].palette.map(t => polaroid(f, t.replace(/^--/, ''), t)).join('')}
-            </div>
-            <div class="token-list-wrap">
-              <table class="token-list">
-                <thead><tr><th>Semantic</th><th>Swatch</th><th>Resolved</th><th>Base</th><th>Text</th><th>Text color</th><th>Contrast</th></tr></thead>
-                <tbody>
-                  ${getSemanticTokens(f).map(t => `
-                    <tr>
-                      <td><code>${t}</code></td>
-                      <td><span class="swatch-thumb" data-var="${t}" style="background:var(${t});"></span></td>
-                      <td class="list-resolved" data-var="${t}">resolving...</td>
-                      <td class="list-chain" data-var="${t}">–</td>
-                      <td><span class="swatch-thumb-text" data-var="${t}"></span></td>
-                      <td class="list-text-color" data-var="${t}">computing...</td>
-                      <td class="list-contrast" data-var="${t}">–</td>
-                    </tr>
-                  `).join('')}
-                </tbody>
-              </table>
-            </div>
-          </details>
-        `).join('')}
+        ${flavorSections}
       </div>
     </div>
   `;
