@@ -78,11 +78,14 @@ export const About = () => {
       <li>Component docs: e.g., <a href="src/components/labs-button/BUTTON-DOCS.md" target="_blank">Button Docs</a></li>
     </ul>
     <hr />
-    <i>Designed by Dan Reis in Somerville</i>
+  <!-- Version info removed -->
+  <i>Designed by Dan Reis in Somerville</i>
   `;
   // Add theme toggle button to the About story
   setTimeout(() => {
     createThemeToggleButton({ parent: container });
   }, 0);
+
+  // About uses the package version instead of a build timestamp
   return container;
 };

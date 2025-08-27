@@ -62,6 +62,7 @@ const openUrls = (urls) => {
 
 async function main() {
   try {
+    // (automatic timestamp update removed) — manual updates only
     const { action } = await inquirer.prompt([
       {
         type: "list",

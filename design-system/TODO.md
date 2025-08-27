@@ -1,7 +1,7 @@
 
 # Design System TODO
 
-_Last updated: 2025-08-26_
+
 
 ## Outstanding Tasks
 
