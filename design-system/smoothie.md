@@ -31,15 +31,19 @@ The Smoothie metaphor directly maps to your Storybook sidebar structure:
 ## Components
 | Storybook path      | Smoothie Metaphor Role |
 |---------------------|------------------------|
-| Button              | Base: Smoothie Mix     |
+| Button/Default      | Base: Smoothie Mix     |
+| Button/Primary      | Base: Blueberry Blend  |
+| Button/Secondary    | Base: Strawberry Blend |
+| Button/Destructive  | Base: Sour Mix         |
+| Button/With Left Icon | Base: With Left Icon |
+| Button/With Right Icon | Base: With Right Icon |
 | Icon                | Base: Fruit            |
 
 ## Patterns
 | Storybook path         | Smoothie Metaphor Example         |
 |------------------------|-----------------------------------|
-| Buttons/Primary        | Recipe: Blueberry Smoothie        |
-| Buttons/Secondary      | Recipe: Strawberry Smoothie       |
-| Buttons/With Left Icon | Recipe: Strawberry Sunrise        |
+| Buttons/Add            | Recipe: Strawberry Sunrise        |
+| Buttons/Reset all data | Recipe: Detox Cleanse             |
 
 ## Foundation
 | Storybook path                | Smoothie Metaphor Role |

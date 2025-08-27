@@ -7,40 +7,24 @@ export default {
   component: 'labs-button',
 };
 
-export const Primary = {
+
+
+export const Add = {
+  name: 'Add',
   render: () => `
 		<labs-button variant="primary">
-			<span>Primary</span>
+			<labs-icon slot="icon-left" name="add"></labs-icon>
+			Add
 		</labs-button>
 	`,
-  name: 'Primary',
 };
 
-export const Secondary = {
+export const ResetAllData = {
+  name: 'Reset all data',
   render: () => `
-		<labs-button variant="secondary">
-			<span>Secondary</span>
+		<labs-button variant="destructive">
+			<labs-icon slot="icon-left" name="delete_forever"></labs-icon>
+			Reset All Data
 		</labs-button>
 	`,
-  name: 'Secondary',
-};
-
-export const WithLeftIcon = {
-  render: () => `
-		<labs-button variant="primary">
-			<span slot="icon-left"><labs-icon name="add"></labs-icon></span>
-			<span>Add Item</span>
-		</labs-button>
-	`,
-  name: 'With Left Icon',
-};
-
-export const WithRightIcon = {
-  render: () => `
-		<labs-button variant="primary">
-			<span>Next</span>
-			<span slot="icon-right"><labs-icon name="edit"></labs-icon></span>
-		</labs-button>
-	`,
-  name: 'With Right Icon',
 };
