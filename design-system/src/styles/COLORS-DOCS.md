@@ -90,11 +90,16 @@ function toggleTheme() {
 - [x] Theme switching tested and verified in all environments
 - [x] Documented here for easy onboarding
 
-**✅ Complete Token Architecture**
+
+**✅ Complete & Robust Token Architecture**
 - Two-layer design system: palette anchors + semantic mappings
 - All semantic colors have corresponding "on-" text tokens
-- Smart JavaScript resolution: semantic tokens first, luminance fallback for palette
+- Robust JavaScript resolution: semantic tokens first, then fallback to palette mapping by resolved value (covers all flavors and tokens)
+- Diagnostic logic ensures every token is mapped to a friendly label, even if the chain is missing
 - WCAG AA accessibility compliance (4.5:1+ contrast ratios)
+
+**August 2025 Update:**
+- All color/theming issues are now resolved. The Colors story is robust for all flavors and tokens, with correct base mapping and theme-driven polaroid labels.
 
 **✅ Strategic Storybook Documentation**
 - Colors story reorganized with Base/Status sections

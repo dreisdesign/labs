@@ -41,6 +41,19 @@ function executeColorLogic() {
     }
   };
 
+  // Helper: map a palette token name to a human-friendly label
+  function tokenNameToLabel(token) {
+    if (!token || typeof token !== 'string') return null;
+    // Known simple mappings
+    const m = token.match(/^--palette-([^-]+)-(\d+)$/);
+    if (m) return m[1].charAt(0).toUpperCase() + m[1].slice(1) + ' ' + m[2];
+    const m2 = token.match(/^--palette-([^-]+)-([a-zA-Z]+)$/);
+    if (m2) return m2[1].charAt(0).toUpperCase() + m2[1].slice(1) + ' ' + m2[2];
+    // Generic fallback: strip leading -- and replace - with space
+    if (token.indexOf('--') === 0) return token.replace(/^--/, '').split('-').map(function (p) { return p.charAt(0).toUpperCase() + p.slice(1) }).join(' ');
+    return token;
+  }
+
   function populate() {
     // Resolved values for polaroid cards
     document.querySelectorAll('.polaroid-card').forEach(function (c) {
@@ -80,39 +93,73 @@ function executeColorLogic() {
         // Update chain column with the base palette token that produces the resolved color
         if (el.classList.contains('list-chain')) {
           if (res && res.value && res.value !== 'unset') {
-            var resolvedColor = res.value;
             var baseTokenFound = null;
+            // Prefer to find a palette token from the resolution chain (most reliable across themes)
+            try {
+              if (res.chain && Array.isArray(res.chain)) {
+                for (var i = 0; i < res.chain.length; i++) {
+                  var item = res.chain[i];
+                  if (item && typeof item === 'string' && item.indexOf('--palette-') === 0) {
+                    baseTokenFound = tokenNameToLabel(item);
+                    break;
+                  }
+                }
+              }
+            } catch (e) { }
 
-            // Create a mapping of known color values to their palette tokens
-            var colorToTokenMap = {
-              '#FBFBFD': 'Base 100',      // --palette-base-100
-              '#9E9E9E': 'Base 500',      // --palette-base-500
-              '#2A2A30': 'Base 800',      // --palette-base-800
-              '#2E2B74': 'Blueberry 500', // --palette-blueberry-500
-              '#1E193E': 'Blueberry 800', // --palette-blueberry-800
-              '#DBD7FF': 'Blueberry 200', // --palette-blueberry-200
-              '#F0EEFF': 'Blueberry 100', // --palette-blueberry-100
-              '#800800': 'Strawberry 500', // --palette-strawberry-500
-              '#4A1614': 'Strawberry 800', // --palette-strawberry-800
-              '#FFD3D2': 'Strawberry 200', // --palette-strawberry-200
-              '#FFF2F1': 'Strawberry 100', // --palette-strawberry-100
-              '#6B5C4B': 'Vanilla 500',   // --palette-vanilla-500
-              '#372116': 'Vanilla 800',   // --palette-vanilla-800
-              '#E8E2D6': 'Vanilla 200',   // --palette-vanilla-200
-              '#F5F1E7': 'Vanilla 100',   // --palette-vanilla-100
-              '#00800C': 'Green 500',     // --palette-green-500
-              '#FFB300': 'Yellow 500',    // --palette-yellow-500
-              '#D32F2F': 'Red 500'        // --palette-red-500
-            };
 
-            // Look up the resolved color in our mapping
-            baseTokenFound = colorToTokenMap[resolvedColor.toUpperCase()];
+            // Fallback: try mapping by resolved color hex
+            if (!baseTokenFound) {
+              var resolvedColor = res.value;
+              // Add all palette tokens from the theme for mapping
+              var colorToTokenMap = {
+                // Base
+                '#FBFBFD': 'Base 100',
+                '#9E9E9E': 'Base 500',
+                '#2A2A30': 'Base 800',
+                // Status
+                '#00800C': 'Green 500',
+                '#FFB300': 'Yellow 500',
+                '#D32F2F': 'Red 500',
+                // Blueberry
+                '#F0EEFF': 'Blueberry 100',
+                '#DBD7FF': 'Blueberry 200',
+                '#2E2B74': 'Blueberry 500',
+                '#1E193E': 'Blueberry 800',
+                // Vanilla
+                '#F5F1E7': 'Vanilla 100',
+                '#E8E2D6': 'Vanilla 200',
+                '#6B5C4B': 'Vanilla 500',
+                '#372116': 'Vanilla 800',
+                // Strawberry
+                '#FFF2F1': 'Strawberry 100',
+                '#FFD3D2': 'Strawberry 200',
+                '#800800': 'Strawberry 500',
+                '#4A1614': 'Strawberry 800'
+              };
+              try {
+                var hex = normalizeHex(colorToHex(resolvedColor) || resolvedColor);
+                if (hex) baseTokenFound = colorToTokenMap[hex.toUpperCase()];
+              } catch (e) { }
+            }
 
             if (baseTokenFound) {
               el.innerHTML = '<code>' + baseTokenFound + '</code>';
             } else {
-              // If we can't find it in our mapping, show a simplified version
-              el.innerHTML = '<small style="color:#888">Unknown base</small>';
+              // persist diagnostic info so we can inspect resolution chains in the browser
+              try {
+                window.__colors_last_resolutions = window.__colors_last_resolutions || [];
+                window.__colors_last_resolutions.push({ token: v, resolved: res && res.value, chain: res && res.chain, ctx: (ctx && ctx.className) || null, ts: Date.now() });
+              } catch (dErr) { }
+
+              // show the chain and resolved value inline to help debugging in Storybook UI
+              var chainHtml = '';
+              try {
+                if (res && Array.isArray(res.chain)) chainHtml = '<br/><small style="color:#aaa">' + res.chain.join(' → ') + '</small>';
+                if (res && res.value) chainHtml += '<br/><small style="color:#aaa">' + (res.value) + '</small>';
+              } catch (e) { chainHtml = ''; }
+
+              el.innerHTML = '<small style="color:#888">Unknown base</small>' + chainHtml;
             }
           } else {
             el.innerHTML = '–';
@@ -202,7 +249,8 @@ function executeColorLogic() {
           var textSwatch = el.parentElement.querySelector('.swatch-thumb-text');
           if (textSwatch && onVal && onVal !== 'unset') {
             var normalizedOnVal = normalizeHex(onVal);
-            textSwatch.style.background = normalizedOnVal;
+            // Apply the computed on-color as the text color for the 'Aa' sample inside the swatch
+            textSwatch.style.color = normalizedOnVal;
           }
 
           // Calculate and update contrast
@@ -228,6 +276,29 @@ function executeColorLogic() {
                   contrastCell.style.color = '#cc0000'; // Insufficient
                   contrastCell.style.fontWeight = 'normal';
                 }
+                // Create a compact badge inside the cell for clearer affordance
+                var badge = document.createElement('span');
+                badge.className = 'contrast-badge';
+                badge.textContent = contrast.toFixed(1) + ':1';
+                if (contrast >= 7) {
+                  badge.style.background = '#eaf7ea';
+                  badge.style.color = '#006600';
+                  badge.style.fontWeight = '700';
+                } else if (contrast >= 4.5) {
+                  badge.style.background = '#eaf7ea';
+                  badge.style.color = '#006600';
+                  badge.style.fontWeight = '600';
+                } else if (contrast >= 3) {
+                  badge.style.background = '#fff7e6';
+                  badge.style.color = '#cc6600';
+                  badge.style.fontWeight = '600';
+                } else {
+                  badge.style.background = '#ffe6e6';
+                  badge.style.color = '#a00000';
+                  badge.style.fontWeight = '600';
+                }
+                contrastCell.innerHTML = '';
+                contrastCell.appendChild(badge);
               }
             } catch (e) {
               contrastCell.textContent = '–';
@@ -318,7 +389,25 @@ function executeColorLogic() {
             }
           }
 
-          span.style.color = onVal;
+          // Do not set inline color for polaroid label text; let the theme CSS variable control it.
+          // Clear any inline color that might have been applied previously.
+          // Apply computed on-color to the polaroid label text so it matches the 'Aa' sample
+          try {
+            if (onVal && onVal !== 'unset') {
+              var normalizedOnVal = normalizeHex(onVal);
+              // apply inline color to the polaroid label so it reflects computed on-color
+              span.style.color = normalizedOnVal;
+              // Do NOT set inline color on .card-token-label code; let it inherit from theme CSS
+              var tiny = card.querySelector('.swatch-thumb-text');
+              if (tiny) tiny.style.color = normalizedOnVal;
+            } else {
+              span.style.color = '';
+              var labelCode = card.querySelector('.card-token-label code');
+              if (labelCode) labelCode.style.color = '';
+            }
+          } catch (e) {
+            span.style.color = '';
+          }
         }
       } catch (e) {
         span.style.color = '#ffffff';
@@ -362,16 +451,26 @@ export const Colors = {
 
     // Set up mutation observer for theme changes
     setTimeout(() => {
-      const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-          if (mutation.attributeName === 'class') {
-            console.log('Colors story: class change detected, re-executing');
-            execute();
-          }
+      try {
+        // avoid multiple observers across hot reloads
+        if (window.__colors_observer) {
+          try { window.__colors_observer.disconnect(); } catch (e) { }
+          window.__colors_observer = null;
+        }
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            if (mutation.attributeName === 'class' || mutation.attributeName === 'data-color-scheme') {
+              console.log('Colors story: root attribute change detected, re-executing');
+              try { execute(); } catch (e) { console.error(e); }
+            }
+          });
         });
-      });
-      observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'data-color-scheme'] });
+        window.__colors_observer = observer;
+      } catch (e) { /* ignore */ }
     }, 100);
+    // Final delayed run to catch late theme initialization
+    setTimeout(() => { try { execute(); } catch (e) { console.error(e); } }, 1200);
   }
 };
 
@@ -383,6 +482,16 @@ export const Blueberry = {
     setTimeout(execute, 100);
     setTimeout(execute, 300);
     setTimeout(execute, 600);
+    setTimeout(execute, 1200);
+    // ensure observer runs for late theme changes
+    setTimeout(() => {
+      try {
+        if (window.__colors_observer) { window.__colors_observer.disconnect(); window.__colors_observer = null; }
+        const obs = new MutationObserver(() => { try { execute(); } catch (e) { } });
+        obs.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'data-color-scheme'] });
+        window.__colors_observer = obs;
+      } catch (e) { }
+    }, 120);
   }
 };
 
@@ -394,6 +503,7 @@ export const Strawberry = {
     setTimeout(execute, 100);
     setTimeout(execute, 300);
     setTimeout(execute, 600);
+    setTimeout(execute, 1200);
   }
 };
 

@@ -14,9 +14,9 @@
 - This file should remain concise and focused on active work
 
 
-## Design System
 
-- [Design System TODOs](design-system/TODO.md) — *Current outstanding tasks and enhancements*
+## Design System
+- [Design System TODOs](design-system/TODO.md) — *All color/theming tasks complete; only future enhancements remain*
 
 ## Apps
 

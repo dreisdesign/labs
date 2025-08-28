@@ -56,3 +56,15 @@
     --grid-container-padding-lg: 24px;
   }
 }
+
+/* Cap polaroid/token card max width on larger screens so grids don't stretch cards too wide
+   This centralizes the behavior used by story templates (e.g. colors-template.js) */
+@media (min-width: 701px) {
+
+  .polaroid-row,
+  .polaroid-palette,
+  .flavor-global .polaroid-row {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 320px));
+    gap: 16px;
+  }
+}

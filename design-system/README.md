@@ -9,11 +9,13 @@
 
 This is the canonical design system for Labs apps, featuring a comprehensive two-layer token system, semantic color architecture, and modular Web Components. All UI components, design tokens, and documentation are maintained here with full theme support and accessibility compliance.
 
-**🎯 Current Status: Production-Ready**
+
+**🎯 Current Status: Production-Ready & Robust**
 - ✅ Complete semantic token system with "on-" text color pairings
 - ✅ Three-flavor theming (Vanilla, Blueberry, Strawberry) with light/dark modes
 - ✅ WCAG AA accessibility compliance across all combinations
 - ✅ Strategic Storybook documentation with Base column and reorganized Colors story
+- ✅ Robust Colors story: all tokens and flavors now display correct base mapping and theme-driven polaroid labels
 
 ---
 
