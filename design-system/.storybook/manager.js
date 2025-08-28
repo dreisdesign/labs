@@ -1,3 +1,15 @@
+import { addons } from '@storybook/manager-api';
+import { create } from '@storybook/theming';
+
+addons.setConfig({
+  theme: create({
+    base: 'auto',
+    brandTitle: 'Labs Storybook',
+    brandUrl: '/',
+    brandImage: 'smoothie.svg', // Custom logo in public folder
+  }),
+});
+
 // Listen for theme sync messages from the preview iframe and apply classes
 function applyThemePayload(payload) {
   const root = document.documentElement;

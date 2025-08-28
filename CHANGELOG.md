@@ -1,3 +1,16 @@
+# 🖌️ v2.4.3 - Robust Colors Story & Theme Mapping (August 28, 2025)
+
+### 🚀 **Design System Improvements**
+- **Colors Story Robustness:**
+  - All theme flavors (Vanilla, Blueberry, Strawberry) now display correct base mapping for every token.
+  - Diagnostic and fallback logic ensures every semantic and palette token is mapped to a friendly label, even if the chain is missing.
+  - Polaroid label color now always inherits from the theme (no forced inline color), ensuring correct appearance in all themes.
+  - Strategic Storybook documentation and grid layout improvements.
+- **Token Architecture:**
+  - Two-layer system (palette + semantic) is now fully production-ready and robust for all flavors and themes.
+  - All color/theming TODOs are now complete; only future enhancements remain.
+
+---
 # � v2.4.2 - Storybook Organization & Smoothie Metaphor System (August 26, 2025)
 
 ### 🚀 **Storybook Infrastructure**

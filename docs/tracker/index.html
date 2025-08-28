@@ -1,319 +1,265 @@
+<link rel="icon" type="image/x-icon" href="favicon.ico">
 <!doctype html>
 <html lang="en">
-  <head>
-    <!-- Early theme application to prevent flash -->
-    <script>
-      // IIFE to apply theme immediately before anything else loads
-      (function () {
-        try {
-          var savedTheme = localStorage.getItem("theme");
-          if (savedTheme === "dark") {
-            // Add dark-mode class to document element to prevent flash
-            document.documentElement.classList.add("dark-mode");
-          }
-        } catch (e) {
-          console.error("Error applying theme:", e);
+
+<head>
+  <!-- Early theme application to prevent flash -->
+  <script>
+    // IIFE to apply theme immediately before anything else loads
+    (function () {
+      try {
+        var savedTheme = localStorage.getItem("theme");
+        if (savedTheme === "dark") {
+          // Add dark-mode class to document element to prevent flash
+          document.documentElement.classList.add("dark-mode");
         }
-      })();
-    </script>
-    <style>
-      /* Critical styles to prevent flash during page load */
-      html.dark-mode,
-      html.dark-mode body {
-        background-color: rgb(18, 18, 18) !important;
-        color: rgb(255, 255, 255) !important;
+      } catch (e) {
+        console.error("Error applying theme:", e);
       }
+    })();
+  </script>
+  <style>
+    /* Critical styles to prevent flash during page load */
+    html.dark-mode,
+    html.dark-mode body {
+      background-color: rgb(18, 18, 18) !important;
+      color: rgb(255, 255, 255) !important;
+    }
 
-      /* Apply dark mode to critical elements to prevent flash */
-      html.dark-mode .metric-card {
-        background-color: rgb(30, 30, 30) !important;
-        color: rgb(255, 255, 255) !important;
+    /* Apply dark mode to critical elements to prevent flash */
+    html.dark-mode .metric-card {
+      background-color: rgb(30, 30, 30) !important;
+      color: rgb(255, 255, 255) !important;
+    }
+
+    html.dark-mode .metric-value {
+      color: rgb(149, 117, 205) !important;
+    }
+
+    html.dark-mode .version-number {
+      color: rgb(255, 255, 255) !important;
+    }
+
+    /* Hide body content until CSS is fully loaded to prevent FOUC */
+    .js-loading body {
+      visibility: hidden;
+    }
+  </style>
+  <script>
+    // Add js-loading class to prevent FOUC
+    document.documentElement.classList.add("js-loading");
+  </script>
+
+  <!-- Metadata and Title -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A simple activity tracking web application." />
+  <title>Tracker</title>
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+  <!-- Web App Manifest -->
+  <link rel="manifest" href="site.webmanifest" />
+
+  <!-- Microsoft Tile -->
+  <meta name="msapplication-TileColor" content="#ffffff" />
+  <meta name="msapplication-config" content="browserconfig.xml" />
+
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#202F48" />
+
+  <!-- PWA Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Tracker" />
+
+  <!-- Link to CSS Stylesheets -->
+  <link rel="stylesheet" href="styles/main.css?v=2.0.1" />
+  <link rel="stylesheet" href="styles/entry-delete.css?v=2.0.1" />
+</head>
+
+<body>
+  <!-- Script to remove loading class once page is ready -->
+  <script>
+    // Remove js-loading class when window loads
+    window.addEventListener("DOMContentLoaded", function () {
+      document.documentElement.classList.remove("js-loading");
+
+      // If dark mode is set in localStorage, ensure body also has the class
+      if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark-mode");
       }
+    });
+  </script>
 
-      html.dark-mode .metric-value {
-        color: rgb(149, 117, 205) !important;
-      }
+  <!-- Version number display -->
+  <div class="version-number">v1.0.12</div>
 
-      html.dark-mode .version-number {
-        color: rgb(255, 255, 255) !important;
-      }
-
-      /* Hide body content until CSS is fully loaded to prevent FOUC */
-      .js-loading body {
-        visibility: hidden;
-      }
-    </style>
-    <script>
-      // Add js-loading class to prevent FOUC
-      document.documentElement.classList.add("js-loading");
-    </script>
-
-    <!-- Metadata and Title -->
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="A simple activity tracking web application."
-    />
-    <title>Tracker</title>
-
-    <!-- Favicons -->
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-
-    <!-- Web App Manifest -->
-    <link rel="manifest" href="site.webmanifest" />
-
-    <!-- Microsoft Tile -->
-    <meta name="msapplication-TileColor" content="#ffffff" />
-    <meta name="msapplication-config" content="browserconfig.xml" />
-
-    <!-- Theme Color -->
-    <meta name="theme-color" content="#202F48" />
-
-    <!-- PWA Meta Tags -->
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="Tracker" />
-
-    <!-- Link to CSS Stylesheets -->
-    <link rel="stylesheet" href="styles/main.css?v=2.0.1" />
-    <link rel="stylesheet" href="styles/entry-delete.css?v=2.0.1" />
-  </head>
-
-  <body>
-    <!-- Script to remove loading class once page is ready -->
-    <script>
-      // Remove js-loading class when window loads
-      window.addEventListener("DOMContentLoaded", function () {
-        document.documentElement.classList.remove("js-loading");
-
-        // If dark mode is set in localStorage, ensure body also has the class
-        if (localStorage.getItem("theme") === "dark") {
-          document.body.classList.add("dark-mode");
-        }
-      });
-    </script>
-
-    <!-- Version number display -->
-    <div class="version-number">v1.0.12</div>
-
-    <!-- Main application container -->
-    <div class="app">
-      <!-- Metric card OUTSIDE scrollable area -->
-      <div class="metric-card">
-        <div class="metric-label-container">
-          <div class="metric-label" id="metricLabel" tabindex="-1">Total</div>
-          <div class="edit-label-icon"></div>
-        </div>
-        <div class="metric-value" id="totalCount">0</div>
+  <!-- Main application container -->
+  <div class="app">
+    <!-- Metric card OUTSIDE scrollable area -->
+    <div class="metric-card">
+      <div class="metric-label-container">
+        <div class="metric-label" id="metricLabel" tabindex="-1">Total</div>
+        <div class="edit-label-icon"></div>
       </div>
-      <!-- Only the timestamp list is scrollable -->
-      <div id="mainContent" class="custom-scrollbar">
-        <div id="timestampList">
-          <div class="placeholder-entry">No entries yet</div>
-        </div>
-      </div>
-      <!-- Undo button positioned above the footer -->
-      <button class="undo-button hidden" id="undoButton">Undo</button>
-      <!-- Latest version success message -->
-      <div class="version-success-message hidden" id="versionSuccessMessage">
-        You are on the latest version
-      </div>
-      <div class="bottom-buttons-wrapper">
-        <div class="bottom-buttons">
-          <button class="track-button track-button--footer">
-            <span class="track-button-text">+ Add</span>
-            <span class="track-button-checkmark">
-              <img
-                src="assets/images/check--fill.svg"
-                alt="Success"
-                class="checkmark-icon"
-              />
-            </span>
-          </button>
-          <!-- Settings Button -->
-          <button
-            id="settingsButton"
-            class="settings-button bottom-button-base"
-            aria-label="Open Settings"
-          >
-            <div class="settings-icon"></div>
-          </button>
-        </div>
+      <div class="metric-value" id="totalCount">0</div>
+    </div>
+    <!-- Only the timestamp list is scrollable -->
+    <div id="mainContent" class="custom-scrollbar">
+      <div id="timestampList">
+        <div class="placeholder-entry">No entries yet</div>
       </div>
     </div>
-    <!-- End .app -->
+    <!-- Undo button positioned above the footer -->
+    <button class="undo-button hidden" id="undoButton">Undo</button>
+    <!-- Latest version success message -->
+    <div class="version-success-message hidden" id="versionSuccessMessage">
+      You are on the latest version
+    </div>
+    <div class="bottom-buttons-wrapper">
+      <div class="bottom-buttons">
+        <button class="track-button track-button--footer">
+          <span class="track-button-text">+ Add</span>
+          <span class="track-button-checkmark">
+            <img src="assets/images/check--fill.svg" alt="Success" class="checkmark-icon" />
+          </span>
+        </button>
+        <!-- Settings Button -->
+        <button id="settingsButton" class="settings-button bottom-button-base" aria-label="Open Settings">
+          <div class="settings-icon"></div>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- End .app -->
 
-    <!-- Settings Menu Overlay -->
-    <div id="settingsOverlay" class="overlay hidden">
-      <div class="overlay-content">
-        <div class="overlay-header">
-          <h2>Settings</h2>
-          <button
-            id="closeSettingsButton"
-            class="close-button"
-            aria-label="Close Settings"
-          >
-            <img
-              src="assets/images/close--fill.svg"
-              alt="Close"
-              class="close-icon"
-            />
-          </button>
-        </div>
-        <div class="overlay-body">
-          <!-- All Apps button -->
-          <button id="allAppsButton" class="settings-item">
-            <div class="settings-item-icon-container">
-              <div class="settings-icon all-apps-icon"></div>
-            </div>
-            <span>All Apps</span>
-          </button>
+  <!-- Settings Menu Overlay -->
+  <div id="settingsOverlay" class="overlay hidden">
+    <div class="overlay-content">
+      <div class="overlay-header">
+        <h2>Settings</h2>
+        <button id="closeSettingsButton" class="close-button" aria-label="Close Settings">
+          <img src="assets/images/close--fill.svg" alt="Close" class="close-icon" />
+        </button>
+      </div>
+      <div class="overlay-body">
+        <!-- All Apps button -->
+        <button id="allAppsButton" class="settings-item">
+          <div class="settings-item-icon-container">
+            <div class="settings-icon all-apps-icon"></div>
+          </div>
+          <span>All Apps</span>
+        </button>
 
-          <!-- Theme toggle option -->
-          <button id="menuThemeToggle" class="settings-item">
-            <div class="settings-item-icon-container">
-              <div id="menuThemeIcon" class="settings-icon theme-icon"></div>
-            </div>
-            <span id="menuThemeText">Turn off dark mode</span>
-          </button>
+        <!-- Theme toggle option -->
+        <button id="menuThemeToggle" class="settings-item">
+          <div class="settings-item-icon-container">
+            <div id="menuThemeIcon" class="settings-icon theme-icon"></div>
+          </div>
+          <span id="menuThemeText">Turn off dark mode</span>
+        </button>
 
-          <!-- Refresh app button (only visible when running as web app) -->
-          <button
-            id="refreshAppButton"
-            class="settings-item settings-item-refresh hidden"
-          >
-            <div class="settings-item-icon-container">
-              <div class="update-icon-container">
-                <div class="update-icon"></div>
-                <div class="update-checkmark">
-                  <img
-                    src="assets/images/check--fill.svg"
-                    alt="Success"
-                    class="checkmark-icon"
-                  />
-                </div>
+        <!-- Refresh app button (only visible when running as web app) -->
+        <button id="refreshAppButton" class="settings-item settings-item-refresh hidden">
+          <div class="settings-item-icon-container">
+            <div class="update-icon-container">
+              <div class="update-icon"></div>
+              <div class="update-checkmark">
+                <img src="assets/images/check--fill.svg" alt="Success" class="checkmark-icon" />
               </div>
             </div>
-            <span class="refresh-button-text">Refresh</span>
-          </button>
-
-          <!-- Reset button in settings menu -->
-          <button id="resetButton" class="settings-item settings-item-reset">
-            <div class="settings-item-icon-container">
-              <div class="settings-icon reset-icon"></div>
-            </div>
-            <span>Reset All Data</span>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Comment Overlay -->
-    <div id="commentOverlay" class="overlay hidden">
-      <div class="overlay-content">
-        <div class="overlay-header">
-          <h2>Comment</h2>
-          <button
-            id="closeCommentButton"
-            class="close-button"
-            aria-label="Close Comment"
-          >
-            <img
-              src="assets/images/close--fill.svg"
-              alt="Close"
-              class="close-icon"
-            />
-          </button>
-        </div>
-        <div class="overlay-body">
-          <textarea
-            id="commentTextarea"
-            class="comment-textarea"
-            placeholder="Add your comment here..."
-          ></textarea>
-          <div class="comment-actions">
-            <button
-              id="deleteCommentButton"
-              class="comment-button delete-comment"
-            >
-              Delete
-            </button>
-            <button id="saveCommentButton" class="comment-button save-comment">
-              Save
-            </button>
           </div>
-        </div>
+          <span class="refresh-button-text">Refresh</span>
+        </button>
+
+        <!-- Reset button in settings menu -->
+        <button id="resetButton" class="settings-item settings-item-reset">
+          <div class="settings-item-icon-container">
+            <div class="settings-icon reset-icon"></div>
+          </div>
+          <span>Reset All Data</span>
+        </button>
       </div>
     </div>
+  </div>
 
-    <!-- Label Edit Overlay -->
-    <div id="labelEditOverlay" class="overlay hidden">
-      <div class="overlay-content">
-        <div class="overlay-header">
-          <h2>Edit Label</h2>
-          <button
-            id="closeLabelEditButton"
-            class="close-button"
-            aria-label="Close Label Edit"
-          >
-            <img
-              src="assets/images/close--fill.svg"
-              alt="Close"
-              class="close-icon"
-            />
+  <!-- Comment Overlay -->
+  <div id="commentOverlay" class="overlay hidden">
+    <div class="overlay-content">
+      <div class="overlay-header">
+        <h2>Comment</h2>
+        <button id="closeCommentButton" class="close-button" aria-label="Close Comment">
+          <img src="assets/images/close--fill.svg" alt="Close" class="close-icon" />
+        </button>
+      </div>
+      <div class="overlay-body">
+        <textarea id="commentTextarea" class="comment-textarea" placeholder="Add your comment here..."></textarea>
+        <div class="comment-actions">
+          <button id="deleteCommentButton" class="comment-button delete-comment">
+            Delete
+          </button>
+          <button id="saveCommentButton" class="comment-button save-comment">
+            Save
           </button>
         </div>
-        <div class="overlay-body">
-          <input
-            type="text"
-            id="labelEditInput"
-            class="label-edit-input"
-            placeholder="Enter label name..."
-          />
-          <div class="label-edit-actions">
-            <button
-              id="deleteLabelButton"
-              class="comment-button delete-comment"
-            >
-              Clear
-            </button>
-            <button id="saveLabelButton" class="comment-button save-comment">
-              Save
-            </button>
-          </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Label Edit Overlay -->
+  <div id="labelEditOverlay" class="overlay hidden">
+    <div class="overlay-content">
+      <div class="overlay-header">
+        <h2>Edit Label</h2>
+        <button id="closeLabelEditButton" class="close-button" aria-label="Close Label Edit">
+          <img src="assets/images/close--fill.svg" alt="Close" class="close-icon" />
+        </button>
+      </div>
+      <div class="overlay-body">
+        <input type="text" id="labelEditInput" class="label-edit-input" placeholder="Enter label name..." />
+        <div class="label-edit-actions">
+          <button id="deleteLabelButton" class="comment-button delete-comment">
+            Clear
+          </button>
+          <button id="saveLabelButton" class="comment-button save-comment">
+            Save
+          </button>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Link to JavaScript files -->
-    <script src="js/keyboard-fix.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/entry-delete.js"></script>
+  <!-- Link to JavaScript files -->
+  <script src="js/keyboard-fix.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/entry-delete.js"></script>
 
-    <!-- Service Worker Registration -->
-    <script>
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-          navigator.serviceWorker
-            .register("./sw.js")
-            .then((registration) => {
-              console.log("SW registered: ", registration);
-            })
-            .catch((registrationError) => {
-              console.log("SW registration failed: ", registrationError);
-            });
-        });
-      }
-
-      // PWA Install Prompt
-      let deferredPrompt;
-      window.addEventListener("beforeinstallprompt", (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        console.log("PWA install prompt available");
+  <!-- Service Worker Registration -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .register("./sw.js")
+          .then((registration) => {
+            console.log("SW registered: ", registration);
+          })
+          .catch((registrationError) => {
+            console.log("SW registration failed: ", registrationError);
+          });
       });
-    </script>
-  </body>
+    }
+
+    // PWA Install Prompt
+    let deferredPrompt;
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      console.log("PWA install prompt available");
+    });
+  </script>
+</body>
+
 </html>

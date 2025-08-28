@@ -1,3 +1,15 @@
+# [v2.1.4] - 2025-08-28 - Robust Colors Story & Theme Mapping
+
+### 🚀 Major Improvements
+- **Colors Story Robustness:**
+	- All theme flavors (Vanilla, Blueberry, Strawberry) now display correct base mapping for every token.
+	- Diagnostic and fallback logic ensures every semantic and palette token is mapped to a friendly label, even if the chain is missing.
+	- Polaroid label color now always inherits from the theme (no forced inline color), ensuring correct appearance in all themes.
+	- Strategic Storybook documentation and grid layout improvements.
+- **Token Architecture:**
+	- Two-layer system (palette + semantic) is now fully production-ready and robust for all flavors and themes.
+	- All color/theming TODOs are now complete; only future enhancements remain.
+
 
 > This changelog tracks only the Labs Design System package. For global project milestones, see the [main Labs changelog](../CHANGELOG.md).
 
@@ -64,7 +76,7 @@
 - **Enhanced labs-icon Component:** Complete SVG rendering overhaul with proper attribute reactivity
 - **Performance Optimization:** Removed debug logging that caused resize lag, now smooth interactions
 
-### 📱 Responsive Design Excellence  
+### 📱 Responsive Design Excellence
 - **Content-Aware Grid:** Uses `auto-fit` with intelligent minimum widths (180px desktop, 140px tablet, 120px mobile)
 - **Typography Fixes:** Replaced "tiny" font tokens (9.6px) with proper "small" tokens (14px) for readability
 - **Smart Text Wrapping:** Fixed code snippets breaking inappropriately, now breaks at natural word boundaries
@@ -78,7 +90,7 @@
 
 ### 🎨 User Experience Enhancements
 - **Interactive Controls:** Size and color sliders work immediately without lag
-- **Improved Visual Hierarchy:** Better spacing, hover effects, and card proportions  
+- **Improved Visual Hierarchy:** Better spacing, hover effects, and card proportions
 - **Enhanced Readability:** Icon names and usage code now clearly visible at appropriate sizes
 - **Professional Layout:** Production-ready component showcase following design system guidelines
 
@@ -106,11 +118,11 @@
 
 ### 🔧 Technical Improvements
 - **Storybook v9.1.1:** Upgraded from v9.0.18 with proper addon support and version compatibility
-- **Theme Class Application:** Applied to document body for proper CSS custom property inheritance  
+- **Theme Class Application:** Applied to document body for proper CSS custom property inheritance
 - **Disabled Backgrounds Addon:** Prevented confusion with theme switcher functionality
 - **Enhanced Container Variants:** Improved overlay and panel button styling for real app usage
 
-### 📚 Documentation & Developer Experience  
+### 📚 Documentation & Developer Experience
 - **Clean Story Organization:** Logical grouping of Common Actions, Destructive Actions, UI/Navigation, Icon-Only
 - **Theme-Aware Components:** All stories now work correctly in both light and dark themes
 - **Comprehensive Button System:** Ready-to-use configurations for immediate app implementation

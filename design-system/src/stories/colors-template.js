@@ -116,22 +116,21 @@ export function renderColors(opts = {}) {
   if (only && tokenSets[only]) {
     const f = only;
     flavorSections = `
-      <details class="flavor-column flavor-${f}" ${hideIfNot(f)} open style="margin-top:12px">
+  <details class="flavor-column flavor-${f}" ${hideIfNot(f)} open style="margin-top:12px">
         <summary style="margin:8px 0"><h3 style="display:inline;margin:0">Theme: ${f.charAt(0).toUpperCase() + f.slice(1)}</h3></summary>
         <div class="polaroid-row polaroid-palette" style="margin-bottom:18px;">
           ${tokenSets[f].palette.map(t => polaroid(f, t.replace(/^--/, ''), t)).join('')}
         </div>
         <div class="token-list-wrap">
           <table class="token-list">
-            <thead><tr><th>Semantic</th><th>Swatch</th><th>Resolved</th><th>Base</th><th>Text</th><th>Text color</th><th>Contrast</th></tr></thead>
+            <thead><tr><th>Semantic</th><th>Swatch</th><th>Resolved</th><th>Base</th><th>Text color</th><th>Contrast</th></tr></thead>
             <tbody>
               ${getSemanticTokens(f).map(t => `
                 <tr>
                   <td><code>${t}</code></td>
-                  <td><span class="swatch-thumb" data-var="${t}" style="background:var(${t});"></span></td>
+                  <td><span class="swatch-thumb" data-var="${t}" style="background:var(${t});"><span class="swatch-thumb-text" data-var="${t}">Aa</span></span></td>
                   <td class="list-resolved" data-var="${t}">resolving...</td>
                   <td class="list-chain" data-var="${t}">–</td>
-                  <td><span class="swatch-thumb-text" data-var="${t}"></span></td>
                   <td class="list-text-color" data-var="${t}">computing...</td>
                   <td class="list-contrast" data-var="${t}">–</td>
                 </tr>
@@ -149,8 +148,8 @@ export function renderColors(opts = {}) {
   .tokens-doc-root{padding:16px 40px;font-family:var(--font-family-base);}
 
   /* Responsive grid of compact polaroids */
-  .polaroid-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin-bottom:12px}
-  details.flavor-column{margin-bottom:12px;border-radius:8px;padding:8px;border:1px solid rgba(0,0,0,0.04);background:var(--color-surface)}
+  .polaroid-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:16px}
+  details.flavor-column{margin-bottom:12px;border-radius:8px;padding:8px;border:1px solid rgba(0,0,0,0.04);background:var(--color-surface);color:var(--color-on-surface);transition:background 0.2s,color 0.2s}
   details.flavor-column[open]{box-shadow:0 1px 0 rgba(0,0,0,0.04)}
   details.flavor-column summary{list-style:none;cursor:pointer;padding:6px 8px}
   details.flavor-column summary::-webkit-details-marker{display:none}
@@ -158,17 +157,33 @@ export function renderColors(opts = {}) {
 
   .polaroid-card{border-radius:8px;padding:10px;border:1px solid var(--palette-base-500, var(--color-outline));background:var(--color-surface,#FBFBFD);}
   /* Make the swatch a square (1:1) so color area is consistent */
-  .card-swatch{width:100%;aspect-ratio:1/1;border-radius:6px;background-size:cover;margin-bottom:8px;position:relative;display:flex;align-items:center;justify-content:center;background:var(--color-surface,#FBFBFD);}
-  .swatch-text{font-weight:700;font-size:16px;line-height:1;color:var(--color-on-primary);pointer-events:none;text-shadow:0 1px 0 rgba(0,0,0,0.15);}
-  .card-token-label{font-size:12px;color:var(--color-on-background);margin-top:6px;word-break:break-all}
-  .card-base-label{font-size:11px;color:var(--color-on-background);opacity:0.8;margin-top:4px;word-break:break-all}
+  .card-swatch{width:100%;min-width:64px;min-height:64px;aspect-ratio:1/1;border-radius:8px;background-size:cover;margin-bottom:10px;position:relative;display:flex;align-items:center;justify-content:center;background:var(--color-surface,#FBFBFD);}
+  .swatch-text{
+    font-weight:700;
+    font-size:16px;
+    line-height:1;
+    color:var(--color-on-surface);
+    pointer-events:none;
+    text-shadow:0 1px 0 rgba(0,0,0,0.15);
+    transition:color 0.2s;
+  }
+  /* Remove any dark mode overrides for .swatch-text (do not force color) */
+  /* Ensure polaroid code labels never wrap */
+  .card-token-label, .card-base-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+  }
+  .card-token-label{font-size:12px;color:inherit;margin-top:6px;word-break:break-all;transition:color 0.2s;}
+  .card-base-label{font-size:11px;color:inherit;opacity:0.8;margin-top:4px;word-break:break-all;transition:color 0.2s;}
   .polaroid-card[data-copied]{outline:2px solid rgba(0,0,0,0.08)}
 
   /* Match global polaroid size to theme palettes */
-  .flavor-global .polaroid-row{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
-  .flavor-global .polaroid-card{padding:10px}
-  .polaroid-palette{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
-  .polaroid-palette .polaroid-card{padding:10px}
+  .flavor-global .polaroid-row{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px}
+  .flavor-global .polaroid-card{padding:12px}
+  .polaroid-palette{grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px}
+  .polaroid-palette .polaroid-card{padding:12px}
 
   .token-list-wrap{margin-top:8px}
   .token-list{width:100%;border-collapse:collapse;font-size:13px}
@@ -182,42 +197,52 @@ export function renderColors(opts = {}) {
     justify-content:center;
     width:40px;height:40px;
     border-radius:8px;
-    border:2px solid #bbb !important;
+    border:2px solid rgba(0,0,0,0.08) !important;
     font-size:16px;
     font-weight:700;
     text-align:center;
     cursor:pointer;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, color 0.2s;
   }
   .swatch-thumb:hover, .swatch-thumb-text:hover {
-    border-color: #333 !important;
+    border-color: rgba(0,0,0,0.28) !important;
   }
-  .swatch-thumb-text { background:#fff; }
-  .resolve-chain{font-size:11px;color:rgba(28,27,31,0.6);margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  /* Let the text sample inherit theme text color; background remains the swatch color when inside .swatch-thumb */
+  .swatch-thumb-text { color: var(--color-on-surface); background: transparent; display:inline-flex; align-items:center; justify-content:center; width:100%; height:100%; border-radius:6px; }
+  .resolve-chain{font-size:11px;color:var(--color-on-surface, rgba(28,27,31,0.6));margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  /* Contrast cell visual states (JS will place a .contrast-badge inside the cell) */
+  .list-contrast{transition:background 0.18s, color 0.18s; text-align:center}
+  .contrast-badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;line-height:1;min-width:36px}
+  .palette-heading {
+    font-size:14px;
+    color:inherit;
+    opacity:0.6;
+    margin-bottom:12px;
+    font-weight:600;
+  }
       </style>
       <div id="flavors-top">
         <h1 style="margin:8px 0">Design Tokens — Palette</h1>
         <details class="flavor-column flavor-global" ${hideIfNot('global')} ${(!only || only === 'global') ? 'open' : ''} style="margin-bottom:18px">
         <summary style="margin:8px 0"><h3 style="display:inline;margin:0">Global</h3></summary>
-        <div style="font-size:14px;color:rgba(0,0,0,0.6);margin-bottom:12px;font-weight:600;">Base Palette</div>
+  <div class="palette-heading">Core Palette</div>
         <div class="polaroid-row polaroid-palette" style="margin-bottom:18px;">
           ${tokenSets.global.palette.map(t => polaroid('global', t.replace(/^--/, ''), t)).join('')}
         </div>
-        <div style="font-size:14px;color:rgba(0,0,0,0.6);margin-bottom:12px;font-weight:600;">Status Palette</div>
+  <div class="palette-heading">Status Palette</div>
         <div class="polaroid-row polaroid-palette" style="margin-bottom:18px;">
           ${tokenSets.global.statusPalette.map(t => polaroid('global', t.replace(/^--/, ''), t)).join('')}
         </div>
         <div class="token-list-wrap">
           <table class="token-list">
-            <thead><tr><th>Semantic</th><th>Swatch</th><th>Resolved</th><th>Base</th><th>Text</th><th>Text color</th><th>Contrast</th></tr></thead>
+            <thead><tr><th>Semantic</th><th>Swatch</th><th>Resolved</th><th>Base</th><th>Text color</th><th>Contrast</th></tr></thead>
             <tbody>
               ${tokenSets.global.tokens.map(t => `
                 <tr>
                   <td><code>${t}</code></td>
-                  <td><span class="swatch-thumb" data-var="${t}" style="background:var(${t});"></span></td>
+                  <td><span class="swatch-thumb" data-var="${t}" style="background:var(${t});"><span class="swatch-thumb-text" data-var="${t}">Aa</span></span></td>
                   <td class="list-resolved" data-var="${t}">resolving...</td>
                   <td class="list-chain" data-var="${t}">–</td>
-                  <td><span class="swatch-thumb-text" data-var="${t}"></span></td>
                   <td class="list-text-color" data-var="${t}">computing...</td>
                   <td class="list-contrast" data-var="${t}">–</td>
                 </tr>

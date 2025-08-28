@@ -3,9 +3,10 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Pad V1.0</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#FBFBFD">
   <link rel="stylesheet" href="../design-system/tokens/colors.css">
@@ -31,20 +32,22 @@
       height: 100vh;
       display: flex;
       flex-direction: column;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      box-sizing: border-box;
     }
 
 
     .pad-theme-toggle {
       position: absolute;
-      top: 20px;
-      right: 20px;
+      top: calc(20px + env(safe-area-inset-top));
+      right: calc(20px + env(safe-area-inset-right));
       z-index: 100;
     }
 
     .pad-version-badge {
       position: absolute;
-      top: 20px;
-      right: 70px;
+      top: calc(20px + env(safe-area-inset-top));
+      right: calc(70px + env(safe-area-inset-right));
       z-index: 100;
       font-size: var(--font-size-small);
       font-weight: var(--font-weight-semibold);
@@ -60,8 +63,8 @@
 
     .pad-clear-button {
       position: absolute;
-      bottom: 20px;
-      right: 20px;
+      bottom: calc(20px + env(safe-area-inset-bottom));
+      right: calc(20px + env(safe-area-inset-right));
       z-index: 100;
     }
 

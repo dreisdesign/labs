@@ -1,7 +1,24 @@
 import "../src/styles/main.css";
+// Load shared layout tokens (breakpoints / grid caps) so stories share consistent polaroid sizing
+import "../src/styles/tokens/grid.css";
 import "../src/components/labs-button/labs-button.js";
 import "../src/components/labs-icon.js";
 import { applyTheme } from '../src/utils/theme.js';
+
+// Suppress Lit dev mode and multiple version warnings in Storybook preview
+window.litDisableDevModeWarning = true;
+
+const origWarn = console.warn;
+console.warn = function (...args) {
+  if (
+    typeof args[0] === 'string' &&
+    (args[0].includes('Lit is in dev mode') ||
+      args[0].includes('Multiple versions of Lit loaded'))
+  ) {
+    return;
+  }
+  origWarn.apply(console, args);
+};
 
 // Helper: sync flavor/theme classes on the document root
 function syncFlavorTheme(globals) {

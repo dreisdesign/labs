@@ -78,6 +78,10 @@ async function main() {
             value: "deploy",
           },
           {
+            name: "Preview Labs Homepage (python3 server)",
+            value: "previewPadApp",
+          },
+          {
             name: "Utilities",
             value: "utilities"
           },
@@ -85,6 +89,72 @@ async function main() {
         ],
       },
     ]);
+    if (action === "previewPadApp") {
+      // Preview Pad App using python3 http.server
+      const port = 8000;
+      const padDir = "docs";
+      const padUrl = `http://localhost:${port}/`;
+      // Kill any process using port 8000 before starting server
+      try {
+        const pids = execSync(`lsof -t -i:${port}`).toString().split('\n').filter(Boolean);
+        if (pids.length > 0) {
+          console.log(`Killing existing process(es) on port ${port}: ${pids.join(', ')}`);
+          execSync(`kill -9 ${pids.join(' ')}`);
+        }
+      } catch (e) {
+        // No process to kill
+      }
+      console.log(`\nStarting python3 HTTP server for Labs Homepage in ${padDir}...`);
+      const padProcess = exec(`python3 -m http.server ${port} --directory ${padDir}`);
+      padProcess.stdout.on("data", (data) => {
+        console.log(data.toString());
+      });
+      padProcess.stderr.on("data", (data) => {
+        console.error(data.toString());
+      });
+      // Track process for clean exit
+      let serverExited = false;
+      padProcess.on('exit', () => {
+        serverExited = true;
+      });
+      // Wait for the server to be up before opening the browser
+      const waitForPort = async (port, callback, retries = 20, interval = 250) => {
+        const net = (await import('net'));
+        let attempts = 0;
+        const check = () => {
+          const socket = net.createConnection(port, '127.0.0.1');
+          socket.on('connect', () => {
+            socket.end();
+            callback();
+          });
+          socket.on('error', () => {
+            socket.destroy();
+            if (++attempts < retries) {
+              setTimeout(check, interval);
+            } else {
+              console.error(`Timed out waiting for port ${port} to open.`);
+            }
+          });
+        };
+        check();
+      };
+      waitForPort(port, () => openUrls([padUrl]));
+      if (process.stdin.isTTY) {
+        process.stdin.setRawMode(true);
+        process.stdin.resume();
+        process.stdin.setEncoding('utf8');
+        process.stdin.on('data', (key) => {
+          if ((key === 'q' || key === 'Q') && !serverExited) {
+            console.log('\nPreview closed by user. Stopping server...');
+            padProcess.kill();
+            process.exit(0);
+          }
+        });
+      }
+      console.log(`\nPad App server is starting in the background. It may take a moment.`);
+      console.log(`You can close this menu. The server will continue to run.`);
+      return;
+    }
 
     if (action === "serveStorybook") {
       // Always update the Storybook sitemap before building
