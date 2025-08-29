@@ -15,6 +15,7 @@ export default [
     "check_indeterminate_small",
     "close",
     "code",
+    "colors",
     "comment",
     "content_copy",
     "delete_forever",
