@@ -34,6 +34,7 @@ const icons = {
     check_indeterminate_small: ICON_BASE + 'check_indeterminate_small--labs-icons.svg',
     close: ICON_BASE + 'close--labs-icons.svg',
     code: ICON_BASE + 'code--labs-icons.svg',
+    colors: ICON_BASE + 'colors--labs-icons.svg',
     comment: ICON_BASE + 'comment--labs-icons.svg',
     content_copy: ICON_BASE + 'content_copy--labs-icons.svg',
     delete_forever: ICON_BASE + 'delete_forever--labs-icons.svg',

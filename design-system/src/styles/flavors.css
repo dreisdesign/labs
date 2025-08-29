@@ -30,6 +30,8 @@
   --color-on-primary: var(--palette-vanilla-800);
   --color-on-primary-darker: var(--palette-vanilla-00);
   --color-on-background: var(--palette-vanilla-00);
+  --color-on-surface: var(--palette-vanilla-00);
+  /* Added for dark mode icon contrast */
   /* Status colors inherit from global tokens */
 }
 
@@ -54,7 +56,7 @@
   --color-primary-darker: var(--palette-blueberry-800);
   --color-background: var(--palette-black);
   --color-surface: var(--palette-blueberry-800);
-  --color-on-surface: var(--palette-blueberry-50);
+  --color-on-surface: var(--palette-white);
   --color-on-primary: var(--palette-white);
   --color-on-primary-darker: var(--palette-white);
   --color-on-background: var(--palette-blueberry-100);
@@ -79,7 +81,7 @@
   --color-primary-darker: var(--palette-strawberry-800);
   --color-background: var(--palette-strawberry-900);
   --color-surface: var(--palette-strawberry-800);
-  --color-on-surface: var(--palette-strawberry-50);
+  --color-on-surface: var(--palette-white);
   --color-on-primary: var(--palette-white);
   --color-on-primary-darker: var(--palette-white);
   --color-on-background: var(--palette-strawberry-100);
