@@ -30,7 +30,8 @@
   --color-on-primary: var(--palette-vanilla-800);
   --color-on-primary-darker: var(--palette-vanilla-00);
   --color-on-background: var(--palette-vanilla-00);
-  --color-on-surface: var(--palette-vanilla-00); /* Added for dark mode icon contrast */
+  --color-on-surface: var(--palette-vanilla-00);
+  /* Added for dark mode icon contrast */
   /* Status colors inherit from global tokens */
 }
 
