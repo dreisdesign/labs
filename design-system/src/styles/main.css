@@ -90,6 +90,25 @@ body {
   padding: 0;
 }
 
+/* Link styles: use semantic tokens so they adapt to theme/flavor */
+a,
+a:link,
+a:visited {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+a:visited {
+  /* Slightly muted visited color but still theme-driven */
+  color: color-mix(in srgb, var(--color-primary) 70%, black 30%);
+}
+
+a:hover,
+a:focus {
+  color: color-mix(in srgb, var(--color-primary) 85%, black 15%);
+  text-decoration: underline;
+}
+
 
 /* Button styles are now handled in the component for modularity. */
 

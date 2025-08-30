@@ -11,7 +11,6 @@ export function createThemeToggleButton({ parent = document.body } = {}) {
   btn.className = 'labs-theme-toggle';
   btn.setAttribute('variant', 'secondary');
   btn.setAttribute('size', 'large');
-  btn.setAttribute('icon-left', 'bedtime');
   btn.style.margin = '1rem';
   btn.style.position = 'fixed';
   btn.style.top = '1rem';
@@ -40,6 +39,25 @@ export function createThemeToggleButton({ parent = document.body } = {}) {
     applyTheme({ flavor, theme: isDark ? 'light' : 'dark' });
     updateLabel();
   };
+
+  // Keep the visible label in sync with external theme changes (toolbar, other toggles)
+  const observer = new MutationObserver(() => updateLabel());
+  try {
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+  } catch (e) {
+    // ignore if observe fails in some environments
+  }
+
+  // Responsive collapse: hide label at small widths by setting data-collapse="small"
+  function updateCollapse() {
+    try {
+      const isSmall = window.matchMedia('(max-width: 700px)').matches;
+      if (isSmall) btn.setAttribute('data-collapse', 'small');
+      else btn.removeAttribute('data-collapse');
+    } catch (e) { }
+  }
+  updateCollapse();
+  window.addEventListener('resize', updateCollapse);
 
   updateLabel();
   parent.appendChild(btn);
