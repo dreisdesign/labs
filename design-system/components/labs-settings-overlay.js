@@ -145,7 +145,7 @@ class LabsSettingsOverlay extends HTMLElement {
           </div>
           <div class="button-container">
             <labs-button label="All Apps" icon="add" variant="container"></labs-button>
-            <labs-button label="Turn On Dark Mode" icon="bedtime" variant="container"></labs-button>
+            <labs-button label="Turn On Dark Mode" icon="bedtime" variant="container" id="theme-toggle"></labs-button>
             <labs-button label="Reset All Data" icon="delete_forever" variant="container-danger"></labs-button>
           </div>
         </div>
@@ -155,6 +155,7 @@ class LabsSettingsOverlay extends HTMLElement {
     const openBtn = this.shadowRoot.getElementById("open-settings-btn");
     const overlay = this.shadowRoot.getElementById("overlay");
     const closeBtn = this.shadowRoot.querySelector(".close-button");
+    const themeButton = this.shadowRoot.getElementById('theme-toggle');
 
     openBtn.addEventListener("click", () => {
       overlay.style.display = "flex";
@@ -167,6 +168,20 @@ class LabsSettingsOverlay extends HTMLElement {
     overlay.addEventListener("click", (e) => {
       if (e.target === overlay) overlay.style.display = "none";
     });
+
+    // Responsive: collapse theme button label to icon-only below 700px
+    function updateCollapse() {
+      try {
+        const isSmall = window.matchMedia('(max-width: 700px)').matches;
+        if (themeButton) {
+          if (isSmall) themeButton.setAttribute('data-collapse', 'small');
+          else themeButton.removeAttribute('data-collapse');
+        }
+      } catch (e) { }
+    }
+
+    updateCollapse();
+    window.addEventListener('resize', updateCollapse);
 
     // Ensure all labs-icon elements are upgraded and rendered
     customElements.whenDefined('labs-icon').then(() => {

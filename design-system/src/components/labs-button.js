@@ -62,23 +62,48 @@ class LabsButton extends HTMLElement {
         button:hover {
           background: color-mix(in srgb, var(--color-primary) 85%, black);
         }
-        /* Secondary variant */
+        /* Secondary variant - no fill, outline only */
         :host([variant="secondary"]) button {
-          background: var(--color-surface);
+          background: transparent;
           color: var(--color-on-surface);
-          border: 1px solid var(--color-primary);
+          border: 1px solid var(--color-outline, var(--color-primary));
         }
         :host([variant="secondary"]) button:hover {
-          background: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface));
+          background: color-mix(in srgb, var(--color-primary) 6%, transparent);
         }
-        /* Destructive variant */
-        :host([variant="destructive"]) button {
-          background: var(--color-surface);
-          color: var(--color-error);
-          border: 1px solid var(--color-error);
+
+        /* Secondary with left icon (same as secondary but left-aligned content) */
+        :host([variant="secondary-left"]) button {
+          background: transparent;
+          color: var(--color-on-surface);
+          border: 1px solid var(--color-outline, var(--color-primary));
+          justify-content: flex-start;
+          padding-left: 1rem;
         }
-        :host([variant="destructive"]) button:hover {
-          background: color-mix(in srgb, var(--color-error) 10%, var(--color-surface));
+
+        /* Destructive variant - solid error color with white text (token-driven)
+           This affects both regular destructive and container-danger variants. */
+        :host([variant="destructive"]) button,
+        :host([variant="container-danger"]) button {
+          background: var(--color-error, #b5005a);
+          color: var(--on-error, #ffffff);
+          border: none;
+        }
+        :host([variant="destructive"]) button:hover,
+        :host([variant="container-danger"]) button:hover {
+          background: color-mix(in srgb, var(--color-error, #b5005a) 90%, black);
+        }
+
+        /* Alias: primary-right-icon variant - same as primary but right-icon emphasized */
+        :host([variant="primary-right-icon"]) button {
+          /* keep primary styling; this alias exists for story names and clarity */
+        }
+
+        /* Full-width container-danger (maps to destructive styling for container buttons) */
+        :host([variant="container-danger"]) button {
+          background: var(--color-error);
+          color: var(--on-error, #fff);
+          border: none;
         }
         /* Icon-only variant */
         :host([variant="icon"]) button {
@@ -134,6 +159,29 @@ class LabsButton extends HTMLElement {
           clip: rect(0,0,0,0) !important;
           white-space: nowrap !important;
           border: 0 !important;
+        }
+
+        /* Responsive collapse: allow callers to mark the button to collapse its label
+           at small viewport widths by setting data-collapse="small" on the host. */
+        @media (max-width: 700px) {
+          :host([data-collapse~="small"]) ::slotted(:not([slot])) {
+            position: absolute !important;
+            width: 1px !important;
+            height: 1px !important;
+            padding: 0 !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            clip: rect(0,0,0,0) !important;
+            white-space: nowrap !important;
+            border: 0 !important;
+          }
+
+          :host([data-collapse~="small"]) button {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            min-width: 2.5em;
+            width: auto;
+          }
         }
       </style>
       <button part="button">
