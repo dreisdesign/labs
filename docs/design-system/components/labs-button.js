@@ -80,14 +80,23 @@ class LabsButton extends HTMLElement {
           justify-content: flex-start;
           padding-left: 1rem;
         }
-        /* Destructive variant - solid error color with white text */
-        :host([variant="destructive"]) button {
-          background: var(--color-error);
-          color: var(--on-error, #fff);
+
+        /* Destructive variant - solid error color with white text (token-driven)
+           This affects both regular destructive and container-danger variants. */
+        :host([variant="destructive"]) button,
+        :host([variant="container-danger"]) button {
+          background: var(--color-error, #b5005a);
+          color: var(--on-error, #ffffff);
           border: none;
         }
-        :host([variant="destructive"]) button:hover {
-          background: color-mix(in srgb, var(--color-error) 90%, black);
+        :host([variant="destructive"]) button:hover,
+        :host([variant="container-danger"]) button:hover {
+          background: color-mix(in srgb, var(--color-error, #b5005a) 90%, black);
+        }
+
+        /* Alias: primary-right-icon variant - same as primary but right-icon emphasized */
+        :host([variant="primary-right-icon"]) button {
+          /* keep primary styling; this alias exists for story names and clarity */
         }
 
         /* Full-width container-danger (maps to destructive styling for container buttons) */
