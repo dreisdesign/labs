@@ -5,7 +5,8 @@ addons.setConfig({
   theme: create({
     base: 'auto',
     brandTitle: 'Labs Storybook',
-    brandUrl: '/',
+    // point brand back to the published Labs site to avoid clicking to site root which 404s
+    brandUrl: 'https://dreisdesign.github.io/labs/',
     brandImage: 'smoothie.svg', // Custom logo in public folder
   }),
 });
@@ -130,11 +131,22 @@ window.addEventListener('message', (ev) => {
       const attrs = Array.from(img.attributes).filter(a => a.name !== 'src' && a.name !== 'srcset');
       attrs.forEach(a => svg.setAttribute(a.name, a.value));
 
-      // Make display consistent with typical images
+      // Make display consistent with typical images and constrain size via wrapper
       if (!svg.getAttribute('style')) svg.setAttribute('style', 'display:block');
 
-      // Replace the image with the inline svg
-      img.replaceWith(svg);
+      const wrapper = document.createElement('span');
+      wrapper.className = 'smoothie-inline-wrapper';
+      // sensible default max height so it fits Storybook header
+      wrapper.style.display = 'inline-block';
+      wrapper.style.maxHeight = '2.25rem';
+      wrapper.style.height = '100%';
+      wrapper.style.overflow = 'hidden';
+      // ensure svg fills wrapper
+      svg.setAttribute('width', '100%');
+      svg.setAttribute('height', '100%');
+
+      wrapper.appendChild(svg);
+      img.replaceWith(wrapper);
     } catch (e) {
       // ignore failures intentionally; a failed inline shouldn't break manager
     }
