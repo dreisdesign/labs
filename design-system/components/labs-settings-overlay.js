@@ -2,14 +2,14 @@ import "./labs-button.js";
 import "./labs-icon.js";
 
 class LabsSettingsOverlay extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({ mode: "open" });
-        this.render();
-    }
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+    this.render();
+  }
 
-    render() {
-        this.shadowRoot.innerHTML = `
+  render() {
+    this.shadowRoot.innerHTML = `
       <style>
         :host {
           display: inline-block;
@@ -86,7 +86,7 @@ class LabsSettingsOverlay extends HTMLElement {
         }
 
         .close-button:hover {
-          background-color: var(--close-button-hover, rgba(46, 43, 116, 0.1));
+          background-color: var(--close-button-hover, color-mix(in srgb, var(--color-primary) 8%, transparent));
         }
 
         .close-icon {
@@ -134,47 +134,47 @@ class LabsSettingsOverlay extends HTMLElement {
         }
       </style>
 
-      <labs-button id="open-settings-btn" icon="settings" iconcolor="#fff" variant="primary" label="Settings"></labs-button>
+  <labs-button id="open-settings-btn" icon="settings" variant="primary" label="Settings"></labs-button>
       <div id="overlay" class="settings-overlay" style="display:none;">
         <div class="overlay-content">
           <div class="overlay-header">
             <h2>Settings</h2>
             <button class="close-button">
-              <labs-icon name="close" class="close-icon" color="#000"></labs-icon>
+              <labs-icon name="close" class="close-icon"></labs-icon>
             </button>
           </div>
           <div class="button-container">
-            <labs-button label="All Apps" icon="add" iconcolor="var(--color-primary-75)" variant="container"></labs-button>
-            <labs-button label="Turn On Dark Mode" icon="bedtime" iconcolor="var(--color-primary-75)" variant="container"></labs-button>
-            <labs-button label="Reset All Data" icon="delete_forever" iconcolor="var(--color-error)" variant="container-danger"></labs-button>
+            <labs-button label="All Apps" icon="add" variant="container"></labs-button>
+            <labs-button label="Turn On Dark Mode" icon="bedtime" variant="container"></labs-button>
+            <labs-button label="Reset All Data" icon="delete_forever" variant="container-danger"></labs-button>
           </div>
         </div>
       </div>
     `;
 
-        const openBtn = this.shadowRoot.getElementById("open-settings-btn");
-        const overlay = this.shadowRoot.getElementById("overlay");
-        const closeBtn = this.shadowRoot.querySelector(".close-button");
+    const openBtn = this.shadowRoot.getElementById("open-settings-btn");
+    const overlay = this.shadowRoot.getElementById("overlay");
+    const closeBtn = this.shadowRoot.querySelector(".close-button");
 
-        openBtn.addEventListener("click", () => {
-            overlay.style.display = "flex";
-        });
+    openBtn.addEventListener("click", () => {
+      overlay.style.display = "flex";
+    });
 
-        closeBtn.addEventListener("click", () => {
-            overlay.style.display = "none";
-        });
+    closeBtn.addEventListener("click", () => {
+      overlay.style.display = "none";
+    });
 
-        overlay.addEventListener("click", (e) => {
-            if (e.target === overlay) overlay.style.display = "none";
-        });
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) overlay.style.display = "none";
+    });
 
-        // Ensure all labs-icon elements are upgraded and rendered
-        customElements.whenDefined('labs-icon').then(() => {
-            this.shadowRoot.querySelectorAll('labs-icon').forEach(icon => {
-                if (typeof icon.render === 'function') icon.render();
-            });
-        });
-    }
+    // Ensure all labs-icon elements are upgraded and rendered
+    customElements.whenDefined('labs-icon').then(() => {
+      this.shadowRoot.querySelectorAll('labs-icon').forEach(icon => {
+        if (typeof icon.render === 'function') icon.render();
+      });
+    });
+  }
 }
 
 customElements.define("labs-settings-overlay", LabsSettingsOverlay);

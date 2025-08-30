@@ -107,6 +107,15 @@ class LabsButton extends HTMLElement {
           margin: 0 !important;
           vertical-align: middle !important;
         }
+        /* Make slotted icons inherit the host/button color so they follow tokens/currentColor */
+        ::slotted([slot="icon-left"]) labs-icon,
+        ::slotted([slot="icon-right"]) labs-icon,
+        ::slotted([slot="icon-left"]) svg,
+        ::slotted([slot="icon-right"]) svg {
+          color: inherit !important;
+          fill: currentColor !important;
+          stroke: currentColor !important;
+        }
         /* Default slot label alignment */
         ::slotted(:not([slot])) {
           display: inline-flex;

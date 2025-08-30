@@ -1,9 +1,9 @@
 /**
  * labs-undo-button: Undo action component based on tracker implementation
- * 
+ *
  * Features:
  * - Auto-dismiss after timeout
- * - Cancel/undo action capability  
+ * - Cancel/undo action capability
  * - Toast-style notification appearance
  * - Accessible with keyboard support
  * - Event-driven workflow (Action → Undo → Auto-dismiss)
@@ -12,115 +12,115 @@ import "./labs-icon.js";
 import "./labs-button.js";
 
 class LabsUndoButton extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({ mode: "open" });
-        this.undoTimeout = null;
-        this.defaultTimeout = 5000; // 5 seconds
+  constructor() {
+    super();
+    this.attachShadow({ mode: "open" });
+    this.undoTimeout = null;
+    this.defaultTimeout = 5000; // 5 seconds
+  }
+
+  static get observedAttributes() {
+    return ["active", "message", "timeout", "action-type"];
+  }
+
+  attributeChangedCallback() {
+    this.render();
+  }
+
+  connectedCallback() {
+    this.render();
+    this.setupEventListeners();
+  }
+
+  disconnectedCallback() {
+    this.clearUndoTimeout();
+  }
+
+  setupEventListeners() {
+    // Handle undo button click using labs-click event
+    this.shadowRoot.addEventListener('labs-click', (e) => {
+      const undoButton = e.target.closest('[data-action="undo"]');
+      const dismissButton = e.target.closest('[data-action="dismiss"]');
+
+      if (undoButton) {
+        this.dispatchUndo();
+      } else if (dismissButton) {
+        this.dismiss();
+      }
+    });
+
+    // Handle escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && this.hasAttribute('active')) {
+        this.dismiss();
+      }
+    });
+
+    // Handle click outside to dismiss
+    this.shadowRoot.addEventListener('click', (e) => {
+      if (e.target === this.shadowRoot.querySelector('.undo-overlay')) {
+        this.dismiss();
+      }
+    });
+  }
+
+  // Public API methods
+  show(message, actionType = "delete", timeout = this.defaultTimeout) {
+    this.setAttribute('message', message);
+    this.setAttribute('action-type', actionType);
+    this.setAttribute('timeout', timeout.toString());
+    this.setAttribute('active', '');
+
+    this.startUndoTimer(timeout);
+  }
+
+  hide() {
+    this.removeAttribute('active');
+    this.clearUndoTimeout();
+  }
+
+  dismiss() {
+    this.hide();
+    this.dispatchEvent(new CustomEvent('labs-undo-dismiss', {
+      bubbles: true,
+      detail: {
+        actionType: this.getAttribute('action-type'),
+        message: this.getAttribute('message')
+      }
+    }));
+  }
+
+  dispatchUndo() {
+    this.hide();
+    this.dispatchEvent(new CustomEvent('labs-undo-action', {
+      bubbles: true,
+      detail: {
+        actionType: this.getAttribute('action-type'),
+        message: this.getAttribute('message')
+      }
+    }));
+  }
+
+  startUndoTimer(timeout) {
+    this.clearUndoTimeout();
+    this.undoTimeout = setTimeout(() => {
+      this.dismiss();
+    }, timeout);
+  }
+
+  clearUndoTimeout() {
+    if (this.undoTimeout) {
+      clearTimeout(this.undoTimeout);
+      this.undoTimeout = null;
     }
+  }
 
-    static get observedAttributes() {
-        return ["active", "message", "timeout", "action-type"];
-    }
+  render() {
+    const isActive = this.hasAttribute('active');
+    const message = this.getAttribute('message') || 'Action completed';
+    const actionType = this.getAttribute('action-type') || 'delete';
 
-    attributeChangedCallback() {
-        this.render();
-    }
-
-    connectedCallback() {
-        this.render();
-        this.setupEventListeners();
-    }
-
-    disconnectedCallback() {
-        this.clearUndoTimeout();
-    }
-
-    setupEventListeners() {
-        // Handle undo button click using labs-click event
-        this.shadowRoot.addEventListener('labs-click', (e) => {
-            const undoButton = e.target.closest('[data-action="undo"]');
-            const dismissButton = e.target.closest('[data-action="dismiss"]');
-
-            if (undoButton) {
-                this.dispatchUndo();
-            } else if (dismissButton) {
-                this.dismiss();
-            }
-        });
-
-        // Handle escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && this.hasAttribute('active')) {
-                this.dismiss();
-            }
-        });
-
-        // Handle click outside to dismiss
-        this.shadowRoot.addEventListener('click', (e) => {
-            if (e.target === this.shadowRoot.querySelector('.undo-overlay')) {
-                this.dismiss();
-            }
-        });
-    }
-
-    // Public API methods
-    show(message, actionType = "delete", timeout = this.defaultTimeout) {
-        this.setAttribute('message', message);
-        this.setAttribute('action-type', actionType);
-        this.setAttribute('timeout', timeout.toString());
-        this.setAttribute('active', '');
-
-        this.startUndoTimer(timeout);
-    }
-
-    hide() {
-        this.removeAttribute('active');
-        this.clearUndoTimeout();
-    }
-
-    dismiss() {
-        this.hide();
-        this.dispatchEvent(new CustomEvent('labs-undo-dismiss', {
-            bubbles: true,
-            detail: {
-                actionType: this.getAttribute('action-type'),
-                message: this.getAttribute('message')
-            }
-        }));
-    }
-
-    dispatchUndo() {
-        this.hide();
-        this.dispatchEvent(new CustomEvent('labs-undo-action', {
-            bubbles: true,
-            detail: {
-                actionType: this.getAttribute('action-type'),
-                message: this.getAttribute('message')
-            }
-        }));
-    }
-
-    startUndoTimer(timeout) {
-        this.clearUndoTimeout();
-        this.undoTimeout = setTimeout(() => {
-            this.dismiss();
-        }, timeout);
-    }
-
-    clearUndoTimeout() {
-        if (this.undoTimeout) {
-            clearTimeout(this.undoTimeout);
-            this.undoTimeout = null;
-        }
-    }
-
-    render() {
-        const isActive = this.hasAttribute('active');
-        const message = this.getAttribute('message') || 'Action completed';
-        const actionType = this.getAttribute('action-type') || 'delete';
-
-        this.shadowRoot.innerHTML = `
+    this.shadowRoot.innerHTML = `
       <style>
         :host {
           position: fixed;
@@ -236,23 +236,23 @@ class LabsUndoButton extends HTMLElement {
 
       <div class="undo-overlay"></div>
       <div class="undo-notification notification-${actionType}">
-        <labs-icon 
-          name="undo" 
-          size="20" 
-          color="var(--color-on-surface-variant)" 
+        <labs-icon
+          name="undo"
+          size="20"
           class="undo-icon"
+          style="color: var(--color-on-surface-variant)"
         ></labs-icon>
-        
+
         <div class="undo-content">
           <p class="undo-message">${message}</p>
           <div class="undo-actions">
-            <labs-button 
-              label="Undo" 
+            <labs-button
+              label="Undo"
               variant="rounded-secondary"
               data-action="undo"
             ></labs-button>
-            <labs-button 
-              label="Dismiss" 
+            <labs-button
+              label="Dismiss"
               variant="transparent"
               data-action="dismiss"
             ></labs-button>
@@ -260,7 +260,7 @@ class LabsUndoButton extends HTMLElement {
         </div>
       </div>
     `;
-    }
+  }
 }
 
 customElements.define("labs-undo-button", LabsUndoButton);

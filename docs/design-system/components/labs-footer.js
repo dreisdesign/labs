@@ -121,34 +121,34 @@ class LabsFooter extends HTMLElement {
             width: 100%;
             border-radius: 1rem 1rem 0 0;
           }
-          
+
           .footer-container {
             padding: 0 var(--space-sm);
           }
-          
+
           .settings-button {
             margin-right: var(--space-md);
           }
         }
       </style>
-      
+
       <div class="footer-container">
         <div class="footer-grid">
           <!-- Primary Add Button (centered) -->
-          <labs-button 
-            class="add-button" 
-            label="${addLabel}" 
-            variant="primary" 
+          <labs-button
+            class="add-button"
+            label="${addLabel}"
+            variant="primary"
             checkmark
           ></labs-button>
-          
+
           <!-- Settings Button (positioned right) -->
-          <labs-button 
-            class="settings-button" 
-            icon="settings" 
-            variant="icon" 
+          <labs-button
+            class="settings-button"
+            icon="settings"
+            variant="icon"
             aria-label="Open Settings"
-            iconcolor="var(--color-primary-75)"
+            style="color: var(--color-primary-75)"
             ${settingsHidden ? 'hidden' : ''}
           ></labs-button>
         </div>

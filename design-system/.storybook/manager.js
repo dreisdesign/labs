@@ -79,3 +79,5 @@ window.addEventListener('message', (ev) => {
   const isDark = root.classList.contains('theme-dark') || root.getAttribute('data-color-scheme') === 'dark';
   applyThemePayload({ theme: isDark ? 'dark' : 'light' });
 })();
+
+// smoothie inliner removed — logos are outlined and served from public/
