@@ -5,8 +5,9 @@ addons.setConfig({
   theme: create({
     base: 'auto',
     brandTitle: 'Labs Storybook',
-    // point brand back to the published Labs site to avoid clicking to site root which 404s
-    brandUrl: 'https://dreisdesign.github.io/labs/',
+    // Use a relative URL so the brand link points to the current Storybook root
+    // (e.g. './' resolves to '/labs/design-system/' on GitHub Pages)
+    brandUrl: './',
     brandImage: 'smoothie.svg', // Custom logo in public folder
   }),
 });
