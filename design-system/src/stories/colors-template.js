@@ -14,16 +14,19 @@ export function renderColors(opts = {}) {
       '--palette-red-500': 'Error'
     },
     'vanilla': {
-      '--palette-vanilla-100': 'Background',
+      '--palette-vanilla-100': 'Surface',
+      '--palette-vanilla-200': 'Background',
       '--palette-vanilla-500': 'Primary',
       '--palette-vanilla-800': 'Primary Darker'
     },
     'blueberry': {
+      '--palette-blueberry-100': 'Surface',
       '--palette-blueberry-200': 'Background',
       '--palette-blueberry-500': 'Primary',
       '--palette-blueberry-800': 'Primary Darker'
     },
     'strawberry': {
+      '--palette-strawberry-100': 'Surface',
       '--palette-strawberry-200': 'Background',
       '--palette-strawberry-500': 'Primary',
       '--palette-strawberry-800': 'Primary Darker'
@@ -107,7 +110,8 @@ export function renderColors(opts = {}) {
     return Array.from(new Set([...(set.semantic || []), ...(set.neutrals || [])]));
   };
 
-  const flavorClass = only ? `flavor-${only} theme-light` : 'flavor-vanilla theme-light';
+  // Render global view without a flavor wrapper so semantic globals resolve to neutral/base tokens
+  const flavorClass = only ? `flavor-${only} theme-light` : 'theme-light';
   const dataAttr = only ? `data-only-flavor="${only}"` : '';
 
   // Render flavor sections only when a specific flavor is requested (individual flavor story).
@@ -223,7 +227,7 @@ export function renderColors(opts = {}) {
       </style>
       <div id="flavors-top">
         <h1 style="margin:8px 0">Design Tokens — Palette</h1>
-        <details class="flavor-column flavor-global" ${hideIfNot('global')} ${(!only || only === 'global') ? 'open' : ''} style="margin-bottom:18px">
+  <details class="flavor-column flavor-global" ${hideIfNot('global')} ${(!only || only === 'global') ? 'open' : ''} style="margin-bottom:18px;background:var(--color-surface);color:var(--color-on-surface)">
         <summary style="margin:8px 0"><h3 style="display:inline;margin:0">Global</h3></summary>
   <div class="palette-heading">Core Palette</div>
         <div class="polaroid-row polaroid-palette" style="margin-bottom:18px;">
