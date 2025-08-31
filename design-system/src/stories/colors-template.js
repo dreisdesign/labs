@@ -154,6 +154,8 @@ export function renderColors(opts = {}) {
   /* Responsive grid of compact polaroids */
   .polaroid-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:16px}
   details.flavor-column{margin-bottom:12px;border-radius:8px;padding:8px;border:1px solid rgba(0,0,0,0.04);background:var(--color-surface);color:var(--color-on-surface);transition:background 0.2s,color 0.2s}
+  /* Force the Global details to use the neutral base palette (Base 100/800) so it remains flavor-agnostic */
+  details.flavor-column.flavor-global{background:var(--palette-base-100);color:var(--palette-base-800)}
   details.flavor-column[open]{box-shadow:0 1px 0 rgba(0,0,0,0.04)}
   details.flavor-column summary{list-style:none;cursor:pointer;padding:6px 8px}
   details.flavor-column summary::-webkit-details-marker{display:none}
@@ -227,7 +229,7 @@ export function renderColors(opts = {}) {
       </style>
       <div id="flavors-top">
         <h1 style="margin:8px 0">Design Tokens — Palette</h1>
-  <details class="flavor-column flavor-global" ${hideIfNot('global')} ${(!only || only === 'global') ? 'open' : ''} style="margin-bottom:18px;background:var(--color-surface);color:var(--color-on-surface)">
+  <details class="flavor-column flavor-global" ${hideIfNot('global')} ${(!only || only === 'global') ? 'open' : ''} style="margin-bottom:18px">
         <summary style="margin:8px 0"><h3 style="display:inline;margin:0">Global</h3></summary>
   <div class="palette-heading">Core Palette</div>
         <div class="polaroid-row polaroid-palette" style="margin-bottom:18px;">
