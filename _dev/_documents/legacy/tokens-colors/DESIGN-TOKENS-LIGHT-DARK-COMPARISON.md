@@ -7,8 +7,8 @@ This table shows how the same semantic tokens resolve to different values in lig
 | Token | Light Theme | Dark Theme | Purpose |
 |-------|-------------|------------|---------|
 | `--color-primary` | #6B5C4B (vanilla-500) | #A89B8C (vanilla-300) | Primary brand color |
-| `--color-background` | #F5F1E7 (vanilla-100) | #1b1c1f (vanilla-800) | Page background |
-| `--color-on-background` | #1b1c1f (vanilla-800) | #FFFFFF | Text on background |
+| `--color-background` | #F5F1E7 (vanilla-100) | #1B1C1F (vanilla-800) | Page background |
+| `--color-on-background` | #1B1C1F (vanilla-800) | #FFFFFF | Text on background |
 | `--color-success` | #00800C (global) | #00800C (global) | Success feedback |
 | `--color-warning` | #FFB300 (global) | #FFB300 (global) | Warning feedback |
 | `--color-error` | #D32F2F (global) | #D32F2F (global) | Error feedback |

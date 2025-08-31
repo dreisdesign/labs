@@ -82,7 +82,40 @@ function executeColorLogic() {
           ctx = ctx.parentElement;
         }
 
-        var res = resolveToken(v, undefined, ctx || document.documentElement);
+        // If the resolved container is the global flavor wrapper, ignore the active
+        // theme/flavor (Storybook toolbar) and resolve known semantic globals against
+        // neutral/base palette tokens so the Global table remains flavor-agnostic.
+        var useNeutralGlobal = false;
+        if (ctx && ctx.classList && ctx.classList.contains('flavor-global')) {
+          useNeutralGlobal = true;
+        }
+
+        var res = null;
+        if (useNeutralGlobal) {
+          // Map a small, curated set of semantic global tokens to their base palette anchors
+          var neutralMap = {
+            '--color-surface': '--palette-base-100',
+            '--color-surface-alt': '--palette-base-800',
+            '--color-success': '--palette-green-500',
+            '--color-warning': '--palette-yellow-500',
+            '--color-error': '--palette-red-500'
+          };
+          if (neutralMap[v]) {
+            // Resolve the palette token directly (palette tokens are global anchors)
+            var mapped = neutralMap[v];
+            try {
+              var mappedRes = resolveToken(mapped, undefined, document.documentElement);
+              res = { chain: [v, mapped], value: mappedRes && mappedRes.value ? mappedRes.value : (getComputedStyle(document.documentElement).getPropertyValue(mapped).trim() || 'unset') };
+            } catch (e) {
+              res = { chain: [v, mapped], value: getComputedStyle(document.documentElement).getPropertyValue(mapped).trim() || 'unset' };
+            }
+          } else {
+            // fallback to normal resolution if token not in the neutral map
+            res = resolveToken(v, undefined, document.documentElement);
+          }
+        } else {
+          res = resolveToken(v, undefined, ctx || document.documentElement);
+        }
         var displayVal = res.value;
 
         // Update resolved value cells
@@ -130,7 +163,7 @@ function executeColorLogic() {
                 '#F5F1E7': 'Vanilla 100',
                 '#E8E2D6': 'Vanilla 200',
                 '#6B5C4B': 'Vanilla 500',
-                '#1b1c1f': 'Vanilla 800',
+                '#1B1C1F': 'Vanilla 800',
                 // Strawberry
                 '#FFF2F1': 'Strawberry 100',
                 '#FFD3D2': 'Strawberry 200',
@@ -139,7 +172,12 @@ function executeColorLogic() {
               };
               try {
                 var hex = normalizeHex(colorToHex(resolvedColor) || resolvedColor);
-                if (hex) baseTokenFound = colorToTokenMap[hex.toUpperCase()];
+                if (hex) {
+                  // Be case-insensitive when looking up mapping keys (some keys are lower/upper cased)
+                  var hexKeyLower = (hex || '').toLowerCase();
+                  var hexKeyUpper = (hex || '').toUpperCase();
+                  baseTokenFound = colorToTokenMap[hexKeyLower] || colorToTokenMap[hexKeyUpper];
+                }
               } catch (e) { }
             }
 
@@ -280,20 +318,19 @@ function executeColorLogic() {
                 var badge = document.createElement('span');
                 badge.className = 'contrast-badge';
                 badge.textContent = contrast.toFixed(1) + ':1';
+                // Use a white fill background for the compact contrast badge
+                // while keeping color indications via badge text color.
+                badge.style.background = '#FFFFFF';
                 if (contrast >= 7) {
-                  badge.style.background = '#eaf7ea';
                   badge.style.color = '#006600';
                   badge.style.fontWeight = '700';
                 } else if (contrast >= 4.5) {
-                  badge.style.background = '#eaf7ea';
                   badge.style.color = '#006600';
                   badge.style.fontWeight = '600';
                 } else if (contrast >= 3) {
-                  badge.style.background = '#fff7e6';
                   badge.style.color = '#cc6600';
                   badge.style.fontWeight = '600';
                 } else {
-                  badge.style.background = '#ffe6e6';
                   badge.style.color = '#a00000';
                   badge.style.fontWeight = '600';
                 }

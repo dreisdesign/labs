@@ -28,7 +28,7 @@
       height: 100%;
       overflow: hidden;
       background: var(--color-background, #FBFBFD);
-      color: var(--color-on-background, #372116);
+      color: var(--color-on-background, #1B1C1F);
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
@@ -96,7 +96,7 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      color: var(--color-on-background, #372116);
+      color: var(--color-on-background, #1B1C1F);
       opacity: 0.5;
       font-size: 16px;
       display: none;
@@ -236,7 +236,7 @@
         this.ctx.lineCap = 'round';
         this.ctx.lineJoin = 'round';
         this.ctx.strokeStyle = getComputedStyle(document.documentElement)
-          .getPropertyValue('--color-on-background').trim() || '#372116';
+          .getPropertyValue('--color-on-background').trim() || '#1B1C1F';
       }
 
       redrawAllStrokes() {
@@ -244,7 +244,7 @@
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         // Redraw all strokes with current color
         const color = getComputedStyle(document.documentElement)
-          .getPropertyValue('--color-on-background').trim() || '#372116';
+          .getPropertyValue('--color-on-background').trim() || '#1B1C1F';
         for (const stroke of this.strokes) {
           if (stroke.length < 1) continue;
           this.ctx.beginPath();
