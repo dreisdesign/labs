@@ -154,8 +154,14 @@ export function renderColors(opts = {}) {
   /* Responsive grid of compact polaroids */
   .polaroid-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:16px}
   details.flavor-column{margin-bottom:12px;border-radius:8px;padding:8px;border:1px solid rgba(0,0,0,0.04);background:var(--color-surface);color:var(--color-on-surface);transition:background 0.2s,color 0.2s}
-  /* Force the Global details to use the neutral base palette (Base 100/800) so it remains flavor-agnostic */
-  details.flavor-column.flavor-global{background:var(--palette-base-100);color:var(--palette-base-800)}
+  /* Force the Global details to use the neutral base palette (Base 100/800) via semantic tokens
+     so we render using --color-surface / --color-on-surface while remaining flavor-agnostic. */
+  details.flavor-column.flavor-global{
+    --color-surface: var(--palette-base-100);
+    --color-on-surface: var(--palette-base-800);
+    background: var(--color-surface);
+    color: var(--color-on-surface);
+  }
   details.flavor-column[open]{box-shadow:0 1px 0 rgba(0,0,0,0.04)}
   details.flavor-column summary{list-style:none;cursor:pointer;padding:6px 8px}
   details.flavor-column summary::-webkit-details-marker{display:none}
