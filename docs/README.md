@@ -11,6 +11,8 @@ Welcome to the Labs suite of productivity web applications and design system.
 - [Today List](https://dreisdesign.github.io/labs/today-list/)
 - [Design System (Storybook)](https://dreisdesign.github.io/labs/design-system/)
 
+Note: Small UI parity fixes (Global colors rendering and icon-only button parity in dark mode) were applied to the Design System on 2025-08-31 — see `design-system/CHANGELOG.md` Unreleased section for details.
+
 ## About
 
 Labs is a collection of modern, responsive productivity apps and a shared design system. All apps are installable as PWAs and optimized for desktop and mobile.

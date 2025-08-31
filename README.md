@@ -12,6 +12,7 @@
 | **🖊️ Pad** | Drawing app | [Pad App](https://dreisdesign.github.io/labs/pad/) |
 | **🏠 Labs Homepage** | App launcher and overview | [Homepage](https://dreisdesign.github.io/labs/) |
 
+Note: The Design System received small parity fixes on 2025-08-31 (Global colors and icon-only button behavior); see `design-system/CHANGELOG.md` Unreleased for details.
 ## 🏗️ Repository Structure
 
 ```
