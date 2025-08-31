@@ -130,7 +130,7 @@ function executeColorLogic() {
                 '#F5F1E7': 'Vanilla 100',
                 '#E8E2D6': 'Vanilla 200',
                 '#6B5C4B': 'Vanilla 500',
-                '#372116': 'Vanilla 800',
+                '#1b1c1f': 'Vanilla 800',
                 // Strawberry
                 '#FFF2F1': 'Strawberry 100',
                 '#FFD3D2': 'Strawberry 200',

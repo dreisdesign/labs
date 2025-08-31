@@ -81,15 +81,19 @@ class LabsButton extends HTMLElement {
           padding-left: 1rem;
         }
 
-        /* Destructive variant - solid error color with white text (token-driven)
-           This affects both regular destructive and container-danger variants. */
+        /* Destructive/danger variants - solid error color with white text (token-driven)
+           Accept both destructive and the legacy danger name so stories and configs
+           that use variant="danger" continue to render as intended. Also style
+           container-danger to match container destructive buttons. */
         :host([variant="destructive"]) button,
+        :host([variant="danger"]) button,
         :host([variant="container-danger"]) button {
           background: var(--color-error, #b5005a);
           color: var(--on-error, #ffffff);
           border: none;
         }
         :host([variant="destructive"]) button:hover,
+        :host([variant="danger"]) button:hover,
         :host([variant="container-danger"]) button:hover {
           background: color-mix(in srgb, var(--color-error, #b5005a) 90%, black);
         }

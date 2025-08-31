@@ -11,7 +11,7 @@
   --color-primary: var(--palette-vanilla-500);
   /* Use 500 (#6B5C4B) as primary */
   --color-primary-darker: var(--palette-vanilla-800);
-  /* Use 800 (#372116) as primary-darker */
+  /* Use 800 (#1b1c1f) as primary-darker */
   --color-background: var(--palette-vanilla-100);
   /* #F5F1E7 */
   /* Surface mapping for vanilla light theme */
@@ -29,7 +29,7 @@
   --color-primary-darker: var(--palette-vanilla-500);
   /* Use 500 for dark theme primary-darker (#6B5C4B) */
   --color-background: var(--palette-vanilla-800);
-  /* was 900, now 800 (#372116) */
+  /* was 900, now 800 (#1b1c1f) */
   /* Surface mapping for vanilla dark theme */
   --color-surface: var(--palette-vanilla-800);
   --color-on-primary: var(--palette-vanilla-800);

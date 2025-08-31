@@ -19,7 +19,7 @@ Raw color values organized by flavor families and purposes:
 --palette-vanilla-100: #F5F1E7;    /* Light backgrounds */
 --palette-vanilla-200: #E8E2D6;    /* Theme backgrounds */
 --palette-vanilla-500: #6B5C4B;    /* Primary colors */
---palette-vanilla-800: #372116;    /* Dark colors */
+--palette-vanilla-800: #1b1c1f;    /* Dark colors */
 
 /* Blueberry Palette */
 --palette-blueberry-100: #F0EEFF;

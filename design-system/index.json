@@ -8,31 +8,11 @@
       "importPath": "./src/stories/About.mdx",
       "storiesImports": [],
       "type": "docs",
-      "tags": ["dev", "test", "unattached-mdx"]
-    },
-    "tokens-all--colors": {
-      "type": "story",
-      "id": "tokens-all--colors",
-      "name": "Colors",
-      "title": "Tokens/All",
-      "importPath": "./src/stories/Tokens.stories.js",
-      "tags": ["dev", "test"]
-    },
-    "tokens-all--typography": {
-      "type": "story",
-      "id": "tokens-all--typography",
-      "name": "Typography",
-      "title": "Tokens/All",
-      "importPath": "./src/stories/Tokens.stories.js",
-      "tags": ["dev", "test"]
-    },
-    "tokens-all--spacing": {
-      "type": "story",
-      "id": "tokens-all--spacing",
-      "name": "Spacing",
-      "title": "Tokens/All",
-      "importPath": "./src/stories/Tokens.stories.js",
-      "tags": ["dev", "test"]
+      "tags": [
+        "dev",
+        "test",
+        "unattached-mdx"
+      ]
     },
     "components-button--default": {
       "type": "story",
@@ -40,7 +20,10 @@
       "name": "Primary",
       "title": "Components/Button",
       "importPath": "./src/stories/labs-button.stories.js",
-      "tags": ["dev", "test"]
+      "tags": [
+        "dev",
+        "test"
+      ]
     },
     "components-button--icon-left": {
       "type": "story",
@@ -48,7 +31,10 @@
       "name": "Icon Left",
       "title": "Components/Button",
       "importPath": "./src/stories/labs-button.stories.js",
-      "tags": ["dev", "test"]
+      "tags": [
+        "dev",
+        "test"
+      ]
     },
     "components-button--icon-right": {
       "type": "story",
@@ -56,7 +42,10 @@
       "name": "Icon Right",
       "title": "Components/Button",
       "importPath": "./src/stories/labs-button.stories.js",
-      "tags": ["dev", "test"]
+      "tags": [
+        "dev",
+        "test"
+      ]
     },
     "components-button--with-checkmark": {
       "type": "story",
@@ -64,7 +53,10 @@
       "name": "On click: Checkmark",
       "title": "Components/Button",
       "importPath": "./src/stories/labs-button.stories.js",
-      "tags": ["dev", "test"]
+      "tags": [
+        "dev",
+        "test"
+      ]
     }
   }
 }
