@@ -101,6 +101,10 @@ function toggleTheme() {
 **August 2025 Update:**
 - All color/theming issues are now resolved. The Colors story is robust for all flavors and tokens, with correct base mapping and theme-driven polaroid labels.
 
+### Recent minor fixes (2025-08-31)
+- Global palette `<details>` now uses `--color-surface` in the Colors story so Base 100 is shown for neutral/global tokens.
+- Icon-only `labs-button` variant adjusted to prefer `--color-on-surface` for parity with secondary icon buttons in dark mode.
+
 **✅ Strategic Storybook Documentation**
 - Colors story reorganized with Base/Status sections
 - Base column shows actual palette tokens ("Blueberry 500", "Base 100")

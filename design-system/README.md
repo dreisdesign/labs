@@ -24,6 +24,7 @@ This is the canonical design system for Labs apps, featuring a comprehensive two
 ## Key Docs & Links
 
 - **[🎨 Color Tokens & Theme Docs](src/styles/COLORS-DOCS.md)** — Complete theming guide and token architecture
+ - **Note:** Small UI parity fixes (icon-only button color and Global colors story rendering) were applied on 2025-08-31 — see `CHANGELOG.md` Unreleased section.
 - **[🎨 Storybook Live](https://dreisdesign.github.io/labs/design-system/)** — Interactive component documentation
 - **[🔘 Button Docs](src/components/labs-button/BUTTON-DOCS.md)** — Canonical button component documentation
 - **[Smoothie Design System Overview](smoothie.md)** — Philosophy and metaphor for all components

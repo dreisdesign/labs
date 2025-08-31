@@ -10,6 +10,13 @@
 	- Two-layer system (palette + semantic) is now fully production-ready and robust for all flavors and themes.
 	- All color/theming TODOs are now complete; only future enhancements remain.
 
+## Unreleased — 2025-08-31
+
+### 🛠️ Documentation & Minor Fixes
+- **Colors story:** Global `<details>` now explicitly uses `--color-surface` / `--color-on-surface` so the Global palette renders using the neutral base (Base 100) consistent with themed sections.
+- **Button component:** Icon-only variant updated to prefer `--color-on-surface` (falling back to `--settings-icon-color` then `--color-primary`) to match secondary-with-icon opacity/contrast in dark mode.
+
+
 
 > This changelog tracks only the Labs Design System package. For global project milestones, see the [main Labs changelog](../CHANGELOG.md).
 

@@ -36,6 +36,8 @@
 - [x] Proper icon color inheritance and theme detection
 - [x] Theme system documentation story in Storybook
 - [x] Button hover effects using color-mix() for theme adaptation
+ - [x] Icon-only button color parity with secondary-icon fixed (2025-08-31)
+ - [ ] Visual verification: confirm Icon-only in dark mode matches secondary-with-icon in Storybook
 
 ### Component System ✅
 - [x] Complete Button component with all variants and hover effects
