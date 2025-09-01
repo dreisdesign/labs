@@ -125,7 +125,7 @@
 
 > For detailed design system component changes, see [`design-system/CHANGELOG.md`](design-system/CHANGELOG.md).
 
--### Unreleased — main (2025-08-20)
+### Unreleased — main - 2025-09-01
 - docs(workflow): update sync prompt to include unified project task/TODO/changelog process
 - docs: add dedicated TODO prompt for checklist/project hygiene
 

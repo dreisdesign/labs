@@ -29,7 +29,7 @@
 - [x] **Smoothie Metaphor Documentation**: Comprehensive guide with authentic food terminology
 - [x] **Sitemap Matching Sidebar**: Generated sitemap now matches actual Storybook structure
 
-### Light/Dark Theme System ✅
+### Light/Dark Theme System ✅ (last-reviewed: 2025-09-01)
 - [x] Unified theme system across apps and Storybook
 - [x] Semantic color tokens (--color-background, --color-on-surface, etc.)
 - [x] Theme toggle button component using design system components
@@ -37,7 +37,7 @@
 - [x] Theme system documentation story in Storybook
 - [x] Button hover effects using color-mix() for theme adaptation
  - [x] Icon-only button color parity with secondary-icon fixed (2025-08-31)
- - [ ] Visual verification: confirm Icon-only in dark mode matches secondary-with-icon in Storybook
+ - [ ] Visual verification: confirm Icon-only in dark mode matches secondary-with-icon in Storybook (pending visual QA)
 
 ### Component System ✅
 - [x] Complete Button component with all variants and hover effects

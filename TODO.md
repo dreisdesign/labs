@@ -16,8 +16,8 @@
 
 
 ## Design System
-- [Design System TODOs](design-system/TODO.md) — *All color/theming tasks complete; only future enhancements remain*
-- Remove Tokens Overview page — Tokens Overview duplicates links already present in the sidebar; remove the page and its route to simplify docs.
+- [Design System TODOs](design-system/TODO.md) — *All color/theming tasks complete; only future enhancements remain* (last-reviewed: 2025-09-01)
+- Remove Tokens Overview page — Tokens Overview duplicates links already present in the sidebar; remove the page and its route to simplify docs.  ✅ (archived)
 
 ## Apps
 

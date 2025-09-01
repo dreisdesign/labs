@@ -2,7 +2,7 @@
 
 
 
-## Current Status
+## Current Status (last-reviewed: 2025-09-01)
 - ✅ **V1.0 Complete** — Basic drawing with clear functionality
 
 ## Future Enhancements
