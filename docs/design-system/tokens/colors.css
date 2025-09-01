@@ -28,14 +28,14 @@
   --color-on-background: var(--base-800);
   /* On Background: text for page background (themes customize this) */
   /* On Background: default text for backgrounds (themes override this) */
-  --palette-vanilla-00: #FFFFFF;
+  --palette-vanilla-100: #F5F1E7;
   /* Vanilla palette — for Vanilla theme and as a base for other flavors */
   --palette-vanilla-100: #F5F1E7;
   /* background */
   --palette-vanilla-200: #E8E2D6;
   --palette-vanilla-500: #6B5C4B;
   /* was 700, now 500 */
-  --palette-vanilla-800: #1b1c1f;
+  --palette-vanilla-800: #1B1C1F;
   /* was 900, now 800 */
   --palette-vanilla-1000: #000000;
   /* primary */

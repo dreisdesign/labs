@@ -187,6 +187,68 @@ const preview = {
       syncFlavorTheme(context.globals);
       return Story();
     },
+    // Docs decorator: wrap autodocs examples in a small surface container so autodocs that
+    // render plain markup get a themed surface (respecting var(--color-surface) and theme class)
+    (Story, context) => {
+      try {
+        // Only apply for docs view / autodocs - guard by viewMode or docs parameters
+        const isDocs = context.viewMode === 'docs' || (context.parameters && context.parameters.docs);
+        if (!isDocs) return Story();
+
+        const node = Story();
+
+
+        // If the story already returns a DOM node, return it directly (it's already themed/structured)
+        if (typeof Node !== 'undefined' && node instanceof Node) {
+          return node;
+        }
+
+        // Detect lit TemplateResult more robustly by constructor name or by shape (strings/values/_$litType$).
+        // Return it unchanged so Storybook can render it — don't coerce to string (which causes [object Object]).
+        if (
+          node && (
+            (node.constructor && node.constructor.name === 'TemplateResult') ||
+            (typeof node === 'object' && (Object.prototype.hasOwnProperty.call(node, 'strings') || Object.prototype.hasOwnProperty.call(node, 'values') || Object.prototype.hasOwnProperty.call(node, '_$litType$')))
+          )
+        ) {
+          return node;
+        }
+
+        // If the story returns an array of renderable pieces (TemplateResults or Nodes or strings), return it directly.
+        if (Array.isArray(node) && node.length > 0 && node.every(n => (
+          typeof n === 'string' || (typeof Node !== 'undefined' && n instanceof Node) || (n && n.constructor && n.constructor.name === 'TemplateResult')
+        ))) {
+          return node;
+        }
+
+        // For string or other non-node outputs, wrap in a themed surface container.
+        const container = document.createElement('div');
+        container.className = 'labs-autodocs-surface';
+        container.style.display = 'inline-block';
+        container.style.padding = '1rem';
+        container.style.borderRadius = '8px';
+        container.style.background = 'var(--color-surface)';
+        container.style.color = 'var(--color-on-surface)';
+        container.style.boxSizing = 'border-box';
+
+        if (typeof node === 'string') {
+          container.innerHTML = node;
+        } else if (typeof node === 'object') {
+          // For objects that reach here, attempt a sensible stringification for visibility in docs
+          try {
+            container.textContent = JSON.stringify(node, null, 2);
+          } catch (e) {
+            container.textContent = String(node);
+          }
+        } else {
+          container.textContent = String(node);
+        }
+
+        return container;
+      } catch (e) {
+        return Story();
+      }
+    },
   ],
 };
 

@@ -79,6 +79,7 @@
 
 /* iOS PWA Status Bar Adjustments */
 @supports (-webkit-touch-callout: none) {
+
   /* Target only iOS devices */
   body::before {
     content: "";
@@ -122,6 +123,7 @@
 
 /* --- iOS Specific Adjustments --- */
 @supports (-webkit-touch-callout: none) {
+
   /* Bottom buttons wrapper adjustments for iOS safe areas */
   .bottom-buttons-wrapper {
     bottom: env(safe-area-inset-bottom, 0);
@@ -131,6 +133,7 @@
   }
 
   @media screen and (min-height: 800px) {
+
     /* For taller iOS devices */
     #mainContent {
       max-height: calc(100vh - 200px - env(safe-area-inset-bottom, 0));
@@ -1387,6 +1390,7 @@ body.dark-mode .theme-toggle-button:hover #themeIconSpan {
 
 /* --- Additional Accessibility Enhancements --- */
 @media screen and (max-width: 767px) {
+
   /* Increase touch targets on mobile */
   .track-button,
   .bottom-button-base,
@@ -1440,7 +1444,7 @@ body.dark-mode .theme-toggle-button:hover #themeIconSpan {
 /* Print styles for better accessibility when printed */
 @media print {
   body {
-    background: white;
+    background: var(--color-surface, white);
     color: black;
     font-size: 12pt;
   }
@@ -1522,7 +1526,7 @@ body.dark-mode {
   animation: popIn 0.35s cubic-bezier(0.4, 0.7, 0.4, 1.2);
 }
 
-.date-group .time-entry + .time-entry {
+.date-group .time-entry+.time-entry {
   margin-top: 1rem;
   /* Increased from 0.5rem to 1rem for more spacing between entries */
 }
@@ -1652,7 +1656,7 @@ body.overlay-open {
   }
 }
 
-/* Mobile keyboard adjustments - use svh (small viewport height) 
+/* Mobile keyboard adjustments - use svh (small viewport height)
    to ensure we're working with the visible area above the keyboard */
 @media (max-height: 600px) {
   .overlay {
@@ -1677,11 +1681,11 @@ body.overlay-open {
   }
 }
 
-/* 
+/*
  * Legacy keyboard classes - disabled while testing CSS-only approach
  * These will be uncommented if we re-enable JS detection
  */
-/* 
+/*
 .overlay.keyboard-open {
     align-items: flex-start;
     padding-top: 1rem;
@@ -1694,7 +1698,7 @@ body.overlay-open {
     justify-content: flex-start;
     padding: 20px;
     overflow-y: auto;
-} 
+}
 */
 
 /* --- Overlay Header --- */

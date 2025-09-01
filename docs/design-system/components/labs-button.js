@@ -109,10 +109,15 @@ class LabsButton extends HTMLElement {
           color: var(--on-error, #fff);
           border: none;
         }
-        /* Icon-only variant */
-        :host([variant="icon"]) button {
-          background: none;
-          color: var(--color-primary);
+      /* Icon-only variant — use theme-aware settings icon color so icons adapt in dark mode. Prefer
+        --settings-icon-color, then --color-on-surface (so it matches secondary-with-icon), then
+        finally --color-primary as a last resort. */
+      :host([variant="icon"]) button {
+       background: none;
+       /* Prefer the canonical text/icon color for surface (fully opaque) so icon-only matches
+         the secondary-with-icon appearance; fall back to --settings-icon-color (which may be
+         semi-transparent) and finally --color-primary. */
+       color: var(--color-on-surface, var(--settings-icon-color, var(--color-primary)));
           border: none;
           padding: var(--button-icon-padding, 0.5em);
           min-width: 2.5em;
