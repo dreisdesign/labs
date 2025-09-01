@@ -96,15 +96,12 @@ Your task: Ensure all local changes are committed, merged, and up to date with t
    git pull origin main
    ```
 
-7. **Delete the feature branch:**
    Agent: Optionally delete the feature branch locally and remotely to keep things tidy.
 
 ---
-
 **Why do this as a solo dev?**
 - Keeps your main branch clean and always deployable.
 - Lets you review your own work before merging.
-- Preserves a clear, atomic history for future reference.
 - Enables automated checks and suggestions (like Copilot’s).
 - Makes it easy to roll back or audit changes.
 
@@ -112,5 +109,39 @@ Your task: Ensure all local changes are committed, merged, and up to date with t
 
 **Shortcut for quick changes:**
 If you’re making a tiny fix and don’t need review/history, you can commit directly to `main`. But for anything non-trivial, the PR workflow is best practice—even solo.
+
+---
+
+### Autonomous `/sync` behavior
+
+- When the agent receives the explicit `/sync` command, act autonomously to perform the full sync workflow below unless a blocking problem is detected.
+- Choose the single recommended action and execute it — do not present multiple alternative next steps to the user. Only pause to ask the user if a destructive action is required (force-push, hard reset, irreversible branch deletion) or if a permission error prevents completion.
+
+Autonomous `/sync` workflow (one-shot):
+1. Confirm the working tree is clean. If not, stash or abort and inform the user with exact commands to resolve.
+   - Command: `git status --porcelain` (if non-empty, run `git stash --include-untracked` or prompt user).
+2. Ensure `main` is up to date:
+   - Command: `git checkout main && git pull origin main`.
+3. Create a feature branch from `main` with a deterministic name (unless user provided one):
+   - Example: `git checkout -b chore/sync-$(date +%F)`.
+4. Run repository checks (lint, tests, builds where applicable). If any checks fail, report failures and stop.
+   - Example: `npm run lint && npm test && npm run build-storybook` (adjust per project).
+5. Update `CHANGELOG.md` and `TODO.md` as needed; include those edits in the commit.
+6. Commit staged changes with a descriptive message and push the branch:
+   - `git add -A && git commit -m "chore(sync): <short description>" && git push -u origin <branch>`
+7. Open a PR with a clear body and testing instructions using `gh pr create`; add labels and request reviewers if configured.
+8. After CI succeeds and repo policy allows automatic merging, merge the PR using the chosen strategy (squash by default) and delete the remote branch:
+   - `gh pr merge <PR_NUMBER> --squash --delete-branch`
+9. Sync local `main` and prune remotes:
+   - `git checkout main && git pull origin main && git fetch --prune`
+10. Report a concise summary: branch name, PR URL, merge status, and any next recommended actions (deploy, build, or manual checks).
+
+Safety and permission rules:
+- If the agent lacks permission for any GitHub action, provide the exact `gh`/`git` commands the user should run and explain why the agent couldn't run them.
+- For destructive actions (force-push, hard reset, branch deletion), require explicit user confirmation.
+- If tests or builds fail, include the failing output and stop; do not open or merge a PR.
+
+Progress reporting rules:
+- After each major step (branch create, commit, push, PR create, merge), post a short progress update showing the command run, success/failure, and the next step.
 
 ---
