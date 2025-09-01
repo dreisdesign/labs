@@ -1,7 +1,15 @@
 # [v2.1.4] - 2025-08-28 - Robust Colors Story & Theme Mapping
 
+# [v2.1.6] - 2025-09-01 - Storybook docs dark-preview & token fixes
+
+### �️ Fixes & Improvements
+- Storybook docs previews now respect the dark theme global (`?globals=theme:dark`) by using design tokens for preview surfaces and cards (`--color-surface`, `--color-on-surface`, `--color-background`, `--color-on-background`).
+- Added token-aware Storybook CSS overrides and linked them via `.storybook/preview-head.html` to ensure autodocs previews inherit theme tokens in both dev and static builds.
+- Hardened the docs decorator to avoid coercing lit TemplateResult and DOM Node story outputs (fixes `[object Object]` rendering and double-wrapping of some stories).
+- Updated `icons-grid` story to use token-based backgrounds and set the default icon color to `var(--color-on-surface)` so icons remain visible in dark mode.
+
+# [v2.1.4] - 2025-08-28 - Robust Colors Story & Theme Mapping
 ### 🚀 Major Improvements
-- **Colors Story Robustness:**
 	- All theme flavors (Vanilla, Blueberry, Strawberry) now display correct base mapping for every token.
 	- Diagnostic and fallback logic ensures every semantic and palette token is mapped to a friendly label, even if the chain is missing.
 	- Polaroid label color now always inherits from the theme (no forced inline color), ensuring correct appearance in all themes.
