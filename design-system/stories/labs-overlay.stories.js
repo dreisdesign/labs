@@ -1,7 +1,7 @@
 import { html } from 'lit';
-import './labs-overlay.js';
-import './labs-button.js';
-import './labs-icon.js';
+import '../src/components/labs-overlay.js';
+import '../src/components/labs-button.js';
+import '../src/components/labs-icon.js';
 
 export default {
   title: 'Components/Overlay',
