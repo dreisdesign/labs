@@ -8,10 +8,64 @@
   <!-- Favicons (local to this demo) -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="stylesheet" href="../design-system/tokens/colors.css">
+  <link rel="stylesheet" href="../design-system/styles/flavors.css">
+  <script type="module" src="../design-system/components/labs-icon.js"></script>
+  <script type="module" src="../design-system/components/labs-button.js"></script>
   <script>
+    // Theme management utilities (from Pad implementation)
+    function applyTheme({ flavor = 'blueberry', theme = 'light' } = {}) {
+      const root = document.documentElement;
+      root.classList.remove('flavor-vanilla', 'flavor-blueberry', 'flavor-strawberry');
+      root.classList.add(`flavor-${flavor}`);
+      root.classList.remove('theme-light', 'theme-dark');
+      root.classList.add(`theme-${theme}`);
+      root.setAttribute('data-color-scheme', theme);
+      localStorage.setItem('today-list-theme', theme);
+
+      // Update meta theme-color for PWA
+      const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+      const bgColor = getComputedStyle(root).getPropertyValue('--color-background').trim();
+      if (themeColorMeta && bgColor) {
+        themeColorMeta.setAttribute('content', bgColor);
+      }
+    }
+
+    function initSystemTheme(defaultTheme = 'light') {
+      const savedTheme = localStorage.getItem('today-list-theme');
+      if (savedTheme) {
+        applyTheme({ flavor: 'blueberry', theme: savedTheme });
+      } else {
+        // Default to light mode
+        applyTheme({ flavor: 'blueberry', theme: 'light' });
+      }
+    }
+
+    function updateThemeToggleButton() {
+      const themeIcon = document.getElementById('themeIcon');
+      const themeButton = document.getElementById('themeToggle');
+      const isDark = document.documentElement.classList.contains('theme-dark');
+
+      if (themeIcon) {
+        themeIcon.setAttribute('name', isDark ? 'bedtime_off' : 'bedtime');
+      }
+      if (themeButton) {
+        themeButton.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+      }
+    }
+
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.contains('theme-dark');
+      applyTheme({ flavor: 'blueberry', theme: isDark ? 'light' : 'dark' });
+      updateThemeToggleButton();
+    }
+
+    // Initialize theme system
+    initSystemTheme();
+
     // Apply the Blueberry flavor (light) and set key token fallbacks for the demo
     (function () {
-      document.documentElement.classList.add('flavor-blueberry', 'theme-light');
+      // Theme is now managed by the functions above, but we still set fallback tokens
       const r = document.documentElement.style;
       // palette anchors
       r.setProperty('--palette-blueberry-100', '#F0EEFF');
@@ -48,12 +102,25 @@
       max-width: 720px;
       margin: 40px auto 0 auto;
       padding: 0 16px;
+      position: relative;
+    }
+
+    .today-theme-toggle {
+      position: absolute;
+      top: 0;
+      right: 16px;
+      z-index: 100;
     }
   </style>
 </head>
 
 <body>
   <main>
+    <!-- Theme toggle button (top-right) -->
+    <labs-button id="themeToggle" class="today-theme-toggle" variant="icon" aria-label="Toggle theme">
+      <labs-icon id="themeIcon" slot="icon-left" name="bedtime"></labs-icon>
+    </labs-button>
+
     <!-- Page header centered at the top -->
     <div style="display:flex;align-items:center;justify-content:center;width:100%;margin-top:24px;">
       <h1 style="margin:0;color:var(--color-on-background);">Today</h1>
@@ -141,6 +208,17 @@
           setTimeout(wire, 500);
         }
       })();
+    </script>
+
+    <script>
+      // Setup theme toggle button when page loads
+      document.addEventListener('DOMContentLoaded', () => {
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+          themeToggle.addEventListener('click', toggleTheme);
+          updateThemeToggleButton();
+        }
+      });
     </script>
   </main>
   <script type="module">
