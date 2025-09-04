@@ -22,12 +22,14 @@
 - [x] Diagnostic and fallback logic for all semantic and palette tokens
 - [x] Polaroid label color now always inherits from the theme (no forced inline color)
 
+
 ### Storybook Organization & Documentation ✅
 - [x] **Storybook Sitemap Generation**: Complete automated generation of grouped sitemap
 - [x] **Story Organization**: Moved button stories to proper `/stories` structure
 - [x] **Storybook Sidebar Ordering**: Added proper sorting with Docs first, alphabetical after
 - [x] **Smoothie Metaphor Documentation**: Comprehensive guide with authentic food terminology
 - [x] **Sitemap Matching Sidebar**: Generated sitemap now matches actual Storybook structure
+- [x] **Removed Today List app story from Storybook to avoid duplication/confusion (2025-09-04)**
 
 ### Light/Dark Theme System ✅ (last-reviewed: 2025-09-01)
 - [x] Unified theme system across apps and Storybook

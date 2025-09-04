@@ -2,6 +2,12 @@
 
 # [v2.1.6] - 2025-09-01 - Storybook docs dark-preview & token fixes
 
+# [v2.1.7] - 2025-09-04 - Storybook cleanup & sidebar verification
+
+### 🧹 Cleanup & Sidebar Fixes
+- Removed Today List app story from Storybook; sidebar now matches canonical app structure.
+- Verified Footer and Overlay stories are present and correct.
+
 ### �️ Fixes & Improvements
 - Storybook docs previews now respect the dark theme global (`?globals=theme:dark`) by using design tokens for preview surfaces and cards (`--color-surface`, `--color-on-surface`, `--color-background`, `--color-on-background`).
 - Added token-aware Storybook CSS overrides and linked them via `.storybook/preview-head.html` to ensure autodocs previews inherit theme tokens in both dev and static builds.

@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="../design-system/styles/flavors.css">
   <script type="module" src="../design-system/components/labs-icon.js"></script>
   <script type="module" src="../design-system/components/labs-button.js"></script>
+  <script type="module" src="../design-system/components/labs-footer.js"></script>
+  <script type="module" src="../design-system/components/labs-overlay.js"></script>
   <script>
     // Theme management utilities (from Pad implementation)
     function applyTheme({ flavor = 'blueberry', theme = 'light' } = {}) {
@@ -126,30 +128,37 @@
       <h1 style="margin:0;color:var(--color-on-background);">Today</h1>
     </div>
 
-    <div
-      style="display:flex;align-items:center;justify-content:center;width:100%;margin-bottom:20px;position:relative;">
-      <div class="labs-autodocs-surface"
-        style="display:inline-block;padding:1rem;border-radius:8px;background:var(--color-surface);color:var(--color-on-surface);box-sizing:border-box;">
-        <script type="module">
-          import '../design-system/components/labs-button.js';
-          import '../design-system/components/labs-icon.js';
-        </script>
-        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
-          <!-- external editor placeholder (hidden by default) -->
-          <div id="external-editor" style="display:none;width:320px;">
-            <script type="module">
-              import '../design-system/components/labs-input.js';
-            </script>
-            <labs-input id="external-input" placeholder="Add item and press Enter"></labs-input>
-          </div>
 
-          <labs-button id="open-input-btn" variant="primary">
-            <labs-icon slot="icon-left" name="add"></labs-icon>
-            Add Item
+    <!-- external editor placeholder (hidden by default) -->
+    <div id="external-editor" style="display:none;width:320px;margin:0 auto 20px auto;">
+      <script type="module">
+        import '../design-system/components/labs-input.js';
+      </script>
+      <labs-input id="external-input" placeholder="Add item and press Enter"></labs-input>
+    </div>
+    <!-- Footer with Add and Settings -->
+    <labs-footer elevated safe-area style="margin-top:40px;">
+      <labs-button slot="center" id="open-input-btn" variant="primary">
+        <labs-icon slot="icon-left" name="add"></labs-icon>
+        Add Item
+      </labs-button>
+      <labs-button slot="right" id="settings-btn" variant="icon" aria-label="Settings">
+        <labs-icon slot="icon-left" name="settings"></labs-icon>
+      </labs-button>
+    </labs-footer>
+
+    <!-- Settings Overlay -->
+    <labs-overlay id="settings-overlay" size="small">
+      <div style="padding:24px;min-width:220px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+          <h3 style="margin:0;font-size:1.1rem;color:var(--color-on-surface);">Settings</h3>
+          <labs-button id="close-settings" variant="icon" aria-label="Close">
+            <labs-icon slot="icon-left" name="close"></labs-icon>
           </labs-button>
         </div>
+        <div style="color:var(--color-on-surface, #333);opacity:0.8;">(Settings content placeholder)</div>
       </div>
-    </div>
+    </labs-overlay>
 
     <!-- The app hides its own header (we render the page header above) -->
     <today-list-app id="todayList" hide-header></today-list-app>
@@ -158,16 +167,18 @@
       // wire the demo button to open the app input
       (function () {
         function wire() {
-          const btn = document.getElementById('open-input-btn');
+          const addBtn = document.getElementById('open-input-btn');
           const app = document.getElementById('todayList');
           const editorWrap = document.getElementById('external-editor');
           const externalInput = document.getElementById('external-input');
-          if (!btn || !app) return;
+          const settingsBtn = document.getElementById('settings-btn');
+          const settingsOverlay = document.getElementById('settings-overlay');
+          const closeSettings = document.getElementById('close-settings');
+          if (!addBtn || !app) return;
 
           function showEditor() {
             if (!editorWrap || !externalInput) return;
             editorWrap.style.display = 'block';
-            // focus the internal input of labs-input when available
             setTimeout(() => {
               try { externalInput.focus(); } catch (e) { }
               try { const inner = externalInput.shadowRoot && externalInput.shadowRoot.querySelector('input'); if (inner) inner.focus(); } catch (e) { }
@@ -178,10 +189,20 @@
             if (editorWrap) editorWrap.style.display = 'none';
           }
 
-          // Clicking the Add button shows the external editor above it
-          if (!btn.dataset.wired) {
-            btn.addEventListener('click', () => { showEditor(); });
-            btn.dataset.wired = '1';
+          // Add Item button in footer
+          if (!addBtn.dataset.wired) {
+            addBtn.addEventListener('click', () => { showEditor(); });
+            addBtn.dataset.wired = '1';
+          }
+
+          // Settings button in footer
+          if (settingsBtn && settingsOverlay && !settingsBtn.dataset.wired) {
+            settingsBtn.addEventListener('click', () => settingsOverlay.open());
+            settingsBtn.dataset.wired = '1';
+          }
+          if (closeSettings && settingsOverlay && !closeSettings.dataset.wired) {
+            closeSettings.addEventListener('click', () => settingsOverlay.close());
+            closeSettings.dataset.wired = '1';
           }
 
           // Submit from the external input should add item to app and hide editor
@@ -199,10 +220,8 @@
             externalInput.dataset.wired = '1';
           }
         }
-        // wait for custom elements to be defined
         if (window.customElements) {
           window.addEventListener('DOMContentLoaded', wire);
-          // also try after a short delay in case modules are still loading
           setTimeout(wire, 500);
         } else {
           setTimeout(wire, 500);
