@@ -25,35 +25,38 @@ header{display:flex;align-items:center;justify-content:space-between;margin:0 0 
     const title = document.createElement('h2');
     title.textContent = 'Today';
     title.setAttribute('part', 'title');
+    header.appendChild(title);
+
+    const inputWrap = document.createElement('div');
+    inputWrap.className = 'controls';
+    this._input = document.createElement('labs-input');
+    this._input.setAttribute('placeholder', 'Add item and press Enter');
+    inputWrap.appendChild(this._input);
+
+    header.appendChild(inputWrap);
 
     const list = document.createElement('div');
     list.className = 'list';
     this._list = list;
 
-    // Append header only when the host does not request it hidden
-    if (!this.hasAttribute('hide-header')) {
-      header.appendChild(title);
-      container.appendChild(header);
-    }
-
+    container.appendChild(header);
     container.appendChild(list);
 
     this.shadowRoot.appendChild(style);
     this.shadowRoot.appendChild(container);
 
     this._onSubmit = this._onSubmit.bind(this);
-    // small dedupe guard for rapid duplicate submissions
-    this._lastAdd = { value: '', ts: 0 };
   }
 
   connectedCallback() {
+    this._input.addEventListener('submit', this._onSubmit);
     this._load();
     this._ensureToast();
     this._render();
   }
 
   disconnectedCallback() {
-    // nothing attached by default
+    this._input.removeEventListener('submit', this._onSubmit);
   }
 
   _ensureToast() {
@@ -83,37 +86,9 @@ header{display:flex;align-items:center;justify-content:space-between;margin:0 0 
   }
 
   _onSubmit(e) {
-    const value = e.detail && e.detail.value && e.detail.value.trim();
+    const value = e.detail.value && e.detail.value.trim();
     if (!value) return;
-    const now = Date.now();
-    if (this._lastAdd.value === value && (now - this._lastAdd.ts) < 500) return;
-    this._lastAdd.value = value; this._lastAdd.ts = now;
     const item = { id: Date.now() + Math.random().toString(36).slice(2, 7), text: value, completed: false, createdAt: Date.now() };
-    this._items.unshift(item);
-    this._save();
-    this._render();
-  }
-
-  // Public helper to focus/open the input from external controls
-  openInput() {
-    // Prefer to delegate opening to an external host. Dispatch a request event
-    // so pages can create an external editor (for example, show the input above
-    // a centered Add button). Consumers may also implement their own behavior.
-    try {
-      this.dispatchEvent(new CustomEvent('request-open-input', { bubbles: true, composed: true }));
-    } catch (e) {
-      // noop
-    }
-  }
-
-  // Public API: add an item programmatically (used by external editors)
-  addItem(value) {
-    const v = value && String(value).trim();
-    if (!v) return;
-    const now = Date.now();
-    if (this._lastAdd.value === v && (now - this._lastAdd.ts) < 500) return;
-    this._lastAdd.value = v; this._lastAdd.ts = now;
-    const item = { id: Date.now() + Math.random().toString(36).slice(2, 7), text: v, completed: false, createdAt: Date.now() };
     this._items.unshift(item);
     this._save();
     this._render();

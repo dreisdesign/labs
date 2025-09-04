@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Today List Demo</title>
+  <script>
+    // Apply the Blueberry flavor (light) and set key token fallbacks for the demo
+    (function () {
+      document.documentElement.classList.add('flavor-blueberry', 'theme-light');
+      const r = document.documentElement.style;
+      // palette anchors
+      r.setProperty('--palette-blueberry-100', '#F0EEFF');
+      r.setProperty('--palette-blueberry-200', '#DBD7FF');
+      r.setProperty('--palette-blueberry-500', '#2E2B74');
+      r.setProperty('--palette-blueberry-800', '#1E193E');
+      r.setProperty('--palette-blueberry-900', '#15122B');
+      // semantic tokens
+      r.setProperty('--color-primary', 'var(--palette-blueberry-500)');
+      // ensure text/icons on primary buttons are light
+      r.setProperty('--color-on-primary', '#ffffff');
+      r.setProperty('--color-surface', 'var(--palette-blueberry-100)');
+      r.setProperty('--color-on-surface', 'var(--palette-blueberry-900)');
+      r.setProperty('--color-background', 'var(--palette-blueberry-200)');
+      r.setProperty('--color-on-background', 'var(--palette-blueberry-900)');
+    })();
+  </script>
+  <style>
+    body {
+      background: var(--color-background, #f6f6f9);
+      color: var(--color-on-background, #222);
+      font-family: system-ui, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    main {
+      width: 100%;
+      max-width: 720px;
+      margin: 40px auto 0 auto;
+      padding: 0 16px;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <!-- Page header centered at the top -->
+    <div style="display:flex;align-items:center;justify-content:center;width:100%;margin-top:24px;">
+      <h1 style="margin:0;color:var(--color-on-background);">Today</h1>
+    </div>
+
+    <div
+      style="display:flex;align-items:center;justify-content:center;width:100%;margin-bottom:20px;position:relative;">
+      <div class="labs-autodocs-surface"
+        style="display:inline-block;padding:1rem;border-radius:8px;background:var(--color-surface);color:var(--color-on-surface);box-sizing:border-box;">
+        <script type="module">
+          import '../design-system/components/labs-button.js';
+          import '../design-system/components/labs-icon.js';
+        </script>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+          <!-- external editor placeholder (hidden by default) -->
+          <div id="external-editor" style="display:none;width:320px;">
+            <script type="module">
+              import '../design-system/components/labs-input.js';
+            </script>
+            <labs-input id="external-input" placeholder="Add item and press Enter"></labs-input>
+          </div>
+
+          <labs-button id="open-input-btn" variant="primary">
+            <labs-icon slot="icon-left" name="add"></labs-icon>
+            Add Item
+          </labs-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- The app hides its own header (we render the page header above) -->
+    <today-list-app id="todayList" hide-header></today-list-app>
+
+    <script>
+      // wire the demo button to open the app input
+      (function () {
+        function wire() {
+          const btn = document.getElementById('open-input-btn');
+          const app = document.getElementById('todayList');
+          const editorWrap = document.getElementById('external-editor');
+          const externalInput = document.getElementById('external-input');
+          if (!btn || !app) return;
+
+          function showEditor() {
+            if (!editorWrap || !externalInput) return;
+            editorWrap.style.display = 'block';
+            // focus the internal input of labs-input when available
+            setTimeout(() => {
+              try { externalInput.focus(); } catch (e) { }
+              try { const inner = externalInput.shadowRoot && externalInput.shadowRoot.querySelector('input'); if (inner) inner.focus(); } catch (e) { }
+            }, 50);
+          }
+
+          function hideEditor() {
+            if (editorWrap) editorWrap.style.display = 'none';
+          }
+
+          // Clicking the Add button shows the external editor above it
+          if (!btn.dataset.wired) {
+            btn.addEventListener('click', () => { showEditor(); });
+            btn.dataset.wired = '1';
+          }
+
+          // Submit from the external input should add item to app and hide editor
+          function onSubmit(e) {
+            const v = e && e.detail && e.detail.value;
+            if (v) {
+              try { app.addItem(v); } catch (err) { }
+            }
+            hideEditor();
+          }
+
+          // Listen for enter/submit from the external input (guard against double-wiring)
+          if (externalInput && !externalInput.dataset.wired) {
+            externalInput.addEventListener('submit', onSubmit);
+            externalInput.dataset.wired = '1';
+          }
+        }
+        // wait for custom elements to be defined
+        if (window.customElements) {
+          window.addEventListener('DOMContentLoaded', wire);
+          // also try after a short delay in case modules are still loading
+          setTimeout(wire, 500);
+        } else {
+          setTimeout(wire, 500);
+        }
+      })();
+    </script>
+  </main>
+  <script type="module">
+    import '../design-system/components/labs-input.js';
+    import '../design-system/components/labs-card.js';
+    import '../design-system/components/labs-toast.js';
+    import '../design-system/components/today-list-app.js';
+  </script>
+</body>
+
+</html>

@@ -26,3 +26,4 @@
 - [Timer App TODOs](docs/timer/TODO.md)
 - [Tracker App TODOs](docs/tracker/TODO.md)
 - [Pad App TODOs](docs/pad/TODO.md)
+ - [Today List TODOs](docs/today-list/TODO.md)
