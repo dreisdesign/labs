@@ -26,8 +26,14 @@ export function createThemeToggleButton({ parent = document.body } = {}) {
     icon.setAttribute('slot', 'icon-left');
     icon.setAttribute('name', isDark ? 'bedtime_off' : 'bedtime');
     btn.appendChild(icon);
-    // Append the label as a text node
-    btn.appendChild(document.createTextNode(isDark ? 'Turn on light mode' : 'Turn on dark mode'));
+    // Append the label as a text node only when not collapsed for small screens
+    const collapsed = btn.getAttribute('data-collapse') === 'small';
+    if (!collapsed) {
+      btn.appendChild(document.createTextNode(isDark ? 'Turn on light mode' : 'Turn on dark mode'));
+    } else {
+      // ensure an accessible label exists when icon-only
+      btn.setAttribute('aria-label', isDark ? 'Turn on light mode' : 'Turn on dark mode');
+    }
   }
 
   btn.onclick = () => {
@@ -56,6 +62,26 @@ export function createThemeToggleButton({ parent = document.body } = {}) {
       else btn.removeAttribute('data-collapse');
     } catch (e) { }
   }
+  // adjust visual variant when collapsed to use icon-only style
+  (function watchCollapse() {
+    const mq = window.matchMedia('(max-width: 700px)');
+    function applyVariant() {
+      const isSmall = mq.matches;
+      if (isSmall) {
+        btn.setAttribute('variant', 'icon');
+        btn.setAttribute('size', 'medium');
+      } else {
+        btn.setAttribute('variant', 'secondary');
+        btn.setAttribute('size', 'large');
+      }
+      // refresh label/icon content to reflect the variant state
+      updateLabel();
+    }
+    try {
+      mq.addEventListener ? mq.addEventListener('change', applyVariant) : mq.addListener(applyVariant);
+    } catch (e) { }
+    applyVariant();
+  })();
   updateCollapse();
   window.addEventListener('resize', updateCollapse);
 
