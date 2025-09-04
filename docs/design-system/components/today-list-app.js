@@ -25,21 +25,24 @@ header{display:flex;align-items:center;justify-content:space-between;margin:0 0 
     const title = document.createElement('h2');
     title.textContent = 'Today';
     title.setAttribute('part', 'title');
-    header.appendChild(title);
-
+    // by default include an input in the header; consumers can hide the header
     const inputWrap = document.createElement('div');
     inputWrap.className = 'controls';
     this._input = document.createElement('labs-input');
     this._input.setAttribute('placeholder', 'Add item and press Enter');
     inputWrap.appendChild(this._input);
 
+    header.appendChild(title);
     header.appendChild(inputWrap);
 
     const list = document.createElement('div');
     list.className = 'list';
     this._list = list;
 
-    container.appendChild(header);
+    // append the header only when host doesn't request hide-header
+    if (!this.hasAttribute('hide-header')) {
+      container.appendChild(header);
+    }
     container.appendChild(list);
 
     this.shadowRoot.appendChild(style);
@@ -49,14 +52,21 @@ header{display:flex;align-items:center;justify-content:space-between;margin:0 0 
   }
 
   connectedCallback() {
-    this._input.addEventListener('submit', this._onSubmit);
+    // only attach submit listener when the internal input is present/visible
+    try {
+      if (this._input && !this.hasAttribute('hide-header')) {
+        this._input.addEventListener('submit', this._onSubmit);
+      }
+    } catch (e) { }
     this._load();
     this._ensureToast();
     this._render();
   }
 
   disconnectedCallback() {
-    this._input.removeEventListener('submit', this._onSubmit);
+    try {
+      if (this._input) this._input.removeEventListener('submit', this._onSubmit);
+    } catch (e) { }
   }
 
   _ensureToast() {
@@ -86,9 +96,34 @@ header{display:flex;align-items:center;justify-content:space-between;margin:0 0 
   }
 
   _onSubmit(e) {
-    const value = e.detail.value && e.detail.value.trim();
+    const value = e && e.detail && e.detail.value && e.detail.value.trim();
     if (!value) return;
+    const now = Date.now();
+    if (!this._lastAdd) this._lastAdd = { value: '', ts: 0 };
+    if (this._lastAdd.value === value && (now - this._lastAdd.ts) < 500) return;
+    this._lastAdd.value = value; this._lastAdd.ts = now;
     const item = { id: Date.now() + Math.random().toString(36).slice(2, 7), text: value, completed: false, createdAt: Date.now() };
+    this._items.unshift(item);
+    this._save();
+    this._render();
+  }
+
+  // Public helper to request an external editor or notify host to open input
+  openInput() {
+    try {
+      this.dispatchEvent(new CustomEvent('request-open-input', { bubbles: true, composed: true }));
+    } catch (e) { }
+  }
+
+  // Public API to add an item programmatically (used by external editors)
+  addItem(value) {
+    const v = value && String(value).trim();
+    if (!v) return;
+    const now = Date.now();
+    if (!this._lastAdd) this._lastAdd = { value: '', ts: 0 };
+    if (this._lastAdd.value === v && (now - this._lastAdd.ts) < 500) return;
+    this._lastAdd.value = v; this._lastAdd.ts = now;
+    const item = { id: Date.now() + Math.random().toString(36).slice(2, 7), text: v, completed: false, createdAt: Date.now() };
     this._items.unshift(item);
     this._save();
     this._render();
