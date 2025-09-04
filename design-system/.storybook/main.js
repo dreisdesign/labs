@@ -1,6 +1,7 @@
 /** @type { import('@storybook/web-components-vite').StorybookConfig } */
 const config = {
   stories: [
+    '../stories/**/*.stories.@(js|jsx|ts|tsx|mdx)',
     '../src/stories/**/*.stories.@(js|jsx|ts|tsx|mdx)',
     '../src/components/**/*.stories.@(js|jsx|ts|tsx|mdx)',
     '../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'
