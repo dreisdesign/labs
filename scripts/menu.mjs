@@ -138,7 +138,10 @@ async function main() {
         };
         check();
       };
-      waitForPort(port, () => openUrls([padUrl]));
+      waitForPort(port, () => {
+        console.log(`\n🚀 Labs Homepage available at: ${padUrl}`);
+        console.log("Click the URL above to open in your browser.");
+      });
       if (process.stdin.isTTY) {
         process.stdin.setRawMode(true);
         process.stdin.resume();
@@ -182,7 +185,8 @@ async function main() {
 
       if (portInUse) {
         console.log(`\nStorybook is already running on port ${port}.`);
-        openUrls([storybookUrl]);
+        console.log(`\n🚀 Storybook available at: ${storybookUrl}`);
+        console.log("Click the URL above to open in your browser.");
       } else {
         console.log("\nStarting the Storybook dev server...");
         // Run storybook in the background
@@ -219,7 +223,10 @@ async function main() {
           };
           check();
         };
-        waitForPort(port, () => openUrls([storybookUrl]));
+        waitForPort(port, () => {
+          console.log(`\n🚀 Storybook available at: ${storybookUrl}`);
+          console.log("Click the URL above to open in your browser.");
+        });
         // --- Keypress handler: Press 'q' to exit preview menu ---
         if (process.stdin.isTTY) {
           process.stdin.setRawMode(true);
@@ -274,7 +281,10 @@ async function main() {
       const storybookUrl = "https://dreisdesign.github.io/labs/design-system/";
       const demoUrl = "https://dreisdesign.github.io/labs/";
 
-      openUrls([storybookUrl, demoUrl]);
+      console.log(`\n🚀 Deployment complete!`);
+      console.log(`📚 Storybook: ${storybookUrl}`);
+      console.log(`🏠 Demo Site: ${demoUrl}`);
+      console.log("Click the URLs above to open in your browser.");
     } else if (action === "exit") {
       console.log("Goodbye!");
       process.exit(0);

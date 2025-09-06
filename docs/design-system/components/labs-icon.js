@@ -42,6 +42,7 @@ const icons = {
     history: ICON_BASE + 'history--labs-icons.svg',
     indeterminate_check_box: ICON_BASE + 'indeterminate_check_box--labs-icons.svg',
     open_in_new: ICON_BASE + 'open_in_new--labs-icons.svg',
+    published_with_changes: ICON_BASE + 'published_with_changes--labs-icons.svg',
     rate_review: ICON_BASE + 'rate_review--labs-icons.svg',
     settings: ICON_BASE + 'settings--labs-icons.svg',
     star: ICON_BASE + 'star--labs-icons.svg',

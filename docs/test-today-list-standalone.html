@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Today List Component Test</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+    }
+
+    .test-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+  </style>
+  <script type="module" src="./design-system/components/labs-icon.js"></script>
+  <script type="module" src="./design-system/components/labs-button.js"></script>
+  <script type="module" src="./design-system/components/labs-card.js"></script>
+  <script type="module" src="./design-system/components/labs-input.js"></script>
+  <script type="module" src="./design-system/components/labs-toast.js"></script>
+  <script type="module" src="./design-system/components/today-list-app.js"></script>
+</head>
+
+<body>
+  <h1>Today List Component Test</h1>
+  <p>Testing the today-list-app component with comprehensive styling:</p>
+
+  <div class="test-container">
+    <today-list-app></today-list-app>
+  </div>
+
+  <script>
+    // Add some test data after component loads
+    setTimeout(() => {
+      const app = document.querySelector('today-list-app');
+      if (app && app._items !== undefined) {
+        console.log('Component loaded successfully!');
+
+        // Add some sample data for testing
+        const testItems = [
+          { id: '1', text: 'Today task - buy groceries', completed: false, createdAt: new Date().toISOString() },
+          { id: '2', text: 'Today task - call dentist', completed: true, createdAt: new Date().toISOString() },
+          { id: '3', text: 'Yesterday task - write report', completed: false, createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString() },
+          { id: '4', text: 'Yesterday completed - review PR', completed: true, createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString() },
+          { id: '5', text: 'Old task - plan vacation', completed: false, createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString() }
+        ];
+
+        // Set the items and trigger render
+        app._items = testItems;
+        if (app._render) {
+          app._render();
+          console.log('Test data loaded and rendered:', testItems.length, 'items');
+        }
+      } else {
+        console.error('Component not found or not properly initialized');
+      }
+    }, 1500); // Give more time for async build
+  </script>
+</body>
+
+</html>

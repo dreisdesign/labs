@@ -23,6 +23,7 @@ export default [
     "history",
     "indeterminate_check_box",
     "open_in_new",
+    "published_with_changes",
     "rate_review",
     "settings",
     "star",

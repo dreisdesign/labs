@@ -53,6 +53,80 @@ A simple daily checklist application that combines the best features of the Trac
 └─────────────────────────────────┘
 ```
 
+### Note entry pattern
+
+Below are small, copy-pasteable patterns for a single note/list entry used in the Today List app. Each example shows the Labs button/icon markup used in the app.
+
+Example — unchecked (mark done button, left aligned):
+
+```html
+<div class="labs-autodocs-surface" style="display: inline-block; padding: 1rem; border-radius: 8px; background: var(--color-surface); color: var(--color-on-surface); box-sizing: border-box;">
+	<labs-button variant="icon" aria-label="check_box_outline_blank">
+		<span slot="icon-left"><labs-icon name="check_box_outline_blank"></labs-icon></span>
+	</labs-button>
+</div>
+```
+
+Example — checked (mark done shown as checked):
+
+```html
+<div class="labs-autodocs-surface" style="display: inline-block; padding: 1rem; border-radius: 8px; background: var(--color-surface); color: var(--color-on-surface); box-sizing: border-box;">
+	<labs-button variant="icon" aria-label="check_box">
+		<span slot="icon-left"><labs-icon name="check_box"></labs-icon></span>
+	</labs-button>
+</div>
+```
+
+Edit (right aligned) — pencil icon button:
+
+```html
+<div class="labs-autodocs-surface" style="display: inline-block; padding: 1rem; border-radius: 8px; background: var(--color-surface); color: var(--color-on-surface); box-sizing: border-box;">
+	<labs-button variant="icon" aria-label="edit">
+		<span slot="icon-left"><labs-icon name="edit"></labs-icon></span>
+	</labs-button>
+</div>
+```
+
+Delete (right aligned) — delete icon button:
+
+```html
+<div class="labs-autodocs-surface" style="display: inline-block; padding: 1rem; border-radius: 8px; background: var(--color-surface); color: var(--color-on-surface); box-sizing: border-box;">
+	<labs-button variant="icon" aria-label="delete_forever">
+		<span slot="icon-left"><labs-icon name="delete_forever"></labs-icon></span>
+	</labs-button>
+</div>
+```
+
+Combined pattern (single entry): checkbox left, text in middle, edit/delete right. Use this as the canonical layout for a note row:
+
+```html
+<div class="labs-autodocs-surface" style="display:flex;align-items:center;justify-content:space-between;padding:0.5rem 1rem;border-radius:8px;background:var(--color-surface);color:var(--color-on-surface);gap:0.5rem;">
+	<!-- Left: mark-done -->
+	<div style="display:flex;align-items:center;gap:0.5rem;min-width:0;">
+		<labs-button variant="icon" aria-label="check_box_outline_blank">
+			<span slot="icon-left"><labs-icon name="check_box_outline_blank"></labs-icon></span>
+		</labs-button>
+		<div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Add note...</div>
+	</div>
+
+	<!-- Right: edit + delete -->
+	<div style="display:flex;align-items:center;gap:0.25rem;">
+		<labs-button variant="icon" aria-label="edit">
+			<span slot="icon-left"><labs-icon name="edit"></labs-icon></span>
+		</labs-button>
+		<labs-button variant="icon" aria-label="delete_forever">
+			<span slot="icon-left"><labs-icon name="delete_forever"></labs-icon></span>
+		</labs-button>
+	</div>
+</div>
+```
+
+Notes:
+
+- Keep a single tappable target for the checkbox to preserve easy completion interaction on mobile.
+- Use `aria-label` on icon-only buttons for accessibility (screen readers).
+- The combined example uses safe inline styles for documentation; move styles into the app stylesheet (`styles/main.css`) for production.
+
 ### Technical Structure
 
 - **Header**: Day of week and date (e.g., "Tuesday, July 19, 2025")
@@ -143,7 +217,7 @@ today-list/
 - **Navigation**: "All Apps" link to return to Labs homepage
 - **Visual Feedback**: Checked items show completed state, placeholder guides first entry
 - **Keyboard Navigation**: Tab through items, Space to toggle checkboxes, Enter to edit
-- **History**: After the current day has been reset - the previous tasks become "archived" and become read only with the caveat that there's a button on hover that allows you to copy it to the current day. Just like the tracker app the previous day gets shown as a list below the current day, but in a grayed out state to indicate it's not editable. 
+- **History**: After the current day has been reset - the previous tasks become "archived" and become read only with the caveat that there's a button on hover that allows you to copy it to the current day. Just like the tracker app the previous day gets shown as a list below the current day, but in a grayed out state to indicate it's not editable.
 
 ## 🚀 Future Enhancements (Post-MVP)
 

@@ -13,77 +13,7 @@
   <link rel="stylesheet" href="../design-system/styles/flavors.css">
   <script type="module" src="../design-system/components/labs-icon.js"></script>
   <script type="module" src="../design-system/components/labs-button.js"></script>
-  <script>
-    // Theme management utilities (from Pad implementation)
-    function applyTheme({ flavor = 'blueberry', theme = 'light' } = {}) {
-      const root = document.documentElement;
-      root.classList.remove('flavor-vanilla', 'flavor-blueberry', 'flavor-strawberry');
-      root.classList.add(`flavor-${flavor}`);
-      root.classList.remove('theme-light', 'theme-dark');
-      root.classList.add(`theme-${theme}`);
-      root.setAttribute('data-color-scheme', theme);
-      localStorage.setItem('today-list-theme', theme);
-
-      // Update meta theme-color for PWA
-      const themeColorMeta = document.querySelector('meta[name="theme-color"]');
-      const bgColor = getComputedStyle(root).getPropertyValue('--color-background').trim();
-      if (themeColorMeta && bgColor) {
-        themeColorMeta.setAttribute('content', bgColor);
-      }
-    }
-
-    function initSystemTheme(defaultTheme = 'light') {
-      const savedTheme = localStorage.getItem('today-list-theme');
-      if (savedTheme) {
-        applyTheme({ flavor: 'blueberry', theme: savedTheme });
-      } else {
-        // Default to light mode
-        applyTheme({ flavor: 'blueberry', theme: 'light' });
-      }
-    }
-
-    function updateThemeToggleButton() {
-      const themeIcon = document.getElementById('themeIcon');
-      const themeButton = document.getElementById('themeToggle');
-      const isDark = document.documentElement.classList.contains('theme-dark');
-
-      if (themeIcon) {
-        themeIcon.setAttribute('name', isDark ? 'bedtime_off' : 'bedtime');
-      }
-      if (themeButton) {
-        themeButton.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
-      }
-    }
-
-    function toggleTheme() {
-      const isDark = document.documentElement.classList.contains('theme-dark');
-      applyTheme({ flavor: 'blueberry', theme: isDark ? 'light' : 'dark' });
-      updateThemeToggleButton();
-    }
-
-    // Initialize theme system
-    initSystemTheme();
-
-    // Apply the Blueberry flavor (light) and set key token fallbacks for the demo
-    (function () {
-      // Theme is now managed by the functions above, but we still set fallback tokens
-      const r = document.documentElement.style;
-      // palette anchors
-      r.setProperty('--palette-blueberry-100', '#F0EEFF');
-      r.setProperty('--palette-blueberry-200', '#DBD7FF');
-      r.setProperty('--palette-blueberry-500', '#2E2B74');
-      r.setProperty('--palette-blueberry-800', '#1E193E');
-      r.setProperty('--palette-blueberry-900', '#15122B');
-      // semantic tokens
-      r.setProperty('--color-primary', 'var(--palette-blueberry-500)');
-      // ensure text/icons on primary buttons are light
-      r.setProperty('--color-on-primary', '#ffffff');
-      r.setProperty('--color-surface', 'var(--palette-blueberry-100)');
-      r.setProperty('--color-on-surface', 'var(--palette-blueberry-900)');
-      r.setProperty('--color-background', 'var(--palette-blueberry-200)');
-      r.setProperty('--color-on-background', 'var(--palette-blueberry-900)');
-    })();
-  </script>
+  <!-- (Removed duplicate/conflicting theme management script. Only one script at end of file remains.) -->
   <style>
     body {
       background: var(--color-background, #f6f6f9);
@@ -112,121 +42,187 @@
       right: 16px;
       z-index: 100;
     }
+
+    /* Ensure archive icon and button are always visible */
+    labs-button[aria-label="Archive"] {
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
+    }
+
+    labs-button[aria-label="Archive"] labs-icon[name="archive"] {
+      color: var(--color-on-surface, #222) !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+      width: 24px;
+      height: 24px;
+      display: inline-block;
+    }
   </style>
 </head>
 
 <body>
-  <main>
-    <!-- Theme toggle button (top-right) -->
-    <labs-button id="themeToggle" class="today-theme-toggle" variant="icon" aria-label="Toggle theme">
-      <labs-icon id="themeIcon" slot="icon-left" name="bedtime"></labs-icon>
+
+  <!-- Floating theme and flavor toggles (top right, outside main) -->
+  <div id="floating-toggles"
+    style="position:fixed;top:calc(20px + env(safe-area-inset-top));right:calc(20px + env(safe-area-inset-right));z-index:100;display:flex;flex-direction:column;gap:8px;">
+    <labs-button id="themeToggle" class="pad-theme-toggle" variant="icon" aria-label="Toggle theme"
+      style="height:48px;width:48px;min-width:48px;min-height:48px;padding:0;display:flex;align-items:center;justify-content:center;">
+      <labs-icon id="themeIcon" slot="icon-left" name="bedtime" style="color:var(--color-on-surface);"
+        class="pad-icon"></labs-icon>
     </labs-button>
+    <labs-button id="flavorToggle" class="pad-flavor-toggle" variant="icon" aria-label="Switch flavor"
+      title="Switch flavor"
+      style="height:48px;width:48px;min-width:48px;min-height:48px;padding:0;display:flex;align-items:center;justify-content:center;">
+      <labs-icon id="flavorIcon" slot="icon-left" name="colors" style="color:var(--color-on-surface);"
+        class="pad-icon"></labs-icon>
+    </labs-button>
+  </div>
 
-    <!-- Page header centered at the top -->
-    <div style="display:flex;align-items:center;justify-content:center;width:100%;margin-top:24px;">
-      <h1 style="margin:0;color:var(--color-on-background);">Today</h1>
-    </div>
+  <!-- Clear button (bottom-right, outside main container) -->
+  <labs-button id="clearButton" class="pad-clear-button" variant="icon" aria-label="Clear all"
+    style="height:48px;width:48px;min-width:48px;min-height:48px;padding:0;display:flex;align-items:center;justify-content:center;position:fixed;bottom:calc(20px + env(safe-area-inset-bottom));right:calc(20px + env(safe-area-inset-right));z-index:100;">
+    <labs-icon slot="icon-left" name="delete_forever" style="color:var(--color-on-surface);"
+      class="pad-icon"></labs-icon>
+  </labs-button>
 
-    <div
-      style="display:flex;align-items:center;justify-content:center;width:100%;margin-bottom:20px;position:relative;">
-      <div class="labs-autodocs-surface"
-        style="display:inline-block;padding:1rem;border-radius:8px;background:var(--color-surface);color:var(--color-on-surface);box-sizing:border-box;">
-        <script type="module">
-          import '../design-system/components/labs-button.js';
-          import '../design-system/components/labs-icon.js';
-        </script>
-        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
-          <!-- external editor placeholder (hidden by default) -->
-          <div id="external-editor" style="display:none;width:320px;">
-            <script type="module">
-              import '../design-system/components/labs-input.js';
-            </script>
-            <labs-input id="external-input" placeholder="Add item and press Enter"></labs-input>
-          </div>
-
-          <labs-button id="open-input-btn" variant="primary">
-            <labs-icon slot="icon-left" name="add"></labs-icon>
-            Add Item
-          </labs-button>
-        </div>
-      </div>
-    </div>
-
-    <!-- The app hides its own header (we render the page header above) -->
-    <today-list-app id="todayList" hide-header></today-list-app>
-
-    <script>
-      // wire the demo button to open the app input
-      (function () {
-        function wire() {
-          const btn = document.getElementById('open-input-btn');
-          const app = document.getElementById('todayList');
-          const editorWrap = document.getElementById('external-editor');
-          const externalInput = document.getElementById('external-input');
-          if (!btn || !app) return;
-
-          function showEditor() {
-            if (!editorWrap || !externalInput) return;
-            editorWrap.style.display = 'block';
-            // focus the internal input of labs-input when available
-            setTimeout(() => {
-              try { externalInput.focus(); } catch (e) { }
-              try { const inner = externalInput.shadowRoot && externalInput.shadowRoot.querySelector('input'); if (inner) inner.focus(); } catch (e) { }
-            }, 50);
-          }
-
-          function hideEditor() {
-            if (editorWrap) editorWrap.style.display = 'none';
-          }
-
-          // Clicking the Add button shows the external editor above it
-          if (!btn.dataset.wired) {
-            btn.addEventListener('click', () => { showEditor(); });
-            btn.dataset.wired = '1';
-          }
-
-          // Submit from the external input should add item to app and hide editor
-          function onSubmit(e) {
-            const v = e && e.detail && e.detail.value;
-            if (v) {
-              try { app.addItem(v); } catch (err) { }
-            }
-            hideEditor();
-          }
-
-          // Listen for enter/submit from the external input (guard against double-wiring)
-          if (externalInput && !externalInput.dataset.wired) {
-            externalInput.addEventListener('submit', onSubmit);
-            externalInput.dataset.wired = '1';
-          }
-        }
-        // wait for custom elements to be defined
-        if (window.customElements) {
-          window.addEventListener('DOMContentLoaded', wire);
-          // also try after a short delay in case modules are still loading
-          setTimeout(wire, 500);
-        } else {
-          setTimeout(wire, 500);
-        }
-      })();
-    </script>
-
-    <script>
-      // Setup theme toggle button when page loads
-      document.addEventListener('DOMContentLoaded', () => {
-        const themeToggle = document.getElementById('themeToggle');
-        if (themeToggle) {
-          themeToggle.addEventListener('click', toggleTheme);
-          updateThemeToggleButton();
-        }
-      });
-    </script>
+  <!-- External input and Add button for adding items -->
+  <div id="external-add-wrap" style="display:flex;align-items:center;gap:8px;margin:32px 0 16px 0;">
+    <labs-button id="externalAddBtn" variant="primary">
+      <labs-icon slot="icon-left" name="add"></labs-icon>
+      Add
+    </labs-button>
+    <input id="externalAddInput" type="text" placeholder="Add item and press Enter"
+      style="flex:1;padding:10px 12px;border-radius:6px;border:1px solid #ccc;font-size:16px;display:none;" />
+  </div>
+  <today-list-app id="todayList" hide-header></today-list-app>
   </main>
   <script type="module">
     import '../design-system/components/labs-input.js';
     import '../design-system/components/labs-card.js';
     import '../design-system/components/labs-toast.js';
     import '../design-system/components/today-list-app.js';
+  </script>
+  <script>
+    // External add input/button toggle wiring
+    const addInput = document.getElementById('externalAddInput');
+    const addBtn = document.getElementById('externalAddBtn');
+    const todayList = document.getElementById('todayList');
+    function showInput() {
+      addBtn.style.display = 'none';
+      addInput.style.display = '';
+      setTimeout(() => addInput.focus(), 10);
+    }
+    function hideInput() {
+      addInput.style.display = 'none';
+      addBtn.style.display = '';
+    }
+    function doAdd() {
+      const value = addInput.value.trim();
+      if (value && todayList && typeof todayList.addItem === 'function') {
+        todayList.addItem(value);
+        addInput.value = '';
+        hideInput();
+      }
+    }
+    addBtn.addEventListener('click', showInput);
+    addInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') doAdd();
+      if (e.key === 'Escape') hideInput();
+    });
+    addInput.addEventListener('blur', hideInput);
+  </script>
+  <script>
+    // Theme management utilities (mirrored from Pad, but for Today List)
+    function applyTheme({ flavor = 'blueberry', theme = 'light' } = {}) {
+      const root = document.documentElement;
+      root.classList.remove('flavor-vanilla', 'flavor-blueberry', 'flavor-strawberry');
+      root.classList.add(`flavor-${flavor}`);
+      root.classList.remove('theme-light', 'theme-dark');
+      root.classList.add(`theme-${theme}`);
+      root.setAttribute('data-color-scheme', theme);
+      localStorage.setItem('today-list-theme', theme);
+      localStorage.setItem('today-list-flavor', flavor);
+      // Update meta theme-color for PWA
+      const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+      const bgColor = getComputedStyle(root).getPropertyValue('--color-background').trim();
+      if (themeColorMeta && bgColor) {
+        themeColorMeta.setAttribute('content', bgColor);
+      }
+      document.dispatchEvent(new CustomEvent('themeChanged'));
+    }
+
+    function initSystemTheme(defaultTheme = 'light') {
+      const savedTheme = localStorage.getItem('today-list-theme');
+      const savedFlavor = localStorage.getItem('today-list-flavor');
+      applyTheme({
+        flavor: savedFlavor || 'blueberry',
+        theme: savedTheme || 'light',
+      });
+    }
+
+    function updateThemeToggleButton() {
+      const themeIcon = document.getElementById('themeIcon');
+      const themeButton = document.getElementById('themeToggle');
+      const isDark = document.documentElement.classList.contains('theme-dark');
+      if (themeIcon) {
+        themeIcon.setAttribute('name', isDark ? 'bedtime_off' : 'bedtime');
+      }
+      if (themeButton) {
+        themeButton.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+      }
+    }
+
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.contains('theme-dark');
+      const currentFlavor = getCurrentFlavor();
+      applyTheme({ flavor: currentFlavor, theme: isDark ? 'light' : 'dark' });
+      updateThemeToggleButton();
+    }
+
+    function getCurrentFlavor() {
+      const flavors = ['vanilla', 'blueberry', 'strawberry'];
+      for (const f of flavors) {
+        if (document.documentElement.classList.contains(`flavor-${f}`)) return f;
+      }
+      return 'blueberry';
+    }
+    function cycleFlavor() {
+      const flavors = ['vanilla', 'blueberry', 'strawberry'];
+      const current = getCurrentFlavor();
+      const idx = flavors.indexOf(current);
+      const next = flavors[(idx + 1) % flavors.length];
+      const isDark = document.documentElement.classList.contains('theme-dark');
+      applyTheme({ flavor: next, theme: isDark ? 'dark' : 'light' });
+    }
+
+    // Initialize theme system
+    initSystemTheme();
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Setup theme toggle button
+      const themeToggle = document.getElementById('themeToggle');
+      if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+        updateThemeToggleButton();
+      }
+      // Setup flavor switcher button
+      const flavorToggle = document.getElementById('flavorToggle');
+      if (flavorToggle) {
+        flavorToggle.addEventListener('click', cycleFlavor);
+      }
+      // Setup clear button
+      const clearButton = document.getElementById('clearButton');
+      if (clearButton) {
+        clearButton.addEventListener('click', () => {
+          // Find the today-list-app and call its reset method if available
+          const app = document.getElementById('todayList');
+          if (app && typeof app._resetAll === 'function') {
+            app._resetAll();
+          }
+        });
+      }
+    });
   </script>
 </body>
 
