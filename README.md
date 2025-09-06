@@ -13,6 +13,8 @@
 | **🏠 Labs Homepage** | App launcher and overview | [Homepage](https://dreisdesign.github.io/labs/) |
 
 Note: The Design System received small parity fixes on 2025-08-31 (Global colors and icon-only button behavior); see `design-system/CHANGELOG.md` Unreleased for details.
+
+**2025-09-05:** All icons in apps and demos now use the design system’s `<labs-icon>` component and icon set. All inlined SVGs have been removed for consistency and maintainability. Theme and flavor toggles are now fully Storybook-compliant.
 ## 🏗️ Repository Structure
 
 ```

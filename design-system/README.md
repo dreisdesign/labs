@@ -11,6 +11,11 @@ This is the canonical design system for Labs apps, featuring a comprehensive two
 
 
 **🎯 Current Status: Production-Ready & Robust**
+
+**2025-09-05 Update:**
+- All icons in Labs apps and demos must use the `<labs-icon>` component and the design system icon set (see `src/components/labs-icon.js`).
+- Inlined SVGs are not allowed in app or demo markup; all icons are loaded dynamically from the icon set for consistency and maintainability.
+- Theme and flavor toggles in all apps are now fully consistent with Storybook and the design system.
 - ✅ Complete semantic token system with "on-" text color pairings
 - ✅ Three-flavor theming (Vanilla, Blueberry, Strawberry) with light/dark modes
 - ✅ WCAG AA accessibility compliance across all combinations
