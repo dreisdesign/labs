@@ -16,18 +16,21 @@ export function renderColors(opts = {}) {
     'vanilla': {
       '--palette-vanilla-100': 'Surface',
       '--palette-vanilla-200': 'Background',
+      '--palette-vanilla-300': 'Primary Lighter',
       '--palette-vanilla-500': 'Primary',
       '--palette-vanilla-800': 'Primary Darker'
     },
     'blueberry': {
       '--palette-blueberry-100': 'Surface',
       '--palette-blueberry-200': 'Background',
+      '--palette-blueberry-300': 'Primary Lighter',
       '--palette-blueberry-500': 'Primary',
       '--palette-blueberry-800': 'Primary Darker'
     },
     'strawberry': {
       '--palette-strawberry-100': 'Surface',
       '--palette-strawberry-200': 'Background',
+      '--palette-strawberry-300': 'Primary Lighter',
       '--palette-strawberry-500': 'Primary',
       '--palette-strawberry-800': 'Primary Darker'
     }
@@ -44,6 +47,8 @@ export function renderColors(opts = {}) {
       <div class="card-swatch" style="background:var(${varName});">
         <div class="swatch-text">${(() => {
         const short = String(varName).replace(/^--/, '');
+        if (varName === '--color-primary-lighter') return 'Primary Lighter';
+        if (varName === '--color-on-primary-lighter') return 'On Primary Lighter';
         const m = short.match(/^palette-([^-]+)-(\d+)$/);
         if (m) return m[1].charAt(0).toUpperCase() + m[1].slice(1) + ' ' + m[2];
         const m2 = short.match(/^palette-([^-]+)-([a-zA-Z]+)$/);
@@ -77,29 +82,24 @@ export function renderColors(opts = {}) {
       ]
     },
     blueberry: {
-      semantic: ['--color-primary', '--color-primary-darker'],
+      semantic: ['--color-primary', '--color-primary-darker', '--color-primary-lighter'],
       neutrals: ['--color-surface', '--color-background'],
-      palette: ['--palette-blueberry-100', '--palette-blueberry-200', '--palette-blueberry-500', '--palette-blueberry-800'],
+      palette: ['--palette-blueberry-100', '--palette-blueberry-200', '--palette-blueberry-300', '--palette-blueberry-500', '--palette-blueberry-800'],
       accents: []
     },
     strawberry: {
-      semantic: ['--color-primary', '--color-primary-darker'],
+      semantic: ['--color-primary', '--color-primary-darker', '--color-primary-lighter'],
       neutrals: ['--color-surface', '--color-background'],
-      palette: ['--palette-strawberry-100', '--palette-strawberry-200', '--palette-strawberry-500', '--palette-strawberry-800'],
+      palette: ['--palette-strawberry-100', '--palette-strawberry-200', '--palette-strawberry-300', '--palette-strawberry-500', '--palette-strawberry-800'],
       accents: []
     },
     vanilla: {
-      semantic: ['--color-primary', '--color-primary-darker'],
+      semantic: ['--color-primary', '--color-primary-darker', '--color-primary-lighter'],
       neutrals: ['--color-surface', '--color-background'],
-      palette: ['--palette-vanilla-100', '--palette-vanilla-200', '--palette-vanilla-500', '--palette-vanilla-800'],
+      palette: ['--palette-vanilla-100', '--palette-vanilla-200', '--palette-vanilla-300', '--palette-vanilla-500', '--palette-vanilla-800'],
       accents: []
     }
   };
-
-  // contrastPolaroid removed — individual polaroids now show contrast and label
-
-  // sample button removed; keep UI focused on tokens and palette
-
   // Only pass correct flavor key for polaroid
   const renderTokenList = (flavor, list) => list.map(v => polaroid(flavor, v.replace(/^--/, ''), v)).join('');
 
@@ -147,7 +147,9 @@ export function renderColors(opts = {}) {
   }
 
   const html = `
-    <div class="tokens-doc-root ${flavorClass}" ${dataAttr}>
+    <div style="width:100%; display:flex; justify-content:center;">
+      <div style="max-width:1200px; padding:20px; font-family:var(--font-family-base); color:var(--color-on-background); background:var(--color-surface);">
+        <div class="tokens-doc-root ${flavorClass}" ${dataAttr}>
       <style>
   .tokens-doc-root{padding:16px 40px;font-family:var(--font-family-base);}
 
@@ -178,6 +180,26 @@ export function renderColors(opts = {}) {
     pointer-events:none;
     text-shadow:0 1px 0 rgba(0,0,0,0.15);
     transition:color 0.2s;
+  }
+  /* Override text color for primary-lighter swatch to use correct on color */
+  .polaroid-card[data-var="--color-primary-lighter"] .swatch-text {
+    color: var(--color-on-primary-lighter, var(--color-on-surface));
+  }
+  /* Override text color for dark palette tokens (500, 700, 800, 900) to use light text */
+  .polaroid-card[data-var*="-500"] .swatch-text,
+  .polaroid-card[data-var*="-700"] .swatch-text,
+  .polaroid-card[data-var*="-800"] .swatch-text,
+  .polaroid-card[data-var*="-900"] .swatch-text,
+  .polaroid-card[data-var="--palette-base-800"] .swatch-text {
+    color: var(--color-on-primary-darker, #fff);
+  }
+  /* Override text color for light palette tokens (100, 200, 300) to use dark text */
+  .polaroid-card[data-var*="-100"] .swatch-text,
+  .polaroid-card[data-var*="-200"] .swatch-text,
+  .polaroid-card[data-var*="-300"] .swatch-text,
+  .polaroid-card[data-var="--palette-base-100"] .swatch-text,
+  .polaroid-card[data-var="--palette-base-500"] .swatch-text {
+    color: var(--color-on-primary-lighter, #000);
   }
   /* Remove any dark mode overrides for .swatch-text (do not force color) */
   /* Ensure polaroid code labels never wrap */
@@ -266,6 +288,8 @@ export function renderColors(opts = {}) {
   ${flavorSections}
       </div>
     </div>
+  </div>
+  </div>
   `;
 
   // Add click-to-copy for swatches (main and text swatch)
@@ -280,6 +304,84 @@ export function renderColors(opts = {}) {
         el.style.outline = '2px solid #007aff';
         setTimeout(() => { el.style.outline = ''; }, 600);
       });
+    });
+
+    // Resolve table values
+    document.querySelectorAll('.list-resolved').forEach(el => {
+      const varName = el.getAttribute('data-var');
+      if (varName) {
+        const computedValue = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+        el.textContent = computedValue || 'unset';
+      }
+    });
+
+    // Resolve base tokens and text colors dynamically based on active flavor
+    // Prefer synchronous data-flavor attribute (set early in preview-head) for robust detection
+    const df = document.documentElement.getAttribute('data-flavor');
+    const flavorClass = Array.from(document.documentElement.classList).find(c => c.indexOf('flavor-') === 0);
+    let flavor = df || (flavorClass ? flavorClass.replace('flavor-', '') : 'blueberry');
+
+    // Fallback: parse flavor from URL globals param (handles encoded forms)
+    if (!df && !flavorClass) {
+      try {
+        const url = new URL(window.location.href);
+        const globalsRaw = url.searchParams.get('globals') || '';
+        const decoded = decodeURIComponent(globalsRaw || '');
+        try {
+          if (decoded && (decoded[0] === '{' || decoded.indexOf('"flavor"') !== -1)) {
+            const parsed = JSON.parse(decoded);
+            if (parsed && parsed.flavor) flavor = parsed.flavor;
+          }
+        } catch (e) { }
+        if (!flavor || flavor === 'blueberry') {
+          const m = decoded.match(/flavor:([^,&\}\"]+)/) || globalsRaw.match(/flavor:([^,&\}\"]+)/) || globalsRaw.match(/flavor%3A([^,&\}\"]+)/i);
+          if (m && m[1]) flavor = decodeURIComponent(m[1]);
+        }
+      } catch (e) { }
+    }
+
+    // helper to build palette token name for flavor
+    const p = (flav, stop) => `--palette-${flav}-${stop}`;
+    const baseMapDynamic = (flav) => ({
+      '--color-primary': p(flav, '500'),
+      '--color-primary-darker': p(flav, '800'),
+      '--color-primary-lighter': p(flav, '300'),
+      '--color-surface': p(flav, '100'),
+      '--color-background': p(flav, '200')
+    });
+
+    const textColorMap = {
+      '--color-primary': '--color-on-primary',
+      '--color-primary-darker': '--color-on-primary-darker',
+      '--color-primary-lighter': '--color-on-primary-lighter',
+      '--color-surface': '--color-on-surface',
+      '--color-background': '--color-on-background'
+    };
+
+    const baseMap = baseMapDynamic(flavor);
+    // Diagnostic: record flavor and baseMap snapshot to help debug Unknown base cases
+    try {
+      window.__colors_last_resolutions = window.__colors_last_resolutions || [];
+      window.__colors_last_resolutions.push({ debug: 'baseMapSnapshot', flavor: flavor, baseMap: baseMap, ts: Date.now() });
+    } catch (e) { }
+    document.querySelectorAll('.list-chain').forEach(el => {
+      const varName = el.getAttribute('data-var');
+      if (varName) {
+        const base = baseMap[varName] || '–';
+        el.innerHTML = base !== '–' ? `<code>${base}</code>` : '–';
+      }
+    });
+
+    document.querySelectorAll('.list-text-color').forEach(el => {
+      const varName = el.getAttribute('data-var');
+      if (varName) {
+        const textColor = textColorMap[varName];
+        if (textColor) {
+          el.innerHTML = `<code>${textColor}</code>`;
+        } else {
+          el.textContent = 'computing...';
+        }
+      }
     });
   }, 300);
   return html;

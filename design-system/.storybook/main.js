@@ -1,10 +1,12 @@
 /** @type { import('@storybook/web-components-vite').StorybookConfig } */
 const config = {
   stories: [
-    '../stories/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+    '../src/stories/foundation/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+    '../src/stories/tokens/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+    '../src/stories/components/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+    '../src/stories/patterns/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+    '../src/stories/apps/**/*.stories.@(js|jsx|ts|tsx|mdx)',
     '../src/stories/**/*.stories.@(js|jsx|ts|tsx|mdx)',
-    '../src/components/**/*.stories.@(js|jsx|ts|tsx|mdx)',
-    '../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'
   ],
   addons: [
     {
@@ -17,22 +19,9 @@ const config = {
   ],
   parameters: {
     options: {
-      storySort: (a, b) => {
-        const order = ["Tokens", "Icons", "Components", "Patterns"];
-        const getGroupIndex = (item) => {
-          const group = item[1].kind.split("/")[0];
-          const idx = order.indexOf(group);
-          return idx === -1 ? order.length : idx;
-        };
-        const aIdx = getGroupIndex(a);
-        const bIdx = getGroupIndex(b);
-        if (aIdx !== bIdx) return aIdx - bIdx;
-        // Within group, sort alphabetically, but "docs" or "default" first
-        const aName = a[1].name.toLowerCase();
-        const bName = b[1].name.toLowerCase();
-        if (aName === "docs" || aName === "default") return -1;
-        if (bName === "docs" || bName === "default") return 1;
-        return aName.localeCompare(bName);
+      storySort: {
+        method: 'alphabetical',
+        order: ['Foundation', 'Tokens', 'Components', 'Patterns', 'Apps'],
       },
     },
   },

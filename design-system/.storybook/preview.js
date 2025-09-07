@@ -227,7 +227,7 @@ const preview = {
         container.style.display = 'inline-block';
         container.style.padding = '1rem';
         container.style.borderRadius = '8px';
-        container.style.background = 'var(--color-surface)';
+        // container.style.background = 'var(--color-surface)';
         container.style.color = 'var(--color-on-surface)';
         container.style.boxSizing = 'border-box';
 

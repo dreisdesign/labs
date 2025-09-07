@@ -1,4 +1,13 @@
 // button.stories.js
+// Remove Storybook autodocs surface background for button stories
+const style = document.createElement('style');
+style.innerHTML = `
+  .labs-autodocs-surface {
+    background: none !important;
+    box-shadow: none !important;
+  }
+`;
+document.head.appendChild(style);
 // Storybook stories for Labs Button (best practice structure)
 import '../components/labs-button.js';
 import '../components/labs-icon.js';
@@ -14,46 +23,100 @@ export default {
       }
     }
   },
+  argTypes: {
+    variant: {
+      control: { type: 'select' },
+      options: ['primary', 'secondary', 'destructive', 'transparent'],
+      description: 'Button variant style'
+    },
+    size: {
+      control: { type: 'select' },
+      options: ['small', 'medium', 'large'],
+      description: 'Button size'
+    },
+    disabled: {
+      control: { type: 'boolean' },
+      description: 'Disable the button'
+    },
+    text: {
+      control: { type: 'text' },
+      description: 'Button text content'
+    },
+    leftIcon: {
+      control: { type: 'text' },
+      description: 'Left icon name (optional)'
+    },
+    rightIcon: {
+      control: { type: 'text' },
+      description: 'Right icon name (optional)'
+    }
+  },
+  args: {
+    variant: 'primary',
+    size: 'medium',
+    disabled: false,
+    text: 'Button',
+    leftIcon: '',
+    rightIcon: ''
+  }
 };
 
 export const Default = {
   name: 'Default',
-  render: () => `
-    <labs-button variant="primary">Default</labs-button>
+  render: (args) => `
+    <div style="background: none; box-shadow: none; padding: 0; border: none;">
+      <labs-button
+        variant="${args.variant}"
+        ${args.size ? `size="${args.size}"` : ''}
+        ${args.disabled ? 'disabled' : ''}
+      >
+        ${args.leftIcon ? `<labs-icon slot="icon-left" name="${args.leftIcon}"></labs-icon>` : ''}
+        ${args.text}
+        ${args.rightIcon ? `<labs-icon slot="icon-right" name="${args.rightIcon}"></labs-icon>` : ''}
+      </labs-button>
+    </div>
   `,
 };
 
 export const Primary = {
   name: 'Primary',
   render: () => `
-    <labs-button variant="primary">Primary</labs-button>
+    <div style="background: none; box-shadow: none; padding: 0; border: none;">
+      <labs-button variant="primary">Primary</labs-button>
+    </div>
   `,
 };
 
 export const Secondary = {
   name: 'Secondary',
   render: () => `
-    <labs-button variant="secondary">Secondary</labs-button>
+    <div style="background: none; box-shadow: none; padding: 0; border: none;">
+      <labs-button variant="secondary">Secondary</labs-button>
+    </div>
   `,
 };
 
 export const WithLeftIcon = {
   name: 'With Left Icon',
   render: () => `
-    <labs-button variant="primary">
-      <labs-icon slot="icon-left" name="add"></labs-icon>
-      With Left Icon
-    </labs-button>
+    <div style="background: none; box-shadow: none; padding: 0; border: none;">
+      <labs-button variant="primary">
+        <labs-icon slot="icon-left" name="add"></labs-icon>
+        With Left Icon
+      </labs-button>
+    </div>
   `,
 };
 
 export const WithRightIcon = {
   name: 'With Right Icon',
   render: () => `
-    <labs-button variant="primary">
-      With Right Icon
-      <labs-icon slot="icon-right" name="edit"></labs-icon>
-    </labs-button>
+    <div style="background: none; box-shadow: none; padding: 0; border: none;">
+      <labs-button variant="primary">
+        With Right Icon
+        <labs-icon slot="icon-right" name="edit"></labs-icon>
+      </labs-button>
+    </div>
   `,
 };
 
@@ -61,6 +124,17 @@ export const WithRightIcon = {
 export const Destructive = {
   name: 'Destructive',
   render: () => `
-    <labs-button variant="destructive">Destructive</labs-button>
+    <div style="background: none; box-shadow: none; padding: 0; border: none;">
+      <labs-button variant="destructive">Destructive</labs-button>
+    </div>
+  `,
+};
+
+export const Transparent = {
+  name: 'Transparent',
+  render: () => `
+    <div style="background: none; box-shadow: none; padding: 0; border: none;">
+      <labs-button variant="transparent">Transparent</labs-button>
+    </div>
   `,
 };

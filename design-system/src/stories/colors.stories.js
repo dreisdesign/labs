@@ -125,7 +125,17 @@ function executeColorLogic() {
 
         // Update chain column with the base palette token that produces the resolved color
         if (el.classList.contains('list-chain')) {
-          if (res && res.value && res.value !== 'unset') {
+          // If template already provided a palette code, preserve it.
+          var preserveExisting = false;
+          try {
+            var existingCode = el.querySelector && el.querySelector('code');
+            if (existingCode && existingCode.textContent && existingCode.textContent.indexOf('--palette-') === 0) {
+              // don't overwrite template-provided base mapping
+              preserveExisting = true;
+            }
+          } catch (preserveErr) { /* ignore */ }
+
+          if (!preserveExisting && res && res.value && res.value !== 'unset') {
             var baseTokenFound = null;
             // Prefer to find a palette token from the resolution chain (most reliable across themes)
             try {
@@ -144,39 +154,40 @@ function executeColorLogic() {
             // Fallback: try mapping by resolved color hex
             if (!baseTokenFound) {
               var resolvedColor = res.value;
-              // Add all palette tokens from the theme for mapping
-              var colorToTokenMap = {
-                // Base
-                '#FBFBFD': 'Base 100',
-                '#9E9E9E': 'Base 500',
-                '#2A2A30': 'Base 800',
-                // Status
-                '#00800C': 'Green 500',
-                '#FFB300': 'Yellow 500',
-                '#D32F2F': 'Red 500',
-                // Blueberry
-                '#F0EEFF': 'Blueberry 100',
-                '#DBD7FF': 'Blueberry 200',
-                '#2E2B74': 'Blueberry 500',
-                '#1E193E': 'Blueberry 800',
-                // Vanilla
-                '#F5F1E7': 'Vanilla 100',
-                '#E8E2D6': 'Vanilla 200',
-                '#6B5C4B': 'Vanilla 500',
-                '#1B1C1F': 'Vanilla 800',
-                // Strawberry
-                '#FFF2F1': 'Strawberry 100',
-                '#FFD3D2': 'Strawberry 200',
-                '#800800': 'Strawberry 500',
-                '#4A1614': 'Strawberry 800'
-              };
+              // Build a dynamic mapping from palette hex -> friendly token label using known palette tokens
+              var colorToTokenMap = {};
               try {
+                // tokenSets is defined in this scope and contains palette lists per flavor
+                Object.keys(tokenSets).forEach(function (k) {
+                  var set = tokenSets[k];
+                  if (set && Array.isArray(set.palette)) {
+                    set.palette.forEach(function (tok) {
+                      try {
+                        var val = getComputedStyle(document.documentElement).getPropertyValue(tok).trim();
+                        if (val && val !== 'unset') {
+                          var hex = normalizeHex(colorToHex(val) || val);
+                          if (hex) colorToTokenMap[hex.toLowerCase()] = tokenNameToLabel(tok);
+                        }
+                      } catch (e) { }
+                    });
+                  }
+                });
+
+                // Also include missing palette-300 values for all flavors
+                ['--palette-base-100', '--palette-base-500', '--palette-base-800', '--palette-green-500', '--palette-yellow-500', '--palette-red-500',
+                  '--palette-blueberry-300', '--palette-vanilla-300', '--palette-strawberry-300'].forEach(function (tok) {
+                    try {
+                      var v = getComputedStyle(document.documentElement).getPropertyValue(tok).trim();
+                      if (v && v !== 'unset') {
+                        var h = normalizeHex(colorToHex(v) || v);
+                        if (h) colorToTokenMap[h.toLowerCase()] = tokenNameToLabel(tok);
+                      }
+                    } catch (e) { }
+                  });
+
                 var hex = normalizeHex(colorToHex(resolvedColor) || resolvedColor);
                 if (hex) {
-                  // Be case-insensitive when looking up mapping keys (some keys are lower/upper cased)
-                  var hexKeyLower = (hex || '').toLowerCase();
-                  var hexKeyUpper = (hex || '').toUpperCase();
-                  baseTokenFound = colorToTokenMap[hexKeyLower] || colorToTokenMap[hexKeyUpper];
+                  baseTokenFound = colorToTokenMap[(hex || '').toLowerCase()];
                 }
               } catch (e) { }
             }
@@ -378,7 +389,7 @@ function executeColorLogic() {
         if (bgVal && bgVal !== 'unset') {
           var onVal = null;
 
-          // For palette tokens, skip semantic token lookup and compute based on luminance
+          // For palette tokens, set inline label color based on luminance
           if (varName.includes('--palette-')) {
             try {
               var bg = parseColor(bgVal);
@@ -388,6 +399,7 @@ function executeColorLogic() {
               } else {
                 onVal = '#ffffff';
               }
+              // Do not set inline color for main polaroid text; let CSS variables control it
             } catch (e) {
               onVal = '#ffffff';
             }
@@ -426,28 +438,21 @@ function executeColorLogic() {
             }
           }
 
-          // Do not set inline color for polaroid label text; let the theme CSS variable control it.
-          // Clear any inline color that might have been applied previously.
-          // Apply computed on-color to the polaroid label text so it matches the 'Aa' sample
+          // Do not set inline color for the main polaroid label text; let CSS variables control it.
+          // Only update the small 'Aa' sample inside the swatch to reflect the computed on-color.
           try {
-            if (onVal && onVal !== 'unset') {
-              var normalizedOnVal = normalizeHex(onVal);
-              // apply inline color to the polaroid label so it reflects computed on-color
-              span.style.color = normalizedOnVal;
-              // Do NOT set inline color on .card-token-label code; let it inherit from theme CSS
-              var tiny = card.querySelector('.swatch-thumb-text');
-              if (tiny) tiny.style.color = normalizedOnVal;
-            } else {
-              span.style.color = '';
-              var labelCode = card.querySelector('.card-token-label code');
-              if (labelCode) labelCode.style.color = '';
+            var tiny = card.querySelector('.swatch-thumb-text');
+            if (tiny) {
+              if (onVal && onVal !== 'unset') {
+                tiny.style.color = normalizeHex(onVal);
+              } else {
+                tiny.style.color = '';
+              }
             }
-          } catch (e) {
-            span.style.color = '';
-          }
+          } catch (e) { /* ignore */ }
         }
       } catch (e) {
-        span.style.color = '#ffffff';
+        // Let CSS variables handle text color, don't set inline styles
       }
     });
   }
@@ -462,7 +467,7 @@ function executeColorLogic() {
 
 export default {
   title: 'Tokens/Colors',
-  parameters: { viewMode: 'docs', layout: 'fullscreen' }
+  parameters: { viewMode: 'docs' }
 };
 
 export const Colors = {
