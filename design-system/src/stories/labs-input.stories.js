@@ -7,7 +7,7 @@ export default {
 export const Default = () => {
   const el = document.createElement('div');
   const input = document.createElement('labs-input');
-  input.setAttribute('placeholder', 'Add item and press Enter');
+  input.setAttribute('placeholder', 'Add item...');
   input.addEventListener('submit', (e) => {
     const p = document.createElement('p');
     p.textContent = `Submitted: ${e.detail.value}`;

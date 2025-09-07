@@ -33,17 +33,34 @@ class LabsSettingsCard extends HTMLElement {
           min-height: 40px;
           border-radius: 50%;
           position: static;
-          background: none;
+          background: inherit;
           box-shadow: none;
           padding: 0;
           display: flex;
           align-items: center;
           justify-content: center;
-          transition: background 0.18s cubic-bezier(.4,2,.6,1);
+          transition: background 0.10s cubic-bezier(.4,2,.6,1), color 0.10s cubic-bezier(.4,2,.6,1);
+        }
+        :host {
+          background: var(--color-surface, #fff);
+        }
+        :host-context(.theme-dark) .close-btn {
+          background: var(--color-surface, #181a1b);
+        }
+        :host-context(.theme-dark) .close-btn:hover,
+        :host-context(.theme-dark) .close-btn:focus-visible {
+          background: var(--color-surface-hover, #23272a);
+        }
+        :host-context(.theme-light) .close-btn {
+          background: var(--color-surface, #fff);
+        }
+        :host-context(.theme-light) .close-btn:hover,
+        :host-context(.theme-light) .close-btn:focus-visible {
+          background: var(--color-surface-hover, #f5f5f5);
         }
         .close-btn:hover,
         .close-btn:focus-visible {
-          background: var(--color-surface-variant, #e0e0e0);
+          color: var(--color-on-surface, #222);
         }
         .close-btn labs-icon {
           --icon-size: 28px;

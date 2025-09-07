@@ -17,25 +17,25 @@ function executeColorLogic() {
   // Token sets for chain resolution
   const tokenSets = {
     global: {
-      tokens: ['--color-surface', '--color-surface-alt', '--color-success', '--color-warning', '--color-error'],
+      tokens: ['--color-surface', '--color-surface-hover', '--color-surface-alt', '--color-success', '--color-warning', '--color-error'],
       palette: ['--palette-base-100', '--palette-base-800'],
       statusPalette: ['--palette-green-500', '--palette-yellow-500', '--palette-red-500']
     },
     vanilla: {
       semantic: ['--color-primary', '--color-primary-darker'],
-      neutrals: ['--color-surface', '--color-background'],
+      neutrals: ['--color-surface', '--color-surface-hover', '--color-background'],
       palette: ['--palette-vanilla-100', '--palette-vanilla-200', '--palette-vanilla-500', '--palette-vanilla-800'],
       accents: []
     },
     blueberry: {
       semantic: ['--color-primary', '--color-primary-darker'],
-      neutrals: ['--color-surface', '--color-background'],
+      neutrals: ['--color-surface', '--color-surface-hover', '--color-background'],
       palette: ['--palette-blueberry-100', '--palette-blueberry-200', '--palette-blueberry-500', '--palette-blueberry-800'],
       accents: []
     },
     strawberry: {
       semantic: ['--color-primary', '--color-primary-darker'],
-      neutrals: ['--color-surface', '--color-background'],
+      neutrals: ['--color-surface', '--color-surface-hover', '--color-background'],
       palette: ['--palette-strawberry-100', '--palette-strawberry-200', '--palette-strawberry-500', '--palette-strawberry-800'],
       accents: []
     }

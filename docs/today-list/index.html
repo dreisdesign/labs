@@ -24,8 +24,7 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
+      /* Remove centering so footer stays at bottom */
     }
 
     main {
@@ -34,6 +33,19 @@
       margin: 40px auto 0 auto;
       padding: 0 16px;
       position: relative;
+      flex: 1 0 auto;
+      /* Take up all available space */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    labs-footer {
+      flex-shrink: 0;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     .today-theme-toggle {
@@ -97,15 +109,66 @@
   </div>
   <today-list-app id="todayList" hide-header></today-list-app>
   </main>
-  <labs-footer>
-    <span slot="left">© 2025 Labs Design System</span>
+  <!-- New Footer with Add button and Settings icon -->
+  <style>
+    #footer-settings-btn labs-icon {
+      width: 28px;
+      height: 28px;
+      transition: transform 0.4s cubic-bezier(.4, 2, .6, 1);
+    }
+
+    #footer-settings-btn:hover labs-icon {
+      transform: rotate(90deg);
+    }
+  </style>
+  <labs-footer full-width elevated>
+    <div slot="center">
+      <labs-button id="footerAddBtn" variant="primary">+ Add</labs-button>
+    </div>
     <div slot="right" style="display: flex; align-items: center; gap: 8px;">
-      <span style="font-size: 0.9em; color: var(--color-on-surface-variant);">v2.1.5</span>
-      <labs-button variant="icon" aria-label="Settings">
-        <labs-icon name="settings" slot="icon-left"></labs-icon>
+      <labs-button id="footer-settings-btn" variant="icon" aria-label="Settings" style="padding-right:12px;">
+        <labs-icon name="settings" slot="icon-left" width="28" height="28"></labs-icon>
       </labs-button>
     </div>
   </labs-footer>
+
+  <!-- Settings Overlay -->
+  <labs-overlay id="settingsOverlay">
+    <labs-settings-card></labs-settings-card>
+  </labs-overlay>
+  <script type="module">
+    import '../design-system/components/labs-settings-card.js';
+    import '../design-system/components/labs-overlay.js';
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Footer Add button triggers the same add input as the top add button
+      const addBtn = document.getElementById('externalAddBtn');
+      const footerAddBtn = document.getElementById('footerAddBtn');
+      if (footerAddBtn && addBtn) {
+        footerAddBtn.addEventListener('click', showInput);
+      }
+      // Settings overlay wiring
+      const settingsBtn = document.getElementById('footerSettingsBtn');
+      const settingsOverlay = document.getElementById('settingsOverlay');
+      if (settingsBtn && settingsOverlay) {
+        settingsBtn.addEventListener('click', () => settingsOverlay.open());
+        // Listen for close event from labs-settings-card
+        const settingsCard = settingsOverlay.querySelector('labs-settings-card');
+        if (settingsCard) {
+          settingsCard.addEventListener('close', () => settingsOverlay.close());
+          // Wire up destructive reset button inside overlay
+          settingsCard.shadowRoot?.getElementById('reset-all-btn')?.addEventListener('click', () => {
+            const todayList = document.getElementById('todayList');
+            if (todayList && typeof todayList._resetAll === 'function') {
+              todayList._resetAll();
+              settingsOverlay.close();
+            }
+          });
+        }
+      }
+    });
+  </script>
   <script type="module">
     import '../design-system/components/labs-input.js';
     import '../design-system/components/labs-card.js';

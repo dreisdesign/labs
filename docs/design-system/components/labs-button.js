@@ -38,7 +38,7 @@ class LabsButton extends HTMLElement {
           /* Use typography tokens for font size, weight, and line height */
           --button-font: var(--font-weight-button, 600) var(--font-size-button, 1rem)/var(--line-height-button, 1.2) var(--font-family-base, system-ui, sans-serif);
           --button-icon-padding: 0.5em;
-          --button-icon-size: 1.25em;
+          --button-icon-size: 1.5em;
 
           display: inline-block;
         }
@@ -151,10 +151,12 @@ class LabsButton extends HTMLElement {
         ::slotted([slot="icon-right"]) {
           display: inline-flex;
           align-items: center;
-          font-size: var(--button-icon-size, 1.25em);
-          margin: 0 !important;
+          font-size: var(--button-icon-size, 1.5em);
           vertical-align: middle !important;
         }
+        /* Spacing: left icon gets right margin, right icon gets left margin */
+        ::slotted([slot="icon-left"]) { margin: 0 0.5em 0 0 !important; }
+        ::slotted([slot="icon-right"]) { margin: 0 0 0 0.5em !important; }
         /* Make slotted icons inherit the host/button color so they follow tokens/currentColor */
         ::slotted([slot="icon-left"]) labs-icon,
         ::slotted([slot="icon-right"]) labs-icon,

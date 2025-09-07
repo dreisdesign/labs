@@ -111,7 +111,8 @@ export function renderColors(opts = {}) {
   };
 
   // Render global view without a flavor wrapper so semantic globals resolve to neutral/base tokens
-  const flavorClass = only ? `flavor-${only} theme-light` : 'theme-light';
+  // Always use flavor-global for the global table, so it is not affected by the active flavor/theme
+  const flavorClass = only ? `flavor-${only} theme-light` : 'flavor-global theme-light';
   const dataAttr = only ? `data-only-flavor="${only}"` : '';
 
   // Render flavor sections only when a specific flavor is requested (individual flavor story).
@@ -119,6 +120,8 @@ export function renderColors(opts = {}) {
   let flavorSections = '';
   if (only && tokenSets[only]) {
     const f = only;
+    // Use getSemanticTokens(f) to include both semantic and neutrals (including --color-surface-hover)
+    const allTokens = getSemanticTokens(f);
     flavorSections = `
   <details class="flavor-column flavor-${f}" ${hideIfNot(f)} open style="margin-top:12px">
         <summary style="margin:8px 0"><h3 style="display:inline;margin:0">Theme: ${f.charAt(0).toUpperCase() + f.slice(1)}</h3></summary>
@@ -129,7 +132,7 @@ export function renderColors(opts = {}) {
           <table class="token-list">
             <thead><tr><th>Semantic</th><th>Swatch</th><th>Resolved</th><th>Base</th><th>Text color</th><th>Contrast</th></tr></thead>
             <tbody>
-              ${getSemanticTokens(f).map(t => `
+              ${allTokens.map(t => `
                 <tr>
                   <td><code>${t}</code></td>
                   <td><span class="swatch-thumb" data-var="${t}" style="background:var(${t});"><span class="swatch-thumb-text" data-var="${t}">Aa</span></span></td>
@@ -192,6 +195,10 @@ export function renderColors(opts = {}) {
   .polaroid-card[data-var*="-900"] .swatch-text,
   .polaroid-card[data-var="--palette-base-800"] .swatch-text {
     color: var(--color-on-primary-darker, #fff);
+  }
+  /* Override yellow-500 swatch to use dark text for contrast */
+  .polaroid-card[data-var="--palette-yellow-500"] .swatch-text {
+    color: var(--color-on-primary-lighter, #222);
   }
   /* Override text color for light palette tokens (100, 200, 300) to use dark text */
   .polaroid-card[data-var*="-100"] .swatch-text,

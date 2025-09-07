@@ -75,7 +75,7 @@
   --palette-strawberry-500: #800800;
   --palette-strawberry-700: #9B2F2B;
   /* made darker to match other 800 variants */
-  --palette-strawberry-800: #4A1614;
+  --palette-strawberry-800: #2A0B0A;
   --palette-strawberry-900: #5C1A18;
 
   /* Base (gray) palette */
@@ -84,7 +84,7 @@
   --palette-base-300: #E0E0E0;
   /* TODO: Adjust value for Base 300 */
   /* mid-tone base for borders and outlines */
-  --palette-base-500: #9E9E9E;
+  --palette-base-500: #A8B4C2;
   /* darker base anchor used for deep surfaces */
   --palette-base-800: #2A2A30;
   --palette-black: #000000;
