@@ -12,10 +12,10 @@ class LabsCard extends HTMLElement {
     const slotActions = document.createElement('slot'); slotActions.name = 'actions';
 
     const style = document.createElement('style');
-    style.textContent = `:host{display:block;--card-padding:var(--space-4,16px);font-family:inherit}
+    style.textContent = `:host{display:block;--card-padding:var(--space-4,16px);font-family:var(--font-family-base, inherit)}
 .card{background:var(--color-surface,#fff);color:var(--color-on-surface);border-radius:var(--radius-2,12px);padding:var(--card-padding);box-shadow:var(--card-elevation, none);border:1px solid color-mix(in srgb, var(--color-on-surface) 6%, transparent)}
-.header{font-weight:600;margin:0 0 8px 0;color:var(--color-on-background, inherit);font-size:1.125rem}
-.description{margin:0 0 12px 0;line-height:1.4;color:var(--color-on-surface, inherit)}
+.header{font-weight:var(--font-weight-card-header, 600);margin:0 0 8px 0;color:var(--color-on-background, inherit);font-size:var(--font-size-card-header, 1.125rem);line-height:var(--line-height-card-header, 1.2)}
+.description{margin:0 0 12px 0;line-height:var(--line-height-card-desc, 1.4);color:var(--color-on-surface, inherit);font-size:var(--font-size-card-desc, 1rem)}
 .media{margin-bottom:12px}
 .actions{display:flex;gap:8px;align-items:center}
 :host([variant="welcome"]) .card{padding:calc(var(--card-padding) * 1.25);}

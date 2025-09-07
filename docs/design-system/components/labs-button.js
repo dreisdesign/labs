@@ -22,7 +22,8 @@ class LabsButton extends HTMLElement {
           --button-radius: 6px;
           --button-shadow: 0 1px 2px rgba(0,0,0,0.04);
           --button-focus: 0 0 0 2px rgba(147,197,253,0.6);
-          --button-font: 600 20px/1.2 system-ui, sans-serif;
+          /* Use typography tokens for font size, weight, and line height */
+          --button-font: var(--font-weight-button, 600) var(--font-size-button, 1rem)/var(--line-height-button, 1.2) var(--font-family-base, system-ui, sans-serif);
           --button-icon-padding: 0.5em;
           --button-icon-size: 1.25em;
 

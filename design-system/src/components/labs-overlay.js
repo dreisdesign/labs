@@ -50,6 +50,9 @@ class LabsOverlay extends HTMLElement {
           position: relative;
           background: var(--color-surface, #ffffff);
           color: var(--color-on-surface, #1b1c1f);
+          font-family: var(--font-family-base, system-ui, sans-serif);
+          font-size: var(--font-size-overlay, 1rem);
+          line-height: var(--line-height-overlay, 1.5);
           border-radius: 12px;
           box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
           max-width: 90vw;

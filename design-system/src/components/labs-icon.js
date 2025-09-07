@@ -95,12 +95,18 @@ class LabsIcon extends HTMLElement {
 
   async render() {
     // Modular icon sizing and alignment for design system integration
+    // Get width/height from attributes or fallback to 1em
+    const rawWidth = this.getAttribute("width") || "1em";
+    const rawHeight = this.getAttribute("height") || "1em";
+    const width = (rawWidth === "auto" || !rawWidth || rawWidth === "0px") ? "1em" : rawWidth.replace("px", "");
+    const height = (rawHeight === "auto" || !rawHeight || rawHeight === "0px") ? "1em" : rawHeight.replace("px", "");
+
     const styleBlock = `
       <style>
         :host {
           display: inline-block;
-          width: 1em;
-          height: 1em;
+          width: ${width}${/\d$/.test(width) ? 'px' : ''};
+          height: ${height}${/\d$/.test(height) ? 'px' : ''};
           vertical-align: middle;
         }
         svg {
@@ -125,13 +131,7 @@ class LabsIcon extends HTMLElement {
       return;
     }
 
-    const style = window.getComputedStyle(this);
-    const rawWidth = this.getAttribute("width") || style.width || "1em";
-    const rawHeight = this.getAttribute("height") || style.height || "1em";
-
-    // Ensure width and height are never "auto" or invalid values
-    const width = (rawWidth === "auto" || !rawWidth || rawWidth === "0px") ? "1em" : rawWidth.replace("px", "");
-    const height = (rawHeight === "auto" || !rawHeight || rawHeight === "0px") ? "1em" : rawHeight.replace("px", "");
+    // width/height now handled above for host and SVG
 
     // Color handling with theme awareness
     let color = this.getAttribute("color") || "var(--color-on-surface)";
@@ -175,9 +175,9 @@ class LabsIcon extends HTMLElement {
       svg = svg.replace(/fill="#[^"]*"/gi, `fill="${color}"`);
       svg = svg.replace(/fill='#[^']*'/gi, `fill='${color}'`);
 
-      // Set width and height with proper pixel values
-      svg = svg.replace(/width="[^"]*"/gi, `width="${width}"`);
-      svg = svg.replace(/height="[^"]*"/gi, `height="${height}"`);
+      // Set SVG width/height to 100% so it fills the host element
+      svg = svg.replace(/width="[^"]*"/gi, `width="100%"`);
+      svg = svg.replace(/height="[^"]*"/gi, `height="100%"`);
 
       this.shadowRoot.innerHTML = styleBlock + svg;
       return;

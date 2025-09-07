@@ -23,14 +23,22 @@ class LabsFooter extends HTMLElement {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 16px 20px;
-          background: var(--color-surface, #ffffff);
-          border-top: 1px solid var(--color-outline, #e0e0e0);
+          padding: 20px 16px;
+          background: rgba(255, 255, 255, 0.15);
+          backdrop-filter: blur(25px);
+          -webkit-backdrop-filter: blur(16px);
+          border-top: 0.75px solid rgba(255, 255, 255, 0.5);
+          border-radius: 100px 100px 0 0;
           color: var(--color-on-surface, #1b1c1f);
-          font-family: var(--font-family, system-ui, sans-serif);
+          font-family: var(--font-family-base, system-ui, sans-serif);
+          font-size: var(--font-size-footer, 0.9rem);
+          line-height: var(--line-height-footer, 1.4);
           min-height: 56px;
           box-sizing: border-box;
           position: relative;
+          width: 95%;
+          margin: 0 auto;
+          transition: background-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s;
         }
 
         .footer-section {
@@ -61,6 +69,24 @@ class LabsFooter extends HTMLElement {
           z-index: 10;
         }
 
+        /* Dark mode styles using new blueberry-300 color */
+        :host-context(.dark-mode) .footer,
+        :host-context([data-theme="dark"]) .footer {
+          background-color: var(--color-surface);
+          border-top: 0.25px solid rgba(179, 168, 247, 0.25);
+        }
+
+        /* Elevated variant with shadow */
+        :host([elevated]) .footer {
+          box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        :host-context(.dark-mode) :host([elevated]) .footer,
+        :host-context([data-theme="dark"]) :host([elevated]) .footer {
+          box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+          border-top: 0.75px solid rgba(0, 0, 0, 0.15);
+        }
+
         /* Support for fixed positioning */
         :host([fixed]) .footer {
           position: fixed;
@@ -68,6 +94,21 @@ class LabsFooter extends HTMLElement {
           left: 0;
           right: 0;
           z-index: 10;
+        }
+
+        /* Full-width variant like Tracker app */
+        :host([full-width]) {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          z-index: 100;
+        }
+
+        :host([full-width]) .footer {
+          width: 95%;
+          margin: 0 auto;
+          border-radius: 100px 100px 0 0;
         }
 
         /* Elevated variant */

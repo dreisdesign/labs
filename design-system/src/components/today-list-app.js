@@ -74,11 +74,11 @@ if (typeof HTMLElement !== 'undefined') {
         }
       } catch (e) {
         console.warn('Could not load tl-entry.css, using fallback styles:', e);
-        // Comprehensive fallback styles
+        // Comprehensive fallback styles (now using tokens for entry text and meta)
         style.textContent = `
           .today-list-app {
             padding: 16px;
-            font-family: system-ui, -apple-system, sans-serif;
+            font-family: var(--font-family-base, system-ui, -apple-system, sans-serif);
             max-width: 600px;
             margin: 0 auto;
           }
@@ -99,8 +99,12 @@ if (typeof HTMLElement !== 'undefined') {
             font-weight: 600;
             line-height: 1.4;
           }
+          .tl-entry-text {
+            font-size: var(--font-size-entry-text, 1rem);
+            font-family: var(--font-family-base, system-ui, -apple-system, sans-serif);
+          }
           .tl-entry-meta {
-            font-size: 12px;
+            font-size: var(--font-size-entry-meta, 0.75rem);
             color: #666;
           }
           .tl-entry-actions {
