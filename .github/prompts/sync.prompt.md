@@ -40,12 +40,12 @@ Your task: Ensure all local changes are committed, merged, and up to date with t
 
 ### Project Task & Sync Workflow
 
-1. **Add new tasks to TODO.md as you work.**
+1. **Add new tasks to todo-index.md as you work.**
    - Before syncing or merging, search for and review all `TODO.md` files in the workspace, including area-specific files like `COLORS-DOCS--TODO.md`.
    - Summarize outstanding tasks, remove completed items, and add new actionable items as needed.
-   - Reference area-specific TODOs from the global `TODO.md` and ensure all checklists are up to date.
-   - Always keep the global `TODO.md` at the root of the repository as the canonical project-wide checklist.
-   - For area-specific or feature-specific work (e.g., colors/theming), maintain focused TODO files (such as `COLORS-DOCS--TODO.md`) and reference them from the global TODO as needed.
+   - Reference area-specific TODOs from the global `todo-index.md` and ensure all checklists are up to date.
+   - Always keep the global `todo-index.md` at the root of the repository as the canonical project-wide checklist.
+   - For area-specific or feature-specific work (e.g., colors/theming), maintain focused TODO files (such as `COLORS-DOCS--TODO.md`) and reference them from the global todo-index as needed.
    - Never rename the TODO file for each branch; keep a single canonical file for continuity.
 
 2. **When a task is complete:**
@@ -53,7 +53,7 @@ Your task: Ensure all local changes are committed, merged, and up to date with t
    - Begin the sync/PR process (see below).
 
 3. **After PR review/merge:**
-   - Update `TODO.md` to remove completed or obsolete items and add any new actionable tasks from the review.
+   - Update `todo-index.md` to remove completed or obsolete items and add any new actionable tasks from the review.
    - Provide summaries, cleanups, or periodic reviews of outstanding tasks as needed.
 
 4. **Repeat.**
@@ -126,7 +126,7 @@ Autonomous `/sync` workflow (one-shot):
    - Example: `git checkout -b chore/sync-$(date +%F)`.
 4. Run repository checks (lint, tests, builds where applicable). If any checks fail, report failures and stop.
    - Example: `npm run lint && npm test && npm run build-storybook` (adjust per project).
-5. Update `CHANGELOG.md` and `TODO.md` as needed; include those edits in the commit.
+5. Update `CHANGELOG.md` and `todo-index.md` as needed; include those edits in the commit.
 6. Commit staged changes with a descriptive message and push the branch:
    - `git add -A && git commit -m "chore(sync): <short description>" && git push -u origin <branch>`
 7. Open a PR with a clear body and testing instructions using `gh pr create`; add labels and request reviewers if configured.

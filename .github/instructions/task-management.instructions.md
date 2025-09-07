@@ -5,7 +5,7 @@ Project context and coding guidelines that AI should follow when generating code
 
 # TODO File Maintenance
 
-When assisting with any project, always help maintain, update, and clean up the global `TODO.md` file at the root of the repository as the canonical project-wide checklist. This includes:
+When assisting with any project, always help maintain, update, and clean up the global `todo-index.md` file at the root of the repository as the canonical project-wide checklist. This includes:
 - Reviewing outstanding tasks when requested.
 - Removing completed or obsolete items.
 - Adding new actionable items as needed.
@@ -13,19 +13,47 @@ When assisting with any project, always help maintain, update, and clean up the 
 - Never rename the TODO file for each branch; keep a single canonical file for continuity.
 - When asked, provide summaries, cleanups, or periodic reviews of outstanding tasks.
 
-For area-specific or feature-specific work (e.g., colors/theming), maintain focused TODO files (such as `COLORS-DOCS--TODO.md`) and reference them from the global TODO as needed.
+For area-specific or feature-specific work (e.g., colors/theming), maintain focused TODO files (such as `COLORS-DOCS--TODO.md`) and reference them from the global todo-index as needed.
 
 
 ---
 
 # Server Management
 
-Before doing git commands make sure a server is not running first and close it - otherwise it will just hang.
+## HMR (Hot Module Reload) Available
+This project has HMR enabled, so file changes automatically reload without restarting servers.
+
+## Server Detection
+Before running server commands, check if a server is already running:
+- Check Storybook: `lsof -ti:6006 || echo "No server on port 6006"`
+- Check processes: `ps aux | grep -i storybook | grep -v grep || echo "No Storybook processes found"`
+
+## When to Restart vs. Let HMR Handle
+- **File changes** (CSS, JS, stories): Let HMR handle it automatically
+- **Config changes** (.storybook/*, package.json): May need restart
+- **Git operations**: Close servers first to avoid hangs
+
+## Server Commands
+- Start: `npm run storybook` (runs on port 6006)
+- Stop gracefully: Use the menu system: `echo "1" | npm run menu`
+- Force stop if needed: `lsof -ti:6006 | xargs kill -9`
 
 ---
 
-# Documentation
-Ensure appropriate docs are being updated and maintainted and organized.
+# Source Directory Structure
+
+## Local Development (Storybook)
+All active development files are in `design-system/src/`:
+- `design-system/src/styles/tokens/colors.css` ← **Active for Storybook**
+- `design-system/src/styles/flavors.css` ← **Active for Storybook**
+- `design-system/src/stories/` ← **Active story files**
+
+## Production/Documentation
+Static copies are in `docs/design-system/`:
+- `docs/design-system/tokens/colors.css` ← Generated/copied from src
+- These are typically built/copied from the src directory
+
+**Rule**: When making changes for Storybook, always edit files in `design-system/src/`, not `docs/`.
 
 ---
 

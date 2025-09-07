@@ -3,7 +3,7 @@ Short description of the change and why it matters.
 
 ## Checklist
 - [ ] I updated the relevant `CHANGELOG.md` with a short, user-facing note.
-- [ ] I updated `TODO.md` if this work introduces or completes project tasks.
+- [ ] I updated `todo-index.md` if this work introduces or completes project tasks.
 - [ ] CI passes (lint/tests/build).
 - [ ] I assigned reviewers and added appropriate labels.
 
