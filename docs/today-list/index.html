@@ -97,6 +97,15 @@
   </div>
   <today-list-app id="todayList" hide-header></today-list-app>
   </main>
+  <labs-footer>
+    <span slot="left">© 2025 Labs Design System</span>
+    <div slot="right" style="display: flex; align-items: center; gap: 8px;">
+      <span style="font-size: 0.9em; color: var(--color-on-surface-variant);">v2.1.5</span>
+      <labs-button variant="icon" aria-label="Settings">
+        <labs-icon name="settings" slot="icon-left"></labs-icon>
+      </labs-button>
+    </div>
+  </labs-footer>
   <script type="module">
     import '../design-system/components/labs-input.js';
     import '../design-system/components/labs-card.js';
