@@ -1,13 +1,5 @@
-// Labs Settings Card - matches Tracker app settings overlay
-class LabsSettingsCard extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-    this.render();
-  }
-
-  render() {
-    this.shadowRoot.innerHTML = `
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./iframe-DJqNhYZN.js","./preload-helper-D9Z9MdNV.js","./iframe-D9gWr3C5.css"])))=>i.map(i=>d[i]);
+import{_ as m}from"./preload-helper-D9Z9MdNV.js";import"./iframe-DJqNhYZN.js";class p extends HTMLElement{constructor(){super(),this.attachShadow({mode:"open"}),this.render()}render(){this.shadowRoot.innerHTML=`
       <style>
         :host {
           display: block;
@@ -90,55 +82,10 @@ class LabsSettingsCard extends HTMLElement {
           Reset All Data
         </labs-button>
       </div>
-    `;
-    // Add close event for icon button (dispatches a custom event for overlay to handle)
-    const iconCloseBtn = this.shadowRoot.getElementById('icon-close-btn');
-    if (iconCloseBtn) {
-      iconCloseBtn.addEventListener('click', () => {
-        this.dispatchEvent(new CustomEvent('close', { bubbles: true, composed: true }));
-      });
-    }
-    // Inline theme toggle button logic for shadow DOM compatibility
-    const slot = this.shadowRoot.getElementById('appearance-btn-slot');
-    if (slot) {
-      const btn = document.createElement('labs-button');
-      btn.setAttribute('variant', 'secondary');
-      btn.setAttribute('size', 'large');
-      btn.style.width = '100%';
-      btn.style.justifyContent = 'flex-start';
-      btn.style.margin = '0';
-      btn.style.position = 'static';
-      btn.id = 'theme-toggle-btn';
-      function updateLabel() {
-        const isDark = document.documentElement.classList.contains('theme-dark');
-        // Remove any existing icon and label
-        while (btn.firstChild) btn.removeChild(btn.firstChild);
-        // Create the icon with the correct slot
-        const icon = document.createElement('labs-icon');
-        icon.setAttribute('slot', 'icon-left');
-        icon.setAttribute('name', isDark ? 'bedtime_off' : 'bedtime');
-        btn.appendChild(icon);
-        // Add the label as a text node
-        btn.appendChild(document.createTextNode(isDark ? 'Turn on light mode' : 'Turn on dark mode'));
-      }
-      btn.onclick = () => {
-        const isDark = document.documentElement.classList.contains('theme-dark');
-        const root = document.documentElement;
-        const flavorClass = Array.from(root.classList).find(c => c.startsWith('flavor-'));
-        const flavor = flavorClass ? flavorClass.replace('flavor-', '') : 'vanilla';
-        import('../utils/theme.js').then(({ applyTheme }) => {
-          applyTheme({ flavor, theme: isDark ? 'light' : 'dark' });
-          updateLabel();
-        });
-      };
-      // Keep the visible label in sync with external theme changes
-      const observer = new MutationObserver(() => updateLabel());
-      try {
-        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-      } catch (e) { }
-      updateLabel();
-      slot.appendChild(btn);
-    }
-  }
-}
-customElements.define('labs-settings-card', LabsSettingsCard);
+    `;const i=this.shadowRoot.getElementById("icon-close-btn");i&&i.addEventListener("click",()=>{this.dispatchEvent(new CustomEvent("close",{bubbles:!0,composed:!0}))});const r=this.shadowRoot.getElementById("appearance-btn-slot");if(r){let o=function(){const e=document.documentElement.classList.contains("theme-dark");for(;t.firstChild;)t.removeChild(t.firstChild);const s=document.createElement("labs-icon");s.setAttribute("slot","icon-left"),s.setAttribute("name",e?"bedtime_off":"bedtime"),t.appendChild(s),t.appendChild(document.createTextNode(e?"Turn on light mode":"Turn on dark mode"))};const t=document.createElement("labs-button");t.setAttribute("variant","secondary"),t.setAttribute("size","large"),t.style.width="100%",t.style.justifyContent="flex-start",t.style.margin="0",t.style.position="static",t.id="theme-toggle-btn",t.onclick=()=>{const e=document.documentElement.classList.contains("theme-dark"),s=document.documentElement,c=Array.from(s.classList).find(n=>n.startsWith("flavor-")),d=c?c.replace("flavor-",""):"vanilla";m(async()=>{const{applyTheme:n}=await import("./iframe-DJqNhYZN.js").then(b=>b.t);return{applyTheme:n}},__vite__mapDeps([0,1,2]),import.meta.url).then(({applyTheme:n})=>{n({flavor:d,theme:e?"light":"dark"}),o()})};const l=new MutationObserver(()=>o());try{l.observe(document.documentElement,{attributes:!0,attributeFilter:["class"]})}catch{}o(),r.appendChild(t)}}}customElements.define("labs-settings-card",p);const f={title:"Patterns/Cards/Settings Card",parameters:{docs:{description:{component:"A settings card pattern matching the Tracker app, using Labs Button components."}}}},a={render:()=>`
+    <labs-settings-card></labs-settings-card>
+  `};a.parameters={...a.parameters,docs:{...a.parameters?.docs,source:{originalSource:`{
+  render: () => \`
+    <labs-settings-card></labs-settings-card>
+  \`
+}`,...a.parameters?.docs?.source}}};const v=["SettingsCard"];export{a as SettingsCard,v as __namedExportsOrder,f as default};

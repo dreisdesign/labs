@@ -1,4 +1,5 @@
 
+
 class LabsButton extends HTMLElement {
 
   constructor() {
@@ -16,6 +17,18 @@ class LabsButton extends HTMLElement {
   render() {
     this.shadowRoot.innerHTML = `
       <style>
+        /* Transparent variant: no fill, no stroke, no hover/focus background */
+        :host([variant="transparent"]) button {
+          background: none !important;
+          color: inherit !important;
+          border: none !important;
+          box-shadow: none !important;
+        }
+        :host([variant="transparent"]) button:hover,
+        :host([variant="transparent"]) button:focus-visible {
+          background: none !important;
+          box-shadow: none !important;
+        }
         :host {
           /* component-local token defaults */
           --button-padding: 0.5em 1.25em;
