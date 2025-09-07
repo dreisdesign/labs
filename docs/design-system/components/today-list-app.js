@@ -260,7 +260,7 @@ if (typeof HTMLElement !== 'undefined') {
         this._input = document.createElement('labs-input');
         this._input.setAttribute('id', 'today-list-input');
         this._input.setAttribute('name', 'today-list-input');
-        this._input.setAttribute('placeholder', 'Add item and press Enter');
+        this._input.setAttribute('placeholder', 'Add item...');
         inputWrap.appendChild(this._input);
       }
 
