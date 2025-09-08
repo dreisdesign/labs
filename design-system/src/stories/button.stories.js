@@ -11,6 +11,7 @@ document.head.appendChild(style);
 // Storybook stories for Labs Button (best practice structure)
 import '../components/labs-button.js';
 import '../components/labs-icon.js';
+import iconsList from '../components/icons-list.js';
 
 export default {
   title: 'Components/Button',
@@ -43,22 +44,13 @@ export default {
     },
     leftIcon: {
       control: { type: 'select' },
-      options: [
-        'add', 'add_circle', 'add_comment', 'apps', 'bedtime', 'bedtime_off', 'build', 'cancel', 'change_circle', 'check', 'check_box', 'check_box_outline_blank', 'check_indeterminate_small', 'close', 'code', 'colors', 'comment', 'content_copy', 'delete_forever', 'edit', 'history', 'indeterminate_check_box', 'open_in_new', 'published_with_changes', 'rate_review', 'settings', 'star', 'undo'
-      ],
+      options: iconsList,
       description: 'Left icon name (optional)'
     },
     rightIcon: {
       control: { type: 'select' },
-      options: [
-        'add', 'add_circle', 'add_comment', 'apps', 'bedtime', 'bedtime_off', 'build', 'cancel', 'change_circle', 'check', 'check_box', 'check_box_outline_blank', 'check_indeterminate_small', 'close', 'code', 'colors', 'comment', 'content_copy', 'delete_forever', 'edit', 'history', 'indeterminate_check_box', 'open_in_new', 'published_with_changes', 'rate_review', 'settings', 'star', 'undo'
-      ],
+      options: iconsList,
       description: 'Right icon name (optional)'
-    }
-    ,
-    pill: {
-      control: { type: 'boolean' },
-      description: 'Make the button a pill (rounded)'
     }
   },
   args: {
@@ -67,8 +59,7 @@ export default {
     disabled: false,
     text: 'Button',
     leftIcon: '',
-    rightIcon: ''
-    ,
+    rightIcon: '',
     pill: false
   }
 };
