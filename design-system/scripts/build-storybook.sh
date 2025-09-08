@@ -47,7 +47,7 @@ fi
 # Check if port is in use and kill development server
 if lsof -Pi :$PORT -sTCP:LISTEN -t >/dev/null ; then
     echo "📡 Stopping development server on port $PORT..."
-    
+
     # Get the process ID and kill it
     PID=$(lsof -Pi :$PORT -sTCP:LISTEN -t)
     if [ ! -z "$PID" ]; then
@@ -55,7 +55,7 @@ if lsof -Pi :$PORT -sTCP:LISTEN -t >/dev/null ; then
         kill -9 $PID
         sleep 2
     fi
-    
+
     echo "✅ Development server stopped"
 fi
 
@@ -97,12 +97,14 @@ else
     echo "⚠️  fswatch not installed - partial sync only"
 fi
 
-# Run sync script from project root
+# Sync design system files for docs and public root
+echo "🔄 Syncing design system files using update-static-paths.js..."
 cd ..
-if ./scripts/dev-sync.sh; then
+if node scripts/update-static-paths.js --public; then
     echo "✅ Design system files synced successfully"
 else
-    echo "❌ Warning: Sync failed but build completed"
+    echo "❌ Error: Syncing design system files failed"
+    exit 1
 fi
 
 # Return to design-system directory for consistent exit

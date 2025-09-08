@@ -2,6 +2,7 @@
 import '../components/labs-footer.js';
 import '../components/labs-button.js';
 import '../components/labs-icon.js';
+import iconsList from '../components/icons-list.js';
 import '../components/labs-overlay.js';
 import '../components/labs-settings-card.js';
 
@@ -14,10 +15,18 @@ export default {
       }
     }
   }
+  ,
+  argTypes: {
+    settingsIcon: {
+      name: 'settingsIcon',
+      control: { type: 'select' },
+      options: Object.keys(iconsList),
+    },
+  },
 };
 
 export const SmoothieTemplate = {
-  render: () => {
+  render: (args) => {
     const container = document.createElement('div');
     container.innerHTML = `
       <style>
@@ -86,7 +95,7 @@ export const SmoothieTemplate = {
           </div>
           <div slot="right" style="display: flex; align-items: center; gap: 8px;">
             <labs-button id="footer-settings-btn" variant="icon" aria-label="Settings" style="padding-right:12px;">
-              <labs-icon name="settings" slot="icon-left" width="28" height="28"></labs-icon>
+              <labs-icon name="${args.settingsIcon || 'settings'}" slot="icon-left" width="28" height="28"></labs-icon>
             </labs-button>
           </div>
         </labs-footer>
@@ -139,4 +148,9 @@ export const SmoothieTemplate = {
     }
     return container;
   }
+};
+
+// Default args to avoid fallback in template
+SmoothieTemplate.args = {
+  settingsIcon: 'settings'
 };

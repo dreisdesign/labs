@@ -129,21 +129,49 @@ const mainCssDest = path.join(__dirname, "../design-system/main.css");
 if (fs.existsSync(srcStylesPath)) {
   fs.copyFileSync(srcStylesPath, mainCssDest);
   console.log("Copied main.css from src/styles to public location");
+
+  // Also create a version for docs with corrected import paths
+  const docsStylesDir = path.join(__dirname, "../docs/design-system/styles");
+  const docsMainCssDest = path.join(docsStylesDir, "main.css");
+
+  if (!fs.existsSync(docsStylesDir)) {
+    fs.mkdirSync(docsStylesDir, { recursive: true });
+  }
+
+  // Read source file and transform import paths
+  let mainCssContent = fs.readFileSync(srcStylesPath, 'utf8');
+  // Transform ./tokens/ imports to ../tokens/ for docs serving
+  mainCssContent = mainCssContent.replace(/@import "\.\/tokens\//g, '@import "../tokens/');
+
+  fs.writeFileSync(docsMainCssDest, mainCssContent);
+  console.log("Copied main.css to docs with corrected import paths");
 }
 
-// Copy all token CSS files
-const tokensDir = path.join(__dirname, "../design-system/src/styles/tokens");
-const tokensDest = path.join(__dirname, "../design-system/tokens");
-if (fs.existsSync(tokensDir)) {
-  if (!fs.existsSync(tokensDest)) {
-    fs.mkdirSync(tokensDest, { recursive: true });
-  }
-  fs.readdirSync(tokensDir).forEach((file) => {
-    if (file.endsWith(".css")) {
-      fs.copyFileSync(path.join(tokensDir, file), path.join(tokensDest, file));
+// Copy all token CSS files to both public and docs locations
+const tokensSrcDir = path.join(__dirname, "../design-system/src/styles/tokens");
+const publicTokensDestDir = path.join(__dirname, "../design-system/tokens");
+const docsTokensDestDir = path.join(__dirname, "../docs/design-system/tokens");
+
+if (fs.existsSync(tokensSrcDir)) {
+  [publicTokensDestDir, docsTokensDestDir].forEach(destDir => {
+    if (!fs.existsSync(destDir)) {
+      fs.mkdirSync(destDir, { recursive: true });
     }
+    fs.readdirSync(tokensSrcDir).forEach((file) => {
+      if (file.endsWith(".css")) {
+        fs.copyFileSync(path.join(tokensSrcDir, file), path.join(destDir, file));
+      }
+    });
   });
-  console.log("Copied token CSS files to public location");
+  console.log("Copied token CSS files to public and docs locations");
+}
+
+// Copy flavors.css to docs styles directory
+const srcFlavorsPath = path.join(__dirname, "../design-system/src/styles/flavors.css");
+const docsFlavorsPath = path.join(__dirname, "../docs/design-system/styles/flavors.css");
+if (fs.existsSync(srcFlavorsPath)) {
+  fs.copyFileSync(srcFlavorsPath, docsFlavorsPath);
+  console.log("Copied flavors.css to docs styles directory");
 }
 
 // Copy all JS components to public location

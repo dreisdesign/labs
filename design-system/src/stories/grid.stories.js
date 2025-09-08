@@ -1,5 +1,6 @@
 import '../styles/main.css';
 import '../styles/tokens/grid.css';
+import '../components/labs-button.js';
 
 export default {
   title: 'Tokens/Grid',
@@ -22,8 +23,8 @@ export const Grid = {
       <div style="margin-top:18px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
         <div style="display:flex; flex-direction:column; gap:6px;">
           <div><strong>--grid-columns</strong>: <code>var(--grid-columns)</code></div>
-          <div><strong>--grid-gutter</strong>: <button style="padding:4px 8px; margin-left:8px;" onclick="navigator.clipboard.writeText('var(--grid-gutter)')">Copy</button> <code>var(--grid-gutter)</code></div>
-          <div><strong>--grid-column</strong>: <button style="padding:4px 8px; margin-left:8px;" onclick="navigator.clipboard.writeText('var(--grid-column)')">Copy</button> <code>var(--grid-column)</code></div>
+          <div><strong>--grid-gutter</strong>: <labs-button style="--labs-button-padding:4px 8px; margin-left:8px;" variant="secondary" onclick="navigator.clipboard.writeText('var(--grid-gutter)')">Copy</labs-button> <code>var(--grid-gutter)</code></div>
+          <div><strong>--grid-column</strong>: <labs-button style="--labs-button-padding:4px 8px; margin-left:8px;" variant="secondary" onclick="navigator.clipboard.writeText('var(--grid-column)')">Copy</labs-button> <code>var(--grid-column)</code></div>
         </div>
         <div style="display:flex; flex-direction:column; gap:6px;">
           <div><strong>--grid-container-max</strong>: <code>var(--grid-container-max)</code></div>

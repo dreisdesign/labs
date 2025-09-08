@@ -7,6 +7,7 @@ Priority order: MVP requirements first. Anything not marked MVP has been moved t
 1) Add item
   - Single-line input, Enter to save
   - Trim empty values and ignore duplicates (optional)
+  - Status: Input overlay implemented; clicking Add opens input, Save appends items to the demo list in `index.html`.
 
 2) Persist items
   - Persist list to `localStorage` as JSON
@@ -24,6 +25,11 @@ Priority order: MVP requirements first. Anything not marked MVP has been moved t
 
 6) Delete with undo
   - Soft-delete behavior with undo toast (5–8s)
+  - Status: Demo wiring added to `index.html` using `labs-toast` for Undo actions on archive/delete.
+
+New implementation tasks:
+- [ ] Add `labs-list-item` component (single-row with checkbox, text, archive, delete) — implemented in `design-system/src/components/labs-list-item.js` and docs copy exists. Needs tests and Storybook story.
+- [ ] Add Icon select control to Icon-Only Button story (ensure `icons-list` used); small story update needed.
 
 7) Empty-state
   - Show a `Welcome Card` (use `labs-card` when available) with header, description and primary Add CTA

@@ -15,7 +15,9 @@
     "menu": "node scripts/menu.mjs",
     "s": "cd /Users/danielreis/labs && echo '1' | npm run menu",
     "smoothie": "cd /Users/danielreis/labs && echo '1' | npm run menu",
-    "labs": "cd /Users/danielreis/labs && echo '3' | npm run menu"
+    "labs": "cd /Users/danielreis/labs && echo '3' | npm run menu",
+    "l": "cd /Users/danielreis/labs && echo '3' | npm run menu",
+    "d": "cd /Users/danielreis/labs && echo '2' | npm run menu"
   },
   "devDependencies": {
     "@mdx-js/loader": "^2.3.0",

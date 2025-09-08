@@ -1,0 +1,89 @@
+// Labs Input Card - a small card with a title, input, and Save/Cancel actions
+class LabsInputCard extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.render();
+  }
+
+  render() {
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host {
+          display: block;
+          max-width: 380px;
+          margin: 0 auto;
+          background: var(--color-surface, #fff);
+          border-radius: 18px;
+          box-shadow: 0 6px 40px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.04);
+          padding: 20px 18px;
+          font-family: var(--font-family-base, system-ui, sans-serif);
+          position: relative;
+        }
+        .header-row {
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          margin-bottom:12px;
+        }
+        .close-btn {
+          width:40px; height:40px; min-width:40px; min-height:40px;
+          border-radius:50%; background:inherit; box-shadow:none; padding:0; display:flex; align-items:center; justify-content:center;
+        }
+        h3 { margin:0; font-size:1.05rem; font-weight:700; }
+        .description { margin-top:8px; color:var(--color-on-surface-muted, #666); font-size:0.95rem; }
+        .input-row { margin-top:14px; }
+        input[type="text"] { width:100%; box-sizing:border-box; padding:12px 14px; border-radius:10px; border:1px solid var(--color-outline, #e6e6ea); font-size:1rem; }
+        .actions { display:flex; gap:10px; margin-top:16px; justify-content:flex-end; }
+        .btn-transparent labs-button {
+          background: transparent;
+          box-shadow: none;
+        }
+        labs-button { min-width: 92px; }
+      </style>
+      <div class="header-row">
+        <h3>New item</h3>
+        <labs-button id="icon-close-btn" class="close-btn" variant="icon" aria-label="Close">
+          <labs-icon name="close" slot="icon-left" width="24" height="24"></labs-icon>
+        </labs-button>
+      </div>
+      <div class="description">Add a new item to your Today List.</div>
+      <div class="input-row">
+        <input id="cardInput" type="text" placeholder="What do you want to do?" />
+      </div>
+      <div class="actions">
+        <div class="btn-transparent">
+          <labs-button id="cancelBtn" variant="secondary">Cancel</labs-button>
+        </div>
+        <labs-button id="saveBtn" variant="primary">Save</labs-button>
+      </div>
+    `;
+
+    // Close handlers
+    const iconClose = this.shadowRoot.getElementById('icon-close-btn');
+    if (iconClose) iconClose.addEventListener('click', () => this.dispatchEvent(new CustomEvent('close', { bubbles: true, composed: true })));
+    const cancel = this.shadowRoot.getElementById('cancelBtn');
+    if (cancel) cancel.addEventListener('click', () => this.dispatchEvent(new CustomEvent('close', { bubbles: true, composed: true })));
+
+    // Save handler
+    const save = this.shadowRoot.getElementById('saveBtn');
+    const input = this.shadowRoot.getElementById('cardInput');
+    if (save && input) {
+      const doSave = () => {
+        const value = input.value.trim();
+        this.dispatchEvent(new CustomEvent('save', { detail: { value }, bubbles: true, composed: true }));
+      };
+      save.addEventListener('click', () => doSave());
+      // Enter key to save
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          doSave();
+        }
+      });
+      // Focus input when added to DOM
+      setTimeout(() => input.focus(), 50);
+    }
+  }
+}
+customElements.define('labs-input-card', LabsInputCard);

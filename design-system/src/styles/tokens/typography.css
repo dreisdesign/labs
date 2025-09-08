@@ -24,7 +24,7 @@
 | --font-weight-semibold   | Emphasis           | 600                |
 | --font-weight-bold       | Strong emphasis    | 700                |
 | --font-weight-label      | Labels             | 600                |
-| --font-weight-heading    | Headings           | 700                |
+|   --font-weight-heading: 800;                |
 | --line-height-base       | Body text          | 1.5                |
 | --line-height-heading    | Headings           | 1.2                |
 
@@ -65,8 +65,8 @@ Add new tokens below as needed. Promote component-specific tokens to general if 
   /* 20px - H3 headings */
   --font-size-h2: 1.5rem;
   /* 24px - H2 headings */
-  --font-size-h1: 1.75rem;
-  /* 28px - H1 headings, overlay titles */
+  --font-size-h1: 3rem;
+  /* 48px - H1 headings, app title */
 
   /* Legacy aliases for backward compatibility */
   --font-size-sm: var(--font-size-small);

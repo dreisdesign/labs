@@ -2,6 +2,7 @@ import '../../components/labs-footer.js';
 import '../../components/labs-button.js';
 import '../../components/labs-icon.js';
 import '../../components/labs-overlay.js';
+import iconsList from '../../components/icons-list.js';
 
 export default {
   title: 'Patterns/Footer with Settings',
@@ -12,10 +13,11 @@ export default {
       }
     }
   }
+  ,
 };
 
 export const FooterWithSettings = {
-  render: () => {
+  render: (args) => {
     const container = document.createElement('div');
     container.innerHTML = `
       <style>
@@ -34,7 +36,7 @@ export const FooterWithSettings = {
         </div>
         <div slot="right" style="display: flex; align-items: center; gap: 8px;">
           <labs-button id="settings-btn" variant="icon" aria-label="Settings" style="padding-right:12px;">
-            <labs-icon name="settings" slot="icon-left" width="28" height="28"></labs-icon>
+            <labs-icon name="${args.settingsIcon || 'settings'}" slot="icon-left" width="28" height="28"></labs-icon>
           </labs-button>
         </div>
       </labs-footer>
@@ -59,4 +61,9 @@ export const FooterWithSettings = {
     }
     return container;
   }
+};
+
+// Set a default icon arg to avoid template fallback
+FooterWithSettings.args = {
+  settingsIcon: 'settings'
 };

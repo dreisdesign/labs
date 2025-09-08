@@ -190,6 +190,19 @@
       fill: var(--smoothie-fill) !important;
     }
 
+    /* small badge near title */
+    .labs-badge {
+      background: var(--accent);
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 600;
+      padding: 3px 6px;
+      border-radius: 999px;
+      display: inline-block;
+      line-height: 1;
+      vertical-align: middle;
+    }
+
     /* theme toggle button */
     .theme-toggle {
       border: 1px solid rgba(0, 0, 0, 0.08);
@@ -225,7 +238,8 @@
 
 <body>
   <header class="page-header" style="margin-bottom:1.5rem;">
-    <h1>Labs</h1>
+    <h1 style="display:flex;align-items:center;gap:0.5rem;">Labs <span class="labs-badge" aria-hidden="true">beta</span>
+    </h1>
     <div class="header-controls" style="display:flex; align-items:center; gap:0.75rem;">
       <span style="font-size:0.95rem;color:var(--text);">Powered by</span>
       <a id="smoothieLink" href="http://localhost:6006/?path=/story/about--about" target="_blank" rel="noopener"
@@ -408,7 +422,7 @@
       var link = document.getElementById('smoothieLink');
       if (!link) return;
       var localUrl = 'http://localhost:6006/?path=/story/about--about';
-      var publicUrl = 'https://dreisdesign.github.io/labs/design-system/?path=/story/about--about';
+      var publicUrl = 'https://dreisdesign.github.io/design-system/?path=/story/about--about';
       try {
         var host = window.location.hostname;
         // prefer local when viewing docs on localhost or when port 6006 is present

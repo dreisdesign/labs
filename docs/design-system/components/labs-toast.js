@@ -45,7 +45,12 @@ class LabsToast extends HTMLElement {
 .message{flex:1;font-size:var(--font-size-toast, 0.95rem);line-height:var(--line-height-toast, 1.3)}
 .actions{display:flex;align-items:center;gap:8px}
 .action{background:transparent;border:0;padding:6px 10px;border-radius:8px;color:var(--color-primary);cursor:pointer;font-weight:var(--font-weight-toast-action, 600);font-size:var(--font-size-toast-action, 0.9rem)}
+.action:hover{background-color:var(--color-primary-25, rgba(0,0,0,0.06));}
+.action:focus{outline:2px solid color-mix(in srgb, var(--color-primary, var(--color-accent, var(--color-on-surface))) 20%, transparent);outline-offset:2px}
 .close{background:transparent;border:0;padding:6px 8px;border-radius:8px;color:var(--color-on-surface);cursor:pointer}
+/* Hover + focus visual affordances for close button inside shadow DOM */
+.close:hover{background-color:var(--color-primary-25, rgba(0,0,0,0.06));}
+.close:focus{outline:2px solid color-mix(in srgb, var(--color-primary, var(--color-accent, var(--color-on-surface))) 20%, transparent);outline-offset:2px}
 `;
 
     this._shadow.appendChild(style);
