@@ -30,9 +30,8 @@ export default {
       description: 'Button variant style'
     },
     size: {
-      control: { type: 'select' },
-      options: ['small', 'medium', 'large'],
-      description: 'Button size'
+      // size control removed: not used in docs rendering; keep size attribute available via args when needed
+      table: { disable: true }
     },
     disabled: {
       control: { type: 'boolean' },
@@ -43,11 +42,17 @@ export default {
       description: 'Button text content'
     },
     leftIcon: {
-      control: { type: 'text' },
+      control: { type: 'select' },
+      options: [
+        'add', 'add_circle', 'add_comment', 'apps', 'bedtime', 'bedtime_off', 'build', 'cancel', 'change_circle', 'check', 'check_box', 'check_box_outline_blank', 'check_indeterminate_small', 'close', 'code', 'colors', 'comment', 'content_copy', 'delete_forever', 'edit', 'history', 'indeterminate_check_box', 'open_in_new', 'published_with_changes', 'rate_review', 'settings', 'star', 'undo'
+      ],
       description: 'Left icon name (optional)'
     },
     rightIcon: {
-      control: { type: 'text' },
+      control: { type: 'select' },
+      options: [
+        'add', 'add_circle', 'add_comment', 'apps', 'bedtime', 'bedtime_off', 'build', 'cancel', 'change_circle', 'check', 'check_box', 'check_box_outline_blank', 'check_indeterminate_small', 'close', 'code', 'colors', 'comment', 'content_copy', 'delete_forever', 'edit', 'history', 'indeterminate_check_box', 'open_in_new', 'published_with_changes', 'rate_review', 'settings', 'star', 'undo'
+      ],
       description: 'Right icon name (optional)'
     }
     ,
@@ -58,7 +63,7 @@ export default {
   },
   args: {
     variant: 'primary',
-    size: 'medium',
+    // size intentionally omitted from args defaults
     disabled: false,
     text: 'Button',
     leftIcon: '',
@@ -74,9 +79,8 @@ export const Default = {
     <div style="background: none; box-shadow: none; padding: 0; border: none;">
       <labs-button
         variant="${args.variant}"
-        ${args.size ? `size="${args.size}"` : ''}
-  ${args.disabled ? 'disabled' : ''}
-  ${args.pill ? 'pill' : ''}
+        ${args.disabled ? 'disabled' : ''}
+        ${args.pill ? 'pill' : ''}
       >
         ${args.leftIcon ? `<labs-icon slot="icon-left" name="${args.leftIcon}"></labs-icon>` : ''}
         ${args.text}
