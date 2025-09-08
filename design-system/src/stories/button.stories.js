@@ -50,6 +50,11 @@ export default {
       control: { type: 'text' },
       description: 'Right icon name (optional)'
     }
+    ,
+    pill: {
+      control: { type: 'boolean' },
+      description: 'Make the button a pill (rounded)'
+    }
   },
   args: {
     variant: 'primary',
@@ -58,6 +63,8 @@ export default {
     text: 'Button',
     leftIcon: '',
     rightIcon: ''
+    ,
+    pill: false
   }
 };
 
@@ -68,7 +75,8 @@ export const Default = {
       <labs-button
         variant="${args.variant}"
         ${args.size ? `size="${args.size}"` : ''}
-        ${args.disabled ? 'disabled' : ''}
+  ${args.disabled ? 'disabled' : ''}
+  ${args.pill ? 'pill' : ''}
       >
         ${args.leftIcon ? `<labs-icon slot="icon-left" name="${args.leftIcon}"></labs-icon>` : ''}
         ${args.text}
