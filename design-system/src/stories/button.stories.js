@@ -146,3 +146,16 @@ export const Transparent = {
     </div>
   `,
 };
+
+export const Pill = {
+  name: 'Pill',
+  render: () => `
+    <div style="display:flex;gap:12px;padding:8px;background:transparent;align-items:center;">
+      <labs-button pill variant="primary" size="medium">Primary</labs-button>
+      <labs-button pill variant="secondary" size="medium">Secondary</labs-button>
+      <labs-button pill variant="destructive" size="medium">Destructive</labs-button>
+      <labs-button pill variant="transparent" size="medium">Transparent</labs-button>
+      <labs-button pill variant="primary" size="medium"><labs-icon slot="icon-left" name="add"></labs-icon>Add</labs-button>
+    </div>
+  `,
+};
