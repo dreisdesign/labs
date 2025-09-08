@@ -42,6 +42,10 @@ class LabsButton extends HTMLElement {
 
           display: inline-block;
         }
+  /* Pill shape support: set a very large radius when 'pill' attribute present */
+        :host([pill]) {
+          --button-radius: 999px;
+        }
         button {
           /* Provide component-scoped color fallbacks so globals stay tiny */
           --button-focus: var(--button-focus, 0 0 0 2px var(--color-primary, #93c5fd));

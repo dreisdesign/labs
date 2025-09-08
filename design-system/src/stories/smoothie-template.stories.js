@@ -82,7 +82,7 @@ export const SmoothieTemplate = {
         </div>
         <labs-footer full-width elevated>
           <div slot="center">
-            <labs-button id="footerAddBtn" variant="primary">+ Add</labs-button>
+            <labs-button id="footerAddBtn" pill variant="primary">+ Add</labs-button>
           </div>
           <div slot="right" style="display: flex; align-items: center; gap: 8px;">
             <labs-button id="footer-settings-btn" variant="icon" aria-label="Settings" style="padding-right:12px;">

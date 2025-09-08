@@ -60,7 +60,7 @@ export default {
     text: 'Button',
     leftIcon: '',
     rightIcon: '',
-  pill: true
+    pill: true
   }
 };
 

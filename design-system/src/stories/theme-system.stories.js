@@ -82,12 +82,12 @@ export const ThemeDemo = {
         <p style="color: var(--color-on-background);">This demo shows how components adapt to theme changes. Try both theme toggle buttons!</p>
 
         <div style="display: flex; gap: 1rem; margin: 2rem 0; flex-wrap: wrap; align-items: center;">
-          <labs-button variant="primary">Primary Button</labs-button>
-          <labs-button variant="secondary">
+          <labs-button pill variant="primary">Primary Button</labs-button>
+          <labs-button pill variant="secondary">
             <labs-icon slot="icon-left" name="settings"></labs-icon>
             Secondary with Icon
           </labs-button>
-          <labs-button variant="destructive">Destructive Button</labs-button>
+          <labs-button pill variant="destructive">Destructive Button</labs-button>
 
           <!-- Icon-only theme toggle (like in Pad app) -->
           <labs-button id="iconThemeToggle" variant="icon" aria-label="Toggle theme (icon only)">
@@ -98,7 +98,7 @@ export const ThemeDemo = {
         <div style="background: var(--color-surface); padding: 1.5rem; border-radius: 8px; margin: 1rem 0; border: 1px solid var(--color-primary); transition: all 0.2s;">
           <h3 style="color: var(--color-on-surface); margin-top: 0;">Surface Component</h3>
           <p style="color: var(--color-on-surface);">This surface uses semantic tokens and adapts automatically to theme changes.</p>
-          <labs-button variant="primary">Surface Button</labs-button>
+          <labs-button pill variant="primary">Surface Button</labs-button>
         </div>
 
         <div style="margin-top: 2rem;">

@@ -18,14 +18,14 @@ export const OverlayWithCard = {
   render: () => {
     const container = document.createElement('div');
     container.innerHTML = `
-      <labs-button id="open-overlay-btn">Open Overlay</labs-button>
+      <labs-button id="open-overlay-btn" pill>Open Overlay</labs-button>
       <labs-overlay id="card-overlay">
         <labs-card>
           <h2 slot="header">Overlay with Card</h2>
           <p>This overlay contains a card with a header, content, and actions.</p>
           <div slot="footer" style="display: flex; justify-content: flex-end; gap: 8px;">
-            <labs-button variant="secondary" onclick="document.getElementById('card-overlay').close()">Cancel</labs-button>
-            <labs-button variant="primary" onclick="document.getElementById('card-overlay').close()">Confirm</labs-button>
+            <labs-button pill variant="secondary" onclick="document.getElementById('card-overlay').close()">Cancel</labs-button>
+            <labs-button pill variant="primary" onclick="document.getElementById('card-overlay').close()">Confirm</labs-button>
           </div>
         </labs-card>
       </labs-overlay>
@@ -51,7 +51,7 @@ export const OpenOverlay = {
             <h2 slot="header">Open Overlay</h2>
             <p>This overlay is open by default.</p>
             <div slot="footer" style="display: flex; justify-content: flex-end; gap: 8px;">
-              <labs-button variant="secondary" onclick="this.closest('labs-overlay').close()">Close</labs-button>
+              <labs-button pill variant="secondary" onclick="this.closest('labs-overlay').close()">Close</labs-button>
             </div>
           </labs-card>
         </labs-overlay>

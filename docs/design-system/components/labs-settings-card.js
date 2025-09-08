@@ -115,6 +115,29 @@ class LabsSettingsCard extends HTMLElement {
         this.dispatchEvent(new CustomEvent('close', { bubbles: true, composed: true }));
       });
     }
+    // Wire All Apps button to open local dev server if available, otherwise open public URL
+    const allAppsBtn = this.shadowRoot.getElementById('all-apps-btn');
+    if (allAppsBtn) {
+      const localUrl = 'http://localhost:8000/';
+      const publicUrl = 'https://dreisdesign.github.io/labs/';
+      const openPreferLocal = async () => {
+        // Try a quick fetch to detect local server. Use no-cors so we don't get blocked by CORS.
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 600);
+        try {
+          await fetch(localUrl, { mode: 'no-cors', signal: controller.signal });
+          window.open(localUrl, '_blank');
+        } catch (e) {
+          window.open(publicUrl, '_blank');
+        } finally {
+          clearTimeout(timeout);
+        }
+      };
+      allAppsBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openPreferLocal();
+      });
+    }
     // Inline theme toggle button logic for shadow DOM compatibility
     const slot = this.shadowRoot.getElementById('appearance-btn-slot');
     if (slot) {

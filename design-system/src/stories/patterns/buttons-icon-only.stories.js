@@ -1,38 +1,7 @@
 import { html } from 'lit';
 import '../../components/labs-button.js';
 import '../../components/labs-icon.js';
-
-// Inline the icon list for Storybook controls compatibility
-const iconOptions = [
-  "add",
-  "add_circle",
-  "add_comment",
-  "apps",
-  "bedtime",
-  "bedtime_off",
-  "build",
-  "cancel",
-  "change_circle",
-  "check",
-  "check_box",
-  "check_box_outline_blank",
-  "check_indeterminate_small",
-  "close",
-  "code",
-  "colors",
-  "comment",
-  "content_copy",
-  "delete_forever",
-  "edit",
-  "history",
-  "indeterminate_check_box",
-  "open_in_new",
-  "published_with_changes",
-  "rate_review",
-  "settings",
-  "star",
-  "undo"
-];
+import iconsList from '../../components/icons-list.js';
 
 // Design system color variants
 const colorVariants = {
@@ -48,7 +17,7 @@ export default {
   title: 'Patterns/Buttons/Icon Only',
   argTypes: {
     icon: {
-      options: iconOptions,
+      options: iconsList,
       control: { type: 'select' },
       description: 'Icon name',
     },
