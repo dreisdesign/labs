@@ -1,4 +1,17 @@
-# 🖌️ v2.4.3 - Robust Colors Story & Theme Mapping (August 28, 2025)
+# � v2.4.4 - Fixed Asset Path Script & Build Process (September 10, 2025)
+
+### 🐛 **Build System Fixes**
+- **Asset Path Script Improvements:**
+  - Fixed `update-static-paths.js` to exclude hashed build files (e.g., `iframe-XXXXXXXX.js`) that shouldn't be modified
+  - Enhanced file filtering with regex patterns to identify built assets vs. intended component files
+  - Added directory exclusions for `assets/`, `sb-addons/`, `sb-manager/` to prevent processing Storybook build artifacts
+- **Menu System Refinements:**
+  - Fixed local preview mode to use `--public` paths instead of auto-detection for consistent local development
+  - Improved workflow reliability for `npm run l` (local preview) command
+  - Ensures correct path rewriting for all deployment scenarios (local, public, GitHub Pages)
+
+---
+# �🖌️ v2.4.3 - Robust Colors Story & Theme Mapping (August 28, 2025)
 
 ### 🚀 **Design System Improvements**
 - **Colors Story Robustness:**

@@ -31,7 +31,7 @@ function copyDirSync(src, dest) {
   });
 }
 
-// Find all HTML and JS files in docs
+// Find all HTML and JS files in docs, excluding built assets
 const docsDir = path.join(__dirname, "../docs");
 function findFilesToProcess(dir) {
   let results = [];
@@ -40,9 +40,23 @@ function findFilesToProcess(dir) {
     const filePath = path.join(dir, file);
     const stat = fs.statSync(filePath);
     if (stat && stat.isDirectory()) {
+      // Skip built asset directories
+      if (file === "assets" || file === "sb-addons" || file === "sb-manager") {
+        return;
+      }
       results = results.concat(findFilesToProcess(filePath));
     } else if (file.endsWith(".html") || file.endsWith(".js")) {
-      results.push(filePath);
+      // Only process specific JS files, not all built assets
+      const relativeDir = path.relative(docsDir, dir);
+      const isAssetFile = relativeDir.includes("design-system") &&
+        (file.match(/^[a-zA-Z-]+\-[A-Za-z0-9_-]{8,}\.(js|css)$/) || // Hashed build files
+          file.includes("bundle.js") ||
+          file.includes("runtime.js") ||
+          file.includes("globals.js"));
+
+      if (!isAssetFile) {
+        results.push(filePath);
+      }
     }
   });
   return results;
