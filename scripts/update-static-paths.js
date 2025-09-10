@@ -112,6 +112,16 @@ htmlFiles.forEach((filePath) => {
       'src="/labs/design-system/',
     );
 
+    // Handle paths to today-list and other app directories
+    content = content.replace(
+      /src="\/today-list\//g,
+      'src="/labs/today-list/',
+    );
+    content = content.replace(
+      /href="\/today-list\//g,
+      'href="/labs/today-list/',
+    );
+
     // Prevent runaway replacement
     content = content.replace(/\/labs\/labs\//g, "/labs/");
 

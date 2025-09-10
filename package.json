@@ -1,6 +1,10 @@
 {
   "name": "labs-root",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dreisdesign/labs.git"
+  },
   "scripts": {
     "check-storybook-theme": "node scripts/check-storybook-theme.js",
     "public": "npm --prefix design-system run public",
