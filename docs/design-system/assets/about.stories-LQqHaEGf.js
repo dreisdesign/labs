@@ -6,7 +6,7 @@ import{c as o}from"./ThemeToggle-UxEbh81x.js";import"./iframe-BwnOPLvB.js";impor
     <hr />
       <h2>Built with Smoothie</h2>
       <div>
-        <a href="/docs/pad/index.html" target="_blank" rel="noopener noreferrer">
+        <a href="/labs/docs/pad/index.html" target="_blank" rel="noopener noreferrer">
           Pad</a>
         <span>
           A minimalist, cross-device drawing app.
@@ -71,7 +71,7 @@ import{c as o}from"./ThemeToggle-UxEbh81x.js";import"./iframe-BwnOPLvB.js";impor
     <hr />
       <h2>Built with Smoothie</h2>
       <div>
-        <a href="/docs/pad/index.html" target="_blank" rel="noopener noreferrer">
+        <a href="/labs/docs/pad/index.html" target="_blank" rel="noopener noreferrer">
           Pad</a>
         <span>
           A minimalist, cross-device drawing app.

@@ -62,3 +62,17 @@ Static copies are in `docs/design-system/`:
 check to see if server is running then run
 
 echo "1" | npm run menu
+
+---
+
+# CI/CD and Automation Preferences
+
+## No GitHub Actions
+- **Do not suggest GitHub Actions** for automation, CI/CD, or deployment workflows
+- This project uses local scripts and manual deployment processes by choice
+- Prefer local automation solutions (npm scripts, shell scripts, git hooks) over cloud-based CI/CD
+
+## Deployment Method
+- Deployment is handled manually via `npm run d` (deploy script)
+- Uses local build processes and git-based deployment to GitHub Pages
+- Pre-commit hooks and local scripts are preferred for automation

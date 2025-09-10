@@ -113,14 +113,26 @@ filesToProcess.forEach((filePath) => {
       'src="/labs/design-system/',
     );
 
-    // Handle paths to today-list and other app directories
+    // Handle paths to app directories (generic pattern for any app)
     content = content.replace(
-      /src="\/today-list\//g,
-      'src="/labs/today-list/',
+      /src="\/([^/]+)\//g,
+      (match, appName) => {
+        // Only transform paths that look like app directories (not design-system)
+        if (appName !== 'design-system' && !appName.includes('.')) {
+          return `src="/labs/${appName}/`;
+        }
+        return match;
+      }
     );
     content = content.replace(
-      /href="\/today-list\//g,
-      'href="/labs/today-list/',
+      /href="\/([^/]+)\//g,
+      (match, appName) => {
+        // Only transform paths that look like app directories (not design-system)
+        if (appName !== 'design-system' && !appName.includes('.')) {
+          return `href="/labs/${appName}/`;
+        }
+        return match;
+      }
     );
 
     // Handle JavaScript import statements
