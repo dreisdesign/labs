@@ -11,10 +11,10 @@
     "prebuild-storybook": "npm run generate-icons-list",
     "build-storybook": "NODE_ENV=production bash scripts/build-storybook.sh",
     "build-storybook-original": "NODE_ENV=production storybook build",
-    "build": "node ../scripts/update-static-paths.js --public",
-    "public": "node ../scripts/update-static-paths.js --public",
+    "build": "node ../scripts/update-static-paths.js --auto",
+    "public": "node ../scripts/update-static-paths.js --auto",
     "local": "node scripts/open-storybook-local.js",
-    "github": "node ../scripts/update-static-paths.js --github",
+    "github": "node ../scripts/update-static-paths.js --auto",
     "lint:tokens:rgb": "node ../scripts/lint-rgb.js"
   },
   "keywords": [

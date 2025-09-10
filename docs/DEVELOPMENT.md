@@ -5,7 +5,7 @@ Issue: When running the local docs demo server (python http.server serving the `
 Fix: Run the project's asset update script to copy built public files and JS components into the `docs/design-system/` public folder. From the project root run:
 
 ```bash
-node scripts/update-static-paths.js --public
+node scripts/update-static-paths.js --auto
 ```
 
 This will copy `design-system/src/components/*.js` to `design-system/components/` and then copy those into `docs/design-system/components/`, along with token CSS and other assets. If you prefer a one-off copy during development, copy the components directly:
@@ -16,4 +16,4 @@ cp design-system/components/* docs/design-system/components/
 
 Notes:
 - After running the script or copying files, hard-refresh the browser to clear cached 404s.
-- The `--github` mode additionally prepares files for GitHub Pages (adjusting paths and copying to `docs/design-system`).
+- The `--auto` mode detects whether the build is for GitHub Pages or public/local and applies the appropriate rewrites and copies.

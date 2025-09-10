@@ -100,7 +100,7 @@ fi
 # Sync design system files for docs and public root
 echo "🔄 Syncing design system files using update-static-paths.js..."
 cd ..
-if node scripts/update-static-paths.js --public; then
+if node scripts/update-static-paths.js --auto; then
     echo "✅ Design system files synced successfully"
 else
     echo "❌ Error: Syncing design system files failed"

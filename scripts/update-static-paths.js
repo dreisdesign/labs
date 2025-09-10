@@ -49,16 +49,38 @@ function findHtmlFiles(dir) {
 }
 const htmlFiles = findHtmlFiles(docsDir);
 
-// Determine mode from CLI args: --public, --local, or --github
-const mode = process.argv.includes("--public")
-  ? "public"
-  : process.argv.includes("--local")
-    ? "local"
-    : process.argv.includes("--github")
-      ? "github"
-      : null;
+// Determine mode from CLI args: --public, --local, --github, or --auto
+let mode = null;
+if (process.argv.includes("--public")) mode = "public";
+if (process.argv.includes("--local")) mode = "local";
+if (process.argv.includes("--github")) mode = "github";
+if (process.argv.includes("--auto")) mode = "auto";
+
+// Auto-detect mode when requested
+if (mode === "auto") {
+  // Prefer GitHub Pages mode when running in CI or when repository looks like the GH Pages repo
+  const isCI = !!process.env.GITHUB_ACTIONS || !!process.env.CI || !!process.env.GITHUB_REPOSITORY;
+  let repoName = null;
+  try {
+    const pkg = require(path.join(__dirname, '..', 'package.json'));
+    if (pkg && pkg.repository) {
+      if (typeof pkg.repository === 'string') repoName = pkg.repository;
+      else if (pkg.repository && pkg.repository.url) repoName = pkg.repository.url;
+    }
+  } catch (e) {
+    // ignore
+  }
+  const looksLikeGhPages = repoName && repoName.includes('dreisdesign/labs');
+  if (isCI || looksLikeGhPages) {
+    mode = 'github';
+  } else {
+    mode = 'public';
+  }
+  console.log(`update-static-paths: auto-detected mode='${mode}' (isCI=${isCI}, repo='${repoName}')`);
+}
+
 if (!mode) {
-  console.error("Please specify a mode: --public, --local, or --github");
+  console.error("Please specify a mode: --public, --local, --github, or --auto");
   process.exit(1);
 }
 

@@ -30,4 +30,4 @@
 - [Today List TODOs](docs/today-list/TODO.md)
 	- In progress: implement List Input, item row component, archive/delete with undo toasts (working demo in `docs/today-list/index.html`)
 	- In progress: implement List Input, item row component, archive/delete with undo toasts (working demo in `docs/today-list/index.html`)
-	  - Note: If you see 404s for component JS when serving `docs/` locally, run `node scripts/update-static-paths.js --public` to copy built components/tokens into `docs/design-system/` (see `docs/DEVELOPMENT.md`).
+	  - Note: If you see 404s for component JS when serving `docs/` locally, run `node scripts/update-static-paths.js --auto` to copy built components/tokens into `docs/design-system/` (see `docs/DEVELOPMENT.md`).

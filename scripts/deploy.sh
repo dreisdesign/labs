@@ -11,8 +11,8 @@ cd ..
 
 
 # 2. Update asset paths for GitHub Pages and copy assets (disabled for now)
-echo "\nRunning update-static-paths for GitHub Pages (rewrites paths & copies assets)..."
-node scripts/update-static-paths.js --github || true
+echo "\nRunning update-static-paths (auto mode) to rewrite paths & copy assets..."
+node scripts/update-static-paths.js --auto || true
 
 
 # 3. Copy static build to deploy directory
