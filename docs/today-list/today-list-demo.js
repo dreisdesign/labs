@@ -1,9 +1,9 @@
 // Demo module for Today List page
 // Imports required web components
-import '/design-system/components/labs-overlay.js';
-import '/design-system/components/labs-settings-card.js';
-import '/design-system/components/labs-input-card.js';
-import '/design-system/components/labs-list-item.js';
+import '/labs/design-system/components/labs-overlay.js';
+import '/labs/design-system/components/labs-settings-card.js';
+import '/labs/design-system/components/labs-input-card.js';
+import '/labs/design-system/components/labs-list-item.js';
 
 // Theme management utilities (mirrored from Pad/Today List)
 function applyTheme({ flavor = 'blueberry', theme = 'light' } = {}) {

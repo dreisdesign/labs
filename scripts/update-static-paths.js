@@ -31,23 +31,23 @@ function copyDirSync(src, dest) {
   });
 }
 
-// Find all HTML files in docs
+// Find all HTML and JS files in docs
 const docsDir = path.join(__dirname, "../docs");
-function findHtmlFiles(dir) {
+function findFilesToProcess(dir) {
   let results = [];
   const list = fs.readdirSync(dir);
   list.forEach((file) => {
     const filePath = path.join(dir, file);
     const stat = fs.statSync(filePath);
     if (stat && stat.isDirectory()) {
-      results = results.concat(findHtmlFiles(filePath));
-    } else if (file.endsWith(".html")) {
+      results = results.concat(findFilesToProcess(filePath));
+    } else if (file.endsWith(".html") || file.endsWith(".js")) {
       results.push(filePath);
     }
   });
   return results;
 }
-const htmlFiles = findHtmlFiles(docsDir);
+const filesToProcess = findFilesToProcess(docsDir);
 
 // Determine mode from CLI args: --public, --local, --github, or --auto
 let mode = null;
@@ -84,7 +84,7 @@ if (!mode) {
   process.exit(1);
 }
 
-htmlFiles.forEach((filePath) => {
+filesToProcess.forEach((filePath) => {
   let content = fs.readFileSync(filePath, "utf8");
   let original = content;
 
@@ -92,6 +92,7 @@ htmlFiles.forEach((filePath) => {
     // Set all asset paths to public (local development)
     content = content.replace(/\/labs\/design-system\//g, "/design-system/");
     content = content.replace(/\.\.\/design-system\//g, "/design-system/");
+    content = content.replace(/\/labs\/today-list\//g, "/today-list/");
   } else if (mode === "github") {
     // For GitHub Pages, all paths must be absolute from the repo root.
     // This is a safer, more targeted replacement.
@@ -120,6 +121,16 @@ htmlFiles.forEach((filePath) => {
     content = content.replace(
       /href="\/today-list\//g,
       'href="/labs/today-list/',
+    );
+
+    // Handle JavaScript import statements
+    content = content.replace(
+      /import\s+['"]\/design-system\//g,
+      "import '/labs/design-system/",
+    );
+    content = content.replace(
+      /from\s+['"]\/design-system\//g,
+      "from '/labs/design-system/",
     );
 
     // Prevent runaway replacement
