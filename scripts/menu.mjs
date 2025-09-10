@@ -94,6 +94,13 @@ async function main() {
       const port = 8000;
       const padDir = "docs";
       const padUrl = `http://localhost:${port}/`;
+      // Ensure docs HTML asset paths are correct for local preview
+      try {
+        console.log('\nApplying public asset path rewrite for local preview...');
+        execSync('node scripts/update-static-paths.js --public', { stdio: 'inherit' });
+      } catch (e) {
+        console.warn('Failed to run update-static-paths for public mode:', e.message);
+      }
       // Kill any process using port 8000 before starting server
       try {
         const pids = execSync(`lsof -t -i:${port}`).toString().split('\n').filter(Boolean);
