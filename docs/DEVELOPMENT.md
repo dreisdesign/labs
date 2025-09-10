@@ -5,7 +5,7 @@ Issue: When running the local docs demo server (python http.server serving the `
 Fix: Run the project's asset update script to copy built public files and JS components into the `docs/design-system/` public folder. From the project root run:
 
 ```bash
-node scripts/update-static-paths.js --auto
+node scripts/update-static-paths.js --public
 ```
 
 This will copy `design-system/src/components/*.js` to `design-system/components/` and then copy those into `docs/design-system/components/`, along with token CSS and other assets. If you prefer a one-off copy during development, copy the components directly:
@@ -17,3 +17,24 @@ cp design-system/components/* docs/design-system/components/
 Notes:
 - After running the script or copying files, hard-refresh the browser to clear cached 404s.
 - The `--auto` mode detects whether the build is for GitHub Pages or public/local and applies the appropriate rewrites and copies.
+
+Additional context and guidance:
+- For local development, prefer `--public` so asset paths are rewritten for a local `python3 -m http.server` preview (paths like `/design-system/...`).
+- The repository includes a pre-commit hook that runs the same script in `--auto` mode before commit; this automatically converts local/public paths to the GitHub Pages format (`/labs/design-system/...`) and stages the changes. That means committing local-preview edits is safe: the pre-commit hook will ensure committed files use the public/GitHub paths expected for deployment.
+- The deploy script (`scripts/deploy.sh`) also runs `update-static-paths.js --auto` during the deploy flow to ensure the published `docs/design-system/` contains correctly rewritten GitHub Pages paths and copied assets.
+
+If you see 404s while serving `docs/` locally, run:
+
+```bash
+# one-off local preview prep
+node scripts/update-static-paths.js --public
+
+# then serve the docs directory
+python3 -m http.server 8000 --directory docs
+```
+
+Or use the menu helper which runs the public rewrite for preview:
+
+```bash
+npm run l   # opens the "Preview Labs Homepage" flow in the menu and applies --public
+```
