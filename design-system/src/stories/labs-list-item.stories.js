@@ -1,3 +1,4 @@
+import '../components/labs-checkbox.js';
 import '../components/labs-list-item.js';
 
 export default {

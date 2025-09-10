@@ -13,6 +13,7 @@
   <script type="module" src="/design-system/components/labs-icon.js"></script>
   <script type="module" src="/design-system/components/labs-button.js"></script>
   <script type="module" src="/design-system/components/labs-footer.js"></script>
+  <script type="module" src="/design-system/components/labs-checkbox.js"></script>
   <style>
     html,
     body {
@@ -86,7 +87,6 @@
         style="color:var(--color-on-surface); width:28px; height:28px;"></labs-icon>
     </labs-button>
   </div>
-
 
   <!-- App header + content container (centered) -->
   <div class="app-container" style="margin-top:18px;">
@@ -294,8 +294,41 @@
 
       function wireItemPersistence(item) {
         if (!item) return;
-        item.addEventListener('archive', () => { saveItemsToStorage(); renderWelcomeIfEmpty(); });
-        item.addEventListener('remove', () => { saveItemsToStorage(); renderWelcomeIfEmpty(); });
+        // when an item requests archive, move DOM and persist; offer undo
+        item.addEventListener('archive', (ev) => {
+          const today = document.getElementById('todayItems');
+          const archived = document.getElementById('archivedItems');
+          const archivedTitle = document.getElementById('archivedTitle');
+          const previousParent = item.parentElement;
+          const snapshot = { parent: previousParent, index: Array.prototype.indexOf.call(previousParent.children, item) };
+          archived.prepend(item);
+          archivedTitle.style.display = archived.children.length ? '' : 'none';
+          saveItemsToStorage();
+          renderWelcomeIfEmpty();
+          showUndoToast('Item archived', () => {
+            if (snapshot.parent && snapshot.parent.insertBefore) snapshot.parent.insertBefore(item, snapshot.parent.children[snapshot.index] || null);
+            saveItemsToStorage();
+            renderWelcomeIfEmpty();
+          });
+        });
+
+        // when remove triggered, detach and persist; offer undo
+        item.addEventListener('remove', (ev) => {
+          const parent = item.parentElement;
+          const snapshot = { parent, index: Array.prototype.indexOf.call(parent.children, item) };
+          item.remove();
+          saveItemsToStorage();
+          renderWelcomeIfEmpty();
+          showUndoToast('Item removed', () => {
+            if (snapshot.parent && snapshot.parent.insertBefore) {
+              snapshot.parent.insertBefore(item, snapshot.parent.children[snapshot.index] || null);
+              saveItemsToStorage();
+              renderWelcomeIfEmpty();
+            }
+          });
+        });
+
+        // toggling checkboxes only needs persistence
         item.addEventListener('toggle', () => { saveItemsToStorage(); });
       }
 
@@ -334,6 +367,23 @@
             });
           }
         }
+
+        // Demo control buttons
+        const archiveDayBtn = document.getElementById('archiveDayBtn');
+        const resetDataBtn = document.getElementById('resetDataBtn');
+        const simNextDayBtn = document.getElementById('simNextDayBtn');
+        if (archiveDayBtn) archiveDayBtn.addEventListener('click', archiveDay);
+        if (resetDataBtn) resetDataBtn.addEventListener('click', resetAllData);
+        if (simNextDayBtn) simNextDayBtn.addEventListener('click', simulateNextDay);
+
+        // Ensure labs-toast exists for undo actions
+        function ensureToast() {
+          if (!document.body.querySelector('labs-toast')) {
+            const t = document.createElement('labs-toast');
+            document.body.appendChild(t);
+          }
+          return document.body.querySelector('labs-toast');
+        }
       });
 
       // Load persisted items and render welcome state
@@ -353,44 +403,68 @@
         item.setAttribute('value', text);
         today.prepend(item);
 
-        // wire persistence
+        // wire persistence and event handlers
         wireItemPersistence(item);
         saveItemsToStorage();
         renderWelcomeIfEmpty();
+      }
 
-        // Archive handler: move to archived list and show undo toast
-        item.addEventListener('archive', (ev) => {
-          archived.prepend(item);
-          archivedTitle.style.display = archived.children.length ? '' : 'none';
-          showUndoToast('Item archived', () => {
-            today.prepend(item);
-            archivedTitle.style.display = archived.children.length ? '' : 'none';
-          });
-        });
-
-        // Remove handler: remove from DOM and show undo toast to restore
-        item.addEventListener('remove', (ev) => {
-          const parent = item.parentElement;
-          const snapshot = { parent, index: Array.prototype.indexOf.call(parent.children, item) };
-          item.remove();
-          showUndoToast('Item removed', () => {
-            if (snapshot.parent && snapshot.parent.insertBefore) {
-              snapshot.parent.insertBefore(item, snapshot.parent.children[snapshot.index] || null);
-            }
-          });
+      // Archive entire day: move all today items to archived with undo
+      function archiveDay() {
+        const today = document.getElementById('todayItems');
+        const archived = document.getElementById('archivedItems');
+        const archivedTitle = document.getElementById('archivedTitle');
+        if (!today || !today.children.length) return;
+        const moved = [];
+        while (today.firstChild) {
+          const node = today.firstChild;
+          moved.push(node);
+          archived.prepend(node);
+        }
+        archivedTitle.style.display = archived.children.length ? '' : 'none';
+        saveItemsToStorage();
+        renderWelcomeIfEmpty();
+        showUndoToast('Day archived', () => {
+          // restore moved nodes back to today in original order
+          for (let i = moved.length - 1; i >= 0; i--) {
+            today.prepend(moved[i]);
+          }
           saveItemsToStorage();
           renderWelcomeIfEmpty();
         });
       }
 
+      // Reset all data: clear storage and DOM with undo
+      function resetAllData() {
+        const today = document.getElementById('todayItems');
+        const archived = document.getElementById('archivedItems');
+        const snapshot = { today: Array.from(today.children), archived: Array.from(archived.children) };
+        // clear
+        today.innerHTML = '';
+        archived.innerHTML = '';
+        document.getElementById('archivedTitle').style.display = 'none';
+        saveItemsToStorage();
+        renderWelcomeIfEmpty();
+        showUndoToast('All data reset', () => {
+          // restore
+          snapshot.today.reverse().forEach(n => today.prepend(n));
+          snapshot.archived.reverse().forEach(n => archived.prepend(n));
+          document.getElementById('archivedTitle').style.display = archived.children.length ? '' : 'none';
+          saveItemsToStorage();
+          renderWelcomeIfEmpty();
+        });
+      }
+
+      // Simulate next day: mark as archived state (for testing)
+      function simulateNextDay() {
+        // simple behavior: move all today items to archived but keep them present (like archiveDay)
+        archiveDay();
+      }
+
       // Simple toast helper using existing labs-toast
       function showUndoToast(message, undoFn) {
         try {
-          if (!document.body.querySelector('labs-toast')) {
-            const t = document.createElement('labs-toast');
-            document.body.appendChild(t);
-          }
-          const toast = document.body.querySelector('labs-toast');
+          const toast = ensureToast();
           if (toast && typeof toast.show === 'function') {
             toast.show(message, { actionText: 'Undo', duration: 5000 });
             const onAction = () => { undoFn && undoFn(); toast.removeEventListener('action', onAction); };
