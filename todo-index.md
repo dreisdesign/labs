@@ -27,6 +27,13 @@
 - [Timer App TODOs](docs/timer/TODO.md)
 - [Tracker App TODOs](docs/tracker/TODO.md)
 - [Pad App TODOs](docs/pad/TODO.md)
-- [Today List TODOs](docs/today-list/TODO.md)
-	- In progress: implement List Input, item row component, archive/delete with undo toasts (working demo in `docs/today-list/index.html`)
-	  - Note: For local development, use `npm run l` to preview with correct local paths, or run `node scripts/update-static-paths.js --public` manually to ensure components/tokens are available in `docs/design-system/`.
+- [Today List TODOs](docs/today-list/TODO.md) — *Major UX overhaul complete: archive buttons, menu system, icon syncing* (last-updated: 2025-09-11)
+	- ✅ Completed: List Input, item row component, archive/delete with undo toasts
+	- ✅ Completed: Archive button visibility fixes and icon management
+	- ✅ Completed: Development workflow improvements with automated icon syncing
+
+## Development Workflow & Build System
+- ✅ Completed: Menu system restructure with letter prefixes (S/L/R/D/U) and automated server management
+- ✅ Completed: Icon syncing automation (`scripts/sync-icons.js`) integrated into build pipeline
+- ✅ Completed: Enhanced update-static-paths.js with comprehensive asset management
+- 📋 Future: Consider VS Code extension integration (documented in `plan-2025-09-10.md`)
