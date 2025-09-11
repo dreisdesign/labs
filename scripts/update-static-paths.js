@@ -8,6 +8,7 @@ const PUBLIC_WHITELIST = [
   "components",
   "tokens",
   "assets",
+  "icons",
   // add more as needed
 ];
 
@@ -287,5 +288,23 @@ copyAllAssets(publicAssetsSrc, storybookAssetsDest);
 console.log(
   "Copied all assets (including icons) from design-system/assets to storybook-static/assets",
 );
+
+// Copy icons from design-system/icons to docs/design-system/icons
+const iconsSrc = path.join(__dirname, "../design-system/icons");
+const docsIconsDest = path.join(__dirname, "../docs/design-system/icons");
+if (fs.existsSync(iconsSrc)) {
+  if (!fs.existsSync(docsIconsDest)) {
+    fs.mkdirSync(docsIconsDest, { recursive: true });
+  }
+  fs.readdirSync(iconsSrc).forEach((file) => {
+    if (file.endsWith('.svg')) {
+      fs.copyFileSync(
+        path.join(iconsSrc, file),
+        path.join(docsIconsDest, file)
+      );
+    }
+  });
+  console.log("Copied icons from design-system/icons to docs/design-system/icons");
+}
 
 console.log(`All docs/ HTML asset paths set to ${mode}.`);

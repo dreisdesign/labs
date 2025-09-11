@@ -35,7 +35,7 @@ class LabsListItem extends HTMLElement {
           <div class="text"></div>
           <div class="actions">
             <labs-button id="archiveBtn" variant="icon" aria-label="Archive">
-              <labs-icon slot="icon-left" name="published_with_changes" width="20" height="20"></labs-icon>
+              <labs-icon slot="icon-left" name="archive" width="20" height="20"></labs-icon>
             </labs-button>
             <labs-button id="deleteBtn" variant="icon" aria-label="Delete">
               <labs-icon slot="icon-left" name="delete_forever" width="20" height="20"></labs-icon>
@@ -53,7 +53,13 @@ class LabsListItem extends HTMLElement {
         });
       }
       const archive = this.shadowRoot.getElementById('archiveBtn');
-      if (archive) archive.addEventListener('click', () => this._archive());
+      if (archive) archive.addEventListener('click', () => {
+        if (this.hasAttribute('archived') && !this.hasAttribute('restored')) {
+          this._restore();
+        } else if (!this.hasAttribute('archived')) {
+          this._archive();
+        }
+      });
       const del = this.shadowRoot.getElementById('deleteBtn');
       if (del) del.addEventListener('click', () => this._remove());
     }
@@ -68,6 +74,21 @@ class LabsListItem extends HTMLElement {
     }
     const textDiv = this.shadowRoot.querySelector('.text');
     if (textDiv) textDiv.textContent = this._value;
+    // reflect restored/archived state visually and adjust archive icon and aria label
+    const archiveIcon = this.shadowRoot.querySelector('#archiveBtn labs-icon');
+    const archiveBtn = this.shadowRoot.getElementById('archiveBtn');
+    if (this.hasAttribute('restored')) {
+      // restored original shows edited/published icon
+      if (archiveIcon) archiveIcon.setAttribute('name', 'published_with_changes');
+      if (archiveBtn) archiveBtn.setAttribute('aria-label', 'Already restored');
+    } else if (this.hasAttribute('archived')) {
+      // archived state shows history icon
+      if (archiveIcon) archiveIcon.setAttribute('name', 'history');
+      if (archiveBtn) archiveBtn.setAttribute('aria-label', 'Restore');
+    } else {
+      if (archiveIcon) archiveIcon.setAttribute('name', 'archive');
+      if (archiveBtn) archiveBtn.setAttribute('aria-label', 'Archive');
+    }
   }
 
   _toggle() {
@@ -81,7 +102,18 @@ class LabsListItem extends HTMLElement {
   }
 
   _archive() {
+    // mark as archived; apps will move DOM and persist
+    this.setAttribute('archived', '');
+    // emit archive intent
     this.dispatchEvent(new CustomEvent('archive', { detail: { value: this._value, id: this._id }, bubbles: true, composed: true }));
+  }
+
+  _restore() {
+    // If the item was previously restored (from archive) don't allow re-restore
+    if (this.hasAttribute('restored')) return;
+    this.removeAttribute('archived');
+    this.setAttribute('restored', '');
+    this.dispatchEvent(new CustomEvent('restore', { detail: { value: this._value, id: this._id }, bubbles: true, composed: true }));
   }
 
   _remove() {

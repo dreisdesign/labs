@@ -103,7 +103,12 @@ class LabsSettingsCard extends HTMLElement {
           All Apps
         </labs-button>
         <div id="appearance-btn-slot"></div>
+        <labs-button id="simulate-next-btn" variant="secondary" style="gap:10px; display:none;">
+          <labs-icon name="add" slot="icon-left" width="20" height="20"></labs-icon>
+          Simulate Next Day
+        </labs-button>
         <labs-button id="reset-all-btn" variant="destructive" style="gap:10px;">
+          <labs-icon name="delete" slot="icon-left" width="20" height="20"></labs-icon>
           Reset All Data
         </labs-button>
       </div>
@@ -178,6 +183,37 @@ class LabsSettingsCard extends HTMLElement {
       } catch (e) { }
       updateLabel();
       slot.appendChild(btn);
+
+      // Wire reset button to dispatch a confirmed reset event
+      const resetBtn = this.shadowRoot.getElementById('reset-all-btn');
+      if (resetBtn) {
+        resetBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const confirmed = window.confirm('Warning: This will delete all entries. Are you sure you want to continue?');
+          if (confirmed) {
+            this.dispatchEvent(new CustomEvent('reset-all', { bubbles: true, composed: true }));
+            // Close overlay after reset so the app can refresh UI
+            this.dispatchEvent(new CustomEvent('close', { bubbles: true, composed: true }));
+          }
+        });
+      }
+      // Wire simulate next day button to dispatch a simulate event so apps can handle the behavior
+      const simulateBtn = this.shadowRoot.getElementById('simulate-next-btn');
+      if (simulateBtn) {
+        // Show simulate button only when URL contains simulate=1 or simulate=true
+        try {
+          const url = new URL(window.location.href);
+          const simulateFlag = url.searchParams.get('simulate') || url.searchParams.get('simulateNext');
+          if (simulateFlag === '1' || simulateFlag === 'true') simulateBtn.style.display = '';
+        } catch (e) { }
+        simulateBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          // Let apps handle the simulated action
+          this.dispatchEvent(new CustomEvent('simulate-next-day', { bubbles: true, composed: true }));
+          // Also emit a close event so overlays listening for 'close' will close automatically
+          this.dispatchEvent(new CustomEvent('close', { bubbles: true, composed: true }));
+        });
+      }
     }
   }
 }

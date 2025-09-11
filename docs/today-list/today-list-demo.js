@@ -129,7 +129,7 @@ function renderWelcomeIfEmpty() {
     const btn = document.createElement('labs-button');
     btn.setAttribute('pill', '');
     btn.setAttribute('variant', 'primary');
-    btn.textContent = 'Add first item';
+    btn.textContent = 'Add';
     btn.addEventListener('click', () => {
       const overlay = document.getElementById('inputOverlay');
       if (overlay && typeof overlay.open === 'function') overlay.open();
@@ -171,7 +171,21 @@ function wireItemPersistence(item) {
     saveItemsToStorage();
     renderWelcomeIfEmpty();
     showUndoToast('Item archived', () => {
-      if (snapshot.parent && snapshot.parent.insertBefore) snapshot.parent.insertBefore(item, snapshot.parent.children[snapshot.index] || null);
+      try {
+        // create a clone for today list so the archived instance can be marked as restored
+        const clone = item.cloneNode(true);
+        // remove archived attribute on clone
+        clone.removeAttribute('archived');
+        clone.setAttribute('data-id', `item-${Math.random().toString(36).slice(2, 9)}`);
+        // mark the archived original as restored so it shows the published_with_changes icon
+        item.setAttribute('restored', '');
+        // wire events for clone
+        wireItemPersistence(clone);
+        if (snapshot.parent && snapshot.parent.insertBefore) snapshot.parent.insertBefore(clone, snapshot.parent.children[snapshot.index] || null);
+      } catch (e) {
+        // fallback: reinsert original node
+        if (snapshot.parent && snapshot.parent.insertBefore) snapshot.parent.insertBefore(item, snapshot.parent.children[snapshot.index] || null);
+      }
       saveItemsToStorage();
       renderWelcomeIfEmpty();
     });
@@ -181,16 +195,55 @@ function wireItemPersistence(item) {
   item.addEventListener('remove', (ev) => {
     const parent = item.parentElement;
     const snapshot = { parent, index: Array.from(parent.children).indexOf(item) };
+    const wasArchived = parent && parent.id === 'archivedItems';
+
     item.remove();
+
+    // If this was the last item in archived section, hide the "Archived" title
+    if (wasArchived) {
+      const archivedTitle = document.getElementById('archivedTitle');
+      const archivedItems = document.getElementById('archivedItems');
+      if (archivedItems && archivedItems.children.length === 0 && archivedTitle) {
+        archivedTitle.style.display = 'none';
+      }
+    }
+
     saveItemsToStorage();
     renderWelcomeIfEmpty();
     showUndoToast('Item removed', () => {
       if (snapshot.parent && snapshot.parent.insertBefore) {
         snapshot.parent.insertBefore(item, snapshot.parent.children[snapshot.index] || null);
+        // Show archived title again if item was restored to archived section
+        if (wasArchived) {
+          const archivedTitle = document.getElementById('archivedTitle');
+          const archivedItems = document.getElementById('archivedItems');
+          if (archivedItems && archivedItems.children.length > 0 && archivedTitle) {
+            archivedTitle.style.display = '';
+          }
+        }
         saveItemsToStorage();
         renderWelcomeIfEmpty();
       }
     });
+  });
+
+  // handle restore intent from archived item
+  item.addEventListener('restore', (ev) => {
+    const today = document.getElementById('todayItems');
+    const archived = document.getElementById('archivedItems');
+    // The component already removed archived attribute and set restored; create a copy into today
+    try {
+      const clone = item.cloneNode(true);
+      clone.removeAttribute('archived');
+      clone.setAttribute('data-id', `item-${Math.random().toString(36).slice(2, 9)}`);
+      clone.setAttribute('value', item.getAttribute('value') || '');
+      wireItemPersistence(clone);
+      today.prepend(clone);
+      // mark original archived instance as restored so it can't be restored again
+      item.setAttribute('restored', '');
+      saveItemsToStorage();
+      renderWelcomeIfEmpty();
+    } catch (e) { }
   });
 
   // toggling checkboxes only needs persistence
@@ -213,6 +266,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const settingsCard = settingsOverlay.querySelector('labs-settings-card');
     if (settingsCard) {
       settingsCard.addEventListener('close', () => settingsOverlay.close());
+      // Listen for reset-all custom event from the settings card
+      settingsCard.addEventListener('reset-all', () => {
+        // Directly perform reset (confirmation already handled by the card)
+        resetAllData(true);
+      });
+      // Listen for simulate-next-day event from the settings card
+      settingsCard.addEventListener('simulate-next-day', () => {
+        simulateNextDay();
+      });
     }
   }
 
@@ -229,18 +291,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (value && value.trim()) {
           appendItem(value.trim());
         }
+        // Clear the input inside the input card so it doesn't persist between opens
+        try {
+          const innerInput = inputCard.shadowRoot.getElementById('cardInput');
+          if (innerInput) innerInput.value = '';
+        } catch (err) { }
         inputOverlay.close();
       });
     }
   }
 
-  // Demo control buttons
-  const archiveDayBtn = document.getElementById('archiveDayBtn');
-  const resetDataBtn = document.getElementById('resetDataBtn');
-  const simNextDayBtn = document.getElementById('simNextDayBtn');
-  if (archiveDayBtn) archiveDayBtn.addEventListener('click', archiveDay);
-  if (resetDataBtn) resetDataBtn.addEventListener('click', resetAllData);
-  if (simNextDayBtn) simNextDayBtn.addEventListener('click', simulateNextDay);
+  // Floating demo controls removed; settings overlay exposes Archive/Reset/Simulate actions now.
 
   // Ensure labs-toast exists for undo actions
   function ensureToast() {
@@ -299,24 +360,28 @@ function archiveDay() {
 }
 
 // Reset all data: clear storage and DOM with undo
-function resetAllData() {
+function resetAllData(fromSettingsCard = false) {
+  // If reset was triggered from settings card, the card already confirmed the action.
+  // If called directly (e.g., demo button), require confirmation here.
+  if (!fromSettingsCard) {
+    const confirmed = window.confirm('Warning: This will delete all Today List entries and settings. Are you sure you want to continue?');
+    if (!confirmed) return;
+  }
   const today = document.getElementById('todayItems');
   const archived = document.getElementById('archivedItems');
-  const snapshot = { today: Array.from(today.children), archived: Array.from(archived.children) };
-  // clear
-  today.innerHTML = '';
-  archived.innerHTML = '';
-  document.getElementById('archivedTitle').style.display = 'none';
+  // Clear DOM
+  if (today) today.innerHTML = '';
+  if (archived) archived.innerHTML = '';
+  const archivedTitle = document.getElementById('archivedTitle');
+  if (archivedTitle) archivedTitle.style.display = 'none';
+  // Clear only Today List related storage keys
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem('today-list-theme');
+    localStorage.removeItem('today-list-flavor');
+  } catch (e) { /* ignore */ }
   saveItemsToStorage();
   renderWelcomeIfEmpty();
-  showUndoToast('All data reset', () => {
-    // restore
-    snapshot.today.reverse().forEach(n => today.prepend(n));
-    snapshot.archived.reverse().forEach(n => archived.prepend(n));
-    document.getElementById('archivedTitle').style.display = archived.children.length ? '' : 'none';
-    saveItemsToStorage();
-    renderWelcomeIfEmpty();
-  });
 }
 
 // Simulate next day: mark as archived state (for testing)

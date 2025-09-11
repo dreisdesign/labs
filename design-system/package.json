@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "generate-icons-list": "node ../scripts/generate-icons-list.mjs",
-    "prestorybook": "npm run generate-icons-list",
+    "prestorybook": "npm run generate-icons-list && node ../scripts/sync-icons.js",
     "storybook": "bash scripts/start-storybook.sh",
     "storybook-original": "storybook dev -p 6006",
-    "prebuild-storybook": "npm run generate-icons-list",
+    "prebuild-storybook": "npm run generate-icons-list && node ../scripts/sync-icons.js",
     "build-storybook": "NODE_ENV=production bash scripts/build-storybook.sh",
     "build-storybook-original": "NODE_ENV=production storybook build",
     "build": "node ../scripts/update-static-paths.js --auto",

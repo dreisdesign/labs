@@ -60,6 +60,22 @@ const openUrls = (urls) => {
   });
 };
 
+// Helper function to kill servers on common ports
+const killServers = () => {
+  const ports = [6006, 6007, 8000]; // Storybook, Storybook static, Labs
+  ports.forEach(port => {
+    try {
+      const pids = execSync(`lsof -t -i:${port}`).toString().split('\n').filter(Boolean);
+      if (pids.length > 0) {
+        console.log(`Killing existing process(es) on port ${port}: ${pids.join(', ')}`);
+        execSync(`kill -9 ${pids.join(' ')}`);
+      }
+    } catch (e) {
+      // No process to kill on this port
+    }
+  });
+};
+
 async function main() {
   try {
     // (automatic timestamp update removed) — manual updates only
@@ -70,25 +86,95 @@ async function main() {
         message: "What would you like to do?",
         choices: [
           {
-            name: "Build, preview, and serve Storybook (local, for dev)",
+            name: "(S) Build, preview, and serve Storybook (local, for dev)",
             value: "serveStorybook",
           },
           {
-            name: "Build & Deploy (publishes, then preview demo)",
-            value: "deploy",
-          },
-          {
-            name: "Preview Labs Homepage (python3 server)",
+            name: "(L) Preview Labs Homepage (python3 server)",
             value: "previewPadApp",
           },
           {
-            name: "Utilities",
+            name: "(R) Re-run storybook & Preview Labs",
+            value: "rerunBoth",
+          },
+          {
+            name: "(D) Build & Deploy (publishes, then preview demo)",
+            value: "deploy",
+          },
+          {
+            name: "(U) Utilities",
             value: "utilities"
           },
           { name: "Exit", value: "exit" },
         ],
       },
     ]);
+
+    if (action === "rerunBoth") {
+      console.log("\nStopping any existing servers...");
+      killServers();
+
+      console.log("\nStarting Storybook in Terminal 1...");
+      // Always update the Storybook sitemap before building
+      execSync("node design-system/scripts/generate-storybook-sitemap.js", {
+        stdio: "inherit",
+      });
+      console.log("\nBuilding Storybook...");
+      execSync("npm run build-storybook", {
+        cwd: "./design-system",
+        stdio: "inherit",
+      });
+
+      // Start Storybook in background
+      const storybookProcess = exec("npm run storybook", {
+        cwd: "./design-system",
+      });
+
+      storybookProcess.stdout.on("data", (data) => {
+        console.log(`[Storybook] ${data.toString()}`);
+      });
+      storybookProcess.stderr.on("data", (data) => {
+        console.error(`[Storybook] ${data.toString()}`);
+      });
+
+      // Wait a moment, then start Labs preview
+      setTimeout(() => {
+        console.log("\nStarting Labs Preview in Terminal 2...");
+
+        // Ensure docs HTML asset paths are correct for local preview
+        try {
+          console.log('\nApplying public asset path rewrite for local preview...');
+          execSync('node scripts/update-static-paths.js --public', { stdio: 'inherit' });
+        } catch (e) {
+          console.warn('Failed to run update-static-paths for public mode:', e.message);
+        }
+
+        const port = 8000;
+        const padDir = "docs";
+        const padUrl = `http://localhost:${port}/`;
+        const storybookUrl = `http://localhost:6006`;
+
+        console.log(`\nStarting python3 HTTP server for Labs Homepage in ${padDir}...`);
+        const padProcess = exec(`python3 -m http.server ${port} --directory ${padDir}`);
+
+        padProcess.stdout.on("data", (data) => {
+          console.log(`[Labs] ${data.toString()}`);
+        });
+        padProcess.stderr.on("data", (data) => {
+          console.error(`[Labs] ${data.toString()}`);
+        });
+
+        console.log(`\n🚀 Both servers starting:`);
+        console.log(`📚 Storybook: ${storybookUrl}`);
+        console.log(`🏠 Labs Homepage: ${padUrl}`);
+        console.log("\nServers will continue running in background.");
+        console.log("You can close this menu. Press 'q' to stop both servers if needed.");
+
+      }, 3000); // Wait 3 seconds for Storybook to start
+
+      return;
+    }
+
     if (action === "previewPadApp") {
       // Preview Pad App using python3 http.server
       const port = 8000;
@@ -263,13 +349,37 @@ async function main() {
           message: "Utilities",
           choices: [
             { name: "Run Storybook theme checks (build static + run checks)", value: "runThemeChecks" },
+            { name: "Check if rebuild needed", value: "checkRebuild" },
+            { name: "Kill all servers (ports 6006, 6007, 8000)", value: "killServers" },
+            { name: "Generate icons list", value: "generateIcons" },
+            { name: "Run token scan", value: "tokenScan" },
             { name: "Back", value: "back" }
           ]
         }
       ]);
+
       if (utilAction === "runThemeChecks") {
-        // Call the theme checks logic directly
         await main.call({ action: "runThemeChecks" });
+      } else if (utilAction === "checkRebuild") {
+        console.log('\n🔍 Checking if rebuild is needed...');
+        try {
+          execSync('node scripts/check-rebuild-needed.mjs', { stdio: 'inherit' });
+          console.log('✅ No rebuild needed.');
+        } catch (e) {
+          console.log('⚠️ Rebuild recommended.');
+        }
+      } else if (utilAction === "killServers") {
+        console.log('\n🛑 Killing all servers...');
+        killServers();
+        console.log('✅ All servers stopped.');
+      } else if (utilAction === "generateIcons") {
+        console.log('\n🎨 Generating icons list...');
+        execSync('node scripts/generate-icons-list.mjs', { stdio: 'inherit' });
+        console.log('✅ Icons list generated.');
+      } else if (utilAction === "tokenScan") {
+        console.log('\n🔬 Running token scan...');
+        execSync('npm run token-scan', { stdio: 'inherit' });
+        console.log('✅ Token scan completed.');
       } else {
         await main();
       }

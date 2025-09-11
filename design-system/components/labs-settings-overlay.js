@@ -146,7 +146,7 @@ class LabsSettingsOverlay extends HTMLElement {
           <div class="button-container">
             <labs-button label="All Apps" icon="add" variant="container"></labs-button>
             <labs-button label="Turn On Dark Mode" icon="bedtime" variant="container" id="theme-toggle"></labs-button>
-            <labs-button label="Reset All Data" icon="delete_forever" variant="container-danger"></labs-button>
+            <!-- Reset All Data removed from global settings overlay; scoped to Today List app -->
           </div>
         </div>
       </div>
@@ -189,6 +189,28 @@ class LabsSettingsOverlay extends HTMLElement {
         if (typeof icon.render === 'function') icon.render();
       });
     });
+
+    // Reset All Data button: require explicit confirmation before deleting
+    const resetBtn = this.shadowRoot.getElementById('reset-data-btn');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        const confirmed = window.confirm('Warning: This will delete all entries. Are you sure you want to continue?');
+        if (confirmed) {
+          this._performReset();
+        }
+      });
+    }
+  }
+
+  _performReset() {
+    try {
+      // Clear localStorage (app data) - keep this conservative and only clear storage
+      // related to the demos/apps. If you want to restrict keys, change this logic.
+      localStorage.clear();
+    } catch (e) { /* ignore */ }
+
+    // Reload to reflect cleared state
+    try { location.reload(); } catch (e) { /* ignore */ }
   }
 }
 
