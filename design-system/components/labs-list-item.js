@@ -9,13 +9,21 @@ class LabsListItem extends HTMLElement {
     this.render();
   }
 
+  connectedCallback() {
+    this.render();
+  }
+
   static get observedAttributes() {
-    return ['value', 'checked'];
+    return ['value', 'checked', 'archived', 'restored'];
   }
 
   attributeChangedCallback(name, oldV, newV) {
     if (name === 'value') this._value = newV;
     if (name === 'checked') this._checked = this.hasAttribute('checked');
+    // Re-render when archival state changes so the icon and button state update
+    if (name === 'archived' || name === 'restored') {
+      // no internal field to update, but we need to refresh the DOM
+    }
     this.render();
   }
 
@@ -25,7 +33,7 @@ class LabsListItem extends HTMLElement {
       this.shadowRoot.innerHTML = `
         <style>
           :host { display: block; font-family: var(--font-family-base, system-ui, sans-serif); }
-          .row { display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:12px; background:var(--color-surface, #fff); }
+          .row { display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:12px; background:var(--color-surface, #fff); width:100%; box-sizing:border-box; }
           .text { flex:1; font-size:1rem; color:var(--color-on-surface, #111); word-break:break-word; }
           .actions { display:flex; gap:8px; align-items:center; }
           labs-button[variant="icon"] { --icon-size:20px; }
@@ -35,7 +43,7 @@ class LabsListItem extends HTMLElement {
           <div class="text"></div>
           <div class="actions">
             <labs-button id="archiveBtn" variant="icon" aria-label="Archive">
-              <labs-icon slot="icon-left" name="archive" width="20" height="20"></labs-icon>
+              <labs-icon id="archiveIcon" slot="icon-left" name="archive" width="20" height="20"></labs-icon>
             </labs-button>
             <labs-button id="deleteBtn" variant="icon" aria-label="Delete">
               <labs-icon slot="icon-left" name="delete_forever" width="20" height="20"></labs-icon>
@@ -55,7 +63,10 @@ class LabsListItem extends HTMLElement {
       const archive = this.shadowRoot.getElementById('archiveBtn');
       if (archive) archive.addEventListener('click', () => {
         if (this.hasAttribute('archived') && !this.hasAttribute('restored')) {
-          this._restore();
+          // Request that the app create a restored copy while leaving this archived item in place
+          // Mark this archived instance as 'restored' so it shows the inactive/history icon
+          this.setAttribute('restored', '');
+          this.dispatchEvent(new CustomEvent('request-restore-copy', { detail: { value: this._value, id: this._id }, bubbles: true, composed: true }));
         } else if (!this.hasAttribute('archived')) {
           this._archive();
         }
@@ -75,19 +86,43 @@ class LabsListItem extends HTMLElement {
     const textDiv = this.shadowRoot.querySelector('.text');
     if (textDiv) textDiv.textContent = this._value;
     // reflect restored/archived state visually and adjust archive icon and aria label
-    const archiveIcon = this.shadowRoot.querySelector('#archiveBtn labs-icon');
+    const archiveIcon = this.shadowRoot.getElementById('archiveIcon');
     const archiveBtn = this.shadowRoot.getElementById('archiveBtn');
     if (this.hasAttribute('restored')) {
-      // restored original shows edited/published icon
-      if (archiveIcon) archiveIcon.setAttribute('name', 'published_with_changes');
-      if (archiveBtn) archiveBtn.setAttribute('aria-label', 'Already restored');
+      // archived-original that has been 'restored' should show history icon and be inactive
+      if (archiveIcon) {
+        archiveIcon.setAttribute('name', 'history');
+        archiveIcon.setAttribute('color', 'var(--color-on-surface-variant)');
+        archiveIcon.style.opacity = '0.45';
+      }
+      if (archiveBtn) {
+        archiveBtn.setAttribute('aria-label', 'Already restored');
+        archiveBtn.setAttribute('disabled', '');
+        archiveBtn.style.pointerEvents = 'none';
+      }
     } else if (this.hasAttribute('archived')) {
-      // archived state shows history icon
-      if (archiveIcon) archiveIcon.setAttribute('name', 'history');
-      if (archiveBtn) archiveBtn.setAttribute('aria-label', 'Restore');
+      // archived state shows the history icon visually to indicate archived
+      if (archiveIcon) {
+        archiveIcon.setAttribute('name', 'history');
+        archiveIcon.setAttribute('color', 'var(--color-on-surface)');
+        archiveIcon.style.opacity = '1';
+      }
+      if (archiveBtn) {
+        archiveBtn.setAttribute('aria-label', 'Restore');
+        archiveBtn.style.pointerEvents = '';
+        archiveBtn.removeAttribute('disabled');
+      }
     } else {
-      if (archiveIcon) archiveIcon.setAttribute('name', 'archive');
-      if (archiveBtn) archiveBtn.setAttribute('aria-label', 'Archive');
+      if (archiveIcon) {
+        archiveIcon.setAttribute('name', 'archive');
+        archiveIcon.setAttribute('color', 'var(--color-on-surface)');
+        archiveIcon.style.opacity = '1';
+      }
+      if (archiveBtn) {
+        archiveBtn.setAttribute('aria-label', 'Archive');
+        archiveBtn.removeAttribute('disabled');
+        archiveBtn.style.pointerEvents = '';
+      }
     }
   }
 

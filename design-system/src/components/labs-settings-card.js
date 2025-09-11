@@ -90,6 +90,11 @@ class LabsSettingsCard extends HTMLElement {
         labs-button[variant="icon"]:hover labs-icon[name="settings"] {
           transform: rotate(180deg);
         }
+        /* Fix icon color in destructive buttons: ensure icon inherits semantic error color */
+        labs-button[variant="destructive"] labs-icon,
+        labs-button[variant="destructive"] ::slotted(labs-icon) {
+          color: var(--color-on-error, #fff);
+        }
       </style>
       <div class="header-row">
         <h3>Settings</h3>
@@ -108,7 +113,7 @@ class LabsSettingsCard extends HTMLElement {
           Simulate Next Day
         </labs-button>
         <labs-button id="reset-all-btn" variant="destructive" style="gap:10px;">
-          <labs-icon name="delete" slot="icon-left" width="20" height="20"></labs-icon>
+          <labs-icon name="delete" slot="icon-left" width="20" height="20" color="var(--color-on-error)"></labs-icon>
           Reset All Data
         </labs-button>
       </div>

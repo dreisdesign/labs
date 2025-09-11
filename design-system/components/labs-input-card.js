@@ -49,7 +49,7 @@ class LabsInputCard extends HTMLElement {
       </div>
       <div class="description">Add a new item to your Today List.</div>
       <div class="input-row">
-        <input id="cardInput" type="text" placeholder="What do you want to do?" />
+        <input id="cardInput" type="text" placeholder="What do you want to do?" autocomplete="off" />
       </div>
       <div class="actions">
         <div class="btn-transparent">
@@ -81,8 +81,7 @@ class LabsInputCard extends HTMLElement {
           doSave();
         }
       });
-      // Focus input when added to DOM
-      setTimeout(() => input.focus(), 50);
+      
     }
   }
 }

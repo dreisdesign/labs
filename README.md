@@ -191,3 +191,14 @@ For development guidelines, see [Modularity Instructions](.github/instructions/M
 ---
 
 **Built with ❤️ using modern web standards**
+
+## 🆕 Recent UX & Component Improvements
+
+### Archive/Restore Logic for List Items
+- List items now visually distinguish between normal, archived, and restored (inactive) states.
+- The archive button icon changes to a history icon when archived, and becomes inactive (faded) when restored.
+- See the new Storybook story: `List Item/Archived` for a live demo of all states.
+
+### Input Card & Destructive Button UX
+- Input cards now have `autocomplete="off"` for better browser UX.
+- Destructive button icons (e.g., delete/reset) now always use the correct error color in all themes.

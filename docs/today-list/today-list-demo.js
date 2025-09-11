@@ -118,6 +118,7 @@ function renderWelcomeIfEmpty() {
     card.style.display = 'flex';
     card.style.flexDirection = 'column';
     card.style.gap = '8px';
+    card.style.boxSizing = 'border-box';
     const h = document.createElement('div');
     h.textContent = 'Welcome — start your day';
     h.style.fontSize = 'var(--font-size-card-header, 1.125rem)';
@@ -132,7 +133,19 @@ function renderWelcomeIfEmpty() {
     btn.textContent = 'Add';
     btn.addEventListener('click', () => {
       const overlay = document.getElementById('inputOverlay');
-      if (overlay && typeof overlay.open === 'function') overlay.open();
+      if (overlay && typeof overlay.open === 'function') {
+        overlay.open();
+        // Focus the input inside the card after the overlay opens
+        requestAnimationFrame(() => {
+          const inputCard = overlay.querySelector('labs-input-card');
+          if (inputCard) {
+            const innerInput = inputCard.shadowRoot.getElementById('cardInput');
+            if (innerInput) {
+              innerInput.focus();
+            }
+          }
+        });
+      }
     });
     card.appendChild(h);
     card.appendChild(p);
@@ -177,7 +190,7 @@ function wireItemPersistence(item) {
         // remove archived attribute on clone
         clone.removeAttribute('archived');
         clone.setAttribute('data-id', `item-${Math.random().toString(36).slice(2, 9)}`);
-        // mark the archived original as restored so it shows the published_with_changes icon
+        // mark the archived original as restored so it shows the history icon and becomes inactive
         item.setAttribute('restored', '');
         // wire events for clone
         wireItemPersistence(clone);
@@ -189,6 +202,25 @@ function wireItemPersistence(item) {
       saveItemsToStorage();
       renderWelcomeIfEmpty();
     });
+  });
+
+  // When a component requests a restore-copy while keeping the original archived, create the clone
+  item.addEventListener('request-restore-copy', (ev) => {
+    try {
+      const today = document.getElementById('todayItems');
+      const archived = document.getElementById('archivedItems');
+      // mark the archived original as restored (inactive)
+      item.setAttribute('restored', '');
+      // create clone for today
+      const clone = item.cloneNode(true);
+      clone.removeAttribute('archived');
+      clone.setAttribute('data-id', `item-${Math.random().toString(36).slice(2, 9)}`);
+      clone.setAttribute('value', item.getAttribute('value') || '');
+      wireItemPersistence(clone);
+      today.prepend(clone);
+      saveItemsToStorage();
+      renderWelcomeIfEmpty();
+    } catch (e) { console.warn('Could not restore copy', e); }
   });
 
   // when remove triggered, detach and persist; offer undo
@@ -282,7 +314,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const addBtn = document.getElementById('footerAddBtn');
   const inputOverlay = document.getElementById('inputOverlay');
   if (addBtn && inputOverlay) {
-    addBtn.addEventListener('click', () => inputOverlay.open());
+    addBtn.addEventListener('click', () => {
+      inputOverlay.open();
+      // Focus the input inside the card after the overlay opens
+      requestAnimationFrame(() => {
+        const inputCard = inputOverlay.querySelector('labs-input-card');
+        if (inputCard) {
+          const innerInput = inputCard.shadowRoot.getElementById('cardInput');
+          if (innerInput) {
+            innerInput.focus();
+          }
+        }
+      });
+    });
+
     const inputCard = inputOverlay.querySelector('labs-input-card');
     if (inputCard) {
       inputCard.addEventListener('close', () => inputOverlay.close());
