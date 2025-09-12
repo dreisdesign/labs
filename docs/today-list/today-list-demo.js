@@ -83,23 +83,24 @@ function cycleFlavor() {
 initSystemTheme();
 
 // Persistence helpers for Today List items
-const STORAGE_KEY = 'today-list-items-v1';
+const STORAGE_KEY = 'today-list-items-v2';
 
 function saveItemsToStorage() {
   try {
     const items = [];
-    const today = document.getElementById('todayItems');
-    const archived = document.getElementById('archivedItems');
-    // gather today items
-    Array.from(today.children).forEach(child => {
+    const list = document.getElementById('todayItems');
+    Array.from(list.children).forEach(child => {
       if (child.tagName && child.tagName.toLowerCase() === 'labs-list-item') {
-        items.push({ id: child.getAttribute('data-id') || null, text: child.getAttribute('value') || '', checked: child.hasAttribute('checked'), archived: false });
-      }
-    });
-    // gather archived items
-    Array.from(archived.children).forEach(child => {
-      if (child.tagName && child.tagName.toLowerCase() === 'labs-list-item') {
-        items.push({ id: child.getAttribute('data-id') || null, text: child.getAttribute('value') || '', checked: child.hasAttribute('checked'), archived: true });
+        items.push({
+          id: child.getAttribute('data-id') || null,
+          text: child.getAttribute('value') || '',
+          checked: child.hasAttribute('checked'),
+          archived: child.hasAttribute('archived'),
+          restored: child.hasAttribute('restored'),
+          timestamp: child.getAttribute('timestamp') || null,
+          date: child.getAttribute('date') || null,
+          originalId: child.getAttribute('data-original-id') || null
+        });
       }
     });
     localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
@@ -170,59 +171,62 @@ function renderWelcomeIfEmpty() {
 function hydrateFromStorage() {
   const items = loadItemsFromStorage();
   if (!items || !items.length) return;
+  const list = document.getElementById('todayItems');
+  // Prevent loading multiple restored copies for the same original
+  const restoredOriginals = new Set();
   items.forEach(it => {
+    if (it.originalId) {
+      if (restoredOriginals.has(it.originalId)) return; // skip duplicate restored copy
+      restoredOriginals.add(it.originalId);
+    }
     const el = document.createElement('labs-list-item');
     if (it.id) el.setAttribute('data-id', it.id);
     el.setAttribute('value', it.text || '');
     if (it.checked) el.setAttribute('checked', '');
-    if (it.archived) document.getElementById('archivedItems').appendChild(el); else document.getElementById('todayItems').appendChild(el);
-    // wire events for persistence
+    if (it.archived) el.setAttribute('archived', '');
+    if (it.restored) el.setAttribute('restored', '');
+    if (it.timestamp) el.setAttribute('timestamp', it.timestamp);
+    if (it.date) el.setAttribute('date', it.date);
+    if (it.originalId) el.setAttribute('data-original-id', it.originalId);
+    list.appendChild(el);
     wireItemPersistence(el);
   });
-  const archivedSection = document.getElementById('archivedSection');
-  archivedSection.style.display = document.getElementById('archivedItems').children.length ? 'block' : 'none';
+  renderGroupedView();
 }
 
 function wireItemPersistence(item) {
   if (!item) return;
   // when an item requests archive, move DOM and persist; offer undo
   item.addEventListener('archive', (ev) => {
-    const today = document.getElementById('todayItems');
-    const archived = document.getElementById('archivedItems');
-    const archivedSection = document.getElementById('archivedSection');
+    const list = document.getElementById('todayItems');
     const previousParent = item.parentElement;
     const snapshot = { parent: previousParent, index: Array.from(previousParent.children).indexOf(item) };
 
     // Check if this is a restored item being archived again
     const originalId = item.getAttribute('data-original-id');
     if (originalId) {
-      // This is a restored item - remove any existing archived version with the same original ID
-      const existingArchived = archived.querySelector(`[data-id="${originalId}"]`);
-      if (existingArchived) {
-        existingArchived.remove(); // Remove the old archived version
-      }
-      // Reset the ID to the original for clean archiving
-      item.setAttribute('data-id', originalId);
-      item.removeAttribute('data-original-id');
+      // This is a restored copy being archived again. Do not mutate its `data-id`
+      // or remove `data-original-id` — keep the linkage so it cannot be treated
+      // as a fresh original later. We still mark it archived below.
+      console.log('Archiving a restored copy; preserving data-original-id=', originalId);
     }
 
-    // Normal archive behavior
-    archived.prepend(item);
-    archivedSection.style.display = archived.children.length ? 'block' : 'none';
+    // Normal archive behavior: keep item in same list but mark archived
+    item.setAttribute('archived', '');
     saveItemsToStorage();
-    renderWelcomeIfEmpty();
+    renderGroupedView();
     showUndoToast('Item archived', () => {
       try {
-        // create a clone for today list so the archived instance can be marked as restored
-        const clone = item.cloneNode(true);
-        // remove archived attribute on clone
-        clone.removeAttribute('archived');
-        clone.setAttribute('data-id', `item-${Math.random().toString(36).slice(2, 9)}`);
+        // create a fresh item for today so it doesn't inherit archived/restored state
+        const newItem = document.createElement('labs-list-item');
+        newItem.setAttribute('value', item.getAttribute('value') || '');
+        newItem.setAttribute('data-id', `item-${Math.random().toString(36).slice(2, 9)}`);
         // mark the archived original as restored so it shows the history icon and becomes inactive
-        item.setAttribute('restored', '');
-        // wire events for clone
-        wireItemPersistence(clone);
-        if (snapshot.parent && snapshot.parent.insertBefore) snapshot.parent.insertBefore(clone, snapshot.parent.children[snapshot.index] || null);
+        if (!item.hasAttribute('restored')) item.setAttribute('restored', '');
+        // wire events for the new item and insert at top of list (Today)
+        wireItemPersistence(newItem);
+        const list = document.getElementById('todayItems');
+        list.insertBefore(newItem, list.firstChild);
       } catch (e) {
         // fallback: reinsert original node
         if (snapshot.parent && snapshot.parent.insertBefore) snapshot.parent.insertBefore(item, snapshot.parent.children[snapshot.index] || null);
@@ -236,26 +240,25 @@ function wireItemPersistence(item) {
   item.addEventListener('request-restore-copy', (ev) => {
     try {
       const today = document.getElementById('todayItems');
-      const archived = document.getElementById('archivedItems');
 
       // Get the original ID for tracking
       const originalId = item.getAttribute('data-id');
 
-      // Check if this ID is already restored (prevent duplicates)
-      const existingRestored = today.querySelector(`[data-id="${originalId}"], [data-id="${originalId}-restored"]`);
+      // Check if a restored copy referencing this original already exists (prevent duplicates)
+      const existingRestored = today.querySelector(`[data-original-id="${originalId}"]`) || today.querySelector(`[data-id="${originalId}-restored"]`);
       if (existingRestored) {
-        console.log('Item already restored, ignoring duplicate request');
+        console.log('Found existing restored copy, ignoring duplicate request');
+        // ensure the original is marked restored as a safeguard
+        if (!item.hasAttribute('restored')) item.setAttribute('restored', '');
         return;
       }
 
       // mark the archived original as restored (inactive)
-      item.setAttribute('restored', '');
-      // create clone for today with modified ID to track it's a restored copy
-      const clone = item.cloneNode(true);
-      clone.removeAttribute('archived');
-      clone.removeAttribute('restored'); // Ensure the clone shows normal archive icon, not restore
-      clone.setAttribute('data-id', `${originalId}-restored`); // Track that this is a restored copy
-      clone.setAttribute('data-original-id', originalId); // Keep reference to original
+      if (!item.hasAttribute('restored')) item.setAttribute('restored', '');
+      // create a fresh item for today as the restored copy
+      const clone = document.createElement('labs-list-item');
+      clone.setAttribute('data-id', `${originalId}-restored`);
+      clone.setAttribute('data-original-id', originalId);
       clone.setAttribute('value', item.getAttribute('value') || '');
       wireItemPersistence(clone);
       today.prepend(clone);
@@ -268,18 +271,8 @@ function wireItemPersistence(item) {
   item.addEventListener('remove', (ev) => {
     const parent = item.parentElement;
     const snapshot = { parent, index: Array.from(parent.children).indexOf(item) };
-    const wasArchived = parent && parent.id === 'archivedItems';
 
     item.remove();
-
-    // If this was the last item in archived section, hide the archived section
-    if (wasArchived) {
-      const archivedSection = document.getElementById('archivedSection');
-      const archivedItems = document.getElementById('archivedItems');
-      if (archivedItems && archivedItems.children.length === 0 && archivedSection) {
-        archivedSection.style.display = 'none';
-      }
-    }
 
     saveItemsToStorage();
     renderWelcomeIfEmpty();
@@ -288,14 +281,6 @@ function wireItemPersistence(item) {
     showUndoToast('Item removed', () => {
       if (snapshot.parent && snapshot.parent.insertBefore) {
         snapshot.parent.insertBefore(item, snapshot.parent.children[snapshot.index] || null);
-        // Show archived section again if item was restored to archived section
-        if (wasArchived) {
-          const archivedSection = document.getElementById('archivedSection');
-          const archivedItems = document.getElementById('archivedItems');
-          if (archivedItems && archivedItems.children.length > 0 && archivedSection) {
-            archivedSection.style.display = 'block';
-          }
-        }
         saveItemsToStorage();
         renderWelcomeIfEmpty();
       }
@@ -305,13 +290,22 @@ function wireItemPersistence(item) {
   // handle restore intent from archived item
   item.addEventListener('restore', (ev) => {
     const today = document.getElementById('todayItems');
-    const archived = document.getElementById('archivedItems');
     // The component already removed archived attribute and set restored; create a copy into today
     try {
-      const clone = item.cloneNode(true);
-      clone.removeAttribute('archived');
+      // Determine original id and avoid creating duplicate restored copies
+      const originalId = item.getAttribute('data-id');
+      const existingRestored = originalId ? (today.querySelector(`[data-original-id="${originalId}"]`) || today.querySelector(`[data-id="${originalId}-restored"]`)) : null;
+      if (existingRestored) {
+        console.log('Original already has a restored copy, ignoring duplicate restore');
+        if (!item.hasAttribute('restored')) item.setAttribute('restored', '');
+        return;
+      }
+      // create a fresh restored item instead of cloning the archived element
+      const clone = document.createElement('labs-list-item');
       clone.setAttribute('data-id', `item-${Math.random().toString(36).slice(2, 9)}`);
       clone.setAttribute('value', item.getAttribute('value') || '');
+      // link restored copy back to original for future duplicate detection
+      if (item.getAttribute('data-id')) clone.setAttribute('data-original-id', item.getAttribute('data-id'));
       wireItemPersistence(clone);
       today.prepend(clone);
       // mark original archived instance as restored so it can't be restored again
@@ -353,6 +347,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Always update the current date display on load
+  updateCurrentDate();
+
   // Input overlay wiring (Add button)
   const addBtn = document.getElementById('footerAddBtn');
   const inputOverlay = document.getElementById('inputOverlay');
@@ -389,6 +386,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Auto-open input overlay if there are no persisted items and overlay exists
+  const persisted = loadItemsFromStorage();
+  if ((!persisted || persisted.length === 0) && inputOverlay && typeof inputOverlay.open === 'function') {
+    // keep overlay visible by default when no items exist
+    inputOverlay.open();
+    // ensure focus
+    requestAnimationFrame(() => {
+      const inputCard = inputOverlay.querySelector('labs-input-card');
+      if (inputCard) {
+        try {
+          const innerInput = inputCard.shadowRoot.getElementById('cardInput');
+          if (innerInput) innerInput.focus();
+        } catch (e) { }
+      }
+    });
+  }
+
   // Floating demo controls removed; settings overlay exposes Archive/Reset/Simulate actions now.
 
   // Load persisted items and render welcome state
@@ -399,8 +413,6 @@ document.addEventListener('DOMContentLoaded', () => {
 // Append item to the today list
 function appendItem(text) {
   const today = document.getElementById('todayItems');
-  const archivedTitle = document.getElementById('archivedTitle');
-  const archived = document.getElementById('archivedItems');
   const item = document.createElement('labs-list-item');
   const id = `item-${Math.random().toString(36).slice(2, 9)}`;
   item.setAttribute('data-id', id);
@@ -416,16 +428,16 @@ function appendItem(text) {
 // Archive entire day: move all today items to archived with undo
 function archiveDay() {
   const today = document.getElementById('todayItems');
-  const archived = document.getElementById('archivedItems');
-  const archivedSection = document.getElementById('archivedSection');
   if (!today || !today.children.length) return;
   const moved = [];
   while (today.firstChild) {
     const node = today.firstChild;
     moved.push(node);
-    archived.prepend(node);
+    // mark each node as archived and keep in list order; we'll render grouping differently
+    node.setAttribute('archived', '');
+    today.removeChild(node);
+    today.appendChild(node);
   }
-  archivedSection.style.display = archived.children.length ? 'block' : 'none';
   saveItemsToStorage();
   renderWelcomeIfEmpty();
   showUndoToast('Day archived', () => {
@@ -447,12 +459,8 @@ function resetAllData(fromSettingsCard = false) {
     if (!confirmed) return;
   }
   const today = document.getElementById('todayItems');
-  const archived = document.getElementById('archivedItems');
   // Clear DOM
   if (today) today.innerHTML = '';
-  if (archived) archived.innerHTML = '';
-  const archivedSection = document.getElementById('archivedSection');
-  if (archivedSection) archivedSection.style.display = 'none';
   // Clear only Today List related storage keys
   try {
     localStorage.removeItem(STORAGE_KEY);
@@ -467,6 +475,16 @@ function resetAllData(fromSettingsCard = false) {
 function simulateNextDay() {
   // simple behavior: move all today items to archived but keep them present (like archiveDay)
   archiveDay();
+  // update displayed date to tomorrow
+  updateCurrentDate(1);
+}
+
+// Update the current date display (offsetDays allows simulate-next-day behavior)
+function updateCurrentDate(offsetDays = 0) {
+  const el = document.getElementById('currentDate');
+  if (!el) return;
+  const d = new Date(Date.now() + offsetDays * 24 * 60 * 60 * 1000);
+  el.textContent = d.toLocaleDateString();
 }
 
 // Simple toast helper using existing labs-toast
@@ -479,4 +497,50 @@ function showUndoToast(message, undoFn) {
       toast.addEventListener('action', onAction, { once: true });
     }
   } catch (e) { console.warn('Toast unavailable', e); }
+}
+
+// Grouped rendering: show Today header with date and optionally Yesterday group
+function renderGroupedView() {
+  const list = document.getElementById('todayItems');
+  const items = Array.from(list.querySelectorAll('labs-list-item'));
+  // Clear rendered list and re-insert grouped
+  list.innerHTML = '';
+  const today = new Date();
+  const todayStr = today.toISOString().slice(0, 10);
+  const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000);
+  const yStr = yesterday.toISOString().slice(0, 10);
+
+  // Helper to create heading
+  function addGroupHeading(text) {
+    const h = document.createElement('div');
+    h.style.fontWeight = '600';
+    h.style.margin = '12px 0 6px 0';
+    h.textContent = text;
+    list.appendChild(h);
+  }
+
+  const todayItems = items.filter(i => (i.getAttribute('date') || todayStr) === todayStr);
+  const yesterdayItems = items.filter(i => (i.getAttribute('date') || todayStr) === yStr);
+  const otherItems = items.filter(i => ![...todayItems, ...yesterdayItems].includes(i));
+
+  if (todayItems.length) {
+    // Don't render a left-aligned date heading for Today — the page header already shows the date
+    todayItems.forEach(i => list.appendChild(i));
+  }
+  if (yesterdayItems.length) {
+    addGroupHeading('Yesterday');
+    yesterdayItems.forEach(i => list.appendChild(i));
+  }
+  if (otherItems.length) {
+    addGroupHeading('Other');
+    otherItems.forEach(i => list.appendChild(i));
+  }
+  // Visual tweaks for archived items: only adjust opacity so they keep the same theme
+  items.forEach(i => {
+    if (i.hasAttribute('archived')) {
+      i.style.opacity = 'var(--labs-archived-opacity, 0.7)';
+    } else {
+      i.style.opacity = '';
+    }
+  });
 }

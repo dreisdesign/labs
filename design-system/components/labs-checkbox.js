@@ -7,10 +7,11 @@ class LabsCheckbox extends HTMLElement {
     this.render();
   }
 
-  static get observedAttributes() { return ['checked']; }
+  static get observedAttributes() { return ['checked', 'inactive']; }
 
   attributeChangedCallback(name, oldV, newV) {
     if (name === 'checked') this._checked = this.hasAttribute('checked');
+    if (name === 'inactive') this._inactive = this.hasAttribute('inactive');
     this._updateAria();
     this.render();
   }
@@ -19,8 +20,9 @@ class LabsCheckbox extends HTMLElement {
     // delegate events
     this.addEventListener('click', this._onClick);
     this.addEventListener('keydown', this._onKeyDown);
-    this.setAttribute('tabindex', this.getAttribute('tabindex') || '0');
+    // default role/tabindex
     this.setAttribute('role', this.getAttribute('role') || 'checkbox');
+    if (!this.hasAttribute('tabindex')) this.setAttribute('tabindex', '0');
     this._updateAria();
   }
 
@@ -31,10 +33,12 @@ class LabsCheckbox extends HTMLElement {
 
   _onClick = (e) => {
     e.stopPropagation();
+    if (this._inactive) return;
     this.toggle();
   }
 
   _onKeyDown = (e) => {
+    if (this._inactive) return;
     if (e.key === ' ' || e.key === 'Spacebar' || e.key === 'Enter') {
       e.preventDefault();
       this.toggle();
@@ -42,6 +46,7 @@ class LabsCheckbox extends HTMLElement {
   }
 
   toggle() {
+    if (this._inactive) return;
     this._checked = !this._checked;
     if (this._checked) this.setAttribute('checked', ''); else this.removeAttribute('checked');
     this._updateAria();
@@ -52,6 +57,13 @@ class LabsCheckbox extends HTMLElement {
   _updateAria() {
     if (!this.shadowRoot) return;
     this.setAttribute('aria-checked', String(this._checked));
+    if (this._inactive) {
+      this.setAttribute('aria-disabled', 'true');
+      this.setAttribute('tabindex', '-1');
+    } else {
+      this.removeAttribute('aria-disabled');
+      if (!this.hasAttribute('tabindex')) this.setAttribute('tabindex', '0');
+    }
   }
 
   render() {
@@ -59,6 +71,8 @@ class LabsCheckbox extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>
         :host { display: inline-flex; align-items:center; }
+        :host([inactive]) { opacity: 0.6; }
+        :host([inactive]) { pointer-events: none; }
         ::slotted(*) { pointer-events: none; }
       </style>
       <labs-button variant="icon" aria-hidden="true" tabindex="-1" disabled>

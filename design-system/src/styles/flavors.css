@@ -77,6 +77,8 @@
   --color-background: var(--palette-black);
   --color-surface: var(--palette-blueberry-800);
   --color-on-surface: var(--palette-white);
+  /* secondary surface for badges in dark mode */
+  --color-surface-secondary: color-mix(in srgb, var(--color-surface) 92%, transparent);
   --color-on-primary: var(--palette-white);
   --color-on-primary-darker: var(--palette-white);
   --color-on-primary-lighter: var(--palette-white);
@@ -111,6 +113,7 @@
   --color-background: var(--palette-strawberry-900);
   --color-surface: var(--palette-strawberry-800);
   --color-on-surface: var(--palette-white);
+  --color-surface-secondary: color-mix(in srgb, var(--color-surface) 92%, transparent);
   --color-on-primary: var(--palette-white);
   --color-on-primary-darker: var(--palette-white);
   --color-on-primary-lighter: var(--palette-white);

@@ -54,33 +54,39 @@ export const States = () => {
         wrapper.appendChild(h);
     }
 
+    // Prepare dates for Today and Yesterday
+    const today = new Date();
+    const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    const isoToday = today.toISOString().slice(0, 10);
+    const isoYesterday = yesterday.toISOString().slice(0, 10);
+
     // 1) New item (Today)
-    addHeading('1) New item (Today)');
+    addHeading('Today — ' + new Date().toLocaleDateString());
     // This is a normal, not-archived item: shows the archive icon and can be archived.
-    wrapper.appendChild(makeItem({ id: '1-T', value: 'Default Item', archived: false }));
+    wrapper.appendChild(makeItem({ id: '1-T', value: 'Default Item', archived: false, timestamp: new Date().toISOString(), date: isoToday }));
 
     // 2) Archived item (Archived list)
-    addHeading('2) Archived item (Archived list)');
+    addHeading('Archived items');
     // This item lives in the Archived location and has the archived attribute set.
-    wrapper.appendChild(makeItem({ id: '1-A', value: 'Archived Item', archived: true }));
+    wrapper.appendChild(makeItem({ id: '1-A', value: 'Archived Item', archived: true, timestamp: yesterday.toISOString(), date: isoYesterday }));
 
     // 3) Restored pair (Archived original + Restored copy in Today)
     addHeading('3) Restored pair (Archived original + Restored copy)');
     // Archived ORIGINAL: still in Archived list but marked as restored so it shows the inactive/history icon
-    wrapper.appendChild(makeItem({ id: '2-A', value: 'Archived (Restored)', archived: true, restored: true }));
+    wrapper.appendChild(makeItem({ id: '2-A', value: 'Archived (Restored)', archived: true, restored: true, timestamp: yesterday.toISOString(), date: isoYesterday }));
     // Restored COPY: lives in Today (not archived), references original via data-original-id
     // Note: by component logic, the restored copy is a normal (not-archived) item and will show an archive icon.
-    wrapper.appendChild(makeItem({ id: '2-T', value: 'Restored Item', originalId: '2-A' }));
+    wrapper.appendChild(makeItem({ id: '2-T', value: 'Restored Item', originalId: '2-A', timestamp: new Date().toISOString(), date: isoToday }));
 
     // 4) Restored item, archived original was deleted -> only Today item present
     addHeading('4) Restored (original deleted)');
     // Simulate the case where the archived original was removed; only the restored item remains in Today.
-    wrapper.appendChild(makeItem({ id: '3-T', value: 'Restored Item (orig deleted)', originalId: '3-A' }));
+    wrapper.appendChild(makeItem({ id: '3-T', value: 'Restored Item (orig deleted)', originalId: '3-A', timestamp: new Date().toISOString(), date: isoToday }));
 
     // 5) Archived item that was restored then deleted (Archived-only)
     addHeading('5) Archived item (restored then deleted)');
     // In this case the Archived item remains archived (archived=true) and shows an active history icon.
-    wrapper.appendChild(makeItem({ id: '4-A', value: 'Archived, No Restored Counterpart', archived: true }));
+    wrapper.appendChild(makeItem({ id: '4-A', value: 'Archived, No Restored Counterpart', archived: true, timestamp: yesterday.toISOString(), date: isoYesterday }));
 
     return wrapper;
 };

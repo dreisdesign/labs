@@ -164,6 +164,10 @@
         <h1 id="todayHeader"
           style="margin:0; font-size:var(--font-size-h1, 2rem); font-weight:var(--font-weight-heading,700); color:var(--color-on-surface, #333);">
           Today</h1>
+        <div id="dateElement" style="text-align: center; margin-top: 6px;">
+          <p style="margin:0; font-size: 0.95rem; color: var(--color-on-surface-variant, #6b7280);">Date: <span
+              id="currentDate"></span></p>
+        </div>
       </div>
 
       <!-- Welcome card (centered) -->
@@ -174,33 +178,19 @@
         style="display:flex;flex-direction:column;gap:8px;width:100%;">
       </div>
 
-      <!-- Archived section (collapsible) -->
-      <details id="archivedSection" style="width:100%;margin-top:18px;">
-        <summary
-          style="margin-bottom:8px;font-size:1.05rem;font-weight:var(--font-weight-heading,700);color:var(--color-on-surface);cursor:pointer;list-style:none;padding:8px 0;">
-          <span style="display:inline-flex;align-items:center;gap:8px;">
-            <labs-icon name="keyboard_arrow_right"
-              style="width:20px;height:20px;transition:transform 0.2s ease;"></labs-icon>
-            Archived
-          </span>
-        </summary>
-        <div id="archivedItems" role="list" aria-label="Archived items"
-          style="display:flex;flex-direction:column;gap:8px;width:100%;">
-        </div>
-      </details>
-    </div>
+      <!-- Archived section removed — list is state-driven and archived items remain in the list -->
 
-    <!-- Settings Overlay -->
-    <labs-overlay id="settingsOverlay">
-      <labs-settings-card></labs-settings-card>
-    </labs-overlay>
+      <!-- Settings overlay -->
+      <labs-overlay id="settingsOverlay">
+        <labs-settings-card></labs-settings-card>
+      </labs-overlay>
 
-    <!-- Input Overlay (opened when clicking Add) -->
-    <labs-overlay id="inputOverlay">
-      <labs-input-card></labs-input-card>
-    </labs-overlay>
+      <!-- Input overlay (used for adding items) -->
+      <labs-overlay id="inputOverlay">
+        <labs-input-card></labs-input-card>
+      </labs-overlay>
 
-    <script type="module" src="/labs/today-list/today-list-demo.js"></script>
+      <script type="module" src="/labs/today-list/today-list-demo.js"></script>
 </body>
 
 </html>
