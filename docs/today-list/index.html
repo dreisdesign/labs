@@ -76,6 +76,54 @@
       width: 28px;
       height: 28px;
     }
+
+    /* Details element styling */
+    #archivedSection[open] summary labs-icon {
+      transform: rotate(90deg);
+    }
+
+    #archivedSection summary {
+      outline: none;
+    }
+
+    #archivedSection summary::-webkit-details-marker {
+      display: none;
+    }
+
+    /* Ensure consistent width for all elements */
+    #welcomeCardContainer,
+    #todayItems,
+    #archivedItems,
+    #archivedSection {
+      max-width: 400px;
+      width: 100%;
+    }
+
+    /* Welcome card should match list item width exactly */
+    #welcomeCardContainer labs-card {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* Tracker-like container rules: center page content and prevent layout shift */
+    .app-container {
+      max-width: var(--app-container-max, 720px);
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 16px;
+      padding-right: 16px;
+      box-sizing: border-box;
+    }
+
+    /* Inner app area constrained to Tracker/Today List content width */
+    #today-wrapper {
+      box-sizing: border-box;
+      width: 100%;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
   </style>
 </head>
 
@@ -92,38 +140,54 @@
   <!-- Today List demo controls (dev-only) -->
   <!-- Removed floating dev controls. Archive/Reset/Simulate actions are available from the Settings overlay or from item actions. -->
 
-  <!-- App header + content container (centered) -->
-  <div class="app-container" style="margin-top:18px;">
-    <div id="app-header" style="margin-top:0; text-align: center;">
-      <h1 id="todayHeader"
-        style="margin:0 0 12px; font-size:var(--font-size-h1, 2rem); font-weight:var(--font-weight-heading,700); color:var(--color-on-surface, #333);">
-        Today</h1>
+  <!-- App footer (always visible) -->
+  <labs-footer full-width elevated>
+    <div slot="center">
+      <labs-button id="footerAddBtn" pill variant="primary">
+        <labs-icon name="add" slot="icon-left" width="20" height="20"></labs-icon>Add
+      </labs-button>
     </div>
+    <div slot="right" style="display: flex; align-items: center; gap: 8px;">
+      <labs-button id="footer-settings-btn" variant="icon" aria-label="Settings" style="padding-right:12px;">
+        <labs-icon name="settings" slot="icon-left" width="28" height="28"></labs-icon>
+      </labs-button>
+    </div>
+  </labs-footer>
 
-    <labs-footer full-width elevated>
-      <div slot="center">
-        <labs-button id="footerAddBtn" pill variant="primary">
-          <labs-icon name="add" slot="icon-left" width="20" height="20"></labs-icon>Add
-        </labs-button>
-      </div>
-      <div slot="right" style="display: flex; align-items: center; gap: 8px;">
-        <labs-button id="footer-settings-btn" variant="icon" aria-label="Settings" style="padding-right:12px;">
-          <labs-icon name="settings" slot="icon-left" width="28" height="28"></labs-icon>
-        </labs-button>
-      </div>
-    </labs-footer>
-
-    <!-- Today list container -->
+  <!-- Main content container (centered) -->
+  <div class="app-container" style="display:flex;justify-content:center;">
     <div id="today-wrapper"
-      style="margin: 12px auto 86px; max-width: 400px; width: 100%; padding: 0 16px; box-sizing: border-box;">
-      <div id="welcomeCardContainer" style="margin-bottom:12px;"></div>
-      <div id="todayItems" role="list" aria-label="Today items" style="display:flex;flex-direction:column;gap:8px;">
+      style="display:flex;flex-direction:column;max-width:400px;width:100%;margin:18px auto 86px;padding:0;box-sizing:border-box;align-items:stretch;">
+
+      <!-- Today header -->
+      <div id="app-header" style="text-align: center; margin-bottom: 12px;">
+        <h1 id="todayHeader"
+          style="margin:0; font-size:var(--font-size-h1, 2rem); font-weight:var(--font-weight-heading,700); color:var(--color-on-surface, #333);">
+          Today</h1>
       </div>
 
-      <h2 id="archivedTitle" style="margin:18px 0 8px; font-size:1.05rem; display:none;">Archived</h2>
-      <div id="archivedItems" role="list" aria-label="Archived items"
-        style="display:flex;flex-direction:column;gap:8px;">
+      <!-- Welcome card (centered) -->
+      <div id="welcomeCardContainer" style="margin:0 0 12px 0;width:100%;"></div>
+
+      <!-- Today items list -->
+      <div id="todayItems" role="list" aria-label="Today items"
+        style="display:flex;flex-direction:column;gap:8px;width:100%;">
       </div>
+
+      <!-- Archived section (collapsible) -->
+      <details id="archivedSection" style="width:100%;margin-top:18px;">
+        <summary
+          style="margin-bottom:8px;font-size:1.05rem;font-weight:var(--font-weight-heading,700);color:var(--color-on-surface);cursor:pointer;list-style:none;padding:8px 0;">
+          <span style="display:inline-flex;align-items:center;gap:8px;">
+            <labs-icon name="keyboard_arrow_right"
+              style="width:20px;height:20px;transition:transform 0.2s ease;"></labs-icon>
+            Archived
+          </span>
+        </summary>
+        <div id="archivedItems" role="list" aria-label="Archived items"
+          style="display:flex;flex-direction:column;gap:8px;width:100%;">
+        </div>
+      </details>
     </div>
 
     <!-- Settings Overlay -->

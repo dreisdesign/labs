@@ -3,6 +3,8 @@ import '../components/labs-list-item.js';
 import '../components/labs-button.js';
 import '../components/labs-icon.js';
 
+import '../components/labs-toast.js';
+
 export default {
     title: 'Components/List Item/Archived',
     component: 'labs-list-item',
@@ -13,26 +15,72 @@ export const States = () => {
     wrapper.style.display = 'flex';
     wrapper.style.flexDirection = 'column';
     wrapper.style.gap = '12px';
-    wrapper.style.maxWidth = '420px';
+    wrapper.style.width = '100%';
+    wrapper.style.maxWidth = '400px';
+    wrapper.style.margin = '0 auto';
 
-    // Normal item
-    const normal = document.createElement('labs-list-item');
-    normal.setAttribute('value', 'Normal item');
+    // Add a toast element
+    const toast = document.createElement('labs-toast');
+    wrapper.appendChild(toast);
 
-    // Archived item
-    const archived = document.createElement('labs-list-item');
-    archived.setAttribute('value', 'Archived item');
-    archived.setAttribute('archived', '');
+    // Helper to wire undo toast for each item
+    function wireUndoToast(item) {
+        item.addEventListener('remove', () => {
+            toast.show('Item removed', { actionText: 'Undo', duration: 4000 });
+            toast.addEventListener('action', () => {
+                if (!wrapper.contains(item)) wrapper.insertBefore(item, toast.nextSibling);
+            }, { once: true });
+        });
+    }
 
-    // Archived-original that has been restored (inactive history icon)
-    const restored = document.createElement('labs-list-item');
-    restored.setAttribute('value', 'Archived (restored)');
-    restored.setAttribute('archived', '');
-    restored.setAttribute('restored', '');
+    // Scenario helper: create a labs-list-item with specified state
+    function makeItem({ id, value, archived = false, restored = false, originalId = null }) {
+        const item = document.createElement('labs-list-item');
+        if (id) item.setAttribute('data-id', id);
+        if (value) item.setAttribute('value', value);
+        if (archived) item.setAttribute('archived', '');
+        if (restored) item.setAttribute('restored', '');
+        if (originalId) item.setAttribute('data-original-id', originalId);
+        wireUndoToast(item);
+        return item;
+    }
 
-    wrapper.appendChild(normal);
-    wrapper.appendChild(archived);
-    wrapper.appendChild(restored);
+    // Add labeled section heading
+    function addHeading(text) {
+        const h = document.createElement('div');
+        h.style.fontWeight = '600';
+        h.style.marginTop = '18px';
+        h.textContent = text;
+        wrapper.appendChild(h);
+    }
+
+    // 1) New item (Today)
+    addHeading('1) New item (Today)');
+    // This is a normal, not-archived item: shows the archive icon and can be archived.
+    wrapper.appendChild(makeItem({ id: '1-T', value: 'Default Item', archived: false }));
+
+    // 2) Archived item (Archived list)
+    addHeading('2) Archived item (Archived list)');
+    // This item lives in the Archived location and has the archived attribute set.
+    wrapper.appendChild(makeItem({ id: '1-A', value: 'Archived Item', archived: true }));
+
+    // 3) Restored pair (Archived original + Restored copy in Today)
+    addHeading('3) Restored pair (Archived original + Restored copy)');
+    // Archived ORIGINAL: still in Archived list but marked as restored so it shows the inactive/history icon
+    wrapper.appendChild(makeItem({ id: '2-A', value: 'Archived (Restored)', archived: true, restored: true }));
+    // Restored COPY: lives in Today (not archived), references original via data-original-id
+    // Note: by component logic, the restored copy is a normal (not-archived) item and will show an archive icon.
+    wrapper.appendChild(makeItem({ id: '2-T', value: 'Restored Item', originalId: '2-A' }));
+
+    // 4) Restored item, archived original was deleted -> only Today item present
+    addHeading('4) Restored (original deleted)');
+    // Simulate the case where the archived original was removed; only the restored item remains in Today.
+    wrapper.appendChild(makeItem({ id: '3-T', value: 'Restored Item (orig deleted)', originalId: '3-A' }));
+
+    // 5) Archived item that was restored then deleted (Archived-only)
+    addHeading('5) Archived item (restored then deleted)');
+    // In this case the Archived item remains archived (archived=true) and shows an active history icon.
+    wrapper.appendChild(makeItem({ id: '4-A', value: 'Archived, No Restored Counterpart', archived: true }));
 
     return wrapper;
 };

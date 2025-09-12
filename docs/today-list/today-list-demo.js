@@ -4,6 +4,16 @@ import '/labs/design-system/components/labs-overlay.js';
 import '/labs/design-system/components/labs-settings-card.js';
 import '/labs/design-system/components/labs-input-card.js';
 import '/labs/design-system/components/labs-list-item.js';
+import '/labs/design-system/components/labs-toast.js';
+
+// Ensure labs-toast exists for undo actions (top-level for global access)
+function ensureToast() {
+  if (!document.body.querySelector('labs-toast')) {
+    const t = document.createElement('labs-toast');
+    document.body.appendChild(t);
+  }
+  return document.body.querySelector('labs-toast');
+}
 
 // Theme management utilities (mirrored from Pad/Today List)
 function applyTheme({ flavor = 'blueberry', theme = 'light' } = {}) {
@@ -119,6 +129,8 @@ function renderWelcomeIfEmpty() {
     card.style.flexDirection = 'column';
     card.style.gap = '8px';
     card.style.boxSizing = 'border-box';
+    card.style.width = '100%';
+    card.style.maxWidth = '100%';
     const h = document.createElement('div');
     h.textContent = 'Welcome — start your day';
     h.style.fontSize = 'var(--font-size-card-header, 1.125rem)';
@@ -167,7 +179,8 @@ function hydrateFromStorage() {
     // wire events for persistence
     wireItemPersistence(el);
   });
-  document.getElementById('archivedTitle').style.display = document.getElementById('archivedItems').children.length ? '' : 'none';
+  const archivedSection = document.getElementById('archivedSection');
+  archivedSection.style.display = document.getElementById('archivedItems').children.length ? 'block' : 'none';
 }
 
 function wireItemPersistence(item) {
@@ -176,11 +189,26 @@ function wireItemPersistence(item) {
   item.addEventListener('archive', (ev) => {
     const today = document.getElementById('todayItems');
     const archived = document.getElementById('archivedItems');
-    const archivedTitle = document.getElementById('archivedTitle');
+    const archivedSection = document.getElementById('archivedSection');
     const previousParent = item.parentElement;
     const snapshot = { parent: previousParent, index: Array.from(previousParent.children).indexOf(item) };
+
+    // Check if this is a restored item being archived again
+    const originalId = item.getAttribute('data-original-id');
+    if (originalId) {
+      // This is a restored item - remove any existing archived version with the same original ID
+      const existingArchived = archived.querySelector(`[data-id="${originalId}"]`);
+      if (existingArchived) {
+        existingArchived.remove(); // Remove the old archived version
+      }
+      // Reset the ID to the original for clean archiving
+      item.setAttribute('data-id', originalId);
+      item.removeAttribute('data-original-id');
+    }
+
+    // Normal archive behavior
     archived.prepend(item);
-    archivedTitle.style.display = archived.children.length ? '' : 'none';
+    archivedSection.style.display = archived.children.length ? 'block' : 'none';
     saveItemsToStorage();
     renderWelcomeIfEmpty();
     showUndoToast('Item archived', () => {
@@ -209,12 +237,25 @@ function wireItemPersistence(item) {
     try {
       const today = document.getElementById('todayItems');
       const archived = document.getElementById('archivedItems');
+
+      // Get the original ID for tracking
+      const originalId = item.getAttribute('data-id');
+
+      // Check if this ID is already restored (prevent duplicates)
+      const existingRestored = today.querySelector(`[data-id="${originalId}"], [data-id="${originalId}-restored"]`);
+      if (existingRestored) {
+        console.log('Item already restored, ignoring duplicate request');
+        return;
+      }
+
       // mark the archived original as restored (inactive)
       item.setAttribute('restored', '');
-      // create clone for today
+      // create clone for today with modified ID to track it's a restored copy
       const clone = item.cloneNode(true);
       clone.removeAttribute('archived');
-      clone.setAttribute('data-id', `item-${Math.random().toString(36).slice(2, 9)}`);
+      clone.removeAttribute('restored'); // Ensure the clone shows normal archive icon, not restore
+      clone.setAttribute('data-id', `${originalId}-restored`); // Track that this is a restored copy
+      clone.setAttribute('data-original-id', originalId); // Keep reference to original
       clone.setAttribute('value', item.getAttribute('value') || '');
       wireItemPersistence(clone);
       today.prepend(clone);
@@ -231,26 +272,28 @@ function wireItemPersistence(item) {
 
     item.remove();
 
-    // If this was the last item in archived section, hide the "Archived" title
+    // If this was the last item in archived section, hide the archived section
     if (wasArchived) {
-      const archivedTitle = document.getElementById('archivedTitle');
+      const archivedSection = document.getElementById('archivedSection');
       const archivedItems = document.getElementById('archivedItems');
-      if (archivedItems && archivedItems.children.length === 0 && archivedTitle) {
-        archivedTitle.style.display = 'none';
+      if (archivedItems && archivedItems.children.length === 0 && archivedSection) {
+        archivedSection.style.display = 'none';
       }
     }
 
     saveItemsToStorage();
     renderWelcomeIfEmpty();
+    // Ensure labs-toast exists before showing the toast
+    ensureToast();
     showUndoToast('Item removed', () => {
       if (snapshot.parent && snapshot.parent.insertBefore) {
         snapshot.parent.insertBefore(item, snapshot.parent.children[snapshot.index] || null);
-        // Show archived title again if item was restored to archived section
+        // Show archived section again if item was restored to archived section
         if (wasArchived) {
-          const archivedTitle = document.getElementById('archivedTitle');
+          const archivedSection = document.getElementById('archivedSection');
           const archivedItems = document.getElementById('archivedItems');
-          if (archivedItems && archivedItems.children.length > 0 && archivedTitle) {
-            archivedTitle.style.display = '';
+          if (archivedItems && archivedItems.children.length > 0 && archivedSection) {
+            archivedSection.style.display = 'block';
           }
         }
         saveItemsToStorage();
@@ -348,15 +391,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Floating demo controls removed; settings overlay exposes Archive/Reset/Simulate actions now.
 
-  // Ensure labs-toast exists for undo actions
-  function ensureToast() {
-    if (!document.body.querySelector('labs-toast')) {
-      const t = document.createElement('labs-toast');
-      document.body.appendChild(t);
-    }
-    return document.body.querySelector('labs-toast');
-  }
-
   // Load persisted items and render welcome state
   hydrateFromStorage();
   renderWelcomeIfEmpty();
@@ -383,7 +417,7 @@ function appendItem(text) {
 function archiveDay() {
   const today = document.getElementById('todayItems');
   const archived = document.getElementById('archivedItems');
-  const archivedTitle = document.getElementById('archivedTitle');
+  const archivedSection = document.getElementById('archivedSection');
   if (!today || !today.children.length) return;
   const moved = [];
   while (today.firstChild) {
@@ -391,7 +425,7 @@ function archiveDay() {
     moved.push(node);
     archived.prepend(node);
   }
-  archivedTitle.style.display = archived.children.length ? '' : 'none';
+  archivedSection.style.display = archived.children.length ? 'block' : 'none';
   saveItemsToStorage();
   renderWelcomeIfEmpty();
   showUndoToast('Day archived', () => {
@@ -417,8 +451,8 @@ function resetAllData(fromSettingsCard = false) {
   // Clear DOM
   if (today) today.innerHTML = '';
   if (archived) archived.innerHTML = '';
-  const archivedTitle = document.getElementById('archivedTitle');
-  if (archivedTitle) archivedTitle.style.display = 'none';
+  const archivedSection = document.getElementById('archivedSection');
+  if (archivedSection) archivedSection.style.display = 'none';
   // Clear only Today List related storage keys
   try {
     localStorage.removeItem(STORAGE_KEY);
