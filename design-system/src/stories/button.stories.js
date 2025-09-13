@@ -31,8 +31,10 @@ export default {
       description: 'Button variant style'
     },
     size: {
-      // size control removed: not used in docs rendering; keep size attribute available via args when needed
-      table: { disable: true }
+      control: { type: 'inline-radio' },
+      options: ['small', 'medium', 'large'],
+      description: 'Button size variant',
+      table: { defaultValue: { summary: 'medium' } }
     },
     disabled: {
       control: { type: 'boolean' },
@@ -55,7 +57,7 @@ export default {
   },
   args: {
     variant: 'primary',
-    // size intentionally omitted from args defaults
+    size: 'medium',
     disabled: false,
     text: 'Button',
     leftIcon: '',
@@ -71,6 +73,7 @@ export const Default = {
       <labs-button
         variant="${args.variant}"
         ${args.disabled ? 'disabled' : ''}
+        ${args.size ? `size="${args.size}"` : ''}
         ${args.pill ? 'pill' : ''}
       >
         ${args.leftIcon ? `<labs-icon slot="icon-left" name="${args.leftIcon}"></labs-icon>` : ''}

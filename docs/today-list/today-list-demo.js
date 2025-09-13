@@ -44,15 +44,14 @@ function initSystemTheme(defaultTheme = 'light') {
 }
 
 function updateThemeToggleButton() {
-  const themeIcon = document.getElementById('themeIcon');
-  const themeButton = document.getElementById('themeToggle');
+  // Prefer settings overlay controls (injected into settings card)
+  const themeIcon = document.getElementById('settingsThemeIcon') || document.getElementById('themeIcon') || document.getElementById('themeIconCenter');
+  const themeButton = document.getElementById('settingsThemeBtn') || document.getElementById('themeToggle') || document.getElementById('themeToggleCenter');
+  const themeLabel = document.getElementById('settingsThemeLabel') || document.getElementById('themeLabel') || document.getElementById('themeLabelCenter');
   const isDark = document.documentElement.classList.contains('theme-dark');
-  if (themeIcon) {
-    themeIcon.setAttribute('name', isDark ? 'bedtime_off' : 'bedtime');
-  }
-  if (themeButton) {
-    themeButton.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
-  }
+  if (themeIcon) themeIcon.setAttribute('name', isDark ? 'bedtime_off' : 'bedtime');
+  if (themeButton) themeButton.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+  if (themeLabel) themeLabel.textContent = isDark ? 'Dark' : 'Light';
 }
 
 function toggleTheme() {
@@ -120,51 +119,70 @@ function renderWelcomeIfEmpty() {
   const today = document.getElementById('todayItems');
   const container = document.getElementById('welcomeCardContainer');
   container.innerHTML = '';
-  if (!today || today.children.length === 0) {
-    const card = document.createElement('div');
-    card.style.background = 'var(--color-surface)';
-    card.style.border = '1px solid color-mix(in srgb, var(--color-on-surface) 6%, transparent)';
-    card.style.padding = '16px';
-    card.style.borderRadius = '12px';
-    card.style.display = 'flex';
-    card.style.flexDirection = 'column';
-    card.style.gap = '8px';
-    card.style.boxSizing = 'border-box';
-    card.style.width = '100%';
-    card.style.maxWidth = '100%';
-    const h = document.createElement('div');
-    h.textContent = 'Welcome — start your day';
-    h.style.fontSize = 'var(--font-size-card-header, 1.125rem)';
-    h.style.fontWeight = 'var(--font-weight-card-header, 600)';
-    h.style.color = 'var(--color-on-surface)';
-    const p = document.createElement('div');
-    p.textContent = 'Add your first item to get started. You can archive or remove items and undo actions from the toast.';
-    p.style.color = 'var(--color-on-surface-variant, #6b7280)';
-    const btn = document.createElement('labs-button');
-    btn.setAttribute('pill', '');
-    btn.setAttribute('variant', 'primary');
-    btn.textContent = 'Add';
-    btn.addEventListener('click', () => {
-      const overlay = document.getElementById('inputOverlay');
-      if (overlay && typeof overlay.open === 'function') {
-        overlay.open();
-        // Focus the input inside the card after the overlay opens
-        requestAnimationFrame(() => {
-          const inputCard = overlay.querySelector('labs-input-card');
-          if (inputCard) {
-            const innerInput = inputCard.shadowRoot.getElementById('cardInput');
-            if (innerInput) {
-              innerInput.focus();
-            }
-          }
-        });
-      }
-    });
-    card.appendChild(h);
-    card.appendChild(p);
-    card.appendChild(btn);
-    container.appendChild(card);
-  }
+  // Only render the welcome card when there are no list items
+  const hasItems = today && today.querySelector && today.querySelector('labs-list-item');
+  if (hasItems) return;
+  const card = document.createElement('div');
+  card.style.background = 'var(--color-surface)';
+  card.style.border = '1px solid color-mix(in srgb, var(--color-on-surface) 6%, transparent)';
+  card.style.padding = '16px';
+  card.style.borderRadius = '12px';
+  card.style.display = 'flex';
+  card.style.flexDirection = 'column';
+  card.style.gap = '8px';
+  card.style.boxSizing = 'border-box';
+  card.style.width = '100%';
+  card.style.maxWidth = '100%';
+  const h = document.createElement('div');
+  h.textContent = 'Welcome - add your first item to get started';
+  h.style.fontSize = 'var(--font-size-card-header, 1.125rem)';
+  h.style.fontWeight = 'var(--font-weight-card-header, 600)';
+  h.style.color = 'var(--color-on-surface)';
+  // description removed per spec
+  const inputWrap = document.createElement('div');
+  inputWrap.style.display = 'flex';
+  inputWrap.style.gap = '8px';
+
+  const inlineInput = document.createElement('input');
+  inlineInput.type = 'text';
+  inlineInput.placeholder = 'New item';
+  inlineInput.style.flex = '1';
+  inlineInput.style.padding = '10px';
+  inlineInput.style.borderRadius = '8px';
+  inlineInput.style.border = '1px solid color-mix(in srgb, var(--color-on-surface) 8%, transparent)';
+
+  const addBtn = document.createElement('labs-button');
+  addBtn.setAttribute('size', 'large');
+  addBtn.setAttribute('variant', 'primary');
+  addBtn.setAttribute('pill', '');
+  // add icon similar to footer button
+  const addIcon = document.createElement('labs-icon');
+  addIcon.setAttribute('slot', 'icon-left');
+  addIcon.setAttribute('name', 'add');
+  addIcon.setAttribute('width', '20');
+  addIcon.setAttribute('height', '20');
+  addBtn.appendChild(addIcon);
+  addBtn.appendChild(document.createTextNode('Add'));
+  addBtn.addEventListener('click', () => {
+    const val = inlineInput.value && inlineInput.value.trim();
+    if (val) {
+      appendItem(val);
+      inlineInput.value = '';
+    }
+  });
+  inlineInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { addBtn.click(); }
+  });
+  inputWrap.appendChild(inlineInput);
+  inputWrap.appendChild(addBtn);
+  card.appendChild(h);
+  card.appendChild(inputWrap);
+  // center the welcome card horizontally
+  const wrapper = document.createElement('div');
+  wrapper.style.display = 'flex';
+  wrapper.style.justifyContent = 'center';
+  wrapper.appendChild(card);
+  container.appendChild(wrapper);
 }
 
 // Hydrate items from storage on load
@@ -321,30 +339,154 @@ function wireItemPersistence(item) {
 
 // Setup DOM handlers on load
 document.addEventListener('DOMContentLoaded', () => {
-  // Setup flavor switcher button
-  const flavorToggle = document.getElementById('flavorToggle');
-  if (flavorToggle) {
-    flavorToggle.addEventListener('click', cycleFlavor);
-  }
-  // Settings overlay wiring
-  const settingsBtn = document.getElementById('footer-settings-btn');
-  const settingsOverlay = document.getElementById('settingsOverlay');
-  if (settingsBtn && settingsOverlay) {
-    settingsBtn.addEventListener('click', () => settingsOverlay.open());
-    // Listen for close event from labs-settings-card
-    const settingsCard = settingsOverlay.querySelector('labs-settings-card');
-    if (settingsCard) {
-      settingsCard.addEventListener('close', () => settingsOverlay.close());
-      // Listen for reset-all custom event from the settings card
-      settingsCard.addEventListener('reset-all', () => {
-        // Directly perform reset (confirmation already handled by the card)
-        resetAllData(true);
-      });
-      // Listen for simulate-next-day event from the settings card
-      settingsCard.addEventListener('simulate-next-day', () => {
-        simulateNextDay();
-      });
+  // Appearance controls are provided inside the settings overlay for parity.
+  // Create controls and inject them into the settings card's appearance slot.
+  const settingsCard = document.querySelector('labs-settings-card');
+  if (settingsCard) {
+    const appearanceSlot = settingsCard.shadowRoot.getElementById('appearance-btn-slot');
+    if (appearanceSlot) {
+      // Only inject flavors/theme if host hasn't already provided controls
+      if (appearanceSlot.children.length === 0) {
+        // Create flavor button
+        const flavorWrap = document.createElement('div');
+        flavorWrap.style.display = 'flex';
+        flavorWrap.style.flexDirection = 'column';
+        flavorWrap.style.alignItems = 'flex-start';
+        flavorWrap.style.gap = '6px';
+
+        const flavorBtn = document.createElement('labs-button');
+        flavorBtn.setAttribute('variant', 'secondary');
+        flavorBtn.style.gap = '8px';
+        flavorBtn.innerHTML = `<labs-icon name="colors" slot="icon-left" width="20" height="20"></labs-icon> Flavor`;
+        flavorBtn.addEventListener('click', (e) => { e.preventDefault(); cycleFlavor(); });
+
+        const themeBtn = document.createElement('labs-button');
+        themeBtn.setAttribute('variant', 'secondary');
+        themeBtn.style.gap = '8px';
+        themeBtn.id = 'settingsThemeBtn';
+        // label updated by updateThemeToggleButton()
+        themeBtn.innerHTML = `<labs-icon name="bedtime" slot="icon-left" width="20" height="20"></labs-icon> <span id="settingsThemeLabel">Theme</span>`;
+        themeBtn.addEventListener('click', (e) => { e.preventDefault(); toggleTheme(); updateThemeToggleButton(); });
+
+        flavorWrap.appendChild(flavorBtn);
+        flavorWrap.appendChild(themeBtn);
+        appearanceSlot.appendChild(flavorWrap);
+      }
     }
+
+    // Wire reset event coming from settings card
+    settingsCard.addEventListener('reset-all', () => resetAllData(true));
+  }
+  // initialize icon and label state
+  updateThemeToggleButton();
+  // Footer icon buttons were moved into settings overlay; ensure Add and More still function
+  // Settings overlay wiring: ensure the overlay close event handles card 'close' events
+  const settingsOverlay = document.getElementById('settingsOverlay');
+  const settingsCardEl = document.querySelector('labs-settings-card');
+  if (settingsOverlay && settingsCardEl) {
+    settingsCardEl.addEventListener('close', () => settingsOverlay.close());
+    // Forward simulate-next-day event
+    settingsCardEl.addEventListener('simulate-next-day', () => simulateNextDay());
+    // Forward reset-all handled above via 'reset-all' listener
+  }
+
+  // More button opens settings overlay on narrow screens
+  const moreBtn = document.getElementById('footer-more-btn');
+  if (moreBtn && settingsOverlay) {
+    moreBtn.addEventListener('click', () => settingsOverlay.open());
+    // Show the More button only on narrow screens; CSS class handles visibility but ensure fallback
+    const mql = window.matchMedia('(max-width:420px)');
+    const setMoreVisibility = () => { moreBtn.style.display = mql.matches ? '' : 'none'; };
+    setMoreVisibility();
+    mql.addEventListener('change', setMoreVisibility);
+  }
+
+  // Controls are injected into the settings overlay; footer wiring removed.
+
+  // Inject full controls into settings overlay: All apps, Theme, Flavor, Reset
+  if (settingsCard) {
+    try {
+      const appearanceSlot = settingsCard.shadowRoot.getElementById('appearance-btn-slot');
+      if (appearanceSlot) {
+        // Only inject the full controls if the slot is empty (prevent duplicates)
+        if (appearanceSlot.children.length === 0) {
+          // All apps
+          const allAppsBtn = document.createElement('labs-button');
+          allAppsBtn.setAttribute('variant', 'secondary');
+          allAppsBtn.style.gap = '8px';
+          allAppsBtn.innerHTML = `<labs-icon name="apps" slot="icon-left" width="20" height="20"></labs-icon> All apps`;
+          allAppsBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const localUrl = 'http://localhost:8000/';
+            const publicUrl = 'https://dreisdesign.github.io/labs/';
+            try {
+              const controller = new AbortController();
+              const timeout = setTimeout(() => controller.abort(), 600);
+              await fetch(localUrl, { mode: 'no-cors', signal: controller.signal });
+              clearTimeout(timeout);
+              window.open(localUrl, '_blank');
+            } catch (err) {
+              window.open(publicUrl, '_blank');
+            }
+          });
+
+          // Theme
+          const themeBtn = document.createElement('labs-button');
+          themeBtn.setAttribute('variant', 'secondary');
+          themeBtn.style.gap = '8px';
+          themeBtn.innerHTML = `<labs-icon name="bedtime" slot="icon-left" width="20" height="20"></labs-icon> <span id="settingsThemeLabel">Theme</span>`;
+          themeBtn.addEventListener('click', (e) => { e.preventDefault(); toggleTheme(); updateThemeToggleButton(); });
+
+          // Flavor
+          const flavorBtn = document.createElement('labs-button');
+          flavorBtn.setAttribute('variant', 'secondary');
+          flavorBtn.style.gap = '8px';
+          flavorBtn.innerHTML = `<labs-icon name="colors" slot="icon-left" width="20" height="20"></labs-icon> Flavor`;
+          flavorBtn.addEventListener('click', (e) => { e.preventDefault(); cycleFlavor(); });
+
+          // Reset
+          const resetBtn = document.createElement('labs-button');
+          resetBtn.setAttribute('variant', 'destructive');
+          resetBtn.style.gap = '8px';
+          resetBtn.innerHTML = `<labs-icon name="delete" slot="icon-left" width="20" height="20" color="var(--color-on-error)"></labs-icon> Reset all`;
+          resetBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const confirmed = window.confirm('Warning: This will delete all Today List entries and settings. Are you sure you want to continue?');
+            if (!confirmed) return;
+            resetAllData(true);
+          });
+
+          appearanceSlot.appendChild(allAppsBtn);
+          appearanceSlot.appendChild(themeBtn);
+          appearanceSlot.appendChild(flavorBtn);
+          appearanceSlot.appendChild(resetBtn);
+        }
+      }
+    } catch (e) { /* ignore */ }
+  }
+
+  // Footer settings icon opens overlay
+  const footerSettingsIcon = document.getElementById('footerSettingsBtn') || document.getElementById('footer-settings-btn');
+  if (footerSettingsIcon && settingsOverlay) footerSettingsIcon.addEventListener('click', () => settingsOverlay.open());
+
+  // Listen for actions dispatched from the settings card's internal buttons
+  if (settingsCardEl) {
+    settingsCardEl.addEventListener('open-all-apps', () => {
+      const localUrl = 'http://localhost:8000/';
+      const publicUrl = 'https://dreisdesign.github.io/labs/';
+      (async () => {
+        try {
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 600);
+          await fetch(localUrl, { mode: 'no-cors', signal: controller.signal });
+          clearTimeout(timeout);
+          window.open(localUrl, '_blank');
+        } catch (e) { window.open(publicUrl, '_blank'); }
+      })();
+    });
+
+    settingsCardEl.addEventListener('toggle-theme', () => { toggleTheme(); updateThemeToggleButton(); });
+    settingsCardEl.addEventListener('cycle-flavor', () => { cycleFlavor(); });
   }
 
   // Always update the current date display on load
@@ -386,22 +528,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Auto-open input overlay if there are no persisted items and overlay exists
-  const persisted = loadItemsFromStorage();
-  if ((!persisted || persisted.length === 0) && inputOverlay && typeof inputOverlay.open === 'function') {
-    // keep overlay visible by default when no items exist
-    inputOverlay.open();
-    // ensure focus
-    requestAnimationFrame(() => {
-      const inputCard = inputOverlay.querySelector('labs-input-card');
-      if (inputCard) {
-        try {
-          const innerInput = inputCard.shadowRoot.getElementById('cardInput');
-          if (innerInput) innerInput.focus();
-        } catch (e) { }
-      }
-    });
-  }
+  // No auto-open for the input overlay — input is now inline in the welcome card
 
   // Floating demo controls removed; settings overlay exposes Archive/Reset/Simulate actions now.
 
@@ -484,7 +611,12 @@ function updateCurrentDate(offsetDays = 0) {
   const el = document.getElementById('currentDate');
   if (!el) return;
   const d = new Date(Date.now() + offsetDays * 24 * 60 * 60 * 1000);
-  el.textContent = d.toLocaleDateString();
+  // Format like: Saturday, September 13, 2025
+  try {
+    el.textContent = d.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  } catch (e) {
+    el.textContent = d.toDateString();
+  }
 }
 
 // Simple toast helper using existing labs-toast
@@ -505,10 +637,6 @@ function renderGroupedView() {
   const items = Array.from(list.querySelectorAll('labs-list-item'));
   // Clear rendered list and re-insert grouped
   list.innerHTML = '';
-  const today = new Date();
-  const todayStr = today.toISOString().slice(0, 10);
-  const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000);
-  const yStr = yesterday.toISOString().slice(0, 10);
 
   // Helper to create heading
   function addGroupHeading(text) {
@@ -519,28 +647,33 @@ function renderGroupedView() {
     list.appendChild(h);
   }
 
-  const todayItems = items.filter(i => (i.getAttribute('date') || todayStr) === todayStr);
-  const yesterdayItems = items.filter(i => (i.getAttribute('date') || todayStr) === yStr);
-  const otherItems = items.filter(i => ![...todayItems, ...yesterdayItems].includes(i));
+  // Sort helper: parse timestamp attribute (fallback to 0)
+  function tsValue(el) {
+    const t = el.getAttribute('timestamp');
+    if (!t) return 0;
+    const n = Date.parse(t);
+    return isNaN(n) ? 0 : n;
+  }
 
-  if (todayItems.length) {
-    // Don't render a left-aligned date heading for Today — the page header already shows the date
-    todayItems.forEach(i => list.appendChild(i));
+  // Separate into active (non-archived) and archived arrays
+  const active = items.filter(i => !i.hasAttribute('archived'));
+  const archived = items.filter(i => i.hasAttribute('archived'));
+
+  // Sort both arrays by timestamp descending (newest first)
+  active.sort((a, b) => tsValue(b) - tsValue(a));
+  archived.sort((a, b) => tsValue(b) - tsValue(a));
+
+  // Append active items first
+  active.forEach(i => list.appendChild(i));
+
+  // Then archived group below, with heading
+  if (archived.length) {
+    addGroupHeading('Archived');
+    archived.forEach(i => list.appendChild(i));
   }
-  if (yesterdayItems.length) {
-    addGroupHeading('Yesterday');
-    yesterdayItems.forEach(i => list.appendChild(i));
-  }
-  if (otherItems.length) {
-    addGroupHeading('Other');
-    otherItems.forEach(i => list.appendChild(i));
-  }
-  // Visual tweaks for archived items: only adjust opacity so they keep the same theme
-  items.forEach(i => {
-    if (i.hasAttribute('archived')) {
-      i.style.opacity = 'var(--labs-archived-opacity, 0.7)';
-    } else {
-      i.style.opacity = '';
-    }
+
+  // Ensure archived items have reduced opacity for visual distinction
+  Array.from(list.querySelectorAll('labs-list-item')).forEach(i => {
+    if (i.hasAttribute('archived')) i.style.opacity = 'var(--labs-archived-opacity, 0.7)'; else i.style.opacity = '';
   });
 }

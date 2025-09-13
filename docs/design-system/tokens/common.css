@@ -51,6 +51,25 @@
   --space-sm: 8px;
   --space-md: 16px;
   --space-lg: 24px;
+
+  /* Footer icon sizing (used by apps to keep footer icons consistent) */
+  --labs-footer-icon-size: 28px;
+  --labs-footer-icon-padding-left: 12px;
+}
+
+/* Show label for footer icon buttons when container opts in via data attribute */
+[data-show-label="true"] .footer-label {
+  display: block !important;
+}
+
+/* Default footer label appearance (hidden by default; shown when container opts in) */
+.footer-label {
+  display: none;
+  margin-top: 1px;
+  font-size: 11px;
+  line-height: 1;
+  color: var(--color-on-surface-variant);
+  text-align: center;
 }
 
 /* Radius aliases (convenience) */

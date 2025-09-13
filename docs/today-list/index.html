@@ -35,7 +35,8 @@
       flex-shrink: 0;
       width: 100%;
       margin: 0;
-      padding: 0;
+      padding: 0 12px;
+      /* add left/right padding */
       box-sizing: border-box;
     }
 
@@ -51,31 +52,7 @@
   </style>
 
   <style>
-    #floating-toggles {
-      position: fixed;
-      top: calc(20px + env(safe-area-inset-top));
-      right: calc(20px + env(safe-area-inset-right));
-      z-index: 100;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    #flavorToggle {
-      height: 48px;
-      width: 48px;
-      min-width: 48px;
-      min-height: 48px;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    #flavorIcon {
-      width: 28px;
-      height: 28px;
-    }
+    /* Footer controls are used for flavor and theme toggles; floating toggles removed */
 
     /* Details element styling */
     #archivedSection[open] summary labs-icon {
@@ -123,36 +100,67 @@
       max-width: 400px;
       margin-left: auto;
       margin-right: auto;
+      margin: 18px auto 86px;
+    }
+
+    /* Footer helpers */
+    .footer-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .footer-center {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hide-when-narrow {
+      display: initial;
+    }
+
+    @media (max-width:420px) {
+      .hide-when-narrow {
+        display: none !important;
+      }
     }
   </style>
 </head>
 
 <body>
-  <!-- Floating theme toggle (top right) -->
-
-  <div id="floating-toggles">
-    <labs-button id="flavorToggle" variant="icon" aria-label="Switch flavor" title="Switch flavor">
-      <labs-icon id="flavorIcon" slot="icon-left" name="colors"
-        style="color:var(--color-on-surface); width:28px; height:28px;"></labs-icon>
-    </labs-button>
-  </div>
+  <!-- Controls moved into footer for easier access on mobile -->
 
   <!-- Today List demo controls (dev-only) -->
   <!-- Removed floating dev controls. Archive/Reset/Simulate actions are available from the Settings overlay or from item actions. -->
 
   <!-- App footer (always visible) -->
   <labs-footer full-width elevated>
-    <div slot="center">
-      <labs-button id="footerAddBtn" pill variant="primary">
+    <div slot="left" class="footer-group">
+      <!-- Icon buttons moved into settings overlay. Left slot intentionally minimal. -->
+    </div>
+    <div slot="center" class="footer-center">
+      <labs-button id="footerAddBtn" size="large" pill variant="primary">
         <labs-icon name="add" slot="icon-left" width="20" height="20"></labs-icon>Add
       </labs-button>
+
+      <div style="display:flex;align-items:center;gap:12px;margin-left:12px;">
+        <!-- Controls moved into settings overlay (full button style). -->
+      </div>
     </div>
+
     <div slot="right" style="display: flex; align-items: center; gap: 8px;">
-      <labs-button id="footer-settings-btn" variant="icon" aria-label="Settings" style="padding-right:12px;">
-        <labs-icon name="settings" slot="icon-left" width="28" height="28"></labs-icon>
+      <labs-button id="footer-settings-btn" variant="icon" aria-label="Settings" title="Settings"
+        style="margin-right:20px;">
+        <labs-icon name="settings" slot="icon-left" width="22" height="22"></labs-icon>
       </labs-button>
     </div>
   </labs-footer>
+
+  <!-- Settings overlay (used by More on mobile) -->
+  <labs-overlay id="settingsOverlay">
+    <labs-settings-card></labs-settings-card>
+  </labs-overlay>
 
   <!-- Main content container (centered) -->
   <div class="app-container" style="display:flex;justify-content:center;">
@@ -165,8 +173,8 @@
           style="margin:0; font-size:var(--font-size-h1, 2rem); font-weight:var(--font-weight-heading,700); color:var(--color-on-surface, #333);">
           Today</h1>
         <div id="dateElement" style="text-align: center; margin-top: 6px;">
-          <p style="margin:0; font-size: 0.95rem; color: var(--color-on-surface-variant, #6b7280);">Date: <span
-              id="currentDate"></span></p>
+          <p style="margin:0; font-size: 0.95rem; color: var(--color-on-surface, #333);"><span id="currentDate"></span>
+          </p>
         </div>
       </div>
 
@@ -180,10 +188,7 @@
 
       <!-- Archived section removed — list is state-driven and archived items remain in the list -->
 
-      <!-- Settings overlay -->
-      <labs-overlay id="settingsOverlay">
-        <labs-settings-card></labs-settings-card>
-      </labs-overlay>
+      <!-- Settings overlay removed; Reset action available via footer trash button -->
 
       <!-- Input overlay (used for adding items) -->
       <labs-overlay id="inputOverlay">

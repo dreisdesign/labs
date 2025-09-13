@@ -42,6 +42,20 @@ class LabsButton extends HTMLElement {
 
           display: inline-block;
         }
+        /* Size variants: default is medium, add large variant via attribute size="large" */
+        /* Small size — tighter padding and smaller font */
+        :host([size="small"]) {
+          --button-padding: 0.375em 0.75em;
+          --button-font: var(--font-weight-button, 600) var(--font-size-button-small, 0.875rem)/var(--line-height-button, 1.2) var(--font-family-base, system-ui, sans-serif);
+          --button-radius: 8px;
+        }
+
+        :host([size="large"]) {
+          --button-padding: 0.75em 1.5em;
+          --button-font: var(--font-weight-button, 600) var(--font-size-button-large, 1.125rem)/var(--line-height-button, 1.2) var(--font-family-base, system-ui, sans-serif);
+          --button-radius: 10px;
+          --button-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        }
   /* Pill shape support: set a very large radius when 'pill' attribute present */
         :host([pill]) {
           --button-radius: 999px;

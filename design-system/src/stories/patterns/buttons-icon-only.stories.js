@@ -30,6 +30,10 @@ export default {
       control: 'text',
       description: 'Aria label for accessibility',
     },
+    label: {
+      control: 'boolean',
+      description: 'Show label below the icon (for footer-like usage)'
+    },
     animation: {
       control: 'boolean',
       description: 'Enable icon hover animation',
@@ -44,7 +48,7 @@ export default {
   },
 };
 
-export const IconOnly = ({ icon = 'settings', colorVariant = 'On Surface', ariaLabel = 'Settings', animation = true }) => {
+export const IconOnly = ({ icon = 'settings', colorVariant = 'On Surface', ariaLabel = 'Settings', animation = true, label = false }) => {
   const style = `
     labs-button[variant="icon"] labs-icon {
       transition: transform 0.4s cubic-bezier(.4,2,.6,1);
@@ -53,13 +57,23 @@ export const IconOnly = ({ icon = 'settings', colorVariant = 'On Surface', ariaL
     labs-button[variant="icon"]:hover labs-icon {
       transform: ${animation ? 'rotate(90deg)' : 'rotate(0deg)'};
     }
+    .footer-label {
+      display: block;
+      margin-top: 4px;
+      font-size: 0.78rem;
+      color: var(--color-on-surface-variant);
+      text-align: center;
+    }
   `;
   const color = colorVariants[colorVariant] || 'var(--color-on-surface)';
   return html`
     <style>${style}</style>
-    <labs-button variant="icon" aria-label="${ariaLabel}">
-      <labs-icon name="${icon}" width="24" height="24" slot="icon-left" color="${color}" style="color: ${color};"></labs-icon>
-    </labs-button>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+      <labs-button variant="icon" aria-label="${ariaLabel}">
+        <labs-icon name="${icon}" width="24" height="24" slot="icon-left" color="${color}" style="color: ${color};"></labs-icon>
+      </labs-button>
+      ${label ? html`<span class="footer-label">${ariaLabel}</span>` : ''}
+    </div>
   `;
 };
 
@@ -68,6 +82,7 @@ IconOnly.args = {
   colorVariant: 'On Surface',
   ariaLabel: 'Settings',
   animation: true,
+  label: false,
 };
 
 IconOnly.storyName = 'Icon Only';

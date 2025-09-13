@@ -37,7 +37,7 @@ class LabsListItem extends HTMLElement {
       this.shadowRoot.innerHTML = `
         <style>
           :host { display: block; font-family: var(--font-family-base, system-ui, sans-serif); }
-          .row { display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:12px; background:var(--color-surface, #fff); width:100%; box-sizing:border-box; }
+          .row { display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:12px; background:var(--color-surface, #fff); width:100%; box-sizing:border-box; min-width:0; }
           .text { flex:1; font-size:1rem; color:var(--color-on-surface, #111); word-break:break-word; }
           .timestamp { font-size:0.75rem; color:var(--color-on-surface-variant, #666); margin-left:6px; }
           .badge { font-size:0.625rem; padding:4px 8px; border-radius:999px; background:var(--color-surface-secondary, #f1f3f4); color:var(--color-on-surface); margin-left:8px; }
@@ -83,7 +83,10 @@ class LabsListItem extends HTMLElement {
         }
       });
       const del = this.shadowRoot.getElementById('deleteBtn');
-      if (del) del.addEventListener('click', () => this._remove());
+      if (del) del.addEventListener('click', () => {
+        // Only allow deletion when the item is archived. Live items must be archived first.
+        if (this.hasAttribute('archived')) this._remove();
+      });
     }
     // Update checkbox state and text content only
     const chk = this.shadowRoot.getElementById('chk');
@@ -175,6 +178,19 @@ class LabsListItem extends HTMLElement {
         b.className = 'badge';
         b.textContent = 'Archived';
         badgeContainer.appendChild(b);
+      }
+    }
+    // Show or hide the delete button depending on archived state
+    const deleteBtn = this.shadowRoot.getElementById('deleteBtn');
+    if (deleteBtn) {
+      if (this.hasAttribute('archived')) {
+        deleteBtn.style.display = '';
+        deleteBtn.removeAttribute('aria-hidden');
+        deleteBtn.removeAttribute('disabled');
+      } else {
+        deleteBtn.style.display = 'none';
+        deleteBtn.setAttribute('aria-hidden', 'true');
+        deleteBtn.setAttribute('disabled', '');
       }
     }
   }

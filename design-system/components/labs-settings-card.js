@@ -76,6 +76,12 @@ class LabsSettingsCard extends HTMLElement {
           flex-direction: column;
           gap: 18px;
         }
+        /* Layout for appearance slot: ensure buttons inside are stacked with spacing */
+        .settings-list #appearance-btn-slot {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
         .settings-list labs-button {
           width: 100%;
           box-sizing: border-box;
@@ -103,16 +109,16 @@ class LabsSettingsCard extends HTMLElement {
         </labs-button>
       </div>
       <div class="settings-list">
-        <labs-button id="all-apps-btn" variant="secondary" style="gap:10px;">
+        <labs-button id="all-apps-btn" variant="secondary" size="large" style="gap:10px;">
           <labs-icon name="apps" slot="icon-left"></labs-icon>
           All Apps
         </labs-button>
         <div id="appearance-btn-slot"></div>
-        <labs-button id="simulate-next-btn" variant="secondary" style="gap:10px; display:none;">
+        <labs-button id="simulate-next-btn" variant="secondary" size="large" style="gap:10px; display:none;">
           <labs-icon name="add" slot="icon-left" width="20" height="20"></labs-icon>
           Simulate Next Day
         </labs-button>
-        <labs-button id="reset-all-btn" variant="destructive" style="gap:10px;">
+        <labs-button id="reset-all-btn" variant="destructive" size="large" style="gap:10px;">
           <labs-icon name="delete" slot="icon-left" width="20" height="20" color="var(--color-on-error)"></labs-icon>
           Reset All Data
         </labs-button>
@@ -188,6 +194,23 @@ class LabsSettingsCard extends HTMLElement {
       } catch (e) { }
       updateLabel();
       slot.appendChild(btn);
+
+      // Ensure a flavor button is present (large)
+      const flavorBtn = document.createElement('labs-button');
+      flavorBtn.setAttribute('variant', 'secondary');
+      flavorBtn.setAttribute('size', 'large');
+      flavorBtn.style.gap = '10px';
+      flavorBtn.style.width = '100%';
+      flavorBtn.style.justifyContent = 'flex-start';
+      flavorBtn.style.margin = '0';
+      flavorBtn.style.position = 'static';
+      flavorBtn.id = 'flavor-btn';
+      flavorBtn.innerHTML = `<labs-icon name="colors" slot="icon-left" width="20" height="20"></labs-icon> Flavor`;
+      flavorBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.dispatchEvent(new CustomEvent('cycle-flavor', { bubbles: true, composed: true }));
+      });
+      if (!this.shadowRoot.getElementById('flavor-btn')) slot.appendChild(flavorBtn);
 
       // Wire reset button to dispatch a confirmed reset event
       const resetBtn = this.shadowRoot.getElementById('reset-all-btn');
