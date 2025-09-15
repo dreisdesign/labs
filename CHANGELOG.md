@@ -10,6 +10,14 @@
   - Improved workflow reliability for `npm run l` (local preview) command
   - Ensures correct path rewriting for all deployment scenarios (local, public, GitHub Pages)
 
+## [Unreleased] - 2025-09-15
+
+### Changed
+- `labs-input-card` default updated to a two-line textarea (`rows=2`) with keyboard save on Ctrl/Cmd+Enter. (commit `76e1b47`)
+- Settings/input overlays use `transparent` mode so the overlay only renders the backdrop and the card component supplies the visible surface (fixes double-wrapping). Mirrored to docs and stories. (commit `76e1b47`)
+- `labs-list-item` archive action switched from icon-only to a small labelled secondary `Archive` button for accessibility and discoverability. (commit `76e1b47`)
+- Documentation mirrors updated in `docs/design-system/*` and `docs/today-list/TODO.md` updated (commit `3e03fd4`).
+
 ---
 # �🖌️ v2.4.3 - Robust Colors Story & Theme Mapping (August 28, 2025)
 

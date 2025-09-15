@@ -1,5 +1,13 @@
 # [v2.1.4] - 2025-08-28 - Robust Colors Story & Theme Mapping
 
+## [Unreleased] - 2025-09-15
+
+### Changed
+	- Input card: default input changed to a two-line textarea (`rows=2`) with keyboard save on Ctrl/Cmd+Enter. See commit `76e1b47`.
+	- Overlay: use `transparent` overlay mode for settings/input overlays so overlays provide backdrop only and the card component supplies the visible surface (fixes double-wrapping). Mirrored to Storybook stories and docs. See commit `76e1b47`.
+	- Labs List Item: replaced icon-only archive action with a small labelled secondary `Archive` button for improved discoverability and accessibility. See commit `76e1b47`.
+	- Documentation: mirrored component changes into `docs/design-system/*` and updated Today List TODO. See commit `3e03fd4`.
+
 # [v2.1.6] - 2025-09-01 - Storybook docs dark-preview & token fixes
 
 ### �️ Fixes & Improvements
