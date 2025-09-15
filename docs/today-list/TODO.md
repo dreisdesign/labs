@@ -2,10 +2,12 @@
 
 Last reviewed: 2025-09-01
 
+Last updated: 2025-09-15 (commit 76e1b47)
+
 Priority order: MVP requirements first. Anything not marked MVP has been moved to `docs/today-list/ROADMAP.md` for future planning.
 
 1) Add item
-  - Single-line input, Enter to save
+  - Two-line input (default rows=2), Ctrl/Cmd+Enter to save (updated)
   - Trim empty values and ignore duplicates (optional)
   - Status: Input overlay implemented; clicking Add opens input, Save appends items to the demo list in `index.html`.
 
@@ -30,6 +32,10 @@ Priority order: MVP requirements first. Anything not marked MVP has been moved t
 New implementation tasks:
 - [ ] Add `labs-list-item` component (single-row with checkbox, text, archive, delete) — implemented in `design-system/src/components/labs-list-item.js` and docs copy exists. Needs tests and Storybook story.
 - [ ] Add Icon select control to Icon-Only Button story (ensure `icons-list` used); small story update needed.
+
+Notes about recent UI changes:
+- Settings overlay now uses `transparent` mode so the overlay provides backdrop only and the settings card supplies the visible surface (fixes double-wrapping). Mirrored to docs and stories in commit `76e1b47`.
+- Input card default width increased (max-width ~520px) and host set to `width:100%` to allow full overlay content width when used in overlays. See `design-system/src/components/labs-input-card.js`.
 
 7) Empty-state
   - Show a `Welcome Card` (use `labs-card` when available) with header, description and primary Add CTA
