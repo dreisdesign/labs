@@ -23,7 +23,7 @@ export const Default = ({ value, checked }) => {
   wrapper.style.flexDirection = 'column';
   wrapper.style.gap = '16px';
   wrapper.style.width = '100%';
-  wrapper.style.maxWidth = '400px';
+  wrapper.style.maxWidth = '600px';
   wrapper.style.margin = '0 auto';
 
   const el = document.createElement('labs-list-item');

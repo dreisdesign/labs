@@ -36,7 +36,7 @@ class LabsListItem extends HTMLElement {
     if (!this.shadowRoot.innerHTML) {
       this.shadowRoot.innerHTML = `
         <style>
-          :host { display: block; font-family: var(--font-family-base, system-ui, sans-serif); }
+          :host { display: block; width: 100%; font-family: var(--font-family-base, system-ui, sans-serif); }
           .row { display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:12px; background:var(--color-surface, #fff); width:100%; box-sizing:border-box; min-width:0; }
           .text { flex:1; font-size:1rem; color:var(--color-on-surface, #111); word-break:break-word; }
           .timestamp { font-size:0.75rem; color:var(--color-on-surface-variant, #666); margin-left:6px; }
@@ -56,7 +56,7 @@ class LabsListItem extends HTMLElement {
             <labs-button id="archiveBtn" variant="icon" aria-label="Archive">
               <labs-icon id="archiveIcon" slot="icon-left" name="archive" width="20" height="20"></labs-icon>
             </labs-button>
-            <labs-button id="deleteBtn" variant="destructive" aria-label="Delete">
+            <labs-button id="deleteBtn" variant="icon" aria-label="Delete">
               <labs-icon slot="icon-left" name="delete_forever" width="20" height="20"></labs-icon>
             </labs-button>
           </div>

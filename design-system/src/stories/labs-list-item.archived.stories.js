@@ -16,7 +16,7 @@ export const States = () => {
     wrapper.style.flexDirection = 'column';
     wrapper.style.gap = '12px';
     wrapper.style.width = '100%';
-    wrapper.style.maxWidth = '400px';
+    wrapper.style.maxWidth = '600px';
     wrapper.style.margin = '0 auto';
 
     // Add a toast element
@@ -83,10 +83,7 @@ export const States = () => {
     // Simulate the case where the archived original was removed; only the restored item remains in Today.
     wrapper.appendChild(makeItem({ id: '3-T', value: 'Restored Item (orig deleted)', originalId: '3-A', timestamp: new Date().toISOString(), date: isoToday }));
 
-    // 5) Archived item that was restored then deleted (Archived-only)
-    addHeading('5) Archived item (restored then deleted)');
-    // In this case the Archived item remains archived (archived=true) and shows an active history icon.
-    wrapper.appendChild(makeItem({ id: '4-A', value: 'Archived, No Restored Counterpart', archived: true, timestamp: yesterday.toISOString(), date: isoYesterday }));
+
 
     return wrapper;
 };

@@ -2,7 +2,7 @@ import '../components/labs-flavor-button.js';
 import '../components/labs-icon.js';
 
 export default {
-    title: 'Patterns/Flavor Button',
+    title: 'Patterns/Buttons/Flavor Button',
     argTypes: { variant: { control: { type: 'select', options: ['primary', 'secondary', 'destructive', 'icon'] } }, flavor: { control: 'text' } }
 };
 

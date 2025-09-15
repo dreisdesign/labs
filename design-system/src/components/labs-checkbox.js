@@ -50,6 +50,15 @@ class LabsCheckbox extends HTMLElement {
     this._checked = !this._checked;
     if (this._checked) this.setAttribute('checked', ''); else this.removeAttribute('checked');
     this._updateAria();
+
+    // Trigger check animation when checking
+    if (this._checked) {
+      this.classList.add('checking');
+      setTimeout(() => {
+        this.classList.remove('checking');
+      }, 400);
+    }
+
     this.dispatchEvent(new CustomEvent('change', { detail: { checked: this._checked }, bubbles: true, composed: true }));
     this.render();
   }
@@ -74,6 +83,29 @@ class LabsCheckbox extends HTMLElement {
         :host([inactive]) { opacity: 0.6; }
         :host([inactive]) { pointer-events: none; }
         ::slotted(*) { pointer-events: none; }
+        
+        /* Check animation */
+        labs-icon {
+          transition: transform 0.15s ease-out;
+        }
+        
+        :host(.checking) labs-icon {
+          animation: checkboxCheck 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+        }
+        
+        @keyframes checkboxCheck {
+          0% {
+            transform: scale(0.5) rotate(-15deg);
+            opacity: 0.8;
+          }
+          50% {
+            transform: scale(1.1) rotate(5deg);
+          }
+          100% {
+            transform: scale(1) rotate(0deg);
+            opacity: 1;
+          }
+        }
       </style>
       <labs-button variant="icon" aria-hidden="true" tabindex="-1" disabled>
         <labs-icon slot="icon-left" name="${icon}" width="20" height="20"></labs-icon>
