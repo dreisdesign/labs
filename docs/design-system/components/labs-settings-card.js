@@ -195,21 +195,13 @@ class LabsSettingsCard extends HTMLElement {
       updateLabel();
       slot.appendChild(btn);
 
-      // Ensure a flavor button is present (large)
-      const flavorBtn = document.createElement('labs-button');
-      flavorBtn.setAttribute('variant', 'secondary');
-      flavorBtn.setAttribute('size', 'large');
-      flavorBtn.style.gap = '10px';
-      flavorBtn.style.width = '100%';
-      flavorBtn.style.justifyContent = 'flex-start';
-      flavorBtn.style.margin = '0';
-      flavorBtn.style.position = 'static';
-      flavorBtn.id = 'flavor-btn';
-      flavorBtn.innerHTML = `<labs-icon name="colors" slot="icon-left" width="20" height="20"></labs-icon> Flavor`;
-      flavorBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        this.dispatchEvent(new CustomEvent('cycle-flavor', { bubbles: true, composed: true }));
-      });
+      // Ensure a flavor button is present (large) — use labs-flavor-button so label reflects current flavor
+      const flavorBtn = document.createElement('labs-flavor-button');
+      // compute initial human-friendly label from document class
+      const flavorClass = Array.from(document.documentElement.classList).find(c => c && c.startsWith('flavor-'));
+      const flavorKey = flavorClass ? flavorClass.replace('flavor-', '') : 'blueberry';
+      const flavorLabel = flavorKey.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+      flavorBtn.setAttribute('label', flavorLabel);
       if (!this.shadowRoot.getElementById('flavor-btn')) slot.appendChild(flavorBtn);
 
       // Wire reset button to dispatch a confirmed reset event

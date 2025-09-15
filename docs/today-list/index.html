@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="/labs/design-system/styles/tl-entry.css">
   <script type="module" src="/labs/design-system/components/labs-icon.js"></script>
   <script type="module" src="/labs/design-system/components/labs-button.js"></script>
+  <script type="module" src="/labs/design-system/components/labs-badge.js"></script>
   <script type="module" src="/labs/design-system/components/labs-footer.js"></script>
   <script type="module" src="/labs/design-system/components/labs-checkbox.js"></script>
   <style>
@@ -118,6 +119,18 @@
 
     .hide-when-narrow {
       display: initial;
+    }
+
+    /* Ensure details and summary for archived section match list item widths */
+    #todayItems details {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    #todayItems details summary {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     @media (max-width:420px) {

@@ -2,9 +2,11 @@
 // Imports required web components
 import '/labs/design-system/components/labs-overlay.js';
 import '/labs/design-system/components/labs-settings-card.js';
+import '/labs/design-system/components/labs-flavor-button.js';
 import '/labs/design-system/components/labs-input-card.js';
 import '/labs/design-system/components/labs-list-item.js';
 import '/labs/design-system/components/labs-toast.js';
+import '/labs/design-system/components/labs-details.js';
 
 // Ensure labs-toast exists for undo actions (top-level for global access)
 function ensureToast() {
@@ -354,11 +356,11 @@ document.addEventListener('DOMContentLoaded', () => {
         flavorWrap.style.alignItems = 'flex-start';
         flavorWrap.style.gap = '6px';
 
-        const flavorBtn = document.createElement('labs-button');
-        flavorBtn.setAttribute('variant', 'secondary');
-        flavorBtn.style.gap = '8px';
-        flavorBtn.innerHTML = `<labs-icon name="colors" slot="icon-left" width="20" height="20"></labs-icon> Flavor`;
-        flavorBtn.addEventListener('click', (e) => { e.preventDefault(); cycleFlavor(); });
+        const flavorBtn = document.createElement('labs-flavor-button');
+        // Set initial label to the current flavor (capitalized)
+        const currentFlavor = getCurrentFlavor();
+        const flavorLabel = currentFlavor.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+        flavorBtn.setAttribute('label', flavorLabel);
 
         const themeBtn = document.createElement('labs-button');
         themeBtn.setAttribute('variant', 'secondary');
@@ -437,12 +439,12 @@ document.addEventListener('DOMContentLoaded', () => {
           themeBtn.innerHTML = `<labs-icon name="bedtime" slot="icon-left" width="20" height="20"></labs-icon> <span id="settingsThemeLabel">Theme</span>`;
           themeBtn.addEventListener('click', (e) => { e.preventDefault(); toggleTheme(); updateThemeToggleButton(); });
 
-          // Flavor
-          const flavorBtn = document.createElement('labs-button');
-          flavorBtn.setAttribute('variant', 'secondary');
-          flavorBtn.style.gap = '8px';
-          flavorBtn.innerHTML = `<labs-icon name="colors" slot="icon-left" width="20" height="20"></labs-icon> Flavor`;
-          flavorBtn.addEventListener('click', (e) => { e.preventDefault(); cycleFlavor(); });
+          // Flavor control using the labs-flavor-button web component
+          const flavorBtn = document.createElement('labs-flavor-button');
+          // Set initial label to the current flavor (capitalized)
+          const currentFlavor = getCurrentFlavor();
+          const flavorLabel = currentFlavor.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+          flavorBtn.setAttribute('label', flavorLabel);
 
           // Reset
           const resetBtn = document.createElement('labs-button');
@@ -486,7 +488,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     settingsCardEl.addEventListener('toggle-theme', () => { toggleTheme(); updateThemeToggleButton(); });
-    settingsCardEl.addEventListener('cycle-flavor', () => { cycleFlavor(); });
+    settingsCardEl.addEventListener('cycle-flavor', (e) => {
+      const flavor = (e && e.detail && e.detail.flavor) ? e.detail.flavor : getCurrentFlavor();
+      const isDark = document.documentElement.classList.contains('theme-dark');
+      applyTheme({ flavor, theme: isDark ? 'dark' : 'light' });
+      updateThemeToggleButton();
+    });
   }
 
   // Always update the current date display on load
@@ -668,12 +675,52 @@ function renderGroupedView() {
 
   // Then archived group below, with heading
   if (archived.length) {
-    addGroupHeading('Archived');
-    archived.forEach(i => list.appendChild(i));
+    // Use the labs-details component so archived items live inside the bordered content
+    const d = document.createElement('labs-details');
+    d.id = 'archivedSection';
+    d.style.marginTop = '12px';
+
+    // Create a centered summary node and slot it into the component
+    const summarySpan = document.createElement('span');
+    summarySpan.setAttribute('slot', 'summary');
+    summarySpan.style.display = 'inline-flex';
+    summarySpan.style.alignItems = 'center';
+    summarySpan.style.justifyContent = 'center';
+    summarySpan.style.gap = '8px';
+    summarySpan.textContent = 'Archived';
+
+    // Container for archived list items (content slot)
+    const archivedContainer = document.createElement('div');
+    archivedContainer.style.display = 'flex';
+    archivedContainer.style.flexDirection = 'column';
+    archivedContainer.style.gap = '8px';
+    archived.forEach(i => {
+      // each labs-list-item should be a direct child so it sits inside the details border
+      archivedContainer.appendChild(i);
+    });
+
+    d.appendChild(summarySpan);
+    d.appendChild(archivedContainer);
+    list.appendChild(d);
   }
 
-  // Ensure archived items have reduced opacity for visual distinction
+  // Archived items should remain full opacity (they live inside the collapsed details)
   Array.from(list.querySelectorAll('labs-list-item')).forEach(i => {
-    if (i.hasAttribute('archived')) i.style.opacity = 'var(--labs-archived-opacity, 0.7)'; else i.style.opacity = '';
+    i.style.opacity = '';
   });
+
+  // If there are no active items (today), show the input box in the welcome card area to prompt entry
+  const welcomeContainer = document.getElementById('welcomeCardContainer');
+  if (!active.length) {
+    // ensure welcome is visible and includes the inline input
+    renderWelcomeIfEmpty();
+    // try to focus the input inside the welcome card if present
+    requestAnimationFrame(() => {
+      const input = welcomeContainer.querySelector('input[type="text"]');
+      if (input) input.focus();
+    });
+  } else {
+    // clear welcome container when active items present
+    if (welcomeContainer) welcomeContainer.innerHTML = '';
+  }
 }

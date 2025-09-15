@@ -56,7 +56,7 @@ class LabsListItem extends HTMLElement {
             <labs-button id="archiveBtn" variant="icon" aria-label="Archive">
               <labs-icon id="archiveIcon" slot="icon-left" name="archive" width="20" height="20"></labs-icon>
             </labs-button>
-            <labs-button id="deleteBtn" variant="icon" aria-label="Delete">
+            <labs-button id="deleteBtn" variant="destructive" aria-label="Delete">
               <labs-icon slot="icon-left" name="delete_forever" width="20" height="20"></labs-icon>
             </labs-button>
           </div>
@@ -142,27 +142,39 @@ class LabsListItem extends HTMLElement {
       if (archiveIcon) {
         archiveIcon.setAttribute('name', 'history');
         archiveIcon.setAttribute('color', 'var(--color-on-surface)');
-        archiveIcon.style.opacity = '1';
+        archiveIcon.style.opacity = '';
       }
       if (archiveBtn) {
+        // Replace icon-only button with a labelled restore button for clarity and make it small
         archiveBtn.setAttribute('aria-label', 'Restore');
         archiveBtn.style.pointerEvents = '';
         archiveBtn.removeAttribute('disabled');
+        try {
+          archiveBtn.innerHTML = `<labs-icon slot="icon-left" name="history" width="20" height="20"></labs-icon> Restore`;
+          archiveBtn.setAttribute('variant', 'secondary');
+          archiveBtn.setAttribute('size', 'small');
+        } catch (e) { }
       }
+      // archived items are full opacity when inside the collapsed section
       if (row) {
-        // Keep the same theme as other items; only reduce opacity for archived/restored
-        row.style.opacity = 'var(--labs-archived-opacity, 0.7)';
+        row.style.opacity = '';
       }
     } else {
       if (archiveIcon) {
         archiveIcon.setAttribute('name', 'archive');
         archiveIcon.setAttribute('color', 'var(--color-on-surface)');
-        archiveIcon.style.opacity = '1';
+        archiveIcon.style.opacity = '';
       }
       if (archiveBtn) {
         archiveBtn.setAttribute('aria-label', 'Archive');
         archiveBtn.removeAttribute('disabled');
         archiveBtn.style.pointerEvents = '';
+        // ensure icon-only state for archive action
+        try {
+          archiveBtn.innerHTML = `<labs-icon id="archiveIcon" slot="icon-left" name="archive" width="20" height="20"></labs-icon>`;
+          archiveBtn.setAttribute('variant', 'icon');
+          archiveBtn.removeAttribute('size');
+        } catch (e) { }
       }
       if (row) {
         row.style.opacity = '';
@@ -173,12 +185,6 @@ class LabsListItem extends HTMLElement {
     const badgeContainer = this.shadowRoot.getElementById('archivedBadgeContainer');
     if (badgeContainer) {
       badgeContainer.innerHTML = '';
-      if (this.hasAttribute('archived')) {
-        const b = document.createElement('span');
-        b.className = 'badge';
-        b.textContent = 'Archived';
-        badgeContainer.appendChild(b);
-      }
     }
     // Show or hide the delete button depending on archived state
     const deleteBtn = this.shadowRoot.getElementById('deleteBtn');
