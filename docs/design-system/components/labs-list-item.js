@@ -169,11 +169,11 @@ class LabsListItem extends HTMLElement {
         archiveBtn.setAttribute('aria-label', 'Archive');
         archiveBtn.removeAttribute('disabled');
         archiveBtn.style.pointerEvents = '';
-        // ensure icon-only state for archive action
+        // Replace icon-only button with a standard button just like restore
         try {
-          archiveBtn.innerHTML = `<labs-icon id="archiveIcon" slot="icon-left" name="archive" width="20" height="20"></labs-icon>`;
-          archiveBtn.setAttribute('variant', 'icon');
-          archiveBtn.removeAttribute('size');
+          archiveBtn.innerHTML = `<labs-icon id="archiveIcon" slot="icon-left" name="archive" width="20" height="20"></labs-icon> Archive`;
+          archiveBtn.setAttribute('variant', 'secondary');
+          archiveBtn.setAttribute('size', 'small');
         } catch (e) { }
       }
       if (row) {

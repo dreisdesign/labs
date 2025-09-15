@@ -11,7 +11,8 @@ class LabsInputCard extends HTMLElement {
       <style>
         :host {
           display: block;
-          max-width: 380px;
+          width: 100%;
+          max-width: 520px;
           margin: 0 auto;
           background: var(--color-surface, #fff);
           border-radius: 18px;
@@ -33,7 +34,7 @@ class LabsInputCard extends HTMLElement {
         h3 { margin:0; font-size:1.05rem; font-weight:700; }
         .description { margin-top:8px; color:var(--color-on-surface-muted, #666); font-size:0.95rem; }
         .input-row { margin-top:14px; }
-        input[type="text"] { width:100%; box-sizing:border-box; padding:12px 14px; border-radius:10px; border:1px solid var(--color-outline, #e6e6ea); font-size:1rem; }
+        textarea { width:100%; box-sizing:border-box; padding:12px 14px; border-radius:10px; border:1px solid var(--color-outline, #e6e6ea); font-size:1rem; font-family: inherit; resize: vertical; min-height: 60px; }
         .actions { display:flex; gap:10px; margin-top:16px; justify-content:flex-end; }
         .btn-transparent labs-button {
           background: transparent;
@@ -49,7 +50,7 @@ class LabsInputCard extends HTMLElement {
       </div>
       <div class="description">Add a new item to your Today List.</div>
       <div class="input-row">
-        <input id="cardInput" type="text" placeholder="What do you want to do?" autocomplete="off" />
+        <textarea id="cardInput" rows="2" placeholder="What do you want to do?" autocomplete="off"></textarea>
       </div>
       <div class="actions">
         <div class="btn-transparent">
@@ -74,14 +75,14 @@ class LabsInputCard extends HTMLElement {
         this.dispatchEvent(new CustomEvent('save', { detail: { value }, bubbles: true, composed: true }));
       };
       save.addEventListener('click', () => doSave());
-      // Enter key to save
+      // Ctrl/Cmd + Enter key to save (since Enter should create new lines in textarea)
       input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
           e.preventDefault();
           doSave();
         }
       });
-      
+
     }
   }
 }

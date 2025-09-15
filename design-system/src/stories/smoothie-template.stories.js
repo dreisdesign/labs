@@ -99,7 +99,7 @@ export const SmoothieTemplate = {
             </labs-button>
           </div>
         </labs-footer>
-        <labs-overlay id="settingsOverlay">
+        <labs-overlay id="settingsOverlay" size="medium" transparent>
           <labs-settings-card></labs-settings-card>
         </labs-overlay>
       </div>

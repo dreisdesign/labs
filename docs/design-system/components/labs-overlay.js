@@ -56,12 +56,22 @@ class LabsOverlay extends HTMLElement {
           border-radius: 12px;
           box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
           max-width: 90vw;
+          width: 100%;
+          box-sizing: border-box;
           max-height: 90vh;
           overflow: auto;
           transform: scale(0.95);
           opacity: 0;
           transition: all 0.2s ease;
           z-index: 1;
+        }
+
+        /* Transparent mode - no background/styling when wrapping styled components */
+        :host([transparent]) .overlay-content {
+          background: transparent;
+          box-shadow: none;
+          border-radius: 0;
+          max-height: 95vh;
         }
 
         :host([open]) .overlay-content {

@@ -40,7 +40,7 @@ export const FooterWithSettings = {
           </labs-button>
         </div>
       </labs-footer>
-      <labs-overlay id="settings-overlay">
+      <labs-overlay id="settings-overlay" size="medium" transparent>
         <labs-settings-card></labs-settings-card>
       </labs-overlay>
     `;
