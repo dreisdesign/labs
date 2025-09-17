@@ -42,6 +42,15 @@ class LabsButton extends HTMLElement {
 
           display: inline-block;
         }
+        :host([fullwidth]) {
+          display: block !important;
+          width: 100% !important;
+        }
+        :host([fullwidth]) button {
+          display: flex !important;
+          width: 100% !important;
+          justify-content: flex-end;
+        }
         /* Size variants: default is medium, add large variant via attribute size="large" */
         /* Small size — tighter padding and smaller font */
         :host([size="small"]) {
@@ -80,7 +89,7 @@ class LabsButton extends HTMLElement {
           transition: background 0.15s, color 0.15s, box-shadow 0.15s, transform 0.1s;
           box-shadow: var(--button-shadow, 0 1px 2px rgba(0,0,0,0.04));
           outline: none;
-          min-width: 2.5em;
+          min-width: fit-content;
           min-height: 2.5em;
         }
         /* Click animation - scale down slightly */
@@ -152,7 +161,7 @@ class LabsButton extends HTMLElement {
        color: var(--color-on-surface, var(--settings-icon-color, var(--color-primary)));
           border: none;
           padding: var(--button-icon-padding, 0.5em);
-          min-width: 2.5em;
+          min-width: fit-content;
           min-height: 2.5em;
           width: 2.5em;
           height: 2.5em;
@@ -220,7 +229,7 @@ class LabsButton extends HTMLElement {
           :host([data-collapse~="small"]) button {
             padding-left: 0.5rem;
             padding-right: 0.5rem;
-            min-width: 2.5em;
+            min-width: fit-content;
             width: auto;
           }
         }

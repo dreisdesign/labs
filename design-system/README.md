@@ -11,6 +11,15 @@ This is the canonical design system for Labs apps, featuring a comprehensive two
 
 **🎯 Current Status: Production-Ready & Robust**
 
+**2025-09-16 Icon Issue Reference:**
+
+**Icon Not Showing in Dropdown (e.g. more_vert):**
+- If an icon is missing in the UI, check that its SVG filename in `design-system/icons/` ends with `--labs-icons.svg` (e.g. `more_vert--labs-icons.svg`).
+- The icon generation script (`scripts/generate-icons-list.mjs`) only includes files with this suffix.
+- After renaming, run `npm run r` to regenerate the icons map and sync all components.
+- Manual copying is not required; the build system will sync files automatically.
+- This fixes issues where icons disappear after server restarts or builds.
+
 **2025-09-05 Update:**
 - All icons in Labs apps and demos must use the `<labs-icon>` component and the design system icon set (see `src/components/labs-icon.js`).
 - Inlined SVGs are not allowed in app or demo markup; all icons are loaded dynamically from the icon set for consistency and maintainability.
