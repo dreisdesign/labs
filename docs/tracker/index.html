@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Tracker — Smoothie Scaffold</title>
+    <link rel="stylesheet" href="/labs/design-system/src/styles/tokens/colors.css">
+    <link rel="stylesheet" href="/labs/design-system/src/styles/flavors.css">
+    <link rel="stylesheet" href="/labs/docs/design-system/main.css">
+    <style>
+        :root {
+            --app-max-width: 720px
+        }
+
+        body {
+            font-family: system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 24px;
+            background: var(--color-surface);
+            color: var(--color-on-surface)
+        }
+
+        main {
+            max-width: var(--app-max-width);
+            margin: 0 auto
+        }
+
+        #tracker-root {
+            display: grid;
+            gap: 16px
+        }
+    </style>
+</head>
+
+<body>
+    <main id="app">
+        <section id="tracker-root">
+            <!-- metric card -->
+            <div id="metric-root"></div>
+            <!-- track button -->
+            <div id="track-root"></div>
+            <!-- timestamps list -->
+            <div id="list-root"></div>
+        </section>
+    </main>
+
+    <script type="module" src="/labs/design-system/src/components/labs-button.js"></script>
+    <script type="module" src="/labs/design-system/src/components/labs-card.js"></script>
+    <script type="module" src="/labs/design-system/src/components/labs-list-item.js"></script>
+    <script type="module" src="/labs/docs/tracker/js/main.js"></script>
+</body>
+
+</html>
