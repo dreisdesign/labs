@@ -10,7 +10,26 @@
   - Improved workflow reliability for `npm run l` (local preview) command
   - Ensures correct path rewriting for all deployment scenarios (local, public, GitHub Pages)
 
-## [Unreleased] - 2025-09-15
+## [Unreleased] - 2025-09-17
+
+### Added
+- **New `labs-dropdown` component** - Modular overflow menu component with icon trigger and card-style menu
+- **`fullwidth` attribute for `labs-button`** - Universal 100% width support for buttons in containers
+- **`more_vert` icon** - Added Material Design more vertical icon for dropdown triggers
+
+### Changed
+- **Surface variant tokens** - Added proper theme-specific surface variant tokens for all flavors (Vanilla, Blueberry, Strawberry) to fix hardcoded vanilla colors in common.css
+- **Button alignment** - Improved right-alignment and 100% width behavior for buttons in dropdown menus
+- **Icon button improvements** - Enhanced icon-only button styling and layout consistency
+
+### Fixed
+- **Theme-specific surface colors** - Fixed `--color-surface-variant` and related container tokens to use proper flavor-specific colors instead of hardcoded vanilla
+- **Dropdown button width** - Resolved issue where native buttons inside `labs-button` weren't filling container width
+- **Icon generation** - Updated icon list generation to include new `more_vert` icon
+
+---
+
+## [Previous] - 2025-09-15
 
 ### Changed
 - `labs-input-card` default updated to a two-line textarea (`rows=2`) with keyboard save on Ctrl/Cmd+Enter. (commit `76e1b47`)

@@ -43,6 +43,7 @@ const icons = {
     edit: ICON_BASE + 'edit--labs-icons.svg',
     history: ICON_BASE + 'history--labs-icons.svg',
     indeterminate_check_box: ICON_BASE + 'indeterminate_check_box--labs-icons.svg',
+    more_vert: ICON_BASE + 'more_vert--labs-icons.svg',
     open_in_new: ICON_BASE + 'open_in_new--labs-icons.svg',
     published_with_changes: ICON_BASE + 'published_with_changes--labs-icons.svg',
     rate_review: ICON_BASE + 'rate_review--labs-icons.svg',
@@ -124,23 +125,11 @@ class LabsIcon extends HTMLElement {
       </style>
     `;
 
-    const iconName = this.getAttribute("name");
-    let url = icons[iconName];
-    // console.log('[labs-icon] render:', { iconName, url, icons });
-
-    if (!url) {
-      this.shadowRoot.innerHTML = styleBlock;
-      return;
-    }
-
-    // width/height now handled above for host and SVG
-
-    // Color handling with theme awareness
+    // Color handling with theme awareness (compute before using in placeholder)
     let color = this.getAttribute("color") || "var(--color-on-surface)";
 
     // If color is a CSS variable (token), resolve it to a real value
     if (color.startsWith('var(')) {
-      // Create a temp element to resolve the variable with current theme
       const temp = document.createElement('div');
       temp.style.color = color;
       temp.style.position = 'absolute';
@@ -149,11 +138,9 @@ class LabsIcon extends HTMLElement {
       const computedColor = getComputedStyle(temp).color;
       document.body.removeChild(temp);
 
-      // Only use computed color if it's valid (not transparent or empty)
       if (computedColor && computedColor !== 'rgba(0, 0, 0, 0)' && computedColor !== 'transparent') {
         color = computedColor;
       } else {
-        // Fallback based on current theme using semantic tokens
         const isDark = document.documentElement.classList.contains('theme-dark');
         color = isDark ? getComputedStyle(document.documentElement).getPropertyValue('--color-on-primary')?.trim() || '#fff'
           : getComputedStyle(document.documentElement).getPropertyValue('--color-on-background')?.trim() || '#000';
@@ -166,6 +153,30 @@ class LabsIcon extends HTMLElement {
       color = isDark ? getComputedStyle(document.documentElement).getPropertyValue('--color-on-primary')?.trim() || '#fff'
         : getComputedStyle(document.documentElement).getPropertyValue('--color-on-background')?.trim() || '#000';
     }
+
+    // Simple inline placeholder (vertical ellipsis) so icon appears immediately
+    const placeholder = `
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="12" cy="6" r="1.5" fill="${color}"></circle>
+        <circle cx="12" cy="12" r="1.5" fill="${color}"></circle>
+        <circle cx="12" cy="18" r="1.5" fill="${color}"></circle>
+      </svg>
+    `;
+
+    // Render placeholder immediately while we fetch the full SVG
+    this.shadowRoot.innerHTML = styleBlock + placeholder;
+
+    const iconName = this.getAttribute("name");
+    let url = icons[iconName];
+    // console.log('[labs-icon] render:', { iconName, url, icons });
+
+    if (!url) {
+      this.shadowRoot.innerHTML = styleBlock;
+      return;
+    }
+
+    // width/height now handled above for host and SVG
+
 
     // Try to fetch and inline the SVG
     try {
