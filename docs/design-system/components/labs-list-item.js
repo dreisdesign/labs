@@ -53,12 +53,7 @@ class LabsListItem extends HTMLElement {
           </div>
           <div id="archivedBadgeContainer" aria-hidden="true"></div>
           <div class="actions">
-            <labs-button id="archiveBtn" variant="icon" aria-label="Archive">
-              <labs-icon id="archiveIcon" slot="icon-left" name="archive" width="20" height="20"></labs-icon>
-            </labs-button>
-            <labs-button id="deleteBtn" variant="icon" aria-label="Delete">
-              <labs-icon slot="icon-left" name="delete_forever" width="20" height="20"></labs-icon>
-            </labs-button>
+            <labs-dropdown id="overflowMenu" aria-label="More actions"></labs-dropdown>
           </div>
         </div>
       `;
@@ -71,22 +66,26 @@ class LabsListItem extends HTMLElement {
           this.dispatchEvent(new CustomEvent('toggle', { detail: { checked: this._checked, id: this._id }, bubbles: true, composed: true }));
         });
       }
-      const archive = this.shadowRoot.getElementById('archiveBtn');
-      if (archive) archive.addEventListener('click', () => {
-        if (this.hasAttribute('archived') && !this.hasAttribute('restored')) {
-          // Request that the app create a restored copy while leaving this archived item in place
-          // Mark this archived instance as 'restored' so it shows the inactive/history icon
-          this.setAttribute('restored', '');
-          this.dispatchEvent(new CustomEvent('request-restore-copy', { detail: { value: this._value, id: this._id }, bubbles: true, composed: true }));
-        } else if (!this.hasAttribute('archived')) {
-          this._archive();
-        }
-      });
-      const del = this.shadowRoot.getElementById('deleteBtn');
-      if (del) del.addEventListener('click', () => {
-        // Only allow deletion when the item is archived. Live items must be archived first.
-        if (this.hasAttribute('archived')) this._remove();
-      });
+      const overflow = this.shadowRoot.getElementById('overflowMenu');
+      if (overflow) {
+        // Forward archive/restore/remove events from the dropdown to the host
+        overflow.addEventListener('archive', (e) => {
+          // If archived, emit restore/request-restore-copy semantics similar to the previous button behavior
+          if (this.hasAttribute('archived') && !this.hasAttribute('restored')) {
+            this.setAttribute('restored', '');
+            this.dispatchEvent(new CustomEvent('request-restore-copy', { detail: { value: this._value, id: this._id }, bubbles: true, composed: true }));
+          } else if (!this.hasAttribute('archived')) {
+            this._archive();
+          }
+        });
+        overflow.addEventListener('restore', (e) => {
+          // direct restore intent
+          this._restore();
+        });
+        overflow.addEventListener('remove', (e) => {
+          if (this.hasAttribute('archived')) this._remove();
+        });
+      }
     }
     // Update checkbox state and text content only
     const chk = this.shadowRoot.getElementById('chk');
@@ -117,6 +116,22 @@ class LabsListItem extends HTMLElement {
     // timestamp small area
     const ts = this.shadowRoot.querySelector('.timestamp');
     if (ts) ts.textContent = this._timestamp ? this._formatTimestamp(this._timestamp) : '';
+
+    // Update dropdown state to match archived/restored attributes
+    const overflow = this.shadowRoot.getElementById('overflowMenu');
+    if (overflow) {
+      if (this.hasAttribute('archived')) {
+        overflow.setAttribute('archived', '');
+      } else {
+        overflow.removeAttribute('archived');
+      }
+      if (this.hasAttribute('restored')) {
+        overflow.setAttribute('restored', '');
+      } else {
+        overflow.removeAttribute('restored');
+      }
+    }
+
     // reflect restored/archived state visually and adjust archive icon and aria label
     const archiveIcon = this.shadowRoot.getElementById('archiveIcon');
     const archiveBtn = this.shadowRoot.getElementById('archiveBtn');
