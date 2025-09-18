@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="flavor-blueberry theme-light">
 
 <head>
     <meta charset="utf-8" />
@@ -13,42 +13,131 @@
             --app-max-width: 720px
         }
 
+        html,
         body {
-            font-family: system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            height: 100%;
             margin: 0;
-            padding: 24px;
-            background: var(--color-surface);
-            color: var(--color-on-surface)
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-family: system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            background: var(--color-background, #f6f6f9);
+            color: var(--color-on-surface);
         }
 
         main {
+            flex: 1;
             max-width: var(--app-max-width);
-            margin: 0 auto
+            margin: 0 auto;
+            padding: 24px;
+            box-sizing: border-box;
         }
 
         #tracker-root {
             display: grid;
             gap: 16px
         }
+
+        labs-footer {
+            flex-shrink: 0;
+            width: 100%;
+            margin: 0;
+            padding: 0 12px;
+            box-sizing: border-box;
+        }
+
+        #footer-settings-btn labs-icon {
+            width: 28px;
+            height: 28px;
+            transition: transform 0.4s cubic-bezier(.4, 2, .6, 1);
+        }
+
+        #footer-settings-btn:hover labs-icon {
+            transform: rotate(90deg);
+        }
+
+        .footer-center {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
     </style>
 </head>
 
 <body>
+    <!-- Settings overlay -->
+    <labs-overlay id="settingsOverlay" size="medium" transparent>
+        <labs-settings-card></labs-settings-card>
+    </labs-overlay>
+
     <main id="app">
         <section id="tracker-root">
             <!-- metric card -->
             <div id="metric-root"></div>
-            <!-- track button -->
-            <div id="track-root"></div>
             <!-- timestamps list -->
             <div id="list-root"></div>
         </section>
     </main>
 
+    <!-- Footer with settings -->
+    <labs-footer full-width elevated>
+
+        <div slot="center" class="footer-center">
+            <labs-button id="footer-track-btn" size="large" pill variant="primary" fullwidth>
+                <labs-icon name="add" slot="icon-left" width="20" height="20"></labs-icon>Track
+            </labs-button>
+        </div>
+
+        <div slot="right" style="display: flex; align-items: center; gap: 8px;">
+            <labs-button id="footer-settings-btn" variant="icon" aria-label="Settings" title="Settings"
+                style="margin-right:20px;">
+                <labs-icon name="settings" slot="icon-left" width="22" height="22"></labs-icon>
+            </labs-button>
+        </div>
+    </labs-footer>
+
+    <script type="module" src="/labs/design-system/components/labs-icon.js"></script>
     <script type="module" src="/labs/design-system/components/labs-button.js"></script>
     <script type="module" src="/labs/design-system/components/labs-card.js"></script>
     <script type="module" src="/labs/design-system/components/labs-list-item.js"></script>
+    <script type="module" src="/labs/design-system/components/labs-footer.js"></script>
+    <script type="module" src="/labs/design-system/components/labs-overlay.js"></script>
+    <script type="module" src="/labs/design-system/components/labs-settings-card.js"></script>
+    <script type="module" src="/labs/design-system/components/labs-flavor-button.js"></script>
+
+    <!-- Move main.js to the very end for reliable component definition -->
     <script type="module" src="/labs/tracker/js/main.js"></script>
+    <script type="module">
+        // Settings overlay handling (following today-list pattern)
+        document.addEventListener('DOMContentLoaded', () => {
+            const settingsOverlay = document.getElementById('settingsOverlay');
+            const settingsBtn = document.getElementById('footer-settings-btn');
+            const settingsCard = document.querySelector('labs-settings-card');
+            const footerTrackBtn = document.getElementById('footer-track-btn');
+
+            // Connect footer settings button to overlay
+            if (settingsBtn && settingsOverlay) {
+                settingsBtn.addEventListener('click', () => settingsOverlay.open());
+            }
+
+            // Connect settings card close event to overlay
+            if (settingsCard && settingsOverlay) {
+                settingsCard.addEventListener('close', () => settingsOverlay.close());
+            }
+
+            // Connect footer track button to existing track functionality
+            if (footerTrackBtn && window.tracker) {
+                footerTrackBtn.addEventListener('click', () => {
+                    window.tracker.handleTrack();
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

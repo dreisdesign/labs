@@ -11,14 +11,14 @@ Steps & Components
 -------------------
 
 1. Setup base template
-   - [ ] Create a new page using the Smoothie template as a base (`templates/smoothie-template`).
-   - [ ] Ensure global tokens and `flavors.css` are loaded and match app expectations.
+   - [x] Create a new page using the Smoothie template as a base (`templates/smoothie-template`).
+   - [x] Ensure global tokens and `flavors.css` are loaded and match app expectations.
 
 2. Core UI pieces to implement (Smoothie equivalents)
-   - [ ] Metric card (summary/total) — map to `labs-card` + heading + large numeric value pattern
-   - [ ] Primary Track button — implement using `labs-button` (support both top/bottom placements)
-   - [ ] Settings button & overlay — replace current overlay with `labs-overlay` + `labs-settings-card` or equivalent
-   - [ ] Timestamp list — implement using `labs-list` / `labs-list-item` pattern (grouped by date)
+   - [x] Metric card (summary/total) — map to `labs-card` + heading + large numeric value pattern (NEW: Created "metric" variant for labs-card with proper typography tokens)
+   - [x] Primary Track button — implement using `labs-button` (support both top/bottom placements) (implemented in footer)  
+   - [x] Settings button & overlay — replace current overlay with `labs-overlay` + `labs-settings-card` or equivalent (NEW: Added dark mode toggle and flavor button to settings)
+   - [x] Timestamp list — implement using `labs-list` / `labs-list-item` pattern (grouped by date) (NEW: Added text-only variant for labs-list-item without checkboxes)
    - [ ] Undo affordance — use `labs-toast` or `labs-button` with overlay for undo interactions
    - [ ] Comment overlay — map to `labs-overlay` + `labs-input-card` or a lightweight `labs-card` with textarea
    - [ ] Label edit overlay — similar mapping to comment overlay
@@ -34,12 +34,12 @@ Steps & Components
    - [ ] Move app-specific static images (if still needed) into design-system icons when appropriate
 
 5. Theming & Tokens
-   - [ ] Ensure the app uses `--color-surface-variant` and flavor tokens instead of hardcoded colors
-   - [ ] Validate dark-mode switch and persistence via `localStorage` (existing theme logic should remain)
+   - [x] Ensure the app uses `--color-surface-variant` and flavor tokens instead of hardcoded colors (NEW: Added typography tokens for metric display: --font-size-h1, --font-weight-heading tokens for large bold numbers)
+   - [x] Validate dark-mode switch and persistence via `localStorage` (NEW: Added theme.js utilities and integrated dark mode toggle + flavor button in settings card)
 
 6. Migration & Cleanup
-   - [ ] Move current tracker HTML/CSS/JS to `_archive` directory (already done)
-   - [ ] Implement the new tracker under `docs/tracker/` (replace index.html and `js/*` as needed)
+   - [x] Move current tracker HTML/CSS/JS to `_archive` directory (already done)
+   - [x] Implement the new tracker under `docs/tracker/` (replace index.html and `js/*` as needed)
    - [ ] Update `docs/tracker/CHANGELOG.md` with migration notes
 
 7. Tests & Validation

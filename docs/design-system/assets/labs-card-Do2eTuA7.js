@@ -1,8 +1,0 @@
-class l extends HTMLElement{constructor(){super(),this.attachShadow({mode:"open"});const e=document.createElement("div");e.className="card";const d=document.createElement("slot");d.name="header";const r=document.createElement("slot");r.name="media";const i=document.createElement("slot"),c=document.createElement("slot");c.name="actions";const s=document.createElement("style");s.textContent=`:host{display:block;--card-padding:var(--space-4,16px);font-family:inherit}
-.card{background:var(--color-surface,#fff);color:var(--color-on-surface);border-radius:var(--radius-2,12px);padding:var(--card-padding);box-shadow:var(--card-elevation, none);border:1px solid color-mix(in srgb, var(--color-on-surface) 6%, transparent)}
-.header{font-weight:600;margin:0 0 8px 0;color:var(--color-on-background, inherit);font-size:1.125rem}
-.description{margin:0 0 12px 0;line-height:1.4;color:var(--color-on-surface, inherit)}
-.media{margin-bottom:12px}
-.actions{display:flex;gap:8px;align-items:center}
-:host([variant="welcome"]) .card{padding:calc(var(--card-padding) * 1.25);}
-`;const a=document.createElement("div");a.className="header",a.setAttribute("part","header");const t=document.createElement("div");t.className="description",t.setAttribute("part","body");const o=document.createElement("div");o.className="media",o.setAttribute("part","media");const n=document.createElement("div");n.className="actions",n.setAttribute("part","actions"),a.appendChild(d),o.appendChild(r),t.appendChild(i),n.appendChild(c),e.appendChild(a),e.appendChild(o),e.appendChild(t),e.appendChild(n),this.shadowRoot.appendChild(s),this.shadowRoot.appendChild(e)}}customElements.get("labs-card")||customElements.define("labs-card",l);export{l as default};

@@ -3,24 +3,30 @@ const store = {
     items: [],
 };
 
+function handleTrack() {
+    store.items.unshift({ ts: Date.now(), note: '' });
+    renderAll();
+}
+
 function renderMetric(root) {
     root.innerHTML = '';
     const card = document.createElement('labs-card');
-    card.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:14px;color:var(--color-on-surface-variant)">Entries</div><div style="font-size:28px;font-weight:700">${store.items.length}</div></div></div>`;
+    card.setAttribute('variant', 'metric');
+
+    const label = document.createElement('div');
+    label.className = 'metric-label';
+    label.textContent = 'Entries';
+
+    const value = document.createElement('div');
+    value.className = 'metric-value';
+    value.textContent = store.items.length;
+
+    card.appendChild(label);
+    card.appendChild(value);
     root.appendChild(card);
 }
 
-function renderTrackButton(root) {
-    root.innerHTML = '';
-    const btn = document.createElement('labs-button');
-    btn.setAttribute('fullwidth', '');
-    btn.textContent = 'Track';
-    btn.addEventListener('click', () => {
-        store.items.unshift({ ts: Date.now(), note: '' });
-        renderAll();
-    });
-    root.appendChild(btn);
-}
+
 
 function renderList(root) {
     root.innerHTML = '';
@@ -31,24 +37,43 @@ function renderList(root) {
     const list = document.createElement('div');
     store.items.forEach(item => {
         const li = document.createElement('labs-list-item');
-        const d = new Date(item.ts).toLocaleString();
-        li.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-weight:600">${d}</div><div style="font-size:12px;color:var(--color-on-surface-variant)">${item.note || ''}</div></div><div><labs-button aria-label="Delete" data-ts="${item.ts}">Delete</labs-button></div></div>`;
-        li.querySelectorAll('labs-button').forEach(b => b.addEventListener('click', (e) => {
-            const ts = Number(b.getAttribute('data-ts'));
+        li.setAttribute('variant', 'text-only');
+        li.setAttribute('value', new Date(item.ts).toLocaleString());
+        li.setAttribute('timestamp', new Date(item.ts).toLocaleString());
+
+        // Add delete button in the actions slot
+        const deleteBtn = document.createElement('labs-button');
+        deleteBtn.setAttribute('aria-label', 'Delete');
+        deleteBtn.setAttribute('data-ts', item.ts);
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.slot = 'actions';
+        deleteBtn.addEventListener('click', (e) => {
+            const ts = Number(deleteBtn.getAttribute('data-ts'));
             store.items = store.items.filter(x => x.ts !== ts);
             renderAll();
-        }));
+        });
+
+        li.appendChild(deleteBtn);
         list.appendChild(li);
     });
     root.appendChild(list);
 }
 
 function renderAll() {
-    renderMetric(document.getElementById('metric-root'));
-    renderTrackButton(document.getElementById('track-root'));
-    renderList(document.getElementById('list-root'));
+    const metricRoot = document.getElementById('metric-root');
+    const listRoot = document.getElementById('list-root');
+    if (metricRoot) renderMetric(metricRoot);
+    if (listRoot) renderList(listRoot);
 }
 
+// Expose tracker functionality globally for footer button
+window.tracker = {
+    handleTrack
+};
+
 document.addEventListener('DOMContentLoaded', () => {
-    renderAll();
+    // Wait for labs-card to be defined before rendering metric card
+    customElements.whenDefined('labs-card').then(() => {
+        renderAll();
+    });
 });
