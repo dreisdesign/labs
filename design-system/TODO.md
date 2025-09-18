@@ -6,16 +6,31 @@
 
 09/18/2025
 
-## Design System Organization
+# Design System Organization
 
 Focus areas: List Item, Dropdown
 Apps: Today-list, Tracker
+---
+## General issues to address
+1. Some components should be generic, and the current components should actually be patterns
 
+Changes
+**Dropdown** (https://dreisdesign.github.io/labs/design-system/?path=/story/components-dropdown--default)
+ - Dropdown should be just the Icon (not the entire list item) - and on click opens dropdown. Currently it's nested in the list item - all i want is to essentially separate it from the list item so that it's a proper stand alone dropdown.
+ - Call it default. What i expect: to see in storybook: just the more_vert icon.
+ - Add a variant showing the open state
+ - The current Archived variant with the checkbox left and dropdown right should actually be a list item pattern variant.
 
 **List Item**
+  - List item (https://dreisdesign.github.io/labs/design-system/?path=/story/components-list-item--default): component should be using slots with controls - those slots should have patterns as selects: Patterns: Button, Checkbox, Dropdown
+  - Text only (https://dreisdesign.github.io/labs/design-system/?path=/story/components-list-item--text-only): Should be renamed to "With dropdown" (following the same naming convention as with Buttons, example: https://dreisdesign.github.io/labs/design-system/?path=/story/components-button--with-left-icon)
+    - Then create a new pattern for List Item. Called "Dropdown" - this will be the one used in tracker.
+    - For text only pattern add a timestamp variant as well. Does it make sense to have a timestamp version of the list item component too?
+    - Timestamp formatting: use the archived Tracker date/time formatting
 
-
-*Storybook* 
+---
+## References
+**List Item**
 Default: https://dreisdesign.github.io/labs/design-system/?path=/story/components-list-item--default
 - Location: Today-List
 Archived / States: https://dreisdesign.github.io/labs/design-system/?path=/story/components-list-item-archived--states 
@@ -24,10 +39,14 @@ Text Only: https://dreisdesign.github.io/labs/design-system/?path=/story/compone
 - Location: Tracker
 
 **Dropdown**
-Locatino: Today-List
+Location: Today-List
 Default: https://dreisdesign.github.io/labs/design-system/?path=/story/components-dropdown--default
 Docs (auto)
 Archived: https://dreisdesign.github.io/labs/design-system/?path=/story/components-dropdown--archived
+
+
+
+
 
 
 ---
@@ -39,6 +58,7 @@ Archived: https://dreisdesign.github.io/labs/design-system/?path=/story/componen
 
 - [ ] **Component Development**
   - [x] ~~Implement labs-dropdown component with fullwidth button support~~ ✅ Completed Sept 17, 2025
+  - [ ] See feature TODO: `TODO-list-item-dropdown.md` for planned List Item + Dropdown work
   - [ ] Implement Alert component using semantic tokens
   - [ ] Create usage examples for new components and patterns as they are added
 
