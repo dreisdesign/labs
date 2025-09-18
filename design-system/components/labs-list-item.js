@@ -16,7 +16,7 @@ class LabsListItem extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['value', 'checked', 'archived', 'restored', 'timestamp', 'date'];
+    return ['value', 'checked', 'archived', 'restored', 'timestamp', 'date', 'variant'];
   }
 
   attributeChangedCallback(name, oldV, newV) {
@@ -24,6 +24,10 @@ class LabsListItem extends HTMLElement {
     if (name === 'timestamp') this._timestamp = newV;
     if (name === 'date') this._date = newV;
     if (name === 'checked') this._checked = this.hasAttribute('checked');
+    if (name === 'variant') {
+      // Force re-render when variant changes to rebuild DOM structure
+      this.shadowRoot.innerHTML = '';
+    }
     // Re-render when archival state changes so the icon and button state update
     if (name === 'archived' || name === 'restored') {
       // no internal field to update, but we need to refresh the DOM
@@ -34,6 +38,8 @@ class LabsListItem extends HTMLElement {
   render() {
     // Only create the DOM structure once
     if (!this.shadowRoot.innerHTML) {
+      const isTextOnly = this.getAttribute('variant') === 'text-only';
+
       this.shadowRoot.innerHTML = `
         <style>
           :host { display: block; width: 100%; font-family: var(--font-family-base, system-ui, sans-serif); }
@@ -44,16 +50,21 @@ class LabsListItem extends HTMLElement {
           .actions { display:flex; gap:8px; align-items:center; }
           labs-button[variant="icon"] { --icon-size:20px; }
           .secondary-variant { background: var(--color-surface-secondary, #f6f7f8); }
+          
+          /* Text-only variant styles */
+          :host([variant="text-only"]) .row { padding: 8px 12px; }
+          :host([variant="text-only"]) .text { font-weight: var(--font-weight-semibold, 600); }
+          :host([variant="text-only"]) .timestamp { margin-left: 0; margin-top: 2px; font-size: 0.75rem; }
         </style>
         <div class="row" role="listitem" data-id="${this._id}">
-          <labs-checkbox id="chk" aria-label="Toggle complete"></labs-checkbox>
+          ${!isTextOnly ? '<labs-checkbox id="chk" aria-label="Toggle complete"></labs-checkbox>' : ''}
           <div style="display:flex;flex-direction:column;flex:1;">
             <div class="text"></div>
             <div class="timestamp" aria-hidden="true"></div>
           </div>
-          <div id="archivedBadgeContainer" aria-hidden="true"></div>
+          ${!isTextOnly ? '<div id="archivedBadgeContainer" aria-hidden="true"></div>' : ''}
           <div class="actions">
-            <labs-dropdown id="overflowMenu" aria-label="More actions"></labs-dropdown>
+            ${!isTextOnly ? '<labs-dropdown id="overflowMenu" aria-label="More actions"></labs-dropdown>' : '<slot name="actions"></slot>'}
           </div>
         </div>
       `;

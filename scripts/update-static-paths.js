@@ -108,6 +108,7 @@ filesToProcess.forEach((filePath) => {
     content = content.replace(/\/labs\/design-system\//g, "/design-system/");
     content = content.replace(/\.\.\/design-system\//g, "/design-system/");
     content = content.replace(/\/labs\/today-list\//g, "/today-list/");
+    content = content.replace(/\/labs\/tracker\//g, "/tracker/");
   } else if (mode === "github") {
     // For GitHub Pages, all paths must be absolute from the repo root.
     // This is a safer, more targeted replacement.
