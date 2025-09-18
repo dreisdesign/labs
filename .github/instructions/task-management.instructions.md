@@ -76,3 +76,68 @@ echo "1" | npm run menu
 - Deployment is handled manually via `npm run d` (deploy script)
 - Uses local build processes and git-based deployment to GitHub Pages
 - Pre-commit hooks and local scripts are preferred for automation
+
+---
+
+# Shadow DOM Component Development
+
+## Common Layout Issues
+When working with web components that use shadow DOM (like `labs-button`, `labs-card`, etc.):
+
+### Problem Pattern: CSS Cannot Penetrate Shadow Boundary
+- External CSS selectors like `.menu labs-button button` cannot reach nested elements inside shadow DOM
+- `width: 100%` on host element doesn't affect internal `<button>` element
+- `display: inline-flex` on internal elements prevents width stretching in flex containers
+
+### ❌ Avoid These Approaches
+- Complex CSS selectors with `!important` to override shadow DOM styles
+- Dynamic width calculations that conflict with CSS layouts
+- Fighting the shadow boundary with external stylesheets
+
+### ✅ Preferred Solution: Component Attributes
+Add semantic attributes to components that internally handle layout needs:
+
+```html
+<!-- Instead of external CSS targeting -->
+<labs-button fullwidth variant="secondary">Archive</labs-button>
+<labs-button fullwidth variant="destructive">Delete</labs-button>
+```
+
+## Component Design Principles
+
+### 1. Self-Contained Layout Logic
+- Components should handle their own layout scenarios internally
+- Use CSS custom properties for flexible theming
+- Provide attributes for common layout needs (`fullwidth`, `metric`, `text-only`)
+
+### 2. Modularity Validation
+Always ask: **"Is this modular?"**
+- Solution should work across different parent contexts
+- Test in dropdowns, cards, flex containers, grid layouts
+- Avoid context-specific CSS in parent containers
+
+### 3. Variant Pattern
+Use semantic attributes for component variations:
+- `labs-card metric` - for large numeric displays
+- `labs-list-item text-only` - for simple text content
+- `labs-button fullwidth` - for container-width buttons
+
+## Debugging Shadow DOM Issues
+
+### 1. Browser Dev Tools Workflow
+- Use Elements panel to inspect shadow DOM structure
+- Check Computed styles to verify CSS application
+- Confirm that styling reaches intended target elements
+
+### 2. Progressive Problem Solving
+1. **Identify shadow boundary** - can external CSS reach the target?
+2. **Check component internals** - what styling exists inside the component?
+3. **Consider component solution** - can an attribute solve this universally?
+4. **Test modularity** - does it work in multiple contexts?
+
+### 3. User Feedback Indicators
+Key phrases that indicate successful solutions:
+- "Finally!" - previous approaches failed, this one works
+- "great!" - confirms the solution is working
+- "Perfect!" - user validation of success
+- Questions about modularity indicate solution quality

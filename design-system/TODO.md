@@ -2,6 +2,36 @@
 # Design System TODO
 
 
+---
+
+09/18/2025
+
+## Design System Organization
+
+Focus areas: List Item, Dropdown
+Apps: Today-list, Tracker
+
+
+**List Item**
+
+
+*Storybook* 
+Default: https://dreisdesign.github.io/labs/design-system/?path=/story/components-list-item--default
+- Location: Today-List
+Archived / States: https://dreisdesign.github.io/labs/design-system/?path=/story/components-list-item-archived--states 
+- Location: Today-List
+Text Only: https://dreisdesign.github.io/labs/design-system/?path=/story/components-list-item--text-only
+- Location: Tracker
+
+**Dropdown**
+Locatino: Today-List
+Default: https://dreisdesign.github.io/labs/design-system/?path=/story/components-dropdown--default
+Docs (auto)
+Archived: https://dreisdesign.github.io/labs/design-system/?path=/story/components-dropdown--archived
+
+
+---
+
 
 
 
@@ -22,6 +52,13 @@
   - [ ] Visual QA: Confirm Storybook sidebar order and Foundation/Token stories are discoverable after config changes (future visual QA)
 
 ## Completed Recent Work
+
+### Development Guidelines & Shadow DOM Issues ✅ (last-reviewed: 2025-09-18)
+- [x] Created comprehensive web component layout guidelines (`web-component-layout.instructions.md`)
+- [x] Updated task management instructions with shadow DOM component patterns
+- [x] Documented common problems and working solutions from real development sessions
+- [x] Added modularity validation checklist for component development
+- [x] Created development lessons document based on button width issue resolution
 
 ### Typography & Tokenization System ✅ (last-reviewed: 2025-09-07)
 - [x] Typography tokens: Added and documented all current and suggested tokens (see `typography.css`)
