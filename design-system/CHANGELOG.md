@@ -1,4 +1,30 @@
-# [v2.1.4] - 2025-08-28 - Robust Colors Story & Theme Mapping
+# [v2.1.7] - 2025-09-18 - Tracker Integration & Component Variants
+
+### 🚀 **New Component Variants**
+- **`labs-card` Metric Variant:**
+  - Added `variant="metric"` for large numeric displays
+  - Uses H1 typography tokens (`--font-size-h1`, `--font-weight-heading`) for bold metric values
+  - Optimized for dashboard and tracking applications
+- **`labs-list-item` Text-Only Variant:**
+  - Added `variant="text-only"` for simple timestamp/text displays
+  - Removes checkbox and overflow menu for clean, read-only list items
+  - Supports actions slot for contextual buttons
+- **Enhanced `labs-settings-card`:**
+  - Built-in dark mode toggle with theme persistence
+  - Integrated flavor selection button for theme customization
+  - Theme utilities properly wired for seamless switching
+
+### 📚 **Storybook Documentation**
+- Added Metric story for `labs-card` showcasing large number displays
+- Added TextOnly story for `labs-list-item` demonstrating timestamp lists
+- Updated component stories with proper variant examples
+
+### 🎯 **Tracker App Integration**
+- Complete migration of Tracker app to use design system components
+- All tracker UI elements now use proper design tokens and components
+- Theme switching and flavor selection fully functional in production
+
+# [v2.1.6] - 2025-09-01 - Storybook docs dark-preview & token fixes
 
 ## [Unreleased] - 2025-09-15
 

@@ -1,4 +1,6 @@
-# 🧪 Labs - Design System & Apps
+# 🧪 Labs - De**2025-09-18:** Tracker app completely migrated to Smoothie Design System with full dark mode and flavor selection support. All components now use proper design tokens and theming.
+
+**2025-09-05:** All icons in apps and demos now use the design system's `<labs-icon>` component and icon set. All inlined SVGs have been removed for consistency and maintainability. Theme and flavor toggles are now fully Storybook-compliant.n System & Apps
 
 > **Modular design system and productivity apps built with Web Components**
 
@@ -8,7 +10,7 @@
 |-----|---------|----------|
 | **🎨 Design System** | Component library & tokens | [Storybook](https://dreisdesign.github.io/labs/design-system/) |
 | **⏰ Focus Timer** | Pomodoro-style productivity timer | [Timer App](https://dreisdesign.github.io/labs/timer/) |
-| **📊 Daily Tracker** | Habit and activity tracking | [Tracker App](https://dreisdesign.github.io/labs/tracker/) |
+| **📊 Daily Tracker** | Habit and activity tracking with dark mode | [Tracker App](https://dreisdesign.github.io/labs/tracker/) |
 | **🖊️ Pad** | Drawing app | [Pad App](https://dreisdesign.github.io/labs/pad/) |
 | **🏠 Labs Homepage** | App launcher and overview | [Homepage](https://dreisdesign.github.io/labs/) |
 

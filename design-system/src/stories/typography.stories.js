@@ -23,6 +23,20 @@ export const Typography = {
           </thead>
           <tbody>
             <tr>
+              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">--font-size-metric-display</td>
+              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">var(--font-size-display)</td>
+              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">var(--font-weight-metric)</td>
+              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">var(--line-height-metric)</td>
+              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);"><span style="font-size:var(--font-size-metric-display); font-weight:var(--font-weight-metric); line-height:var(--line-height-metric);">Metric display</span></td>
+            </tr>
+            <tr>
+              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">--font-size-metric-label</td>
+              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">0.875rem</td>
+              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">var(--font-weight-metric)</td>
+              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">1.1</td>
+              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);"><span style="font-size:var(--font-size-metric-label); font-weight:var(--font-weight-metric);">Metric label</span></td>
+            </tr>
+            <tr>
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">--font-size-h1</td>
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">3rem</td>
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">800</td>

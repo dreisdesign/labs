@@ -10,8 +10,8 @@ const ICON_BASE = (() => {
     return "/labs/design-system/icons/";
   }
 
-  // Local Storybook development - use relative path
-  if (path.includes('iframe.html') || path.includes('storybook') || window.parent !== window) {
+  // Local Storybook development - use relative path (be very specific)
+  if (path.includes('iframe.html') || (path.includes('storybook') && window.parent !== window)) {
     return "/icons/";
   }
 
@@ -43,6 +43,7 @@ const icons = {
     edit: ICON_BASE + 'edit--labs-icons.svg',
     history: ICON_BASE + 'history--labs-icons.svg',
     indeterminate_check_box: ICON_BASE + 'indeterminate_check_box--labs-icons.svg',
+    info: ICON_BASE + 'info--labs-icons.svg',
     more_vert: ICON_BASE + 'more_vert--labs-icons.svg',
     open_in_new: ICON_BASE + 'open_in_new--labs-icons.svg',
     published_with_changes: ICON_BASE + 'published_with_changes--labs-icons.svg',

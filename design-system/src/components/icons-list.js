@@ -24,6 +24,7 @@ export default [
     "edit",
     "history",
     "indeterminate_check_box",
+    "info",
     "more_vert",
     "open_in_new",
     "published_with_changes",
