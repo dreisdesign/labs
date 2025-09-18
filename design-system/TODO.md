@@ -58,7 +58,7 @@ Archived: https://dreisdesign.github.io/labs/design-system/?path=/story/componen
 
 - [ ] **Component Development**
   - [x] ~~Implement labs-dropdown component with fullwidth button support~~ ✅ Completed Sept 17, 2025
-  - [ ] See feature TODO: `TODO-list-item-dropdown.md` for planned List Item + Dropdown work
+  - [ ] See feature TODO: [List Item + Dropdown](TODO-list-item-dropdown.md) for planned List Item + Dropdown work
   - [ ] Implement Alert component using semantic tokens
   - [ ] Create usage examples for new components and patterns as they are added
 
