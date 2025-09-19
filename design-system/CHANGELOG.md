@@ -34,6 +34,15 @@
 	- Labs List Item: replaced icon-only archive action with a small labelled secondary `Archive` button for improved discoverability and accessibility. See commit `76e1b47`.
 	- Documentation: mirrored component changes into `docs/design-system/*` and updated Today List TODO. See commit `3e03fd4`.
 
+	### ✅ Phase 1 Completed — Dropdown Separation (2025-09-19)
+
+	- Extracted and stabilized `labs-dropdown` as a standalone component. Changes include:
+		- Icon-only default trigger and `open` variant for explicit open state.
+		- Added ARIA attributes: `aria-haspopup`, `aria-expanded`, `aria-controls` and `role="menu"` / `role="menuitem"` semantics for menu and items.
+		- Keyboard interaction and focus management for Enter/Space/Arrow/Escape/Home/End.
+		- Storybook stories added: `IconOnly`, `Open`, `InList` and updated `Default` to show icon-only dropdown.
+		- Storybook rebuilt and docs assets synced to `docs/design-system/` for preview.
+
 # [v2.1.6] - 2025-09-01 - Storybook docs dark-preview & token fixes
 
 ### �️ Fixes & Improvements
