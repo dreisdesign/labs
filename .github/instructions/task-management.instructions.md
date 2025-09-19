@@ -38,6 +38,10 @@ Before running server commands, check if a server is already running:
 - Stop gracefully: Use the menu system: `echo "1" | npm run menu`
 - Force stop if needed: `lsof -ti:6006 | xargs kill -9`
 
+## Preview Shortcut
+
+- `npm run rp`: runs the repo preview/menu flow (same as `r`) and attempts to open both `http://localhost:6006` (Storybook) and `http://localhost:8000/` (Labs Homepage) in the default browser once both servers are serving. Use this when you want a quick, detached preview that opens the two key pages.
+
 ---
 
 # Source Directory Structure

@@ -62,6 +62,17 @@ npm run menu
 npm run storybook
 ```
 
+### Preview Shortcut: `rp`
+
+There is a helper script available through npm that runs the repo preview flow (Storybook + Labs Homepage) and will open both pages in your browser when ready:
+
+```bash
+# Start Storybook + Docs preview and open both pages in your browser
+npm run rp
+```
+
+`npm run rp` is a convenience wrapper around the existing `r`/menu flow that attempts to open `http://localhost:6006` and `http://localhost:8000/` after the servers are available. If you run into issues where your OS blocks automatic browser opening, open the URLs manually.
+
 ### **Deployment**
 ```bash
 # Build and deploy to GitHub Pages
