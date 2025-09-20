@@ -6,7 +6,7 @@
   --grid-row-gap: 16px;
   --grid-container-max: 1200px;
   /* App container max width used by apps like Tracker/Today List */
-  --app-container-max: 720px;
+  --app-container-max: 400px;
 
   /* Preset container widths inspired by Tracker app layouts */
   --container-sm: 640px;
@@ -24,6 +24,12 @@
   --grid-container-padding-sm: 12px;
   --grid-container-padding-md: 20px;
   --grid-container-padding-lg: 24px;
+
+  /* Mobile-responsive container tokens for full-bleed patterns */
+  --container-mobile-padding: 12px;
+  --container-mobile-breakpoint: 640px;
+  --container-fullbleed-margin: calc(-1 * var(--container-mobile-padding));
+  --container-fullbleed-width: calc(100% + (2 * var(--container-mobile-padding)));
 
   /* Breakpoint tokens */
   --grid-breakpoint-sm: 640px;
