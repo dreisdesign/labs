@@ -1,10 +1,37 @@
-/* tracker bootstrap: mount initial components and provide tiny in-memory store */
+/* tracker bootstrap: mount initial components and provide persistent store */
+const STORAGE_KEY = 'tracker-items';
+
 const store = {
     items: [],
+
+    // Load items from localStorage
+    load() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (raw) {
+                this.items = JSON.parse(raw) || [];
+            } else {
+                this.items = [];
+            }
+        } catch (e) {
+            console.warn('Failed to load tracker items from storage:', e);
+            this.items = [];
+        }
+    },
+
+    // Save items to localStorage
+    save() {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(this.items));
+        } catch (e) {
+            console.warn('Failed to save tracker items to storage:', e);
+        }
+    }
 };
 
 function handleTrack() {
     store.items.unshift({ ts: Date.now(), note: '' });
+    store.save(); // Persist after adding new item
     renderAll();
 }
 
@@ -30,30 +57,74 @@ function renderMetric(root) {
 
 function renderList(root) {
     root.innerHTML = '';
+    // Always create a consistent list container so empty vs populated layouts match
+    const list = document.createElement('div');
+    // Make list a vertical stack with consistent spacing so layout doesn't shift
+    list.style.display = 'flex';
+    list.style.flexDirection = 'column';
+    list.style.gap = '8px';
+    list.style.width = '100%';
+    list.style.boxSizing = 'border-box';
+    list.style.alignItems = 'stretch';
+
     if (store.items.length === 0) {
-        root.innerHTML = '<div class="empty" style="color:var(--color-on-surface-variant)">No entries — press Track to add one.</div>';
+        const empty = document.createElement('div');
+        empty.className = 'empty';
+        empty.style.color = 'var(--color-on-surface-variant)';
+        empty.textContent = 'No entries — press Track to add one.';
+        list.appendChild(empty);
+        root.appendChild(list);
         return;
     }
-    const list = document.createElement('div');
     store.items.forEach(item => {
         const li = document.createElement('labs-list-item');
+        // Use the new slot-driven labs-list-item API: text-only variant with
+        // concise content and ISO timestamp so the design-system's formatter
+        // (formatTime12) can parse and display local 12-hour time.
         li.setAttribute('variant', 'text-only');
-        li.setAttribute('value', new Date(item.ts).toLocaleString());
-        li.setAttribute('timestamp', new Date(item.ts).toLocaleString());
+        li.setAttribute('value', 'Entry logged');
+        li.setAttribute('timestamp', new Date(item.ts).toISOString());
 
-        // Add delete button in the actions slot
-        const deleteBtn = document.createElement('labs-button');
-        deleteBtn.setAttribute('aria-label', 'Delete');
-        deleteBtn.setAttribute('data-ts', item.ts);
-        deleteBtn.textContent = 'Delete';
-        deleteBtn.slot = 'actions';
-        deleteBtn.addEventListener('click', (e) => {
-            const ts = Number(deleteBtn.getAttribute('data-ts'));
-            store.items = store.items.filter(x => x.ts !== ts);
+        // Add a menu (labs-dropdown) in the actions slot with only the Delete option
+        const overflow = document.createElement('labs-dropdown');
+        overflow.slot = 'actions';
+
+        overflow.setAttribute('aria-label', 'More actions');
+        // show only Delete in the dropdown for Tracker list items
+        overflow.setAttribute('only', 'delete');
+
+        // When the dropdown emits a `remove` event, delete this item with undo toast
+        overflow.addEventListener('remove', (e) => {
+            // Remove the item but keep a copy for undo
+            const removed = store.items.find(x => x.ts === item.ts);
+            store.items = store.items.filter(x => x.ts !== item.ts);
+            store.save(); // Persist after deletion
             renderAll();
+            // Ensure toast exists and show undo action
+            try {
+                if (!document.body.querySelector('labs-toast')) {
+                    const t = document.createElement('labs-toast');
+                    document.body.appendChild(t);
+                }
+                const toast = document.body.querySelector('labs-toast');
+                if (toast) toast.setAttribute('data-variant', 'destructive');
+                if (toast && typeof toast.show === 'function') {
+                    toast.show('Entry deleted', { actionText: 'Undo', duration: 5000 });
+                    const onAction = () => {
+                        if (removed) store.items.unshift(removed);
+                        store.save(); // Persist after undo
+                        toast.removeEventListener('action', onAction);
+                        renderAll();
+                    };
+                    toast.addEventListener('action', onAction, { once: true });
+                }
+            } catch (e) { console.warn('Toast unavailable', e); }
         });
 
-        li.appendChild(deleteBtn);
+        // No shadow DOM manipulation needed — `only="delete"` controls menu rendering
+        console.info('tracker-main: appending labs-dropdown for item', item.ts);
+        li.appendChild(overflow);
+        console.info('tracker-main: appended labs-dropdown', li.querySelector('labs-dropdown') ? 'ok' : 'missing');
         list.appendChild(li);
     });
     root.appendChild(list);
@@ -66,12 +137,20 @@ function renderAll() {
     if (listRoot) renderList(listRoot);
 }
 
-// Expose tracker functionality globally for footer button
+// Expose tracker functionality globally for footer button and reset
 window.tracker = {
-    handleTrack
+    handleTrack,
+    resetAll() {
+        store.items = [];
+        store.save();
+        renderAll();
+    }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Load persisted items before rendering
+    store.load();
+
     // Wait for labs-card to be defined before rendering metric card
     customElements.whenDefined('labs-card').then(() => {
         renderAll();

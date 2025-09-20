@@ -1,6 +1,7 @@
 # Design System: List Item + Dropdown Work
 
 Created: 2025-09-18
+Updated: 2025-09-19
 
 Scope
 - Make `labs-dropdown` a standalone, reusable component (icon-only default + open state variant)
@@ -20,19 +21,38 @@ Phase 1 — Dropdown separation
 - [x] Ensure aria attributes and keyboard interactions are present — Completed 2025-09-19: implemented `aria-haspopup`, `aria-expanded`, `aria-controls`, `role`/`menuitem` semantics and keyboard navigation (Enter/Space/Arrow keys/Escape/Home/End).
 
 Phase 2 — Pattern-driven List Item
-- [ ] Refactor `design-system/src/components/labs-list-item.js` to use named slots: `slot="control"`, `slot="content"`, `slot="meta"`
-- [ ] Add story controls to choose Pattern: `Button | Checkbox | Dropdown`
-- [ ] Ensure `Dropdown` pattern uses the standalone `labs-dropdown`
+ - [x] Refactor `design-system/src/components/labs-list-item.js` to a slot-driven pattern (named slots used: `control`, `content`, `actions`) — Implemented 2025-09-19 with backwards-compatible fallbacks (fallback checkbox + dropdown).
+ - [x] Add story controls to choose Pattern: `slotsPattern` control added to `SlotDriven` story and reused in `Default`/`TextOnly` stories so patterns can be toggled in Storybook.
+ - [x] Ensure `Dropdown` pattern uses the standalone `labs-dropdown` — Stories and `Archived` States now slot `labs-dropdown` into `actions`.
 
 Phase 3 — `text-only` / `timestamp` variant
-- [ ] Add `text-only` attribute/variant handling inside `labs-list-item`
-- [ ] Add `design-system/src/utils/date-format.js` reusing Tracker archived format
-- [ ] Add Storybook stories showing formatted timestamps
+ - [x] Add `text-only` attribute/variant handling inside `labs-list-item` (styles present and `variant="text-only"` supported) — stories updated to use the variant for examples.
+ - [x] Add basic timestamp formatting to `labs-list-item` (`_formatTimestamp`) and updated stories to show `12:00 PM` fallback for invalid timestamps. This implements the 12-hour format fallback; consider extracting to a shared util for reuse by Tracker.
+ - [ ] Add `design-system/src/utils/date-format.js` and reuse Tracker archived format (recommended next step).
+ - [x] Add Storybook stories showing formatted timestamps (examples updated in `labs-list-item.stories.js` and `labs-list-item.archived.stories.js`).
 
 Phase 4 — Docs & Integration
 - [ ] Update Storybook docs and examples for both components
 - [ ] Update `design-system/CHANGELOG.md` and `design-system/TODO.md` when phases complete
 - [ ] Replace in-app usages in Today-list / Tracker to use new patterns
+
+Notes / Observations
+- The component now uses `slot="actions"` (not `meta`) for action slot — decide whether `meta` or `actions` is the canonical name and make it consistent across docs and code.
+- Timestamp logic is implemented inline in `labs-list-item` for now; extracting a shared `date-format` util will make Tracker integration smoother and avoid duplication.
+- Stories were updated to fully rebuild DOM on arg changes so Controls behave deterministically in Storybook (important for review).
+
+Next recommended steps (short-term)
+- [ ] Decide canonical slot name (`actions` vs `meta`) and standardize across component + stories.
+- [ ] Extract date formatting into `design-system/src/utils/date-format.js` and update `labs-list-item` to use it; add unit tests for formatting.
+- [ ] Update Storybook docs (docs pages / README snippets) to document the slot-driven API and show recommended usage patterns (checkbox + content + dropdown pattern).
+- [ ] Create a feature branch and commit the current changes for review: `feature/list-item-slots`.
+- [ ] Update `design-system/CHANGELOG.md` summarizing Phase 1–3 progress and planned Phase 4 work.
+
+Acceptance Criteria (updated)
+- Storybook shows icon-only `labs-dropdown` and `open` variant (done).
+- `labs-list-item` is slot-driven and stories allow selecting patterns (done for SlotDriven/Default/TextOnly/Archived states).
+- `text-only`/timestamp displays use a consistent 12-hour format with sensible fallbacks (implemented; recommend extracting util).
+- Docs updated and in-app usages migrated in a coordinated feature rollout (pending).
 
 Acceptance Criteria
 - [x] Storybook shows icon-only `labs-dropdown` and `open` variant — Verified 2025-09-19 (stories added and Storybook rebuilt locally).

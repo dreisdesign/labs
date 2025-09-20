@@ -25,6 +25,12 @@
   --grid-container-padding-md: 20px;
   --grid-container-padding-lg: 24px;
 
+  /* Mobile-responsive container tokens for full-bleed patterns */
+  --container-mobile-padding: 12px;
+  --container-mobile-breakpoint: 640px;
+  --container-fullbleed-margin: calc(-1 * var(--container-mobile-padding));
+  --container-fullbleed-width: calc(100% + (2 * var(--container-mobile-padding)));
+
   /* Breakpoint tokens */
   --grid-breakpoint-sm: 640px;
   --grid-breakpoint-md: 900px;

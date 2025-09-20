@@ -1,18 +1,31 @@
 // Labs List Item - single-row item for Today List
+import { formatTime12 } from '../utils/date-format.js';
 class LabsListItem extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
     this._id = this.getAttribute('data-id') || `item-${Math.random().toString(36).slice(2, 9)}`;
     this._value = this.getAttribute('value') || this.textContent || '';
-    this._timestamp = this.getAttribute('timestamp') || null; // ISO string or display string
-    this._date = this.getAttribute('date') || null; // YYYY-MM-DD for grouping
+    this._timestamp = this.getAttribute('timestamp') || null;
+    this._date = this.getAttribute('date') || null;
     this._checked = this.hasAttribute('checked');
+    this._slotChangeHandler = this._onSlotChange.bind(this);
     this.render();
   }
 
   connectedCallback() {
     this.render();
+    // Listen for change events from slotted controls (like labs-checkbox)
+    this.addEventListener('change', (e) => {
+      // If a labs-checkbox bubbled up a change, toggle internal state and re-emit
+      if (e.target && e.target.matches && e.target.matches('labs-checkbox')) {
+        const checked = e.detail && !!e.detail.checked;
+        this._checked = checked;
+        if (this._checked) this.setAttribute('checked', ''); else this.removeAttribute('checked');
+        this.dispatchEvent(new CustomEvent('toggle', { detail: { checked: this._checked, id: this._id }, bubbles: true, composed: true }));
+        this.render();
+      }
+    });
   }
 
   static get observedAttributes() {
@@ -24,22 +37,18 @@ class LabsListItem extends HTMLElement {
     if (name === 'timestamp') this._timestamp = newV;
     if (name === 'date') this._date = newV;
     if (name === 'checked') this._checked = this.hasAttribute('checked');
-    if (name === 'variant') {
-      // Force re-render when variant changes to rebuild DOM structure
-      this.shadowRoot.innerHTML = '';
-    }
-    // Re-render when archival state changes so the icon and button state update
-    if (name === 'archived' || name === 'restored') {
-      // no internal field to update, but we need to refresh the DOM
-    }
+    if (name === 'variant') this.shadowRoot.innerHTML = '';
+    this.render();
+  }
+
+  _onSlotChange() {
+    // Re-wire event listeners or re-render if light DOM content changed
     this.render();
   }
 
   render() {
-    // Only create the DOM structure once
+    // Build a slot-driven template with sensible, backwards-compatible fallbacks.
     if (!this.shadowRoot.innerHTML) {
-      const isTextOnly = this.getAttribute('variant') === 'text-only';
-
       this.shadowRoot.innerHTML = `
         <style>
           :host { display: block; width: 100%; font-family: var(--font-family-base, system-ui, sans-serif); }
@@ -50,63 +59,66 @@ class LabsListItem extends HTMLElement {
           .actions { display:flex; gap:8px; align-items:center; }
           labs-button[variant="icon"] { --icon-size:20px; }
           .secondary-variant { background: var(--color-surface-secondary, #f6f7f8); }
-          
-          /* Text-only variant styles */
           :host([variant="text-only"]) .row { padding: 8px 12px; }
           :host([variant="text-only"]) .text { font-weight: var(--font-weight-semibold, 600); }
           :host([variant="text-only"]) .timestamp { margin-left: 0; margin-top: 2px; font-size: 0.75rem; }
         </style>
         <div class="row" role="listitem" data-id="${this._id}">
-          ${!isTextOnly ? '<labs-checkbox id="chk" aria-label="Toggle complete"></labs-checkbox>' : ''}
-          <div style="display:flex;flex-direction:column;flex:1;">
-            <div class="text"></div>
-            <div class="timestamp" aria-hidden="true"></div>
+          <!-- Left control slot: checkbox or other control. Fallback: labs-checkbox -->
+          <slot name="control">
+            <labs-checkbox id="chk" aria-label="Toggle complete"></labs-checkbox>
+          </slot>
+
+          <!-- Content slot: main text + optional inline timestamp fallback -->
+          <div style="display:flex;flex-direction:column;flex:1;min-width:0;">
+            <slot name="content">
+              <div class="text"></div>
+              <div class="timestamp" aria-hidden="true"></div>
+            </slot>
           </div>
-          ${!isTextOnly ? '<div id="archivedBadgeContainer" aria-hidden="true"></div>' : ''}
+
+          <!-- Reserved badge area (fallback empty) -->
+          <div id="archivedBadgeContainer" aria-hidden="true"></div>
+
+          <!-- Actions slot: overflow, buttons. Fallback: labs-dropdown -->
           <div class="actions">
-            ${!isTextOnly ? '<labs-dropdown id="overflowMenu" aria-label="More actions"></labs-dropdown>' : '<slot name="actions"></slot>'}
+            <slot name="actions">
+              <labs-dropdown id="overflowMenu" aria-label="More actions"></labs-dropdown>
+            </slot>
           </div>
         </div>
       `;
-      // Wire events once
-      const chk = this.shadowRoot.getElementById('chk');
-      if (chk) {
-        chk.addEventListener('change', (e) => {
-          this._checked = !!e.detail && !!e.detail.checked;
-          if (this._checked) this.setAttribute('checked', ''); else this.removeAttribute('checked');
-          this.dispatchEvent(new CustomEvent('toggle', { detail: { checked: this._checked, id: this._id }, bubbles: true, composed: true }));
-        });
-      }
-      const overflow = this.shadowRoot.getElementById('overflowMenu');
-      if (overflow) {
-        // Forward archive/restore/remove events from the dropdown to the host
-        overflow.addEventListener('archive', (e) => {
-          // If archived, emit restore/request-restore-copy semantics similar to the previous button behavior
-          if (this.hasAttribute('archived') && !this.hasAttribute('restored')) {
-            this.setAttribute('restored', '');
-            this.dispatchEvent(new CustomEvent('request-restore-copy', { detail: { value: this._value, id: this._id }, bubbles: true, composed: true }));
-          } else if (!this.hasAttribute('archived')) {
-            this._archive();
-          }
-        });
-        overflow.addEventListener('restore', (e) => {
-          // direct restore intent
-          this._restore();
-        });
-        overflow.addEventListener('remove', (e) => {
-          if (this.hasAttribute('archived')) this._remove();
-        });
-      }
+
+      // Wire slotchange observers to respond to light DOM changes
+      const slots = this.shadowRoot.querySelectorAll('slot');
+      slots.forEach(s => s.addEventListener('slotchange', this._slotChangeHandler));
     }
-    // Update checkbox state and text content only
-    const chk = this.shadowRoot.getElementById('chk');
+
+    // Helper lookups: prefer slotted nodes, fall back to shadow fallback elements
+    const slottedControl = this.querySelector('[slot="control"]');
+    const chk = slottedControl || this.shadowRoot.getElementById('chk');
     if (chk) {
-      if (this._checked) {
-        chk.setAttribute('checked', '');
-      } else {
-        chk.removeAttribute('checked');
+      // labs-checkbox emits a 'change' CustomEvent; handle fallback checkbox directly
+      if (chk.tagName && chk.tagName.toLowerCase() === 'labs-checkbox') {
+        // If this is the shadow-hosted fallback checkbox, wire its events directly
+        if (chk.addEventListener && !chk._labsListItemWired) {
+          chk.addEventListener('change', (e) => {
+            const checked = e.detail && !!e.detail.checked;
+            this._checked = checked;
+            if (this._checked) this.setAttribute('checked', ''); else this.removeAttribute('checked');
+            this.dispatchEvent(new CustomEvent('toggle', { detail: { checked: this._checked, id: this._id }, bubbles: true, composed: true }));
+            this.render();
+          });
+          chk._labsListItemWired = true;
+        }
       }
-      // If archived or date is not today, mark checkbox inactive
+
+      // Reflect checked/inactive state
+      if (this._checked) {
+        try { chk.setAttribute('checked', ''); } catch (e) { }
+      } else {
+        try { chk.removeAttribute('checked'); } catch (e) { }
+      }
       const isPrevDay = (() => {
         if (!this._date) return false;
         try {
@@ -117,38 +129,54 @@ class LabsListItem extends HTMLElement {
         } catch (e) { return false; }
       })();
       if (this.hasAttribute('archived') || isPrevDay) {
-        chk.setAttribute('inactive', '');
+        try { chk.setAttribute('inactive', ''); } catch (e) { }
       } else {
-        chk.removeAttribute('inactive');
+        try { chk.removeAttribute('inactive'); } catch (e) { }
       }
     }
-    const textDiv = this.shadowRoot.querySelector('.text');
-    if (textDiv) textDiv.textContent = this._value;
-    // timestamp small area
-    const ts = this.shadowRoot.querySelector('.timestamp');
-    if (ts) ts.textContent = this._timestamp ? this._formatTimestamp(this._timestamp) : '';
 
-    // Update dropdown state to match archived/restored attributes
-    const overflow = this.shadowRoot.getElementById('overflowMenu');
+    // Content: prefer slotted content; if not present, fill fallback text/timestamp
+    const assignedContent = this.querySelector('[slot="content"]');
+    if (!assignedContent) {
+      const textDiv = this.shadowRoot.querySelector('.text');
+      if (textDiv) textDiv.textContent = this._value;
+      const ts = this.shadowRoot.querySelector('.timestamp');
+      if (ts) ts.textContent = this._timestamp ? formatTime12(this._timestamp) : '';
+    }
+
+    // Actions/overflow: respect slotted action node when present
+    const slottedActions = this.querySelector('[slot="actions"]');
+    const overflow = slottedActions || this.shadowRoot.getElementById('overflowMenu');
     if (overflow) {
-      if (this.hasAttribute('archived')) {
-        overflow.setAttribute('archived', '');
-      } else {
-        overflow.removeAttribute('archived');
-      }
-      if (this.hasAttribute('restored')) {
-        overflow.setAttribute('restored', '');
-      } else {
-        overflow.removeAttribute('restored');
+      // Mirror archived/restored attributes onto overflow control regardless of where it lives
+      try {
+        if (this.hasAttribute('archived')) overflow.setAttribute('archived', ''); else overflow.removeAttribute('archived');
+      } catch (e) { }
+      try {
+        if (this.hasAttribute('restored')) overflow.setAttribute('restored', ''); else overflow.removeAttribute('restored');
+      } catch (e) { }
+
+      // Forward archive/restore/remove events from overflow to host if the overflow is in shadow
+      if (overflow.addEventListener && overflow.id === 'overflowMenu' && !overflow._labsListItemWired) {
+        overflow.addEventListener('archive', (e) => {
+          if (this.hasAttribute('archived') && !this.hasAttribute('restored')) {
+            this.setAttribute('restored', '');
+            this.dispatchEvent(new CustomEvent('request-restore-copy', { detail: { value: this._value, id: this._id }, bubbles: true, composed: true }));
+          } else if (!this.hasAttribute('archived')) {
+            this._archive();
+          }
+        });
+        overflow.addEventListener('restore', (e) => this._restore());
+        overflow.addEventListener('remove', (e) => { if (this.hasAttribute('archived')) this._remove(); });
+        overflow._labsListItemWired = true;
       }
     }
 
-    // reflect restored/archived state visually and adjust archive icon and aria label
+    // Update visual state for archive/restore/delete similar to previous behavior
     const archiveIcon = this.shadowRoot.getElementById('archiveIcon');
     const archiveBtn = this.shadowRoot.getElementById('archiveBtn');
     const row = this.shadowRoot.querySelector('.row');
     if (this.hasAttribute('restored')) {
-      // archived-original that has been 'restored' should show history icon and be inactive
       if (archiveIcon) {
         archiveIcon.setAttribute('name', 'history');
         archiveIcon.setAttribute('color', 'var(--color-on-surface)');
@@ -159,19 +187,14 @@ class LabsListItem extends HTMLElement {
         archiveBtn.setAttribute('disabled', '');
         archiveBtn.style.pointerEvents = 'none';
       }
-      if (row) {
-        // Keep the same theme as other items; only reduce opacity for archived/restored
-        row.style.opacity = 'var(--labs-archived-opacity, 0.7)';
-      }
+      if (row) row.style.opacity = 'var(--labs-archived-opacity, 0.7)';
     } else if (this.hasAttribute('archived')) {
-      // archived state shows the history icon visually to indicate archived
       if (archiveIcon) {
         archiveIcon.setAttribute('name', 'history');
         archiveIcon.setAttribute('color', 'var(--color-on-surface)');
         archiveIcon.style.opacity = '';
       }
       if (archiveBtn) {
-        // Replace icon-only button with a labelled restore button for clarity and make it small
         archiveBtn.setAttribute('aria-label', 'Restore');
         archiveBtn.style.pointerEvents = '';
         archiveBtn.removeAttribute('disabled');
@@ -181,10 +204,7 @@ class LabsListItem extends HTMLElement {
           archiveBtn.setAttribute('size', 'small');
         } catch (e) { }
       }
-      // archived items are full opacity when inside the collapsed section
-      if (row) {
-        row.style.opacity = '';
-      }
+      if (row) row.style.opacity = '';
     } else {
       if (archiveIcon) {
         archiveIcon.setAttribute('name', 'archive');
@@ -195,7 +215,6 @@ class LabsListItem extends HTMLElement {
         archiveBtn.setAttribute('aria-label', 'Archive');
         archiveBtn.removeAttribute('disabled');
         archiveBtn.style.pointerEvents = '';
-        // Replace icon-only button with a standard button just like restore
         try {
           archiveBtn.innerHTML = `<labs-icon id="archiveIcon" slot="icon-left" name="archive" width="20" height="20"></labs-icon> Archive`;
           archiveBtn.setAttribute('variant', 'secondary');
@@ -207,13 +226,9 @@ class LabsListItem extends HTMLElement {
         row.classList.remove('secondary-variant');
       }
     }
-    // Render archived badge in the reserved container
-    const badgeContainer = this.shadowRoot.getElementById('archivedBadgeContainer');
-    if (badgeContainer) {
-      badgeContainer.innerHTML = '';
-    }
-    // Show or hide the delete button depending on archived state
-    const deleteBtn = this.shadowRoot.getElementById('deleteBtn');
+
+    // Delete button visibility handling (if present in slotted actions, it should still work)
+    const deleteBtn = this.querySelector('[slot="actions"] #deleteBtn') || this.shadowRoot.getElementById('deleteBtn');
     if (deleteBtn) {
       if (this.hasAttribute('archived')) {
         deleteBtn.style.display = '';
@@ -227,34 +242,14 @@ class LabsListItem extends HTMLElement {
     }
   }
 
-  _formatTimestamp(v) {
-    try {
-      const d = new Date(v);
-      const h = d.getHours().toString().padStart(2, '0');
-      const m = d.getMinutes().toString().padStart(2, '0');
-      return `${h}:${m}`;
-    } catch (e) { return v; }
-  }
-
-  _toggle() {
-    this._checked = !this._checked;
-    if (this._checked) this.setAttribute('checked', ''); else this.removeAttribute('checked');
-    // update aria state on the interactive node if present
-    const chk = this.shadowRoot && this.shadowRoot.getElementById && this.shadowRoot.getElementById('chk');
-    if (chk) chk.setAttribute('aria-checked', String(this._checked));
-    this.dispatchEvent(new CustomEvent('toggle', { detail: { checked: this._checked, id: this._id }, bubbles: true, composed: true }));
-    this.render();
-  }
+  // timestamp formatting delegated to design-system utility
 
   _archive() {
-    // mark as archived; apps will move DOM and persist
     this.setAttribute('archived', '');
-    // emit archive intent
     this.dispatchEvent(new CustomEvent('archive', { detail: { value: this._value, id: this._id }, bubbles: true, composed: true }));
   }
 
   _restore() {
-    // If the item was previously restored (from archive) don't allow re-restore
     if (this.hasAttribute('restored')) return;
     this.removeAttribute('archived');
     this.setAttribute('restored', '');

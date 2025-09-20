@@ -15,7 +15,8 @@
     "public": "node ../scripts/update-static-paths.js --auto",
     "local": "node scripts/open-storybook-local.js",
     "github": "node ../scripts/update-static-paths.js --auto",
-    "lint:tokens:rgb": "node ../scripts/lint-rgb.js"
+    "lint:tokens:rgb": "node ../scripts/lint-rgb.js",
+    "test:unit": "vitest --config ./vitest.node.config.js run"
   },
   "keywords": [
     "storybook",

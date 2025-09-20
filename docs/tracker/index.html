@@ -4,13 +4,13 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Tracker — Smoothie Scaffold</title>
+    <title>Labs: Tracker Powered by Smoothie</title>
     <link rel="stylesheet" href="/labs/design-system/tokens/colors.css">
     <link rel="stylesheet" href="/labs/design-system/styles/flavors.css">
     <link rel="stylesheet" href="/labs/design-system/styles/main.css">
     <style>
         :root {
-            --app-max-width: 720px
+            --app-max-width: 980px;
         }
 
         html,
@@ -67,6 +67,32 @@
             gap: 12px;
         }
     </style>
+    <style>
+        /* Prevent the tracker list from collapsing to a very narrow width
+           when transitioning between empty and populated states. Keep
+           layout responsive but provide a sensible minimum width. */
+        #list-root>div {
+            box-sizing: border-box;
+            width: 100%;
+            min-width: 280px;
+            max-width: 100%;
+        }
+
+        /* Ensure empty message uses full width of the list container */
+        #list-root .empty {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px 0;
+        }
+
+        /* Mobile: add padding to main */
+        @media (max-width: 640px) {
+            main {
+                width: 100%;
+                padding: 12px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -104,8 +130,10 @@
     <script type="module" src="/labs/design-system/components/labs-icon.js"></script>
     <script type="module" src="/labs/design-system/components/labs-button.js"></script>
     <script type="module" src="/labs/design-system/components/labs-card.js"></script>
+    <script type="module" src="/labs/design-system/components/labs-dropdown.js"></script>
     <script type="module" src="/labs/design-system/components/labs-list-item.js"></script>
     <script type="module" src="/labs/design-system/components/labs-footer.js"></script>
+    <script type="module" src="/labs/design-system/components/labs-toast.js"></script>
     <script type="module" src="/labs/design-system/components/labs-overlay.js"></script>
     <script type="module" src="/labs/design-system/components/labs-settings-card.js"></script>
     <script type="module" src="/labs/design-system/components/labs-flavor-button.js"></script>
@@ -128,6 +156,13 @@
             // Connect settings card close event to overlay
             if (settingsCard && settingsOverlay) {
                 settingsCard.addEventListener('close', () => settingsOverlay.close());
+
+                // Connect reset event from settings card
+                settingsCard.addEventListener('reset-all', () => {
+                    if (window.tracker && window.tracker.resetAll) {
+                        window.tracker.resetAll();
+                    }
+                });
             }
 
             // Connect footer track button to existing track functionality
@@ -136,8 +171,12 @@
                     window.tracker.handleTrack();
                 });
             }
+
+
         });
     </script>
+
+
 </body>
 
 </html>

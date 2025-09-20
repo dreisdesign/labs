@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Today List Footer Demo</title>
+  <title>Labs: Today-List Powered by Smoothie</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="stylesheet" href="/labs/design-system/tokens/colors.css">
@@ -134,9 +134,16 @@
       box-sizing: border-box;
     }
 
-    @media (max-width:420px) {
+    @media (max-width: var(--container-mobile-breakpoint, 640px)) {
       .hide-when-narrow {
         display: none !important;
+      }
+
+      /* Mobile responsive list items - same pattern as Tracker */
+      #todayItems labs-list-item {
+        width: 100%;
+        margin: 0;
+        box-sizing: border-box;
       }
     }
   </style>
@@ -176,8 +183,8 @@
     <labs-settings-card></labs-settings-card>
   </labs-overlay>
 
-  <!-- Main content container (centered) -->
-  <div class="app-container" style="display:flex;justify-content:center;">
+  <!-- Main content container (responsive) -->
+  <div class="container-responsive" style="display:flex;justify-content:center;">
     <div id="today-wrapper"
       style="display:flex;flex-direction:column;max-width:400px;width:100%;margin:18px auto 86px;padding:0;box-sizing:border-box;align-items:stretch;">
 

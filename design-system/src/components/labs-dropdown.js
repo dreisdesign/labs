@@ -4,17 +4,29 @@ class LabsDropdown extends HTMLElement {
         super();
         this.attachShadow({ mode: 'open' });
         this._open = false;
+        this._menuId = `labs-dropdown-menu-${Math.random().toString(36).slice(2, 8)}`;
         this.render();
     }
 
-    static get observedAttributes() { return ['archived', 'restored']; }
+    static get observedAttributes() { return ['archived', 'restored', 'open']; }
 
-    attributeChangedCallback() { this.render(); }
+    attributeChangedCallback(name) {
+        if (name === 'open') this._open = this.hasAttribute('open');
+        this.render();
+    }
+
+    get open() { return this._open; }
+    set open(val) {
+        const isOpen = Boolean(val);
+        if (isOpen) this.setAttribute('open', '');
+        else this.removeAttribute('open');
+    }
 
     connectedCallback() {
         document.addEventListener('click', this._outsideClick = (e) => {
             if (!this._open) return;
-            if (!this.contains(e.target) && !this.shadowRoot.contains(e.target)) this._close();
+            const path = e.composedPath ? e.composedPath() : (e.path || []);
+            if (!path.includes(this) && !path.includes(this.shadowRoot)) this._close();
         });
     }
 
@@ -61,17 +73,17 @@ class LabsDropdown extends HTMLElement {
                     .menu labs-button + labs-button { margin-top: 6px; }
                     .menu labs-button[variant="destructive"] labs-icon { color: var(--color-on-error, #fff); }
       </style>
-            <div class="trigger">
-                <labs-button id="toggleBtn" variant="icon" aria-label="More">
-                    <labs-icon slot="icon-left" name="more_vert" width="20" height="20" color="currentColor"></labs-icon>
-                </labs-button>
-            </div>
-      <div id="menu" class="menu" role="menu" aria-hidden="true">
-    <labs-button id="archiveBtn" variant="secondary" size="small" fullwidth>
+                        <div class="trigger">
+                                <labs-button id="toggleBtn" variant="icon" aria-label="More" aria-haspopup="true" aria-expanded="${this._open ? 'true' : 'false'}" aria-controls="${this._menuId}">
+                                        <labs-icon slot="icon-left" name="more_vert" width="20" height="20" color="currentColor"></labs-icon>
+                                </labs-button>
+                        </div>
+            <div id="${this._menuId}" class="menu" role="menu" aria-hidden="true">
+        <labs-button id="archiveBtn" variant="secondary" size="small" fullwidth role="menuitem" tabindex="-1">
           <labs-icon slot="icon-left" name="archive" width="20" height="20"></labs-icon>
           Archive
         </labs-button>
-    <labs-button id="deleteBtn" variant="destructive" size="small" fullwidth>
+        <labs-button id="deleteBtn" variant="destructive" size="small" fullwidth role="menuitem" tabindex="-1">
           <labs-icon slot="icon-left" name="delete_forever" width="20" height="20"></labs-icon>
           Delete
         </labs-button>
@@ -79,7 +91,10 @@ class LabsDropdown extends HTMLElement {
     `;
 
         const toggle = this.shadowRoot.getElementById('toggleBtn');
-        if (toggle) toggle.addEventListener('click', (e) => { e.stopPropagation(); this._toggle(); });
+        if (toggle) {
+            toggle.addEventListener('click', (e) => { e.stopPropagation(); this._toggle(); });
+            toggle.addEventListener('keydown', (e) => this._onToggleKeyDown(e));
+        }
 
         const archiveBtn = this.shadowRoot.getElementById('archiveBtn');
         if (archiveBtn) archiveBtn.addEventListener('click', (e) => {
@@ -100,7 +115,7 @@ class LabsDropdown extends HTMLElement {
         });
 
         // reflect attributes into UI
-        const menu = this.shadowRoot.getElementById('menu');
+        const menu = this.shadowRoot.getElementById(this._menuId);
         if (this.hasAttribute('archived')) {
             // show delete button and change archive label to Restore
             if (archiveBtn) archiveBtn.innerHTML = `<labs-icon slot="icon-left" name="history" width="20" height="20"></labs-icon> Restore`;
@@ -112,13 +127,88 @@ class LabsDropdown extends HTMLElement {
         // Removed dynamic width calculation; menu and buttons use 100% width via CSS
         if (this._open) {
             if (menu) { menu.classList.add('open'); menu.setAttribute('aria-hidden', 'false'); }
+            this.dispatchEvent(new CustomEvent('open', { bubbles: true, composed: true }));
         } else {
             if (menu) { menu.classList.remove('open'); menu.setAttribute('aria-hidden', 'true'); }
+            this.dispatchEvent(new CustomEvent('close', { bubbles: true, composed: true }));
+        }
+
+        // update aria-expanded on the toggle for assistive tech
+        const toggleEl = this.shadowRoot.getElementById('toggleBtn');
+        if (toggleEl) toggleEl.setAttribute('aria-expanded', String(this._open));
+
+        // attach keyboard handler to menu for navigation
+        if (menu) {
+            menu.addEventListener('keydown', (e) => this._onMenuKeyDown(e));
         }
     }
 
-    _toggle() { this._open = !this._open; this.render(); }
-    _close() { this._open = false; this.render(); }
+    // return focusable menu item hosts (labs-button) in order
+    _getMenuItems() {
+        const menu = this.shadowRoot.getElementById(this._menuId);
+        if (!menu) return [];
+        return Array.from(menu.querySelectorAll('labs-button'));
+    }
+
+    _focusItemAt(index) {
+        const items = this._getMenuItems();
+        if (!items.length) return;
+        const idx = (index + items.length) % items.length;
+        const el = items[idx];
+        if (!el) return;
+        // make sure host is focusable
+        if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+        try { el.focus(); } catch (e) { /* best-effort */ }
+        this._currentIndex = idx;
+    }
+
+    _focusFirstItem() { this._focusItemAt(0); }
+    _focusLastItem() { const items = this._getMenuItems(); this._focusItemAt(items.length - 1); }
+
+    _onToggleKeyDown(e) {
+        const key = e.key;
+        if (key === 'Enter' || key === ' ' || key === 'Spacebar') {
+            e.preventDefault(); e.stopPropagation();
+            this.open = true;
+            this._focusFirstItem();
+        } else if (key === 'ArrowDown') {
+            e.preventDefault(); e.stopPropagation();
+            this.open = true; this._focusFirstItem();
+        } else if (key === 'ArrowUp') {
+            e.preventDefault(); e.stopPropagation();
+            this.open = true; this._focusLastItem();
+        }
+    }
+
+    _onMenuKeyDown(e) {
+        const key = e.key;
+        const items = this._getMenuItems();
+        if (!items.length) return;
+        if (key === 'ArrowDown') {
+            e.preventDefault(); e.stopPropagation();
+            this._focusItemAt((this._currentIndex || 0) + 1);
+        } else if (key === 'ArrowUp') {
+            e.preventDefault(); e.stopPropagation();
+            this._focusItemAt((this._currentIndex || 0) - 1);
+        } else if (key === 'Home') {
+            e.preventDefault(); e.stopPropagation();
+            this._focusFirstItem();
+        } else if (key === 'End') {
+            e.preventDefault(); e.stopPropagation();
+            this._focusLastItem();
+        } else if (key === 'Escape') {
+            e.preventDefault(); e.stopPropagation();
+            this._close();
+            const toggle = this.shadowRoot.getElementById('toggleBtn');
+            if (toggle) toggle.focus();
+        } else if (key === 'Tab') {
+            // allow tab to proceed but close the menu
+            this._close();
+        }
+    }
+
+    _toggle() { this.open = !this._open; }
+    _close() { this.open = false; }
 }
 
 if (!customElements.get('labs-dropdown')) customElements.define('labs-dropdown', LabsDropdown);

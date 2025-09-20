@@ -41,6 +41,30 @@ export const States = () => {
         if (archived) item.setAttribute('archived', '');
         if (restored) item.setAttribute('restored', '');
         if (originalId) item.setAttribute('data-original-id', originalId);
+        // Use the standalone labs-dropdown inside the actions slot to match expected pattern
+        const actions = document.createElement('div');
+        actions.slot = 'actions';
+
+        const dd = document.createElement('labs-dropdown');
+        // Mirror archived/restored state into the dropdown so its menu reflects correct actions
+        if (archived) dd.setAttribute('archived', '');
+        if (restored) dd.setAttribute('restored', '');
+
+        // Wire dropdown events to modify the item and show undo toast when needed
+        dd.addEventListener('archive', () => {
+            if (!item.hasAttribute('archived')) item.setAttribute('archived', '');
+        });
+        dd.addEventListener('restore', () => {
+            item.removeAttribute('archived');
+            item.setAttribute('restored', '');
+        });
+        dd.addEventListener('remove', () => {
+            item.dispatchEvent(new CustomEvent('remove', { bubbles: true, composed: true }));
+            item.remove();
+        });
+
+        actions.appendChild(dd);
+        item.appendChild(actions);
         wireUndoToast(item);
         return item;
     }

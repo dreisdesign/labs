@@ -42,6 +42,42 @@ Before running server commands, check if a server is already running:
 
 - `npm run rp`: runs the repo preview/menu flow (same as `r`) and attempts to open both `http://localhost:6006` (Storybook) and `http://localhost:8000/` (Labs Homepage) in the default browser once both servers are serving. Use this when you want a quick, detached preview that opens the two key pages.
 
+## Storybook Testing Links
+
+- **When asked to provide test links for Storybook or the local docs preview**, output a short numbered list of copy-pasteable, clickable URLs the developer can use to open Storybook stories and the local docs preview. Include both the Storybook story path format and the docs preview URLs. Prefer localhost URLs and examples using the repository's Storybook structure.
+- **Required format**: one numbered line per link, the label, then the full URL. Immediately after each numbered link include a concise 2–4 point checklist (bullet lines) describing the Controls and behaviors to verify for that specific story. Example:
+
+	1. **Dropdown — Icon Only:** `http://localhost:6006/?path=/story/components-dropdown--icon-only`
+		 - **Controls:** `open` state
+		 - **Keyboard:** Enter/Space opens trigger
+		 - **A11y:** trigger has `aria-expanded`
+
+	2. **List Item — Slot Driven:** `http://localhost:6006/?path=/story/components-list-item--slot-driven`
+		 - **Controls:** `Slots Pattern` select (`full-slots`, `control-only`, `content-only`, `actions-only`, `fallback`)
+		 - **Events:** `toggle`, `archive`, `restore`, `remove`
+
+- **Additional guidance for the agent**:
+	- If the user provides a story name or component, attempt to build the path automatically using the canonical pattern: `http://localhost:6006/?path=/story/<kebab-group>-<kebab-component>--<kebab-story>`.
+	- Always include the Storybook home (`http://localhost:6006/`) and the docs preview (`http://localhost:8000/`) in the list.
+	- If a server is not currently running (check `lsof -ti:6006` or similar), note that the URL will not be reachable and include the command to start it (e.g., `npm run rp`).
+	- Prefer the developer's configured ports (6006 and 8000) unless the user specifies alternatives.
+
+## Storybook Review Checklist
+
+- When providing Storybook links, include a short checklist of interactive controls and behaviors the reviewer should verify for each story. Keep the checklist concise and actionable.
+- Suggested checks for common stories in this repo:
+	- **Components/Dropdown**
+		- **Controls:** verify `open` state toggle (where provided) and `archived`/`restored` attributes when present.
+		- **Keyboard:** ensure Enter/Space opens trigger and Arrow/Escape handle menu navigation/close.
+		- **A11y:** menu `role="menu"`, items `role="menuitem"`, and `aria-expanded` on trigger.
+	- **Components/List Item**
+		- **Controls:** `variant` (e.g., `text-only`), `checked`, `archived`, and `timestamp`.
+		- **Slots:** in the `Slot Driven` story, test `Slots Pattern` options (`full-slots`, `control-only`, `content-only`, `actions-only`, `fallback`) to validate fallbacks and slotted node behavior.
+		- **Events:** verify `toggle`, `archive`, `restore`, and `remove` events are emitted from interactions.
+
+Include this checklist immediately after the list of links when you supply testing URLs so reviewers have a clear set of steps to validate.
+
+
 ---
 
 # Source Directory Structure

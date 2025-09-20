@@ -208,6 +208,14 @@ function hydrateFromStorage() {
     if (it.timestamp) el.setAttribute('timestamp', it.timestamp);
     if (it.date) el.setAttribute('date', it.date);
     if (it.originalId) el.setAttribute('data-original-id', it.originalId);
+    // Add actions slot with a delete-only dropdown by default for hydrated items
+    const actionsWrap = document.createElement('div');
+    actionsWrap.slot = 'actions';
+    const actionsDropdown = document.createElement('labs-dropdown');
+    actionsDropdown.setAttribute('only', 'delete');
+    actionsDropdown.setAttribute('aria-label', 'More actions');
+    actionsWrap.appendChild(actionsDropdown);
+    el.appendChild(actionsWrap);
     list.appendChild(el);
     wireItemPersistence(el);
   });
@@ -243,7 +251,14 @@ function wireItemPersistence(item) {
         newItem.setAttribute('data-id', `item-${Math.random().toString(36).slice(2, 9)}`);
         // mark the archived original as restored so it shows the history icon and becomes inactive
         if (!item.hasAttribute('restored')) item.setAttribute('restored', '');
-        // wire events for the new item and insert at top of list (Today)
+        // add actions dropdown (delete-only) and wire events for the new item
+        const newActions = document.createElement('div');
+        newActions.slot = 'actions';
+        const newDd = document.createElement('labs-dropdown');
+        newDd.setAttribute('only', 'delete');
+        newDd.setAttribute('aria-label', 'More actions');
+        newActions.appendChild(newDd);
+        newItem.appendChild(newActions);
         wireItemPersistence(newItem);
         const list = document.getElementById('todayItems');
         list.insertBefore(newItem, list.firstChild);
@@ -280,6 +295,14 @@ function wireItemPersistence(item) {
       clone.setAttribute('data-id', `${originalId}-restored`);
       clone.setAttribute('data-original-id', originalId);
       clone.setAttribute('value', item.getAttribute('value') || '');
+      // restored clone should get a delete-only dropdown in its actions slot
+      const cloneActions = document.createElement('div');
+      cloneActions.slot = 'actions';
+      const cloneDd = document.createElement('labs-dropdown');
+      cloneDd.setAttribute('only', 'delete');
+      cloneDd.setAttribute('aria-label', 'More actions');
+      cloneActions.appendChild(cloneDd);
+      clone.appendChild(cloneActions);
       wireItemPersistence(clone);
       today.prepend(clone);
       saveItemsToStorage();
@@ -326,6 +349,14 @@ function wireItemPersistence(item) {
       clone.setAttribute('value', item.getAttribute('value') || '');
       // link restored copy back to original for future duplicate detection
       if (item.getAttribute('data-id')) clone.setAttribute('data-original-id', item.getAttribute('data-id'));
+      // add a delete-only actions dropdown for the restored clone
+      const cloneActions = document.createElement('div');
+      cloneActions.slot = 'actions';
+      const cloneDd = document.createElement('labs-dropdown');
+      cloneDd.setAttribute('only', 'delete');
+      cloneDd.setAttribute('aria-label', 'More actions');
+      cloneActions.appendChild(cloneDd);
+      clone.appendChild(cloneActions);
       wireItemPersistence(clone);
       today.prepend(clone);
       // mark original archived instance as restored so it can't be restored again
@@ -551,6 +582,15 @@ function appendItem(text) {
   const id = `item-${Math.random().toString(36).slice(2, 9)}`;
   item.setAttribute('data-id', id);
   item.setAttribute('value', text);
+  // add a delete-only actions dropdown by default
+  const actionsWrap = document.createElement('div');
+  actionsWrap.slot = 'actions';
+  const dd = document.createElement('labs-dropdown');
+  dd.setAttribute('only', 'delete');
+  dd.setAttribute('aria-label', 'More actions');
+  actionsWrap.appendChild(dd);
+  item.appendChild(actionsWrap);
+
   today.prepend(item);
 
   // wire persistence and event handlers
