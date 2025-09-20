@@ -398,7 +398,7 @@
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
         navigator.serviceWorker
-          .register("./sw.js?v=2")
+          .register("./sw.js?v=3")
           .then((registration) => {
             console.log("SW registered: ", registration);
           })
@@ -421,7 +421,7 @@
       var link = document.getElementById('smoothieLink');
       if (!link) return;
       var localUrl = 'http://localhost:6006/';
-      var publicUrl = '/labs/design-system/';
+      var publicUrl = '/design-system/';
       try {
         var host = window.location.hostname;
         // prefer local when viewing docs on localhost or when port 6006 is present

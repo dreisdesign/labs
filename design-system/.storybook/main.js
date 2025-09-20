@@ -28,7 +28,6 @@ const config = {
   // Serve all static assets (including icons) for Storybook
   staticDirs: [
     { from: "../icons", to: "/icons" },
-    { from: "../assets", to: "/assets" },
   ],
   viteFinal: (config) => {
     config.assetsInclude = config.assetsInclude || [];
