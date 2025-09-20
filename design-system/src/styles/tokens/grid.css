@@ -6,7 +6,7 @@
   --grid-row-gap: 16px;
   --grid-container-max: 1200px;
   /* App container max width used by apps like Tracker/Today List */
-  --app-container-max: 720px;
+  --app-container-max: 400px;
 
   /* Preset container widths inspired by Tracker app layouts */
   --container-sm: 640px;

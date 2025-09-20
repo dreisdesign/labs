@@ -573,6 +573,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // Load persisted items and render welcome state
   hydrateFromStorage();
   renderWelcomeIfEmpty();
+
+  // Show header after app initialization to prevent FOUC
+  const appHeader = document.getElementById('app-header');
+  if (appHeader) {
+    requestAnimationFrame(() => {
+      appHeader.style.opacity = '1';
+    });
+  }
 });
 
 // Append item to the today list
