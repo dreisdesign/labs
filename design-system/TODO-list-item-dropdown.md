@@ -28,13 +28,22 @@ Phase 2 — Pattern-driven List Item
 Phase 3 — `text-only` / `timestamp` variant
  - [x] Add `text-only` attribute/variant handling inside `labs-list-item` (styles present and `variant="text-only"` supported) — stories updated to use the variant for examples.
  - [x] Add basic timestamp formatting to `labs-list-item` (`_formatTimestamp`) and updated stories to show `12:00 PM` fallback for invalid timestamps. This implements the 12-hour format fallback; consider extracting to a shared util for reuse by Tracker.
- - [ ] Add `design-system/src/utils/date-format.js` and reuse Tracker archived format (recommended next step).
+ - [x] Add `design-system/src/utils/date-format.js` and reuse Tracker archived format (recommended next step). — Completed: `formatTime12` util added and unit-tested.
  - [x] Add Storybook stories showing formatted timestamps (examples updated in `labs-list-item.stories.js` and `labs-list-item.archived.stories.js`).
 
 Phase 4 — Docs & Integration
 - [ ] Update Storybook docs and examples for both components
 - [ ] Update `design-system/CHANGELOG.md` and `design-system/TODO.md` when phases complete
-- [ ] Replace in-app usages in Today-list / Tracker to use new patterns
+- [x] **[COMPLETED 2025-09-20]** Mobile responsive styling implemented in Tracker `labs-list-item` — Full-width mobile layout achieved using shadow DOM media queries
+- [x] **[COMPLETED 2025-09-20]** Apply mobile responsive container patterns to Today-list — Updated to use `.container-responsive` class and mobile list item styling
+- [x] **[COMPLETED 2025-09-20]** Extract container layout patterns into design system tokens/components for reusability — Added container tokens and utility classes to grid.css and main.css
+
+Phase 5 — Container Design System (NEW)
+- [x] **Container Tokens** — Added `--container-mobile-padding`, `--container-mobile-breakpoint`, `--container-fullbleed-margin`, `--container-fullbleed-width` to grid.css
+- [x] **Container Utility Classes** — Added `.container-responsive` and `.container-fullbleed` patterns to main.css
+- [x] **Storybook Container Examples** — Added "Container Patterns" story showing Tracker-style (metric card + list) and Today-list style combinations
+- [ ] **Container Components** — Create `labs-container` web component for programmatic container patterns
+- [ ] **Documentation** — Document container design system approach and usage patterns
 
 Notes / Observations
 - The component now uses `slot="actions"` (not `meta`) for action slot — decide whether `meta` or `actions` is the canonical name and make it consistent across docs and code.
@@ -47,6 +56,14 @@ Next recommended steps (short-term)
 - [ ] Update Storybook docs (docs pages / README snippets) to document the slot-driven API and show recommended usage patterns (checkbox + content + dropdown pattern).
 - [ ] Create a feature branch and commit the current changes for review: `feature/list-item-slots`.
 - [ ] Update `design-system/CHANGELOG.md` summarizing Phase 1–3 progress and planned Phase 4 work.
+
+---
+
+Recent notes:
+
+- **Tests:** `vitest` config was updated to use `jsdom` to support DOM-based component tests. `jsdom` was added to `devDependencies` and unit tests for `date-format` and `labs-dropdown` were added and pass locally.
+- **Build integration suggestion:** Consider running `npm --prefix ./design-system run test:unit` as part of `prestorybook` so Storybook fails fast on broken tests. This is reversible and recommended for developer feedback.
+- **[COMPLETED 2025-09-20] Mobile responsive layout:** Successfully implemented mobile-responsive full-width list items in Tracker using shadow DOM internal media queries. Solution uses `width: calc(100% + 24px)`, negative margins, and border styling for edge-to-edge appearance on mobile while maintaining container alignment with metric cards. Applied full-bleed CSS technique within component shadow DOM for reliable cross-boundary styling.
 
 Acceptance Criteria (updated)
 - Storybook shows icon-only `labs-dropdown` and `open` variant (done).
@@ -62,6 +79,36 @@ Acceptance Criteria
 Notes
 - Follow shadow-DOM guidance: prefer component-level attributes (e.g., `fullwidth`) instead of parent CSS hacks
 - Keep changes incremental and test in Storybook after each small commit
+
+---
+
+## Container Design System Architecture
+
+**Problem Solved**: Need for consistent, reusable responsive container patterns across Tracker and Today-list apps.
+
+**Solution Approach**:
+1. **Container Tokens** — CSS custom properties for responsive behavior, padding, breakpoints
+2. **Utility Classes** — Reusable CSS classes for common container patterns (`.container-responsive`, `.container-fullbleed`)
+3. **Component Integration** — List items and cards automatically respect container responsive behavior via shadow DOM media queries
+4. **Storybook Examples** — Visual documentation of container + component combinations
+
+**Benefits**:
+- **Modular**: Each app can use container classes without custom CSS
+- **Responsive**: Mobile-first design with token-driven breakpoints
+- **Consistent**: Same visual behavior across Tracker, Today-list, and future apps
+- **Maintainable**: Centralized responsive logic in design system rather than per-app
+
+**Usage Pattern**:
+```html
+<div class="container-responsive">
+  <labs-card metric><!-- metric card --></labs-card>
+  <div style="display: flex; flex-direction: column; gap: 8px;">
+    <labs-list-item><!-- automatically mobile-responsive --></labs-list-item>
+  </div>
+</div>
+```
+
+**Next Steps**: Consider creating `labs-container` web component for programmatic patterns and advanced responsive behaviors.
 
 ---
 
