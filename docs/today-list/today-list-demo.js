@@ -451,7 +451,7 @@ document.addEventListener('DOMContentLoaded', () => {
           allAppsBtn.addEventListener('click', async (e) => {
             e.preventDefault();
             const localUrl = 'http://localhost:8000/';
-            const publicUrl = 'https://dreisdesign.github.io/labs/';
+            const publicUrl = '/labs/';
             try {
               const controller = new AbortController();
               const timeout = setTimeout(() => controller.abort(), 600);
@@ -506,7 +506,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (settingsCardEl) {
     settingsCardEl.addEventListener('open-all-apps', () => {
       const localUrl = 'http://localhost:8000/';
-      const publicUrl = 'https://dreisdesign.github.io/labs/';
+      const publicUrl = '/labs/';
       (async () => {
         try {
           const controller = new AbortController();

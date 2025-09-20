@@ -135,7 +135,8 @@ class LabsSettingsCard extends HTMLElement {
     const allAppsBtn = this.shadowRoot.getElementById('all-apps-btn');
     if (allAppsBtn) {
       const localUrl = 'http://localhost:8000/';
-      const publicUrl = 'https://dreisdesign.github.io/labs/';
+      // Use repo-scoped fallback for the live docs site so 'All Apps' opens the correct URL
+      const publicUrl = '/labs/';
       const openPreferLocal = async () => {
         // Try a quick fetch to detect local server. Use no-cors so we don't get blocked by CORS.
         const controller = new AbortController();
