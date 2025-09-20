@@ -1,3 +1,14 @@
+# [Unreleased] - 2025-09-20
+
+### Added
+- **Service Worker (minimal):** Repository now includes a minimal service worker to provide a small precache and navigation fallback for demo pages; SW registration was bumped to force updates. (commit `f333b85`)
+
+### Fixed
+- **`labs-settings-card` host probing:** The settings card now only attempts contacting a local dev server when the current page is hosted on `localhost`/`127.0.0.1`, preventing production pages from probing localhost. (commit `842057c`)
+
+### Chore
+- **Deploy automation:** Recent automated deploy commits synced `docs/design-system/` assets and rewrote public paths for GitHub Pages. (commits `02743f4`, `9e724a2`, `13bad60`)
+
 # [v2.1.7] - 2025-09-18 - Tracker Integration & Component Variants
 
 ### 🚀 **New Component Variants**

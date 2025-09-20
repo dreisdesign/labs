@@ -1,3 +1,14 @@
+# [Unreleased] - 2025-09-20
+
+### Added
+- **PWA (minimal):** Registered a minimal service worker with a small precache list, navigation-fallback, and cache-first strategy for same-origin assets to provide basic offline navigation and improve resilience. (commit `f333b85`)
+
+### Fixed
+- **Settings (safety):** `labs-settings-card` now only probes `http://localhost:8000/` when the current page is a local dev page to avoid opening localhost from production/demo pages. (commit `842057c`)
+
+### Chore
+- **Deploy automation:** Multiple automated deploy commits ensured `docs/design-system/` assets are synced and asset paths were rewritten for GitHub Pages. (commits `02743f4`, `9e724a2`, `13bad60`)
+
 # 🎯 v2.4.5 - Tracker Migration Complete: Dark Mode & Design System Integration (September 18, 2025)
 
 ### 🚀 **Tracker App Overhaul**
