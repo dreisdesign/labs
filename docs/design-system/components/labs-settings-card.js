@@ -131,13 +131,20 @@ class LabsSettingsCard extends HTMLElement {
         this.dispatchEvent(new CustomEvent('close', { bubbles: true, composed: true }));
       });
     }
-    // Wire All Apps button to open local dev server if available, otherwise open public URL
+    // Wire All Apps button to open the local dev server only when the current page is local.
+    // On production/docs sites, open the repo-scoped public URL immediately (no fetch attempt).
     const allAppsBtn = this.shadowRoot.getElementById('all-apps-btn');
     if (allAppsBtn) {
       const localUrl = 'http://localhost:8000/';
       // Repo-scoped fallback to open All Apps on the live docs site
       const publicUrl = '/labs/';
+      const isLocalHostPage = typeof window !== 'undefined' && (window.location && (window.location.hostname.includes('localhost') || window.location.hostname === '127.0.0.1'));
       const openPreferLocal = async () => {
+        if (!isLocalHostPage) {
+          // Don't attempt to probe localhost from production — just open the public site.
+          window.open(publicUrl, '_blank');
+          return;
+        }
         // Try a quick fetch to detect local server. Use no-cors so we don't get blocked by CORS.
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 600);
