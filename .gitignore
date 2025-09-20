@@ -37,3 +37,6 @@ _dev/documents/
 # Token scanner outputs (local, generated)
 tmp-token-scan/
 tmp-token-report/
+
+# Ignore accidental nested installs or local copies
+design-system/design-system/
