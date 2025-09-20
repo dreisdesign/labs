@@ -135,7 +135,7 @@ class LabsSettingsCard extends HTMLElement {
     const allAppsBtn = this.shadowRoot.getElementById('all-apps-btn');
     if (allAppsBtn) {
       const localUrl = 'http://localhost:8000/';
-      // Use repo-scoped fallback for the live docs site so 'All Apps' opens the correct URL
+      // Repo-scoped fallback to open All Apps on the live docs site
       const publicUrl = '/labs/';
       const openPreferLocal = async () => {
         // Try a quick fetch to detect local server. Use no-cors so we don't get blocked by CORS.
