@@ -53,10 +53,10 @@ class LabsListItem extends HTMLElement {
         <style>
           :host { display: block; width: 100%; font-family: var(--font-family-base, system-ui, sans-serif); }
           .row { display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:12px; background:var(--color-surface, #fff); width:100%; box-sizing:border-box; min-width:0; }
-          .text { flex:1; font-size:1rem; color:var(--color-on-surface, #111); word-break:break-word; }
+          .text { flex:1; font-size:1rem; color:var(--color-on-surface, #111); word-break:break-word; min-width:0; }
           .timestamp { font-size:0.75rem; color:var(--color-on-surface-variant, #666); margin-left:6px; }
           .badge { font-size:0.625rem; padding:4px 8px; border-radius:999px; background:var(--color-surface-secondary, #f1f3f4); color:var(--color-on-surface); margin-left:8px; }
-          .actions { display:flex; gap:8px; align-items:center; }
+          .actions { display:flex; gap:8px; align-items:center; flex: 0 0 auto; }
           labs-button[variant="icon"] { --icon-size:20px; }
           .secondary-variant { background: var(--color-surface-secondary, #f6f7f8); }
           :host([variant="text-only"]) .row { padding: 8px 12px; }

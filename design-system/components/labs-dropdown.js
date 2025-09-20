@@ -1,4 +1,17 @@
-// Labs Dropdown - simple overflow menu (icon button + card-style menu)
+/**
+ * Labs Dropdown - simple overflow menu (icon button + card-style menu)
+ *
+ * Attributes:
+ * - `open` (boolean): when present, menu is shown.
+ * - `archived` (boolean): reflect archived state to change Archive -> Restore.
+ * - `restored` (boolean): mark the item as a restored copy.
+ * - `only` (string|csv): comma-separated list of menu items to show. Supported values: `archive`, `delete`.
+ *
+ * Events (dispatched on user action):
+ * - `archive` (CustomEvent): request to archive the host item.
+ * - `restore` (CustomEvent): request to restore the host item.
+ * - `remove` (CustomEvent): request to remove/delete the host item.
+ */
 class LabsDropdown extends HTMLElement {
     constructor() {
         super();
@@ -8,10 +21,11 @@ class LabsDropdown extends HTMLElement {
         this.render();
     }
 
-    static get observedAttributes() { return ['archived', 'restored', 'open']; }
+    static get observedAttributes() { return ['archived', 'restored', 'open', 'only']; }
 
     attributeChangedCallback(name) {
         if (name === 'open') this._open = this.hasAttribute('open');
+        // 'only' and other attribute changes simply cause a re-render
         this.render();
     }
 
@@ -78,16 +92,16 @@ class LabsDropdown extends HTMLElement {
                                         <labs-icon slot="icon-left" name="more_vert" width="20" height="20" color="currentColor"></labs-icon>
                                 </labs-button>
                         </div>
-            <div id="${this._menuId}" class="menu" role="menu" aria-hidden="true">
-        <labs-button id="archiveBtn" variant="secondary" size="small" fullwidth role="menuitem" tabindex="-1">
-          <labs-icon slot="icon-left" name="archive" width="20" height="20"></labs-icon>
-          Archive
-        </labs-button>
-        <labs-button id="deleteBtn" variant="destructive" size="small" fullwidth role="menuitem" tabindex="-1">
-          <labs-icon slot="icon-left" name="delete_forever" width="20" height="20"></labs-icon>
-          Delete
-        </labs-button>
-      </div>
+                        <div id="${this._menuId}" class="menu" role="menu" aria-hidden="true">
+                ${this.getAttribute('only') === 'delete' ? '' : `<labs-button id="archiveBtn" variant="secondary" size="small" fullwidth role="menuitem" tabindex="-1">
+                    <labs-icon slot="icon-left" name="archive" width="20" height="20"></labs-icon>
+                    Archive
+                </labs-button>`}
+                <labs-button id="deleteBtn" variant="destructive" size="small" fullwidth role="menuitem" tabindex="-1">
+                    <labs-icon slot="icon-left" name="delete_forever" width="20" height="20"></labs-icon>
+                    Delete
+                </labs-button>
+            </div>
     `;
 
         const toggle = this.shadowRoot.getElementById('toggleBtn');
@@ -116,7 +130,19 @@ class LabsDropdown extends HTMLElement {
 
         // reflect attributes into UI
         const menu = this.shadowRoot.getElementById(this._menuId);
-        if (this.hasAttribute('archived')) {
+        const onlyRaw = this.getAttribute('only') || '';
+        const only = onlyRaw.split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+        const showArchive = only.length ? only.includes('archive') : true;
+        const showDelete = only.length ? only.includes('delete') : false;
+
+        if (!showArchive) {
+            if (archiveBtn) archiveBtn.style.display = 'none';
+        }
+        if (showDelete) {
+            if (deleteBtn) { deleteBtn.style.display = ''; deleteBtn.removeAttribute('aria-hidden'); deleteBtn.removeAttribute('disabled'); }
+        }
+
+        if (showArchive && this.hasAttribute('archived')) {
             // show delete button and change archive label to Restore
             if (archiveBtn) archiveBtn.innerHTML = `<labs-icon slot="icon-left" name="history" width="20" height="20"></labs-icon> Restore`;
             if (deleteBtn) deleteBtn.style.display = '';
