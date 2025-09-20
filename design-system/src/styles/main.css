@@ -199,6 +199,8 @@ body.dark-mode .close-icon {
 /* === Container Button System === */
 /* Container buttons are now fully modular - all styling handled in component */
 
+/* Container Layout Patterns */
+
 /* Small utility: app container wrapper that respects the design token for app width */
 .app-container {
   max-width: var(--app-container-max, 720px);
@@ -207,4 +209,32 @@ body.dark-mode .close-icon {
   padding-left: 16px;
   padding-right: 16px;
   box-sizing: border-box;
+}
+
+/* Responsive container for mobile-first layouts */
+.container-responsive {
+  max-width: var(--app-container-max, 720px);
+  margin: 0 auto;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+@media (max-width: var(--container-mobile-breakpoint, 640px)) {
+  .container-responsive {
+    padding: var(--container-mobile-padding, 12px);
+  }
+}
+
+/* Full-bleed container pattern - for elements that should span edge-to-edge on mobile */
+.container-fullbleed {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+@media (max-width: var(--container-mobile-breakpoint, 640px)) {
+  .container-fullbleed {
+    margin-left: var(--container-fullbleed-margin, -12px);
+    margin-right: var(--container-fullbleed-margin, -12px);
+    width: var(--container-fullbleed-width, calc(100% + 24px));
+  }
 }
