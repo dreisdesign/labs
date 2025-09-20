@@ -242,8 +242,7 @@
     </h1>
     <div class="header-controls" style="display:flex; align-items:center; gap:0.75rem;">
       <span style="font-size:0.95rem;color:var(--text);">Powered by</span>
-      <a id="smoothieLink" href="http://localhost:6006/" target="_blank" rel="noopener"
-        style="display:inline-flex; align-items:center;">
+      <a id="smoothieLink" href="labs/" target="_blank" rel="noopener" style="display:inline-flex; align-items:center;">
         <!-- smoothie-dark.svg inlined and scaled responsively -->
         <svg viewBox="0 0 585 109" xmlns="http://www.w3.org/2000/svg" class="smoothie-logo">
           <g id="smoothie-dark">
@@ -422,7 +421,7 @@
       var link = document.getElementById('smoothieLink');
       if (!link) return;
       var localUrl = 'http://localhost:6006/';
-      var publicUrl = 'https://dreisdesign.github.io/design-system/';
+      var publicUrl = '/labs/design-system/';
       try {
         var host = window.location.hostname;
         // prefer local when viewing docs on localhost or when port 6006 is present
