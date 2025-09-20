@@ -24,6 +24,40 @@ Next recommended steps (short-term)
 - [ ] Create a feature branch and commit the current changes for review: `feature/list-item-slots`.
 - [ ] Update `design-system/CHANGELOG.md` summarizing Phase 1–3 progress and planned Phase 4 work.
 
+New requests (2025-09-20)
+
+- **Make Today-List and Tracker more modular / share more components**
+  - [ ] Extract a canonical container pattern (`labs-container`) or ensure `.container-responsive` is implemented as a documented shared pattern.
+  - [ ] Replace app-specific container divs with the shared container in both `docs/today-list/*` and `docs/tracker/*`.
+  - [x] Footer already migrated to a shared `labs-footer` usage — verify slot API and behaviors in both apps.
+  - [ ] Align the main app container markup and tokens so spacing, max-width and padding are consistent across demos.
+  - [ ] Create small Storybook examples demonstrating the shared container + list-item patterns together.
+
+Timing & priority guidance
+
+- **Priority order (recommended):**
+  1. Tokens & container primitives: confirm `tokens/grid.css` values and add `--app-container-max` note where needed.
+  2. `labs-container` component (optional): if you prefer programmatic control over container behavior, implement after tokens are stable.
+ 3. Migrate Today-List and Tracker to the shared container and run smoke tests.
+ 4. Update stories & docs, then add tests and examples.
+
+- **Timing suggestions:**
+  - Keep each step small and independently commit-able (tokens -> component -> migration -> docs).
+  - Rebuild Storybook after the docs step to catch any visual regressions early.
+
+Migration checklist (short actionable items)
+
+- [ ] Create branch `feature/container-pattern` and implement token docs update.
+- [ ] Create branch `feature/labs-container` if you decide on a web component; otherwise skip and use tokens + utility classes.
+- [ ] Replace container markup in `docs/today-list/index.html` and `docs/tracker/index.html` with the shared pattern and test on mobile widths.
+- [ ] Add a Storybook story `layout-container--app-pattern` showing metric + list-item combos.
+- [ ] Run unit tests and Vitest DOM tests after migration and before deploying docs.
+
+Notes on timing and coordination
+
+- When migrating container markup in the docs pages, avoid large-scope changes in the same commit as component API changes; prefer multiple small commits so the path-fix tooling and Storybook builds remain predictable.
+- Coordinate the `feature/list-item-slots` and `feature/container-pattern` branches to avoid merge conflicts in demos and tokens.
+
 ---
 
 Recent notes:
