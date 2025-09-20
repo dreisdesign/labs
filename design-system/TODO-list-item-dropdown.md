@@ -1,53 +1,20 @@
-# Design System: List Item + Dropdown Work
+# Design System: List Item + Dropdown Outstanding Tasks
 
-Created: 2025-09-18
-Updated: 2025-09-19
+This TODO focuses on remaining work for the list item and dropdown components.
 
-Scope
-- Make `labs-dropdown` a standalone, reusable component (icon-only default + open state variant)
-- Refactor `labs-list-item` into a pattern-driven component with named slots (Button, Checkbox, Dropdown)
-- Add `text-only` / `timestamp` variant and reuse tracker archived timestamp formatting
+## Outstanding Tasks
 
-Goals
-- Reduce duplication and make dropdown a first-class component used across apps
-- Provide clear Storybook examples and patterns so app authors can reuse components
-- Ensure accessibility and consistent timestamp formatting across Tracker and Today-list
-
-Phases & Tasks
-
-Phase 1 — Dropdown separation
-- [x] Verify or extract `design-system/src/components/labs-dropdown.js` as standalone — Completed 2025-09-19: added `open` attribute, stable menu id, and isolated the dropdown rendering and behavior.
-- [x] Add default story showing icon-only (more_vert) and an `open` variant — Completed 2025-09-19: added `IconOnly` and `Open` stories in `design-system/src/stories/labs-dropdown.stories.js` for manual testing.
-- [x] Ensure aria attributes and keyboard interactions are present — Completed 2025-09-19: implemented `aria-haspopup`, `aria-expanded`, `aria-controls`, `role`/`menuitem` semantics and keyboard navigation (Enter/Space/Arrow keys/Escape/Home/End).
-
-Phase 2 — Pattern-driven List Item
- - [x] Refactor `design-system/src/components/labs-list-item.js` to a slot-driven pattern (named slots used: `control`, `content`, `actions`) — Implemented 2025-09-19 with backwards-compatible fallbacks (fallback checkbox + dropdown).
- - [x] Add story controls to choose Pattern: `slotsPattern` control added to `SlotDriven` story and reused in `Default`/`TextOnly` stories so patterns can be toggled in Storybook.
- - [x] Ensure `Dropdown` pattern uses the standalone `labs-dropdown` — Stories and `Archived` States now slot `labs-dropdown` into `actions`.
-
-Phase 3 — `text-only` / `timestamp` variant
- - [x] Add `text-only` attribute/variant handling inside `labs-list-item` (styles present and `variant="text-only"` supported) — stories updated to use the variant for examples.
- - [x] Add basic timestamp formatting to `labs-list-item` (`_formatTimestamp`) and updated stories to show `12:00 PM` fallback for invalid timestamps. This implements the 12-hour format fallback; consider extracting to a shared util for reuse by Tracker.
- - [x] Add `design-system/src/utils/date-format.js` and reuse Tracker archived format (recommended next step). — Completed: `formatTime12` util added and unit-tested.
- - [x] Add Storybook stories showing formatted timestamps (examples updated in `labs-list-item.stories.js` and `labs-list-item.archived.stories.js`).
-
-Phase 4 — Docs & Integration
+### Phase 4 — Documentation & Integration
 - [ ] Update Storybook docs and examples for both components
-- [ ] Update `design-system/CHANGELOG.md` and `design-system/TODO.md` when phases complete
-- [x] **[COMPLETED 2025-09-20]** Mobile responsive styling implemented in Tracker `labs-list-item` — Full-width mobile layout achieved using shadow DOM media queries
-- [x] **[COMPLETED 2025-09-20]** Apply mobile responsive container patterns to Today-list — Updated to use `.container-responsive` class and mobile list item styling
-- [x] **[COMPLETED 2025-09-20]** Extract container layout patterns into design system tokens/components for reusability — Added container tokens and utility classes to grid.css and main.css
+- [ ] Update `design-system/CHANGELOG.md` when work completes
 
-Phase 5 — Container Design System (NEW)
-- [x] **Container Tokens** — Added `--container-mobile-padding`, `--container-mobile-breakpoint`, `--container-fullbleed-margin`, `--container-fullbleed-width` to grid.css
-- [x] **Container Utility Classes** — Added `.container-responsive` and `.container-fullbleed` patterns to main.css
-- [x] **Storybook Container Examples** — Added "Container Patterns" story showing Tracker-style (metric card + list) and Today-list style combinations
-- [ ] **Container Components** — Create `labs-container` web component for programmatic container patterns
-- [ ] **Documentation** — Document container design system approach and usage patterns
+### Phase 5 — Container System Extensions
+- [ ] Create `labs-container` web component for programmatic container patterns
+- [ ] Document container design system approach and usage patterns in Storybook
 
-Notes / Observations
-- The component now uses `slot="actions"` (not `meta`) for action slot — decide whether `meta` or `actions` is the canonical name and make it consistent across docs and code.
-- Timestamp logic is implemented inline in `labs-list-item` for now; extracting a shared `date-format` util will make Tracker integration smoother and avoid duplication.
+## Notes
+- Mobile responsive behavior and container design system are now complete
+- Components use `slot="actions"` for consistency - confirm this is the canonical slot name across docs
 - Stories were updated to fully rebuild DOM on arg changes so Controls behave deterministically in Storybook (important for review).
 
 Next recommended steps (short-term)
