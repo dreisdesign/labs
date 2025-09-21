@@ -7,7 +7,7 @@ import '../components/labs-overlay.js';
 import '../components/labs-settings-card.js';
 
 export default {
-  title: 'Templates/Smoothie Template',
+  title: 'Templates/Legacy Smoothie Template',
   parameters: {
     docs: {
       description: {
