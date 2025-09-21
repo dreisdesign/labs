@@ -106,3 +106,40 @@ Default.args = {
     layout: 'narrow',
     maxWidth: ''
 };
+
+export const WithFooter = {
+  name: 'With Footer',
+  render: (args) => {
+    const container = document.createElement('div');
+    const maxStyle = args.maxWidth ? `--app-container-max: ${args.maxWidth};` : '';
+    const fullAttr = args.layout === 'edge' ? 'fullbleed' : '';
+    const layoutMax = args.layout === 'wide' && !args.maxWidth ? '--app-container-max: 960px;' : '';
+    const combinedStyle = [maxStyle, layoutMax].filter(Boolean).join(' ');
+    container.innerHTML = `
+      <style>
+        html, body { height:100%; margin:0; padding:0; box-sizing:border-box; }
+        .smoothie-root { display:flex; flex-direction:column; height:100vh; background:var(--color-background,#f6f6f9); }
+        .smoothie-root > labs-container { flex:1 1 auto; display:flex; flex-direction:column; }
+        main.app-area { flex:1 1 auto; display:flex; flex-direction:column; gap:12px; overflow:auto; }
+      </style>
+      <div class="smoothie-root">
+        <labs-container ${fullAttr} style="${combinedStyle}">
+          <main class="app-area">
+            <!-- Intentionally empty content area for footer-focused layout -->
+          </main>
+        </labs-container>
+        <labs-footer full-width elevated>
+          <div slot="center"><labs-button pill variant="primary">Add</labs-button></div>
+          <div slot="right"><labs-button variant="icon" aria-label="Settings"><labs-icon name="${args.settingsIcon || 'settings'}" slot="icon-left"></labs-icon></labs-button></div>
+        </labs-footer>
+      </div>
+    `;
+    return container;
+  }
+};
+
+WithFooter.args = {
+  settingsIcon: 'settings',
+  layout: 'narrow',
+  maxWidth: ''
+};
