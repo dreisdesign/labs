@@ -1,6 +1,8 @@
-# 🧪 Labs - De**2025-09-18:** Tracker app completely migrated to Smoothie Design System with full dark mode and flavor selection support. All components now use proper design tokens and theming.
+# 🧪 Labs - De
 
-**2025-09-05:** All icons in apps and demos now use the design system's `<labs-icon>` component and icon set. All inlined SVGs have been removed for consistency and maintainability. Theme and flavor toggles are now fully Storybook-compliant.n System & Apps
+> Latest release: v2.4.6 — Service Worker & Docs Stability (2025-09-21). See `docs/release-2025-09-21.md` or `CHANGELOG.md` for details.
+
+**2025-09-05:** All icons in apps and demos now use the design system's `<labs-icon>` component and icon set. All inlined SVGs have been removed for consistency and maintainability. Theme and flavor toggles are now fully Storybook-compliant.
 
 > **Modular design system and productivity apps built with Web Components**
 

@@ -9,6 +9,20 @@
 ### Chore
 - **Deploy automation:** Multiple automated deploy commits ensured `docs/design-system/` assets are synced and asset paths were rewritten for GitHub Pages. (commits `02743f4`, `9e724a2`, `13bad60`)
 
+# 🎯 v2.4.6 - Service Worker & Docs Stability Release (September 21, 2025)
+
+### Added
+- **Unregister helper:** `scripts/unregister-sws.js` — Puppeteer-based utility to mass-unregister broken service workers during recovery situations (commit `4a40b56`).
+
+### Fixed
+- **Service workers (robust):** Hardened multiple service workers (root `sw.js`, `docs/sw.js`, and app-specific workers) so fetch handlers always return a `Response`, added network-first navigation fallbacks, cache-first asset strategies, and explicit error fallbacks to avoid TypeErrors and broken fetch responses.
+- **Registration safety:** Added a HEAD-check before registering workers to avoid attempting to register 404 worker scripts.
+- **Docs paths & local preview:** Converted production absolute `/labs/...` asset paths in local-preview pages to local-relative imports for reliable local `python -m http.server` previews; `scripts/update-static-paths.js` continues to rewrite paths for GitHub Pages during deploy/commit.
+- **Storybook & icons:** Resolved Storybook duplicate story id, removed an incorrect static mapping, and re-ran icon generation + sync so icons display correctly in Storybook and docs.
+
+### Chore
+- **Deployment:** Full build-and-deploy run (`npm run d`) completed; Storybook static build exported to `design-system/storybook-static` and public assets copied into `docs/design-system/`. Live URLs: `https://dreisdesign.github.io/labs/` and `https://dreisdesign.github.io/labs/design-system/`.
+
 # 🎯 v2.4.5 - Tracker Migration Complete: Dark Mode & Design System Integration (September 18, 2025)
 
 ### 🚀 **Tracker App Overhaul**
