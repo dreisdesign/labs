@@ -108,14 +108,14 @@ Default.args = {
 };
 
 export const WithFooter = {
-  name: 'With Footer',
-  render: (args) => {
-    const container = document.createElement('div');
-    const maxStyle = args.maxWidth ? `--app-container-max: ${args.maxWidth};` : '';
-    const fullAttr = args.layout === 'edge' ? 'fullbleed' : '';
-    const layoutMax = args.layout === 'wide' && !args.maxWidth ? '--app-container-max: 960px;' : '';
-    const combinedStyle = [maxStyle, layoutMax].filter(Boolean).join(' ');
-    container.innerHTML = `
+    name: 'With Footer',
+    render: (args) => {
+        const container = document.createElement('div');
+        const maxStyle = args.maxWidth ? `--app-container-max: ${args.maxWidth};` : '';
+        const fullAttr = args.layout === 'edge' ? 'fullbleed' : '';
+        const layoutMax = args.layout === 'wide' && !args.maxWidth ? '--app-container-max: 960px;' : '';
+        const combinedStyle = [maxStyle, layoutMax].filter(Boolean).join(' ');
+        container.innerHTML = `
       <style>
         html, body { height:100%; margin:0; padding:0; box-sizing:border-box; }
         .smoothie-root { display:flex; flex-direction:column; height:100vh; background:var(--color-background,#f6f6f9); }
@@ -134,12 +134,12 @@ export const WithFooter = {
         </labs-footer>
       </div>
     `;
-    return container;
-  }
+        return container;
+    }
 };
 
 WithFooter.args = {
-  settingsIcon: 'settings',
-  layout: 'narrow',
-  maxWidth: ''
+    settingsIcon: 'settings',
+    layout: 'narrow',
+    maxWidth: ''
 };
