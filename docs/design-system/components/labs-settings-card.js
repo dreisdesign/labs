@@ -101,7 +101,7 @@ class LabsSettingsCard extends HTMLElement {
         labs-button[variant="destructive"] ::slotted(labs-icon) {
           color: var(--color-on-error, #fff);
         }
-      </style>
+  </style>
       <div class="header-row">
         <h3>Settings</h3>
         <labs-button id="icon-close-btn" class="close-btn" variant="icon" aria-label="Close">
@@ -204,13 +204,20 @@ class LabsSettingsCard extends HTMLElement {
       slot.appendChild(btn);
 
       // Ensure a flavor button is present (large) — use labs-flavor-button so label reflects current flavor
-      const flavorBtn = document.createElement('labs-flavor-button');
-      // compute initial human-friendly label from document class
-      const flavorClass = Array.from(document.documentElement.classList).find(c => c && c.startsWith('flavor-'));
-      const flavorKey = flavorClass ? flavorClass.replace('flavor-', '') : 'blueberry';
-      const flavorLabel = flavorKey.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
-      flavorBtn.setAttribute('label', flavorLabel);
-      if (!this.shadowRoot.getElementById('flavor-btn')) slot.appendChild(flavorBtn);
+      import('../components/labs-flavor-button.js').then(() => {
+        const flavorBtn = document.createElement('labs-flavor-button');
+        // compute initial human-friendly label from document class
+        const flavorClass = Array.from(document.documentElement.classList).find(c => c && c.startsWith('flavor-'));
+        const flavorKey = flavorClass ? flavorClass.replace('flavor-', '') : 'blueberry';
+        const flavorLabel = flavorKey.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+        flavorBtn.setAttribute('label', flavorLabel);
+        if (!this.shadowRoot.getElementById('flavor-btn')) slot.appendChild(flavorBtn);
+        // When flavor cycles, re-render label on settings card if needed
+        flavorBtn.addEventListener('cycle-flavor', (e) => {
+          // Bubble up a convenience event so overlays or stories can react
+          this.dispatchEvent(new CustomEvent('flavor-changed', { detail: e.detail, bubbles: true, composed: true }));
+        });
+      }).catch(() => { });
 
       // Wire reset button to dispatch a confirmed reset event
       const resetBtn = this.shadowRoot.getElementById('reset-all-btn');
