@@ -19,7 +19,9 @@ This TODO focuses on remaining work for the list item and dropdown components.
 
 Next recommended steps (short-term)
 - [ ] Decide canonical slot name (`actions` vs `meta`) and standardize across component + stories.
+  - **Decision (recommended):** use `slot="actions"` as the canonical slot name for overflow/menu/action controls. Stories and components currently use `actions` — continue with this pattern.
 - [ ] Extract date formatting into `design-system/src/utils/date-format.js` and update `labs-list-item` to use it; add unit tests for formatting.
+- [x] `design-system/src/utils/date-format.js` exists and unit tests are present. Use this canonical util in list-item and docs.
 - [ ] Update Storybook docs (docs pages / README snippets) to document the slot-driven API and show recommended usage patterns (checkbox + content + dropdown pattern).
 - [ ] Create a feature branch and commit the current changes for review: `feature/list-item-slots`.
 - [ ] Update `design-system/CHANGELOG.md` summarizing Phase 1–3 progress and planned Phase 4 work.
@@ -49,6 +51,7 @@ Migration checklist (short actionable items)
 
 - [ ] Create branch `feature/container-pattern` and implement token docs update.
 - [ ] Create branch `feature/labs-container` if you decide on a web component; otherwise skip and use tokens + utility classes.
+  - **Recommendation:** prefer tokens + utility classes (`.container-responsive`, `--app-container-max`) as the first step; implement `labs-container` only if programmatic control is later required.
 - [ ] Replace container markup in `docs/today-list/index.html` and `docs/tracker/index.html` with the shared pattern and test on mobile widths.
 - [ ] Add a Storybook story `layout-container--app-pattern` showing metric + list-item combos.
 - [ ] Run unit tests and Vitest DOM tests after migration and before deploying docs.

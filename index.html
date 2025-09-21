@@ -277,7 +277,19 @@
   <!-- Service Worker Registration -->
   <script>
     if ("serviceWorker" in navigator) {
-      window.addEventListener("load", () => {
+      window.addEventListener("load", async () => {
+        try {
+          // Check that the service worker script exists before attempting registration
+          const head = await fetch('./sw.js?v=2', { method: 'HEAD' });
+          if (!head.ok) {
+            console.log('SW script not found (skipping registration):', head.status);
+            return;
+          }
+        } catch (e) {
+          console.log('SW script HEAD check failed (skipping registration):', e);
+          return;
+        }
+
         navigator.serviceWorker
           .register("./sw.js?v=3")
           .then((registration) => {

@@ -28,8 +28,7 @@
 
         main {
             flex: 1;
-            max-width: var(--app-container-max);
-            margin: 0 auto;
+            /* width constrained by outer .container-responsive wrapper */
             padding: 24px;
             box-sizing: border-box;
         }
@@ -97,7 +96,7 @@
         <labs-settings-card></labs-settings-card>
     </labs-overlay>
 
-    <main id="app">
+    <main id="app" class="container-responsive">
         <section id="tracker-root">
             <!-- metric card -->
             <div id="metric-root"></div>

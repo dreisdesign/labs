@@ -59,18 +59,18 @@ self.addEventListener("activate", (event) => {
 
 // Fetch event - serve from cache when offline
 self.addEventListener("fetch", (event) => {
-  event.respondWith(
-    caches
-      .match(event.request)
-      .then((response) => {
-        // Return cached version or fetch from network
-        return response || fetch(event.request);
-      })
-      .catch(() => {
-        // If both cache and network fail, return offline page for navigation requests
-        if (event.request.destination === "document") {
-          return caches.match("./index.html");
-        }
-      }),
-  );
+  event.respondWith((async () => {
+    try {
+      const cached = await caches.match(event.request);
+      if (cached) return cached;
+      const networkResp = await fetch(event.request);
+      return networkResp;
+    } catch (e) {
+      if (event.request.destination === 'document') {
+        const fallback = await caches.match('./index.html').catch(() => null);
+        if (fallback) return fallback;
+      }
+      return new Response('Service unavailable', { status: 503 });
+    }
+  })());
 });

@@ -12,3 +12,5 @@ This is the canonical project-wide TODO index file. Keep this file concise — o
 - [Tracker App TODOs](docs/tracker/TODO.md)
 - [Pad App TODOs](docs/pad/TODO.md)
 - [Today List TODOs](docs/today-list/TODO.md)
+ - [Labs Home — App Cards Grid]: docs/home/TODO.md
+
