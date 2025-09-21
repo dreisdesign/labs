@@ -1,9 +1,10 @@
 import '../components/labs-container.js';
 import '../components/labs-card.js';
 
-export default { title: 'Tokens/Grid' };
+// Use a more specific title to avoid colliding story IDs with `grid.stories.js`.
+export default { title: 'Tokens/Grid/Patterns' };
 
-export const ContainerPatterns = () => `
+export const ContainerPatternsLegacy = () => `
   <style>
     .demo-stack { display:flex; flex-direction:column; gap:16px; }
     .example { background: var(--color-surface, #fff); padding:12px; border-radius:12px; }

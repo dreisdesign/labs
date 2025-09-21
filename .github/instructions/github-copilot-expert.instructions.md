@@ -331,3 +331,17 @@ node ../scripts/sync-icons.js
 ---
 
 This instruction set should be referenced whenever GitHub Copilot needs to understand the Labs repository structure, coding patterns, or development workflow. Always prioritize modularity, accessibility, and progressive enhancement in all suggestions and code generation.
+
+## Recent Learnings
+
+Keep these operational lessons in mind when working in the repo — they reflect recurring issues we fixed during local development and troubleshooting.
+
+- **Service workers must always return a Response:** fetch handlers can never resolve with `undefined`. Use `event.respondWith()` with an async wrapper that always returns a `Response` (fallback to a cached index.html or a small offline HTML/503).  Include robust try/catch paths.
+- **Head-check before registration:** When registering a worker from an HTML page, perform a `HEAD` fetch to ensure the script exists (avoids attempting to register a 404 worker during local previews).
+- **Use versioning / cache bumping for fast recovery:** Add query params (e.g. `?v=3`) or bump `CACHE_NAME` to force clients to pick up a new worker after fixes.
+- **Docs local vs public paths:** `docs/` pages are built for GitHub Pages and often contain absolute `/labs/...` paths that 404 on a local `docs/` server. For local previews, use local-relative imports (e.g., `../design-system/...`) — the repo's `scripts/update-static-paths.js` will convert paths for publishing.
+- **Pre-commit path fixer:** Commits run a path-fix step that rewrites local-relative paths into public GitHub Pages paths. Expect local-preview-friendly edits to be normalized on commit.
+- **Storybook upgrade/automigrations can block start:** The `npm run rp` flow may run Storybook upgrade/automigration steps that prompt or fail. To get a running Storybook quickly, start Storybook non-interactively (e.g., `npm --prefix design-system run storybook` or `npx storybook dev -p 6006 --no-manager-cache`). If automigration fails, apply minimal changes to `.storybook/preview.*` or `vitest.setup.*` as suggested in the logs.
+- **Duplicate Story IDs:** Story ids are generated from the story `title` and the named export. Two files can collide (same `title` and export name). Fix by renaming the export or making the `title` more specific.
+- **Icon generation + sync is required before Storybook:** `scripts/generate-icons-list.mjs` / `scripts/sync-icons.js` update `labs-icon` and copy icons to `docs/` and Storybook static output. Don't commit generated `storybook-static/` or `docs/design-system/assets/` build artifacts — clean them up.
+- **Mass unregister helper:** `scripts/unregister-sws.js` exists to mass-unregister service workers via Puppeteer; it works headful but may fail headless. It's useful when a broken worker prevents local pages from loading.
