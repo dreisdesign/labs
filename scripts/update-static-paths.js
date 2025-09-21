@@ -218,6 +218,18 @@ if (fs.existsSync(srcStylesPath)) {
   console.log("Copied main.css to docs with corrected import paths");
 }
 
+// Copy shared Today List styles (tl-entry.css) to public and docs locations
+const srcTlEntry = path.join(__dirname, "../design-system/src/styles/tl-entry.css");
+const publicTlEntryDest = path.join(__dirname, "../design-system/styles/tl-entry.css");
+const docsTlEntryDest = path.join(__dirname, "../docs/design-system/styles/tl-entry.css");
+if (fs.existsSync(srcTlEntry)) {
+  if (!fs.existsSync(path.dirname(publicTlEntryDest))) fs.mkdirSync(path.dirname(publicTlEntryDest), { recursive: true });
+  fs.copyFileSync(srcTlEntry, publicTlEntryDest);
+  if (!fs.existsSync(path.dirname(docsTlEntryDest))) fs.mkdirSync(path.dirname(docsTlEntryDest), { recursive: true });
+  fs.copyFileSync(srcTlEntry, docsTlEntryDest);
+  console.log("Copied tl-entry.css to public and docs styles directories");
+}
+
 // Copy all token CSS files to both public and docs locations
 const tokensSrcDir = path.join(__dirname, "../design-system/src/styles/tokens");
 const publicTokensDestDir = path.join(__dirname, "../design-system/tokens");
@@ -264,6 +276,19 @@ if (fs.existsSync(srcComponentsDir)) {
     }
   });
   console.log("Copied JS components to public location");
+}
+
+// Copy utility JS files (e.g., date-format.js) into docs/design-system/utils
+const srcUtilsDir = path.join(__dirname, "../design-system/src/utils");
+const docsUtilsDest = path.join(__dirname, "../docs/design-system/utils");
+if (fs.existsSync(srcUtilsDir)) {
+  if (!fs.existsSync(docsUtilsDest)) fs.mkdirSync(docsUtilsDest, { recursive: true });
+  fs.readdirSync(srcUtilsDir).forEach((file) => {
+    if (file.endsWith('.js')) {
+      fs.copyFileSync(path.join(srcUtilsDir, file), path.join(docsUtilsDest, file));
+    }
+  });
+  console.log("Copied utils to docs/design-system/utils");
 }
 
 // Ensure all assets (including icons) are present in storybook-static/assets

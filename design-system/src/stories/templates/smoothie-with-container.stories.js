@@ -51,6 +51,23 @@ export const Default = {
         .smoothie-root { display:flex; flex-direction:column; height:100vh; background:var(--color-background,#f6f6f9); }
         /* Let the canonical container fill available space so footer sits at the bottom */
         .smoothie-root > labs-container { flex:1 1 auto; display:flex; flex-direction:column; }
+        /* Edge/full-bleed layout: make the labs-container escape centered max-width
+           and span the full viewport width. The calc(off) trick recenters the
+           element while letting it be 100vw wide so backgrounds and cards can
+           be full-bleed relative to the viewport. */
+        labs-container[fullbleed] {
+          width: 100vw;
+          max-width: none !important;
+          margin-left: calc(50% - 50vw);
+          margin-right: calc(50% - 50vw);
+          padding-left: 0 !important;
+          padding-right: 0 !important;
+          box-sizing: border-box;
+        }
+        labs-container[fullbleed] .app-area {
+          padding-left: 0 !important;
+          padding-right: 0 !important;
+        }
         main.app-area { flex:1 1 auto; display:flex; flex-direction:column; gap:12px; overflow:auto; }
         .app-hero { text-align:center; padding-top:18px; }
         .demo-list { display:flex; flex-direction:column; gap:8px; padding:12px 0; }
@@ -120,6 +137,19 @@ export const WithFooter = {
         html, body { height:100%; margin:0; padding:0; box-sizing:border-box; }
         .smoothie-root { display:flex; flex-direction:column; height:100vh; background:var(--color-background,#f6f6f9); }
         .smoothie-root > labs-container { flex:1 1 auto; display:flex; flex-direction:column; }
+        labs-container[fullbleed] {
+          width: 100vw;
+          max-width: none !important;
+          margin-left: calc(50% - 50vw);
+          margin-right: calc(50% - 50vw);
+          padding-left: 0 !important;
+          padding-right: 0 !important;
+          box-sizing: border-box;
+        }
+        labs-container[fullbleed] .app-area {
+          padding-left: 0 !important;
+          padding-right: 0 !important;
+        }
         main.app-area { flex:1 1 auto; display:flex; flex-direction:column; gap:12px; overflow:auto; }
       </style>
       <div class="smoothie-root">
