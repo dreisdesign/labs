@@ -40,3 +40,4 @@ tmp-token-report/
 
 # Ignore accidental nested installs or local copies
 design-system/design-system/
+/design-system/styles/
