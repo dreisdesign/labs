@@ -24,6 +24,10 @@ This is the canonical project-wide TODO index file. Keep this file concise — o
 
 - [v2.4.6 — Post-deploy QA checklist](docs/release-v2.4.6-qa.md)
 
+## Recent Edits (2025-09-21)
+- Smoothie template: `Templates/Smoothie` Default story patched to correctly render the `edge` layout (full-bleed) for visual treatments in Storybook.
+- Docs path-fix: `scripts/update-static-paths.js` updated to copy `tl-entry.css` and `design-system/src/utils/*.js` into `docs/design-system` to prevent local preview 404s.
+
 
 ## Design System
 - [Design System TODOs](design-system/TODO.md)

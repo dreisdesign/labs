@@ -217,3 +217,7 @@ For development guidelines, see [Modularity Instructions](.github/instructions/M
 ### Input Card & Destructive Button UX
 - Input cards now have `autocomplete="off"` for better browser UX.
 - Destructive button icons (e.g., delete/reset) now always use the correct error color in all themes.
+
+### Small Fixes (2025-09-21)
+- **Smoothie template — edge layout:** The Templates/Smoothie Default story now supports a true "edge" (full-bleed) layout so components and background treatments span the full viewport width in Storybook and demos.
+- **Docs path-fix:** `scripts/update-static-paths.js` was enhanced to copy shared styles (`tl-entry.css`) and `design-system/src/utils/*.js` into `docs/design-system` so local preview (`python3 -m http.server`) no longer 404s for those assets.
