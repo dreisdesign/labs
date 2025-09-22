@@ -1,4 +1,4 @@
-# 🧪 Labs - De
+# 🧪 Labs
 
 > Latest release: v2.4.6 — Service Worker & Docs Stability (2025-09-21). See `docs/release-2025-09-21.md` or `CHANGELOG.md` for details.
 
