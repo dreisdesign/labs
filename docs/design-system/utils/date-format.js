@@ -39,3 +39,31 @@ function to12(hour24, minuteStr) {
 }
 
 export default { formatTime12 };
+
+// Human-friendly date/time: Today 3:05 PM | Yesterday 11:22 AM | Sep 19, 2025 2:05 PM
+export function formatHuman(input) {
+    if (input === null || input === undefined || input === '') return '';
+    const ts = (typeof input === 'number') ? input : Number(input);
+    let date;
+    if (!isNaN(ts)) date = new Date(ts);
+    else date = new Date(String(input));
+    if (isNaN(date.getTime())) return String(input);
+
+    const now = new Date();
+    const todayStr = now.toISOString().slice(0, 10);
+    const dateStr = date.toISOString().slice(0, 10);
+    const time = to12(date.getHours(), String(date.getMinutes()).padStart(2, '0'));
+
+    if (dateStr === todayStr) return `Today ${time}`;
+
+    // Yesterday check
+    const y = new Date(now);
+    y.setDate(now.getDate() - 1);
+    const yStr = y.toISOString().slice(0, 10);
+    if (dateStr === yStr) return `Yesterday ${time}`;
+
+    // Older: short date + time
+    const opts = { year: 'numeric', month: 'short', day: 'numeric' };
+    const datePart = date.toLocaleDateString(undefined, opts);
+    return `${datePart} ${time}`;
+}

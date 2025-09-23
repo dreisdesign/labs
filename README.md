@@ -114,6 +114,22 @@ The system provides palette anchors (`tokens/colors.css`), semantic fallbacks (`
 ### **Project Management**
 - **[📋 Global Changelog](CHANGELOG.md)** - Overall project updates
 
+## 🩹 Recent Fixes (Sept 23, 2025)
+
+- **Reduced FOUC & theme flashes:** Docs pages for Tracker, Today-List, and Pad now include a small synchronous head script that applies saved `localStorage` flavor and theme values before stylesheets load. This prevents the short flash of the default flavor (e.g., blueberry) on first paint.
+- **Tracker theme persistence:** The Tracker demo now persists `tracker-theme` and `tracker-flavor` when settings change so the app restores the correct theme on refresh.
+- **List item timestamp duplication:** `labs-list-item` now hides its shadow DOM timestamp fallback when a slotted, human-friendly label is provided to avoid duplicate timestamps.
+
+Verification steps:
+
+```bash
+# In browser DevTools → Application → Service Workers: unregister any registered workers for the site
+# Hard refresh the demo pages
+# Open: http://localhost:8000/tracker/  http://localhost:8000/today-list/  http://localhost:8000/pad/
+```
+
+If you still see flashes, try clearing site storage for the demo origin and retry.
+
 ### **Legacy & Archived Docs**
 - **[Legacy Documentation](./_dev/_documents/legacy/README.md)** — All legacy, historical, and superseded docs, organized by topic for reference only
 

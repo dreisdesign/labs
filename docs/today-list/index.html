@@ -7,6 +7,48 @@
   <title>Labs: Today-List Powered by Smoothie</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- Apply saved flavor/theme before styles load to prevent FOUC -->
+  <script>
+    (function () {
+      try {
+        var root = document.documentElement;
+
+        function pick(keys) {
+          for (var i = 0; i < keys.length; i++) {
+            try {
+              var v = localStorage.getItem(keys[i]);
+              if (v) return { key: keys[i], value: v };
+            } catch (e) { }
+          }
+          return null;
+        }
+
+        var flavorCandidates = ['today-list-flavor', 'tracker-flavor', 'labs-flavor', 'flavor', 'site-flavor'];
+        var themeCandidates = ['today-list-theme', 'tracker-theme', 'pad-theme', 'labs-theme', 'theme', 'site-theme'];
+
+        var f = pick(flavorCandidates);
+        if (f && f.value) {
+          var fv = f.value.toString();
+          fv = fv.replace(/^flavor-/, '').replace(/^theme-/, '').trim();
+          // remove existing flavor-* classes
+          Array.from(root.classList).forEach(function (c) { if (c && c.indexOf('flavor-') === 0) root.classList.remove(c); });
+          if (fv) root.classList.add('flavor-' + fv);
+        }
+
+        var t = pick(themeCandidates);
+        if (t && t.value) {
+          var tv = t.value.toString();
+          tv = tv.replace(/^theme-/, '').replace(/^flavor-/, '').trim();
+          Array.from(root.classList).forEach(function (c) { if (c && c.indexOf('theme-') === 0) root.classList.remove(c); });
+          if (tv) {
+            root.classList.add('theme-' + tv);
+            try { root.setAttribute('data-color-scheme', tv); } catch (e) { }
+          }
+        }
+      } catch (e) { /* silent */ }
+    })();
+  </script>
+
   <link rel="stylesheet" href="/labs/design-system/tokens/colors.css">
   <link rel="stylesheet" href="/labs/design-system/styles/flavors.css">
   <link rel="stylesheet" href="/labs/design-system/styles/main.css">
@@ -18,6 +60,17 @@
   <script type="module" src="/labs/design-system/components/labs-checkbox.js"></script>
   <script type="module" src="/labs/design-system/components/labs-dropdown.js"></script>
   <style>
+    /* Prevent FOUC for un-upgraded custom elements */
+    labs-button[fullwidth]:not(:defined),
+    labs-button:not(:defined) {
+      display: inline-flex !important;
+      width: auto !important;
+    }
+
+    labs-footer:not(:defined) {
+      display: block !important;
+    }
+
     html,
     body {
       height: 100%;

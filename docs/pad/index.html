@@ -11,6 +11,40 @@
   <meta name="theme-color" content="#FBFBFD">
   <link rel="stylesheet" href="/labs/design-system/tokens/colors.css">
   <link rel="stylesheet" href="/labs/design-system/styles/flavors.css">
+  <!-- Apply saved flavor/theme before styles load to prevent FOUC -->
+  <script>
+    (function () {
+      try {
+        var root = document.documentElement;
+        function pick(keys) {
+          for (var i = 0; i < keys.length; i++) {
+            try {
+              var v = localStorage.getItem(keys[i]);
+              if (v) return { key: keys[i], value: v };
+            } catch (e) { }
+          }
+          return null;
+        }
+        var flavorCandidates = ['pad-flavor', 'today-list-flavor', 'tracker-flavor', 'labs-flavor', 'flavor'];
+        var themeCandidates = ['pad-theme', 'today-list-theme', 'tracker-theme', 'labs-theme', 'theme'];
+        var f = pick(flavorCandidates);
+        if (f && f.value) {
+          var fv = f.value.toString(); fv = fv.replace(/^flavor-/, '').replace(/^theme-/, '').trim();
+          Array.from(root.classList).forEach(function (c) { if (c && c.indexOf('flavor-') === 0) root.classList.remove(c); });
+          if (fv) root.classList.add('flavor-' + fv);
+        }
+        var t = pick(themeCandidates);
+        if (t && t.value) {
+          var tv = t.value.toString(); tv = tv.replace(/^theme-/, '').replace(/^flavor-/, '').trim();
+          Array.from(root.classList).forEach(function (c) { if (c && c.indexOf('theme-') === 0) root.classList.remove(c); });
+          if (tv) {
+            root.classList.add('theme-' + tv);
+            try { root.setAttribute('data-color-scheme', tv); } catch (e) { }
+          }
+        }
+      } catch (e) { }
+    })();
+  </script>
   <script type="module" src="/labs/design-system/components/labs-icon.js"></script>
   <script type="module" src="/labs/design-system/components/labs-button.js"></script>
   <style>

@@ -9,6 +9,11 @@
 ### Chore
 - **Deploy automation:** Multiple automated deploy commits ensured `docs/design-system/` assets are synced and asset paths were rewritten for GitHub Pages. (commits `02743f4`, `9e724a2`, `13bad60`)
 
+### Fixed (2025-09-23)
+- **FOUC & Theme Persistence:** Added early, normalized theme/flavor application for docs pages (Tracker, Today-List, Pad) so saved `localStorage` flavor/theme values are applied before stylesheets load. This reduces flashes of the default flavor on first paint and stabilizes pre-upgrade layout for un-upgraded custom elements. (commit `pending`)
+- **Tracker: persist theme/flavor keys:** Tracker demo now persists `tracker-theme` and `tracker-flavor` to `localStorage` and listens for `flavor-changed` events; head script reads these keys to apply the saved theme before first paint. (commit `pending`)
+- **List item timestamp duplication:** Fixed duplicate timestamp rendering in `labs-list-item` by hiding the shadow DOM fallback timestamp when a slotted human-friendly label is present; ensures only one timestamp is visible. (commit `pending`)
+
 # 🎯 v2.4.6 - Service Worker & Docs Stability Release (September 21, 2025)
 
 ### Added

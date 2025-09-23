@@ -251,8 +251,16 @@
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", async () => {
+        const host = window.location.hostname;
+        const port = window.location.port;
+        if (host === 'localhost' || host === '127.0.0.1' || port === '8000' || port === '6006') {
+          console.log('Skipping service worker registration in local dev environment.');
+          return;
+        }
+
+        const swUrl = './sw.js?v=2.0.1';
         try {
-          const head = await fetch('./sw.js?v=2.0.1', { method: 'HEAD' });
+          const head = await fetch(swUrl, { method: 'HEAD' });
           if (!head.ok) {
             console.log('SW script not found (skipping registration):', head.status);
             return;
@@ -262,14 +270,12 @@
           return;
         }
 
-        navigator.serviceWorker
-          .register("./sw.js?v=2.0.1")
-          .then((registration) => {
-            console.log("SW registered: ", registration);
-          })
-          .catch((registrationError) => {
-            console.log("SW registration failed: ", registrationError);
-          });
+        try {
+          const registration = await navigator.serviceWorker.register(swUrl);
+          console.log('SW registered: ', registration);
+        } catch (registrationError) {
+          console.log('SW registration failed: ', registrationError);
+        }
       });
     }
 

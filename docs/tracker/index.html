@@ -5,6 +5,47 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Labs: Tracker Powered by Smoothie</title>
+    <!-- Apply saved flavor/theme before styles load to prevent FOUC -->
+    <script>
+        (function () {
+            try {
+                var root = document.documentElement;
+
+                function pick(keys) {
+                    for (var i = 0; i < keys.length; i++) {
+                        try {
+                            var v = localStorage.getItem(keys[i]);
+                            if (v) return { key: keys[i], value: v };
+                        } catch (e) { }
+                    }
+                    return null;
+                }
+
+                var flavorCandidates = ['tracker-flavor', 'today-list-flavor', 'labs-flavor', 'flavor', 'site-flavor'];
+                var themeCandidates = ['tracker-theme', 'today-list-theme', 'pad-theme', 'labs-theme', 'theme', 'site-theme'];
+
+                var f = pick(flavorCandidates);
+                if (f && f.value) {
+                    var fv = f.value.toString();
+                    fv = fv.replace(/^flavor-/, '').replace(/^theme-/, '').trim();
+                    Array.from(root.classList).forEach(function (c) { if (c && c.indexOf('flavor-') === 0) root.classList.remove(c); });
+                    if (fv) root.classList.add('flavor-' + fv);
+                }
+
+                var t = pick(themeCandidates);
+                if (t && t.value) {
+                    var tv = t.value.toString();
+                    tv = tv.replace(/^theme-/, '').replace(/^flavor-/, '').trim();
+                    Array.from(root.classList).forEach(function (c) { if (c && c.indexOf('theme-') === 0) root.classList.remove(c); });
+                    if (tv) {
+                        root.classList.add('theme-' + tv);
+                        try { root.setAttribute('data-color-scheme', tv); } catch (e) { }
+                    }
+                }
+            } catch (e) { /* silent */ }
+        })();
+    </script>
+
     <link rel="stylesheet" href="/labs/design-system/tokens/colors.css">
     <link rel="stylesheet" href="/labs/design-system/styles/flavors.css">
     <link rel="stylesheet" href="/labs/design-system/styles/main.css">
@@ -60,6 +101,33 @@
             display: flex;
             align-items: center;
             gap: 12px;
+        }
+    </style>
+    <!-- Prevent FOUC: ensure un-upgraded custom elements don't cause layout jumps -->
+    <style>
+        /* When custom elements are present but not yet defined, browsers treat them as inline elements.
+           However attributes like `fullwidth` may be present and later cause layout changes when the
+           component upgrades. Use :not(:defined) to provide stable pre-upgrade layout for these elements. */
+        labs-button[fullwidth]:not(:defined) {
+            display: inline-flex !important;
+            width: auto !important;
+            min-width: 0 !important;
+        }
+
+        labs-button:not(:defined) {
+            display: inline-flex !important;
+            width: auto !important;
+        }
+
+        /* If footer is un-upgraded, keep it out of flow in a predictable way */
+        labs-footer:not(:defined) {
+            display: block !important;
+        }
+
+        /* Also protect against full-width footer buttons in un-upgraded state */
+        labs-button[fullwidth]:not(:defined) {
+            min-width: 0 !important;
+            max-width: none !important;
         }
     </style>
     <style>
@@ -136,39 +204,59 @@
     <!-- Move main.js to the very end for reliable component definition -->
     <script type="module" src="js/main.js"></script>
     <script type="module">
-        // Settings overlay handling (following today-list pattern)
+        // Modular tracker initialization and UI wiring
+        import createTracker from './js/main.js';
+
         document.addEventListener('DOMContentLoaded', () => {
+            const tracker = createTracker({ metricRootId: 'metric-root', listRootId: 'list-root' });
+            tracker.init();
+
             const settingsOverlay = document.getElementById('settingsOverlay');
             const settingsBtn = document.getElementById('footer-settings-btn');
             const settingsCard = document.querySelector('labs-settings-card');
             const footerTrackBtn = document.getElementById('footer-track-btn');
 
-            // Connect footer settings button to overlay
-            if (settingsBtn && settingsOverlay) {
-                settingsBtn.addEventListener('click', () => settingsOverlay.open());
-            }
+            if (settingsBtn && settingsOverlay) settingsBtn.addEventListener('click', () => settingsOverlay.open());
 
-            // Connect settings card close event to overlay
             if (settingsCard && settingsOverlay) {
                 settingsCard.addEventListener('close', () => settingsOverlay.close());
-
-                // Connect reset event from settings card
-                settingsCard.addEventListener('reset-all', () => {
-                    if (window.tracker && window.tracker.resetAll) {
-                        window.tracker.resetAll();
-                    }
-                });
+                settingsCard.addEventListener('reset-all', () => tracker.resetAll());
             }
 
-            // Connect footer track button to existing track functionality
-            if (footerTrackBtn && window.tracker) {
-                footerTrackBtn.addEventListener('click', () => {
-                    window.tracker.handleTrack();
-                });
-            }
-
-
+            if (footerTrackBtn) footerTrackBtn.addEventListener('click', () => tracker.handleTrack());
         });
+    </script>
+
+    <!-- Persist tracker-specific theme/flavor keys when settings change -->
+    <script>
+        (function () {
+            try {
+                // When flavor changes via labs-settings-card, it emits 'flavor-changed' with detail { flavor: '...' }
+                document.addEventListener('flavor-changed', function (e) {
+                    try {
+                        var fv = (e && e.detail && e.detail.flavor) ? String(e.detail.flavor).replace(/^flavor-/, '') : null;
+                        if (fv) localStorage.setItem('tracker-flavor', fv);
+                    } catch (err) { }
+                });
+
+                // Observe document.documentElement class changes and persist theme-* class value
+                var mo = new MutationObserver(function (mutations) {
+                    try {
+                        var root = document.documentElement;
+                        var themeClass = Array.from(root.classList).find(function (c) { return c && c.indexOf('theme-') === 0; });
+                        if (themeClass) {
+                            var tv = themeClass.replace('theme-', '');
+                            localStorage.setItem('tracker-theme', tv);
+                        }
+                        var flavorClass = Array.from(root.classList).find(function (c) { return c && c.indexOf('flavor-') === 0; });
+                        if (flavorClass) {
+                            localStorage.setItem('tracker-flavor', flavorClass.replace('flavor-', ''));
+                        }
+                    } catch (err) { }
+                });
+                try { mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] }); } catch (e) { }
+            } catch (e) { }
+        })();
     </script>
 
 
