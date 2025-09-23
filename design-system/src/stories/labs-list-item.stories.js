@@ -119,6 +119,44 @@ export const TextOnly = ({ slotsPattern = 'full-slots' } = {}) => {
   return wrapper;
 };
 
+export const Timestamp = ({ slotsPattern = 'full-slots' } = {}) => {
+  const wrapper = document.createElement('div');
+  wrapper.style.display = 'flex';
+  wrapper.style.flexDirection = 'column';
+  wrapper.style.gap = '12px';
+  wrapper.style.width = '100%';
+  wrapper.style.maxWidth = '600px';
+  wrapper.style.margin = '0 auto';
+  wrapper.innerHTML = '';
+
+  // Items where the primary label is the timestamp string and the small timestamp
+  // meta is removed (so we don't set the `timestamp` attribute on the component).
+  const items = ['12:00 PM', '08:30 AM', 'Yesterday'];
+
+  items.forEach((ts, index) => {
+    const el = document.createElement('labs-list-item');
+    el.setAttribute('variant', 'text-only');
+    // Use the timestamp as the main label
+    el.setAttribute('value', ts);
+    // Intentionally do NOT set `timestamp` attribute so the small meta is not shown
+
+    // Replace the checkbox control with a simple check icon
+    const icon = document.createElement('labs-icon');
+    icon.slot = 'control';
+    icon.setAttribute('name', 'check');
+    icon.setAttribute('aria-hidden', 'false');
+    icon.setAttribute('title', 'Completed');
+
+    if (slotsPattern === 'full-slots' || slotsPattern === 'control-only') {
+      el.appendChild(icon);
+    }
+
+    wrapper.appendChild(el);
+  });
+
+  return wrapper;
+};
+
 export const SlotDriven = ({ slotsPattern = 'full-slots', value }) => {
   const wrapper = document.createElement('div');
   wrapper.style.display = 'flex';

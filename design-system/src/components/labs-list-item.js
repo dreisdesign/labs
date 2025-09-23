@@ -1,5 +1,5 @@
 // Labs List Item - single-row item for Today List
-import { formatTime12 } from '../utils/date-format.js';
+import { formatTime12, formatHuman } from '../utils/date-format.js';
 class LabsListItem extends HTMLElement {
   constructor() {
     super();
@@ -62,12 +62,27 @@ class LabsListItem extends HTMLElement {
           :host([variant="text-only"]) .row { padding: 8px 12px; }
           :host([variant="text-only"]) .text { font-weight: var(--font-weight-semibold, 600); }
           :host([variant="text-only"]) .timestamp { margin-left: 0; margin-top: 2px; font-size: 0.75rem; }
+          /* Style for a slotted primary label (timestamp) when present */
+          .labelHost { font-size: 0.95rem; color: var(--color-on-surface, #111); margin-right: 12px; white-space: nowrap; flex: 0 0 auto; }
+          ::slotted(.item-label) {
+            font-size: 0.95rem;
+            color: var(--color-on-surface-variant, #666);
+            margin-right: 12px;
+            white-space: nowrap;
+            flex: 0 0 auto;
+          }
         </style>
-        <div class="row" role="listitem" data-id="${this._id}">
+  <div class="row" role="listitem" data-id="${this._id}">
           <!-- Left control slot: checkbox or other control. Fallback: labs-checkbox -->
           <slot name="control">
             <labs-checkbox id="chk" aria-label="Toggle complete"></labs-checkbox>
           </slot>
+
+          <!-- Label slot: optional primary label (e.g. timestamp) -->
+          <slot name="label"></slot>
+
+          <!-- Shadow label host: copy slotted label text here for consistent styling -->
+          <div class="labelHost" aria-hidden="true"></div>
 
           <!-- Content slot: main text + optional inline timestamp fallback -->
           <div style="display:flex;flex-direction:column;flex:1;min-width:0;">
@@ -112,6 +127,27 @@ class LabsListItem extends HTMLElement {
           chk._labsListItemWired = true;
         }
       }
+
+      // If a light-DOM label is provided, mirror its text into the shadow labelHost
+      try {
+        const slLabel = this.querySelector('[slot="label"]');
+        const host = this.shadowRoot.querySelector('.labelHost');
+        const ts = this.shadowRoot.querySelector('.timestamp');
+        if (host) {
+          if (slLabel) {
+            host.textContent = slLabel.textContent || '';
+            // mark the original slotted node as present but hidden from visual flow
+            try { slLabel.setAttribute('aria-hidden', 'true'); slLabel.style.display = 'none'; } catch (e) { }
+            // hide the inline shadow fallback timestamp to avoid duplicate visuals
+            try { if (ts) { ts.style.display = 'none'; ts.textContent = ''; } } catch (e) { }
+          } else {
+            // fall back to timestamp attribute if present (human-friendly)
+            host.textContent = this._timestamp ? formatHuman(this._timestamp) : '';
+            // ensure inline shadow timestamp is visible for the fallback
+            try { if (ts) { ts.style.display = ''; } } catch (e) { }
+          }
+        }
+      } catch (e) { /* non-fatal */ }
 
       // Reflect checked/inactive state
       if (this._checked) {

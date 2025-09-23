@@ -333,4 +333,20 @@ if (fs.existsSync(iconsSrc)) {
   console.log("Copied icons from design-system/icons to docs/design-system/icons");
 }
 
+// Copy app-specific JS from src to docs for apps like tracker/today-list
+const appsToMirror = ['tracker', 'today-list', 'note', 'pad'];
+appsToMirror.forEach((appName) => {
+  const srcAppJs = path.join(__dirname, `../src/${appName}/js`);
+  const docsAppJs = path.join(__dirname, `../docs/${appName}/js`);
+  if (fs.existsSync(srcAppJs)) {
+    if (!fs.existsSync(docsAppJs)) fs.mkdirSync(docsAppJs, { recursive: true });
+    fs.readdirSync(srcAppJs).forEach((file) => {
+      if (file.endsWith('.js')) {
+        fs.copyFileSync(path.join(srcAppJs, file), path.join(docsAppJs, file));
+      }
+    });
+    console.log(`Copied app JS for ${appName} to docs/${appName}/js`);
+  }
+});
+
 console.log(`All docs/ HTML asset paths set to ${mode}.`);
