@@ -11,40 +11,37 @@
   <meta name="theme-color" content="#FBFBFD">
   <link rel="stylesheet" href="/labs/design-system/tokens/colors.css">
   <link rel="stylesheet" href="/labs/design-system/styles/flavors.css">
-  <!-- Apply saved flavor/theme before styles load to prevent FOUC -->
-  <script>
-    (function () {
-      try {
-        var root = document.documentElement;
-        function pick(keys) {
-          for (var i = 0; i < keys.length; i++) {
+  <script>// Early theme/flavor script (inlined into app pages during docs sync)
+(function () {
+    try {
+        var root = document && document.documentElement;
+        if (!root) return;
+        var keys = [
+            'today-list-flavor', 'today-list-theme',
+            'tracker-flavor', 'tracker-theme',
+            'pad-flavor', 'pad-theme',
+            'labs-flavor', 'labs-theme'
+        ];
+        var foundFlavor = null;
+        var foundTheme = null;
+        for (var i = 0; i < keys.length; i++) {
             try {
-              var v = localStorage.getItem(keys[i]);
-              if (v) return { key: keys[i], value: v };
+                var k = keys[i];
+                var v = localStorage.getItem(k);
+                if (!v) continue;
+                v = String(v).replace(/^flavor-/, '').replace(/^theme-/, '').trim();
+                if (k.indexOf('flavor') !== -1 && !foundFlavor) foundFlavor = v;
+                if (k.indexOf('theme') !== -1 && !foundTheme) foundTheme = v;
             } catch (e) { }
-          }
-          return null;
         }
-        var flavorCandidates = ['pad-flavor', 'today-list-flavor', 'tracker-flavor', 'labs-flavor', 'flavor'];
-        var themeCandidates = ['pad-theme', 'today-list-theme', 'tracker-theme', 'labs-theme', 'theme'];
-        var f = pick(flavorCandidates);
-        if (f && f.value) {
-          var fv = f.value.toString(); fv = fv.replace(/^flavor-/, '').replace(/^theme-/, '').trim();
-          Array.from(root.classList).forEach(function (c) { if (c && c.indexOf('flavor-') === 0) root.classList.remove(c); });
-          if (fv) root.classList.add('flavor-' + fv);
-        }
-        var t = pick(themeCandidates);
-        if (t && t.value) {
-          var tv = t.value.toString(); tv = tv.replace(/^theme-/, '').replace(/^flavor-/, '').trim();
-          Array.from(root.classList).forEach(function (c) { if (c && c.indexOf('theme-') === 0) root.classList.remove(c); });
-          if (tv) {
-            root.classList.add('theme-' + tv);
-            try { root.setAttribute('data-color-scheme', tv); } catch (e) { }
-          }
-        }
-      } catch (e) { }
-    })();
-  </script>
+        // remove any existing flavor- / theme- classes
+        Array.from(root.classList).forEach(function (c) { if (c && c.indexOf('flavor-') === 0) root.classList.remove(c); });
+        Array.from(root.classList).forEach(function (c) { if (c && c.indexOf('theme-') === 0) root.classList.remove(c); });
+        if (foundFlavor) root.classList.add('flavor-' + String(foundFlavor));
+        if (foundTheme) root.classList.add('theme-' + String(foundTheme));
+    } catch (e) { }
+})();
+</script>
   <script type="module" src="/labs/design-system/components/labs-icon.js"></script>
   <script type="module" src="/labs/design-system/components/labs-button.js"></script>
   <style>

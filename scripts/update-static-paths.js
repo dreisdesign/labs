@@ -177,6 +177,33 @@ filesToProcess.forEach((filePath) => {
     content = content.replace(/\/design-system\//g, "../design-system/");
   }
 
+  // Inline shared includes for pre-upgrade CSS and early theme script to avoid
+  // FOUC — replace markers with file contents when present. This keeps the
+  // small script/CSS inlined early in <head> (Option A).
+  try {
+    const includesDir = path.join(__dirname, '..', 'docs', '_includes');
+    const earlyThemePath = path.join(includesDir, 'early-theme.js');
+    const preupgradeCssPath = path.join(includesDir, 'preupgrade.css');
+    let earlyThemeContent = '';
+    let preupgradeCssContent = '';
+    if (fs.existsSync(earlyThemePath)) {
+      earlyThemeContent = fs.readFileSync(earlyThemePath, 'utf8');
+    }
+    if (fs.existsSync(preupgradeCssPath)) {
+      preupgradeCssContent = fs.readFileSync(preupgradeCssPath, 'utf8');
+    }
+
+    // Replace markers in HTML files if present
+    if (earlyThemeContent) {
+      content = content.replace(/<!--\s*EARLY_THEME_INCLUDE\s*-->/g, `<script>${earlyThemeContent}</script>`);
+    }
+    if (preupgradeCssContent) {
+      content = content.replace(/<!--\s*PREUPGRADE_CSS_INCLUDE\s*-->/g, `<style>${preupgradeCssContent}</style>`);
+    }
+  } catch (e) {
+    // ignore include inlining errors — not fatal
+  }
+
   // You can add more patterns here as needed
 
   if (content !== original) {
