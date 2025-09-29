@@ -82,6 +82,10 @@ class LabsFlavorButton extends HTMLElement {
                 }
                 root.classList.add(`flavor-${next}`);
                 body.classList.add(`flavor-${next}`);
+                // Persist flavor to localStorage for reload persistence
+                try {
+                    localStorage.setItem('tracker-flavor', next);
+                } catch (e) { }
                 // Re-render to pick up new label
                 this.render();
                 // Emit both a generic click and a specific cycle event
