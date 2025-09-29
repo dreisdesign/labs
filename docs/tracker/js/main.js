@@ -1,4 +1,4 @@
-import { formatHuman } from '/design-system/utils/date-format.js';
+import { formatHuman } from '/labs/design-system/utils/date-format.js';
 
 /* tracker module: provide a factory to create isolated tracker instances */
 const STORAGE_KEY = 'tracker-items';
