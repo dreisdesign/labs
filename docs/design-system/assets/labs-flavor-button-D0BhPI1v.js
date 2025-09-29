@@ -1,0 +1,10 @@
+class v extends HTMLElement{constructor(){super(),this.attachShadow({mode:"open"}),this._observer=null,this.render=this.render.bind(this),this.render()}static get observedAttributes(){return["label"]}connectedCallback(){const e=document.documentElement;this._observer=new MutationObserver(o=>{for(const t of o)if(t.attributeName==="class"){this.render();break}}),this._observer.observe(e,{attributes:!0,attributeFilter:["class"]})}disconnectedCallback(){this._observer&&(this._observer.disconnect(),this._observer=null)}attributeChangedCallback(){this.render()}getFlavorName(){const e=[...document.documentElement.classList].find(t=>t.startsWith("flavor-"));return e?e.split("-").slice(1).join("-").split("-").map(t=>t.charAt(0).toUpperCase()+t.slice(1)).join(" "):null}render(){const e=this.getFlavorName(),o=this.getAttribute("label"),t=this.getAttribute("variant")||"secondary",b=e||o||"Flavor";this.shadowRoot.innerHTML=`
+      <style>
+        :host { display: block; }
+        labs-button { width: 100%; box-sizing: border-box; }
+      </style>
+    <labs-button variant="${t}" size="large" style="gap:10px; justify-content:flex-start;">
+        <labs-icon name="colors" slot="icon-left" width="20" height="20"></labs-icon>
+        ${b}
+      </labs-button>
+    `;const l=this.shadowRoot.querySelector("labs-button");l&&l.addEventListener("click",d=>{d.preventDefault();const r=["vanilla","blueberry","strawberry"],n=document.documentElement,i=document.body,c=[...n.classList].find(s=>s&&s.startsWith("flavor-")),u=c?c.split("-").slice(1).join("-"):null,h=Math.max(0,r.indexOf(u)),a=r[(h+1)%r.length];for(const s of r)n.classList.remove(`flavor-${s}`),i.classList.remove(`flavor-${s}`);n.classList.add(`flavor-${a}`),i.classList.add(`flavor-${a}`),this.render(),this.dispatchEvent(new CustomEvent("cycle-flavor",{detail:{flavor:a},bubbles:!0,composed:!0})),this.dispatchEvent(new CustomEvent("click",{bubbles:!0,composed:!0}))})}}customElements.define("labs-flavor-button",v);export{v as default};
