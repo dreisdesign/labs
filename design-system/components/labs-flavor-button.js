@@ -82,9 +82,12 @@ class LabsFlavorButton extends HTMLElement {
                 }
                 root.classList.add(`flavor-${next}`);
                 body.classList.add(`flavor-${next}`);
-                // Persist flavor to localStorage for reload persistence
+                // Persist flavor and current theme to localStorage for reload persistence
                 try {
                     localStorage.setItem('tracker-flavor', next);
+                    const themeClass = [...root.classList].find(c => c.startsWith('theme-'));
+                    const theme = themeClass ? themeClass.replace('theme-', '') : 'light';
+                    localStorage.setItem('tracker-theme', theme);
                 } catch (e) { }
                 // Re-render to pick up new label
                 this.render();

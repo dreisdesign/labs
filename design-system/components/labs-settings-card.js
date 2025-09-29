@@ -193,9 +193,10 @@ class LabsSettingsCard extends HTMLElement {
         const theme = isDark ? 'light' : 'dark';
         import('../utils/theme.js').then(({ applyTheme }) => {
           applyTheme({ flavor, theme });
-          // Persist theme to localStorage for reload persistence
+          // Persist theme and current flavor to localStorage for reload persistence
           try {
             localStorage.setItem('tracker-theme', theme);
+            localStorage.setItem('tracker-flavor', flavor);
           } catch (e) { }
           updateLabel();
         });
