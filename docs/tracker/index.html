@@ -10,7 +10,8 @@
         (function () {
             try {
                 var root = document && document.documentElement;
-                if (!root) return;
+                var body = document && document.body;
+                if (!root || !body) return;
                 var path = (location && location.pathname) ? location.pathname : '';
                 var appMatch = path.match(/(?:\/labs)?\/(tracker|today-list|pad)(?:\/|$)/);
                 var appName = appMatch ? appMatch[1] : null;
@@ -34,8 +35,16 @@
                 }
                 Array.from(root.classList).forEach(function (c) { if (c && c.indexOf('flavor-') === 0) root.classList.remove(c); });
                 Array.from(root.classList).forEach(function (c) { if (c && c.indexOf('theme-') === 0) root.classList.remove(c); });
-                if (foundFlavor) root.classList.add('flavor-' + String(foundFlavor));
-                if (foundTheme) root.classList.add('theme-' + String(foundTheme));
+                Array.from(body.classList).forEach(function (c) { if (c && c.indexOf('flavor-') === 0) body.classList.remove(c); });
+                Array.from(body.classList).forEach(function (c) { if (c && c.indexOf('theme-') === 0) body.classList.remove(c); });
+                if (foundFlavor) {
+                    root.classList.add('flavor-' + String(foundFlavor));
+                    body.classList.add('flavor-' + String(foundFlavor));
+                }
+                if (foundTheme) {
+                    root.classList.add('theme-' + String(foundTheme));
+                    body.classList.add('theme-' + String(foundTheme));
+                }
             } catch (e) { }
         })();
     </script>
