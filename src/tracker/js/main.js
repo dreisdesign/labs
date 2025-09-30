@@ -1,4 +1,13 @@
-import { formatHuman } from '/design-system/utils/date-format.js';
+
+let formatHuman = (ts) => ts;
+const isProd = location.hostname.includes('github.io');
+const dateFormatPath = isProd
+    ? '/labs/design-system/utils/date-format.js'
+    : '../design-system/utils/date-format.js';
+
+let formatHumanReady = import(dateFormatPath).then(mod => {
+    formatHuman = mod.formatHuman;
+});
 
 /* tracker module: provide a factory to create isolated tracker instances */
 const STORAGE_KEY = 'tracker-items';
@@ -43,7 +52,7 @@ export function createTracker({ metricRootId = 'metric-root', listRootId = 'list
         root.appendChild(card);
     }
 
-    function renderList(root) {
+    async function renderList(root) {
         root.innerHTML = '';
         const list = document.createElement('div');
         list.style.display = 'flex';
@@ -63,6 +72,7 @@ export function createTracker({ metricRootId = 'metric-root', listRootId = 'list
             return;
         }
 
+        await formatHumanReady;
         store.items.forEach(item => {
             const li = document.createElement('labs-list-item');
             // Use text-only variant and put the time string in the content slot
@@ -125,17 +135,17 @@ export function createTracker({ metricRootId = 'metric-root', listRootId = 'list
         root.appendChild(list);
     }
 
-    function renderAll() {
+    async function renderAll() {
         const metricRoot = document.getElementById(metricRootId);
         const listRoot = document.getElementById(listRootId);
         if (metricRoot) renderMetric(metricRoot);
-        if (listRoot) renderList(listRoot);
+        if (listRoot) await renderList(listRoot);
     }
 
-    function resetAll() {
+    async function resetAll() {
         store.items = [];
         store.save();
-        renderAll();
+        await renderAll();
     }
 
     function init() {
