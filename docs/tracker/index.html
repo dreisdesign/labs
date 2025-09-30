@@ -195,9 +195,21 @@
             mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
         } catch (e) { }
     </script>
-    </script>
     <!-- Main Tracker app logic -->
     <script type="module" src="/labs/tracker/js/main.js"></script>
+    <script type="module">
+        import createTracker from '/labs/tracker/js/main.js';
+        const tracker = createTracker({ metricRootId: 'metric-root', listRootId: 'list-root' });
+        tracker.init();
+        // Wire up Track button
+        document.getElementById('footer-track-btn')?.addEventListener('click', () => {
+            tracker.handleTrack();
+        });
+        // Wire up Settings button
+        document.getElementById('footer-settings-btn')?.addEventListener('click', () => {
+            document.getElementById('settingsOverlay')?.show();
+        });
+    </script>
 </body>
 
 </html>
