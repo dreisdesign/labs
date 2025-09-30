@@ -207,7 +207,8 @@
         });
         // Wire up Settings button
         document.getElementById('footer-settings-btn')?.addEventListener('click', () => {
-            document.getElementById('settingsOverlay')?.show();
+            const overlay = document.getElementById('settingsOverlay');
+            if (overlay) overlay.setAttribute('open', '');
         });
     </script>
 </body>
