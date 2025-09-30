@@ -210,6 +210,10 @@
             const overlay = document.getElementById('settingsOverlay');
             if (overlay) overlay.setAttribute('open', '');
         });
+        // Listen for close event from labs-settings-card and close overlay
+        document.getElementById('settingsOverlay')?.addEventListener('close', () => {
+            document.getElementById('settingsOverlay')?.removeAttribute('open');
+        });
     </script>
 </body>
 
