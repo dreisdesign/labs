@@ -115,22 +115,16 @@ filesToProcess.forEach((filePath) => {
   } else if (mode === "github") {
     // For GitHub Pages, all paths must be absolute from the repo root.
     // This is a safer, more targeted replacement.
-    content = content.replace(
-      /href="\/design-system\//g,
-      'href="/labs/design-system/',
-    );
-    content = content.replace(
-      /src="\/design-system\//g,
-      'src="/labs/design-system/',
-    );
-    content = content.replace(
-      /href="\.\.\/design-system\//g,
-      'href="/labs/design-system/',
-    );
-    content = content.replace(
-      /src="\.\.\/design-system\//g,
-      'src="/labs/design-system/',
-    );
+    // Robustly rewrite asset paths for production
+    content = content.replace(/href="\.\.\/design-system\//g, 'href="/labs/design-system/');
+    content = content.replace(/src="\.\.\/design-system\//g, 'src="/labs/design-system/');
+    content = content.replace(/href="\/design-system\//g, 'href="/labs/design-system/');
+    content = content.replace(/src="\/design-system\//g, 'src="/labs/design-system/');
+    content = content.replace(/href="\.\.\.\/design-system\//g, 'href="/labs/design-system/');
+    content = content.replace(/src="\.\.\.\/design-system\//g, 'src="/labs/design-system/');
+    // Remove any accidental multiple dots in asset paths
+    content = content.replace(/href="\.+\/design-system\//g, 'href="/labs/design-system/');
+    content = content.replace(/src="\.+\/design-system\//g, 'src="/labs/design-system/');
 
     // Handle paths to app directories (generic pattern for any app)
     content = content.replace(
