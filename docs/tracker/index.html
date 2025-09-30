@@ -214,6 +214,10 @@
         document.getElementById('settingsOverlay')?.addEventListener('close', () => {
             document.getElementById('settingsOverlay')?.removeAttribute('open');
         });
+        // Listen for reset-all event from labs-settings-card and reset tracker data
+        document.getElementById('settingsOverlay')?.addEventListener('reset-all', () => {
+            tracker.resetAll();
+        });
     </script>
 </body>
 
