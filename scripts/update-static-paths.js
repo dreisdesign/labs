@@ -122,9 +122,8 @@ filesToProcess.forEach((filePath) => {
     content = content.replace(/src="\/design-system\//g, 'src="/labs/design-system/');
     content = content.replace(/href="\.\.\.\/design-system\//g, 'href="/labs/design-system/');
     content = content.replace(/src="\.\.\.\/design-system\//g, 'src="/labs/design-system/');
-    // Remove any accidental multiple dots in asset paths
-    content = content.replace(/href="\.+\/design-system\//g, 'href="/labs/design-system/');
-    content = content.replace(/src="\.+\/design-system\//g, 'src="/labs/design-system/');
+    // Remove any accidental multiple dots in asset paths (collapse to ../)
+    content = content.replace(/([.]{3,})\/design-system\//g, '../design-system/');
 
     // Handle paths to app directories (generic pattern for any app)
     content = content.replace(
@@ -174,9 +173,12 @@ filesToProcess.forEach((filePath) => {
     content = content.replace(/\/design-system\//g, "../design-system/");
   }
 
-  // Inline shared includes for pre-upgrade CSS and early theme script to avoid
-  // FOUC — replace markers with file contents when present. This keeps the
-  // small script/CSS inlined early in <head> (Option A).
+  // Final cleanup: collapse any sequence of three or more dots to ../ in all asset paths
+  content = content.replace(/([.]{3,})\/design-system\//g, '../design-system/');
+  content = content.replace(/([.]{3,})\/today-list\//g, '../today-list/');
+  content = content.replace(/([.]{3,})\/tracker\//g, '../tracker/');
+  content = content.replace(/([.]{3,})\/components\//g, '../components/');
+  content = content.replace(/([.]{3,})\/tokens\//g, '../tokens/');
   try {
     const includesDir = path.join(__dirname, '..', 'docs', '_includes');
     const earlyThemePath = path.join(includesDir, 'early-theme.js');
