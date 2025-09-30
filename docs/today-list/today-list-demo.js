@@ -1,12 +1,12 @@
 // Demo module for Today List page
 // Imports required web components
-import '....................../design-system/components/labs-overlay.js';
-import '....................../design-system/components/labs-settings-card.js';
-import '....................../design-system/components/labs-flavor-button.js';
-import '....................../design-system/components/labs-input-card.js';
-import '....................../design-system/components/labs-list-item.js';
-import '....................../design-system/components/labs-toast.js';
-import '....................../design-system/components/labs-details.js';
+import '......................../design-system/components/labs-overlay.js';
+import '......................../design-system/components/labs-settings-card.js';
+import '......................../design-system/components/labs-flavor-button.js';
+import '......................../design-system/components/labs-input-card.js';
+import '......................../design-system/components/labs-list-item.js';
+import '......................../design-system/components/labs-toast.js';
+import '......................../design-system/components/labs-details.js';
 
 // Ensure labs-toast exists for undo actions (top-level for global access)
 function ensureToast() {
