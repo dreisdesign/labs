@@ -38,6 +38,9 @@ function findFilesToProcess(dir) {
   let results = [];
   const list = fs.readdirSync(dir);
   list.forEach((file) => {
+    if (file === "node_modules") {
+      return; // Skip node_modules entirely
+    }
     const filePath = path.join(dir, file);
     const stat = fs.statSync(filePath);
     if (stat && stat.isDirectory()) {

@@ -1,3 +1,4 @@
+import '../components/labs-dropdown.js';
 import '../components/labs-checkbox.js';
 import '../components/labs-list-item.js';
 import '../components/labs-button.js';
@@ -12,7 +13,7 @@ export default {
     slotsPattern: {
       name: 'Slots Pattern',
       control: { type: 'select' },
-      options: ['fallback', 'full-slots', 'control-only', 'content-only', 'actions-only'],
+      options: ['full-slots', 'content-only'],
       description: 'Choose which slots to render in the SlotDriven example'
     }
   },
@@ -20,10 +21,25 @@ export default {
     value: 'New task',
     checked: false,
     slotsPattern: 'full-slots',
+  },
+  parameters: {
+    docs: {
+      story: {
+        TextOnly: {
+          args: { slotsPattern: 'content-only' }
+        }
+      }
+    }
   }
 };
 
-export const Default = ({ value, checked, slotsPattern = 'full-slots' }) => {
+export const Checkbox = ({ value, checked, slotsPattern = 'full-slots' }) => {
+  if (!customElements.get('labs-list-item') || !customElements.get('labs-dropdown')) {
+    const placeholder = document.createElement('div');
+    placeholder.textContent = 'Labs List Item or Dropdown not defined yet.';
+    return placeholder;
+  }
+
   const wrapper = document.createElement('div');
   wrapper.style.display = 'flex';
   wrapper.style.flexDirection = 'column';
@@ -46,22 +62,17 @@ export const Default = ({ value, checked, slotsPattern = 'full-slots' }) => {
   content.slot = 'content';
   content.textContent = value;
 
-  const actions = document.createElement('div');
-  actions.slot = 'actions';
   const dd = document.createElement('labs-dropdown');
-  actions.appendChild(dd);
+  dd.slot = 'actions';
 
+  // Always provide all slots for robust demo
   if (slotsPattern === 'full-slots') {
     el.appendChild(customChk);
     el.appendChild(content);
-    el.appendChild(actions);
-  } else if (slotsPattern === 'control-only') {
-    el.appendChild(customChk);
+    el.appendChild(dd);
   } else if (slotsPattern === 'content-only') {
     el.appendChild(content);
-  } else if (slotsPattern === 'actions-only') {
-    el.appendChild(actions);
-  } // 'fallback' -> don't append anything
+  }
 
   // Add a toast element
   const toast = document.createElement('labs-toast');
@@ -81,7 +92,8 @@ export const Default = ({ value, checked, slotsPattern = 'full-slots' }) => {
   return wrapper;
 };
 
-export const TextOnly = ({ slotsPattern = 'full-slots' } = {}) => {
+export const TextOnly = ({ slotsPattern } = {}) => {
+  slotsPattern = slotsPattern || 'content-only';
   const wrapper = document.createElement('div');
   wrapper.style.display = 'flex';
   wrapper.style.flexDirection = 'column';
@@ -100,7 +112,8 @@ export const TextOnly = ({ slotsPattern = 'full-slots' } = {}) => {
 
   items.forEach((item, index) => {
     const el = document.createElement('labs-list-item');
-    el.setAttribute('variant', 'text-only');
+    // Use a dedicated 'timestamp' variant so it doesn't pick up text-only styles
+    el.setAttribute('variant', 'timestamp');
     el.setAttribute('value', item.text);
     el.setAttribute('timestamp', item.timestamp);
 
@@ -109,15 +122,27 @@ export const TextOnly = ({ slotsPattern = 'full-slots' } = {}) => {
     chk.setAttribute('aria-label', `Mark entry ${index + 1} complete`);
     chk.addEventListener('change', (e) => console.log('checkbox change', e.target.checked));
 
-    if (slotsPattern === 'full-slots' || slotsPattern === 'control-only') {
+    const content = document.createElement('div');
+    content.slot = 'content';
+    content.textContent = item.text;
+
+    const dd = document.createElement('labs-dropdown');
+    dd.slot = 'actions';
+
+    if (slotsPattern === 'full-slots') {
       el.appendChild(chk);
+      el.appendChild(content);
+      el.appendChild(dd);
+    } else if (slotsPattern === 'content-only') {
+      el.appendChild(content);
     }
 
     wrapper.appendChild(el);
   });
 
   return wrapper;
-};
+}
+TextOnly.args = { slotsPattern: 'content-only' };
 
 export const Timestamp = ({ slotsPattern = 'full-slots' } = {}) => {
   const wrapper = document.createElement('div');
@@ -131,78 +156,43 @@ export const Timestamp = ({ slotsPattern = 'full-slots' } = {}) => {
 
   // Items where the primary label is the timestamp string and the small timestamp
   // meta is removed (so we don't set the `timestamp` attribute on the component).
-  const items = ['12:00 PM', '08:30 AM', 'Yesterday'];
+  // Showing a single example here avoids confusion with the separate
+  // `variant="timestamp"` usage which renders the component's internal
+  // timestamp attribute into the left-side label area.
+  const items = ['12:00 PM'];
 
   items.forEach((ts, index) => {
     const el = document.createElement('labs-list-item');
     el.setAttribute('variant', 'text-only');
     // Use the timestamp as the main label
     el.setAttribute('value', ts);
-    // Intentionally do NOT set `timestamp` attribute so the small meta is not shown
 
-    // Replace the checkbox control with a simple check icon
     const icon = document.createElement('labs-icon');
     icon.slot = 'control';
     icon.setAttribute('name', 'check');
     icon.setAttribute('aria-hidden', 'false');
     icon.setAttribute('title', 'Completed');
 
-    if (slotsPattern === 'full-slots' || slotsPattern === 'control-only') {
-      el.appendChild(icon);
-    }
+    const content = document.createElement('div');
+    content.slot = 'content';
+    content.textContent = ts;
+
+    const dd = document.createElement('labs-dropdown');
+    dd.slot = 'actions';
+
+    // Ensure the actions dropdown doesn't add extra right-side spacing
+    dd.style.marginRight = '0';
+    dd.style.paddingRight = '0';
+    dd.style.minWidth = '40px';
+    dd.style.display = 'inline-flex';
+    dd.style.alignItems = 'center';
+
+    el.appendChild(icon);
+    el.appendChild(content);
+    el.appendChild(dd);
 
     wrapper.appendChild(el);
   });
 
-  return wrapper;
-};
-
-export const SlotDriven = ({ slotsPattern = 'full-slots', value }) => {
-  const wrapper = document.createElement('div');
-  wrapper.style.display = 'flex';
-  wrapper.style.flexDirection = 'column';
-  wrapper.style.gap = '12px';
-  wrapper.style.width = '100%';
-  wrapper.style.maxWidth = '600px';
-  wrapper.style.margin = '0 auto';
-  // ensure we start with a clean container on every render
-  wrapper.innerHTML = '';
-
-  const el = document.createElement('labs-list-item');
-  el.setAttribute('value', value || 'Slot-driven task with custom controls');
-
-  // Prepare optional slotted nodes
-  const customChk = document.createElement('labs-checkbox');
-  customChk.slot = 'control';
-  customChk.setAttribute('aria-label', 'Mark complete');
-
-  const content = document.createElement('div');
-  content.slot = 'content';
-  content.innerHTML = `<div style="display:flex;align-items:center;gap:8px;min-width:0;"><div style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Custom slot content that truncates when long</div><div style="font-size:0.75rem;color:var(--color-on-surface-variant)">12:00 PM</div></div>`;
-
-  const actions = document.createElement('div');
-  actions.slot = 'actions';
-  const btn = document.createElement('labs-button');
-  btn.id = 'restoreBtn';
-  btn.textContent = 'Restore';
-  btn.addEventListener('click', () => console.log('Restore clicked'));
-  actions.appendChild(btn);
-
-  // Attach slots according to the chosen pattern
-  if (slotsPattern === 'full-slots') {
-    el.appendChild(customChk);
-    el.appendChild(content);
-    el.appendChild(actions);
-  } else if (slotsPattern === 'control-only') {
-    el.appendChild(customChk);
-  } else if (slotsPattern === 'content-only') {
-    el.appendChild(content);
-  } else if (slotsPattern === 'actions-only') {
-    el.appendChild(actions);
-  } else { // 'fallback'
-    // don't append any slotted content so the component uses its internal fallbacks
-  }
-
-  wrapper.appendChild(el);
   return wrapper;
 };

@@ -1,3 +1,9 @@
+## [v2.1.7] - 2025-09-30 - Storybook Slot/Timing Fix
+
+### 🛠️ Reliability Fix
+- **Slot Rendering Reliability:** Always import `labs-dropdown.js` before `labs-list-item.js` in Storybook stories to guarantee slots (like actions) render correctly after refresh. This prevents race/timing issues where slots disappear if custom elements are not defined before story code runs.
+- **Best Practice:** Place all component imports at the very top of your story file, with dropdown first if used as a slot child.
+
 # [Unreleased] - 2025-09-20
 
 ### Added

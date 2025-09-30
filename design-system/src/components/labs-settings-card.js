@@ -190,8 +190,14 @@ class LabsSettingsCard extends HTMLElement {
         const root = document.documentElement;
         const flavorClass = Array.from(root.classList).find(c => c.startsWith('flavor-'));
         const flavor = flavorClass ? flavorClass.replace('flavor-', '') : 'vanilla';
+        const theme = isDark ? 'light' : 'dark';
         import('../utils/theme.js').then(({ applyTheme }) => {
-          applyTheme({ flavor, theme: isDark ? 'light' : 'dark' });
+          applyTheme({ flavor, theme });
+          // Persist theme and current flavor to localStorage for reload persistence
+          try {
+            localStorage.setItem('tracker-theme', theme);
+            localStorage.setItem('tracker-flavor', flavor);
+          } catch (e) { }
           updateLabel();
         });
       };

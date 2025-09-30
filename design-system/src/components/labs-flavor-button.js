@@ -70,13 +70,25 @@ class LabsFlavorButton extends HTMLElement {
                 // Cycle through available flavors and update document class
                 const flavors = ['vanilla', 'blueberry', 'strawberry'];
                 const root = document.documentElement;
+                const body = document.body;
                 const current = [...root.classList].find((c) => c && c.startsWith('flavor-'));
                 const currentKey = current ? current.split('-').slice(1).join('-') : null;
                 const idx = Math.max(0, flavors.indexOf(currentKey));
                 const next = flavors[(idx + 1) % flavors.length];
-                // Remove any existing flavor- classes from root
-                for (const f of flavors) root.classList.remove(`flavor-${f}`);
+                // Remove any existing flavor- classes from root and body
+                for (const f of flavors) {
+                    root.classList.remove(`flavor-${f}`);
+                    body.classList.remove(`flavor-${f}`);
+                }
                 root.classList.add(`flavor-${next}`);
+                body.classList.add(`flavor-${next}`);
+                // Persist flavor and current theme to localStorage for reload persistence
+                try {
+                    localStorage.setItem('tracker-flavor', next);
+                    const themeClass = [...root.classList].find(c => c.startsWith('theme-'));
+                    const theme = themeClass ? themeClass.replace('theme-', '') : 'light';
+                    localStorage.setItem('tracker-theme', theme);
+                } catch (e) { }
                 // Re-render to pick up new label
                 this.render();
                 // Emit both a generic click and a specific cycle event

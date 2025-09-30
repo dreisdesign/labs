@@ -65,10 +65,10 @@ export function createTracker({ metricRootId = 'metric-root', listRootId = 'list
 
         store.items.forEach(item => {
             const li = document.createElement('labs-list-item');
+            // Use text-only variant and put the time string in the content slot
+            // so the timestamp is the primary label (matches the Timestamp story)
             li.setAttribute('variant', 'text-only');
             try {
-                li.setAttribute('timestamp', String(item.ts));
-                li.setAttribute('date', new Date(item.ts).toISOString().slice(0, 10));
                 li.setAttribute('value', item.note || '');
             } catch (e) { }
 
@@ -78,24 +78,15 @@ export function createTracker({ metricRootId = 'metric-root', listRootId = 'list
             controlIcon.setAttribute('aria-hidden', 'true');
             li.appendChild(controlIcon);
 
-            const labelEl = document.createElement('div');
-            labelEl.slot = 'label';
-            labelEl.className = 'item-label';
-            try {
-                labelEl.textContent = formatHuman(item.ts);
-            } catch (e) {
-                try { labelEl.textContent = new Date(item.ts).toLocaleString(); }
-                catch (e2) { labelEl.textContent = (new Date(item.ts)).toISOString(); }
-            }
-            li.appendChild(labelEl);
-
             const contentEl = document.createElement('div');
             contentEl.slot = 'content';
             contentEl.className = 'item-content';
-            const title = document.createElement('div');
-            title.className = 'title';
-            title.textContent = item.note || '';
-            contentEl.appendChild(title);
+            try {
+                contentEl.textContent = formatHuman(item.ts);
+            } catch (e) {
+                try { contentEl.textContent = new Date(item.ts).toLocaleString(); }
+                catch (e2) { contentEl.textContent = (new Date(item.ts)).toISOString(); }
+            }
             li.appendChild(contentEl);
 
             const overflow = document.createElement('labs-dropdown');

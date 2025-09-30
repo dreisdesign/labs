@@ -47,21 +47,85 @@ class LabsListItem extends HTMLElement {
   }
 
   render() {
+    // Hide archivedBadgeContainer if empty
+    const archivedBadgeContainer = this.shadowRoot.getElementById('archivedBadgeContainer');
+    if (archivedBadgeContainer && !archivedBadgeContainer.textContent.trim()) {
+      archivedBadgeContainer.style.display = 'none';
+    } else if (archivedBadgeContainer) {
+      archivedBadgeContainer.style.display = '';
+    }
     // Build a slot-driven template with sensible, backwards-compatible fallbacks.
     if (!this.shadowRoot.innerHTML) {
       this.shadowRoot.innerHTML = `
         <style>
           :host { display: block; width: 100%; font-family: var(--font-family-base, system-ui, sans-serif); }
-          .row { display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:12px; background:var(--color-surface, #fff); width:100%; box-sizing:border-box; min-width:0; }
+          .row { display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:12px; background:var(--color-surface, #fff); width:100%; box-sizing:border-box; min-width:0; min-height:60px; overflow: hidden; }
+          .text { flex-grow:1; font-size:1rem; color:var(--color-on-surface, #111); word-break:break-word; min-width:0; text-align: center; }
+          .actions { display:flex; gap:0; align-items:center; flex: 0 0 auto; min-width:0; width:auto; min-height:32px; margin-right:0 !important; }
           .text { flex:1; font-size:1rem; color:var(--color-on-surface, #111); word-break:break-word; min-width:0; }
           .timestamp { font-size:0.75rem; color:var(--color-on-surface-variant, #666); margin-left:6px; }
           .badge { font-size:0.625rem; padding:4px 8px; border-radius:999px; background:var(--color-surface-secondary, #f1f3f4); color:var(--color-on-surface); margin-left:8px; }
-          .actions { display:flex; gap:8px; align-items:center; flex: 0 0 auto; }
+          .actions { display:flex; gap:8px; align-items:center; flex: 0 0 auto; min-width:40px; min-height:32px; }
+          ::slotted([slot="control"]) {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            min-height: 32px;
+            padding: 0 2px;
+          }
+          ::slotted([slot="actions"]) {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            min-height: 32px;
+            padding: 0 2px;
+          }
+          /* Control slot SVG: container may be up to 40px wide; icon should not exceed 20px height */
+          ::slotted([slot="control"] svg) {
+            display: block;
+            margin: auto;
+            max-width: 40px !important;
+            max-height: 20px !important;
+            width: auto !important;
+            height: auto !important;
+          }
+          /* Ensure timestamp variant also constrains control/label icons to match the checkbox sizing */
+          :host([variant="timestamp"]) ::slotted([slot="control"]),
+          :host([variant="timestamp"]) ::slotted([slot="label"]) {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            min-height: 32px;
+            padding: 0 2px;
+          }
+          :host([variant="timestamp"]) ::slotted([slot="control"] svg),
+          :host([variant="timestamp"]) ::slotted([slot="label"] svg) {
+            display: block;
+            margin: auto;
+            max-width: 40px !important;
+            max-height: 20px !important;
+            width: auto !important;
+            height: auto !important;
+          }
           labs-button[variant="icon"] { --icon-size:20px; }
           .secondary-variant { background: var(--color-surface-secondary, #f6f7f8); }
-          :host([variant="text-only"]) .row { padding: 8px 12px; }
+          :host([variant="text-only"]) .row { padding: 8px 12px; min-height: 60px; }
+          :host([variant="timestamp"]) .row { padding: 8px 12px; min-height: 60px; }
+          :host([variant="text-only"]) .row:has(:not([slot="actions"])) .text {
+            margin-right: auto;
+            margin-left: auto;
+            text-align: center;
+          }
           :host([variant="text-only"]) .text { font-weight: var(--font-weight-semibold, 600); }
           :host([variant="text-only"]) .timestamp { margin-left: 0; margin-top: 2px; font-size: 0.75rem; }
+          :host([variant="text-only"]) ::slotted([slot="control"]),
+          :host([variant="text-only"]) ::slotted([slot="actions"]) {
+            padding: 0 1px;
+          }
+          /* Enforced constraints already applied above for control SVG */
           /* Style for a slotted primary label (timestamp) when present */
           .labelHost { font-size: 0.95rem; color: var(--color-on-surface, #111); margin-right: 12px; white-space: nowrap; flex: 0 0 auto; }
           ::slotted(.item-label) {
@@ -70,36 +134,36 @@ class LabsListItem extends HTMLElement {
             margin-right: 12px;
             white-space: nowrap;
             flex: 0 0 auto;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 140px;
+          }
+          /* Constrain timestamp label text so it doesn't overflow the row */
+          :host([variant="timestamp"]) ::slotted([slot="label"]) {
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex: 0 0 auto;
           }
         </style>
-  <div class="row" role="listitem" data-id="${this._id}">
-          <!-- Left control slot: checkbox or other control. Fallback: labs-checkbox -->
-          <slot name="control">
-            <labs-checkbox id="chk" aria-label="Toggle complete"></labs-checkbox>
-          </slot>
-
-          <!-- Label slot: optional primary label (e.g. timestamp) -->
-          <slot name="label"></slot>
-
-          <!-- Shadow label host: copy slotted label text here for consistent styling -->
-          <div class="labelHost" aria-hidden="true"></div>
-
-          <!-- Content slot: main text + optional inline timestamp fallback -->
-          <div style="display:flex;flex-direction:column;flex:1;min-width:0;">
-            <slot name="content">
-              <div class="text"></div>
-              <div class="timestamp" aria-hidden="true"></div>
-            </slot>
-          </div>
-
-          <!-- Reserved badge area (fallback empty) -->
+        <div class="row" role="listitem" data-id="${this._id}">
+          <slot name="control"></slot>
+          <div class="text"><slot name="content"></slot></div>
           <div id="archivedBadgeContainer" aria-hidden="true"></div>
-
-          <!-- Actions slot: overflow, buttons. Fallback: labs-dropdown -->
-          <div class="actions">
-            <slot name="actions">
-              <labs-dropdown id="overflowMenu" aria-label="More actions"></labs-dropdown>
-            </slot>
+          <div class="actions" style="display:none;width:0;min-width:0;">
+            <slot name="actions" onslotchange="
+              const parent = this.parentElement;
+              if (this.assignedNodes().length) {
+                parent.style.display = 'flex';
+                parent.style.minWidth = '40px';
+                parent.style.width = '';
+              } else {
+                parent.style.display = 'none';
+                parent.style.minWidth = '0';
+                parent.style.width = '0';
+              }
+            "></slot>
           </div>
         </div>
       `;
@@ -107,106 +171,11 @@ class LabsListItem extends HTMLElement {
       // Wire slotchange observers to respond to light DOM changes
       const slots = this.shadowRoot.querySelectorAll('slot');
       slots.forEach(s => s.addEventListener('slotchange', this._slotChangeHandler));
+
+      // NOTE: component-owned left-side timestamp/label removed — keep content slot only
     }
 
-    // Helper lookups: prefer slotted nodes, fall back to shadow fallback elements
-    const slottedControl = this.querySelector('[slot="control"]');
-    const chk = slottedControl || this.shadowRoot.getElementById('chk');
-    if (chk) {
-      // labs-checkbox emits a 'change' CustomEvent; handle fallback checkbox directly
-      if (chk.tagName && chk.tagName.toLowerCase() === 'labs-checkbox') {
-        // If this is the shadow-hosted fallback checkbox, wire its events directly
-        if (chk.addEventListener && !chk._labsListItemWired) {
-          chk.addEventListener('change', (e) => {
-            const checked = e.detail && !!e.detail.checked;
-            this._checked = checked;
-            if (this._checked) this.setAttribute('checked', ''); else this.removeAttribute('checked');
-            this.dispatchEvent(new CustomEvent('toggle', { detail: { checked: this._checked, id: this._id }, bubbles: true, composed: true }));
-            this.render();
-          });
-          chk._labsListItemWired = true;
-        }
-      }
-
-      // If a light-DOM label is provided, mirror its text into the shadow labelHost
-      try {
-        const slLabel = this.querySelector('[slot="label"]');
-        const host = this.shadowRoot.querySelector('.labelHost');
-        const ts = this.shadowRoot.querySelector('.timestamp');
-        if (host) {
-          if (slLabel) {
-            host.textContent = slLabel.textContent || '';
-            // mark the original slotted node as present but hidden from visual flow
-            try { slLabel.setAttribute('aria-hidden', 'true'); slLabel.style.display = 'none'; } catch (e) { }
-            // hide the inline shadow fallback timestamp to avoid duplicate visuals
-            try { if (ts) { ts.style.display = 'none'; ts.textContent = ''; } } catch (e) { }
-          } else {
-            // fall back to timestamp attribute if present (human-friendly)
-            host.textContent = this._timestamp ? formatHuman(this._timestamp) : '';
-            // ensure inline shadow timestamp is visible for the fallback
-            try { if (ts) { ts.style.display = ''; } } catch (e) { }
-          }
-        }
-      } catch (e) { /* non-fatal */ }
-
-      // Reflect checked/inactive state
-      if (this._checked) {
-        try { chk.setAttribute('checked', ''); } catch (e) { }
-      } else {
-        try { chk.removeAttribute('checked'); } catch (e) { }
-      }
-      const isPrevDay = (() => {
-        if (!this._date) return false;
-        try {
-          const d = new Date(this._date + 'T00:00:00');
-          const today = new Date();
-          const todayStr = today.toISOString().slice(0, 10);
-          return d.toISOString().slice(0, 10) !== todayStr;
-        } catch (e) { return false; }
-      })();
-      if (this.hasAttribute('archived') || isPrevDay) {
-        try { chk.setAttribute('inactive', ''); } catch (e) { }
-      } else {
-        try { chk.removeAttribute('inactive'); } catch (e) { }
-      }
-    }
-
-    // Content: prefer slotted content; if not present, fill fallback text/timestamp
-    const assignedContent = this.querySelector('[slot="content"]');
-    if (!assignedContent) {
-      const textDiv = this.shadowRoot.querySelector('.text');
-      if (textDiv) textDiv.textContent = this._value;
-      const ts = this.shadowRoot.querySelector('.timestamp');
-      if (ts) ts.textContent = this._timestamp ? formatTime12(this._timestamp) : '';
-    }
-
-    // Actions/overflow: respect slotted action node when present
-    const slottedActions = this.querySelector('[slot="actions"]');
-    const overflow = slottedActions || this.shadowRoot.getElementById('overflowMenu');
-    if (overflow) {
-      // Mirror archived/restored attributes onto overflow control regardless of where it lives
-      try {
-        if (this.hasAttribute('archived')) overflow.setAttribute('archived', ''); else overflow.removeAttribute('archived');
-      } catch (e) { }
-      try {
-        if (this.hasAttribute('restored')) overflow.setAttribute('restored', ''); else overflow.removeAttribute('restored');
-      } catch (e) { }
-
-      // Forward archive/restore/remove events from overflow to host if the overflow is in shadow
-      if (overflow.addEventListener && overflow.id === 'overflowMenu' && !overflow._labsListItemWired) {
-        overflow.addEventListener('archive', (e) => {
-          if (this.hasAttribute('archived') && !this.hasAttribute('restored')) {
-            this.setAttribute('restored', '');
-            this.dispatchEvent(new CustomEvent('request-restore-copy', { detail: { value: this._value, id: this._id }, bubbles: true, composed: true }));
-          } else if (!this.hasAttribute('archived')) {
-            this._archive();
-          }
-        });
-        overflow.addEventListener('restore', (e) => this._restore());
-        overflow.addEventListener('remove', (e) => { if (this.hasAttribute('archived')) this._remove(); });
-        overflow._labsListItemWired = true;
-      }
-    }
+    // Only wire slotchange observers; all content must be provided via slots.
 
     // Update visual state for archive/restore/delete similar to previous behavior
     const archiveIcon = this.shadowRoot.getElementById('archiveIcon');

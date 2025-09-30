@@ -2,88 +2,14 @@
 <html lang="en" class="flavor-blueberry theme-light">
 
 <head>
-    <style>
-        /* Constrain timestamp and item-label so they don't force wide computed widths */
-        labs-list-item .item-label,
-        labs-list-item .timestamp {
-            text-align: center !important;
-            box-sizing: border-box !important;
-            max-width: 120px !important;
-            flex: 0 0 auto !important;
-            overflow: hidden !important;
-            text-overflow: ellipsis !important;
-            white-space: nowrap !important;
-        }
-
-        /* Hide unused labelHost */
-        labs-list-item .labelHost {
-            display: none !important;
-        }
-
-        /* Ensure flex container allows growth */
-        labs-list-item>div[style*="flex-direction:column"] {
-            min-width: 0 !important;
-            width: 100% !important;
-            flex: unset !important;
-        }
-    </style>
-    <style>
-        .labelHost {
-            font-size: 0.95rem;
-            color: var(--color-on-surface, #111);
-            margin-right: 12px;
-            white-space: nowrap;
-            flex: 0 0 auto;
-            text-align: center;
-            width: auto;
-            max-width: 120px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-    </style>
-    <style>
-        /* Ensure flex container and children fill space for timestamp/content */
-        labs-list-item>div[style*="flex-direction:column"] {
-            min-width: 0 !important;
-            width: 100% !important;
-            flex: unset !important;
-        }
-
-        labs-list-item .text {
-            width: 100% !important;
-            box-sizing: border-box !important;
-        }
-
-        labs-list-item .timestamp {
-            box-sizing: border-box !important;
-            max-width: 120px !important;
-            flex: 0 0 auto !important;
-            overflow: hidden !important;
-            text-overflow: ellipsis !important;
-            white-space: nowrap !important;
-            text-align: center !important;
-        }
-    </style>
-    <style>
-        /* Hide hidden timestamp and allow timestamp to fill space */
-        .timestamp[aria-hidden="true"] {
-            display: none !important;
-        }
-
-        labs-list-item>div[style*="flex-direction:column"] {
-            min-width: 0 !important;
-            width: 100% !important;
-        }
-    </style>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="/labs/tracker/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="/tracker/favicon.ico" />
     <title>Labs: Tracker Powered by Smoothie</title>
     <!-- Early theme/flavor script moved to after <body> for reliable body access -->
-
-    <link rel="stylesheet" href="/labs/design-system/tokens/colors.css">
-    <link rel="stylesheet" href="/labs/design-system/styles/flavors.css">
-    <link rel="stylesheet" href="/labs/design-system/styles/main.css">
+    <link rel="stylesheet" href="/design-system/tokens/colors.css">
+    <link rel="stylesheet" href="/design-system/styles/flavors.css">
+    <link rel="stylesheet" href="/design-system/styles/main.css">
     <style>
         labs-list-item #archivedBadgeContainer {
             display: none !important;
@@ -160,6 +86,73 @@
         }
     </style>
     <style>
+        /* Prevent item-label/timestamp from forcing wide computed widths */
+        labs-list-item .item-label,
+        labs-list-item .timestamp {
+            text-align: center !important;
+            box-sizing: border-box !important;
+            max-width: 120px !important;
+            flex: 0 0 auto !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            white-space: nowrap !important;
+        }
+
+        .labelHost {
+            max-width: 120px !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            white-space: nowrap !important;
+            text-align: center !important;
+            flex: 0 0 auto !important;
+        }
+    </style>
+    <style>
+        /* Pre-upgrade CSS: stabilize layout before custom elements upgrade */
+        :not(:defined) labs-button[fullwidth],
+        :not(:defined) labs-button {
+            display: block;
+            width: 100%;
+        }
+
+        :not(:defined) labs-footer {
+            min-height: 40px;
+        }
+    </style>
+    <style>
+        /* Prevent the tracker list from collapsing to a very narrow width
+           when transitioning between empty and populated states. Keep
+           layout responsive but provide a sensible minimum width. */
+        #list-root>div {
+            box-sizing: border-box;
+            width: 100%;
+            min-width: 280px;
+            max-width: 100%;
+        }
+
+        /* Ensure empty message uses full width of the list container */
+        #list-root .empty {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px 0;
+        }
+
+        /* Mobile: add padding to main */
+        @media (max-width: 640px) {
+            main {
+                width: 100%;
+                padding: 12px;
+            }
+        }
+    </style>
+
+    .footer-center {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    }
+    </style>
+    <style>
         /* Pre-upgrade CSS: stabilize layout before custom elements upgrade */
         :not(:defined) labs-button[fullwidth],
         :not(:defined) labs-button {
@@ -204,7 +197,6 @@
     <labs-overlay id="settingsOverlay" size="medium" transparent>
         <labs-settings-card></labs-settings-card>
     </labs-overlay>
-
     <main id="app" class="container-responsive">
         <section id="tracker-root">
             <!-- metric card -->
@@ -213,16 +205,13 @@
             <div id="list-root"></div>
         </section>
     </main>
-
     <!-- Footer with settings -->
     <labs-footer full-width elevated>
-
         <div slot="center" class="footer-center">
             <labs-button id="footer-track-btn" size="large" pill variant="primary" fullwidth>
                 <labs-icon name="add" slot="icon-left" width="20" height="20"></labs-icon>Track
             </labs-button>
         </div>
-
         <div slot="right" style="display: flex; align-items: center; gap: 8px;">
             <labs-button id="footer-settings-btn" variant="icon" aria-label="Settings" title="Settings"
                 style="margin-right:20px;">
@@ -230,18 +219,16 @@
             </labs-button>
         </div>
     </labs-footer>
-
-    <script type="module" src="/labs/design-system/components/labs-icon.js"></script>
-    <script type="module" src="/labs/design-system/components/labs-button.js"></script>
-    <script type="module" src="/labs/design-system/components/labs-card.js"></script>
-    <script type="module" src="/labs/design-system/components/labs-dropdown.js"></script>
-    <script type="module" src="/labs/design-system/components/labs-list-item.js"></script>
-    <script type="module" src="/labs/design-system/components/labs-footer.js"></script>
-    <script type="module" src="/labs/design-system/components/labs-toast.js"></script>
-    <script type="module" src="/labs/design-system/components/labs-overlay.js"></script>
-    <script type="module" src="/labs/design-system/components/labs-settings-card.js"></script>
-    <script type="module" src="/labs/design-system/components/labs-flavor-button.js"></script>
-
+    <script type="module" src="/design-system/components/labs-icon.js"></script>
+    <script type="module" src="/design-system/components/labs-button.js"></script>
+    <script type="module" src="/design-system/components/labs-card.js"></script>
+    <script type="module" src="/design-system/components/labs-dropdown.js"></script>
+    <script type="module" src="/design-system/components/labs-list-item.js"></script>
+    <script type="module" src="/design-system/components/labs-footer.js"></script>
+    <script type="module" src="/design-system/components/labs-toast.js"></script>
+    <script type="module" src="/design-system/components/labs-overlay.js"></script>
+    <script type="module" src="/design-system/components/labs-settings-card.js"></script>
+    <script type="module" src="/design-system/components/labs-flavor-button.js"></script>
     <!-- Move main.js to the very end for reliable component definition -->
     <script>
         // Early theme/flavor script (tracker, prioritizes tracker-flavor/theme only)
@@ -260,14 +247,12 @@
                 else root.classList.add('theme-light');
             } catch (e) { }
         })();
-
         document.addEventListener('flavor-changed', function (e) {
             try {
                 var fv = (e && e.detail && e.detail.flavor) ? String(e.detail.flavor).replace(/^flavor-/, '') : null;
                 if (fv) localStorage.setItem('tracker-flavor', fv);
             } catch (err) { }
         });
-
         // Observe document.documentElement class changes and persist theme-* and flavor-* class values
         var mo = new MutationObserver(function (mutations) {
             try {
@@ -288,7 +273,7 @@
         } catch (e) { }
     </script>
     <!-- Main Tracker app logic -->
-    <script type="module" src="/labs/tracker/js/main.js"></script>
+    <script type="module" src="/tracker/js/main.js"></script>
     <script type="module">
         import createTracker from '/tracker/js/main.js';
         const tracker = createTracker({ metricRootId: 'metric-root', listRootId: 'list-root' });

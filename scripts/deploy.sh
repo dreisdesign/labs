@@ -28,6 +28,7 @@ mkdir -p docs/design-system/styles
 cp design-system/src/styles/*.css docs/design-system/styles/ 2>/dev/null || true
 
 git add docs/design-system
-commit_msg="Deploy (automation): $(date '+%Y-%m-%d %H:%M') - ensure all public assets in docs/design-system for GitHub Pages"
+git add design-system/components
+commit_msg="Deploy (automation): $(date '+%Y-%m-%d %H:%M') - ensure all public and built assets in docs/design-system and design-system/components for GitHub Pages"
 git commit -m "$commit_msg"
 git push

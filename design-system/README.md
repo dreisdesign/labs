@@ -84,6 +84,19 @@ For setup, usage, and contribution details, see the [migration guide](../_dev/_d
 - The archive button icon changes to a history icon when archived, and becomes inactive (faded) when restored.
 - See the new Storybook story: `List Item/Archived` for a live demo of all states.
 
+### List Item — Timestamp & Centered Content
+- The `labs-list-item` component now supports a refined `timestamp`/`text-only` presentation where the control (checkmark) and action slots match sizing, and the content is centered.
+- For timestamp-driven lists (like Tracker), prefer using `variant="text-only"` or `variant="timestamp"` so the left (control) slot is constrained to a 40×32 container and the icon itself is kept to a 20px height for visual parity with action buttons.
+- The `content` slot is wrapped in a `.text` container that flex-grows and centers its text, which is ideal for timestamp-only rows and empty states.
+
 ### Input Card & Destructive Button UX
 - Input cards now have `autocomplete="off"` for better browser UX.
 - Destructive button icons (e.g., delete/reset) now always use the correct error color in all themes.
+
+### Dropdown Portal Architecture (2025-09-30)
+- **Major Improvement**: `<labs-dropdown>` now uses a document-level portal pattern to prevent menu clipping issues.
+- The dropdown menu is rendered outside its parent component at document level (`#labs-dropdown-portal`), completely avoiding ancestor overflow constraints.
+- **Benefits**: No more clipped menus in list items, cards, or containers with `overflow: hidden`. Consistent z-index behavior. Better accessibility.
+- **Technical**: Uses viewport-aware positioning, automatic cleanup, and maintains all existing keyboard navigation and event handling.
+- **Breaking Change**: None - all existing usage remains identical. This is a pure architectural improvement.
+- See Storybook stories: `Components/List Item` and `Templates/Smoothie` for examples of dropdowns that now render properly.

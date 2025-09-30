@@ -12,39 +12,39 @@ import '../../components/labs-checkbox.js';
 import '../../components/labs-dropdown.js';
 
 export default {
-    title: 'Templates/Smoothie',
-    parameters: {
-        docs: {
-            description: {
-                component: 'Smoothie template that includes the canonical content container (`labs-container`). Use the `layout` arg to pick `list` or `full` behaviors.'
-            }
-        }
-    },
-    argTypes: {
-        settingsIcon: {
-            control: { type: 'select' },
-            options: Object.keys(iconsList),
-        },
-        layout: {
-            control: { type: 'radio' },
-            options: ['narrow', 'wide', 'edge'],
-            description: 'Choose `narrow` (app-like constrained), `wide` (full width with paddings), or `edge` (edge-to-edge full bleed).'
-        },
-        maxWidth: { control: { type: 'text' }, description: 'Override `--app-container-max` (e.g. 720px)' },
+  title: 'Templates/Smoothie',
+  parameters: {
+    docs: {
+      description: {
+        component: 'Smoothie template that includes the canonical content container (`labs-container`). Use the `layout` arg to pick `list` or `full` behaviors.'
+      }
     }
+  },
+  argTypes: {
+    settingsIcon: {
+      control: { type: 'select' },
+      options: Object.keys(iconsList),
+    },
+    layout: {
+      control: { type: 'radio' },
+      options: ['narrow', 'wide', 'edge'],
+      description: 'Choose `narrow` (app-like constrained), `wide` (full width with paddings), or `edge` (edge-to-edge full bleed).'
+    },
+    maxWidth: { control: { type: 'text' }, description: 'Override `--app-container-max` (e.g. 720px)' },
+  }
 };
 
 // The previous Default story has been removed; With Components will be the single Default template below.
 
 export const Default = {
-    name: 'Default',
-    render: (args) => {
-        const container = document.createElement('div');
-        const maxStyle = args.maxWidth ? `--app-container-max: ${args.maxWidth};` : '';
-        const fullAttr = args.layout === 'edge' ? 'fullbleed' : '';
-        const layoutMax = args.layout === 'wide' && !args.maxWidth ? '--app-container-max: 960px;' : '';
-        const combinedStyle = [maxStyle, layoutMax].filter(Boolean).join(' ');
-        container.innerHTML = `
+  name: 'Default',
+  render: (args) => {
+    const container = document.createElement('div');
+    const maxStyle = args.maxWidth ? `--app-container-max: ${args.maxWidth};` : '';
+    const fullAttr = args.layout === 'edge' ? 'fullbleed' : '';
+    const layoutMax = args.layout === 'wide' && !args.maxWidth ? '--app-container-max: 960px;' : '';
+    const combinedStyle = [maxStyle, layoutMax].filter(Boolean).join(' ');
+    container.innerHTML = `
       <style>
         /* Make the story area exactly the viewport height so the footer doesn't cause overflow */
         html, body { height:100%; margin:0; padding:0; box-sizing:border-box; }
@@ -97,6 +97,13 @@ export const Default = {
                 <span slot="content">Release build</span>
                 <labs-dropdown slot="actions"></labs-dropdown>
               </labs-list-item>
+              <!-- Timestamp-style list item: match the Components/List Item -> Timestamp story
+                   (use text-only variant with a left icon and the time string as the main content) -->
+              <labs-list-item variant="text-only">
+                <labs-icon slot="control" name="check" aria-hidden="false" title="Completed"></labs-icon>
+                <span slot="content">10:00 AM</span>
+                <labs-dropdown slot="actions"></labs-dropdown>
+              </labs-list-item>
             </div>
           </main>
         </labs-container>
@@ -107,32 +114,32 @@ export const Default = {
         <labs-overlay id="settingsOverlay" size="medium" transparent><labs-settings-card></labs-settings-card></labs-overlay>
       </div>
     `;
-        const settingsBtn = container.querySelector('labs-button[variant="icon"]');
-        const settingsOverlay = container.querySelector('#settingsOverlay');
-        if (settingsBtn && settingsOverlay) settingsBtn.addEventListener('click', () => settingsOverlay.open());
-        const settingsCard = container.querySelector('labs-settings-card');
-        if (settingsCard && settingsOverlay) {
-            settingsCard.addEventListener('close', () => settingsOverlay.close());
-        }
-        return container;
+    const settingsBtn = container.querySelector('labs-button[variant="icon"]');
+    const settingsOverlay = container.querySelector('#settingsOverlay');
+    if (settingsBtn && settingsOverlay) settingsBtn.addEventListener('click', () => settingsOverlay.open());
+    const settingsCard = container.querySelector('labs-settings-card');
+    if (settingsCard && settingsOverlay) {
+      settingsCard.addEventListener('close', () => settingsOverlay.close());
     }
+    return container;
+  }
 };
 
 Default.args = {
-    settingsIcon: 'settings',
-    layout: 'narrow',
-    maxWidth: ''
+  settingsIcon: 'settings',
+  layout: 'narrow',
+  maxWidth: ''
 };
 
 export const WithFooter = {
-    name: 'With Footer',
-    render: (args) => {
-        const container = document.createElement('div');
-        const maxStyle = args.maxWidth ? `--app-container-max: ${args.maxWidth};` : '';
-        const fullAttr = args.layout === 'edge' ? 'fullbleed' : '';
-        const layoutMax = args.layout === 'wide' && !args.maxWidth ? '--app-container-max: 960px;' : '';
-        const combinedStyle = [maxStyle, layoutMax].filter(Boolean).join(' ');
-        container.innerHTML = `
+  name: 'With Footer',
+  render: (args) => {
+    const container = document.createElement('div');
+    const maxStyle = args.maxWidth ? `--app-container-max: ${args.maxWidth};` : '';
+    const fullAttr = args.layout === 'edge' ? 'fullbleed' : '';
+    const layoutMax = args.layout === 'wide' && !args.maxWidth ? '--app-container-max: 960px;' : '';
+    const combinedStyle = [maxStyle, layoutMax].filter(Boolean).join(' ');
+    container.innerHTML = `
       <style>
         html, body { height:100%; margin:0; padding:0; box-sizing:border-box; }
         .smoothie-root { display:flex; flex-direction:column; height:100vh; background:var(--color-background,#f6f6f9); }
@@ -164,12 +171,12 @@ export const WithFooter = {
         </labs-footer>
       </div>
     `;
-        return container;
-    }
+    return container;
+  }
 };
 
 WithFooter.args = {
-    settingsIcon: 'settings',
-    layout: 'narrow',
-    maxWidth: ''
+  settingsIcon: 'settings',
+  layout: 'narrow',
+  maxWidth: ''
 };

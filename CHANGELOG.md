@@ -1,18 +1,38 @@
-# [Unreleased] - 2025-09-20
+# [Unreleased] - 2025-09-30
 
-### Added
-- **PWA (minimal):** Registered a minimal service worker with a small precache list, navigation-fallback, and cache-first strategy for same-origin assets to provide basic offline navigation and improve resilience. (commit `f333b85`)
+### 🚀 Major Architecture Improvements
+
+#### Dropdown Portal System
+- **BREAKING IMPROVEMENT**: `<labs-dropdown>` now uses a document-level portal pattern to eliminate menu clipping issues
+- **Portal Architecture**: Dropdown menus are rendered in a shared document-level container (`#labs-dropdown-portal`) instead of within the component's shadow DOM
+- **Benefits**: No more clipped menus in list items, cards, or any container with `overflow: hidden`. Consistent z-index behavior across all contexts
+- **Viewport-Aware Positioning**: Automatic menu placement with flip detection (below-preferred, above-fallback)
+- **Zero Breaking Changes**: All existing usage patterns remain identical - this is a pure architectural enhancement
+- **Cleanup**: Automatic portal cleanup when components unmount, resize/scroll repositioning, proper event handling across shadow boundaries
+
+#### List Item Component Refinements  
+- **Timestamp Rendering**: Simplified `labs-list-item` to remove component-owned timestamp rendering - now uses "timestamp-as-content" pattern consistently
+- **Tracker Integration**: Updated Tracker app to use `variant="text-only"` with formatted timestamps in the content slot
+- **Visual Consistency**: List items in Storybook, Smoothie template, and Tracker app now have identical appearance and behavior
+- **Slot Optimization**: Removed redundant label slot and internal `.labelHost` rendering logic for cleaner component architecture
 
 ### Fixed
-- **Settings (safety):** `labs-settings-card` now only probes `http://localhost:8000/` when the current page is a local dev page to avoid opening localhost from production/demo pages. (commit `842057c`)
+- **Dropdown Clipping**: Resolved dropdown menus being cut off inside list items, cards, and overflow containers
+- **Timestamp Duplication**: Eliminated dual timestamp rendering in list components
+- **Component Parity**: Storybook stories now match real app usage patterns exactly
+
+### Technical
+- **Portal Pattern**: Industry-standard approach used by React Portal, Vue Teleport, and Popper.js
+- **Performance**: Eliminated complex viewport calculations and z-index conflicts
+- **Maintainability**: Cleaner separation between trigger logic and menu presentation
 
 ### Chore
-- **Deploy automation:** Multiple automated deploy commits ensured `docs/design-system/` assets are synced and asset paths were rewritten for GitHub Pages. (commits `02743f4`, `9e724a2`, `13bad60`)
+- **Documentation**: Updated component docs, README, and inline code comments to reflect portal architecture
+- **Testing**: Verified dropdown behavior across Storybook stories and Tracker app
 
-### Fixed (2025-09-23)
-- **FOUC & Theme Persistence:** Added early, normalized theme/flavor application for docs pages (Tracker, Today-List, Pad) so saved `localStorage` flavor/theme values are applied before stylesheets load. This reduces flashes of the default flavor on first paint and stabilizes pre-upgrade layout for un-upgraded custom elements. (commit `pending`)
-- **Tracker: persist theme/flavor keys:** Tracker demo now persists `tracker-theme` and `tracker-flavor` to `localStorage` and listens for `flavor-changed` events; head script reads these keys to apply the saved theme before first paint. (commit `pending`)
-- **List item timestamp duplication:** Fixed duplicate timestamp rendering in `labs-list-item` by hiding the shadow DOM fallback timestamp when a slotted human-friendly label is present; ensures only one timestamp is visible. (commit `pending`)
+---
+
+# [Released] - 2025-09-20
 
 # 🎯 v2.4.6 - Service Worker & Docs Stability Release (September 21, 2025)
 
