@@ -151,7 +151,8 @@
     <script type="module" src="/labs/design-system/components/labs-flavor-button.js"></script>
 
     <!-- Move main.js to the very end for reliable component definition -->
-    <script>// Early theme/flavor script (tracker, prioritizes tracker-flavor/theme only)
+    <script>
+        // Early theme/flavor script (tracker, prioritizes tracker-flavor/theme only)
         (function () {
             try {
                 var root = document && document.documentElement;
@@ -167,6 +168,7 @@
                 else root.classList.add('theme-light');
             } catch (e) { }
         })();
+
         document.addEventListener('flavor-changed', function (e) {
             try {
                 var fv = (e && e.detail && e.detail.flavor) ? String(e.detail.flavor).replace(/^flavor-/, '') : null;
@@ -174,7 +176,7 @@
             } catch (err) { }
         });
 
-        // Observe document.documentElement class changes and persist theme-* class value
+        // Observe document.documentElement class changes and persist theme-* and flavor-* class values
         var mo = new MutationObserver(function (mutations) {
             try {
                 var root = document.documentElement;
@@ -189,9 +191,10 @@
                 }
             } catch (err) { }
         });
-        try { mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] }); } catch (e) { }
-            } catch (e) { }
-        }) ();
+        try {
+            mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+        } catch (e) { }
+    </script>
     </script>
 
 
