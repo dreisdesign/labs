@@ -202,6 +202,17 @@ function hydrateFromStorage() {
     const el = document.createElement('labs-list-item');
     if (it.id) el.setAttribute('data-id', it.id);
     el.setAttribute('value', it.text || '');
+    // Add checkbox control (like Tracker)
+    const controlIcon = document.createElement('labs-icon');
+    controlIcon.slot = 'control';
+    controlIcon.setAttribute('name', 'check');
+    controlIcon.setAttribute('aria-hidden', 'true');
+    el.appendChild(controlIcon);
+    // Add slotted content for visible text
+    const contentNode = document.createElement('span');
+    contentNode.setAttribute('slot', 'content');
+    contentNode.textContent = it.text || '';
+    el.appendChild(contentNode);
     if (it.checked) el.setAttribute('checked', '');
     if (it.archived) el.setAttribute('archived', '');
     if (it.restored) el.setAttribute('restored', '');
@@ -590,6 +601,17 @@ function appendItem(text) {
   const id = `item-${Math.random().toString(36).slice(2, 9)}`;
   item.setAttribute('data-id', id);
   item.setAttribute('value', text);
+  // Add checkbox control (like Tracker)
+  const controlIcon = document.createElement('labs-icon');
+  controlIcon.slot = 'control';
+  controlIcon.setAttribute('name', 'check');
+  controlIcon.setAttribute('aria-hidden', 'true');
+  item.appendChild(controlIcon);
+  // Add slotted content for visible text
+  const contentNode = document.createElement('span');
+  contentNode.setAttribute('slot', 'content');
+  contentNode.textContent = text;
+  item.appendChild(contentNode);
   // add a delete-only actions dropdown by default
   const actionsWrap = document.createElement('div');
   actionsWrap.slot = 'actions';

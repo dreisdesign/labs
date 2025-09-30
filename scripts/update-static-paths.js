@@ -74,6 +74,8 @@ if (process.argv.includes("--local")) mode = "local";
 if (process.argv.includes("--github")) mode = "github";
 if (process.argv.includes("--auto")) mode = "auto";
 
+console.log(`update-static-paths: running in mode='${mode}'`);
+
 // Auto-detect mode when requested
 if (mode === "auto") {
   // Prefer GitHub Pages mode when running in CI or when repository looks like the GH Pages repo
@@ -103,74 +105,66 @@ if (!mode) {
 }
 
 filesToProcess.forEach((filePath) => {
-  let content = fs.readFileSync(filePath, "utf8");
-  let original = content;
+  let content = fs.readFileSync(filePath, 'utf8');
+  const original = content;
 
-  if (mode === "public") {
-    // Set all asset paths to public (local development)
-    content = content.replace(/\/labs\/design-system\//g, "/design-system/");
-    content = content.replace(/\.\.\/design-system\//g, "/design-system/");
-    content = content.replace(/\/labs\/today-list\//g, "/today-list/");
-    content = content.replace(/\/labs\/tracker\//g, "/tracker/");
-  } else if (mode === "github") {
-    // For GitHub Pages, all paths must be absolute from the repo root.
-    // This is a safer, more targeted replacement.
-    // Robustly rewrite asset paths for production
+  // Conservative common fixes applied regardless of mode
+  content = content.replace(/(["'`])\.\.\/design-system\//g, "$1/design-system/");
+  content = content.replace(/\/labs\/labs\//g, '/labs/');
+
+  // Targeted auto-fix for known broken dynamic import path used by tracker
+  const brokenPathRegex = /\/tracker\/design-system\/utils\/date-format\.js/g;
+  if (brokenPathRegex.test(content)) {
+    console.warn(`Found broken path in ${filePath}: /tracker/design-system/utils/date-format.js`);
+    content = content.replace(brokenPathRegex, '/design-system/utils/date-format.js');
+    console.log(`Auto-fixed broken date-format.js path in ${filePath}`);
+  }
+
+  // Mode-specific rewrites
+  if (mode === 'public') {
+    // For a local 'public' preview, prefer absolute paths off the server root
+    content = content.replace(/\/labs\/design-system\//g, '/design-system/');
+    content = content.replace(/\.\.\/design-system\//g, '/design-system/');
+    content = content.replace(/\/labs\/today-list\//g, '/today-list/');
+    content = content.replace(/\/labs\/tracker\//g, '/tracker/');
+    content = content.replace(/import ['"]\/labs\/design-system\//g, "import '/design-system/");
+    content = content.replace(/from ['"]\/labs\/design-system\//g, "from '/design-system/");
+  } else if (mode === 'local') {
+    // Local preview served from project root (python http.server) - use ../ paths
+    content = content.replace(/\/labs\/design-system\//g, '../design-system/');
+    content = content.replace(/\/design-system\//g, '../design-system/');
+  } else if (mode === 'github') {
+    // GitHub Pages: rewrite to /labs/<app>/ and copy public assets to docs/
     content = content.replace(/href="\.\.\/design-system\//g, 'href="/labs/design-system/');
     content = content.replace(/src="\.\.\/design-system\//g, 'src="/labs/design-system/');
     content = content.replace(/href="\/design-system\//g, 'href="/labs/design-system/');
     content = content.replace(/src="\/design-system\//g, 'src="/labs/design-system/');
     content = content.replace(/href="\.\.\.\/design-system\//g, 'href="/labs/design-system/');
     content = content.replace(/src="\.\.\.\/design-system\//g, 'src="/labs/design-system/');
-    // Remove any accidental multiple dots in asset paths (collapse to ../)
     content = content.replace(/([.]{3,})\/design-system\//g, '../design-system/');
 
-    // Handle paths to app directories (generic pattern for any app)
-    content = content.replace(
-      /src="\/([^/]+)\//g,
-      (match, appName) => {
-        // Only transform paths that look like app directories (not design-system)
-        if (appName !== 'design-system' && !appName.includes('.')) {
-          return `src="/labs/${appName}/`;
-        }
-        return match;
-      }
-    );
-    content = content.replace(
-      /href="\/([^/]+)\//g,
-      (match, appName) => {
-        // Only transform paths that look like app directories (not design-system)
-        if (appName !== 'design-system' && !appName.includes('.')) {
-          return `href="/labs/${appName}/`;
-        }
-        return match;
-      }
-    );
+    // Transform app root paths to point under /labs/<app>/ when appropriate
+    content = content.replace(/src="\/([^/]+)\//g, (match, appName) => {
+      if (appName !== 'design-system' && !appName.includes('.')) return `src="/labs/${appName}/`;
+      return match;
+    });
+    content = content.replace(/href="\/([^/]+)\//g, (match, appName) => {
+      if (appName !== 'design-system' && !appName.includes('.')) return `href="/labs/${appName}/`;
+      return match;
+    });
 
-    // Handle JavaScript import statements
-    content = content.replace(
-      /import\s+['"]\/design-system\//g,
-      "import '/labs/design-system/",
-    );
-    content = content.replace(
-      /from\s+['"]\/design-system\//g,
-      "from '/labs/design-system/",
-    );
+    // Rewrite JS import statements for production
+    content = content.replace(/import\s+['"]\/design-system\//g, "import '/labs/design-system/");
+    content = content.replace(/from\s+['"]\/design-system\//g, "from '/labs/design-system/");
 
-    // Prevent runaway replacement
-    content = content.replace(/\/labs\/labs\//g, "/labs/");
+    // Prevent accidental double /labs/labs/ paths
+    content = content.replace(/\/labs\/labs\//g, '/labs/');
 
-    // Copy all public assets to docs/design-system for GitHub Pages
-    const publicDir = path.join(__dirname, "../design-system");
-    const docsPublicDir = path.join(__dirname, "../docs/design-system");
+    // Copy public assets into docs/design-system for GitHub Pages
+    const publicDir = path.join(__dirname, '../design-system');
+    const docsPublicDir = path.join(__dirname, '../docs/design-system');
     copyDirSync(publicDir, docsPublicDir);
-    console.log(
-      "Copied all public assets to docs/design-system for GitHub Pages",
-    );
-  } else if (mode === "local") {
-    // Set all asset paths for local preview (python http.server from root)
-    content = content.replace(/\/labs\/design-system\//g, "../design-system/");
-    content = content.replace(/\/design-system\//g, "../design-system/");
+    console.log('Copied all public assets to docs/design-system for GitHub Pages');
   }
 
   // Final cleanup: collapse any sequence of three or more dots to ../ in all asset paths
@@ -179,6 +173,8 @@ filesToProcess.forEach((filePath) => {
   content = content.replace(/([.]{3,})\/tracker\//g, '../tracker/');
   content = content.replace(/([.]{3,})\/components\//g, '../components/');
   content = content.replace(/([.]{3,})\/tokens\//g, '../tokens/');
+
+  // Inline optional includes (early theme / preupgrade css) if they exist
   try {
     const includesDir = path.join(__dirname, '..', 'docs', '_includes');
     const earlyThemePath = path.join(includesDir, 'early-theme.js');
@@ -192,7 +188,6 @@ filesToProcess.forEach((filePath) => {
       preupgradeCssContent = fs.readFileSync(preupgradeCssPath, 'utf8');
     }
 
-    // Replace markers in HTML files if present
     if (earlyThemeContent) {
       content = content.replace(/<!--\s*EARLY_THEME_INCLUDE\s*-->/g, `<script>${earlyThemeContent}</script>`);
     }
@@ -200,13 +195,11 @@ filesToProcess.forEach((filePath) => {
       content = content.replace(/<!--\s*PREUPGRADE_CSS_INCLUDE\s*-->/g, `<style>${preupgradeCssContent}</style>`);
     }
   } catch (e) {
-    // ignore include inlining errors — not fatal
+    // not fatal
   }
 
-  // You can add more patterns here as needed
-
   if (content !== original) {
-    fs.writeFileSync(filePath, content, "utf8");
+    fs.writeFileSync(filePath, content, 'utf8');
     console.log(`Updated asset paths in ${filePath}`);
   } else {
     console.log(`No asset path changes needed in ${filePath}`);

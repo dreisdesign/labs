@@ -144,7 +144,7 @@ async function main() {
         // Ensure docs HTML asset paths are correct for local preview
         try {
           console.log('\nApplying public asset path rewrite for local preview...');
-          execSync('node scripts/update-static-paths.js --public', { stdio: 'inherit' });
+          execSync('node scripts/update-static-paths.js --local', { stdio: 'inherit' });
         } catch (e) {
           console.warn('Failed to run update-static-paths for public mode:', e.message);
         }
@@ -182,8 +182,8 @@ async function main() {
       const padUrl = `http://localhost:${port}/`;
       // Ensure docs HTML asset paths are correct for local preview
       try {
-        console.log('\nApplying public asset path rewrite for local preview...');
-        execSync('node scripts/update-static-paths.js --public', { stdio: 'inherit' });
+        console.log('\nApplying local asset path rewrite for local preview...');
+        execSync('node scripts/update-static-paths.js --local', { stdio: 'inherit' });
       } catch (e) {
         console.warn('Failed to run update-static-paths for public mode:', e.message);
       }
