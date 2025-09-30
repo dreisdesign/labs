@@ -19,9 +19,9 @@ const CACHE_NAME = 'labs-static-v2';
 const PRECACHE_URLS = [
   '/labs/',
   '/labs/index.html',
-  '..../design-system/iframe.html',
-  '..../design-system/main.css',
-  '..../design-system/storybook-theme-fixes.css'
+  '....../design-system/iframe.html',
+  '....../design-system/main.css',
+  '....../design-system/storybook-theme-fixes.css'
 ];
 
 self.addEventListener('fetch', event => {
