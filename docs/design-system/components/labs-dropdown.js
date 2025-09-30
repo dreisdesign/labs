@@ -1,5 +1,9 @@
 /**
- * Labs Dropdown - simple overflow menu (icon button + card-style menu)
+ * Labs Dropdown - simple overflow menu (icon button + portaled menu)
+ *
+ * Uses a "portal" pattern where the menu is rendered at document level to avoid
+ * clipping issues with ancestor overflow. The menu is automatically positioned
+ * relative to the trigger button and cleaned up when the component unmounts.
  *
  * Attributes:
  * - `open` (boolean): when present, menu is shown.
@@ -11,6 +15,15 @@
  * - `archive` (CustomEvent): request to archive the host item.
  * - `restore` (CustomEvent): request to restore the host item.
  * - `remove` (CustomEvent): request to remove/delete the host item.
+ * - `open` (CustomEvent): fired when menu opens.
+ * - `close` (CustomEvent): fired when menu closes.
+ *
+ * Technical Notes:
+ * - Menu is rendered in a document-level portal container (#labs-dropdown-portal)
+ * - Automatically handles positioning, viewport edge detection, and cleanup
+ * - No z-index conflicts or ancestor overflow clipping issues
+ * - Supports keyboard navigation (Arrow keys, Escape, Tab)
+ * - Outside click detection works across shadow DOM boundaries
  */
 class LabsDropdown extends HTMLElement {
     constructor() {
