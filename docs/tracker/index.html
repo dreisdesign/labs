@@ -151,61 +151,47 @@
     <script type="module" src="/labs/design-system/components/labs-flavor-button.js"></script>
 
     <!-- Move main.js to the very end for reliable component definition -->
-    <script type="module" src="js/main.js"></script>
-    <script type="module">
-        // Modular tracker initialization and UI wiring
-        import createTracker from './js/main.js';
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const tracker = createTracker({ metricRootId: 'metric-root', listRootId: 'list-root' });
-            tracker.init();
-
-            const settingsOverlay = document.getElementById('settingsOverlay');
-            const settingsBtn = document.getElementById('footer-settings-btn');
-            const settingsCard = document.querySelector('labs-settings-card');
-            const footerTrackBtn = document.getElementById('footer-track-btn');
-
-            if (settingsBtn && settingsOverlay) settingsBtn.addEventListener('click', () => settingsOverlay.open());
-
-            if (settingsCard && settingsOverlay) {
-                settingsCard.addEventListener('close', () => settingsOverlay.close());
-                settingsCard.addEventListener('reset-all', () => tracker.resetAll());
-            }
-
-            if (footerTrackBtn) footerTrackBtn.addEventListener('click', () => tracker.handleTrack());
-        });
-    </script>
-
-    <!-- Persist tracker-specific theme/flavor keys when settings change -->
-    <script>
+    <script>// Early theme/flavor script (tracker, prioritizes tracker-flavor/theme only)
         (function () {
             try {
-                // When flavor changes via labs-settings-card, it emits 'flavor-changed' with detail { flavor: '...' }
-                document.addEventListener('flavor-changed', function (e) {
-                    try {
-                        var fv = (e && e.detail && e.detail.flavor) ? String(e.detail.flavor).replace(/^flavor-/, '') : null;
-                        if (fv) localStorage.setItem('tracker-flavor', fv);
-                    } catch (err) { }
-                });
-
-                // Observe document.documentElement class changes and persist theme-* class value
-                var mo = new MutationObserver(function (mutations) {
-                    try {
-                        var root = document.documentElement;
-                        var themeClass = Array.from(root.classList).find(function (c) { return c && c.indexOf('theme-') === 0; });
-                        if (themeClass) {
-                            var tv = themeClass.replace('theme-', '');
-                            localStorage.setItem('tracker-theme', tv);
-                        }
-                        var flavorClass = Array.from(root.classList).find(function (c) { return c && c.indexOf('flavor-') === 0; });
-                        if (flavorClass) {
-                            localStorage.setItem('tracker-flavor', flavorClass.replace('flavor-', ''));
-                        }
-                    } catch (err) { }
-                });
-                try { mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] }); } catch (e) { }
+                var root = document && document.documentElement;
+                if (!root) return;
+                var flavor = localStorage.getItem('tracker-flavor');
+                var theme = localStorage.getItem('tracker-theme');
+                // remove any existing flavor- / theme- classes from <html> only
+                Array.from(root.classList).forEach(function (c) { if (c && c.indexOf('flavor-') === 0) root.classList.remove(c); });
+                Array.from(root.classList).forEach(function (c) { if (c && c.indexOf('theme-') === 0) root.classList.remove(c); });
+                if (flavor) root.classList.add('flavor-' + String(flavor));
+                else root.classList.add('flavor-blueberry');
+                if (theme) root.classList.add('theme-' + String(theme));
+                else root.classList.add('theme-light');
             } catch (e) { }
         })();
+        document.addEventListener('flavor-changed', function (e) {
+            try {
+                var fv = (e && e.detail && e.detail.flavor) ? String(e.detail.flavor).replace(/^flavor-/, '') : null;
+                if (fv) localStorage.setItem('tracker-flavor', fv);
+            } catch (err) { }
+        });
+
+        // Observe document.documentElement class changes and persist theme-* class value
+        var mo = new MutationObserver(function (mutations) {
+            try {
+                var root = document.documentElement;
+                var themeClass = Array.from(root.classList).find(function (c) { return c && c.indexOf('theme-') === 0; });
+                if (themeClass) {
+                    var tv = themeClass.replace('theme-', '');
+                    localStorage.setItem('tracker-theme', tv);
+                }
+                var flavorClass = Array.from(root.classList).find(function (c) { return c && c.indexOf('flavor-') === 0; });
+                if (flavorClass) {
+                    localStorage.setItem('tracker-flavor', flavorClass.replace('flavor-', ''));
+                }
+            } catch (err) { }
+        });
+        try { mo.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] }); } catch (e) { }
+            } catch (e) { }
+        }) ();
     </script>
 
 
