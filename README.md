@@ -116,8 +116,7 @@ The system provides palette anchors (`tokens/colors.css`), semantic fallbacks (`
 
 ## 🩹 Recent Fixes (Sept 23, 2025)
 
-- **Reduced FOUC & theme flashes:** Docs pages for Tracker, Today-List, and Pad now include a small synchronous head script that applies saved `localStorage` flavor and theme values before stylesheets load. This prevents the short flash of the default flavor (e.g., blueberry) on first paint.
-- **Tracker theme persistence:** The Tracker demo now persists `tracker-theme` and `tracker-flavor` when settings change so the app restores the correct theme on refresh.
+- **Local preview stability (2025-09-30):** Copied critical design-system utilities (e.g. `date-format.js`) into `docs/design-system/utils` and updated the preview path-sync and menu workflows to prefer `--local` mode so `python3 -m http.server` previews no longer 404 for those assets. This prevents flaky local demos during development.
 - **List item timestamp duplication:** `labs-list-item` now hides its shadow DOM timestamp fallback when a slotted, human-friendly label is provided to avoid duplicate timestamps.
 
 Verification steps:

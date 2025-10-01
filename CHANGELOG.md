@@ -21,6 +21,8 @@
 - **Timestamp Duplication**: Eliminated dual timestamp rendering in list components
 - **Component Parity**: Storybook stories now match real app usage patterns exactly
 
+- **Local preview stability (2025-09-30):** Copied `design-system/src/utils/date-format.js` into `docs/design-system/utils` and adjusted `scripts/update-static-paths.js` and menu workflows to prefer `--local` preview mode so local static previews do not 404 for critical util files.
+
 ### Technical
 - **Portal Pattern**: Industry-standard approach used by React Portal, Vue Teleport, and Popper.js
 - **Performance**: Eliminated complex viewport calculations and z-index conflicts
