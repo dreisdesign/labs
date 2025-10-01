@@ -23,27 +23,20 @@ export const Welcome = () => {
 
 export const Metric = () => {
   const card = document.createElement('labs-card');
-  card.innerHTML = `<div style="display:flex;flex-direction:column;gap:4px">
-    <div style="font-size:12px;color:var(--color-on-surface-variant)">Entries</div>
-    <div style="font-size:28px;font-weight:700">42</div>
-  </div>`;
-  return card;
-};
-
-
-export const MetricZero = () => {
-  const el = document.createElement('labs-card');
-  el.setAttribute('variant', 'metric');
+  card.setAttribute('variant', 'metric');
 
   const label = document.createElement('div');
-  label.slot = 'media';
-  label.innerHTML = '<div class="metric-label">Errors</div>';
+  label.className = 'metric-label';
+  label.style.cssText = 'font-size: var(--metric-label-size, 0.875rem); font-weight: var(--metric-label-weight, 800); line-height: var(--metric-label-line-height, 1.2); color: var(--color-on-surface); margin-bottom: var(--space-md, 1rem); text-align: center; width: 100%;';
+  label.textContent = 'Entries';
 
   const value = document.createElement('div');
-  value.innerHTML = '<div class="metric-value">0</div>';
+  value.className = 'metric-value';
+  value.style.cssText = 'font-size: var(--metric-value-size, 2rem); font-weight: var(--metric-value-weight, 800); line-height: var(--metric-value-line-height, 1.2); color: var(--color-primary); text-align: center; width: 100%;';
+  value.textContent = '42';
 
-  el.appendChild(label);
-  el.appendChild(value);
+  card.appendChild(label);
+  card.appendChild(value);
 
-  return el;
+  return card;
 };

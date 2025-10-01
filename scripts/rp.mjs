@@ -46,9 +46,14 @@ function openUrl(url, name) {
     }
 
     try {
-        debug(`Opening ${url} in Chrome...`);
+        debug(`Opening ${url} in default browser...`);
         if (process.platform === 'darwin') {
-            execSync(`open -a "Google Chrome" "${url}"`, { stdio: 'ignore' });
+            try {
+                execSync(`open -a "Google Chrome" "${url}"`, { stdio: 'ignore' });
+            } catch (e) {
+                // If Chrome is not installed, fall back to default browser
+                execSync(`open "${url}"`, { stdio: 'ignore' });
+            }
         } else if (process.platform === 'win32') {
             execSync(`start chrome "${url}"`, { stdio: 'ignore' });
         } else {
@@ -86,38 +91,61 @@ async function main() {
         log('⏳ Waiting for servers to start...');
 
         // Wait for docs server (quick)
+        let docsReady = false;
+        let storybookReady = false;
         try {
             runCommand(`bash scripts/wait-for-url.sh http://localhost:8000 "Docs Preview" ${DOCS_TIMEOUT} 2`);
-
-            // Open docs immediately when ready
-            openUrl('http://localhost:8000/', 'Labs Homepage');
-
+            docsReady = true;
         } catch (error) {
             log('⚠️  Docs server check failed, continuing with Storybook...');
         }
-
-        // Show building message immediately after docs opens
-        log('⏳ Building Storybook UI...');
-
-        // Wait for Storybook HTTP port
-        runCommand(`bash scripts/wait-for-url.sh http://localhost:6006 "Storybook" ${STORYBOOK_TIMEOUT} 2`);
-
-        // Step 4: Enhanced readiness check for Storybook (waits for actual build)
+        // Kill all servers on ports 6006 and 8000 before starting
         try {
+            console.log('🛑 Killing any running dev servers on ports 6006 and 8000...');
+            execSync('lsof -ti:6006,8000 | xargs kill -9', { stdio: 'ignore' });
+        } catch (e) {
+            // Ignore errors if no servers are running
+        }
+        // Wait until ports are fully free before proceeding
+        let portsFree = false;
+        for (let i = 0; i < 20; i++) { // up to 10 seconds
+            try {
+                const out = execSync('lsof -ti:6006,8000', { stdio: 'pipe' }).toString().trim();
+                if (!out) {
+                    portsFree = true;
+                    break;
+                }
+            } catch (e) {
+                // If lsof fails, assume ports are free
+                portsFree = true;
+                break;
+            }
+            await new Promise(res => setTimeout(res, 500));
+        }
+        if (!portsFree) {
+            console.log('⚠️  Warning: ports 6006 or 8000 may still be in use. Proceeding anyway.');
+        }
+
+        log('⏳ Building Storybook UI...');
+        try {
+            runCommand(`bash scripts/wait-for-url.sh http://localhost:6006 "Storybook" ${STORYBOOK_TIMEOUT} 2`);
             runCommand(`bash scripts/wait-for-storybook-ui.sh "http://localhost:6006" 120 3`);
-
-            // Open Storybook only after build is complete and UI is ready
-            openUrl('http://localhost:6006', 'Storybook');
-
+            storybookReady = true;
         } catch (error) {
             log('⚠️  Storybook build/readiness check failed');
             log('🔗 You may need to open http://localhost:6006 manually');
+        }
 
-            // Fallback: still try to open if not in CI, but with longer delay
-            if (!NO_AUTO_OPEN) {
-                setTimeout(() => openUrl('http://localhost:6006', 'Storybook (fallback)'), 10000);
-            }
-        }        // Step 5: Start background smoke tests
+        // Only open browsers if both are ready
+        if (docsReady && storybookReady) {
+            // Wait 5 seconds to ensure UI is fully rendered before opening browsers
+            await new Promise(res => setTimeout(res, 5000));
+            openUrl('http://localhost:8000/', 'Labs Homepage');
+            openUrl('http://localhost:6006', 'Storybook');
+        } else {
+            if (docsReady) log('🔗 Labs Homepage is ready: http://localhost:8000/ (open manually)');
+            if (storybookReady) log('🔗 Storybook is ready: http://localhost:6006 (open manually)');
+        }
         log('🧪 Starting background smoke tests...');
         spawn('bash', ['-lc', '/Users/danielreis/labs/scripts/check-docs-smoke.sh http://localhost:8000 > /tmp/labs-smoke.log 2>&1 &'], {
             stdio: 'ignore',

@@ -79,8 +79,8 @@ export const Default = {
             <header class="app-hero"><h1>Smoothie App Template — Default</h1></header>
             <div class="demo-list" role="list">
               <labs-card class="demo-card" variant="metric">
-                <div class="metric-label">Tasks</div>
-                <div class="metric-value">42</div>
+                <div class="metric-label" style="font-size: var(--metric-label-size, 0.875rem); font-weight: var(--metric-label-weight, 800); line-height: var(--metric-label-line-height, 1.2); color: var(--color-on-surface); margin-bottom: var(--space-md, 1rem); text-align: center; width: 100%;">Tasks</div>
+                <div class="metric-value" style="font-size: var(--metric-value-size, 2rem); font-weight: var(--metric-value-weight, 800); line-height: var(--metric-value-line-height, 1.2); color: var(--color-primary); text-align: center; width: 100%;">42</div>
               </labs-card>
               <labs-list-item>
                 <labs-checkbox slot="control" aria-label="Mark Walk the dog complete"></labs-checkbox>
