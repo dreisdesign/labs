@@ -52,9 +52,7 @@ export function createTracker({ metricRootId = 'metric-root', listRootId = 'list
         card.appendChild(label);
         card.appendChild(value);
         root.appendChild(card);
-    }
-
-    async function renderList(root) {
+    } async function renderList(root) {
         root.innerHTML = '';
         const list = document.createElement('div');
         list.style.display = 'flex';

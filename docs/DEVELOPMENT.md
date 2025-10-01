@@ -1,6 +1,36 @@
-## Metric Card Fixes (Tracker App)
+## Metric Card Implementation
 
-To update the metric card styles or logic in the Tracker app, always edit the source file:
+### Overview
+The metric card variant (`<labs-card variant="metric">`) uses a modular pattern combining shadow DOM styles with CSS custom properties to ensure consistent appearance across all applications.
+
+### CSS Custom Properties Pattern
+The `labs-card` component defines metric-specific CSS custom properties on the host element via `connectedCallback`:
+- `--metric-label-size: 0.875rem`
+- `--metric-label-weight: 800`
+- `--metric-label-line-height: 1.2`
+- `--metric-value-size: 2rem`
+- `--metric-value-weight: 800`
+- `--metric-value-line-height: 1.2`
+
+These properties are set directly on the host element's inline style to ensure they're accessible to light DOM slotted content.
+
+### Usage in Applications
+When rendering metric cards in apps (e.g., Tracker), use inline styles that reference the CSS custom properties:
+
+```javascript
+const label = document.createElement('div');
+label.className = 'metric-label';
+label.style.cssText = 'font-size: var(--metric-label-size, 0.875rem); font-weight: var(--metric-label-weight, 800); line-height: var(--metric-label-line-height, 1.2); color: var(--color-on-surface); margin-bottom: var(--space-md, 1rem); text-align: center; width: 100%;';
+label.textContent = 'Entries';
+```
+
+This pattern ensures:
+- **Modularity**: Component controls the CSS custom property values
+- **Consistency**: All metric cards use the same typography tokens
+- **Flexibility**: Apps can override values if needed by setting custom properties on the component
+
+### Updating Metric Card Styles (Tracker App)
+To update the metric card logic in the Tracker app, always edit the source file:
 
 ```
 src/tracker/js/main.js

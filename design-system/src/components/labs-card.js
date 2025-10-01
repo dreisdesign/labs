@@ -31,14 +31,14 @@ class LabsCard extends HTMLElement {
 :host[variant="welcome"] .card{padding:calc(var(--card-padding)*1.25);}
 :host[variant="metric"] .card{background:var(--color-surface);border-radius:var(--radius-lg);box-shadow:none;padding:var(--space-lg,24px);max-width:320px;margin:0 auto;display:flex;flex-direction:column;align-items:center;text-align:center;border:none;}
 
-/* Metric variant - set up custom properties that slotted content can use */
+/* Metric variant - set up custom properties on :host so light DOM slotted content can access them */
 :host[variant="metric"] {
-  --metric-label-size: var(--font-size-metric-label);
-  --metric-label-weight: var(--font-weight-metric);
-  --metric-label-line-height: var(--line-height-metric);
-  --metric-value-size: var(--font-size-metric-display);
-  --metric-value-weight: var(--font-weight-metric);
-  --metric-value-line-height: var(--line-height-metric);
+  --metric-label-size: 0.875rem;
+  --metric-label-weight: 800;
+  --metric-label-line-height: 1.2;
+  --metric-value-size: 2rem;
+  --metric-value-weight: 800;
+  --metric-value-line-height: 1.2;
 }
 
 :host[variant="metric"] .description {
@@ -58,18 +58,26 @@ class LabsCard extends HTMLElement {
   margin: 0;
 }
 
-:host[variant="metric"] ::slotted(.metric-label) {
+
+:host[variant="metric"] ::slotted(.metric-label),
+:host[variant="metric"] .metric-label {
   font-size: var(--metric-label-size, 0.875rem);
-  color: var(--color-on-surface);
   font-weight: var(--metric-label-weight, 800);
   line-height: var(--metric-label-line-height, 1.2);
+  color: var(--color-on-surface);
+  margin-bottom: var(--space-md, 1rem);
+  text-align: center;
+  width: 100%;
 }
 
-:host[variant="metric"] ::slotted(.metric-value) {
+:host[variant="metric"] ::slotted(.metric-value),
+:host[variant="metric"] .metric-value {
   font-size: var(--metric-value-size, 2rem);
   font-weight: var(--metric-value-weight, 800);
-  color: var(--color-primary);
   line-height: var(--metric-value-line-height, 1.2);
+  color: var(--color-primary);
+  text-align: center;
+  width: 100%;
 }
 `;
 
@@ -90,6 +98,18 @@ class LabsCard extends HTMLElement {
 
     this.shadowRoot.appendChild(style);
     this.shadowRoot.appendChild(wrapper);
+  }
+
+  connectedCallback() {
+    // Explicitly set metric custom properties on the host element for light DOM access
+    if (this.getAttribute('variant') === 'metric') {
+      this.style.setProperty('--metric-label-size', '0.875rem');
+      this.style.setProperty('--metric-label-weight', '800');
+      this.style.setProperty('--metric-label-line-height', '1.2');
+      this.style.setProperty('--metric-value-size', '2rem');
+      this.style.setProperty('--metric-value-weight', '800');
+      this.style.setProperty('--metric-value-line-height', '1.2');
+    }
   }
 }
 
