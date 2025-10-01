@@ -43,9 +43,11 @@ export function createTracker({ metricRootId = 'metric-root', listRootId = 'list
         card.setAttribute('variant', 'metric');
         const label = document.createElement('div');
         label.className = 'metric-label';
+        label.style.cssText = 'font-size: var(--metric-label-size, 0.875rem); font-weight: var(--metric-label-weight, 800); line-height: var(--metric-label-line-height, 1.2); color: var(--color-on-surface); margin-bottom: var(--space-md, 1rem); text-align: center; width: 100%;';
         label.textContent = 'Entries';
         const value = document.createElement('div');
         value.className = 'metric-value';
+        value.style.cssText = 'font-size: var(--metric-value-size, 2rem); font-weight: var(--metric-value-weight, 800); line-height: var(--metric-value-line-height, 1.2); color: var(--color-primary); text-align: center; width: 100%;';
         value.textContent = store.items.length;
         card.appendChild(label);
         card.appendChild(value);

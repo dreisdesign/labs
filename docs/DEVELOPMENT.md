@@ -1,3 +1,19 @@
+## Metric Card Fixes (Tracker App)
+
+To update the metric card styles or logic in the Tracker app, always edit the source file:
+
+```
+src/tracker/js/main.js
+```
+
+Edits made directly in `docs/tracker/js/main.js` will be overwritten by the build/sync process. After making changes in the source file, run:
+
+```
+npm run rp
+```
+
+This will sync your changes to the production docs and ensure the fix persists. Hard-refresh your browser after syncing to see the update.
+
 ## Development notes — serving docs/demo locally
 
 Issue: When running the local docs demo server (python http.server serving the `docs/` directory on port 8000), some component imports in the demo HTML referenced `/design-system/components/...` but the built components were not present under `docs/design-system/components/`, resulting in 404s for component JS (for example `labs-checkbox.js`). The Storybook environment worked because it imports components from `design-system/src/components` during development.
