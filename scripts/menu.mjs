@@ -170,6 +170,13 @@ async function main() {
         console.log("\nServers will continue running in background.");
         console.log("You can close this menu. Press 'q' to stop both servers if needed.");
 
+        // Open URLs only if auto-open is not disabled
+        if (!process.env.LABS_NO_AUTO_OPEN) {
+          setTimeout(() => {
+            openUrls([padUrl, storybookUrl]);
+          }, 5000);
+        }
+
       }, 3000); // Wait 3 seconds for Storybook to start
 
       return;
@@ -234,6 +241,11 @@ async function main() {
       waitForPort(port, () => {
         console.log(`\n🚀 Labs Homepage available at: ${padUrl}`);
         console.log("Click the URL above to open in your browser.");
+
+        // Open URL only if auto-open is not disabled
+        if (!process.env.LABS_NO_AUTO_OPEN) {
+          setTimeout(() => openUrls([padUrl]), 2000);
+        }
       });
       if (process.stdin.isTTY) {
         process.stdin.setRawMode(true);
@@ -319,6 +331,11 @@ async function main() {
         waitForPort(port, () => {
           console.log(`\n🚀 Storybook available at: ${storybookUrl}`);
           console.log("Click the URL above to open in your browser.");
+
+          // Open URL only if auto-open is not disabled
+          if (!process.env.LABS_NO_AUTO_OPEN) {
+            setTimeout(() => openUrls([storybookUrl]), 2000);
+          }
         });
         // --- Keypress handler: Press 'q' to exit preview menu ---
         if (process.stdin.isTTY) {

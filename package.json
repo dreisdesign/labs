@@ -23,7 +23,7 @@
     "labs": "node scripts/update-static-paths.js --local && cd /Users/danielreis/labs && echo '2' | npm run menu",
     "l": "node scripts/update-static-paths.js --local && cd /Users/danielreis/labs && echo '2' | npm run menu",
     "r": "node scripts/update-static-paths.js --local && cd /Users/danielreis/labs && echo '3' | npm run menu",
-    "rp": "node scripts/update-static-paths.js --local && cd /Users/danielreis/labs && nohup bash -lc \"echo '3' | npm run menu\" > /tmp/labs-menu.log 2>&1 & sleep 2 && open -a 'Google Chrome' http://localhost:6006 && open -a 'Google Chrome' http://localhost:8000/ && nohup bash -lc \"/Users/danielreis/labs/scripts/check-docs-smoke.sh http://localhost:8000 > /tmp/labs-smoke.log 2>&1 &\"",
+    "rp": "node scripts/rp.mjs",
     "d": "node scripts/update-static-paths.js --local && cd /Users/danielreis/labs && echo '4' | npm run menu",
     "u": "cd /Users/danielreis/labs && echo '5' | npm run menu"
   },
@@ -31,6 +31,7 @@
     "@mdx-js/loader": "^2.3.0",
     "@mdx-js/react": "^2.3.0",
     "inquirer": "^12.8.2",
+    "playwright": "^1.55.0",
     "svgo": "^4.0.0"
   },
   "dependencies": {
