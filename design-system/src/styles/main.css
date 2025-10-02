@@ -2,6 +2,7 @@
 @import "./tokens/typography.css";
 @import "./tokens/spacing.css";
 @import "./tokens/common.css";
+@import "./tokens/grid.css";
 @import "./flavors.css";
 
 /* Labs Design System - Main CSS */

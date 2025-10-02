@@ -191,11 +191,24 @@ async function handleFetch(request) {
 - **Force kill**: `lsof -ti:6006 | xargs kill -9`
 - **HMR enabled**: File changes auto-reload without restart
 
-### Build Process
-- **Development**: Edit files in `design-system/src/`
-- **Production**: `scripts/update-static-paths.js` copies to `docs/`
+### Build Process & Sync Workflow
+- **Development**: Edit files in `design-system/src/` (active development)
+- **Sync to production**: `npm run rp` handles the entire sync workflow:
+  - Updates static paths for local/production environments
+  - Syncs `design-system/src/` → `docs/design-system/`
+  - Starts both Storybook and Labs homepage servers
+  - Opens preview URLs in browser
+- **IMPORTANT**: `npm run rp` is the canonical way to sync src → docs
+- **Manual sync script**: `scripts/update-static-paths.js` (called by `npm run rp`)
 - **Deployment**: Manual via `npm run d` (deploy script)
 - **Icon sync**: Automatic during Storybook startup
+
+### Component Development Workflow
+1. Edit component in `design-system/src/components/`
+2. View changes in Storybook (HMR auto-reloads)
+3. Run `npm run rp` to sync to `docs/` for production preview
+4. Test in live apps at `http://localhost:8000/{app}/`
+5. Commit when ready (src files are source of truth)
 
 ---
 
@@ -235,8 +248,9 @@ import iconsList from '../components/icons-list.js';
 ```
 
 ### Directory-Specific Rules
-- **Never edit** `docs/design-system/` directly - it's built from `src/`
+- **Never edit** `docs/design-system/` directly - it's built from `src/` via `npm run rp`
 - **Always edit** `design-system/src/` for active development
+- **Sync workflow**: Run `npm run rp` to copy changes from `src/` to `docs/`
 - **Git operations**: Close servers first to avoid hangs
 - **Asset paths**: Use relative paths, build process handles GitHub Pages
 

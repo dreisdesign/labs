@@ -40,41 +40,27 @@ export const Default = {
   name: 'Default',
   render: (args) => {
     const container = document.createElement('div');
-    const maxStyle = args.maxWidth ? `--app-container-max: ${args.maxWidth};` : '';
-    const fullAttr = args.layout === 'edge' ? 'fullbleed' : '';
-    const layoutMax = args.layout === 'wide' && !args.maxWidth ? '--app-container-max: 960px;' : '';
-    const combinedStyle = [maxStyle, layoutMax].filter(Boolean).join(' ');
+    let containerAttrs = '';
+    let containerStyle = '';
+    if (args.layout === 'edge') {
+      containerAttrs = 'fullbleed';
+    } else if (args.layout === 'wide') {
+      containerStyle = 'style="--app-container-max:960px;"';
+    } else {
+      containerStyle = 'style="--app-container-max:400px;"';
+    }
     container.innerHTML = `
       <style>
-        /* Make the story area exactly the viewport height so the footer doesn't cause overflow */
         html, body { height:100%; margin:0; padding:0; box-sizing:border-box; }
         .smoothie-root { display:flex; flex-direction:column; height:100vh; background:var(--color-background,#f6f6f9); }
-        /* Let the canonical container fill available space so footer sits at the bottom */
         .smoothie-root > labs-container { flex:1 1 auto; display:flex; flex-direction:column; }
-        /* Edge/full-bleed layout: make the labs-container escape centered max-width
-           and span the full viewport width. The calc(off) trick recenters the
-           element while letting it be 100vw wide so backgrounds and cards can
-           be full-bleed relative to the viewport. */
-        labs-container[fullbleed] {
-          width: 100vw;
-          max-width: none !important;
-          margin-left: calc(50% - 50vw);
-          margin-right: calc(50% - 50vw);
-          padding-left: 0 !important;
-          padding-right: 0 !important;
-          box-sizing: border-box;
-        }
-        labs-container[fullbleed] .app-area {
-          padding-left: 0 !important;
-          padding-right: 0 !important;
-        }
         main.app-area { flex:1 1 auto; display:flex; flex-direction:column; gap:12px; overflow:auto; }
         .app-hero { text-align:center; padding-top:18px; }
         .demo-list { display:flex; flex-direction:column; gap:8px; padding:12px 0; }
         .demo-card { padding:12px; background:var(--color-surface, #fff); border-radius:8px; box-shadow:var(--elevation-1); }
       </style>
       <div class="smoothie-root">
-  <labs-container ${fullAttr} style="${combinedStyle}">
+        <labs-container ${containerAttrs} ${containerStyle}>
           <main class="app-area">
             <header class="app-hero"><h1>Smoothie App Template — Default</h1></header>
             <div class="demo-list" role="list">
@@ -135,10 +121,7 @@ export const WithFooter = {
   name: 'With Footer',
   render: (args) => {
     const container = document.createElement('div');
-    const maxStyle = args.maxWidth ? `--app-container-max: ${args.maxWidth};` : '';
     const fullAttr = args.layout === 'edge' ? 'fullbleed' : '';
-    const layoutMax = args.layout === 'wide' && !args.maxWidth ? '--app-container-max: 960px;' : '';
-    const combinedStyle = [maxStyle, layoutMax].filter(Boolean).join(' ');
     container.innerHTML = `
       <style>
         html, body { height:100%; margin:0; padding:0; box-sizing:border-box; }
@@ -160,7 +143,7 @@ export const WithFooter = {
         main.app-area { flex:1 1 auto; display:flex; flex-direction:column; gap:12px; overflow:auto; }
       </style>
       <div class="smoothie-root">
-        <labs-container ${fullAttr} style="${combinedStyle}">
+        <labs-container ${fullAttr}>
           <main class="app-area">
             <!-- Intentionally empty content area for footer-focused layout -->
           </main>

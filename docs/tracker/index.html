@@ -85,54 +85,43 @@
     <link rel="stylesheet" href="../design-system/styles/flavors.css">
     <link rel="stylesheet" href="../design-system/styles/main.css">
     <style>
-        labs-list-item #archivedBadgeContainer {
-            display: none !important;
-        }
-
-        /* Center align list item text and empty state */
-        .item-label,
-        .item-content,
-        .title {
-            text-align: center !important;
-        }
-
-        .empty {
-            text-align: center !important;
-            justify-content: center;
-            align-items: center;
-            display: flex;
-            height: 64px;
-        }
-
+        /* Tracker app - Smoothie template layout */
         html,
         body {
             height: 100%;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            font-family: system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+            height: 100vh;
             background: var(--color-background);
             color: var(--color-on-surface);
+            font-family: system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* Let the canonical container fill available space so footer sits at the bottom */
+        labs-container {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
         }
 
         main {
-            flex: 1;
-            /* width constrained by outer .container-responsive wrapper */
-            padding: 24px;
-            box-sizing: border-box;
-            background: var(--color-background);
-            color: var(--color-on-surface);
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow: auto;
+            margin-top: var(--space-lg, 32px);
         }
 
         #tracker-root {
             display: grid;
-            gap: 16px
+            gap: 16px;
         }
 
         labs-footer {
@@ -143,20 +132,32 @@
             box-sizing: border-box;
         }
 
-        #footer-settings-btn labs-icon {
-            width: 28px;
-            height: 28px;
-            transition: transform 0.4s cubic-bezier(.4, 2, .6, 1);
-        }
-
-        #footer-settings-btn:hover labs-icon {
-            transform: rotate(90deg);
-        }
-
         .footer-center {
+            max-width: 300px;
+            margin: 0 auto;
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: center;
+        }
+
+        /* App-specific: center align list items and empty state */
+        .item-label,
+        .item-content,
+        .title {
+            text-align: center;
+        }
+
+        .empty {
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 64px;
+        }
+
+        /* Hide archived badge in tracker */
+        labs-list-item #archivedBadgeContainer {
+            display: none;
         }
     </style>
     <style>
@@ -171,32 +172,6 @@
             min-height: 40px;
         }
     </style>
-    <style>
-        /* Prevent the tracker list from collapsing to a very narrow width
-           when transitioning between empty and populated states. Keep
-           layout responsive but provide a sensible minimum width. */
-        #list-root>div {
-            box-sizing: border-box;
-            width: 100%;
-            min-width: 280px;
-            max-width: 100%;
-        }
-
-        /* Ensure empty message uses full width of the list container */
-        #list-root .empty {
-            width: 100%;
-            box-sizing: border-box;
-            padding: 12px 0;
-        }
-
-        /* Mobile: add padding to main */
-        @media (max-width: 640px) {
-            main {
-                width: 100%;
-                padding: 12px;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -205,14 +180,24 @@
         <labs-settings-card></labs-settings-card>
     </labs-overlay>
 
-    <main id="app" class="container-responsive">
-        <section id="tracker-root">
-            <!-- metric card -->
-            <div id="metric-root"></div>
-            <!-- timestamps list -->
-            <div id="list-root"></div>
-        </section>
-    </main>
+    <!-- Container with narrow width (400px) for app-like layout -->
+    <labs-container style="--app-container-max: 400px;">
+        <main id="app">
+            <section id="tracker-root">
+                <div id="tracker-header" style="text-align:center; margin-bottom:12px;">
+                    <h1 style="font-size:var(--font-size-h1); font-weight:var(--font-weight-heading,700);">Tracker</h1>
+                    <div id="dateElement" style="text-align:center; margin-top:6px;">
+                        <p style="margin:0; font-size:0.95rem; color:var(--color-on-surface);"><span
+                                id="currentDate"></span></p>
+                    </div>
+                </div>
+                <!-- metric card -->
+                <div id="metric-root"></div>
+                <!-- timestamps list -->
+                <div id="list-root"></div>
+            </section>
+        </main>
+    </labs-container>
 
     <!-- Footer with settings -->
     <labs-footer full-width elevated>
@@ -234,6 +219,7 @@
     <script type="module" src="../design-system/components/labs-icon.js"></script>
     <script type="module" src="../design-system/components/labs-button.js"></script>
     <script type="module" src="../design-system/components/labs-card.js"></script>
+    <script type="module" src="../design-system/components/labs-container.js"></script>
     <script type="module" src="../design-system/components/labs-dropdown.js"></script>
     <script type="module" src="../design-system/components/labs-list-item.js"></script>
     <script type="module" src="../design-system/components/labs-footer.js"></script>
@@ -309,6 +295,19 @@
         // Listen for reset-all event from labs-settings-card and reset tracker data
         document.getElementById('settingsOverlay')?.addEventListener('reset-all', () => {
             tracker.resetAll();
+        });
+        // Set current date in header
+        document.addEventListener('DOMContentLoaded', function () {
+            var dateEl = document.getElementById('currentDate');
+            if (dateEl) {
+                var now = new Date();
+                dateEl.textContent = now.toLocaleDateString(undefined, {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+            }
         });
     </script>
 </body>

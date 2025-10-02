@@ -46,6 +46,7 @@
   <script type="module" src="../design-system/components/labs-icon.js"></script>
   <script type="module" src="../design-system/components/labs-button.js"></script>
   <script type="module" src="../design-system/components/labs-badge.js"></script>
+  <script type="module" src="../design-system/components/labs-container.js"></script>
   <script type="module" src="../design-system/components/labs-footer.js"></script>
   <script type="module" src="../design-system/components/labs-checkbox.js"></script>
   <script type="module" src="../design-system/components/labs-dropdown.js"></script>
@@ -63,12 +64,38 @@
   </style>
 
   <style>
+    /* Today-List app - Smoothie template layout */
+    html,
     body {
-      min-height: 100vh;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      background: var(--color-background, #f6f6f9);
+      height: 100vh;
+      background: var(--color-background);
+      color: var(--color-on-surface);
+      font-family: system-ui, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    /* Let the canonical container fill available space so footer sits at the bottom */
+    labs-container {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    main {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow: auto;
+      margin-top: var(--space-lg, 32px);
     }
 
     labs-footer {
@@ -76,74 +103,9 @@
       width: 100%;
       margin: 0;
       padding: 0 12px;
-      /* add left/right padding */
       box-sizing: border-box;
     }
 
-    #footer-settings-btn labs-icon {
-      width: 28px;
-      height: 28px;
-      transition: transform 0.4s cubic-bezier(.4, 2, .6, 1);
-    }
-
-    #footer-settings-btn:hover labs-icon {
-      transform: rotate(90deg);
-    }
-  </style>
-
-  <style>
-    /* Footer controls are used for flavor and theme toggles; floating toggles removed */
-
-    /* Details element styling */
-    #archivedSection[open] summary labs-icon {
-      transform: rotate(90deg);
-    }
-
-    #archivedSection summary {
-      outline: none;
-    }
-
-    #archivedSection summary::-webkit-details-marker {
-      display: none;
-    }
-
-    /* Ensure consistent width for all elements */
-    #welcomeCardContainer,
-    #todayItems,
-    #archivedItems,
-    #archivedSection {
-      max-width: var(--app-container-max);
-      width: 100%;
-    }
-
-    /* Welcome card should match list item width exactly */
-    #welcomeCardContainer labs-card {
-      width: 100%;
-      max-width: 100%;
-      box-sizing: border-box;
-    }
-
-    /* Tracker-like container rules: center page content and prevent layout shift */
-    .app-container {
-      max-width: var(--app-container-max, 720px);
-      margin-left: auto;
-      margin-right: auto;
-      padding-left: 16px;
-      padding-right: 16px;
-      box-sizing: border-box;
-    }
-
-    /* Inner app area constrained to Tracker/Today List content width */
-    #today-wrapper {
-      box-sizing: border-box;
-      width: 100%;
-      max-width: var(--app-container-max);
-      margin-left: auto;
-      margin-right: auto;
-      margin: 18px auto 86px;
-    }
-
-    /* Footer helpers */
     .footer-group {
       display: flex;
       align-items: center;
@@ -151,16 +113,71 @@
     }
 
     .footer-center {
+      max-width: 300px;
+      margin: 0 auto;
       display: flex;
       align-items: center;
-      gap: 12px;
+      justify-content: center;
     }
 
-    .hide-when-narrow {
-      display: initial;
+    /* App header styling */
+    #app-header {
+      text-align: center;
+      margin-bottom: 12px;
+      opacity: 0;
+      transition: opacity 0.2s;
     }
 
-    /* Ensure details and summary for archived section match list item widths */
+    #todayHeader {
+      margin: 0;
+      font-size: var(--font-size-h1, 2rem);
+      font-weight: var(--font-weight-heading, 700);
+      color: var(--color-on-surface);
+    }
+
+    #dateElement {
+      text-align: center;
+      margin-top: 6px;
+    }
+
+    #dateElement p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--color-on-surface);
+    }
+
+    /* Content areas */
+    #welcomeCardContainer {
+      margin: 0 0 12px 0;
+      width: 100%;
+    }
+
+    #welcomeCardContainer labs-card {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    #todayItems {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+    }
+
+    /* Details element styling for archived section */
+    #archivedSection[open] summary labs-icon {
+      transform: rotate(90deg);
+    }
+
+    #archivedSection summary {
+      outline: none;
+      list-style: none;
+    }
+
+    #archivedSection summary::-webkit-details-marker {
+      display: none;
+    }
+
     #todayItems details {
       width: 100%;
       box-sizing: border-box;
@@ -172,12 +189,15 @@
       box-sizing: border-box;
     }
 
+    .hide-when-narrow {
+      display: initial;
+    }
+
     @media (max-width: var(--container-mobile-breakpoint, 640px)) {
       .hide-when-narrow {
         display: none !important;
       }
 
-      /* Mobile responsive list items - same pattern as Tracker */
       #todayItems labs-list-item {
         width: 100%;
         margin: 0;
@@ -221,40 +241,45 @@
     <labs-settings-card></labs-settings-card>
   </labs-overlay>
 
-  <!-- Main content container (responsive) -->
-  <div class="container-responsive" style="display:flex;justify-content:center;">
-    <div id="today-wrapper"
-      style="display:flex;flex-direction:column;max-width:var(--app-container-max);width:100%;margin:18px auto 86px;padding:0;box-sizing:border-box;align-items:stretch;">
-
+  <!-- Container with narrow width (400px) for app-like layout -->
+  <labs-container style="--app-container-max: 400px;">
+    <main>
       <!-- Today header -->
-      <div id="app-header" style="text-align: center; margin-bottom: 12px; opacity: 0; transition: opacity 0.2s;">
-        <h1 id="todayHeader"
-          style="margin:0; font-size:var(--font-size-h1, 2rem); font-weight:var(--font-weight-heading,700); color:var(--color-on-surface, #333);">
-          Today</h1>
-        <div id="dateElement" style="text-align: center; margin-top: 6px;">
-          <p style="margin:0; font-size: 0.95rem; color: var(--color-on-surface, #333);"><span id="currentDate"></span>
-          </p>
+      <div id="app-header" style="text-align:center; margin-bottom:12px;">
+        <h1 id="todayHeader" style="font-size:var(--font-size-h1); font-weight:var(--font-weight-heading,700);">Today
+        </h1>
+        <div id="dateElement" style="text-align:center; margin-top:6px;">
+          <p style="margin:0; font-size:0.95rem; color:var(--color-on-surface);"><span id="currentDate"></span></p>
         </div>
       </div>
 
-      <!-- Welcome card (centered) -->
-      <div id="welcomeCardContainer" style="margin:0 0 12px 0;width:100%;"></div>
+      <!-- metric card -->
+      <div id="metric-root"></div>
+
+      <!-- Welcome card -->
+      <div id="welcomeCardContainer"></div>
 
       <!-- Today items list -->
-      <div id="todayItems" role="list" aria-label="Today items"
-        style="display:flex;flex-direction:column;gap:8px;width:100%;">
-      </div>
+      <div id="todayItems" role="list" aria-label="Today items"></div>
+    </main>
+  </labs-container>
 
-      <!-- Archived section removed — list is state-driven and archived items remain in the list -->
+  <!-- Input overlay (used for adding items) -->
+  <labs-overlay id="inputOverlay" size="medium" transparent>
+    <labs-input-card></labs-input-card>
+  </labs-overlay>
 
-      <!-- Settings overlay removed; Reset action available via footer trash button -->
-
-      <!-- Input overlay (used for adding items) -->
-      <labs-overlay id="inputOverlay" size="medium" transparent>
-        <labs-input-card></labs-input-card>
-      </labs-overlay>
-
-      <script type="module" src="today-list-demo.js"></script>
+  <script type="module" src="today-list-demo.js"></script>
+  <script>
+    // Set current date in header
+    document.addEventListener('DOMContentLoaded', function () {
+      var dateEl = document.getElementById('currentDate');
+      if (dateEl) {
+        var now = new Date();
+        dateEl.textContent = now.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      }
+    });
+  </script>
 </body>
 
 </html>
