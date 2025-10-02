@@ -100,14 +100,15 @@ async function main() {
         log('🚀 Starting Labs development servers...');
 
         // Load previous build times
-        let previousTimes = { docsElapsed: null, storybookElapsed: null };
+        let previousTimes = { docsElapsed: null, storybookElapsed: null, totalElapsed: null };
         try {
             const statusFile = '/tmp/labs-rp.status';
             if (fs.existsSync(statusFile)) {
                 const status = JSON.parse(fs.readFileSync(statusFile, 'utf8'));
                 previousTimes = {
                     docsElapsed: status.docsElapsed || null,
-                    storybookElapsed: status.storybookElapsed || null
+                    storybookElapsed: status.storybookElapsed || null,
+                    totalElapsed: status.totalElapsed || null
                 };
             }
         } catch (e) {
@@ -141,10 +142,10 @@ async function main() {
         });
         docsProc.unref(); // Allow parent to exit
 
-        // Show initial status with previous time
-        const prevDocsMsg = previousTimes.docsElapsed ? ` (previous: ${previousTimes.docsElapsed}s)` : '';
+        // Show initial status with previous time (rounded)
+        const prevDocsMsg = previousTimes.docsElapsed ? ` (previous: ${Math.round(previousTimes.docsElapsed)}s)` : '';
         process.stdout.write(`🔄 Docs server starting...${prevDocsMsg} [0s]\r`);
-        
+
         let docsReady = false;
         const docsLogInterval = tailLog(docsLogPath, line => {
             // Clear the progress line and show log output
@@ -173,7 +174,7 @@ async function main() {
         }
         clearInterval(docsLogInterval);
         clearInterval(docsTimerInterval);
-        
+
         // Clear progress line
         process.stdout.clearLine(0);
         process.stdout.cursorTo(0);
@@ -210,10 +211,10 @@ async function main() {
         });
         storybookProc.unref(); // Allow parent to exit
 
-        // Show initial status with previous time
-        const prevStorybookMsg = previousTimes.storybookElapsed ? ` (previous: ${previousTimes.storybookElapsed}s)` : '';
+        // Show initial status with previous time (rounded)
+        const prevStorybookMsg = previousTimes.storybookElapsed ? ` (previous: ${Math.round(previousTimes.storybookElapsed)}s)` : '';
         process.stdout.write(`🔄 Storybook building...${prevStorybookMsg} [0s]\r`);
-        
+
         let storybookReady = false;
         const storybookLogInterval = tailLog(storybookLogPath, line => {
             // Show relevant build progress
@@ -244,7 +245,7 @@ async function main() {
         }
         clearInterval(storybookLogInterval);
         clearInterval(storybookTimerInterval);
-        
+
         // Clear progress line
         process.stdout.clearLine(0);
         process.stdout.cursorTo(0);
@@ -263,6 +264,9 @@ async function main() {
             openUrl('http://localhost:6006', 'Storybook');
         }
 
+        // Calculate total build time
+        const totalElapsed = (parseFloat(docsElapsed) + parseFloat(storybookElapsed)).toFixed(2);
+
         // Step 6: Write status for debugging and store build times for next run
         const status = {
             startedAt: new Date().toISOString(),
@@ -270,6 +274,7 @@ async function main() {
             storybookReady,
             docsElapsed,
             storybookElapsed,
+            totalElapsed,
             storybook_url: 'http://localhost:6006',
             docs_url: 'http://localhost:8000',
             auto_open_disabled: NO_AUTO_OPEN
@@ -281,7 +286,9 @@ async function main() {
             debug('Could not write status file');
         }
 
-        log('✅ Development servers are ready!');
+        // Show total build time with previous time
+        const prevTotalMsg = previousTimes.totalElapsed ? ` (previous: ${Math.round(previousTimes.totalElapsed)}s)` : '';
+        log(`✅ Development servers are ready! Total: ${totalElapsed}s${prevTotalMsg}`);
         log('');
         log('📚 Storybook: http://localhost:6006');
         log('🏠 Labs Homepage: http://localhost:8000');
