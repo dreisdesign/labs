@@ -50,6 +50,7 @@
   <script type="module" src="../design-system/components/labs-footer.js"></script>
   <script type="module" src="../design-system/components/labs-checkbox.js"></script>
   <script type="module" src="../design-system/components/labs-dropdown.js"></script>
+  <script type="module" src="../design-system/components/labs-header.js"></script>
   <style>
     /* Pre-upgrade CSS: stabilize layout before custom elements upgrade */
     :not(:defined) labs-button[fullwidth],
@@ -244,14 +245,9 @@
   <!-- Container with narrow width (400px) for app-like layout -->
   <labs-container style="--app-container-max: 400px;">
     <main>
-      <!-- Today header -->
-      <div id="app-header" style="text-align:center; margin-bottom:12px;">
-        <h1 id="todayHeader" style="font-size:var(--font-size-h1); font-weight:var(--font-weight-heading,700);">Today
-        </h1>
-        <div id="dateElement" style="text-align:center; margin-top:6px;">
-          <p style="margin:0; font-size:0.95rem; color:var(--color-on-surface);"><span id="currentDate"></span></p>
-        </div>
-      </div>
+      <labs-header id="app-header" title="Today" date="" center>
+        <span slot="date" id="currentDate"></span>
+      </labs-header>
 
       <!-- metric card -->
       <div id="metric-root"></div>

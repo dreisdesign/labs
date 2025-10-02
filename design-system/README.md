@@ -36,13 +36,14 @@ This is the canonical design system for Labs apps, featuring a comprehensive two
 
 ## Key Docs & Links
 
-- **[🎨 Color Tokens & Theme Docs](src/styles/COLORS-DOCS.md)** — Complete theming guide and token architecture
  - **Note:** Small UI parity fixes (icon-only button color and Global colors story rendering) were applied on 2025-08-31 — see `CHANGELOG.md` Unreleased section.
-- **[🎨 Storybook Live](https://dreisdesign.github.io/labs/design-system/)** — Interactive component documentation
-- **[🔘 Button Docs](src/components/labs-button/BUTTON-DOCS.md)** — Canonical button component documentation
-- **[Smoothie Design System Overview](smoothie.md)** — Philosophy and metaphor for all components
-- **[📋 Changelog](CHANGELOG.md)** — Version history and updates
-- **[🛤️ Roadmap](ROADMAP.md)** — Planned features and improvements
+## � Modular Container & Header Token Usage (2025-10-02)
+- `<labs-container>` is now the canonical way to wrap app content, providing mobile-first max-width and grid token-based padding.
+- Headers in all apps use design system tokens (`--font-size-h1`, `--font-weight-heading`) for font size and weight.
+- Tracker and Today-list now use the same header/date/metric card structure for true design system parity.
+- `<labs-header>` component now supports `center` and `show-subtitle` attributes for flexible layout and Storybook controls.
+- Storybook story for labs-header includes boolean controls for centering and subtitle visibility.
+- Tracker markup fixed: header, metric card, and list root are now properly wrapped in container/main/section for correct rendering.
 - **[📐 Modularity Guidelines](../.github/instructions/Modularity.instructions.md)** — Development principles
 
 ---

@@ -14,7 +14,7 @@ template.innerHTML = `
     }
     @media (min-width: 640px) {
       :host {
-        max-width: 600px;
+        max-width: 500px;
       }
     }
     :host([padding-md]) {

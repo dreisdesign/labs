@@ -31,8 +31,13 @@ Rebuild all Labs productivity apps using the Smoothie Design System for fully mo
 ### **App Migration Planning**
 
 **2025-09-05:** Today List demo is now fully compliant with the design system and Storybook icon usage. All inlined SVGs have been removed; only `<labs-icon>` and the DS icon set are used for all icons.
-- **Today-List Migration**: Create detailed migration checklist as reference implementation
-- **Component Audit**: Map existing app patterns to needed design system components
+### Container & Header Parity (2025-10-02)
+All apps now use `<labs-container>` for modular, mobile-first layout.
+Headers use design system tokens for font size and weight.
+Tracker and Today-list have reached parity in header/date/metric card structure.
+`<labs-header>` component now supports `center` and `show-subtitle` attributes for flexible layout and Storybook controls.
+Storybook story for labs-header includes boolean controls for centering and subtitle visibility.
+Tracker markup fixed: header, metric card, and list root are now properly wrapped in container/main/section for correct rendering.
 
 ## Components to Build
 

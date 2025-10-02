@@ -225,12 +225,14 @@ For development guidelines, see [Modularity Instructions](.github/instructions/M
 ## 🆕 Recent UX & Component Improvements
 
 ### Archive/Restore Logic for List Items
-- List items now visually distinguish between normal, archived, and restored (inactive) states.
-- The archive button icon changes to a history icon when archived, and becomes inactive (faded) when restored.
-- See the new Storybook story: `List Item/Archived` for a live demo of all states.
+### Modular Container & Header Parity (2025-10-02)
+- All apps now use a mobile-first, modular container (`<labs-container>`) for consistent layout and responsive max-width.
+- Headers in Tracker and Today-list use design system tokens for font size and font weight, ensuring visual consistency.
+- Parity established: both apps now feature a header, date, and metric card using the same design system logic.
+- `<labs-header>` component now supports `center` and `show-subtitle` attributes for flexible layout and Storybook controls.
+- Storybook story for labs-header includes boolean controls for centering and subtitle visibility.
+- Tracker markup fixed: header, metric card, and list root are now properly wrapped in container/main/section for correct rendering.
 
-### Input Card & Destructive Button UX
-- Input cards now have `autocomplete="off"` for better browser UX.
 - Destructive button icons (e.g., delete/reset) now always use the correct error color in all themes.
 
 ### Small Fixes (2025-09-21)
