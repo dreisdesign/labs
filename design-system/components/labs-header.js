@@ -5,9 +5,9 @@ class LabsHeader extends HTMLElement {
         this.render();
     }
 
-  static get observedAttributes() {
-    return ['title', 'date', 'subtitle', 'center', 'show-subtitle'];
-  }
+    static get observedAttributes() {
+        return ['title', 'date', 'subtitle', 'center', 'show-subtitle'];
+    }
 
     attributeChangedCallback() {
         this.render();
