@@ -42,7 +42,21 @@ Edits made directly in `docs/tracker/js/main.js` will be overwritten by the buil
 npm run rp
 ```
 
-This will sync your changes to the production docs and ensure the fix persists. Hard-refresh your browser after syncing to see the update.
+**What `npm run rp` does:**
+- Updates static paths for local preview
+- Kills any existing servers on ports 6006/8000
+- Starts Python http.server for Labs Homepage (from `docs/`)
+- Starts Storybook dev server
+- Shows live build progress with timing
+- Auto-opens both URLs in browser when ready
+- Leaves servers running in background
+
+After running, your changes will be synced to production docs and both servers will be available at:
+- Storybook: http://localhost:6006
+- Labs Homepage: http://localhost:8000
+- Apps: http://localhost:8000/tracker/, http://localhost:8000/today-list/, etc.
+
+Hard-refresh your browser after syncing to see the update.
 
 ## Development notes — serving docs/demo locally
 

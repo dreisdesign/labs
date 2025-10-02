@@ -64,16 +64,49 @@ npm run menu
 npm run storybook
 ```
 
-### Preview Shortcut: `rp`
+### Preview Shortcut: `npm run rp`
 
-There is a helper script available through npm that runs the repo preview flow (Storybook + Labs Homepage) and will open both pages in your browser when ready:
+Fast, automated local development startup with live build progress:
 
 ```bash
-# Start Storybook + Docs preview and open both pages in your browser
+# Start both servers with real-time feedback
 npm run rp
 ```
 
-`npm run rp` is a convenience wrapper around the existing `r`/menu flow that attempts to open `http://localhost:6006` and `http://localhost:8000/` after the servers are available. If you run into issues where your OS blocks automatic browser opening, open the URLs manually.
+**What it does:**
+- ✅ Updates static paths for local preview
+- ✅ Kills any existing servers on ports 6006/8000
+- ✅ Starts Python http.server for Labs Homepage (from `docs/`)
+- ✅ Starts Storybook dev server
+- ✅ Shows **live build progress** with timing for each server
+- ✅ Auto-opens both URLs in your browser when ready
+- ✅ Leaves servers running in background
+
+**Example output:**
+```
+🚀 Starting Labs development servers...
+📝 Updating static paths for local preview...
+🛑 Killing any running dev servers on ports 6006 and 8000...
+⚡ Starting Labs Homepage server...
+🔄 Docs server starting...
+✅ Labs Homepage ready at http://localhost:8000 (10.04s)
+⚡ Starting Storybook...
+🔄 Storybook building...
+  │   Storybook 9.1.7 for web-components-vite started
+  │   Local:            http://localhost:6006/
+✅ Storybook ready at http://localhost:6006 (3.01s)
+```
+
+**URLs:**
+- Storybook: http://localhost:6006
+- Labs Homepage: http://localhost:8000
+- Apps: http://localhost:8000/tracker/, http://localhost:8000/today-list/, etc.
+
+**Stop servers:**
+```bash
+lsof -ti:6006,8000 | xargs kill -9
+# or: npm run menu → Utilities → Kill all servers
+```
 
 ### **Deployment**
 ```bash
