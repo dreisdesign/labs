@@ -99,6 +99,21 @@ async function main() {
     try {
         log('🚀 Starting Labs development servers...');
 
+        // Load previous build times
+        let previousTimes = { docsElapsed: null, storybookElapsed: null };
+        try {
+            const statusFile = '/tmp/labs-rp.status';
+            if (fs.existsSync(statusFile)) {
+                const status = JSON.parse(fs.readFileSync(statusFile, 'utf8'));
+                previousTimes = {
+                    docsElapsed: status.docsElapsed || null,
+                    storybookElapsed: status.storybookElapsed || null
+                };
+            }
+        } catch (e) {
+            // Ignore if status file doesn't exist or is invalid
+        }
+
         // Step 1: Update static paths for local preview
         log('📝 Updating static paths for local preview...');
         runCommand('node scripts/update-static-paths.js --local');
@@ -126,14 +141,30 @@ async function main() {
         });
         docsProc.unref(); // Allow parent to exit
 
-        log('🔄 Docs server starting...');
+        // Show initial status with previous time
+        const prevDocsMsg = previousTimes.docsElapsed ? ` (previous: ${previousTimes.docsElapsed}s)` : '';
+        process.stdout.write(`🔄 Docs server starting...${prevDocsMsg} [0s]\r`);
+        
         let docsReady = false;
         const docsLogInterval = tailLog(docsLogPath, line => {
+            // Clear the progress line and show log output
+            process.stdout.clearLine(0);
+            process.stdout.cursorTo(0);
             log('  ' + line);
             if (/Serving HTTP|GET|0\.0\.0\.0:8000|started/i.test(line)) {
                 docsReady = true;
             }
         });
+
+        // Live timer that updates every second
+        const docsTimerInterval = setInterval(() => {
+            if (!docsReady) {
+                const elapsed = ((Date.now() - docsStartTime) / 1000).toFixed(0);
+                process.stdout.clearLine(0);
+                process.stdout.cursorTo(0);
+                process.stdout.write(`🔄 Docs server starting...${prevDocsMsg} [${elapsed}s]\r`);
+            }
+        }, 1000);
 
         // Wait for docs server (with shorter timeout since it starts fast)
         const docsTimeout = 10000; // 10 seconds
@@ -141,6 +172,11 @@ async function main() {
             await new Promise(res => setTimeout(res, 500));
         }
         clearInterval(docsLogInterval);
+        clearInterval(docsTimerInterval);
+        
+        // Clear progress line
+        process.stdout.clearLine(0);
+        process.stdout.cursorTo(0);
 
         const docsElapsed = ((Date.now() - docsStartTime) / 1000).toFixed(2);
         if (docsReady) {
@@ -174,11 +210,17 @@ async function main() {
         });
         storybookProc.unref(); // Allow parent to exit
 
-        log('🔄 Storybook building...');
+        // Show initial status with previous time
+        const prevStorybookMsg = previousTimes.storybookElapsed ? ` (previous: ${previousTimes.storybookElapsed}s)` : '';
+        process.stdout.write(`🔄 Storybook building...${prevStorybookMsg} [0s]\r`);
+        
         let storybookReady = false;
         const storybookLogInterval = tailLog(storybookLogPath, line => {
             // Show relevant build progress
             if (/Storybook.*started|built|ready|running|Local:|Network:|ERR|WARN/i.test(line)) {
+                // Clear the progress line and show log output
+                process.stdout.clearLine(0);
+                process.stdout.cursorTo(0);
                 log('  ' + line);
             }
             if (/Storybook.*started|Local:.*http|ready/i.test(line)) {
@@ -186,11 +228,26 @@ async function main() {
             }
         });
 
+        // Live timer that updates every second
+        const storybookTimerInterval = setInterval(() => {
+            if (!storybookReady) {
+                const elapsed = ((Date.now() - storybookStartTime) / 1000).toFixed(0);
+                process.stdout.clearLine(0);
+                process.stdout.cursorTo(0);
+                process.stdout.write(`🔄 Storybook building...${prevStorybookMsg} [${elapsed}s]\r`);
+            }
+        }, 1000);
+
         // Wait for Storybook (with timeout)
         while (!storybookReady && (Date.now() - storybookStartTime) < STORYBOOK_TIMEOUT * 1000) {
             await new Promise(res => setTimeout(res, 500));
         }
         clearInterval(storybookLogInterval);
+        clearInterval(storybookTimerInterval);
+        
+        // Clear progress line
+        process.stdout.clearLine(0);
+        process.stdout.cursorTo(0);
 
         const storybookElapsed = ((Date.now() - storybookStartTime) / 1000).toFixed(2);
         if (storybookReady) {
@@ -206,11 +263,13 @@ async function main() {
             openUrl('http://localhost:6006', 'Storybook');
         }
 
-        // Step 6: Write status for debugging
+        // Step 6: Write status for debugging and store build times for next run
         const status = {
             startedAt: new Date().toISOString(),
             docsReady,
             storybookReady,
+            docsElapsed,
+            storybookElapsed,
             storybook_url: 'http://localhost:6006',
             docs_url: 'http://localhost:8000',
             auto_open_disabled: NO_AUTO_OPEN
