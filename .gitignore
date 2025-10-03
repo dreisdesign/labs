@@ -41,3 +41,7 @@ tmp-token-report/
 # Ignore accidental nested installs or local copies
 design-system/design-system/
 /design-system/styles/
+
+# Generated build output (ignore generated components and docs assets)
+design-system/components/
+docs/design-system/assets/
