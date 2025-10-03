@@ -288,7 +288,7 @@ async function main() {
 
         // Show total build time with previous time
         const prevTotalMsg = previousTimes.totalElapsed ? ` (previous: ${Math.round(previousTimes.totalElapsed)}s)` : '';
-        log(`✅ Development servers are ready! Total: ${totalElapsed}s${prevTotalMsg}`);
+        log(`✅ Development servers are ready! Total: ${Math.round(totalElapsed)}s${prevTotalMsg}`);
         log('');
         log('📚 Storybook: http://localhost:6006');
         log('🏠 Labs Homepage: http://localhost:8000');
