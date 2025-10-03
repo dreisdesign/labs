@@ -23,6 +23,9 @@
 
 - **Local preview stability (2025-09-30):** Copied `design-system/src/utils/date-format.js` into `docs/design-system/utils` and adjusted `scripts/update-static-paths.js` and menu workflows to prefer `--local` preview mode so local static previews do not 404 for critical util files.
 
+### Chore
+- **Storybook sorting (2025-10-03):** Storybook preview configuration updated to use a stable alphabetical `storySort` for the sidebar (sorts by group/title then story name). Changes applied to `.storybook/preview.js` and `design-system/.storybook/preview.js` to make the sidebar ordering consistent across local and design-system Storybook instances.
+
 ### Technical
 - **Portal Pattern**: Industry-standard approach used by React Portal, Vue Teleport, and Popper.js
 - **Performance**: Eliminated complex viewport calculations and z-index conflicts

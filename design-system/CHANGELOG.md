@@ -16,6 +16,9 @@
 - **Deploy automation:** Recent automated deploy commits synced `docs/design-system/` assets and rewrote public paths for GitHub Pages. (commits `02743f4`, `9e724a2`, `13bad60`)
 
 ### Chore
+- **Storybook sorting (2025-10-03):** Updated Storybook preview configuration to use a stable alphabetical `storySort` function (sorts by title/group then story name). This ensures consistent sidebar ordering across the root Storybook and the design-system Storybook.
+
+### Chore
 - **Baseline & footer consolidation (2025-09-30):** Recorded a development baseline and consolidated footer-with-settings pattern.
 	- New component: `labs-footer-with-settings` — an encapsulated wrapper that composes `labs-footer`, `labs-overlay`, and `labs-settings-card` with built-in wiring and events (`settings-open`, `settings-close`).
 	- New canonical story: `Components (Wrapped) / Footer → With Settings` demonstrating the wrapper with configurable args.
