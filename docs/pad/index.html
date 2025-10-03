@@ -12,36 +12,36 @@
   <link rel="stylesheet" href="../design-system/tokens/colors.css">
   <link rel="stylesheet" href="../design-system/styles/flavors.css">
   <script>// Early theme/flavor script (inlined into app pages during docs sync)
-(function () {
-    try {
+    (function () {
+      try {
         var root = document && document.documentElement;
         if (!root) return;
         var keys = [
-            'today-list-flavor', 'today-list-theme',
-            'tracker-flavor', 'tracker-theme',
-            'pad-flavor', 'pad-theme',
-            'labs-flavor', 'labs-theme'
+          'today-list-flavor', 'today-list-theme',
+          'tracker-flavor', 'tracker-theme',
+          'pad-flavor', 'pad-theme',
+          'labs-flavor', 'labs-theme'
         ];
         var foundFlavor = null;
         var foundTheme = null;
         for (var i = 0; i < keys.length; i++) {
-            try {
-                var k = keys[i];
-                var v = localStorage.getItem(k);
-                if (!v) continue;
-                v = String(v).replace(/^flavor-/, '').replace(/^theme-/, '').trim();
-                if (k.indexOf('flavor') !== -1 && !foundFlavor) foundFlavor = v;
-                if (k.indexOf('theme') !== -1 && !foundTheme) foundTheme = v;
-            } catch (e) { }
+          try {
+            var k = keys[i];
+            var v = localStorage.getItem(k);
+            if (!v) continue;
+            v = String(v).replace(/^flavor-/, '').replace(/^theme-/, '').trim();
+            if (k.indexOf('flavor') !== -1 && !foundFlavor) foundFlavor = v;
+            if (k.indexOf('theme') !== -1 && !foundTheme) foundTheme = v;
+          } catch (e) { }
         }
         // remove any existing flavor- / theme- classes
         Array.from(root.classList).forEach(function (c) { if (c && c.indexOf('flavor-') === 0) root.classList.remove(c); });
         Array.from(root.classList).forEach(function (c) { if (c && c.indexOf('theme-') === 0) root.classList.remove(c); });
         if (foundFlavor) root.classList.add('flavor-' + String(foundFlavor));
         if (foundTheme) root.classList.add('theme-' + String(foundTheme));
-    } catch (e) { }
-})();
-</script>
+      } catch (e) { }
+    })();
+  </script>
   <script type="module" src="../design-system/components/labs-icon.js"></script>
   <script type="module" src="../design-system/components/labs-button.js"></script>
   <style>

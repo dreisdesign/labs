@@ -39,109 +39,109 @@ template.innerHTML = `
 `;
 
 class LabsFooterWithSettings extends HTMLElement {
-    static get observedAttributes() {
-        return ['settings-icon', 'settings-size', 'add-size', 'add-variant', 'full-width', 'elevated'];
-    }
+  static get observedAttributes() {
+    return ['settings-icon', 'settings-size', 'add-size', 'add-variant', 'full-width', 'elevated'];
+  }
 
-    constructor() {
-        super();
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.appendChild(template.content.cloneNode(true));
-        this._onSettingsClick = this._onSettingsClick.bind(this);
-        this._onCardClose = this._onCardClose.bind(this);
-    }
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this._onSettingsClick = this._onSettingsClick.bind(this);
+    this._onCardClose = this._onCardClose.bind(this);
+  }
 
-    connectedCallback() {
-        this._upgradeProperty('settingsIcon');
-        this._upgradeProperty('settingsSize');
-        this._upgradeProperty('addSize');
-        this._upgradeProperty('addVariant');
+  connectedCallback() {
+    this._upgradeProperty('settingsIcon');
+    this._upgradeProperty('settingsSize');
+    this._upgradeProperty('addSize');
+    this._upgradeProperty('addVariant');
 
-        this._settingsBtn = this.shadowRoot.getElementById('settings-btn');
-        this._settingsIcon = this.shadowRoot.getElementById('settings-icon');
-        this._overlay = this.shadowRoot.getElementById('settings-overlay');
-        this._settingsCard = this._overlay && this._overlay.querySelector('labs-settings-card');
+    this._settingsBtn = this.shadowRoot.getElementById('settings-btn');
+    this._settingsIcon = this.shadowRoot.getElementById('settings-icon');
+    this._overlay = this.shadowRoot.getElementById('settings-overlay');
+    this._settingsCard = this._overlay && this._overlay.querySelector('labs-settings-card');
 
-        if (this._settingsBtn) this._settingsBtn.addEventListener('click', this._onSettingsClick);
-        if (this._settingsCard) this._settingsCard.addEventListener('close', this._onCardClose);
+    if (this._settingsBtn) this._settingsBtn.addEventListener('click', this._onSettingsClick);
+    if (this._settingsCard) this._settingsCard.addEventListener('close', this._onCardClose);
 
-        // Reflect initial boolean attributes to the internal footer
+    // Reflect initial boolean attributes to the internal footer
+    this._applyFooterAttrs();
+  }
+
+  disconnectedCallback() {
+    if (this._settingsBtn) this._settingsBtn.removeEventListener('click', this._onSettingsClick);
+    if (this._settingsCard) this._settingsCard.removeEventListener('close', this._onCardClose);
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    switch (name) {
+      case 'settings-icon':
+        if (this._settingsIcon) this._settingsIcon.setAttribute('name', newValue || 'settings');
+        break;
+      case 'settings-size':
+        if (this._settingsBtn) this._settingsBtn.setAttribute('size', newValue || 'large');
+        break;
+      case 'add-size':
+        const addBtn = this.shadowRoot.getElementById('add-btn');
+        if (addBtn) addBtn.setAttribute('size', newValue || 'large');
+        break;
+      case 'add-variant':
+        const addBtn2 = this.shadowRoot.getElementById('add-btn');
+        if (addBtn2) addBtn2.setAttribute('variant', newValue || 'primary');
+        break;
+      case 'full-width':
+      case 'elevated':
         this._applyFooterAttrs();
+        break;
     }
+  }
 
-    disconnectedCallback() {
-        if (this._settingsBtn) this._settingsBtn.removeEventListener('click', this._onSettingsClick);
-        if (this._settingsCard) this._settingsCard.removeEventListener('close', this._onCardClose);
+  // Property wrappers for convenience
+  get settingsIcon() { return this.getAttribute('settings-icon'); }
+  set settingsIcon(val) { this.setAttribute('settings-icon', val); }
+
+  get settingsSize() { return this.getAttribute('settings-size'); }
+  set settingsSize(val) { this.setAttribute('settings-size', val); }
+
+  get addSize() { return this.getAttribute('add-size'); }
+  set addSize(val) { this.setAttribute('add-size', val); }
+
+  get addVariant() { return this.getAttribute('add-variant'); }
+  set addVariant(val) { this.setAttribute('add-variant', val); }
+
+  get fullWidth() { return this.hasAttribute('full-width'); }
+  set fullWidth(val) { if (val) this.setAttribute('full-width', ''); else this.removeAttribute('full-width'); }
+
+  get elevated() { return this.hasAttribute('elevated'); }
+  set elevated(val) { if (val) this.setAttribute('elevated', ''); else this.removeAttribute('elevated'); }
+
+  _upgradeProperty(prop) {
+    if (this.hasOwnProperty(prop)) {
+      let value = this[prop];
+      delete this[prop];
+      this[prop] = value;
     }
+  }
 
-    attributeChangedCallback(name, oldValue, newValue) {
-        switch (name) {
-            case 'settings-icon':
-                if (this._settingsIcon) this._settingsIcon.setAttribute('name', newValue || 'settings');
-                break;
-            case 'settings-size':
-                if (this._settingsBtn) this._settingsBtn.setAttribute('size', newValue || 'large');
-                break;
-            case 'add-size':
-                const addBtn = this.shadowRoot.getElementById('add-btn');
-                if (addBtn) addBtn.setAttribute('size', newValue || 'large');
-                break;
-            case 'add-variant':
-                const addBtn2 = this.shadowRoot.getElementById('add-btn');
-                if (addBtn2) addBtn2.setAttribute('variant', newValue || 'primary');
-                break;
-            case 'full-width':
-            case 'elevated':
-                this._applyFooterAttrs();
-                break;
-        }
+  _applyFooterAttrs() {
+    const footer = this.shadowRoot.getElementById('footer');
+    if (!footer) return;
+    if (this.hasAttribute('full-width')) footer.setAttribute('full-width', ''); else footer.removeAttribute('full-width');
+    if (this.hasAttribute('elevated')) footer.setAttribute('elevated', ''); else footer.removeAttribute('elevated');
+  }
+
+  _onSettingsClick() {
+    if (this._overlay && typeof this._overlay.open === 'function') {
+      this._overlay.open();
+      this.dispatchEvent(new CustomEvent('settings-open', { bubbles: true }));
     }
+  }
 
-    // Property wrappers for convenience
-    get settingsIcon() { return this.getAttribute('settings-icon'); }
-    set settingsIcon(val) { this.setAttribute('settings-icon', val); }
-
-    get settingsSize() { return this.getAttribute('settings-size'); }
-    set settingsSize(val) { this.setAttribute('settings-size', val); }
-
-    get addSize() { return this.getAttribute('add-size'); }
-    set addSize(val) { this.setAttribute('add-size', val); }
-
-    get addVariant() { return this.getAttribute('add-variant'); }
-    set addVariant(val) { this.setAttribute('add-variant', val); }
-
-    get fullWidth() { return this.hasAttribute('full-width'); }
-    set fullWidth(val) { if (val) this.setAttribute('full-width', ''); else this.removeAttribute('full-width'); }
-
-    get elevated() { return this.hasAttribute('elevated'); }
-    set elevated(val) { if (val) this.setAttribute('elevated', ''); else this.removeAttribute('elevated'); }
-
-    _upgradeProperty(prop) {
-        if (this.hasOwnProperty(prop)) {
-            let value = this[prop];
-            delete this[prop];
-            this[prop] = value;
-        }
-    }
-
-    _applyFooterAttrs() {
-        const footer = this.shadowRoot.getElementById('footer');
-        if (!footer) return;
-        if (this.hasAttribute('full-width')) footer.setAttribute('full-width', ''); else footer.removeAttribute('full-width');
-        if (this.hasAttribute('elevated')) footer.setAttribute('elevated', ''); else footer.removeAttribute('elevated');
-    }
-
-    _onSettingsClick() {
-        if (this._overlay && typeof this._overlay.open === 'function') {
-            this._overlay.open();
-            this.dispatchEvent(new CustomEvent('settings-open', { bubbles: true }));
-        }
-    }
-
-    _onCardClose() {
-        if (this._overlay && typeof this._overlay.close === 'function') this._overlay.close();
-        this.dispatchEvent(new CustomEvent('settings-close', { bubbles: true }));
-    }
+  _onCardClose() {
+    if (this._overlay && typeof this._overlay.close === 'function') this._overlay.close();
+    this.dispatchEvent(new CustomEvent('settings-close', { bubbles: true }));
+  }
 }
 
 if (!customElements.get('labs-footer-with-settings')) customElements.define('labs-footer-with-settings', LabsFooterWithSettings);
