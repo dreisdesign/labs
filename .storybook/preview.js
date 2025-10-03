@@ -5,12 +5,16 @@ export default {
       test: "todo"
     },
     options: {
+      // Simple, stable alphabetical sorting for story groups and stories.
+      // Sort first by full title (group/subgroup), then by story name.
       storySort: (a, b) => {
-        // Always put 'Docs' first, then default alpha order
-        const docsFirst = (title) => title.toLowerCase().startsWith('docs');
-        if (docsFirst(a[1].title) && !docsFirst(b[1].title)) return -1;
-        if (!docsFirst(a[1].title) && docsFirst(b[1].title)) return 1;
-        return a[1].title.localeCompare(b[1].title, undefined, { numeric: true });
+        const aTitle = (a[1] && a[1].title) || (a[1] && a[1].kind) || '';
+        const bTitle = (b[1] && b[1].title) || (b[1] && b[1].kind) || '';
+        const cmp = aTitle.localeCompare(bTitle, undefined, { numeric: true, sensitivity: 'base' });
+        if (cmp !== 0) return cmp;
+        const aName = (a[1] && a[1].name) || '';
+        const bName = (b[1] && b[1].name) || '';
+        return aName.localeCompare(bName, undefined, { numeric: true, sensitivity: 'base' });
       }
     }
   }
