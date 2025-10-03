@@ -98,3 +98,67 @@ Or use the menu helper which runs the public rewrite for preview:
 ```bash
 npm run l   # opens the "Preview Labs Homepage" flow in the menu and applies --public
 ```
+
+## Src automatic (what is mirrored from `src` → `docs`)
+
+The project ships a small sync helper (`scripts/update-static-paths.js`) that automatically copies a set of "public" files from the editable `src/` tree into the publication-ready `docs/` tree. This keeps the GitHub Pages `docs/` demo in sync with active development without requiring manual file copies for every change.
+
+Key behaviors (summary):
+- Inputs: `design-system/src/*` and selected `src/{app}/js/*` folders.
+- Outputs: `design-system/components/`, `design-system/tokens/`, `design-system/styles/`, `docs/design-system/` utilities, and `docs/{app}/js/` for the mirrored apps.
+- Trigger points: the sync runs during the common workflows below (see "When it runs").
+
+What the script copies (by default):
+- Design system JS components: `design-system/src/components/*.js` → `design-system/components/` (public copy).
+- Token CSS and flavors: `design-system/src/styles/tokens/*.css` → `design-system/tokens/` and `docs/design-system/tokens/`.
+- Main CSS and TL styles: `design-system/src/styles/main.css` → public `design-system/main.css` and a docs-corrected `docs/design-system/styles/main.css` (import paths adjusted).
+- Utilities: `design-system/src/utils/*.js` → `docs/design-system/utils/` (e.g. `date-format.js`).
+- Assets & icons: `design-system/assets/` → `design-system/storybook-static/assets/` and `docs/design-system/icons/` (SVGs copied from `design-system/icons/`).
+- Storybook static assets: copied into `design-system/storybook-static/assets` for local preview consistency.
+- App JS for a small list of apps (configurable in the script): `src/{app}/js/*.js` → `docs/{app}/js/` (defaults: `tracker`, `today-list`, `note`, `pad`).
+
+What the script does NOT do (important):
+- It does not automatically copy app HTML (`src/{app}/index.html`) into `docs/{app}/index.html` — the `docs/` HTML files remain authoritative for the published site. If you maintain app HTML in `src/` and want it mirrored, copy it manually or add a mirroring step to the script.
+- It does not remove files from `docs/` when you delete them from `src/`. If you delete source files, clean up `docs/` manually.
+
+When it runs
+- `npm run rp` (repo preview) calls the update script to prepare a local preview (mode --local or --public as configured).
+- The deploy menu and `npm run deploy` call the script in `--auto` or `--github` mode as part of the build/deploy flow so published assets are copied and paths rewritten for GitHub Pages.
+- Pre-commit or other hooks in the repo may also run the script in `--auto` mode to normalize public paths before commits.
+
+How to opt-in / opt-out / customize
+- One-off copy (manual): copy app JS or components directly:
+
+```bash
+# copy components or JS to docs once
+cp design-system/components/* docs/design-system/components/
+cp src/tracker/js/* docs/tracker/js/
+# optionally copy HTML if you want src/index.html mirrored
+cp src/tracker/index.html docs/tracker/index.html
+```
+
+- To change which apps are mirrored, update the `appsToMirror` array at the bottom of `scripts/update-static-paths.js` (e.g., add or remove `'tracker'`, `'today-list'`, `'note'`, `'pad'`).
+- To stop automatic copying of components to the public `design-system/components/` folder, remove or guard the copy block that copies `design-system/src/components` in the script.
+
+Common gotchas & recommendations
+- Edit source JS under `src/` (for apps) and `design-system/src/` (for components/tokens). Edits performed directly under `docs/` may be overwritten by the sync step.
+- The script is conservative: it copies files but does not delete stale files from `docs/` automatically. If you rename or remove a source file, manually remove the old file from `docs/`.
+- For local preview use `npm run rp` (recommended) which sets the correct mode and copies the required assets. If you must serve docs directly with `python3 -m http.server`, run `node scripts/update-static-paths.js --public` first.
+- If you need `docs/` HTML to reflect `src/` HTML automatically, we can add an optional mirroring step to the script — tell us which apps to mirror and whether you want the behavior enabled by default.
+
+Deploy note
+- The deploy flow publishes the `docs/` folder to GitHub Pages. The deployment script intentionally commits `docs/design-system` (the generated public files) and no longer forces adding ignored `design-system/components` files. If you want generated public components committed, add them manually with `git add -f design-system/components` (not recommended for routine deploys).
+
+Examples
+- Make a local change to a component or app JS, run preview, and verify:
+
+```bash
+# edit source
+code design-system/src/components/labs-footer-with-settings.js
+# prepare preview and run servers
+npm run rp
+# open http://localhost:6006 (Storybook) and http://localhost:8000/tracker/
+```
+
+If anything looks stale on the demo pages, hard-refresh the browser (clear cache) after running the sync step.
+

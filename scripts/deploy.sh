@@ -28,7 +28,9 @@ mkdir -p docs/design-system/styles
 cp design-system/src/styles/*.css docs/design-system/styles/ 2>/dev/null || true
 
 git add docs/design-system
-git add design-system/components
-commit_msg="Deploy (automation): $(date '+%Y-%m-%d %H:%M') - ensure all public and built assets in docs/design-system and design-system/components for GitHub Pages"
+# design-system/components is intentionally ignored in many workflows.
+# Avoid forcing ignored files into git during automated deploys. If you
+# intentionally want to include generated components, run a manual git add -f.
+commit_msg="Deploy (automation): $(date '+%Y-%m-%d %H:%M') - ensure all public and built assets in docs/design-system for GitHub Pages"
 git commit -m "$commit_msg"
 git push
