@@ -32,6 +32,13 @@
 - **Documentation**: Updated component docs, README, and inline code comments to reflect portal architecture
 - **Testing**: Verified dropdown behavior across Storybook stories and Tracker app
 
+### Chore
+- **Baseline & footer consolidation (2025-09-30):** Recorded a development baseline capturing a design-system cleanup and footer consolidation.
+  - Added a new wrapper component `labs-footer-with-settings` (encapsulated footer + settings overlay wiring) and canonical Storybook story under "Components (Wrapped) / Footer → With Settings".
+  - Added responsive `Grid` and `Container` stories to demonstrate layout and tokens.
+  - Removed legacy/duplicate pattern stories and consolidated template usage to prefer the new wrapper (work in progress for full template consolidation).
+  - See commit: `chore: baseline before footer consolidation and cleanup` (local commit recorded in repo history).
+
 ---
 
 # [Released] - 2025-09-20

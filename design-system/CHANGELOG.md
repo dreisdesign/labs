@@ -15,6 +15,14 @@
 ### Chore
 - **Deploy automation:** Recent automated deploy commits synced `docs/design-system/` assets and rewrote public paths for GitHub Pages. (commits `02743f4`, `9e724a2`, `13bad60`)
 
+### Chore
+- **Baseline & footer consolidation (2025-09-30):** Recorded a development baseline and consolidated footer-with-settings pattern.
+	- New component: `labs-footer-with-settings` — an encapsulated wrapper that composes `labs-footer`, `labs-overlay`, and `labs-settings-card` with built-in wiring and events (`settings-open`, `settings-close`).
+	- New canonical story: `Components (Wrapped) / Footer → With Settings` demonstrating the wrapper with configurable args.
+	- Added responsive `Grid` and `Container` stories to `src/stories/` to showcase layout tokens and container variants.
+	- Removed legacy pattern story duplicates; recommended follow-up: replace template inline footer wiring with the new wrapper for full consolidation.
+	- Commit: `chore: baseline before footer consolidation and cleanup` contains the baseline changes in the repository history.
+
 # [v2.1.7] - 2025-09-18 - Tracker Integration & Component Variants
 
 ### 🚀 **New Component Variants**
