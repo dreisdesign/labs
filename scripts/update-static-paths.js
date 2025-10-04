@@ -108,8 +108,8 @@ filesToProcess.forEach((filePath) => {
   let content = fs.readFileSync(filePath, 'utf8');
   const original = content;
 
-  // Check if this is a tracker file - tracker manages its own production paths
-  const isTrackerFile = filePath.includes(path.join('docs', 'tracker'));
+  // Check if this is a tracker JS file - tracker JS manages its own production paths via isProd checks
+  const isTrackerJsFile = filePath.includes(path.join('docs', 'tracker', 'js'));
 
   // Conservative common fixes applied regardless of mode
   content = content.replace(/(["'`])\.\.\/design-system\//g, "$1/design-system/");
@@ -134,8 +134,8 @@ filesToProcess.forEach((filePath) => {
     content = content.replace(/from ['"]\/labs\/design-system\//g, "from '/design-system/");
   } else if (mode === 'local') {
     // Local preview served from project root (python http.server) - use ../ paths
-    // Skip tracker files - they manage their own production vs local paths
-    if (!isTrackerFile) {
+    // Skip tracker JS files - they manage their own production vs local paths via isProd checks
+    if (!isTrackerJsFile) {
       content = content.replace(/\/labs\/design-system\//g, '../design-system/');
       content = content.replace(/\/design-system\//g, '../design-system/');
     }
