@@ -1,32 +1,81 @@
-## [v2.1.7] - 2025-09-30 - Storybook Slot/Timing Fix
+# [Unreleased] - 2025-10-04
 
-### 🛠️ Reliability Fix
-- **Slot Rendering Reliability:** Always import `labs-dropdown.js` before `labs-list-item.js` in Storybook stories to guarantee slots (like actions) render correctly after refresh. This prevents race/timing issues where slots disappear if custom elements are not defined before story code runs.
-- **Best Practice:** Place all component imports at the very top of your story file, with dropdown first if used as a slot child.
+### Documentation
+- **Documentation Reorganization:** Complete documentation cleanup and reorganization
+  - Created `DOCUMENTATION.md` as comprehensive navigation index
+  - Moved release notes to `_docs/releases/` (out of GitHub Pages folder)
+  - Moved planning docs to `_docs/planning/` 
+  - Consolidated IDEAS into ROADMAP with Future Enhancements section
+  - Fixed corrupted `todo-index.md` to use links-only format
+  - Rebuilt main README to remove massive duplication
+- **Modularity Guidelines:** Moved comprehensive component design guidelines to `.github/instructions/modularity.instructions.md` for active reference
 
-# [Unreleased] - 2025-09-20
+---
+
+## [v2.1.7] - 2025-10-03 - Footer Consolidation & October Fixes
+
+## [v2.1.7] - 2025-10-03 - Footer Consolidation & October Fixes
 
 ### Added
-- **Service Worker (minimal):** Repository now includes a minimal service worker to provide a small precache and navigation fallback for demo pages; SW registration was bumped to force updates. (commit `f333b85`)
+- **`labs-footer-with-settings` Component:** Encapsulated wrapper that composes `labs-footer`, `labs-overlay`, and `labs-settings-card` with built-in event wiring (`settings-open`, `settings-close`)
+- **Canonical Story:** `Components (Wrapped) / Footer → With Settings` demonstrating the wrapper pattern
 
 ### Fixed
-- **`labs-settings-card` host probing:** The settings card now only attempts contacting a local dev server when the current page is hosted on `localhost`/`127.0.0.1`, preventing production pages from probing localhost. (commit `842057c`)
+- **Tracker Date Imports:** Corrected `date-format.js` import paths for GitHub Pages and local preview stability
+- **Service Worker:** Updated path handling and added robust error responses
 
 ### Chore
-- **Deploy automation:** Recent automated deploy commits synced `docs/design-system/` assets and rewrote public paths for GitHub Pages. (commits `02743f4`, `9e724a2`, `13bad60`)
+- **Storybook Sorting:** Alphabetical `storySort` function for consistent sidebar ordering
+- **Story Cleanup:** Removed legacy footer/template story duplicates; wrapped footer is now canonical
+- **Archive Cleanup:** Moved legacy smoothie-template stories and generated artifacts out of active src
+
+---
+
+## [v2.1.7] - 2025-10-02 - Mobile Responsive Container System
+
+### Added
+- **Container Design System:** Responsive container tokens with mobile-first patterns
+- **Mobile Full-Width:** Full-width list items in Tracker using shadow DOM media queries with edge-to-edge styling
+- **Modular Container:** Design system token usage across Tracker/Today-list for layout parity
 
 ### Chore
-- **Storybook sorting (2025-10-03):** Updated Storybook preview configuration to use a stable alphabetical `storySort` function (sorts by title/group then story name). This ensures consistent sidebar ordering across the root Storybook and the design-system Storybook.
+- **Story Refactor:** All headers use font-size and font-weight tokens
+- **Build Progress:** Enhanced repo preview script with live build progress indicators
 
-### Chore
-- **Baseline & footer consolidation (2025-09-30):** Recorded a development baseline and consolidated footer-with-settings pattern.
-	- New component: `labs-footer-with-settings` — an encapsulated wrapper that composes `labs-footer`, `labs-overlay`, and `labs-settings-card` with built-in wiring and events (`settings-open`, `settings-close`).
-	- New canonical story: `Components (Wrapped) / Footer → With Settings` demonstrating the wrapper with configurable args.
-	- Added responsive `Grid` and `Container` stories to `src/stories/` to showcase layout tokens and container variants.
-	- Removed legacy pattern story duplicates; recommended follow-up: replace template inline footer wiring with the new wrapper for full consolidation.
-	- Commit: `chore: baseline before footer consolidation and cleanup` contains the baseline changes in the repository history.
+---
 
-# [v2.1.7] - 2025-09-18 - Tracker Integration & Component Variants
+## [v2.1.7] - 2025-09-30 - Dropdown Portal & Date Utilities
+
+### Added
+- **Dropdown Portal Architecture:** Implemented portal positioning for `labs-dropdown` with improved overlay behavior
+- **Date Utilities:** Created `design-system/src/utils/date-format.js` with unit tests and 12-hour time formatting
+- **List Item Refinements:** Enhanced slot patterns and interaction behaviors
+
+### Fixed
+- **Local Preview Stability:** Robust dynamic import for `date-format.js`, corrected asset paths, updated demo slots
+- **Slot Rendering Reliability:** Import order best practice - always import `labs-dropdown.js` before `labs-list-item.js` in Storybook stories to guarantee slots render correctly after refresh
+
+---
+
+## [v2.1.7] - 2025-09-20 - Dropdown & List Item Enhancements
+
+### Added
+- **Dropdown Icon-Only Variant:** `labs-dropdown` with `only` attribute and `open` state for icon-only triggers
+- **List Item Slot-Driven API:** Multiple slot patterns (Default, SlotDriven, TextOnly, Archived states)
+- **Dropdown Tests:** Added vitest tests for dropdown component with jsdom environment
+
+### Fixed
+- **Container Widths:** Standardized container widths to eliminate Today-list FOUC
+- **Theme Persistence:** FOUC/theme fixes and tracker persistence improvements
+- **List Item Timestamp:** Fixed timestamp display rendering
+
+### Documentation
+- **TODO Cleanup:** Expanded list-item/dropdown TODO with container migration guidance and timing considerations
+- **Progress Tracking:** Updated TODO with Phase 5 container system completion
+
+---
+
+## [v2.1.7] - 2025-09-18 - Tracker Integration & Component Variants
 
 ### 🚀 **New Component Variants**
 - **`labs-card` Metric Variant:**

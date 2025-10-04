@@ -60,6 +60,14 @@ Tracker markup fixed: header, metric card, and list root are now properly wrappe
 - **Modal System** — Consistent overlay and focus management
 - **Animation System** — Smooth transitions using design tokens
 
+## Future Ideas & Enhancements
+
+### Today List Enhancements
+- **Custom Label System**: Allow users to change "item" to custom labels (e.g., "Task", "To-do", "Note")
+  - Implementation: Translation map/config with localStorage persistence (`today-list-label-item`)
+  - Support pluralization (item/items) with simple interpolation
+  - Update all UI strings: "Add first item", placeholders, ARIA labels
+
 ---
 
 **Next Steps**: Begin component development with Button completion, then move to Card and Input as foundation pieces for app migrations.

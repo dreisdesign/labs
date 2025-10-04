@@ -6,36 +6,44 @@ This TODO focuses on remaining work for the list item and dropdown components.
 
 ### Phase 4 — Documentation & Integration
 - [ ] Update Storybook docs and examples for both components
-- [ ] Update `design-system/CHANGELOG.md` when work completes
+- [ ] Update `design-system/CHANGELOG.md` when Phase 4 work completes
 
 ### Phase 5 — Container System Extensions
 - [ ] Create `labs-container` web component for programmatic container patterns
 - [ ] Document container design system approach and usage patterns in Storybook
 
+## Completed (Moved to CHANGELOG)
+
+- ✅ Dropdown icon-only variant with `open` state (verified 2025-09-19)
+- ✅ List item slot-driven API with multiple story patterns
+- ✅ Footer migrated to shared `labs-footer` component
+- ✅ `date-format.js` utility created with unit tests
+- ✅ Mobile responsive layout for list items (completed 2025-09-20)
+
+## Notes
 ## Notes
 - Mobile responsive behavior and container design system are now complete
 - Components use `slot="actions"` for consistency - confirm this is the canonical slot name across docs
 - Stories were updated to fully rebuild DOM on arg changes so Controls behave deterministically in Storybook (important for review).
 
-Next recommended steps (short-term)
+## Next Recommended Steps
+## Next Recommended Steps
 - [ ] Decide canonical slot name (`actions` vs `meta`) and standardize across component + stories.
   - **Decision (recommended):** use `slot="actions"` as the canonical slot name for overflow/menu/action controls. Stories and components currently use `actions` — continue with this pattern.
-- [ ] Extract date formatting into `design-system/src/utils/date-format.js` and update `labs-list-item` to use it; add unit tests for formatting.
-- [x] `design-system/src/utils/date-format.js` exists and unit tests are present. Use this canonical util in list-item and docs.
 - [ ] Update Storybook docs (docs pages / README snippets) to document the slot-driven API and show recommended usage patterns (checkbox + content + dropdown pattern).
 - [ ] Create a feature branch and commit the current changes for review: `feature/list-item-slots`.
-- [ ] Update `design-system/CHANGELOG.md` summarizing Phase 1–3 progress and planned Phase 4 work.
 
-New requests (2025-09-20)
+## Container Pattern Migration (2025-09-20)
 
-- **Make Today-List and Tracker more modular / share more components**
-  - [ ] Extract a canonical container pattern (`labs-container`) or ensure `.container-responsive` is implemented as a documented shared pattern.
-  - [ ] Replace app-specific container divs with the shared container in both `docs/today-list/*` and `docs/tracker/*`.
-  - [x] Footer already migrated to a shared `labs-footer` usage — verify slot API and behaviors in both apps.
-  - [ ] Align the main app container markup and tokens so spacing, max-width and padding are consistent across demos.
-  - [ ] Create small Storybook examples demonstrating the shared container + list-item patterns together.
+## Container Pattern Migration (2025-09-20)
 
-Timing & priority guidance
+**Make Today-List and Tracker more modular / share more components:**
+- [ ] Extract a canonical container pattern (`labs-container`) or ensure `.container-responsive` is implemented as a documented shared pattern.
+- [ ] Replace app-specific container divs with the shared container in both `docs/today-list/*` and `docs/tracker/*`.
+- [ ] Align the main app container markup and tokens so spacing, max-width and padding are consistent across demos.
+- [ ] Create small Storybook examples demonstrating the shared container + list-item patterns together.
+
+## Timing & Priority Guidance
 
 - **Priority order (recommended):**
   1. Tokens & container primitives: confirm `tokens/grid.css` values and add `--app-container-max` note where needed.
@@ -60,29 +68,6 @@ Notes on timing and coordination
 
 - When migrating container markup in the docs pages, avoid large-scope changes in the same commit as component API changes; prefer multiple small commits so the path-fix tooling and Storybook builds remain predictable.
 - Coordinate the `feature/list-item-slots` and `feature/container-pattern` branches to avoid merge conflicts in demos and tokens.
-
----
-
-Recent notes:
-
-- **Tests:** `vitest` config was updated to use `jsdom` to support DOM-based component tests. `jsdom` was added to `devDependencies` and unit tests for `date-format` and `labs-dropdown` were added and pass locally.
-- **Build integration suggestion:** Consider running `npm --prefix ./design-system run test:unit` as part of `prestorybook` so Storybook fails fast on broken tests. This is reversible and recommended for developer feedback.
-- **[COMPLETED 2025-09-20] Mobile responsive layout:** Successfully implemented mobile-responsive full-width list items in Tracker using shadow DOM internal media queries. Solution uses `width: calc(100% + 24px)`, negative margins, and border styling for edge-to-edge appearance on mobile while maintaining container alignment with metric cards. Applied full-bleed CSS technique within component shadow DOM for reliable cross-boundary styling.
-
-Acceptance Criteria (updated)
-- Storybook shows icon-only `labs-dropdown` and `open` variant (done).
-- `labs-list-item` is slot-driven and stories allow selecting patterns (done for SlotDriven/Default/TextOnly/Archived states).
-- `text-only`/timestamp displays use a consistent 12-hour format with sensible fallbacks (implemented; recommend extracting util).
-- Docs updated and in-app usages migrated in a coordinated feature rollout (pending).
-
-Acceptance Criteria
-- [x] Storybook shows icon-only `labs-dropdown` and `open` variant — Verified 2025-09-19 (stories added and Storybook rebuilt locally).
-- [ ] `labs-list-item` patterns selectable in Storybook and render correctly
-- [ ] `text-only` variant timestamps match Tracker archived formatting
-
-Notes
-- Follow shadow-DOM guidance: prefer component-level attributes (e.g., `fullwidth`) instead of parent CSS hacks
-- Keep changes incremental and test in Storybook after each small commit
 
 ---
 

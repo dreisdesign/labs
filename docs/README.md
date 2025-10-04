@@ -11,48 +11,31 @@ Welcome to the Labs suite of productivity web applications and design system.
 - [Today List](https://dreisdesign.github.io/labs/today-list/)
 - [Design System (Storybook)](https://dreisdesign.github.io/labs/design-system/)
 
-Note: Small UI parity fixes (Global colors rendering and icon-only button parity in dark mode) were applied to the Design System on 2025-08-31 — see `design-system/CHANGELOG.md` Unreleased section for details.
-
 ## About
 
 Labs is a collection of modern, responsive productivity apps and a shared design system. All apps are installable as PWAs and optimized for desktop and mobile.
 
+## Documentation
 
-## More Info & Docs
+**For Developers:**
+- [Development Workflow](DEVELOPMENT.md) — Local setup, build process, deployment
+- [Global Monorepo README](../README.md) — Project structure and overview
+- [Design System](../design-system/README.md) — Component library and tokens
+- [Smoothie Design System Philosophy](../design-system/smoothie.md) — Design metaphor and concepts
 
-All other documentation is archived. Use only the links below for current, canonical information:
-
-- [Global Monorepo README](../README.md) — Project structure, workflow, and developer info
-- [Smoothie Design System Overview](../design-system/smoothie.md) — Philosophy and metaphor for all components
-- [Button Docs (Canonical)](../design-system/src/components/labs-button/BUTTON-DOCS.md)
-- [Button Docs (Canonical)](../design-system/src/components/labs-button/BUTTON-DOCS.md)
-- [Color Tokens & Theme Docs](../design-system/src/styles/COLORS-DOCS.md)
-- [Roadmap](../design-system/ROADMAP.md)
-- [Changelog](../design-system/CHANGELOG.md)
-- [Migration Guide](../_dev/_documents/DESIGN-SYSTEM-MIGRATION-GUIDE.md)
-- [Modularity Guidelines](../design-system/../.github/instructions/Modularity.instructions.md)
+**For Users:**
+- All apps support PWA installation (use install button in browser address bar)
+- Responsive design works across all devices
+- Offline functionality with service workers
 
 ## Features
 
-- Responsive design for all devices
-- Custom branded icons
-- Interactive UI and smooth animations
-- PWA install support
-
-## PWA Installation
-
-All apps can be installed as desktop applications:
-
-1. Visit any app in Chrome/Edge/Safari
-2. Use the install button in the address bar
-3. Launch as a standalone app
+- 🎨 Shared design system with Web Components
+- 🌓 Light/dark mode support with multiple theme flavors
+- 📱 Responsive, mobile-first design
+- 🔧 PWA installable applications
+- ♿ WCAG AA accessibility compliance
 
 ---
 
-For developer setup and local preview, see the [global README](../README.md) and [Design System README](../design-system/README.md).
-
----
-
-## Archive Notice
-
-This file is retained for reference only. All new documentation should be added to the canonical docs above or Storybook ([Live](https://dreisdesign.github.io/labs/design-system/)).
+For recent changes, see [Release Notes](../_docs/releases/) and [CHANGELOG](../CHANGELOG.md).

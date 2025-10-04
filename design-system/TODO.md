@@ -9,6 +9,10 @@
 - [ ] **Repository Hygiene**
   - [ ] Alphabetize component exports and Storybook sidebar entries to improve discoverability (suggested: sort component stories and build a maintenance script to enforce ordering).
 
+- [ ] **Tokenization & Docs**
+  - Note: Typography tokens are implemented in `design-system/src/styles/tokens/typography.css`. Track new token proposals in `_docs/planning/typography-todo.md`.
+  - [ ] Visual QA: Confirm Storybook sidebar order
+
 ---
 ## Review Queue — Stepwise Approval
 
@@ -77,15 +81,8 @@ Notes:
 - If you want any item split into smaller steps, tell me which one and I will break it down further.
 
 
-### Recent Feature Progress
+---
 
-- [x] Phase 1: Dropdown separation — Verified 2025-09-19. See `TODO-list-item-dropdown.md` for details and next steps (Phase 2+).
+## Review Queue — Stepwise Approval
 
-- [ ] **Tokenization & Docs**
-  - Note: Typography tokens are implemented in `design-system/src/styles/tokens/typography.css`. Track new token proposals in `typography-todo.md`.
-  - [ ] Visual QA: Confirm Storybook sidebar order
-
-## Completed Recent Work
-
-- Main project changelog: `../CHANGELOG.md`
-- Design System changelog: `CHANGELOG.md`
+Purpose: This section breaks the recent changes into small, reviewable items. Reply with `approve: <item-key>` to approve an item (I will then move it into the main todo list and prepare a commit if you ask). Reply `approve: all` to approve everything.

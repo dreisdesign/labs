@@ -1,10 +1,19 @@
 # 🧪 Labs
 
-> Latest release: v2.4.6 — Service Worker & Docs Stability (2025-09-21). See `docs/release-2025-09-21.md` or `CHANGELOG.md` for details.
-
-**2025-09-05:** All icons in apps and demos now use the design system's `<labs-icon>` component and icon set. All inlined SVGs have been removed for consistency and maintainability. Theme and flavor toggles are now fully Storybook-compliant.
+> **Latest release:** v2.4.6 — Service Worker & Docs Stability (2025-09-21) • [Release Notes](_docs/releases/release-2025-09-21.md) • [Changelog](CHANGELOG.md)
 
 > **Modular design system and productivity apps built with Web Components**
+
+---
+
+## 📚 Documentation
+
+**New to Labs?** Start here:
+- 📖 [**Documentation Index**](DOCUMENTATION.md) — Complete navigation guide to all project docs
+- 🚀 [**Quick Start**](#-quick-start) — Get up and running locally
+- 🤝 [**Contributing Guide**](CONTRIBUTING.md) — How to contribute
+
+---
 
 ## 🌐 Live Applications
 
@@ -13,230 +22,132 @@
 | **🎨 Design System** | Component library & tokens | [Storybook](https://dreisdesign.github.io/labs/design-system/) |
 | **⏰ Focus Timer** | Pomodoro-style productivity timer | [Timer App](https://dreisdesign.github.io/labs/timer/) |
 | **📊 Daily Tracker** | Habit and activity tracking with dark mode | [Tracker App](https://dreisdesign.github.io/labs/tracker/) |
+| **📝 Daily Note** | Simple daily note-taking | [Note App](https://dreisdesign.github.io/labs/note/) |
+| **✅ Today List** | Daily task checklist | [Today List](https://dreisdesign.github.io/labs/today-list/) |
 | **🖊️ Pad** | Drawing app | [Pad App](https://dreisdesign.github.io/labs/pad/) |
 | **🏠 Labs Homepage** | App launcher and overview | [Homepage](https://dreisdesign.github.io/labs/) |
 
-Note: The Design System received small parity fixes on 2025-08-31 (Global colors and icon-only button behavior); see `design-system/CHANGELOG.md` Unreleased for details.
+---
 
-**2025-09-05:** All icons in apps and demos now use the design system’s `<labs-icon>` component and icon set. All inlined SVGs have been removed for consistency and maintainability. Theme and flavor toggles are now fully Storybook-compliant.
 ## 🏗️ Repository Structure
 
 ```
 labs/
-├── design-system/          # 🎨 Labs Design System v2.1.0
-│   ├── src/                # Components, tokens, styles
+├── design-system/          # 🎨 Labs Design System
+│   ├── src/                # Components, tokens, styles (active development)
 │   ├── .storybook/         # Storybook configuration
 │   └── README.md           # Design system documentation
 ├── docs/                   # 📦 GitHub Pages deployment
 │   ├── design-system/      # Built Storybook (production)
-│   ├── timer/              # Timer app (production)
-│   ├── tracker/            # Tracker app (production)
-│   ├── note/               # Note app (production)
-│   ├── pad/                # Pad app (production)
-│   └── README.md           # Public documentation
+│   ├── timer/              # Timer app
+│   ├── tracker/            # Tracker app
+│   ├── note/               # Note app
+│   ├── pad/                # Pad app
+│   ├── today-list/         # Today List app
+│   └── home/               # Labs homepage
+├── _docs/                  # 📄 Project documentation
+│   ├── releases/           # Release notes and QA checklists
+│   └── planning/           # Research and planning docs
 ├── scripts/                # 🔧 Build and deployment automation
-│
-└── _dev/                   # 👨‍💻 Developer tools and documentation
-   └── _documents/         # All project documentation (active + legacy)
-	   ├── DEVELOPMENT.md  # Single source of truth for active dev
-	   └── legacy/         # Archived/legacy docs, organized by topic
-		   ├── storybook/
-		   ├── features/
-		   ├── migration/
-		   ├── sprints/
-
-## 📄 Feature Documentation
-
-- [Unified Light/Dark Theme System](design-system/docs/feature-light-dark-theme.md)
-			├── documentation/
-			└── misc/
+└── _dev/                   # 👨‍💻 Developer tools
+    └── _documents/legacy/  # Archived documentation
 ```
+
+---
 
 ## 🚀 Quick Start
 
-### **Development**
+### Local Development
+
+**Option 1: Menu-driven workflow (recommended)**
 ```bash
-# Start Storybook with auto-port-kill
 npm run menu
 # Choose option 1 for local development
-
-# Or run directly
-npm run storybook
 ```
 
-### Preview Shortcut: `npm run rp`
-
-Fast, automated local development startup with live build progress:
-
+**Option 2: Quick preview**
 ```bash
-# Start both servers with real-time feedback
 npm run rp
 ```
 
-**What it does:**
+This command:
 - ✅ Updates static paths for local preview
 - ✅ Kills any existing servers on ports 6006/8000
-- ✅ Starts Python http.server for Labs Homepage (from `docs/`)
-- ✅ Starts Storybook dev server
-- ✅ Shows **live build progress** with timing for each server
-- ✅ Auto-opens both URLs in your browser when ready
+- ✅ Starts Python http.server for Labs Homepage (port 8000)
+- ✅ Starts Storybook dev server (port 6006)
+- ✅ Shows live build progress with timing
+- ✅ Auto-opens both URLs in your browser
 - ✅ Leaves servers running in background
 
-**Example output:**
-```
-🚀 Starting Labs development servers...
-📝 Updating static paths for local preview...
-🛑 Killing any running dev servers on ports 6006 and 8000...
-⚡ Starting Labs Homepage server...
-🔄 Docs server starting...
-✅ Labs Homepage ready at http://localhost:8000 (10.04s)
-⚡ Starting Storybook...
-🔄 Storybook building...
-  │   Storybook 9.1.7 for web-components-vite started
-  │   Local:            http://localhost:6006/
-✅ Storybook ready at http://localhost:6006 (3.01s)
-```
-
-**URLs:**
+**Development URLs:**
 - Storybook: http://localhost:6006
 - Labs Homepage: http://localhost:8000
-- Apps: http://localhost:8000/tracker/, http://localhost:8000/today-list/, etc.
+- Apps: http://localhost:8000/{app}/ (e.g., /tracker/, /today-list/)
 
-**Stop servers:**
-```bash
-lsof -ti:6006,8000 | xargs kill -9
-# or: npm run menu → Utilities → Kill all servers
-```
-
-### **Deployment**
-```bash
-# Build and deploy to GitHub Pages
-npm run menu
-# Choose option 2 for production deployment
-
-# Or run deploy script directly
-npm run deploy
-```
-
-
-## 📚 Documentation
-
-### **Design System**
-- **[📖 Design System README](design-system/README.md)** - Setup, usage, components
-- **[📋 Design System Changelog](design-system/CHANGELOG.md)** - Releases and updates
-- **[🎨 Storybook (Live)](https://dreisdesign.github.io/labs/design-system/)** - Interactive component docs
-- **[🛠️ Development Guide](docs/DEVELOPMENT.md)** - Single source for all design system, Storybook, and UI development
-
-### Theming & Color Tokens
-The Labs Design System now features a **complete two-layer token architecture** with comprehensive semantic color support:
-
-- **✅ Production-Ready Color System** — Fully implemented semantic tokens with "on-" text color pairings
-- **✅ Theme Support** — Light/dark themes across Vanilla, Blueberry, and Strawberry flavors
-- **✅ WCAG AA Compliance** — All color combinations meet accessibility standards
-- **✅ Smart Text Colors** — Semantic tokens with luminance fallbacks for optimal contrast
-- **📖 Complete Documentation** — See `design-system/src/styles/COLORS-DOCS.md` for the authoritative theming guide
-
-The system provides palette anchors (`tokens/colors.css`), semantic fallbacks (`main.css`), flavor mappings (`flavors.css`), and comprehensive Storybook documentation.
-
-### **Applications**
-- **[📝 Timer Documentation](docs/timer/README.md)** - Focus timer features and usage
-- **[📊 Tracker Documentation](docs/tracker/README.md)** - Habit tracking and analytics
-- **[📓 Note Documentation](docs/note/README.md)** - Daily note-taking features
-- **[✅ Today List Documentation](docs/today-list/README.md)** - Task management features
-
-### **Project Management**
-- **[📋 Global Changelog](CHANGELOG.md)** - Overall project updates
-
-## 🩹 Recent Fixes (Sept 23, 2025)
-
-- **Local preview stability (2025-09-30):** Copied critical design-system utilities (e.g. `date-format.js`) into `docs/design-system/utils` and updated the preview path-sync and menu workflows to prefer `--local` mode so `python3 -m http.server` previews no longer 404 for those assets. This prevents flaky local demos during development.
-- **List item timestamp duplication:** `labs-list-item` now hides its shadow DOM timestamp fallback when a slotted, human-friendly label is provided to avoid duplicate timestamps.
-
-Verification steps:
+### Deployment
 
 ```bash
-# In browser DevTools → Application → Service Workers: unregister any registered workers for the site
-# Hard refresh the demo pages
-# Open: http://localhost:8000/tracker/  http://localhost:8000/today-list/  http://localhost:8000/pad/
+npm run d
 ```
 
-If you still see flashes, try clearing site storage for the demo origin and retry.
+This builds Storybook, syncs to `docs/`, updates paths for GitHub Pages, and deploys.
 
-### **Legacy & Archived Docs**
-- **[Legacy Documentation](./_dev/_documents/legacy/README.md)** — All legacy, historical, and superseded docs, organized by topic for reference only
-
-> For all migration, architecture, and roadmap details, see [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md). Legacy docs are now in `_dev/_documents/legacy/`.
+---
 
 ## ✨ Key Features
 
-### **🎨 Design System v2.1.0**
-- **Modular Web Components** - Self-contained, portable components
-- **CSS Custom Properties** - Extensive theming and customization
-- **Shadow DOM Encapsulation** - No style conflicts or dependencies
-- **Automatic Icon Generation** - Dynamic icon loading and management
-- **Theme Toggle System** - Light/dark mode with persistence
+### 🎨 Design System v2.1.0
+- **Modular Web Components** — Self-contained, portable components
+- **CSS Custom Properties** — Extensive theming and customization
+- **Shadow DOM Encapsulation** — No style conflicts
+- **Three Theme Flavors** — Vanilla, Blueberry, Strawberry with light/dark modes
+- **WCAG AA Compliant** — Accessible color contrasts
 
-### **📱 Application Features**
-- **Progressive Web Apps** - Installable with offline support
-- **Responsive Design** - Works on desktop, tablet, and mobile
-- **Data Persistence** - Local storage with export/import
-- **Shared Design Language** - Consistent UI across all apps
-- **No Framework Dependencies** - Vanilla JavaScript with Web Components
+### 📱 Application Features
+- **Progressive Web Apps** — Installable with offline support
+- **Responsive Design** — Works on desktop, tablet, and mobile
+- **Data Persistence** — Local storage with daily reset (where applicable)
+- **Shared Design Language** — Consistent UI across all apps
+- **No Framework Dependencies** — Vanilla JavaScript with Web Components
 
-
-## 🛠️ Development Workflow & AI Chat Policy
-
-### Menu-Driven Workflow (Recommended)
-All development and testing should use the menu-driven workflow for consistency and automation:
-
-```bash
-echo "1" | npm run menu
-```
-
-This ensures the correct environment, auto-port-kill, and the interactive "continue" button in the VS Code terminal. Avoid using `npm run menu` alone for AI-driven workflows.
-
-### Explicit AI Chat Task Continuation Policy
-For all AI-driven development, the assistant will:
-- Always provide explicit, numbered options for next steps
-- Only prompt for completion when all tasks are truly complete
-- Never end a turn without either fully completing all tasks or providing the next actionable step
-- See `.github/instructions/development-workflow.instructions.md` for the full policy and details
-
-**Reference:** See [Development Workflow Instructions](.github/instructions/development-workflow.instructions.md) for the latest workflow and AI Chat guidelines.
+### 🛠️ Development Experience
+- **Hot Module Reload** — File changes auto-reload
+- **Auto-Port-Kill** — Seamless development without port conflicts
+- **Automatic Icon Generation** — Dynamic icon loading and management
+- **Menu-Driven Commands** — Simple interface for common tasks
+- **One-Command Deployment** — Build and deploy to GitHub Pages
 
 ---
 
+## 🔧 Technical Stack
 
-### **Enhanced Build System & Features**
-- **Auto-Port-Kill** - Seamless development without port conflicts
-- **Pre-Error Checking** - Validates build environment before compilation
-- **Automatic Icon Generation** - Updates icon lists and imports
-- **Build Size Reporting** - Tracks bundle size and optimization
-- **Menu-Driven Commands** - Simple interface for common tasks
-
-### **Deployment Pipeline & Roadmap**
-- **GitHub Pages Integration** - Automatic deployment from `docs/` folder
-- **Build Automation** - One-command build and deploy process
-- **Production Optimization** - Minified builds with asset optimization
-- **Multi-App Deployment** - All apps and Storybook deployed together
-
-## 🔧 Technical Stack & Roadmap
-
-**Web Components** - Native browser APIs, no framework lock-in
-**Lit** - Lightweight web component base class
-**Storybook v9.1.2** - Component development and documentation
-**Vite** - Fast build tool and development server
-**GitHub Pages** - Static site hosting and deployment
+- **Web Components** — Native browser APIs, no framework lock-in
+- **Lit** — Lightweight web component base class
+- **Storybook v9.1.7** — Component development and documentation
+- **Vite** — Fast build tool and development server
+- **GitHub Pages** — Static site hosting and deployment
 
 ---
-**Troubleshooting Storybook version issues?**
-See the new troubleshooting section in `design-system/FEATURES-TODO.md` for step-by-step fixes if the version or upgrade banner is wrong.
 
+## 📖 Documentation
 
+### For Developers
+- [Development Workflow](docs/DEVELOPMENT.md) — Local setup, build process, deployment
+- [Design System README](design-system/README.md) — Component library overview
+- [Smoothie Philosophy](design-system/smoothie.md) — Design metaphor and concepts
+- [Design System Roadmap](design-system/ROADMAP.md) — Planned features
 
-## 🏆 Current Roadmap
+### For Contributors
+- [Contributing Guide](CONTRIBUTING.md) — How to contribute, PR process
+- [Modularity Guidelines](.github/instructions/modularity.instructions.md) — Component design principles
+- [Global TODO Index](todo-index.md) — Task tracking across all projects
 
-See [`TODO.md`](TODO.md) for all actionable and planned work. For detailed version history and recent achievements, see [CHANGELOG.md](CHANGELOG.md).
+### App Documentation
+- [Timer Documentation](docs/timer/README.md) — Focus timer features
+- [Tracker Documentation](docs/tracker/TODO.md) — Habit tracking migration status
+- [Note Documentation](docs/note/README.md) — Daily note-taking features
+- [Today List Documentation](docs/today-list/README.md) — Task management features
+- [Pad Documentation](docs/pad/README.md) — Drawing app features
 
 ---
 
@@ -244,30 +155,35 @@ See [`TODO.md`](TODO.md) for all actionable and planned work. For detailed versi
 
 This is a personal project showcasing modern web development practices. The codebase demonstrates:
 
-- **Modularity-First Design** - Every component is self-contained and portable
-- **Progressive Enhancement** - Works without JavaScript, enhanced with it
-- **Performance Optimization** - Minimal bundle sizes and efficient loading
-- **Developer Experience** - Comprehensive tooling and documentation
+- **Modularity-First Design** — Every component is self-contained and portable
+- **Progressive Enhancement** — Works without JavaScript, enhanced with it
+- **Performance Optimization** — Minimal bundle sizes and efficient loading
+- **Developer Experience** — Comprehensive tooling and documentation
 
-For development guidelines, see [Modularity Instructions](.github/instructions/Modularity.instructions.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+---
+
+## 📝 Recent Updates
+
+### October 4, 2025
+- Fixed Storybook assets 404s (removed from .gitignore)
+- Fixed tracker date-format.js dynamic import
+- Enhanced path management for local/production environments
+- Updated comprehensive development documentation
+
+### September 30, 2025
+- Dropdown portal system for eliminating menu clipping
+- List item component refinements
+- Storybook alphabetical sorting
+
+### September 21, 2025
+- Service worker stability improvements
+- Robust fetch handlers with proper fallbacks
+- Local preview path fixes
+
+See [CHANGELOG.md](CHANGELOG.md) for complete version history.
 
 ---
 
 **Built with ❤️ using modern web standards**
-
-## 🆕 Recent UX & Component Improvements
-
-### Archive/Restore Logic for List Items
-### Modular Container & Header Parity (2025-10-02)
-- All apps now use a mobile-first, modular container (`<labs-container>`) for consistent layout and responsive max-width.
-- Headers in Tracker and Today-list use design system tokens for font size and font weight, ensuring visual consistency.
-- Parity established: both apps now feature a header, date, and metric card using the same design system logic.
-- `<labs-header>` component now supports `center` and `show-subtitle` attributes for flexible layout and Storybook controls.
-- Storybook story for labs-header includes boolean controls for centering and subtitle visibility.
-- Tracker markup fixed: header, metric card, and list root are now properly wrapped in container/main/section for correct rendering.
-
-- Destructive button icons (e.g., delete/reset) now always use the correct error color in all themes.
-
-### Small Fixes (2025-09-21)
-- **Smoothie template — edge layout:** The Templates/Smoothie Default story now supports a true "edge" (full-bleed) layout so components and background treatments span the full viewport width in Storybook and demos.
-- **Docs path-fix:** `scripts/update-static-paths.js` was enhanced to copy shared styles (`tl-entry.css`) and `design-system/src/utils/*.js` into `docs/design-system` so local preview (`python3 -m http.server`) no longer 404s for those assets.
