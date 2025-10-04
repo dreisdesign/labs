@@ -38,10 +38,12 @@ _dev/documents/
 tmp-token-scan/
 tmp-token-report/
 
+
 # Ignore accidental nested installs or local copies
 design-system/design-system/
 /design-system/styles/
 
-# Generated build output (ignore generated components and docs assets)
+# Generated build output (ignore generated components)
 design-system/components/
-docs/design-system/assets/
+# Un-ignore docs/design-system/assets/ so Storybook assets are deployed to GitHub Pages
+
