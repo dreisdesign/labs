@@ -368,4 +368,39 @@ appsToMirror.forEach((appName) => {
   }
 });
 
+// Post-process Storybook iframe.html for GitHub Pages paths
+if (mode === 'github') {
+  const iframeHtmlPath = path.join(__dirname, '../docs/design-system/iframe.html');
+  const indexHtmlPath = path.join(__dirname, '../docs/design-system/index.html');
+
+  [iframeHtmlPath, indexHtmlPath].forEach(htmlPath => {
+    if (fs.existsSync(htmlPath)) {
+      let htmlContent = fs.readFileSync(htmlPath, 'utf8');
+      const original = htmlContent;
+
+      // Fix absolute root paths for GitHub Pages (under /labs/design-system/)
+      // vite-inject-mocker-entry.js
+      htmlContent = htmlContent.replace(
+        /src=["']\/vite-inject-mocker-entry\.js["']/g,
+        'src="./vite-inject-mocker-entry.js"'
+      );
+
+      // Assets folder references
+      htmlContent = htmlContent.replace(
+        /src=["']\/assets\//g,
+        'src="./assets/'
+      );
+      htmlContent = htmlContent.replace(
+        /href=["']\/assets\//g,
+        'href="./assets/'
+      );
+
+      if (htmlContent !== original) {
+        fs.writeFileSync(htmlPath, htmlContent, 'utf8');
+        console.log(`✅ Fixed GitHub Pages paths in ${path.basename(htmlPath)}`);
+      }
+    }
+  });
+}
+
 console.log(`All docs/ HTML asset paths set to ${mode}.`);
