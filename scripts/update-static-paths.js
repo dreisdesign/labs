@@ -108,6 +108,9 @@ filesToProcess.forEach((filePath) => {
   let content = fs.readFileSync(filePath, 'utf8');
   const original = content;
 
+  // Check if this is a tracker file - tracker manages its own production paths
+  const isTrackerFile = filePath.includes(path.join('docs', 'tracker'));
+
   // Conservative common fixes applied regardless of mode
   content = content.replace(/(["'`])\.\.\/design-system\//g, "$1/design-system/");
   content = content.replace(/\/labs\/labs\//g, '/labs/');
@@ -131,8 +134,11 @@ filesToProcess.forEach((filePath) => {
     content = content.replace(/from ['"]\/labs\/design-system\//g, "from '/design-system/");
   } else if (mode === 'local') {
     // Local preview served from project root (python http.server) - use ../ paths
-    content = content.replace(/\/labs\/design-system\//g, '../design-system/');
-    content = content.replace(/\/design-system\//g, '../design-system/');
+    // Skip tracker files - they manage their own production vs local paths
+    if (!isTrackerFile) {
+      content = content.replace(/\/labs\/design-system\//g, '../design-system/');
+      content = content.replace(/\/design-system\//g, '../design-system/');
+    }
   } else if (mode === 'github') {
     // GitHub Pages: rewrite to /labs/<app>/ and copy public assets to docs/
     content = content.replace(/href="\.\.\/design-system\//g, 'href="/labs/design-system/');

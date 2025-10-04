@@ -2,7 +2,7 @@
 let formatHuman = (ts) => ts;
 const isProd = location.hostname.includes('github.io');
 const dateFormatPath = isProd
-    ? '../design-system/utils/date-format.js'
+    ? '/labs/design-system/utils/date-format.js'
     : '../../design-system/utils/date-format.js';
 
 let formatHumanReady = import(dateFormatPath).then(mod => {
