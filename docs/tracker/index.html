@@ -177,10 +177,7 @@
 </head>
 
 <body>
-    <!-- Settings overlay -->
-    <labs-overlay id="settingsOverlay" size="medium" transparent>
-        <labs-settings-card></labs-settings-card>
-    </labs-overlay>
+    <!-- Settings overlay is owned by the encapsulated footer wrapper -->
 
     <!-- Container with narrow width (400px) for app-like layout -->
     <labs-container style="--app-container-max: 400px;">
@@ -197,22 +194,8 @@
         </main>
     </labs-container>
 
-    <!-- Footer with settings -->
-    <labs-footer full-width elevated>
-
-        <div slot="center" class="footer-center">
-            <labs-button id="footer-track-btn" size="large" pill variant="primary" fullwidth>
-                <labs-icon name="add" slot="icon-left" width="20" height="20"></labs-icon>Track
-            </labs-button>
-        </div>
-
-        <div slot="right" style="display: flex; align-items: center; gap: 8px;">
-            <labs-button id="footer-settings-btn" variant="icon" aria-label="Settings" title="Settings"
-                style="margin-right:20px;">
-                <labs-icon name="settings" slot="icon-left" width="22" height="22"></labs-icon>
-            </labs-button>
-        </div>
-    </labs-footer>
+    <!-- Encapsulated footer wrapper provides Add/Settings and owns its overlay -->
+    <labs-footer-with-settings id="app-footer" full-width elevated add-variant="primary"></labs-footer-with-settings>
 
     <script type="module" src="../design-system/components/labs-icon.js"></script>
     <script type="module" src="../design-system/components/labs-button.js"></script>
@@ -220,7 +203,7 @@
     <script type="module" src="../design-system/components/labs-container.js"></script>
     <script type="module" src="../design-system/components/labs-dropdown.js"></script>
     <script type="module" src="../design-system/components/labs-list-item.js"></script>
-    <script type="module" src="../design-system/components/labs-footer.js"></script>
+    <script type="module" src="../design-system/components/labs-footer-with-settings.js"></script>
     <script type="module" src="../design-system/components/labs-toast.js"></script>
     <script type="module" src="../design-system/components/labs-overlay.js"></script>
     <script type="module" src="../design-system/components/labs-settings-card.js"></script>
@@ -277,23 +260,10 @@
         import createTracker from './js/main.js';
         const tracker = createTracker({ metricRootId: 'metric-root', listRootId: 'list-root' });
         tracker.init();
-        // Wire up Track button
-        document.getElementById('footer-track-btn')?.addEventListener('click', () => {
-            tracker.handleTrack();
-        });
-        // Wire up Settings button
-        document.getElementById('footer-settings-btn')?.addEventListener('click', () => {
-            const overlay = document.getElementById('settingsOverlay');
-            if (overlay) overlay.setAttribute('open', '');
-        });
-        // Listen for close event from labs-settings-card and close overlay
-        document.getElementById('settingsOverlay')?.addEventListener('close', () => {
-            document.getElementById('settingsOverlay')?.removeAttribute('open');
-        });
-        // Listen for reset-all event from labs-settings-card and reset tracker data
-        document.getElementById('settingsOverlay')?.addEventListener('reset-all', () => {
-            tracker.resetAll();
-        });
+        // Wire wrapper events
+        const footer = document.getElementById('app-footer');
+        footer?.addEventListener('add', () => tracker.handleTrack());
+        footer?.addEventListener('reset-all', () => tracker.resetAll());
         // Set current date in header
         document.addEventListener('DOMContentLoaded', function () {
             var dateEl = document.getElementById('currentDate');
