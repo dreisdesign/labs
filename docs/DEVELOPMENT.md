@@ -58,46 +58,169 @@ After running, your changes will be synced to production docs and both servers w
 
 Hard-refresh your browser after syncing to see the update.
 
-## Development notes — serving docs/demo locally
+## Development Workflow
 
-Issue: When running the local docs demo server (python http.server serving the `docs/` directory on port 8000), some component imports in the demo HTML referenced `/design-system/components/...` but the built components were not present under `docs/design-system/components/`, resulting in 404s for component JS (for example `labs-checkbox.js`). The Storybook environment worked because it imports components from `design-system/src/components` during development.
-
-Fix: Run the project's asset update script to copy built public files and JS components into the `docs/design-system/` public folder. From the project root run:
-
-```bash
-node scripts/update-static-paths.js --public
-```
-
-This will copy `design-system/src/components/*.js` to `design-system/components/` and then copy those into `docs/design-system/components/`, along with token CSS and other assets. If you prefer a one-off copy during development, copy the components directly:
+### Quick Start
+The fastest way to start development is with the preview command:
 
 ```bash
-cp design-system/components/* docs/design-system/components/
+npm run rp
 ```
 
-Notes:
-- After running the script or copying files, hard-refresh the browser to clear cached 404s.
-- The `--auto` mode detects whether the build is for GitHub Pages or public/local and applies the appropriate rewrites and copies.
+**What `npm run rp` does:**
+- Updates static paths for local preview (runs `update-static-paths.js --local`)
+- Kills any existing servers on ports 6006/8000
+- Starts Python http.server for Labs Homepage (from `docs/`) on port 8000
+- Starts Storybook dev server on port 6006
+- Shows live build progress with timing
+- Auto-opens both URLs in browser when ready
+- Leaves servers running in background
 
-Additional context and guidance:
-- For local development, prefer `--public` so asset paths are rewritten for a local `python3 -m http.server` preview (paths like `/design-system/...`).
-- The repository includes a pre-commit hook that runs the same script in `--auto` mode before commit; this automatically converts local/public paths to the GitHub Pages format (`/labs/design-system/...`) and stages the changes. That means committing local-preview edits is safe: the pre-commit hook will ensure committed files use the public/GitHub paths expected for deployment.
-- The deploy script (`scripts/deploy.sh`) also runs `update-static-paths.js --auto` during the deploy flow to ensure the published `docs/design-system/` contains correctly rewritten GitHub Pages paths and copied assets.
+After running, both development servers are available:
+- **Storybook**: http://localhost:6006
+- **Labs Homepage**: http://localhost:8000
+- **Apps**: http://localhost:8000/tracker/, http://localhost:8000/today-list/, etc.
 
-If you see 404s while serving `docs/` locally, run:
+### Deployment Workflow
+
+To build and deploy to GitHub Pages:
 
 ```bash
-# one-off local preview prep
-node scripts/update-static-paths.js --public
-
-# then serve the docs directory
-python3 -m http.server 8000 --directory docs
+npm run d
 ```
 
-Or use the menu helper which runs the public rewrite for preview:
+**What `npm run d` does:**
+1. Runs `update-static-paths.js --local` to prepare for local preview
+2. Opens interactive menu → Select "Build & Deploy"
+3. Runs pre-build checks (icon generation, icon sync)
+4. Stops any running Storybook dev server
+5. Builds static Storybook (`npm run build-storybook`)
+6. Syncs design system files to `docs/` (runs `update-static-paths.js --auto` which detects GitHub Pages mode)
+7. Fixes asset paths for GitHub Pages (`/labs/design-system/...`)
+8. Commits changes with automation message
+9. Pushes to `main` branch
+10. GitHub Pages automatically deploys within ~30 seconds
 
+**Deployed sites:**
+- **Storybook**: https://dreisdesign.github.io/labs/design-system/
+- **Labs Homepage**: https://dreisdesign.github.io/labs/
+- **Tracker App**: https://dreisdesign.github.io/labs/tracker/
+
+### Path Management System
+
+The repository uses `scripts/update-static-paths.js` to manage asset paths for different environments:
+
+#### Modes
+
+1. **`--local`**: Local preview (Python http.server from project root)
+   - Converts `/labs/design-system/` → `../design-system/`
+   - Converts `/design-system/` → `../design-system/`
+   - **Exception**: Tracker JS files (`docs/tracker/js/*.js`) are excluded - they manage their own paths via `isProd` checks
+
+2. **`--github`**: GitHub Pages deployment
+   - Converts relative paths → `/labs/design-system/`
+   - Fixes Storybook iframe paths for GitHub Pages
+   - Copies all assets to `docs/design-system/`
+
+3. **`--auto`**: Auto-detect mode (used by deploy)
+   - Detects GitHub repository → uses `--github` mode
+   - Otherwise uses `--public` mode
+
+#### Special Cases
+
+**Tracker Application**
+The tracker app uses a hybrid path strategy:
+- **HTML files** (`docs/tracker/index.html`): Use relative paths `../design-system/` (works for both local and GitHub Pages)
+- **JS files** (`docs/tracker/js/main.js`): Use runtime detection:
+  ```javascript
+  const isProd = location.hostname.includes('github.io');
+  const dateFormatPath = isProd
+      ? '/labs/design-system/utils/date-format.js'  // Production (GitHub Pages)
+      : '../../design-system/utils/date-format.js'; // Local development
+  ```
+
+**Storybook Assets**
+- Storybook build outputs to `design-system/storybook-static/`
+- Assets are copied to `docs/design-system/assets/` (tracked in git since October 2024)
+- Absolute paths in iframe.html are converted to relative paths for GitHub Pages
+
+### Pre-commit Hook
+
+The repository includes a pre-commit hook that:
+1. Runs `update-static-paths.js --local` to normalize paths for local development
+2. Stages the path changes automatically
+3. Ensures committed files use local-friendly paths
+
+This means you can work with GitHub Pages paths during development, and they'll be automatically converted to local paths before commit.
+
+### Common Scenarios
+
+**Editing Design System Components**
 ```bash
-npm run l   # opens the "Preview Labs Homepage" flow in the menu and applies --public
+# Edit files in design-system/src/
+# Changes are reflected immediately in Storybook (HMR)
+npm run rp  # Preview changes
+npm run d   # Deploy when ready
 ```
+
+**Editing Tracker App**
+```bash
+# Edit docs/tracker/index.html or docs/tracker/js/main.js
+npm run rp  # Preview changes at http://localhost:8000/tracker/
+npm run d   # Deploy when ready
+```
+
+**Troubleshooting 404s**
+If you see 404 errors for design-system assets:
+1. Check if assets exist in `docs/design-system/assets/`
+2. Verify paths match environment (relative for local, `/labs/` for GitHub Pages)
+3. Run `npm run rp` to reset to local preview mode
+4. Hard-refresh browser (Cmd+Shift+R) to clear cached 404s
+
+## Recent Fixes & Improvements
+
+### October 4, 2025 - Path Management & Deployment Fixes
+
+**Issues Resolved:**
+1. **Storybook Assets 404 Errors**
+   - **Problem**: `docs/design-system/assets/` was in `.gitignore`, causing all Storybook build files (JS/CSS) to return 404 on GitHub Pages
+   - **Fix**: Removed assets folder from `.gitignore` and committed all Storybook build files
+   - **Impact**: Storybook now fully functional on GitHub Pages
+
+2. **Storybook iframe Path Issues**
+   - **Problem**: Absolute paths like `/vite-inject-mocker-entry.js` and `/assets/` don't work under GitHub Pages subpath `/labs/design-system/`
+   - **Fix**: Added post-processing to `update-static-paths.js` that converts absolute paths to relative (`./vite-inject-mocker-entry.js`, `./assets/`)
+   - **Impact**: Storybook iframe loads correctly on GitHub Pages
+
+3. **Tracker date-format.js 404 Errors**
+   - **Problem**: Dynamic import used relative path `../design-system/utils/date-format.js` which resolved incorrectly on GitHub Pages
+   - **Fix**: Implemented `isProd` check in tracker JS to use absolute path `/labs/design-system/utils/date-format.js` for production
+   - **Impact**: Tracker date formatting works on both local and production
+
+4. **Tracker Component Import 404s**
+   - **Problem**: Tracker HTML used absolute paths `/design-system/...` instead of relative paths
+   - **Fix**: Updated path management to use relative paths `../design-system/...` which work on both local and GitHub Pages
+   - **Impact**: All tracker components and styles load correctly
+
+5. **Path Management Script Improvements**
+   - **Problem**: Pre-commit hook was reverting production paths in tracker files
+   - **Fix**: Added exclusion for tracker JS files in local mode - they manage their own paths via `isProd` checks
+   - **Impact**: Tracker production paths preserved across commits and deploys
+
+**Files Modified:**
+- `.gitignore` - Removed `docs/design-system/assets/` exclusion
+- `scripts/update-static-paths.js` - Added Storybook iframe path fixing, tracker JS exclusion
+- `docs/tracker/js/main.js` - Added `isProd` check for dynamic imports
+- `docs/tracker/index.html` - Converted to relative paths
+- `docs/design-system/assets/*` - All Storybook build files now tracked in git
+
+**Verification:**
+- ✅ Storybook fully functional: https://dreisdesign.github.io/labs/design-system/
+- ✅ Tracker app working: https://dreisdesign.github.io/labs/tracker/
+- ✅ All design system components loading correctly
+- ✅ `npm run rp` and `npm run d` workflows tested and working
+
+
 
 ## Src automatic (what is mirrored from `src` → `docs`)
 
