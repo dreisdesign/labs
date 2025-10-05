@@ -49,6 +49,8 @@ class LabsFooterWithSettings extends HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true));
     this._onSettingsClick = this._onSettingsClick.bind(this);
     this._onCardClose = this._onCardClose.bind(this);
+    this._onAddClick = this._onAddClick.bind(this);
+    this._onResetAll = this._onResetAll.bind(this);
   }
 
   connectedCallback() {
@@ -63,7 +65,12 @@ class LabsFooterWithSettings extends HTMLElement {
     this._settingsCard = this._overlay && this._overlay.querySelector('labs-settings-card');
 
     if (this._settingsBtn) this._settingsBtn.addEventListener('click', this._onSettingsClick);
-    if (this._settingsCard) this._settingsCard.addEventListener('close', this._onCardClose);
+    this._addBtn = this.shadowRoot.getElementById('add-btn');
+    if (this._addBtn) this._addBtn.addEventListener('click', this._onAddClick);
+    if (this._settingsCard) {
+      this._settingsCard.addEventListener('close', this._onCardClose);
+      this._settingsCard.addEventListener('reset-all', this._onResetAll);
+    }
 
     // Reflect initial boolean attributes to the internal footer
     this._applyFooterAttrs();
@@ -71,7 +78,11 @@ class LabsFooterWithSettings extends HTMLElement {
 
   disconnectedCallback() {
     if (this._settingsBtn) this._settingsBtn.removeEventListener('click', this._onSettingsClick);
-    if (this._settingsCard) this._settingsCard.removeEventListener('close', this._onCardClose);
+    if (this._addBtn) this._addBtn.removeEventListener('click', this._onAddClick);
+    if (this._settingsCard) {
+      this._settingsCard.removeEventListener('close', this._onCardClose);
+      this._settingsCard.removeEventListener('reset-all', this._onResetAll);
+    }
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -141,6 +152,16 @@ class LabsFooterWithSettings extends HTMLElement {
   _onCardClose() {
     if (this._overlay && typeof this._overlay.close === 'function') this._overlay.close();
     this.dispatchEvent(new CustomEvent('settings-close', { bubbles: true }));
+  }
+
+  _onAddClick() {
+    // Emit an `add` event for host pages to handle adding entries
+    this.dispatchEvent(new CustomEvent('add', { bubbles: true }));
+  }
+
+  _onResetAll() {
+    // Forward reset-all so host pages can react
+    this.dispatchEvent(new CustomEvent('reset-all', { bubbles: true }));
   }
 }
 

@@ -7,7 +7,7 @@ const ICON_BASE = (() => {
 
   // GitHub Pages production - always use full path
   if (hostname === 'dreisdesign.github.io') {
-    return "../design-system/icons/";
+    return "/labs/design-system/icons/";
   }
 
   // Local Storybook development - use relative path (be very specific)
@@ -16,7 +16,7 @@ const ICON_BASE = (() => {
   }
 
   // Default for other local development
-  return "../design-system/icons/";
+  return "/design-system/icons/";
 })();
 const icons = {
     add: ICON_BASE + 'add--labs-icons.svg',

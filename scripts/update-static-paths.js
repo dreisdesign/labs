@@ -288,17 +288,20 @@ const srcComponentsDir = path.join(
   "../design-system/src/components",
 );
 const componentsDest = path.join(__dirname, "../design-system/components");
+const docsComponentsDest = path.join(__dirname, "../docs/design-system/components");
 if (fs.existsSync(srcComponentsDir)) {
-  if (!fs.existsSync(componentsDest)) {
-    fs.mkdirSync(componentsDest, { recursive: true });
-  }
-  fs.readdirSync(srcComponentsDir).forEach((file) => {
-    if (file.endsWith(".js")) {
-      fs.copyFileSync(
-        path.join(srcComponentsDir, file),
-        path.join(componentsDest, file),
-      );
+  [componentsDest, docsComponentsDest].forEach(destDir => {
+    if (!fs.existsSync(destDir)) {
+      fs.mkdirSync(destDir, { recursive: true });
     }
+    fs.readdirSync(srcComponentsDir).forEach((file) => {
+      if (file.endsWith(".js")) {
+        fs.copyFileSync(
+          path.join(srcComponentsDir, file),
+          path.join(destDir, file),
+        );
+      }
+    });
   });
   console.log("Copied JS components to public location");
 }

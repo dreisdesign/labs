@@ -18,19 +18,17 @@
     <script type="module" src="../design-system/components/labs-footer-with-settings.js"></script>
     <script type="module" src="../design-system/components/labs-header.js"></script>
     <script type="module" src="../design-system/components/labs-metric-card.js"></script>
-    <script type="module" src="../design-system/components/labs-list-item.js"></script>
-    <script type="module" src="../design-system/components/labs-checkbox.js"></script>
-    <script type="module" src="../design-system/components/labs-dropdown.js"></script>
+    <script type="module" src="../design-system/components/labs-task-item.js"></script>
 
     <script type="module">
         // Initialize theme from localStorage or defaults
         import { applyTheme } from '../design-system/utils/theme.js';
-        
+
         // Restore saved theme/flavor or use defaults
         const savedTheme = localStorage.getItem('tracker-theme') || 'light';
         const savedFlavor = localStorage.getItem('tracker-flavor') || 'blueberry';
         applyTheme({ flavor: savedFlavor, theme: savedTheme });
-        
+
         // Wire up Add button, theme toggle, and delete all functionality
         window.addEventListener('DOMContentLoaded', () => {
             const footer = document.querySelector('labs-footer-with-settings');
@@ -39,7 +37,7 @@
 
             // Update metric count
             function updateCount() {
-                const items = container.querySelectorAll('labs-list-item');
+                const items = container.querySelectorAll('labs-task-item');
                 const valueSlot = metricCard.querySelector('[slot="value"]');
                 if (valueSlot) {
                     valueSlot.textContent = items.length;
@@ -48,25 +46,11 @@
 
             // Add button functionality
             footer.addEventListener('add', () => {
-                const newItem = document.createElement('labs-list-item');
+                const newItem = document.createElement('labs-task-item');
+                newItem.textContent = 'New test item';
 
-                const checkbox = document.createElement('labs-checkbox');
-                checkbox.slot = 'control';
-                checkbox.setAttribute('aria-label', 'Mark complete');
-
-                const content = document.createElement('div');
-                content.slot = 'content';
-                content.textContent = 'New test item';
-
-                const dropdown = document.createElement('labs-dropdown');
-                dropdown.slot = 'actions';
-
-                newItem.appendChild(checkbox);
-                newItem.appendChild(content);
-                newItem.appendChild(dropdown);
-
-                // Insert before footer, not at end of container
-                const lastItem = container.querySelector('labs-list-item:last-of-type');
+                // Insert after last task item
+                const lastItem = container.querySelector('labs-task-item:last-of-type');
                 if (lastItem) {
                     lastItem.after(newItem);
                 } else {
@@ -79,24 +63,24 @@
             footer.addEventListener('flavor-changed', (e) => {
                 console.log('Flavor changed to:', e.detail.flavor);
             });
-            
+
             // Also listen for theme changes on documentElement
             const themeObserver = new MutationObserver(() => {
                 const isDark = document.documentElement.classList.contains('theme-dark');
                 const flavorClass = [...document.documentElement.classList].find(c => c.startsWith('flavor-'));
-                console.log('Theme/Flavor classes updated:', { 
-                    isDark, 
-                    flavor: flavorClass 
+                console.log('Theme/Flavor classes updated:', {
+                    isDark,
+                    flavor: flavorClass
                 });
             });
-            themeObserver.observe(document.documentElement, { 
-                attributes: true, 
-                attributeFilter: ['class'] 
+            themeObserver.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ['class']
             });
 
             // Delete all functionality - listen for reset-all from settings card
             footer.addEventListener('reset-all', () => {
-                const items = container.querySelectorAll('labs-list-item');
+                const items = container.querySelectorAll('labs-task-item');
                 items.forEach(item => item.remove());
                 updateCount();
             });
@@ -129,7 +113,7 @@
         }
 
         /* Ensure list items are grouped together */
-        labs-list-item {
+        labs-task-item {
             margin: 0;
         }
 
@@ -149,23 +133,11 @@
             <span slot="value">3</span>
         </labs-metric-card>
 
-        <labs-list-item>
-            <labs-checkbox slot="control" aria-label="Mark complete"></labs-checkbox>
-            <div slot="content">First test item</div>
-            <labs-dropdown slot="actions"></labs-dropdown>
-        </labs-list-item>
+        <labs-task-item>First test item</labs-task-item>
 
-        <labs-list-item>
-            <labs-checkbox slot="control" aria-label="Mark complete"></labs-checkbox>
-            <div slot="content">Second test item</div>
-            <labs-dropdown slot="actions"></labs-dropdown>
-        </labs-list-item>
+        <labs-task-item>Second test item</labs-task-item>
 
-        <labs-list-item checked>
-            <labs-checkbox slot="control" aria-label="Mark complete"></labs-checkbox>
-            <div slot="content">Third test item</div>
-            <labs-dropdown slot="actions"></labs-dropdown>
-        </labs-list-item>
+        <labs-task-item checked>Third test item</labs-task-item>
     </div>
 
     <labs-footer-with-settings></labs-footer-with-settings>

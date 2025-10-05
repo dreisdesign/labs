@@ -41,15 +41,15 @@ template.innerHTML = `
 `;
 
 class LabsMetricCard extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
-  }
+    constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+        this.shadowRoot.appendChild(template.content.cloneNode(true));
+    }
 }
 
 if (!customElements.get('labs-metric-card')) {
-  customElements.define('labs-metric-card', LabsMetricCard);
+    customElements.define('labs-metric-card', LabsMetricCard);
 }
 
 export default LabsMetricCard;
