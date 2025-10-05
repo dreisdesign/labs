@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer Component Test</title>
+
+    <!-- Design System Tokens -->
+    <link rel="stylesheet" href="../design-system/tokens/colors.css">
+    <link rel="stylesheet" href="../design-system/tokens/spacing.css">
+    <link rel="stylesheet" href="../design-system/tokens/typography.css">
+    <link rel="stylesheet" href="../design-system/tokens/border-radius.css">
+    <link rel="stylesheet" href="../design-system/tokens/shadows.css">
+    <link rel="stylesheet" href="../design-system/styles/flavors.css">
+
+    <!-- Components -->
+    <script type="module" src="../design-system/components/labs-footer-with-settings.js"></script>
+    <script type="module" src="../design-system/components/labs-header.js"></script>
+    <script type="module" src="../design-system/components/labs-metric-card.js"></script>
+    <script type="module" src="../design-system/components/labs-list-item.js"></script>
+    <script type="module" src="../design-system/components/labs-checkbox.js"></script>
+    <script type="module" src="../design-system/components/labs-dropdown.js"></script>
+
+    <script type="module">
+        // Wire up Add button, theme toggle, and delete all functionality
+        window.addEventListener('DOMContentLoaded', () => {
+            const footer = document.querySelector('labs-footer-with-settings');
+            const container = document.querySelector('.container');
+            const metricCard = container.querySelector('labs-metric-card');
+
+            // Update metric count
+            function updateCount() {
+                const items = container.querySelectorAll('labs-list-item');
+                const valueSlot = metricCard.querySelector('[slot="value"]');
+                if (valueSlot) {
+                    valueSlot.textContent = items.length;
+                }
+            }
+
+            // Add button functionality
+            footer.addEventListener('add', () => {
+                const newItem = document.createElement('labs-list-item');
+
+                const checkbox = document.createElement('labs-checkbox');
+                checkbox.slot = 'control';
+                checkbox.setAttribute('aria-label', 'Mark complete');
+
+                const content = document.createElement('div');
+                content.slot = 'content';
+                content.textContent = 'New test item';
+
+                const dropdown = document.createElement('labs-dropdown');
+                dropdown.slot = 'actions';
+
+                newItem.appendChild(checkbox);
+                newItem.appendChild(content);
+                newItem.appendChild(dropdown);
+
+                // Insert before footer, not at end of container
+                const lastItem = container.querySelector('labs-list-item:last-of-type');
+                if (lastItem) {
+                    lastItem.after(newItem);
+                } else {
+                    container.appendChild(newItem);
+                }
+                updateCount();
+            });
+
+            // Theme toggle - listen for flavor changes from settings card
+            footer.addEventListener('flavor-changed', (e) => {
+                console.log('Theme/flavor changed:', e.detail);
+                // The flavors.css and settings card handle the actual theme switching
+            });
+
+            // Delete all functionality - listen for reset-all from settings card
+            footer.addEventListener('reset-all', () => {
+                const items = container.querySelectorAll('labs-list-item');
+                items.forEach(item => item.remove());
+                updateCount();
+            });
+        });
+    </script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: var(--color-surface);
+            color: var(--color-on-surface);
+            font-family: var(--font-family-base);
+        }
+
+        .container {
+            flex: 1;
+            padding: var(--space-lg);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+
+        /* Remove extra margin from metric card */
+        labs-metric-card {
+            margin-bottom: var(--space-md);
+        }
+
+        /* Ensure list items are grouped together */
+        labs-list-item {
+            margin: 0;
+        }
+
+        /* Ensure no stray elements appear below footer */
+        labs-footer-with-settings {
+            margin-top: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <labs-header title="Footer Test Page" center></labs-header>
+
+        <labs-metric-card>
+            <span slot="label">Test Items</span>
+            <span slot="value">3</span>
+        </labs-metric-card>
+
+        <labs-list-item>
+            <labs-checkbox slot="control" aria-label="Mark complete"></labs-checkbox>
+            <div slot="content">First test item</div>
+            <labs-dropdown slot="actions"></labs-dropdown>
+        </labs-list-item>
+
+        <labs-list-item>
+            <labs-checkbox slot="control" aria-label="Mark complete"></labs-checkbox>
+            <div slot="content">Second test item</div>
+            <labs-dropdown slot="actions"></labs-dropdown>
+        </labs-list-item>
+
+        <labs-list-item checked>
+            <labs-checkbox slot="control" aria-label="Mark complete"></labs-checkbox>
+            <div slot="content">Third test item</div>
+            <labs-dropdown slot="actions"></labs-dropdown>
+        </labs-list-item>
+    </div>
+
+    <labs-footer-with-settings></labs-footer-with-settings>
+</body>
+
+</html>
