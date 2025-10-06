@@ -7,56 +7,68 @@ export default {
 
 export const Typography = {
   name: 'Typography',
-  render: () => `
-    <div style="padding:20px; font-family:var(--font-family-base); color:var(--color-on-background); background:var(--color-surface);">
-      <h1>Typography tokens</h1>
-      <div style="margin-bottom:32px;">
-        <table style="border-collapse:collapse; width:100%; font-size:0.98em; background:var(--color-surface-variant, var(--color-surface, #f8f8f8));">
-          <thead>
-            <tr style="background:var(--color-surface-container, var(--color-surface, #eee));">
-              <th style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; text-align:left; color:var(--color-on-surface);">Token Name</th>
-              <th style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; text-align:left; color:var(--color-on-surface);">Font Size</th>
-              <th style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; text-align:left; color:var(--color-on-surface);">Weight</th>
-              <th style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; text-align:left; color:var(--color-on-surface);">Line Height</th>
-              <th style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; text-align:left; color:var(--color-on-surface);">Usage/Role</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">--font-size-metric-display</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">var(--font-size-display)</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">var(--font-weight-metric)</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">var(--line-height-metric)</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);"><span style="font-size:var(--font-size-metric-display); font-weight:var(--font-weight-metric); line-height:var(--line-height-metric);">Metric display</span></td>
-            </tr>
-            <tr>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">--font-size-metric-label</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">0.875rem</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">var(--font-weight-metric)</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">1.1</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);"><span style="font-size:var(--font-size-metric-label); font-weight:var(--font-weight-metric);">Metric label</span></td>
-            </tr>
-            <tr>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">--font-size-h1</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">3rem</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">800</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">1.2</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);"><span style="font-size:var(--font-size-h1); font-weight:var(--font-weight-heading); line-height:var(--line-height-heading);">H1 / Heading</span></td>
-            </tr>
-            <tr>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">--font-size-h2</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">2rem</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">700</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">1.25</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);"><span style="font-size:var(--font-size-h2); font-weight:var(--font-weight-heading); line-height:var(--line-height-heading);">H2 / Subheading</span></td>
-            </tr>
-            <tr>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">--font-size-h3</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">1.5rem</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">600</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">1.3</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);"><span style="font-size:var(--font-size-h3); font-weight:var(--font-weight-heading); line-height:var(--line-height-heading);">H3 / Section heading</span></td>
-            </tr>
+  render() {
+    // Get computed values for key tokens
+    const metricDisplaySize = getComputedStyle(document.documentElement).getPropertyValue('--font-size-metric-display');
+    const metricLabelSize = getComputedStyle(document.documentElement).getPropertyValue('--font-size-metric-label');
+    const metricWeight = getComputedStyle(document.documentElement).getPropertyValue('--font-weight-metric');
+    const metricLineHeight = getComputedStyle(document.documentElement).getPropertyValue('--line-height-metric');
+    const h1Size = getComputedStyle(document.documentElement).getPropertyValue('--font-size-h1');
+    const h1Weight = getComputedStyle(document.documentElement).getPropertyValue('--font-weight-heading');
+    let h1LineHeight = getComputedStyle(document.documentElement).getPropertyValue('--line-height-heading').trim();
+    if (!h1LineHeight) h1LineHeight = '1.2';
+    const h2Size = getComputedStyle(document.documentElement).getPropertyValue('--font-size-h2');
+    const h3Size = getComputedStyle(document.documentElement).getPropertyValue('--font-size-h3');
+    return `
+      <div style="padding:20px; font-family:var(--font-family-base); color:var(--color-on-background); background:var(--color-surface);">
+        <h1>Typography tokens</h1>
+        <div style="margin-bottom:32px;">
+          <table style="border-collapse:collapse; width:100%; font-size:0.98em; background:var(--color-surface-variant, var(--color-surface, #f8f8f8));">
+            <thead>
+              <tr style="background:var(--color-surface-container, var(--color-surface, #eee));">
+                <th style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; text-align:left; color:var(--color-on-surface);">Token Name</th>
+                <th style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; text-align:left; color:var(--color-on-surface);">Font Size</th>
+                <th style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; text-align:left; color:var(--color-on-surface);">Weight</th>
+                <th style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; text-align:left; color:var(--color-on-surface);">Line Height</th>
+                <th style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; text-align:left; color:var(--color-on-surface);">Usage/Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">--font-size-metric-display</td>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">${metricDisplaySize.trim()}</td>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">${metricWeight.trim()}</td>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">${metricLineHeight.trim()}</td>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);"><span style="font-size:var(--font-size-metric-display); font-weight:var(--font-weight-metric); line-height:var(--line-height-metric);">Metric display</span></td>
+              </tr>
+              <tr>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">--font-size-metric-label</td>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">${metricLabelSize.trim()}</td>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">${metricWeight.trim()}</td>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">${metricLineHeight.trim()}</td>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);"><span style="font-size:var(--font-size-metric-label); font-weight:var(--font-weight-metric);">Metric label</span></td>
+              </tr>
+              <tr>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">--font-size-h1</td>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">${h1Size.trim()}</td>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">${h1Weight.trim()}</td>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">${h1LineHeight}</td>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);"><span style="font-size:var(--font-size-h1); font-weight:var(--font-weight-heading); line-height:var(--line-height-heading);">H1 / Heading</span></td>
+              </tr>
+              <tr>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">--font-size-h2</td>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">${h2Size.trim()}</td>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">700</td>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">1.25</td>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);"><span style="font-size:var(--font-size-h2); font-weight:var(--font-weight-heading); line-height:var(--line-height-heading);">H2 / Subheading</span></td>
+              </tr>
+              <tr>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">--font-size-h3</td>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">${h3Size.trim()}</td>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">600</td>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">1.3</td>
+                <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);"><span style="font-size:var(--font-size-h3); font-weight:var(--font-weight-heading); line-height:var(--line-height-heading);">H3 / Section heading</span></td>
+              </tr>
             <tr>
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">--font-size-display</td>
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">4rem</td>
@@ -186,6 +198,6 @@ export const Typography = {
           </tbody>
         </table>
       </div>
-    </div>
-  `
+    `;
+  }
 };

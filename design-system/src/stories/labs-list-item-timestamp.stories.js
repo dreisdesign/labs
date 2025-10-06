@@ -1,19 +1,20 @@
-import '../components/labs-timestamp-item.js';
+import '../components/labs-list-item.js';
+import '../components/labs-icon.js';
+import iconsList from '../components/icons-list.js';
+import { formatHuman } from '../utils/date-format.js';
 
 export default {
     title: 'Components (Wrapped)/List Item - Timestamp',
-    component: 'labs-timestamp-item',
+    component: 'labs-list-item',
     argTypes: {
-        text: { control: 'text', description: 'Activity description text' },
-        icon: { control: 'text', description: 'Icon name from labs-icon library' },
+        icon: { control: { type: 'select' }, options: iconsList, description: 'Icon name from labs-icon library' },
     },
     args: {
-        text: 'Started working on new feature',
         icon: 'check',
     },
 };
 
-export const Default = ({ text, icon }) => {
+export const Default = ({ icon }) => {
     const wrapper = document.createElement('div');
     wrapper.style.display = 'flex';
     wrapper.style.flexDirection = 'column';
@@ -22,12 +23,20 @@ export const Default = ({ text, icon }) => {
     wrapper.style.maxWidth = '600px';
     wrapper.style.margin = '0 auto';
 
-    const item = document.createElement('labs-timestamp-item');
-    if (icon) item.setAttribute('icon', icon);
-    item.textContent = text;
-
+    const item = document.createElement('labs-list-item');
+    item.setAttribute('variant', 'timestamp');
+    const now = new Date();
+    item.setAttribute('timestamp', now.toISOString());
+    const iconEl = document.createElement('labs-icon');
+    iconEl.setAttribute('slot', 'control');
+    iconEl.setAttribute('name', icon || 'check');
+    iconEl.setAttribute('aria-hidden', 'true');
+    const content = document.createElement('div');
+    content.setAttribute('slot', 'content');
+    content.textContent = formatHuman(now);
+    item.appendChild(iconEl);
+    item.appendChild(content);
     wrapper.appendChild(item);
-
     return wrapper;
 };
 
@@ -40,19 +49,22 @@ export const Multiple = () => {
     wrapper.style.maxWidth = '600px';
     wrapper.style.margin = '0 auto';
 
-    const activities = [
-        'Completed code review',
-        'Updated documentation',
-        'Created new task',
-        'Archived completed items',
-        'Restored from archive',
-    ];
-
-    activities.forEach(text => {
-        const item = document.createElement('labs-timestamp-item');
-        item.textContent = text;
+    for (let i = 0; i < 5; i++) {
+        const item = document.createElement('labs-list-item');
+        item.setAttribute('variant', 'timestamp');
+        const now = new Date(Date.now() - i * 60000); // Each item 1 min apart
+        item.setAttribute('timestamp', now.toISOString());
+        const iconEl = document.createElement('labs-icon');
+        iconEl.setAttribute('slot', 'control');
+        iconEl.setAttribute('name', 'check');
+        iconEl.setAttribute('aria-hidden', 'true');
+        const content = document.createElement('div');
+        content.setAttribute('slot', 'content');
+        content.textContent = formatHuman(now);
+        item.appendChild(iconEl);
+        item.appendChild(content);
         wrapper.appendChild(item);
-    });
+    }
 
     return wrapper;
 };

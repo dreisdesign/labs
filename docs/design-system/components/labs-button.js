@@ -49,7 +49,7 @@ class LabsButton extends HTMLElement {
         :host([fullwidth]) button {
           display: flex !important;
           width: 100% !important;
-          justify-content: flex-end;
+          justify-content: center;
         }
         /* Size variants: default is medium, add large variant via attribute size="large" */
         /* Small size — tighter padding and smaller font */

@@ -1,9 +1,11 @@
-import '../components/labs-task-item.js';
+import '../components/labs-list-item.js';
+import '../components/labs-checkbox.js';
+import '../components/labs-dropdown.js';
 import '../components/labs-toast.js';
 
 export default {
     title: 'Components (Wrapped)/List Item - Task',
-    component: 'labs-task-item',
+    component: 'labs-list-item',
     argTypes: {
         text: { control: 'text', description: 'Task text content' },
         checked: { control: 'boolean', description: 'Checked state' },
@@ -23,12 +25,21 @@ export const Default = ({ text, checked }) => {
     wrapper.style.maxWidth = '600px';
     wrapper.style.margin = '0 auto';
 
-    const item = document.createElement('labs-task-item');
-    item.textContent = text;
-    if (checked) item.setAttribute('checked', '');
+    const item = document.createElement('labs-list-item');
+    const checkbox = document.createElement('labs-checkbox');
+    checkbox.setAttribute('slot', 'control');
+    if (checked) checkbox.setAttribute('checked', '');
+    const content = document.createElement('div');
+    content.setAttribute('slot', 'content');
+    content.textContent = text;
+    const dropdown = document.createElement('labs-dropdown');
+    dropdown.setAttribute('slot', 'actions');
+
+    item.appendChild(checkbox);
+    item.appendChild(content);
+    item.appendChild(dropdown);
 
     const toast = document.createElement('labs-toast');
-
     wrapper.appendChild(item);
     wrapper.appendChild(toast);
 
@@ -36,12 +47,10 @@ export const Default = ({ text, checked }) => {
     item.addEventListener('toggle', (e) => {
         console.log('Task toggled:', e.detail);
     });
-
     item.addEventListener('archive', (e) => {
         console.log('Task archived:', e.detail);
         toast.show('Task archived', { duration: 3000 });
     });
-
     item.addEventListener('remove', (e) => {
         console.log('Task removed:', e.detail);
         toast.show('Task removed', { actionText: 'Undo', duration: 4000 });
@@ -49,7 +58,6 @@ export const Default = ({ text, checked }) => {
             if (!wrapper.contains(item)) wrapper.insertBefore(item, toast);
         }, { once: true });
     });
-
     item.addEventListener('restore', (e) => {
         console.log('Task restored:', e.detail);
         toast.show('Task restored', { duration: 3000 });
@@ -76,29 +84,20 @@ export const Multiple = () => {
     ];
 
     tasks.forEach(({ text, checked }) => {
-        const item = document.createElement('labs-task-item');
-        item.textContent = text;
-        if (checked) item.setAttribute('checked', '');
+        const item = document.createElement('labs-list-item');
+        const checkbox = document.createElement('labs-checkbox');
+        checkbox.setAttribute('slot', 'control');
+        if (checked) checkbox.setAttribute('checked', '');
+        const content = document.createElement('div');
+        content.setAttribute('slot', 'content');
+        content.textContent = text;
+        const dropdown = document.createElement('labs-dropdown');
+        dropdown.setAttribute('slot', 'actions');
+        item.appendChild(checkbox);
+        item.appendChild(content);
+        item.appendChild(dropdown);
         wrapper.appendChild(item);
     });
-
-    return wrapper;
-};
-
-export const Checked = () => {
-    const wrapper = document.createElement('div');
-    wrapper.style.display = 'flex';
-    wrapper.style.flexDirection = 'column';
-    wrapper.style.gap = '12px';
-    wrapper.style.width = '100%';
-    wrapper.style.maxWidth = '600px';
-    wrapper.style.margin = '0 auto';
-
-    const item = document.createElement('labs-task-item');
-    item.textContent = 'Complete documentation';
-    item.setAttribute('checked', '');
-
-    wrapper.appendChild(item);
 
     return wrapper;
 };

@@ -1,4 +1,11 @@
 ## Metric Card Implementation
+### Storybook Story Types and Naming (Metric Card Example)
+
+| Type                              | Directory      | Card - Metric (File Name)                  | Storybook Directory      | Storybook Title      |
+|------------------------------------|---------------|--------------------------------------------|-------------------------|----------------------|
+| Canonical component                | components/   | labs-metric-card.js                        | —                       | —                    |
+| Canonical component story          | stories/      | labs-metric-card.stories.js                | Components              | Card - Metric        |
+| Wrapped canonical component story  | stories/      | labs-metric-card.wrapped.stories.js        | Components (Wrapped)    | Card - Metric        |
 
 ### Overview
 The metric card variant (`<labs-card variant="metric">`) uses a modular pattern combining shadow DOM styles with CSS custom properties to ensure consistent appearance across all applications.

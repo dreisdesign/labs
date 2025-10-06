@@ -61,6 +61,13 @@ labs/
 ---
 
 ## Component Development Patterns
+### Storybook Story Types and Naming (Metric Card Example)
+
+| Type                              | Directory      | Card - Metric (File Name)                  | Storybook Directory      | Storybook Title      |
+|------------------------------------|---------------|--------------------------------------------|-------------------------|----------------------|
+| Canonical component                | components/   | labs-metric-card.js                        | —                       | —                    |
+| Canonical component story          | stories/      | labs-metric-card.stories.js                | Components              | Card - Metric        |
+| Wrapped canonical component story  | stories/      | labs-metric-card.wrapped.stories.js        | Components (Wrapped)    | Card - Metric        |
 
 ### Web Component Structure
 All components follow this pattern:
