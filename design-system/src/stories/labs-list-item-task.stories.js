@@ -2,7 +2,7 @@ import '../components/labs-task-item.js';
 import '../components/labs-toast.js';
 
 export default {
-    title: 'Components (Wrapped)/Task Item',
+    title: 'Components (Wrapped)/List Item - Task',
     component: 'labs-task-item',
     argTypes: {
         text: { control: 'text', description: 'Task text content' },
