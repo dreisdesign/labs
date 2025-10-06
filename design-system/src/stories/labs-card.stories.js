@@ -2,9 +2,19 @@ import '../styles/main.css';
 import '../components/labs-card.js';
 import '../components/labs-button.js';
 
-export default { title: 'Components/Card' };
+export default {
+  title: 'Components/Card - Welcome',
+  component: 'labs-card',
+  parameters: {
+    docs: {
+      description: {
+        component: 'Canonical labs-card story. Use this as a reference for the base card component.'
+      }
+    }
+  }
+};
 
-export const Welcome = () => {
+export const Default = () => {
   const el = document.createElement('labs-card');
   el.setAttribute('variant', 'welcome');
 

@@ -20,7 +20,8 @@ export default {
     },
 };
 
-export const Wrapped = ({ label, value }) => {
+
+export const Default = ({ label, value }) => {
     const card = document.createElement('labs-metric-card');
     card.setAttribute('label', label);
     card.setAttribute('value', value);
