@@ -43,7 +43,7 @@
   --palette-vanilla-500: #6B5C4B;
   /* was 700, now 500 */
   --palette-vanilla-800: #1B1C1F;
-  /* was 900, now 800 */
+  --palette-vanilla-900: #131014;
   --palette-vanilla-1000: #000000;
   /* primary */
   --color-primary: var(--palette-blueberry-500);
