@@ -18,21 +18,24 @@ export function renderColors(opts = {}) {
       '--palette-vanilla-200': 'Background',
       '--palette-vanilla-300': 'Primary Lighter',
       '--palette-vanilla-500': 'Primary',
-      '--palette-vanilla-800': 'Primary Darker'
+      '--palette-vanilla-800': 'Primary Darker',
+      '--palette-vanilla-900': 'Background Darkest'
     },
     'blueberry': {
       '--palette-blueberry-100': 'Surface',
       '--palette-blueberry-200': 'Background',
       '--palette-blueberry-300': 'Primary Lighter',
       '--palette-blueberry-500': 'Primary',
-      '--palette-blueberry-800': 'Primary Darker'
+      '--palette-blueberry-800': 'Primary Darker',
+      '--palette-blueberry-900': 'Background Darkest'
     },
     'strawberry': {
       '--palette-strawberry-100': 'Surface',
       '--palette-strawberry-200': 'Background',
       '--palette-strawberry-300': 'Primary Lighter',
       '--palette-strawberry-500': 'Primary',
-      '--palette-strawberry-800': 'Primary Darker'
+      '--palette-strawberry-800': 'Primary Darker',
+      '--palette-strawberry-900': 'Background Darkest'
     }
   };
 
@@ -68,7 +71,6 @@ export function renderColors(opts = {}) {
   const tokenSets = {
     global: {
       label: 'Global',
-      // surface and on-surface are semantic tokens mapped to base palette stops in the global context; background is a theme-level responsibility and removed from global
       tokens: ['--color-surface', '--color-surface-alt', '--color-success', '--color-warning', '--color-error'],
       palette: [
         '--palette-base-100',
@@ -82,31 +84,31 @@ export function renderColors(opts = {}) {
       ]
     },
     blueberry: {
-      semantic: ['--color-primary', '--color-primary-darker', '--color-primary-lighter'],
+  semantic: ['--color-primary', '--color-primary-darker', '--color-primary-lighter', '--color-background-darkest'],
       neutrals: ['--color-surface', '--color-background'],
-      palette: ['--palette-blueberry-100', '--palette-blueberry-200', '--palette-blueberry-300', '--palette-blueberry-500', '--palette-blueberry-800'],
+      palette: ['--palette-blueberry-100', '--palette-blueberry-200', '--palette-blueberry-300', '--palette-blueberry-500', '--palette-blueberry-800', '--palette-blueberry-900'],
       accents: []
     },
     strawberry: {
-      semantic: ['--color-primary', '--color-primary-darker', '--color-primary-lighter'],
+  semantic: ['--color-primary', '--color-primary-darker', '--color-primary-lighter', '--color-background-darkest'],
       neutrals: ['--color-surface', '--color-background'],
-      palette: ['--palette-strawberry-100', '--palette-strawberry-200', '--palette-strawberry-300', '--palette-strawberry-500', '--palette-strawberry-800'],
+      palette: ['--palette-strawberry-100', '--palette-strawberry-200', '--palette-strawberry-300', '--palette-strawberry-500', '--palette-strawberry-800', '--palette-strawberry-900'],
       accents: []
     },
     vanilla: {
-      semantic: ['--color-primary', '--color-primary-darker', '--color-primary-lighter'],
+  semantic: ['--color-primary', '--color-primary-darker', '--color-primary-lighter', '--color-background-darkest'],
       neutrals: ['--color-surface', '--color-background'],
-      palette: ['--palette-vanilla-100', '--palette-vanilla-200', '--palette-vanilla-300', '--palette-vanilla-500', '--palette-vanilla-800'],
+      palette: ['--palette-vanilla-100', '--palette-vanilla-200', '--palette-vanilla-300', '--palette-vanilla-500', '--palette-vanilla-800', '--palette-vanilla-900'],
       accents: []
     }
   };
   // Only pass correct flavor key for polaroid
   const renderTokenList = (flavor, list) => list.map(v => polaroid(flavor, v.replace(/^--/, ''), v)).join('');
 
-  // Helper to get all semantic tokens for a theme (include neutrals)
+  // Helper to get all semantic tokens for a theme (include neutrals only)
   const getSemanticTokens = (flavor) => {
     const set = tokenSets[flavor];
-    // Include semantic tokens AND neutrals for complete theme coverage
+    // Only include semantic tokens and neutrals for production-like table
     return Array.from(new Set([...(set.semantic || []), ...(set.neutrals || [])]));
   };
 
@@ -132,16 +134,31 @@ export function renderColors(opts = {}) {
           <table class="token-list">
             <thead><tr><th>Semantic</th><th>Swatch</th><th>Resolved</th><th>Base</th><th>Text color</th><th>Contrast</th></tr></thead>
             <tbody>
-              ${allTokens.map(t => `
+              ${allTokens.map(t => {
+                // Use token-based text color for palette stops
+                let textColor = '';
+                let textColorToken = '';
+                if (/--palette-(vanilla|blueberry|strawberry)-([0-9]+)/.test(t)) {
+                  const stop = t.match(/([0-9]+)$/)[1];
+                  if (["100", "200", "300"].includes(stop)) {
+                    textColorToken = '--color-on-primary-lighter';
+                    textColor = 'var(--color-on-primary-lighter, #000)';
+                  } else {
+                    textColorToken = '--color-on-primary-darker';
+                    textColor = 'var(--color-on-primary-darker, #fff)';
+                  }
+                }
+                return `
                 <tr>
                   <td><code>${t}</code></td>
-                  <td><span class="swatch-thumb" data-var="${t}" style="background:var(${t});"><span class="swatch-thumb-text" data-var="${t}">Aa</span></span></td>
+                  <td><span class="swatch-thumb" data-var="${t}" style="background:var(${t});"><span class="swatch-thumb-text" data-var="${t}" style="color:${textColor}">Aa</span></span></td>
                   <td class="list-resolved" data-var="${t}">resolving...</td>
                   <td class="list-chain" data-var="${t}">–</td>
-                  <td class="list-text-color" data-var="${t}">computing...</td>
+                  <td class="list-text-color" data-var="${t}">${textColorToken ? `<code>${textColorToken}</code>` : 'computing...'}</td>
                   <td class="list-contrast" data-var="${t}">–</td>
                 </tr>
-              `).join('')}
+                `;
+              }).join('')}
             </tbody>
           </table>
         </div>
