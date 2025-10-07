@@ -136,7 +136,7 @@
   --color-primary-darker: var(--palette-strawberry-800);
   --color-primary-lighter: var(--palette-strawberry-300);
   --color-background: var(--palette-strawberry-900);
-  --color-surface: var(--palette-strawberry-800);
+  --color-surface: var(--palette-strawberry-500);
   --color-on-surface: var(--palette-white);
   --color-surface-secondary: color-mix(in srgb, var(--color-surface) 92%, transparent);
   --color-on-primary: var(--palette-white);
