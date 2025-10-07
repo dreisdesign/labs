@@ -1,17 +1,42 @@
 
 # Design System TODO
 
+
+
 ## Outstanding Tasks
+
+- [ ] **Storybook Wrapped Stories**
+  - [ ] Encapsulate and add (wrapped) component stories for the following components (real-world usage in '3. Components (Wrapped)'):
+    - labs-badge
+    - labs-button
+    - labs-checkbox
+    - labs-container
+    - labs-details
+    - labs-dropdown
+    - labs-flavor-button
+    - labs-footer
+    - labs-footer-with-settings (if not already fully covered)
+    - labs-header
+    - labs-icon
+    - labs-input
+    - labs-input-card
+    - labs-overlay
+    - labs-settings-card
+    - labs-toast
 
 - [ ] **Component Development**
   - [ ] See feature TODO: [List Item + Dropdown](TODO-list-item-dropdown.md) for planned List Item + Dropdown work
 
-- [ ] **Repository Hygiene**
-  - [ ] Alphabetize component exports and Storybook sidebar entries to improve discoverability (suggested: sort component stories and build a maintenance script to enforce ordering).
-
 - [ ] **Tokenization & Docs**
   - Note: Typography tokens are implemented in `design-system/src/styles/tokens/typography.css`. Track new token proposals in `_docs/planning/typography-todo.md`.
   - [ ] Visual QA: Confirm Storybook sidebar order
+
+---
+
+## Completed Tasks
+
+- [x] **Repository Hygiene**
+  - Alphabetize component exports and Storybook sidebar entries to improve discoverability (suggested: sort component stories and build a maintenance script to enforce ordering).
 
 ---
 ## Review Queue — Stepwise Approval
