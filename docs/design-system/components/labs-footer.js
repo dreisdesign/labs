@@ -38,6 +38,7 @@ class LabsFooter extends HTMLElement {
           position: relative;
           width: 95%;
           margin: 0 auto;
+          box-shadow: var(--footer-shadow, 0 -2px 10px rgba(0, 0, 0, 0.1));
           transition: background-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s;
         }
 
@@ -77,12 +78,12 @@ class LabsFooter extends HTMLElement {
 
         /* Elevated variant with shadow */
         :host([elevated]) .footer {
-          box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+          box-shadow: var(--footer-shadow, 0 -2px 10px rgba(0, 0, 0, 0.1));
         }
 
         :host-context(.dark-mode) :host([elevated]) .footer,
         :host-context([data-theme="dark"]) :host([elevated]) .footer {
-          box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+          box-shadow: var(--footer-shadow, 0 -2px 10px rgba(0, 0, 0, 0.2));
           border-top: 0.75px solid rgba(0, 0, 0, 0.15);
         }
 
@@ -112,7 +113,7 @@ class LabsFooter extends HTMLElement {
 
         /* Elevated variant */
         :host([elevated]) .footer {
-          box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+          box-shadow: var(--footer-shadow, 0 -2px 8px rgba(0, 0, 0, 0.1));
           border-top: none;
         }
 

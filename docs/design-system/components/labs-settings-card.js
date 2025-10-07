@@ -19,6 +19,14 @@ class LabsSettingsCard extends HTMLElement {
           padding: 28px 24px 20px 24px;
           font-family: var(--font-family-base, system-ui, sans-serif);
           position: relative;
+          /*
+            Modular override: ensure secondary button borders match text/icon color for visual consistency
+            - --color-outline is set to var(--color-on-surface) so secondary button borders always match the text and icon color in this context.
+            - This override is local to the settings card, preserving modularity and reusability of the button component.
+            - No global override is used; other usages of secondary buttons are unaffected.
+            - No box-shadow is applied to secondary buttons in this context for clarity.
+          */
+          --color-outline: var(--color-on-surface);
         }
         .header-row {
           display: flex;
@@ -85,6 +93,10 @@ class LabsSettingsCard extends HTMLElement {
         .settings-list labs-button {
           width: 100%;
           box-sizing: border-box;
+          /* Remove any box-shadow for secondary buttons in settings card context */
+        }
+        .settings-list labs-button[variant="secondary"] button {
+          box-shadow: none !important;
         }
         .settings-actions {
           display: none;
@@ -101,6 +113,12 @@ class LabsSettingsCard extends HTMLElement {
         labs-button[variant="destructive"] ::slotted(labs-icon) {
           color: var(--color-on-error, #fff);
         }
+        /*
+          Modular override pattern:
+          - --color-outline is set only in the settings card context for visible secondary button borders.
+          - No global override; this ensures modularity and reusability.
+          - No box-shadow for secondary buttons in this context for visual clarity.
+        */
   </style>
       <div class="header-row">
         <h3>Settings</h3>

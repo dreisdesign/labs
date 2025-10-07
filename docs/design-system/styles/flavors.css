@@ -38,6 +38,7 @@
 
 :root.flavor-vanilla.theme-dark {
   --color-footer-bg: rgba(27, 28, 31, 0.15);
+  --footer-shadow: none;
   /* #1B1C1F, 15% */
   --color-background-darkest: var(--palette-vanilla-900);
   --color-on-background-darkest: var(--palette-vanilla-100);
@@ -96,6 +97,7 @@
 
 :root.flavor-blueberry.theme-dark {
   --color-footer-bg: rgba(28, 27, 31, 0.15);
+  --footer-shadow: none;
   /* #1C1B1F, 15% */
   --color-background-darkest: var(--palette-blueberry-900);
   --color-on-background-darkest: var(--palette-blueberry-100);
@@ -150,6 +152,7 @@
 
 :root.flavor-strawberry.theme-dark {
   --color-footer-bg: rgba(58, 22, 21, 0.15);
+  --footer-shadow: none;
   /* #3A1615, 15% */
   --color-background-darkest: var(--palette-strawberry-900);
   --color-on-background-darkest: var(--palette-strawberry-100);
