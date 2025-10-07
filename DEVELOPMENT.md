@@ -1,4 +1,52 @@
+
 # Labs Design System — Development & Storybook Conventions
+
+## Storybook Section Numbering & Navigation Order
+
+0. Tokens
+1. Foundations
+2. Components
+3. Components (Wrapped)
+4. Patterns
+
+### Example Navigation
+```
+0. Tokens/Colors
+0. Tokens/Spacing
+0. Tokens/Typography
+1. Foundations/Theme System
+1. Foundations/Icons
+1. Foundations/Container
+2. Components/Button
+2. Components/Card - Welcome
+2. Components/Card - Metric
+2. Components/List Item
+2. Components/Dropdown
+2. Components/Checkbox
+2. Components/Badge
+2. Components/Overlay
+2. Components/Input
+2. Components/Toast
+2. Components/Header
+2. Components/Input Card
+3. Components (Wrapped)/Card - Welcome
+3. Components (Wrapped)/Card - Metric
+3. Components (Wrapped)/List Item - Text Only
+3. Components (Wrapped)/List Item - Timestamp
+3. Components (Wrapped)/List Item - Task
+3. Components (Wrapped)/Template - Footer
+4. Patterns/Buttons
+4. Patterns/Buttons/Appearance
+4. Patterns/Buttons/Icon Only
+4. Patterns/Dropdown
+4. Patterns/Cards/Settings Card
+4. Patterns/Toast
+```
+
+### Best Practices
+- Always use section numbers in `title` fields for new stories.
+- Update section numbers if you reorganize or add new categories.
+- Keep this file in sync with `.github/instructions/github-copilot-expert.instructions.md`.
 
 ## Storybook Story Types and Naming (List Item Example)
 
