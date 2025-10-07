@@ -37,17 +37,14 @@
 .flavor-vanilla.theme-dark {
   --color-background-darkest: var(--palette-vanilla-900);
   --color-on-background-darkest: var(--palette-vanilla-100);
-  --color-primary: var(--palette-vanilla-200);
-  /* Use 200 for dark theme primary (#E8E2D6) - lighter for dark backgrounds */
-  --color-primary-darker: var(--palette-vanilla-500);
-  /* Use 500 for dark theme primary-darker (#6B5C4B) */
+  --color-primary: var(--palette-vanilla-500);
+  /* Use 500 for primary, matching other flavors */
+  --color-primary-darker: var(--palette-vanilla-800);
   --color-primary-lighter: var(--palette-vanilla-300);
-  /* Use 300 as primary-lighter */
   --color-background: var(--palette-vanilla-900);
-  /* was 900, now 800 (#1B1C1F) */
   /* Surface mapping for vanilla dark theme */
   --color-surface: var(--palette-vanilla-500);
-  --color-on-primary: var(--palette-vanilla-800);
+  --color-on-primary: var(--palette-vanilla-100);
   --color-on-primary-darker: var(--palette-vanilla-100);
   --color-on-primary-lighter: var(--palette-vanilla-100);
   --color-on-background: var(--palette-vanilla-100);
