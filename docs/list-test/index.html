@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Item Test</title>
+    <link rel="stylesheet" href="../design-system/tokens/colors.css">
+    <link rel="stylesheet" href="../design-system/styles/flavors.css">
+    <script type="module" src="../design-system/components/labs-container.js?v=2"></script>
+    <script type="module" src="../design-system/components/labs-list-item.js?v=2"></script>
+    <script type="module" src="../design-system/components/labs-checkbox.js?v=2"></script>
+    <script type="module" src="../design-system/components/labs-dropdown.js?v=2"></script>
+    <script type="module" src="../design-system/components/labs-toast.js?v=2"></script>
+    <script type="module" src="../design-system/components/labs-icon.js?v=2"></script>
+    <script type="module" src="../design-system/components/labs-button.js?v=2"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family-base, system-ui, -apple-system, sans-serif);
+            background: var(--color-surface);
+            color: var(--color-on-surface);
+        }
+
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <labs-container padding-md>
+        <h1>List Item Test</h1>
+        <div class="task-list" id="task-list"></div>
+    </labs-container>
+
+    <labs-toast id="toast"></labs-toast>
+
+    <script type="module">
+        // Create list items programmatically (like the working Storybook story)
+        const tasks = [
+            { text: 'Morning workout', checked: false },
+            { text: 'Review pull requests', checked: true },
+            { text: 'Update documentation', checked: false },
+        ];
+
+        const taskList = document.getElementById('task-list');
+        const toast = document.getElementById('toast');
+
+        tasks.forEach(({ text, checked }) => {
+            // Create list item
+            const item = document.createElement('labs-list-item');
+
+            // Create and append checkbox
+            const checkbox = document.createElement('labs-checkbox');
+            checkbox.setAttribute('slot', 'control');
+            if (checked) checkbox.setAttribute('checked', '');
+
+            // Create and append content
+            const content = document.createElement('div');
+            content.setAttribute('slot', 'content');
+            content.textContent = text;
+
+            // Create and append dropdown
+            const dropdown = document.createElement('labs-dropdown');
+            dropdown.setAttribute('slot', 'actions');
+
+            // Assemble the item
+            item.appendChild(checkbox);
+            item.appendChild(content);
+            item.appendChild(dropdown);
+
+            // Wire up events
+            item.addEventListener('toggle', (e) => {
+                console.log('Task toggled:', e.detail);
+            });
+            item.addEventListener('archive', (e) => {
+                console.log('Task archived:', e.detail);
+                toast.show('Task archived', { duration: 3000 });
+            });
+            item.addEventListener('remove', (e) => {
+                console.log('Task removed:', e.detail);
+                toast.show('Task removed', { actionText: 'Undo', duration: 4000 });
+                toast.addEventListener('action', () => {
+                    if (!taskList.contains(item)) taskList.appendChild(item);
+                }, { once: true });
+            });
+            item.addEventListener('restore', (e) => {
+                console.log('Task restored:', e.detail);
+                toast.show('Task restored', { duration: 3000 });
+            });
+
+            // Add to list
+            taskList.appendChild(item);
+        });
+    </script>
+</body>
+
+</html>

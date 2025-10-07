@@ -15,10 +15,15 @@
     <link rel="stylesheet" href="../design-system/styles/flavors.css">
 
     <!-- Components -->
+    <script type="module" src="../design-system/components/labs-container.js"></script>
     <script type="module" src="../design-system/components/labs-footer-with-settings.js"></script>
     <script type="module" src="../design-system/components/labs-header.js"></script>
     <script type="module" src="../design-system/components/labs-metric-card.js"></script>
-    <script type="module" src="../design-system/components/labs-task-item.js"></script>
+    <script type="module" src="../design-system/components/labs-list-item.js"></script>
+    <script type="module" src="../design-system/components/labs-checkbox.js"></script>
+    <script type="module" src="../design-system/components/labs-dropdown.js"></script>
+    <script type="module" src="../design-system/components/labs-icon.js"></script>
+    <script type="module" src="../design-system/components/labs-button.js"></script>
 
     <script type="module">
         // Initialize theme from localStorage or defaults
@@ -32,12 +37,13 @@
         // Wire up Add button, theme toggle, and delete all functionality
         window.addEventListener('DOMContentLoaded', () => {
             const footer = document.querySelector('labs-footer-with-settings');
-            const container = document.querySelector('.container');
+            const container = document.querySelector('labs-container');
+            const taskList = document.querySelector('.task-list');
             const metricCard = container.querySelector('labs-metric-card');
 
             // Update metric count
             function updateCount() {
-                const items = container.querySelectorAll('labs-task-item');
+                const items = taskList.querySelectorAll('labs-list-item');
                 const valueSlot = metricCard.querySelector('[slot="value"]');
                 if (valueSlot) {
                     valueSlot.textContent = items.length;
@@ -46,15 +52,32 @@
 
             // Add button functionality
             footer.addEventListener('add', () => {
-                const newItem = document.createElement('labs-task-item');
-                newItem.textContent = 'New test item';
+                const newItem = document.createElement('labs-list-item');
 
-                // Insert after last task item
-                const lastItem = container.querySelector('labs-task-item:last-of-type');
+                // Create checkbox
+                const checkbox = document.createElement('labs-checkbox');
+                checkbox.setAttribute('slot', 'control');
+
+                // Create content
+                const content = document.createElement('span');
+                content.setAttribute('slot', 'content');
+                content.textContent = 'New test item';
+
+                // Create dropdown
+                const dropdown = document.createElement('labs-dropdown');
+                dropdown.setAttribute('slot', 'actions');
+
+                // Assemble item
+                newItem.appendChild(checkbox);
+                newItem.appendChild(content);
+                newItem.appendChild(dropdown);
+
+                // Insert after last list item
+                const lastItem = taskList.querySelector('labs-list-item:last-of-type');
                 if (lastItem) {
                     lastItem.after(newItem);
                 } else {
-                    container.appendChild(newItem);
+                    taskList.appendChild(newItem);
                 }
                 updateCount();
             });
@@ -80,7 +103,7 @@
 
             // Delete all functionality - listen for reset-all from settings card
             footer.addEventListener('reset-all', () => {
-                const items = container.querySelectorAll('labs-task-item');
+                const items = taskList.querySelectorAll('labs-list-item');
                 items.forEach(item => item.remove());
                 updateCount();
             });
@@ -94,27 +117,26 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            background: var(--color-surface);
+            background: var(--color-background);
             color: var(--color-on-surface);
             font-family: var(--font-family-base);
         }
 
-        .container {
+        labs-container {
             flex: 1;
-            padding: var(--space-lg);
+            display: block;
+        }
+
+        .task-list {
             display: flex;
             flex-direction: column;
             gap: var(--space-md);
+            margin-top: var(--space-md);
         }
 
         /* Remove extra margin from metric card */
         labs-metric-card {
             margin-bottom: var(--space-md);
-        }
-
-        /* Ensure list items are grouped together */
-        labs-task-item {
-            margin: 0;
         }
 
         /* Ensure no stray elements appear below footer */
@@ -125,7 +147,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <labs-container padding-md>
         <labs-header title="Footer Test Page" center></labs-header>
 
         <labs-metric-card>
@@ -133,12 +155,26 @@
             <span slot="value">3</span>
         </labs-metric-card>
 
-        <labs-task-item>First test item</labs-task-item>
+        <div class="task-list">
+            <labs-list-item>
+                <labs-checkbox slot="control"></labs-checkbox>
+                <span slot="content">First test item</span>
+                <labs-dropdown slot="actions"></labs-dropdown>
+            </labs-list-item>
 
-        <labs-task-item>Second test item</labs-task-item>
+            <labs-list-item>
+                <labs-checkbox slot="control"></labs-checkbox>
+                <span slot="content">Second test item</span>
+                <labs-dropdown slot="actions"></labs-dropdown>
+            </labs-list-item>
 
-        <labs-task-item checked>Third test item</labs-task-item>
-    </div>
+            <labs-list-item>
+                <labs-checkbox slot="control" checked></labs-checkbox>
+                <span slot="content">Third test item</span>
+                <labs-dropdown slot="actions"></labs-dropdown>
+            </labs-list-item>
+        </div>
+    </labs-container>
 
     <labs-footer-with-settings></labs-footer-with-settings>
 </body>
