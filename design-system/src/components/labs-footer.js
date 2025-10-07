@@ -24,7 +24,7 @@ class LabsFooter extends HTMLElement {
           align-items: center;
           justify-content: space-between;
           padding: 20px 16px;
-          background: rgba(255, 255, 255, 0.15);
+          background: var(--color-footer-bg, var(--color-surface, #fff));
           backdrop-filter: blur(25px);
           -webkit-backdrop-filter: blur(16px);
           border-top: 0.75px solid rgba(255, 255, 255, 0.5);
@@ -69,10 +69,9 @@ class LabsFooter extends HTMLElement {
           z-index: 10;
         }
 
-        /* Dark mode styles using new blueberry-300 color */
+        /* Dark mode: adjust border for footer */
         :host-context(.dark-mode) .footer,
         :host-context([data-theme="dark"]) .footer {
-          background-color: var(--color-surface);
           border-top: 0.25px solid rgba(179, 168, 247, 0.25);
         }
 

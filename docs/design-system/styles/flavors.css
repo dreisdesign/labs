@@ -8,6 +8,7 @@
 
 /* Vanilla */
 .flavor-vanilla.theme-light {
+  --color-footer-bg: var(--palette-vanilla-100);
   --color-background-darkest: var(--palette-vanilla-900);
   --color-on-background-darkest: var(--palette-vanilla-100);
   --color-primary: var(--palette-vanilla-500);
@@ -35,6 +36,7 @@
 }
 
 .flavor-vanilla.theme-dark {
+  --color-footer-bg: var(--palette-vanilla-900);
   --color-background-darkest: var(--palette-vanilla-900);
   --color-on-background-darkest: var(--palette-vanilla-100);
   --color-primary: var(--palette-vanilla-500);
@@ -65,6 +67,7 @@
 
 /* Blueberry */
 .flavor-blueberry.theme-light {
+  --color-footer-bg: var(--palette-blueberry-100);
   --color-background-darkest: var(--palette-blueberry-900);
   --color-on-background-darkest: var(--palette-blueberry-100);
   --color-primary: var(--palette-blueberry-500);
@@ -89,6 +92,7 @@
 }
 
 .flavor-blueberry.theme-dark {
+  --color-footer-bg: var(--palette-blueberry-900);
   --color-background-darkest: var(--palette-blueberry-900);
   --color-on-background-darkest: var(--palette-blueberry-100);
   --color-primary: var(--palette-blueberry-500);
@@ -115,6 +119,7 @@
 
 /* Strawberry */
 .flavor-strawberry.theme-light {
+  --color-footer-bg: var(--palette-strawberry-100);
   --color-background-darkest: var(--palette-strawberry-900);
   --color-on-background-darkest: var(--palette-strawberry-100);
   --color-primary: var(--palette-strawberry-500);
@@ -139,6 +144,7 @@
 }
 
 .flavor-strawberry.theme-dark {
+  --color-footer-bg: var(--palette-strawberry-900);
   --color-background-darkest: var(--palette-strawberry-900);
   --color-on-background-darkest: var(--palette-strawberry-100);
   --color-primary: var(--palette-strawberry-500);
