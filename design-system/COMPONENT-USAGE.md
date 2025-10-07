@@ -1,0 +1,240 @@
+# Component Usage Guide
+
+This guide documents key learnings, best practices, and gotchas when using the Labs Design System components.
+
+## Component Dependencies
+
+### Critical: labs-list-item Dependencies
+
+When using `labs-list-item` with `labs-checkbox` and `labs-dropdown`, you **must** import all component dependencies:
+
+```html
+<!-- Required imports for labs-list-item with full functionality -->
+<script type="module" src="../design-system/components/labs-list-item.js"></script>
+<script type="module" src="../design-system/components/labs-checkbox.js"></script>
+<script type="module" src="../design-system/components/labs-dropdown.js"></script>
+<script type="module" src="../design-system/components/labs-icon.js"></script>      <!-- Required by checkbox and dropdown -->
+<script type="module" src="../design-system/components/labs-button.js"></script>    <!-- Required by dropdown -->
+```
+
+#### Why These Imports Are Required
+
+- `labs-checkbox` renders `<labs-icon>` in its shadow DOM for the checkmark
+- `labs-dropdown` renders `<labs-button>` and `<labs-icon>` in its shadow DOM for the trigger and menu items
+- **Missing `labs-icon.js` or `labs-button.js` will cause components to render with no visible content** (shadow DOM creates undefined custom elements)
+
+#### Symptoms of Missing Dependencies
+
+- Components have correct dimensions (visible borders in DevTools)
+- Shadow DOM exists and has correct structure
+- But no visual content appears (icons/buttons are undefined elements)
+- No console errors (custom elements just fail silently)
+
+### Reference Implementation
+
+See `docs/list-test/` for a working minimal example with all required imports.
+
+## Design Token Usage
+
+### Background vs Surface Colors
+
+The design system has distinct tokens for different surface levels:
+
+```css
+/* Page/body background - deepest layer */
+body {
+  background: var(--color-background);
+  color: var(--color-on-surface);
+}
+
+/* Component surfaces - elevated above background */
+.card, labs-list-item {
+  /* Components internally use --color-surface */
+  background: var(--color-surface);
+}
+```
+
+#### Common Mistake
+
+❌ **Wrong**: Using `--color-surface` for page background
+```css
+body {
+  background: var(--color-surface); /* Same as component backgrounds - no contrast! */
+}
+```
+
+✅ **Correct**: Using `--color-background` for page background
+```css
+body {
+  background: var(--color-background); /* Proper contrast with components */
+}
+```
+
+### Token Hierarchy
+
+1. `--color-background` - Page/app background (deepest layer)
+2. `--color-surface` - Component surfaces (cards, list items, modals)
+3. `--color-surface-variant` - Subtle variations within components
+4. `--color-surface-secondary` - Secondary surfaces (badges, tags)
+
+## Layout Patterns
+
+### Container + Task List Pattern
+
+The recommended pattern for lists of items:
+
+```html
+<labs-container padding-md>
+  <labs-header title="My Page" center></labs-header>
+  
+  <div class="task-list">
+    <labs-list-item>
+      <labs-checkbox slot="control"></labs-checkbox>
+      <span slot="content">Item text</span>
+      <labs-dropdown slot="actions"></labs-dropdown>
+    </labs-list-item>
+    <!-- More items... -->
+  </div>
+</labs-container>
+```
+
+```css
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);  /* Spacing between items */
+  margin-top: var(--space-md);
+}
+```
+
+#### Why This Pattern?
+
+- `labs-container` handles:
+  - Horizontal padding (via `padding-md` attribute)
+  - Max-width and centering
+  - Responsive behavior
+  
+- `.task-list` wrapper handles:
+  - Vertical spacing between list items (via `gap`)
+  - Flex layout for proper stacking
+  - Separation of concerns (container ≠ list layout)
+
+## Slot Usage Patterns
+
+### labs-list-item Slots
+
+Three named slots for composition:
+
+```html
+<labs-list-item>
+  <labs-checkbox slot="control"></labs-checkbox>      <!-- Left: checkbox/radio -->
+  <span slot="content">Main content</span>            <!-- Center: text content -->
+  <labs-dropdown slot="actions"></labs-dropdown>      <!-- Right: actions menu -->
+</labs-list-item>
+```
+
+### Programmatic Creation (Recommended)
+
+For dynamic items, create programmatically before adding to DOM:
+
+```javascript
+const item = document.createElement('labs-list-item');
+
+const checkbox = document.createElement('labs-checkbox');
+checkbox.setAttribute('slot', 'control');
+
+const content = document.createElement('span');
+content.setAttribute('slot', 'content');
+content.textContent = 'Item text';
+
+const dropdown = document.createElement('labs-dropdown');
+dropdown.setAttribute('slot', 'actions');
+
+// Assemble before adding to DOM
+item.appendChild(checkbox);
+item.appendChild(content);
+item.appendChild(dropdown);
+
+// Now add to page
+taskList.appendChild(item);
+```
+
+#### Why Programmatic?
+
+- Ensures slots are ready when component initializes
+- Avoids timing issues with shadow DOM projection
+- Matches Storybook story patterns (reference implementation)
+
+## Common Gotchas
+
+### 1. Missing Component Dependencies
+
+**Symptom**: Components render but appear empty/invisible
+
+**Cause**: Missing `labs-icon.js` or `labs-button.js` imports
+
+**Fix**: Import all required dependencies (see Component Dependencies above)
+
+### 2. Same Background Color for Page and Components
+
+**Symptom**: List items/cards blend into page background
+
+**Cause**: Using `--color-surface` for both page and components
+
+**Fix**: Use `--color-background` for page, `--color-surface` for components
+
+### 3. Declarative HTML Slot Timing Issues
+
+**Symptom**: Slotted content doesn't appear or FOUC (flash of unstyled content)
+
+**Cause**: Browser parsing order can cause slot projection timing issues
+
+**Fix**: Use programmatic creation pattern (see Programmatic Creation above)
+
+### 4. Wrapper Component Anti-Pattern
+
+**Symptom**: Created `labs-task-item` wrapper that doesn't work
+
+**Cause**: Shadow DOM slot projection only works for direct children
+
+**Fix**: Use `labs-list-item` directly with proper slot structure
+
+## Testing Your Implementation
+
+### Checklist
+
+- [ ] All component imports included (check `labs-icon.js` and `labs-button.js`)
+- [ ] Page uses `--color-background`, not `--color-surface`
+- [ ] Container uses `labs-container` with `padding-md`
+- [ ] List items wrapped in `.task-list` with `gap` for spacing
+- [ ] Items created programmatically with slots assembled before DOM insertion
+- [ ] Visual inspection: list items have visible background distinct from page
+- [ ] Functional: checkboxes toggle, dropdowns open/close
+
+### Quick Visual Check
+
+If your list items look like this in DevTools:
+
+```
+<labs-list-item>
+  #shadow-root (open)
+    <style>...</style>
+    <div class="row">  ← Should have visible background
+      <slot name="control">
+        <labs-checkbox> ← Should show icon inside
+```
+
+But you see no visual content, you're missing `labs-icon.js` or `labs-button.js`.
+
+## Reference Files
+
+- **Working example**: `docs/list-test/`
+- **Production usage**: `docs/footer-test/`
+- **Storybook reference**: `design-system/src/stories/labs-list-item-task.stories.js`
+- **Component source**: `design-system/src/components/labs-list-item.js`
+
+## Additional Resources
+
+- See `docs/list-test/README.md` for the minimal reference implementation
+- Check Storybook for live component demos: `npm run storybook`
+- Review `design-system/ROADMAP.md` for planned component improvements

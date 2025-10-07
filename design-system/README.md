@@ -32,7 +32,12 @@ This is the canonical design system for Labs apps, featuring a comprehensive two
 
 ---
 
+## 📚 Documentation
 
+- **[Component Usage Guide](./COMPONENT-USAGE.md)** — Best practices, dependencies, and common gotchas when using Labs components
+- **[Modularity Guidelines](../.github/instructions/Modularity.instructions.md)** — Development principles for component design
+
+---
 
 ## Key Docs & Links
 
