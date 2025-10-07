@@ -7,6 +7,8 @@ class LabsTemplateHeaderWrapped extends HTMLElement {
         :host {
           display: block;
           width: 100%;
+          padding-top: var(--space-lg, 1.5rem);
+          padding-bottom: var(--space-md, 1rem);
         }
         
         .header-title {

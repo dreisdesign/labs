@@ -22,7 +22,7 @@ This is the canonical design system for Labs apps, featuring a comprehensive two
 
 **2025-10-07 Update:**
 - **CSS Variable Inheritance Fix:** All flavor/theme selectors now use `:root.flavor-*.theme-*` instead of `.flavor-*.theme-*`, ensuring CSS custom properties are properly inherited into shadow DOM components. Typography tokens consolidated into a single `:root` block for reliable inheritance.
-- **Modular Header Component:** `labs-template-header.wrapped.js` uses design tokens (`--font-size-h1`, `--font-weight-heading`, `--color-on-surface`) with proper `:host` styling and `.header-title` class for reliable variable resolution.
+- **Modular Header Component:** `labs-template-header.wrapped.js` uses design tokens (`--font-size-h1`, `--font-weight-heading`, `--color-on-surface`, `--space-lg`, `--space-md`) with proper `:host` styling, `.header-title` class, and internal padding for spacing. Fully modular and reusable.
 - **DevTools Note:** Chrome DevTools may show inherited CSS custom properties as "not defined" in hover tooltips, but they resolve correctly (verify via Computed tab).
 - Vanilla dark mode now uses the correct primary (500) and background (900) palette stops for full flavor consistency. Footer and button colors are now consistent across all themes.
 
