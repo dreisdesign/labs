@@ -52,6 +52,45 @@ body {
   /* Components internally use --color-surface */
   background: var(--color-surface);
 }
+
+### Standardizing Background and Surface Tokens
+
+To ensure visual consistency and predictable contrast across all flavors and themes, the following standard mapping is used for background and surface tokens:
+
+| Mode  | `--color-background` | `--color-surface` |
+|-------|----------------------|-------------------|
+| Light | 200                  | 100               |
+| Dark  | 800                  | 500               |
+
+**For all flavors:**
+- Light mode: `--color-background` = 200, `--color-surface` = 100
+- Dark mode: `--color-background` = 800, `--color-surface` = 500
+
+#### Example (Vanilla flavor)
+```css
+.flavor-vanilla.theme-light {
+  --color-background: var(--palette-vanilla-200);
+  --color-surface: var(--palette-vanilla-100);
+}
+.flavor-vanilla.theme-dark {
+  --color-background: var(--palette-vanilla-800);
+  --color-surface: var(--palette-vanilla-500);
+}
+```
+
+#### Phase 2: Add 900 Palette Stop
+
+To improve dark mode backgrounds, a new `--palette-<flavor>-900` will be added for each flavor. This will be a much darker color than 800 and will be used for `--color-background` in dark mode for maximum contrast.
+
+**Example:**
+```css
+.flavor-strawberry.theme-dark {
+  --color-background: var(--palette-strawberry-900); /* new, much darker */
+  --color-surface: var(--palette-strawberry-500);
+}
+```
+
+This ensures all flavors have a true dark background option and consistent surface contrast.
 ```
 
 #### Common Mistake
