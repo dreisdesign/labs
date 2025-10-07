@@ -84,19 +84,19 @@ export function renderColors(opts = {}) {
       ]
     },
     blueberry: {
-  semantic: ['--color-primary', '--color-primary-darker', '--color-primary-lighter', '--color-background-darkest'],
+      semantic: ['--color-primary', '--color-primary-darker', '--color-primary-lighter', '--color-background-darkest'],
       neutrals: ['--color-surface', '--color-background'],
       palette: ['--palette-blueberry-100', '--palette-blueberry-200', '--palette-blueberry-300', '--palette-blueberry-500', '--palette-blueberry-800', '--palette-blueberry-900'],
       accents: []
     },
     strawberry: {
-  semantic: ['--color-primary', '--color-primary-darker', '--color-primary-lighter', '--color-background-darkest'],
+      semantic: ['--color-primary', '--color-primary-darker', '--color-primary-lighter', '--color-background-darkest'],
       neutrals: ['--color-surface', '--color-background'],
       palette: ['--palette-strawberry-100', '--palette-strawberry-200', '--palette-strawberry-300', '--palette-strawberry-500', '--palette-strawberry-800', '--palette-strawberry-900'],
       accents: []
     },
     vanilla: {
-  semantic: ['--color-primary', '--color-primary-darker', '--color-primary-lighter', '--color-background-darkest'],
+      semantic: ['--color-primary', '--color-primary-darker', '--color-primary-lighter', '--color-background-darkest'],
       neutrals: ['--color-surface', '--color-background'],
       palette: ['--palette-vanilla-100', '--palette-vanilla-200', '--palette-vanilla-300', '--palette-vanilla-500', '--palette-vanilla-800', '--palette-vanilla-900'],
       accents: []
@@ -135,20 +135,20 @@ export function renderColors(opts = {}) {
             <thead><tr><th>Semantic</th><th>Swatch</th><th>Resolved</th><th>Base</th><th>Text color</th><th>Contrast</th></tr></thead>
             <tbody>
               ${allTokens.map(t => {
-                // Use token-based text color for palette stops
-                let textColor = '';
-                let textColorToken = '';
-                if (/--palette-(vanilla|blueberry|strawberry)-([0-9]+)/.test(t)) {
-                  const stop = t.match(/([0-9]+)$/)[1];
-                  if (["100", "200", "300"].includes(stop)) {
-                    textColorToken = '--color-on-primary-lighter';
-                    textColor = 'var(--color-on-primary-lighter, #000)';
-                  } else {
-                    textColorToken = '--color-on-primary-darker';
-                    textColor = 'var(--color-on-primary-darker, #fff)';
-                  }
-                }
-                return `
+      // Use token-based text color for palette stops
+      let textColor = '';
+      let textColorToken = '';
+      if (/--palette-(vanilla|blueberry|strawberry)-([0-9]+)/.test(t)) {
+        const stop = t.match(/([0-9]+)$/)[1];
+        if (["100", "200", "300"].includes(stop)) {
+          textColorToken = '--color-on-primary-lighter';
+          textColor = 'var(--color-on-primary-lighter, #000)';
+        } else {
+          textColorToken = '--color-on-primary-darker';
+          textColor = 'var(--color-on-primary-darker, #fff)';
+        }
+      }
+      return `
                 <tr>
                   <td><code>${t}</code></td>
                   <td><span class="swatch-thumb" data-var="${t}" style="background:var(${t});"><span class="swatch-thumb-text" data-var="${t}" style="color:${textColor}">Aa</span></span></td>
@@ -158,7 +158,7 @@ export function renderColors(opts = {}) {
                   <td class="list-contrast" data-var="${t}">–</td>
                 </tr>
                 `;
-              }).join('')}
+    }).join('')}
             </tbody>
           </table>
         </div>

@@ -42,8 +42,8 @@
   /* TODO: Adjust value for Vanilla 300 */
   --palette-vanilla-500: #6B5C4B;
   /* was 700, now 500 */
-  --palette-vanilla-800: #1B1C1F;
-  --palette-vanilla-900: #131014;
+  --palette-vanilla-800: #3A2F25;
+  --palette-vanilla-900: #1B1C1F;
   --palette-vanilla-1000: #000000;
   /* primary */
   --color-primary: var(--palette-blueberry-500);
@@ -75,8 +75,8 @@
   --palette-strawberry-500: #800800;
   --palette-strawberry-700: #9B2F2B;
   /* made darker to match other 800 variants */
-  --palette-strawberry-800: #2A0B0A;
-  --palette-strawberry-900: #5C1A18;
+  --palette-strawberry-800: #5C1A18;
+  --palette-strawberry-900: #2A0B0A;
 
   /* Base (gray) palette */
   --palette-white: #FFFFFF;
