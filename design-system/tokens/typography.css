@@ -119,7 +119,7 @@ Add new tokens below as needed. Promote component-specific tokens to general if 
   --line-height-overlay: 1.5;
 
   /* Metric display tokens (for cards, dashboards, etc.) */
-  --font-size-metric-display: var(--font-size-display, 3rem);
+  --font-size-metric-display: var(--font-size-h1, 3rem);
   --font-size-metric-label: 0.875rem;
   --font-weight-metric: 800;
   --line-height-metric: 1.2;
