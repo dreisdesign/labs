@@ -2,7 +2,7 @@ import '../../components/labs-toast.js';
 import '../../components/labs-button.js';
 
 export default {
-  title: 'Patterns/Toast',
+  title: '4. Patterns/Toast',
   tags: ['autodocs'],
   parameters: { viewMode: 'docs' }
 };

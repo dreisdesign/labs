@@ -4,7 +4,7 @@ import '../components/labs-dropdown.js';
 import '../components/labs-toast.js';
 
 export default {
-    title: 'Components (Wrapped)/List Item - Task',
+    title: '3. Components (Wrapped)/List Item - Task',
     component: 'labs-list-item',
     argTypes: {
         text: { control: 'text', description: 'Task text content' },

@@ -4,7 +4,7 @@ import iconsList from '../components/icons-list.js';
 import { formatHuman } from '../utils/date-format.js';
 
 export default {
-    title: 'Components (Wrapped)/List Item - Timestamp',
+    title: '3. Components (Wrapped)/List Item - Timestamp',
     component: 'labs-list-item',
     argTypes: {
         icon: { control: { type: 'select' }, options: iconsList, description: 'Icon name from labs-icon library' },

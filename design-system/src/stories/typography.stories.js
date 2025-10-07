@@ -1,7 +1,7 @@
 import '../styles/main.css';
 
 export default {
-  title: 'Tokens/Typography',
+  title: '0. Tokens/Typography',
   parameters: { viewMode: 'docs' }
 };
 

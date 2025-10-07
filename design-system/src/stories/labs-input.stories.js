@@ -1,7 +1,7 @@
 import '../components/labs-input.js';
 
 export default {
-  title: 'Components/Input',
+  title: '2. Components/Input',
 };
 
 export const Default = () => {

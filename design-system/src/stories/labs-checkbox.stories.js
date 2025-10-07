@@ -2,7 +2,7 @@ import '../components/labs-checkbox.js';
 import '../components/labs-icon.js';
 
 export default {
-  title: 'Components/Checkbox',
+  title: '2. Components/Checkbox',
   component: 'labs-checkbox',
   parameters: {
     docs: {

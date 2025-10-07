@@ -14,7 +14,7 @@ const colorVariants = {
 };
 
 export default {
-  title: 'Patterns/Buttons/Icon Only',
+  title: '4. Patterns/Buttons/Icon Only',
   argTypes: {
     icon: {
       options: iconsList,

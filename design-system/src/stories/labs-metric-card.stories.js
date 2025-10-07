@@ -1,7 +1,7 @@
 import '../components/labs-metric-card.js';
 
 export default {
-    title: 'Components/Card - Metric',
+    title: '2. Components/Card - Metric',
     component: 'labs-metric-card',
     parameters: {
         docs: {

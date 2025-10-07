@@ -2,7 +2,7 @@ import '../components/labs-dropdown.js';
 import '../components/labs-list-item.js';
 
 export default {
-    title: 'Patterns/Dropdown',
+    title: '4. Patterns/Dropdown',
     component: 'labs-dropdown',
     tags: ['autodocs'],
     argTypes: {

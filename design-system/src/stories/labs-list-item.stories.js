@@ -3,7 +3,7 @@ import '../components/labs-checkbox.js';
 import '../components/labs-icon.js';
 
 export default {
-    title: 'Components/List Item',
+    title: '2. Components/List Item',
     component: 'labs-list-item',
     parameters: {
         docs: {

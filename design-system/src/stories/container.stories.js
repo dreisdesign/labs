@@ -4,33 +4,33 @@ import '../components/labs-icon.js';
 import iconsList from '../components/icons-list.js';
 
 export default {
-    title: 'Layout/Container',
-    parameters: {
-        docs: {
-            description: {
-                component: 'Demonstrates the `labs-container` element and its attributes: `padding-md`, `padding-lg`, and `fullbleed`. Use `maxWidth` arg to override token-driven max width.'
-            }
-        }
-    },
-    argTypes: {
-        layout: { control: { type: 'radio' }, options: ['default', 'padding-md', 'padding-lg', 'fullbleed'], description: 'Choose a container variant' },
-        maxWidth: { control: { type: 'text' }, description: 'Override the container max width (e.g. 960px)' },
-        settingsIcon: { control: { type: 'select' }, options: Object.keys(iconsList) }
-    },
-    args: {
-        layout: 'default',
-        maxWidth: '',
-        settingsIcon: 'settings'
+  title: '1. Foundations/Container',
+  parameters: {
+    docs: {
+      description: {
+        component: 'Demonstrates the `labs-container` element and its attributes: `padding-md`, `padding-lg`, and `fullbleed`. Use `maxWidth` arg to override token-driven max width.'
+      }
     }
+  },
+  argTypes: {
+    layout: { control: { type: 'radio' }, options: ['default', 'padding-md', 'padding-lg', 'fullbleed'], description: 'Choose a container variant' },
+    maxWidth: { control: { type: 'text' }, description: 'Override the container max width (e.g. 960px)' },
+    settingsIcon: { control: { type: 'select' }, options: Object.keys(iconsList) }
+  },
+  args: {
+    layout: 'default',
+    maxWidth: '',
+    settingsIcon: 'settings'
+  }
 };
 
 export const Demo = {
-    name: 'Container Variants',
-    render: (args) => {
-        const { layout, maxWidth, settingsIcon } = args;
-        const attr = layout === 'padding-md' ? 'padding-md' : layout === 'padding-lg' ? 'padding-lg' : layout === 'fullbleed' ? 'fullbleed' : '';
-        const style = maxWidth ? `style="--app-container-max:${maxWidth};"` : '';
-        return `
+  name: 'Container Variants',
+  render: (args) => {
+    const { layout, maxWidth, settingsIcon } = args;
+    const attr = layout === 'padding-md' ? 'padding-md' : layout === 'padding-lg' ? 'padding-lg' : layout === 'fullbleed' ? 'fullbleed' : '';
+    const style = maxWidth ? `style="--app-container-max:${maxWidth};"` : '';
+    return `
       <style>
         html,body { height:100%; margin:0; padding:0; }
         .page { min-height:100vh; background: var(--color-background, #f6f7f9); padding: 24px 0; }
@@ -50,5 +50,5 @@ export const Demo = {
         </labs-container>
       </div>
     `;
-    }
+  }
 };

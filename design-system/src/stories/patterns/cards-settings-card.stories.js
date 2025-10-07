@@ -3,7 +3,7 @@ import '../../components/labs-button.js';
 import '../../components/labs-icon.js';
 
 export default {
-  title: 'Patterns/Cards/Settings Card',
+  title: '4. Patterns/Cards/Settings Card',
   parameters: {
     docs: {
       description: {

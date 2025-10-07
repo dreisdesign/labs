@@ -1,7 +1,7 @@
 import '../components/labs-toast.js';
 
 export default {
-  title: 'Components/Toast',
+  title: '2. Components/Toast',
   tags: ['autodocs'],
   args: {
     open: false

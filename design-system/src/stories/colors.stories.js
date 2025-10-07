@@ -466,7 +466,7 @@ function executeColorLogic() {
 }
 
 export default {
-  title: 'Tokens/Colors',
+  title: '0. Tokens/Colors',
   parameters: { viewMode: 'docs' }
 };
 

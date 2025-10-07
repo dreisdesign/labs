@@ -2,15 +2,15 @@ import '../../components/labs-header.js';
 
 
 export default {
-    title: 'Components/Header',
-    component: 'labs-header',
-    argTypes: {
-        title: { control: 'text' },
-        date: { control: 'text' },
-        subtitle: { control: 'text' },
-        center: { control: 'boolean' },
-        showSubtitle: { control: 'boolean', name: 'Show Subtitle' },
-    },
+  title: '2. Components/Header',
+  component: 'labs-header',
+  argTypes: {
+    title: { control: 'text' },
+    date: { control: 'text' },
+    subtitle: { control: 'text' },
+    center: { control: 'boolean' },
+    showSubtitle: { control: 'boolean', name: 'Show Subtitle' },
+  },
 };
 
 const Template = ({ title, date, subtitle, center, showSubtitle }) => `
@@ -23,11 +23,11 @@ const Template = ({ title, date, subtitle, center, showSubtitle }) => `
 
 export const Default = Template.bind({});
 Default.args = {
-    title: 'Today',
-    date: 'October 2, 2025',
-    subtitle: 'Your daily summary',
-    center: true,
-    showSubtitle: true,
+  title: 'Today',
+  date: 'October 2, 2025',
+  subtitle: 'Your daily summary',
+  center: true,
+  showSubtitle: true,
 };
 
 export const SlotDriven = () => `

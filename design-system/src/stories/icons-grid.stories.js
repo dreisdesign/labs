@@ -3,7 +3,7 @@ import iconsList from '../components/icons-list.js';
 import '../components/labs-icon.js';
 
 export default {
-  title: 'Components/Icons',
+  title: '1. Foundations/Icons',
   parameters: {
     layout: 'fullscreen',
     docs: {

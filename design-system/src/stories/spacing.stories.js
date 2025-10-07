@@ -1,7 +1,7 @@
 import '../styles/main.css';
 
 export default {
-  title: 'Tokens/Spacing',
+  title: '0. Tokens/Spacing',
   parameters: { viewMode: 'docs' }
 };
 

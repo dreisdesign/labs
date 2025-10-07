@@ -2,7 +2,7 @@ import '../components/labs-input-card.js';
 import '../components/labs-overlay.js';
 
 export default {
-    title: 'Components/Input Card',
+    title: '2. Components/Input Card',
     tags: ['autodocs'],
     argTypes: {
         rows: { control: { type: 'number', min: 1, max: 8 }, defaultValue: 2 },

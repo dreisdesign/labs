@@ -3,15 +3,15 @@ import '../components/labs-button.js';
 import '../components/labs-icon.js';
 
 export default {
-  title: 'Patterns/Buttons',
-  component: 'labs-button',
+	title: '4. Patterns/Buttons',
+	component: 'labs-button',
 };
 
 
 
 export const Add = {
-  name: 'Add',
-  render: () => `
+	name: 'Add',
+	render: () => `
 		<labs-button pill variant="primary">
 			<labs-icon slot="icon-left" name="add"></labs-icon>
 			Add
@@ -20,8 +20,8 @@ export const Add = {
 };
 
 export const ResetAllData = {
-  name: 'Reset all data',
-  render: () => `
+	name: 'Reset all data',
+	render: () => `
 		<labs-button pill variant="destructive">
 			<labs-icon slot="icon-left" name="delete_forever"></labs-icon>
 			Reset All Data

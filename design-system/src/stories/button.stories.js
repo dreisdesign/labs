@@ -14,7 +14,7 @@ import '../components/labs-icon.js';
 import iconsList from '../components/icons-list.js';
 
 export default {
-  title: 'Components/Button',
+  title: '2. Components/Button',
   component: 'labs-button',
   tags: ['autodocs'],
   parameters: {

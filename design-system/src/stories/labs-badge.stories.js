@@ -1,7 +1,7 @@
 import '../components/labs-badge.js';
 
 export default {
-  title: 'Components/Badge',
+  title: '2. Components/Badge',
   argTypes: { variant: { control: { type: 'select', options: ['', 'secondary', 'success', 'warning', 'error'] } }, text: { control: 'text' } }
 };
 

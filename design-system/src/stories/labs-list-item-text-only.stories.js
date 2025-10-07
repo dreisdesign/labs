@@ -1,7 +1,7 @@
 import '../components/labs-list-item.js';
 
 export default {
-    title: 'Components (Wrapped)/List Item - Text Only',
+    title: '3. Components (Wrapped)/List Item - Text Only',
     component: 'labs-list-item',
     argTypes: {
         text: { control: 'text', description: 'Text content for the list item' },

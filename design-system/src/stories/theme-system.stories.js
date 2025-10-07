@@ -5,7 +5,7 @@ import '../components/labs-icon.js';
 import { createThemeToggleButton } from '../components/ThemeToggle.js';
 
 export default {
-  title: 'Foundation/Theme System',
+  title: '1. Foundations/Theme System',
   parameters: {
     viewMode: 'docs',
     docs: {

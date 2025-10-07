@@ -3,7 +3,7 @@ import '../components/labs-button.js';
 import '../components/labs-card.js';
 
 export default {
-  title: 'Components/Overlay',
+  title: '2. Components/Overlay',
   parameters: {
     docs: {
       description: {
