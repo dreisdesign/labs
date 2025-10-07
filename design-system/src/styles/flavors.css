@@ -41,7 +41,7 @@
   /* Use 500 for primary, matching other flavors */
   --color-primary-darker: var(--palette-vanilla-800);
   --color-primary-lighter: var(--palette-vanilla-300);
-  --color-background: var(--palette-vanilla-900);
+  --color-background: var(--palette-vanilla-800);
   /* Surface mapping for vanilla dark theme */
   --color-surface: var(--palette-vanilla-500);
   --color-on-primary: var(--palette-vanilla-100);
@@ -94,7 +94,7 @@
   --color-primary: var(--palette-blueberry-500);
   --color-primary-darker: var(--palette-blueberry-800);
   --color-primary-lighter: var(--palette-blueberry-300);
-  --color-background: var(--palette-blueberry-900);
+  --color-background: var(--palette-blueberry-800);
   --color-surface: var(--palette-blueberry-800);
   --color-on-surface: var(--palette-white);
   /* secondary surface for badges in dark mode */
@@ -144,7 +144,7 @@
   --color-primary: var(--palette-strawberry-500);
   --color-primary-darker: var(--palette-strawberry-800);
   --color-primary-lighter: var(--palette-strawberry-300);
-  --color-background: var(--palette-strawberry-900);
+  --color-background: var(--palette-strawberry-800);
   --color-surface: var(--palette-strawberry-500);
   --color-on-surface: var(--palette-white);
   --color-surface-secondary: color-mix(in srgb, var(--color-surface) 92%, transparent);
