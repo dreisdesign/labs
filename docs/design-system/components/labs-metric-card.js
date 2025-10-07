@@ -64,7 +64,7 @@ class LabsMetricCard extends HTMLElement {
             font-size: var(--font-size-metric-label, 0.875rem);
             font-weight: var(--font-weight-metric, 800);
             line-height: var(--line-height-metric, 1.2);
-            color: var(--color-on-surface-variant, #666);
+            color: var(--color-on-surface-variant, var(--color-on-surface, #666));
             margin-bottom: var(--space-xs, 4px);
             text-transform: uppercase;
           }
@@ -73,7 +73,7 @@ class LabsMetricCard extends HTMLElement {
             font-size: var(--font-size-metric-display, 2rem);
             font-weight: var(--font-weight-metric, 800);
             line-height: var(--line-height-metric, 1.2);
-            color: var(--color-primary, #007acc);
+          color: var(--color-on-surface, #fff);
           }
         </style>
         <div class="metric-label">${label}</div>

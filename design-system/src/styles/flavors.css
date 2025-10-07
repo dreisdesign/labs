@@ -42,7 +42,7 @@
   --color-background: var(--palette-vanilla-800);
   /* was 900, now 800 (#1B1C1F) */
   /* Surface mapping for vanilla dark theme */
-  --color-surface: var(--palette-vanilla-800);
+  --color-surface: var(--palette-vanilla-500);
   --color-on-primary: var(--palette-vanilla-800);
   --color-on-primary-darker: var(--palette-vanilla-100);
   --color-on-primary-lighter: var(--palette-vanilla-100);
