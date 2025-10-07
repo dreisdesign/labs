@@ -20,6 +20,9 @@ This is the canonical design system for Labs apps, featuring a comprehensive two
 - Manual copying is not required; the build system will sync files automatically.
 - This fixes issues where icons disappear after server restarts or builds.
 
+**2025-10-07 Update:**
+- Vanilla dark mode now uses the correct primary (500) and background (900) palette stops for full flavor consistency. This ensures all flavors use 500 for --color-primary and 900 for --color-background in dark mode, matching the design system's semantic mapping. Footer and button colors are now consistent across all themes.
+
 **2025-09-05 Update:**
 - All icons in Labs apps and demos must use the `<labs-icon>` component and the design system icon set (see `src/components/labs-icon.js`).
 - Inlined SVGs are not allowed in app or demo markup; all icons are loaded dynamically from the icon set for consistency and maintainability.
