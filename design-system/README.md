@@ -22,6 +22,7 @@ This is the canonical design system for Labs apps, featuring a comprehensive two
 
 **2025-10-07 Update:**
 - Vanilla dark mode now uses the correct primary (500) and background (900) palette stops for full flavor consistency. This ensures all flavors use 500 for --color-primary and 900 for --color-background in dark mode, matching the design system's semantic mapping. Footer and button colors are now consistent across all themes.
+- **New:** `labs-template-header.wrapped.js` is the canonical modular wrapper for header usage in Storybook and test/demo pages. It uses design tokens for font size/weight and centers the title by default. Use this for all template/test/demo header needs.
 
 **2025-09-05 Update:**
 - All icons in Labs apps and demos must use the `<labs-icon>` component and the design system icon set (see `src/components/labs-icon.js`).
@@ -39,6 +40,7 @@ This is the canonical design system for Labs apps, featuring a comprehensive two
 
 - **[Component Usage Guide](./COMPONENT-USAGE.md)** — Best practices, dependencies, and common gotchas when using Labs components
 - **[Modularity Guidelines](../.github/instructions/Modularity.instructions.md)** — Development principles for component design
+- **Wrapped Header:** See `src/components/labs-template-header.wrapped.js` for the canonical modular header wrapper for Storybook and test/demo use.
 
 ---
 

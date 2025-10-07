@@ -17,7 +17,7 @@
     <!-- Components -->
     <script type="module" src="../design-system/components/labs-container.js"></script>
     <script type="module" src="../design-system/components/labs-footer-with-settings.js"></script>
-    <script type="module" src="../design-system/components/labs-header.js"></script>
+    <script type="module" src="../design-system/components/labs-template-header.wrapped.js"></script>
     <script type="module" src="../design-system/components/labs-metric-card.js"></script>
     <script type="module" src="../design-system/components/labs-list-item.js"></script>
     <script type="module" src="../design-system/components/labs-checkbox.js"></script>
@@ -148,7 +148,9 @@
 
 <body>
     <labs-container padding-md>
-        <labs-header title="Footer Test Page" center></labs-header>
+        <labs-template-header-wrapped>
+            <span slot="title">Footer Test Page</span>
+        </labs-template-header-wrapped>
 
         <labs-metric-card>
             <span slot="label">Test Items</span>
