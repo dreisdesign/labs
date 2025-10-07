@@ -2,6 +2,23 @@
 
 ### 🚀 Major Architecture Improvements
 
+### ✅ Completed Tasks (from TODOs & Review Queue)
+- **Repository Hygiene:** Alphabetized component exports and Storybook sidebar entries for improved discoverability.
+- **Review Queue Items:**
+  - Container pattern: Added and documented `labs-container` and container token usage in Storybook.
+  - Today page: Aligned input card/container widths and spacing between Today List and Tracker for consistent layout.
+  - App cards: Added two-column and single-column responsive layout stories for app cards grid.
+  - Date utility: Created `date-format.js` utility with unit tests; confirmed consistent timestamp formatting in Storybook and apps.
+  - Settings safety: Ensured All Apps button in settings card only probes localhost in dev, not in production.
+  - Alphabetize: Sidebar and stories now follow stable alphabetical order; script/check available for future maintenance.
+- **List Item + Dropdown Component Work:**
+  - Dropdown icon-only variant with `open` state (verified 2025-09-19)
+  - List item slot-driven API with multiple story patterns
+  - Footer migrated to shared `labs-footer` component
+  - `date-format.js` utility created with unit tests
+  - Mobile responsive layout for list items (completed 2025-09-20)
+
+
 #### Dropdown Portal System
 - **BREAKING IMPROVEMENT**: `<labs-dropdown>` now uses a document-level portal pattern to eliminate menu clipping issues
 - **Portal Architecture**: Dropdown menus are rendered in a shared document-level container (`#labs-dropdown-portal`) instead of within the component's shadow DOM
