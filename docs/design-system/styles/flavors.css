@@ -8,6 +8,8 @@
 
 /* Vanilla */
 .flavor-vanilla.theme-light {
+  --color-background-darkest: var(--palette-vanilla-900);
+  --color-on-background-darkest: var(--palette-vanilla-100);
   --color-primary: var(--palette-vanilla-500);
   /* Use 500 (#6B5C4B) as primary */
   --color-primary-darker: var(--palette-vanilla-800);
@@ -33,6 +35,8 @@
 }
 
 .flavor-vanilla.theme-dark {
+  --color-background-darkest: var(--palette-vanilla-900);
+  --color-on-background-darkest: var(--palette-vanilla-100);
   --color-primary: var(--palette-vanilla-200);
   /* Use 200 for dark theme primary (#E8E2D6) - lighter for dark backgrounds */
   --color-primary-darker: var(--palette-vanilla-500);
@@ -64,6 +68,8 @@
 
 /* Blueberry */
 .flavor-blueberry.theme-light {
+  --color-background-darkest: var(--palette-blueberry-900);
+  --color-on-background-darkest: var(--palette-blueberry-100);
   --color-primary: var(--palette-blueberry-500);
   --color-primary-darker: var(--palette-blueberry-800);
   --color-primary-lighter: var(--palette-blueberry-300);
@@ -86,6 +92,8 @@
 }
 
 .flavor-blueberry.theme-dark {
+  --color-background-darkest: var(--palette-blueberry-900);
+  --color-on-background-darkest: var(--palette-blueberry-100);
   --color-primary: var(--palette-blueberry-500);
   --color-primary-darker: var(--palette-blueberry-800);
   --color-primary-lighter: var(--palette-blueberry-300);
@@ -110,6 +118,8 @@
 
 /* Strawberry */
 .flavor-strawberry.theme-light {
+  --color-background-darkest: var(--palette-strawberry-900);
+  --color-on-background-darkest: var(--palette-strawberry-100);
   --color-primary: var(--palette-strawberry-500);
   --color-primary-darker: var(--palette-strawberry-800);
   --color-primary-lighter: var(--palette-strawberry-300);
@@ -132,6 +142,8 @@
 }
 
 .flavor-strawberry.theme-dark {
+  --color-background-darkest: var(--palette-strawberry-900);
+  --color-on-background-darkest: var(--palette-strawberry-100);
   --color-primary: var(--palette-strawberry-500);
   --color-primary-darker: var(--palette-strawberry-800);
   --color-primary-lighter: var(--palette-strawberry-300);

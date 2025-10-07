@@ -42,7 +42,7 @@
   /* TODO: Adjust value for Vanilla 300 */
   --palette-vanilla-500: #6B5C4B;
   /* was 700, now 500 */
-  --palette-vanilla-800: #131014;
+  --palette-vanilla-800: #3A2F25;
   --palette-vanilla-900: #1B1C1F;
   --palette-vanilla-1000: #000000;
   /* primary */
@@ -63,8 +63,8 @@
   --palette-blueberry-500: #2E2B74;
   --palette-blueberry-700: #26225A;
   /* generated 800 stop (midpoint between 700 #26225A and 900 #15122B) */
-  --palette-blueberry-800: #15122B;
-  --palette-blueberry-900: #1E193E;
+  --palette-blueberry-800: #1E193E;
+  --palette-blueberry-900: #15122B;
 
   /* Strawberry (5 stops) — canonical anchors */
   --palette-strawberry-100: #FFF2F1;
