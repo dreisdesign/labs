@@ -8,7 +8,8 @@
 
 /* Vanilla */
 .flavor-vanilla.theme-light {
-  --color-footer-bg: var(--palette-vanilla-100);
+  --color-footer-bg: rgba(255, 255, 255, 0.25);
+  /* 15% white, matches tracker */
   --color-background-darkest: var(--palette-vanilla-900);
   --color-on-background-darkest: var(--palette-vanilla-100);
   --color-primary: var(--palette-vanilla-500);
@@ -36,7 +37,8 @@
 }
 
 .flavor-vanilla.theme-dark {
-  --color-footer-bg: var(--palette-vanilla-900);
+  --color-footer-bg: rgba(27, 28, 31, 0.15);
+  /* #1B1C1F, 15% */
   --color-background-darkest: var(--palette-vanilla-900);
   --color-on-background-darkest: var(--palette-vanilla-100);
   --color-primary: var(--palette-vanilla-500);
@@ -67,7 +69,8 @@
 
 /* Blueberry */
 .flavor-blueberry.theme-light {
-  --color-footer-bg: var(--palette-blueberry-100);
+  --color-footer-bg: rgba(255, 255, 255, 0.15);
+  /* 15% white, matches tracker */
   --color-background-darkest: var(--palette-blueberry-900);
   --color-on-background-darkest: var(--palette-blueberry-100);
   --color-primary: var(--palette-blueberry-500);
@@ -92,7 +95,8 @@
 }
 
 .flavor-blueberry.theme-dark {
-  --color-footer-bg: var(--palette-blueberry-900);
+  --color-footer-bg: rgba(28, 27, 31, 0.15);
+  /* #1C1B1F, 15% */
   --color-background-darkest: var(--palette-blueberry-900);
   --color-on-background-darkest: var(--palette-blueberry-100);
   --color-primary: var(--palette-blueberry-500);
@@ -119,7 +123,8 @@
 
 /* Strawberry */
 .flavor-strawberry.theme-light {
-  --color-footer-bg: var(--palette-strawberry-100);
+  --color-footer-bg: rgba(255, 255, 255, 0.15);
+  /* 15% white, matches tracker */
   --color-background-darkest: var(--palette-strawberry-900);
   --color-on-background-darkest: var(--palette-strawberry-100);
   --color-primary: var(--palette-strawberry-500);
@@ -144,7 +149,8 @@
 }
 
 .flavor-strawberry.theme-dark {
-  --color-footer-bg: var(--palette-strawberry-900);
+  --color-footer-bg: rgba(58, 22, 21, 0.15);
+  /* #3A1615, 15% */
   --color-background-darkest: var(--palette-strawberry-900);
   --color-on-background-darkest: var(--palette-strawberry-100);
   --color-primary: var(--palette-strawberry-500);
