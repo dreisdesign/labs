@@ -31,24 +31,8 @@
 Add new tokens below as needed. Promote component-specific tokens to general if reused.
 --------------------------------------------------
 */
-/* Minimal typography tokens (shared contract) */
-:root {
-  --font-size-base: 1rem;
-  /* 16px */
-  --font-size-sm: 0.875rem;
-  /* 14px */
-  --font-size-lg: 1.25rem;
-  /* 20px */
-  --font-size-display: 2rem;
-  /* for large headings used in docs */
 
-  --font-weight-regular: 400;
-  --font-weight-bold: 700;
-
-  --line-height-base: 1.5;
-}
-
-/* Labs Design System - Typography Tokens */
+/* Labs Design System - Typography Tokens (merged :root) */
 :root {
   --font-family-base: "Source Sans 3", "Segoe UI", Arial, sans-serif;
 
@@ -59,6 +43,12 @@ Add new tokens below as needed. Promote component-specific tokens to general if 
   /* 14px - Secondary text */
   --font-size-base: 1rem;
   /* 16px - Body text */
+  --font-size-sm: 0.875rem;
+  /* 14px */
+  --font-size-lg: 1.25rem;
+  /* 20px */
+  --font-size-display: 2rem;
+  /* for large headings used in docs */
   --font-size-large: 1.1rem;
   /* 17.6px - Large body text */
   --font-size-h3: 1.25rem;
@@ -78,8 +68,7 @@ Add new tokens below as needed. Promote component-specific tokens to general if 
   --font-weight-semibold: 600;
   --font-weight-bold: 800;
   --font-weight-heading: 800;
-
-  /* Legacy aliases */
+  --font-weight-regular: 400;
   --font-weight-regular: var(--font-weight-normal);
 
   /* Small extra tokens used in stories/components */
@@ -123,4 +112,7 @@ Add new tokens below as needed. Promote component-specific tokens to general if 
   --font-size-metric-label: 0.875rem;
   --font-weight-metric: 800;
   --line-height-metric: 1.2;
+
+  /* Line heights */
+  --line-height-base: 1.5;
 }

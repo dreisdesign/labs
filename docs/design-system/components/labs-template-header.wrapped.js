@@ -4,16 +4,22 @@ class LabsTemplateHeaderWrapped extends HTMLElement {
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.innerHTML = `
       <style>
-        h1 {
+        :host {
+          display: block;
+          width: 100%;
+        }
+        
+        .header-title {
           font-size: var(--font-size-h1, 3rem);
           font-weight: var(--font-weight-heading, 800);
           margin: 0;
           line-height: 1.2;
           text-align: center;
+          color: var(--color-on-surface, #1b1c1f);
         }
       </style>
       <header>
-        <h1><slot name="title">Footer Test Page</slot></h1>
+        <h1 class="header-title"><slot name="title">Footer Test Page</slot></h1>
       </header>
     `;
     }

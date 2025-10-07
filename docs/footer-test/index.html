@@ -6,6 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Footer Component Test</title>
 
+    <script>
+        // Set flavor/theme classes as early as possible for CSS tokens
+        (function () {
+            var root = document.documentElement;
+            var flavor = localStorage.getItem('tracker-flavor') || 'blueberry';
+            var theme = localStorage.getItem('tracker-theme') || 'light';
+            root.classList.remove('flavor-blueberry', 'flavor-strawberry', 'flavor-vanilla');
+            root.classList.remove('theme-light', 'theme-dark');
+            root.classList.add('flavor-' + flavor);
+            root.classList.add('theme-' + theme);
+            root.setAttribute('data-color-scheme', theme);
+
+            // Debug: Check if variables are available after CSS loads
+            window.addEventListener('DOMContentLoaded', function () {
+                var styles = window.getComputedStyle(root);
+                console.log('🔍 CSS Variables Check:');
+                console.log('  Classes on <html>:', root.className);
+                console.log('  --font-size-h1:', styles.getPropertyValue('--font-size-h1').trim() || 'NOT DEFINED');
+                console.log('  --font-size-metric-label:', styles.getPropertyValue('--font-size-metric-label').trim() || 'NOT DEFINED');
+                console.log('  --color-on-surface:', styles.getPropertyValue('--color-on-surface').trim() || 'NOT DEFINED');
+                console.log('  --color-on-surface-variant:', styles.getPropertyValue('--color-on-surface-variant').trim() || 'NOT DEFINED');
+            });
+        })();
+    </script>
+
     <!-- Design System Tokens -->
     <link rel="stylesheet" href="../design-system/tokens/colors.css">
     <link rel="stylesheet" href="../design-system/tokens/spacing.css">

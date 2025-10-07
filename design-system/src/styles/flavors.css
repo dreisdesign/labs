@@ -7,7 +7,7 @@
 */
 
 /* Vanilla */
-.flavor-vanilla.theme-light {
+:root.flavor-vanilla.theme-light {
   --color-footer-bg: rgba(255, 255, 255, 0.25);
   /* 15% white, matches tracker */
   --color-background-darkest: var(--palette-vanilla-900);
@@ -36,7 +36,7 @@
   /* Status colors inherit from global tokens */
 }
 
-.flavor-vanilla.theme-dark {
+:root.flavor-vanilla.theme-dark {
   --color-footer-bg: rgba(27, 28, 31, 0.15);
   /* #1B1C1F, 15% */
   --color-background-darkest: var(--palette-vanilla-900);
@@ -68,7 +68,7 @@
   Global neutral palette is now used only for the default theme, not for Vanilla. */
 
 /* Blueberry */
-.flavor-blueberry.theme-light {
+:root.flavor-blueberry.theme-light {
   --color-footer-bg: rgba(255, 255, 255, 0.15);
   /* 15% white, matches tracker */
   --color-background-darkest: var(--palette-blueberry-900);
@@ -94,7 +94,7 @@
   /* Status colors inherit from global tokens */
 }
 
-.flavor-blueberry.theme-dark {
+:root.flavor-blueberry.theme-dark {
   --color-footer-bg: rgba(28, 27, 31, 0.15);
   /* #1C1B1F, 15% */
   --color-background-darkest: var(--palette-blueberry-900);
@@ -122,7 +122,7 @@
 }
 
 /* Strawberry */
-.flavor-strawberry.theme-light {
+:root.flavor-strawberry.theme-light {
   --color-footer-bg: rgba(255, 255, 255, 0.15);
   /* 15% white, matches tracker */
   --color-background-darkest: var(--palette-strawberry-900);
@@ -148,7 +148,7 @@
   /* Status colors inherit from global tokens */
 }
 
-.flavor-strawberry.theme-dark {
+:root.flavor-strawberry.theme-dark {
   --color-footer-bg: rgba(58, 22, 21, 0.15);
   /* #3A1615, 15% */
   --color-background-darkest: var(--palette-strawberry-900);

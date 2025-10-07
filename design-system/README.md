@@ -21,8 +21,10 @@ This is the canonical design system for Labs apps, featuring a comprehensive two
 - This fixes issues where icons disappear after server restarts or builds.
 
 **2025-10-07 Update:**
-- Vanilla dark mode now uses the correct primary (500) and background (900) palette stops for full flavor consistency. This ensures all flavors use 500 for --color-primary and 900 for --color-background in dark mode, matching the design system's semantic mapping. Footer and button colors are now consistent across all themes.
-- **New:** `labs-template-header.wrapped.js` is the canonical modular wrapper for header usage in Storybook and test/demo pages. It uses design tokens for font size/weight and centers the title by default. Use this for all template/test/demo header needs.
+- **CSS Variable Inheritance Fix:** All flavor/theme selectors now use `:root.flavor-*.theme-*` instead of `.flavor-*.theme-*`, ensuring CSS custom properties are properly inherited into shadow DOM components. Typography tokens consolidated into a single `:root` block for reliable inheritance.
+- **Modular Header Component:** `labs-template-header.wrapped.js` uses design tokens (`--font-size-h1`, `--font-weight-heading`, `--color-on-surface`) with proper `:host` styling and `.header-title` class for reliable variable resolution.
+- **DevTools Note:** Chrome DevTools may show inherited CSS custom properties as "not defined" in hover tooltips, but they resolve correctly (verify via Computed tab).
+- Vanilla dark mode now uses the correct primary (500) and background (900) palette stops for full flavor consistency. Footer and button colors are now consistent across all themes.
 
 **2025-09-05 Update:**
 - All icons in Labs apps and demos must use the `<labs-icon>` component and the design system icon set (see `src/components/labs-icon.js`).
