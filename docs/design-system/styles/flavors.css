@@ -21,10 +21,10 @@
   --color-on-surface: var(--palette-vanilla-800);
   --color-on-primary: var(--palette-vanilla-100);
   --color-on-primary-darker: var(--palette-vanilla-100);
-  --color-on-primary-lighter: var(--palette-vanilla-800);
+  --color-background: var(--palette-vanilla-200);
   --color-on-background: var(--palette-vanilla-800);
   --color-surface-hover: #ede8de;
-  /* Surface container helpers for vanilla */
+  --color-surface: var(--palette-vanilla-100);
   --color-surface-container: var(--palette-vanilla-100);
   --color-surface-container-high: var(--palette-vanilla-200);
   --color-surface-variant: var(--palette-vanilla-200);
@@ -89,7 +89,7 @@
   --color-primary: var(--palette-blueberry-500);
   --color-primary-darker: var(--palette-blueberry-800);
   --color-primary-lighter: var(--palette-blueberry-300);
-  --color-background: var(--palette-black);
+  --color-background: var(--palette-blueberry-800);
   --color-surface: var(--palette-blueberry-800);
   --color-on-surface: var(--palette-white);
   /* secondary surface for badges in dark mode */
@@ -135,7 +135,7 @@
   --color-primary: var(--palette-strawberry-500);
   --color-primary-darker: var(--palette-strawberry-800);
   --color-primary-lighter: var(--palette-strawberry-300);
-  --color-background: var(--palette-strawberry-900);
+  --color-background: var(--palette-strawberry-800);
   --color-surface: var(--palette-strawberry-800);
   --color-on-surface: var(--palette-white);
   --color-surface-secondary: color-mix(in srgb, var(--color-surface) 92%, transparent);
