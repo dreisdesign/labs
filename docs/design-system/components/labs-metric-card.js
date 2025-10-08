@@ -7,6 +7,7 @@ template.innerHTML = `
       display: block;
       border-radius: var(--radius-lg, 8px);
       background: var(--color-surface, #fff);
+      border: 1px solid color-mix(in srgb, var(--color-on-surface) 6%, transparent);
       box-shadow: var(--card-elevation, none);
       padding: var(--space-lg, 1.5rem);
       text-align: center;
