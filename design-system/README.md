@@ -122,3 +122,12 @@ For setup, usage, and contribution details, see the [migration guide](../_dev/_d
 - **Technical**: Uses viewport-aware positioning, automatic cleanup, and maintains all existing keyboard navigation and event handling.
 - **Breaking Change**: None - all existing usage remains identical. This is a pure architectural improvement.
 - See Storybook stories: `Components/List Item` and `Templates/Smoothie` for examples of dropdowns that now render properly.
+
+## Storybook: List Item Variants
+
+- The canonical List Item story (2. Components/List Item) now includes:
+  - **Default**: Controls-driven playground for all variants and props
+  - **Text Only**: Explicit variant
+  - **Timestamp**: Explicit variant
+  - **Task**: Explicit variant
+- This provides both a flexible playground and one-click access to each variant in the sidebar.

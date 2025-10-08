@@ -76,3 +76,30 @@ export const Default = ({ variant, text, timestamp, checked }) => {
     }
     return item;
 };
+
+export const TextOnly = Default.bind({});
+TextOnly.args = {
+    variant: 'text-only',
+    text: 'Sample item',
+    timestamp: '',
+    checked: false,
+};
+TextOnly.storyName = 'Text Only';
+
+export const Timestamp = Default.bind({});
+Timestamp.args = {
+    variant: 'timestamp',
+    text: 'Timestamped item',
+    timestamp: new Date().toISOString(),
+    checked: false,
+};
+Timestamp.storyName = 'Timestamp';
+
+export const Task = Default.bind({});
+Task.args = {
+    variant: 'task',
+    text: 'Task item',
+    timestamp: '',
+    checked: true,
+};
+Task.storyName = 'Task';
