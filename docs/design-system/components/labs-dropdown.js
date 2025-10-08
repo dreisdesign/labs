@@ -216,7 +216,11 @@ class LabsDropdown extends HTMLElement {
             pointer-events: auto;
         `;
 
-        // Add menu content
+        // Add menu content: strictly show items present in 'only' (or both if 'only' is empty)
+        const onlyRaw = this.getAttribute('only') || '';
+        const only = onlyRaw.split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+        const showArchive = only.length === 0 || only.includes('archive');
+        const showDelete = only.length === 0 || only.includes('delete');
         menu.innerHTML = `
             <style>
                 .labs-dropdown-menu labs-button {
@@ -237,14 +241,14 @@ class LabsDropdown extends HTMLElement {
                 .labs-dropdown-menu labs-button + labs-button { margin-top: 6px; }
                 .labs-dropdown-menu labs-button[variant="destructive"] labs-icon { color: var(--color-on-error, #fff); }
             </style>
-            ${this.getAttribute('only') === 'delete' ? '' : `<labs-button id="archiveBtn" variant="secondary" size="small" fullwidth role="menuitem" tabindex="-1">
+            ${showArchive ? `<labs-button id="archiveBtn" variant="secondary" size="small" fullwidth role="menuitem" tabindex="-1">
                 <labs-icon slot="icon-left" name="archive" width="20" height="20"></labs-icon>
                 Archive
-            </labs-button>`}
-            <labs-button id="deleteBtn" variant="destructive" size="small" fullwidth role="menuitem" tabindex="-1">
+            </labs-button>` : ''}
+            ${showDelete ? `<labs-button id="deleteBtn" variant="destructive" size="small" fullwidth role="menuitem" tabindex="-1">
                 <labs-icon slot="icon-left" name="delete_forever" width="20" height="20"></labs-icon>
                 Delete
-            </labs-button>
+            </labs-button>` : ''}
         `;
 
         menuContainer.appendChild(menu);
@@ -258,11 +262,7 @@ class LabsDropdown extends HTMLElement {
         const archiveBtn = menu.querySelector('#archiveBtn');
         if (archiveBtn) archiveBtn.addEventListener('click', (e) => {
             e.preventDefault(); e.stopPropagation();
-            if (this.hasAttribute('archived') && !this.hasAttribute('restored')) {
-                this.dispatchEvent(new CustomEvent('restore', { bubbles: true, composed: true }));
-            } else if (!this.hasAttribute('archived')) {
-                this.dispatchEvent(new CustomEvent('archive', { bubbles: true, composed: true }));
-            }
+            this.dispatchEvent(new CustomEvent('archive', { bubbles: true, composed: true }));
             this._close();
         });
 
@@ -272,28 +272,6 @@ class LabsDropdown extends HTMLElement {
             this.dispatchEvent(new CustomEvent('remove', { bubbles: true, composed: true }));
             this._close();
         });
-
-        // Update menu content based on attributes
-        const onlyRaw = this.getAttribute('only') || '';
-        const only = onlyRaw.split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
-        const showArchive = only.length ? only.includes('archive') : true;
-        const showDelete = only.length ? only.includes('delete') : false;
-
-        if (!showArchive) {
-            if (archiveBtn) archiveBtn.style.display = 'none';
-        }
-        if (showDelete) {
-            if (deleteBtn) { deleteBtn.style.display = ''; deleteBtn.removeAttribute('aria-hidden'); deleteBtn.removeAttribute('disabled'); }
-        }
-
-        if (showArchive && this.hasAttribute('archived')) {
-            // show delete button and change archive label to Restore
-            if (archiveBtn) archiveBtn.innerHTML = `<labs-icon slot="icon-left" name="history" width="20" height="20"></labs-icon> Restore`;
-            if (deleteBtn) deleteBtn.style.display = '';
-        } else {
-            if (archiveBtn) archiveBtn.innerHTML = `<labs-icon slot="icon-left" name="archive" width="20" height="20"></labs-icon> Archive`;
-            if (deleteBtn) deleteBtn.style.display = 'none';
-        }
 
         // Add keyboard navigation
         menu.addEventListener('keydown', (e) => this._onMenuKeyDown(e));

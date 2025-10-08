@@ -10,7 +10,7 @@ export default {
         archived: { control: 'boolean' },
         restored: { control: 'boolean' },
         only: {
-            name: 'Only Menu Items',
+            name: 'buttons',
             description: 'Multi-select which menu items to render (archive, delete)',
             control: { type: 'inline-check' },
             options: ['archive', 'delete']
@@ -24,33 +24,7 @@ export default {
     }
 };
 
-export const Default = ({ open = false, archived = false, restored = false, only = [] } = {}) => {
-    // Render dropdown inline with a short label to show typical placement
-    const wrap = document.createElement('div');
-    wrap.style.padding = '20px';
-    wrap.style.display = 'flex';
-    wrap.style.alignItems = 'center';
-    wrap.style.gap = '12px';
-    wrap.innerHTML = '';
-    const dd = document.createElement('labs-dropdown');
-    if (open) dd.setAttribute('open', ''); else dd.removeAttribute('open');
-    if (archived) dd.setAttribute('archived', ''); else dd.removeAttribute('archived');
-    if (restored) dd.setAttribute('restored', ''); else dd.removeAttribute('restored');
-    if (Array.isArray(only) && only.length) dd.setAttribute('only', only.join(','));
-    else if (typeof only === 'string' && only) dd.setAttribute('only', only);
 
-    const label = document.createElement('div');
-    label.textContent = 'More actions';
-    label.style.fontSize = '0.95rem';
-    label.style.color = 'var(--color-on-surface-variant, #666)';
-
-    wrap.appendChild(label);
-    wrap.appendChild(dd);
-    return wrap;
-};
-Default.args = {
-    only: []
-};
 
 // pattern stories moved to `patterns-dropdown.stories.js`
 
@@ -73,9 +47,8 @@ Open.args = {
     open: true
 };
 
-export const IconOnly = ({ open = false, archived = false, restored = false, only = [] } = {}) => {
-    // Render the dropdown in a tight container so only the trigger (icon button)
-    // is visible. This makes IconOnly visually distinct from Default.
+// IconOnly is now the default export for this story
+export const Default = ({ open = false, archived = false, restored = false, only = [] } = {}) => {
     const wrap = document.createElement('div');
     wrap.style.padding = '8px';
     wrap.style.width = '40px';
@@ -90,12 +63,10 @@ export const IconOnly = ({ open = false, archived = false, restored = false, onl
     if (restored) dd.setAttribute('restored', '');
     if (Array.isArray(only) && only.length) dd.setAttribute('only', only.join(','));
     else if (typeof only === 'string' && only) dd.setAttribute('only', only);
-    // Closed by default so only the icon trigger is visible in this tight layout
     wrap.appendChild(dd);
     return wrap;
 };
-
-IconOnly.args = {
+Default.args = {
     only: []
 };
 

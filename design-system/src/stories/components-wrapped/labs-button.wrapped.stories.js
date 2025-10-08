@@ -1,3 +1,12 @@
+export const Restore = {
+    name: 'Restore',
+    render: () => `
+    <labs-button pill variant="secondary">
+      <labs-icon slot="icon-left" name="history"></labs-icon>
+      Restore
+    </labs-button>
+  `,
+};
 import '../../components/labs-button.js';
 import '../../components/labs-icon.js';
 
