@@ -5,7 +5,7 @@ import '../components/labs-icon.js';
 import iconsList from '../components/icons-list.js';
 
 export default {
-    title: '3. Components (Wrapped)/Card - Welcome',
+    title: '3. Components (Wrapped)/Card/Welcome',
     parameters: {
         docs: {
             description: {

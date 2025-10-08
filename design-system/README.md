@@ -38,7 +38,16 @@ This is the canonical design system for Labs apps, featuring a comprehensive two
 
 ---
 
-## 📚 Documentation
+
+## Storybook Story Grouping (2025-10-08)
+
+Labs uses a standardized, nested Storybook organization:
+
+- **Canonical components:** `2. Components/Component/Variant` (e.g. Card/Metric, Card/Welcome)
+- **Wrapped components:** `3. Components (Wrapped)/Component/Variant` (e.g. List Item/Task, List Item/Text Only, Card/Metric, Card/Welcome, Template/Header, Template/Footer, Input Card)
+- **Patterns:** `4. Patterns/Group/Pattern` (e.g. Button - Theme/Appearance, Button - Theme/Flavor)
+
+This structure ensures all stories are easy to find and maintain. See `STORYBOOK_SITEMAP.md` for the current index.
 
 - **[Component Usage Guide](./COMPONENT-USAGE.md)** — Best practices, dependencies, and common gotchas when using Labs components
 - **[Modularity Guidelines](../.github/instructions/Modularity.instructions.md)** — Development principles for component design

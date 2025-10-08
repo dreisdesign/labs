@@ -1,4 +1,17 @@
+
 # Labs Documentation Index
+
+---
+
+## Storybook Story Grouping (2025-10-08)
+
+Labs now uses a standardized, nested Storybook organization for all stories:
+
+- **Canonical components:** `2. Components/Component/Variant` (e.g. Card/Metric, Card/Welcome)
+- **Wrapped components:** `3. Components (Wrapped)/Component/Variant` (e.g. List Item/Task, List Item/Text Only, Card/Metric, Card/Welcome, Template/Header, Template/Footer, Input Card)
+- **Patterns:** `4. Patterns/Group/Pattern` (e.g. Button - Theme/Appearance, Button - Theme/Flavor)
+
+This structure improves discoverability and parity between canonical, wrapped, and pattern stories. Legacy/duplicate stories have been removed. See `STORYBOOK_SITEMAP.md` for the current auto-generated index.
 
 > **Single source of truth for all project documentation locations and purposes**
 

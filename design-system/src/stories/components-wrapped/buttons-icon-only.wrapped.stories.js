@@ -5,51 +5,51 @@ import iconsList from '../../components/icons-list.js';
 
 // Design system color variants
 const colorVariants = {
-  'On Surface': 'var(--color-on-surface)',
-  'On Primary': 'var(--color-on-primary)',
-  'Primary': 'var(--color-primary)',
-  'Error': 'var(--color-error)',
-  'On Error': 'var(--color-on-error)',
-  'Settings Icon': 'var(--settings-icon-color)',
+    'On Surface': 'var(--color-on-surface)',
+    'On Primary': 'var(--color-on-primary)',
+    'Primary': 'var(--color-primary)',
+    'Error': 'var(--color-error)',
+    'On Error': 'var(--color-on-error)',
+    'Settings Icon': 'var(--settings-icon-color)',
 };
 
 export default {
-  title: '3. Components (Wrapped)/Button/Icon Only',
-  argTypes: {
-    icon: {
-      options: iconsList,
-      control: { type: 'select' },
-      description: 'Icon name',
+    title: '3. Components (Wrapped)/Button/Icon Only',
+    argTypes: {
+        icon: {
+            options: iconsList,
+            control: { type: 'select' },
+            description: 'Icon name',
+        },
+        colorVariant: {
+            options: Object.keys(colorVariants),
+            control: { type: 'select' },
+            description: 'Icon color variant',
+        },
+        ariaLabel: {
+            control: 'text',
+            description: 'Aria label for accessibility',
+        },
+        label: {
+            control: 'boolean',
+            description: 'Show label below the icon (for footer-like usage)'
+        },
+        animation: {
+            control: 'boolean',
+            description: 'Enable icon hover animation',
+        },
     },
-    colorVariant: {
-      options: Object.keys(colorVariants),
-      control: { type: 'select' },
-      description: 'Icon color variant',
+    parameters: {
+        docs: {
+            description: {
+                component: 'A wrapped demo for icon-only button actions. Used for theme, delete, settings, close, etc. Supports animation and accessibility.',
+            },
+        },
     },
-    ariaLabel: {
-      control: 'text',
-      description: 'Aria label for accessibility',
-    },
-    label: {
-      control: 'boolean',
-      description: 'Show label below the icon (for footer-like usage)'
-    },
-    animation: {
-      control: 'boolean',
-      description: 'Enable icon hover animation',
-    },
-  },
-  parameters: {
-    docs: {
-      description: {
-        component: 'A wrapped demo for icon-only button actions. Used for theme, delete, settings, close, etc. Supports animation and accessibility.',
-      },
-    },
-  },
 };
 
 export const IconOnly = ({ icon = 'settings', colorVariant = 'On Surface', ariaLabel = 'Settings', animation = true, label = false }) => {
-  const style = `
+    const style = `
     labs-button[variant="icon"] labs-icon {
       transition: transform 0.4s cubic-bezier(.4,2,.6,1);
       transform: rotate(0deg);
@@ -65,8 +65,8 @@ export const IconOnly = ({ icon = 'settings', colorVariant = 'On Surface', ariaL
       text-align: center;
     }
   `;
-  const color = colorVariants[colorVariant] || 'var(--color-on-surface)';
-  return html`
+    const color = colorVariants[colorVariant] || 'var(--color-on-surface)';
+    return html`
     <style>${style}</style>
     <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
       <labs-button variant="icon" aria-label="${ariaLabel}">
@@ -78,11 +78,11 @@ export const IconOnly = ({ icon = 'settings', colorVariant = 'On Surface', ariaL
 };
 
 IconOnly.args = {
-  icon: 'settings',
-  colorVariant: 'On Surface',
-  ariaLabel: 'Settings',
-  animation: true,
-  label: false,
+    icon: 'settings',
+    colorVariant: 'On Surface',
+    ariaLabel: 'Settings',
+    animation: true,
+    label: false,
 };
 
 IconOnly.storyName = 'Icon Only';

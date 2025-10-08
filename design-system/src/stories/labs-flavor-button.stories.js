@@ -1,12 +1,18 @@
+
 import '../components/labs-flavor-button.js';
-import '../components/labs-icon.js';
 
 export default {
-    title: '4. Patterns/Buttons/Flavor Button',
-    argTypes: { variant: { control: { type: 'select', options: ['primary', 'secondary', 'destructive', 'icon'] } }, flavor: { control: 'text' } }
+    title: '4. Patterns/Button - Theme/Flavor',
+    argTypes: {
+        variant: {
+            control: { type: 'select' },
+            options: ['primary', 'secondary', 'destructive', 'icon']
+        },
+        flavor: { control: 'text' }
+    }
 };
 
-export const FlavorButton = ({ flavor = 'blueberry', variant = 'secondary' }) => {
+export const Flavor = ({ flavor = 'blueberry', variant = 'secondary' }) => {
     const wrap = document.createElement('div');
     wrap.style.maxWidth = '360px';
     wrap.innerHTML = `<labs-flavor-button variant="${variant}"></labs-flavor-button>`;
@@ -17,4 +23,4 @@ export const FlavorButton = ({ flavor = 'blueberry', variant = 'secondary' }) =>
     return wrap;
 };
 
-FlavorButton.args = { flavor: 'blueberry', variant: 'secondary' };
+Flavor.args = { flavor: 'blueberry', variant: 'secondary' };

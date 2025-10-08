@@ -3,7 +3,7 @@ import iconsList from '../../components/icons-list.js';
 import { html } from 'lit';
 
 export default {
-    title: '3. Components (Wrapped)/Template - Footer',
+    title: '3. Components (Wrapped)/Template/Footer',
     parameters: {
         docs: {
             description: {

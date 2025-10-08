@@ -2,7 +2,7 @@ import '../styles/main.css';
 import '../components/labs-metric-card.js';
 
 export default {
-    title: '3. Components (Wrapped)/Card - Metric',
+    title: '3. Components (Wrapped)/Card/Metric',
     parameters: {
         docs: {
             description: {

@@ -1,8 +1,9 @@
+
 import '../../components/labs-button.js';
 import '../../components/labs-icon.js';
 
 export default {
-  title: '4. Patterns/Buttons/Appearance',
+  title: '4. Patterns/Button - Theme/Appearance',
   argTypes: {
     variant: {
       control: { type: 'select' },

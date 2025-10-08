@@ -1,7 +1,7 @@
 import '../../components/labs-template-header.wrapped.js';
 
 export default {
-    title: '3. Components (Wrapped)/Template - Header',
+    title: '3. Components (Wrapped)/Template/Header',
     component: 'labs-template-header-wrapped',
 };
 

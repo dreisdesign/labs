@@ -2,7 +2,7 @@ import '../../components/labs-header.js';
 
 
 export default {
-  title: '2. Components/Template - Header',
+  title: '2. Components/Template/Header',
   component: 'labs-header',
   argTypes: {
     title: { control: 'text' },

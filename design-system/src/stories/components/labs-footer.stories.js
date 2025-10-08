@@ -3,7 +3,7 @@ import '../../components/labs-button.js';
 import '../../components/labs-icon.js';
 
 export default {
-    title: '2. Components/Template - Footer',
+    title: '2. Components/Template/Footer',
     component: 'labs-footer',
     parameters: {
         docs: {

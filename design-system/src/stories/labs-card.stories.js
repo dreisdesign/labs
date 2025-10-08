@@ -3,7 +3,7 @@ import '../components/labs-card.js';
 import '../components/labs-button.js';
 
 export default {
-  title: '2. Components/Card - Welcome',
+  title: '2. Components/Card/Welcome',
   component: 'labs-card',
   parameters: {
     docs: {
