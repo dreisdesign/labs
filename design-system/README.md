@@ -1,3 +1,20 @@
+## Toast Component
+
+`<labs-toast>` is the canonical Labs Design System toast/notification overlay. It supports three action button variants:
+
+- `primary` (default)
+- `secondary`
+- `destructive`
+
+Set the variant via the `variant` attribute:
+
+```html
+<labs-toast variant="destructive"></labs-toast>
+```
+
+The `danger` variant is not supported (use `destructive` for error/alert actions).
+
+See Storybook for live demos and controls.
 # Labs Design System
 
 > **Production-Ready Component Library with Complete Token Architecture**

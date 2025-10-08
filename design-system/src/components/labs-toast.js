@@ -1,5 +1,24 @@
 // Minimal labs-toast web component
 class LabsToast extends HTMLElement {
+  static get observedAttributes() {
+    return ['variant'];
+  }
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'variant') {
+      this._updateVariant();
+    }
+  }
+
+  _updateVariant() {
+    if (!this._actionBtn) return;
+    const v = (this.getAttribute('variant') || 'primary').toLowerCase();
+    this._actionBtn.classList.remove('primary', 'secondary', 'destructive');
+    if (['primary', 'secondary', 'destructive'].includes(v)) {
+      this._actionBtn.classList.add(v);
+    } else {
+      this._actionBtn.classList.add('primary');
+    }
+  }
   constructor() {
     super();
     this._shadow = this.attachShadow({ mode: 'open' });
@@ -45,7 +64,12 @@ class LabsToast extends HTMLElement {
 .message{flex:1;font-size:var(--font-size-toast, 0.95rem);line-height:var(--line-height-toast, 1.3)}
 .actions{display:flex;align-items:center;gap:8px}
 .action{background:transparent;border:0;padding:6px 10px;border-radius:8px;color:var(--color-primary);cursor:pointer;font-weight:var(--font-weight-toast-action, 600);font-size:var(--font-size-toast-action, 0.9rem)}
-.action:hover{background-color:var(--color-primary-25, rgba(0,0,0,0.06));}
+.action.primary{background:var(--color-primary);color:var(--color-on-primary);border:none;}
+.action.primary:hover{background:color-mix(in srgb, var(--color-primary) 85%, black);}
+.action.secondary{background:transparent;color:var(--color-on-surface);border:1px solid var(--color-outline, var(--color-primary));}
+.action.secondary:hover{background:color-mix(in srgb, var(--color-primary) 6%, transparent);}
+.action.destructive{background:var(--color-error, #b5005a);color:var(--on-error, #fff);border:none;}
+.action.destructive:hover{background:color-mix(in srgb, var(--color-error, #b5005a) 90%, black);}
 .action:focus{outline:2px solid color-mix(in srgb, var(--color-primary, var(--color-accent, var(--color-on-surface))) 20%, transparent);outline-offset:2px}
 .close{background:transparent;border:0;padding:6px 8px;border-radius:8px;color:var(--color-on-surface);cursor:pointer}
 /* Hover + focus visual affordances for close button inside shadow DOM */
@@ -66,6 +90,7 @@ class LabsToast extends HTMLElement {
   connectedCallback() {
     this._actionBtn.addEventListener('click', this._onAction);
     this._closeBtn.addEventListener('click', this._onClose);
+    this._updateVariant();
   }
 
   disconnectedCallback() {
