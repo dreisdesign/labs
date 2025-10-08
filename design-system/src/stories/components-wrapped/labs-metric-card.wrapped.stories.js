@@ -1,5 +1,5 @@
-import '../styles/main.css';
-import '../components/labs-metric-card.js';
+import '../../styles/main.css';
+import '../../components/labs-metric-card.js';
 
 export default {
     title: '3. Components (Wrapped)/Card/Metric',

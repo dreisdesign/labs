@@ -1,4 +1,4 @@
-import '../components/labs-dropdown.js';
+import '../../components/labs-dropdown.js';
 
 export default {
     title: '3. Components (Wrapped)/Dropdown',

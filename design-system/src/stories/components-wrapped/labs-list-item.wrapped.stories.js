@@ -1,10 +1,10 @@
-import '../components/labs-list-item.js';
-import '../components/labs-checkbox.js';
-import '../components/labs-dropdown.js';
-import '../components/labs-toast.js';
-import '../components/labs-icon.js';
-import iconsList from '../components/icons-list.js';
-import { formatHuman } from '../utils/date-format.js';
+import '../../components/labs-list-item.js';
+import '../../components/labs-checkbox.js';
+import '../../components/labs-dropdown.js';
+import '../../components/labs-toast.js';
+import '../../components/labs-icon.js';
+import iconsList from '../../components/icons-list.js';
+import { formatHuman } from '../../utils/date-format.js';
 
 export default {
     title: '3. Components (Wrapped)/List Item',
