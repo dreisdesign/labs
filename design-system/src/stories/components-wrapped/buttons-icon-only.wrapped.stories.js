@@ -14,7 +14,7 @@ const colorVariants = {
 };
 
 export default {
-  title: '4. Patterns/Buttons/Icon Only',
+  title: '3. Components (Wrapped)/Button/Icon Only',
   argTypes: {
     icon: {
       options: iconsList,
@@ -42,7 +42,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'A canonical pattern for icon-only actions. Used for theme, delete, settings, close, etc. Supports animation and accessibility.',
+        component: 'A wrapped demo for icon-only button actions. Used for theme, delete, settings, close, etc. Supports animation and accessibility.',
       },
     },
   },
