@@ -23,6 +23,23 @@ const store = {
     }
 };
 
+// Show undo toast
+function showUndoToast(onUndo) {
+    let toast = document.body.querySelector('labs-toast');
+    if (!toast) {
+        toast = document.createElement('labs-toast');
+        document.body.appendChild(toast);
+    }
+    toast.setAttribute('variant', 'destructive');
+    toast.show('Entry deleted', { actionText: 'Undo', duration: 5000 });
+    
+    const handleAction = () => {
+        onUndo();
+        toast.removeEventListener('action', handleAction);
+    };
+    toast.addEventListener('action', handleAction, { once: true });
+}
+
 // Render everything
 function renderAll() {
     // Update metric
@@ -64,9 +81,16 @@ function renderAll() {
         dropdown.setAttribute('slot', 'actions');
         dropdown.setAttribute('only', 'delete');
         dropdown.addEventListener('remove', () => {
+            const removedItem = item;
+            const removedIndex = store.items.findIndex(x => x.ts === item.ts);
             store.items = store.items.filter(x => x.ts !== item.ts);
             store.save();
             renderAll();
+            showUndoToast(() => {
+                store.items.splice(removedIndex, 0, removedItem);
+                store.save();
+                renderAll();
+            });
         });
         li.appendChild(dropdown);
 
@@ -94,8 +118,25 @@ window.addEventListener('DOMContentLoaded', () => {
         renderAll();
     });
     footer?.addEventListener('reset-all', () => {
+        const backup = [...store.items];
         store.items = [];
         store.save();
         renderAll();
+        
+        let toast = document.body.querySelector('labs-toast');
+        if (!toast) {
+            toast = document.createElement('labs-toast');
+            document.body.appendChild(toast);
+        }
+        toast.setAttribute('variant', 'destructive');
+        toast.show(`${backup.length} entries deleted`, { actionText: 'Undo', duration: 5000 });
+        
+        const handleAction = () => {
+            store.items = backup;
+            store.save();
+            renderAll();
+            toast.removeEventListener('action', handleAction);
+        };
+        toast.addEventListener('action', handleAction, { once: true });
     });
 });
