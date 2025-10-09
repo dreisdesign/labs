@@ -75,10 +75,32 @@ function renderAll() {
     list.innerHTML = '';
 
     if (store.items.length === 0) {
-        const empty = document.createElement('div');
-        empty.style.cssText = 'color:var(--color-on-surface-variant);text-align:center;padding:var(--space-lg)';
-        empty.textContent = 'No entries — press Track to add one.';
-        list.appendChild(empty);
+        const card = document.createElement('labs-card');
+        card.setAttribute('variant', 'welcome');
+        card.setAttribute('align', 'center');
+
+        const header = document.createElement('div');
+        header.setAttribute('slot', 'header');
+        header.textContent = 'Welcome to Tracker!';
+        card.appendChild(header);
+
+        const desc = document.createElement('div');
+        desc.textContent = 'Track your first entry to get started.';
+        card.appendChild(desc);
+
+        const addBtn = document.createElement('labs-button');
+        addBtn.setAttribute('slot', 'actions');
+        addBtn.setAttribute('variant', 'primary');
+        addBtn.setAttribute('pill', '');
+        addBtn.innerHTML = '<labs-icon slot="icon-left" name="add"></labs-icon>Track first entry';
+        addBtn.addEventListener('click', () => {
+            store.items.unshift({ ts: Date.now(), note: '' });
+            store.save();
+            renderAll();
+        });
+        card.appendChild(addBtn);
+
+        list.appendChild(card);
         return;
     }
 
