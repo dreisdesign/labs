@@ -121,28 +121,20 @@ window.addEventListener('DOMContentLoaded', () => {
     // Wire up footer
     const footer = document.querySelector('labs-footer-with-settings');
     if (footer) {
-        footer.addEventListener('add', (e) => {
-            console.log('Add event received:', e);
+        footer.addEventListener('add', () => {
             store.items.unshift({ ts: Date.now(), note: '' });
             store.save();
             renderAll();
         });
-    } else {
-        console.error('Footer not found!');
     }
     if (footer) {
         footer.addEventListener('reset-all', () => {
             // Prevent duplicate reset-all events (component fires twice)
-            if (_isResetting) {
-                console.log('Ignoring duplicate reset-all event');
-                return;
-            }
+            if (_isResetting) return;
             _isResetting = true;
 
-            console.log('Reset-all event fired. Current items:', store.items.length);
             const backup = [...store.items];
             const count = backup.length;
-            console.log('Backup created with', count, 'entries:', backup);
             store.items = [];
             store.save();
             renderAll();
@@ -150,7 +142,6 @@ window.addEventListener('DOMContentLoaded', () => {
             const toast = getToast();
             toast.setAttribute('variant', 'destructive');
             const message = `${count} ${count === 1 ? 'entry' : 'entries'} deleted`;
-            console.log('Showing toast with message:', message);
             toast.show(message, { actionText: 'Undo', duration: 5000 });
 
             const handleAction = () => {
