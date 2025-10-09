@@ -25,6 +25,8 @@ const store = {
 
 // Get or create toast (singleton)
 let _toastInstance = null;
+let _currentUndoHandler = null;
+
 function getToast() {
     if (!_toastInstance) {
         _toastInstance = document.createElement('labs-toast');
@@ -36,16 +38,25 @@ function getToast() {
 // Debounce flag for reset-all to prevent duplicate events
 let _isResetting = false;
 
-// Show undo toast
-function showUndoToast(onUndo) {
+// Show undo toast - cleans up previous handler first
+function showUndoToast(message, onUndo) {
     const toast = getToast();
-    toast.setAttribute('variant', 'destructive');
-    toast.show('Entry deleted', { actionText: 'Undo', duration: 5000 });
 
-    const handleAction = () => {
+    // Remove old handler if it exists
+    if (_currentUndoHandler) {
+        toast.removeEventListener('action', _currentUndoHandler);
+        _currentUndoHandler = null;
+    }
+
+    // Create new handler
+    _currentUndoHandler = () => {
         onUndo();
+        _currentUndoHandler = null; // Clear after use
     };
-    toast.addEventListener('action', handleAction, { once: true });
+
+    toast.setAttribute('variant', 'destructive');
+    toast.show(message, { actionText: 'Undo', duration: 5000 });
+    toast.addEventListener('action', _currentUndoHandler, { once: true });
 }
 
 // Render everything
@@ -94,7 +105,7 @@ function renderAll() {
             store.items = store.items.filter(x => x.ts !== item.ts);
             store.save();
             renderAll();
-            showUndoToast(() => {
+            showUndoToast('Entry deleted', () => {
                 store.items.splice(removedIndex, 0, removedItem);
                 store.save();
                 renderAll();
@@ -139,17 +150,12 @@ window.addEventListener('DOMContentLoaded', () => {
             store.save();
             renderAll();
 
-            const toast = getToast();
-            toast.setAttribute('variant', 'destructive');
             const message = `${count} ${count === 1 ? 'entry' : 'entries'} deleted`;
-            toast.show(message, { actionText: 'Undo', duration: 5000 });
-
-            const handleAction = () => {
+            showUndoToast(message, () => {
                 store.items = backup;
                 store.save();
                 renderAll();
-            };
-            toast.addEventListener('action', handleAction, { once: true });
+            });
 
             // Reset flag after a short delay to allow for any duplicate events
             setTimeout(() => {
