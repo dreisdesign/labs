@@ -90,10 +90,19 @@ function renderAll() {
     list.innerHTML = '';
 
     if (activeItems.length === 0) {
-        const empty = document.createElement('div');
-        empty.className = 'empty-state';
-        empty.textContent = 'No tasks — tap + to add one';
-        list.appendChild(empty);
+        const card = document.createElement('labs-card');
+        card.setAttribute('variant', 'welcome');
+
+        const header = document.createElement('div');
+        header.setAttribute('slot', 'header');
+        header.textContent = 'Welcome!';
+        card.appendChild(header);
+
+        const body = document.createElement('div');
+        body.textContent = 'Add your first task to get started.';
+        card.appendChild(body);
+
+        list.appendChild(card);
     } else {
         activeItems.forEach(item => {
             const li = createTodoItem(item);
@@ -241,7 +250,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const inputCard = inputOverlay?.querySelector('labs-input-card');
 
     if (inputCard) {
-        inputCard.addEventListener('submit', (e) => {
+        inputCard.addEventListener('save', (e) => {
             const text = e.detail?.value?.trim();
             if (text) {
                 store.items.unshift({
@@ -257,7 +266,7 @@ window.addEventListener('DOMContentLoaded', () => {
             toggleInputOverlay(false);
         });
 
-        inputCard.addEventListener('cancel', () => toggleInputOverlay(false));
+        inputCard.addEventListener('close', () => toggleInputOverlay(false));
     }
 
     // Close overlay on backdrop click

@@ -33,6 +33,7 @@
     <script type="module" src="../design-system/components/labs-footer-with-settings.js"></script>
     <script type="module" src="../design-system/components/labs-template-header.wrapped.js"></script>
     <script type="module" src="../design-system/components/labs-metric-card.js"></script>
+    <script type="module" src="../design-system/components/labs-card.js"></script>
     <script type="module" src="../design-system/components/labs-list-item.js"></script>
     <script type="module" src="../design-system/components/labs-dropdown.js"></script>
     <script type="module" src="../design-system/components/labs-icon.js"></script>
@@ -85,13 +86,6 @@
         labs-toast {
             --toast-bottom: 120px;
         }
-
-        /* Empty state styling */
-        .empty-state {
-            text-align: center;
-            padding: var(--space-xl);
-            color: var(--color-on-surface-variant);
-        }
     </style>
 </head>
 
@@ -131,10 +125,10 @@
             var dateEl = document.getElementById('current-date');
             if (dateEl) {
                 var now = new Date();
-                dateEl.textContent = now.toLocaleDateString(undefined, { 
-                    weekday: 'long', 
-                    month: 'long', 
-                    day: 'numeric' 
+                dateEl.textContent = now.toLocaleDateString(undefined, {
+                    weekday: 'long',
+                    month: 'long',
+                    day: 'numeric'
                 });
             }
         });
