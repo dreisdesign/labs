@@ -96,12 +96,17 @@ Refactor the Today-List app from a complex 796-line implementation to a clean, m
 - All design system components loading correctly
 
 **Results**:
-- HTML: 144 lines (under 150 ✓)
-- JavaScript: 269 lines (down from 796)
+- HTML: 144 lines (under 150 ✓) → 138 lines after fixes
+- JavaScript: 269 lines (down from 796) → 278 lines with welcome card
 - Zero CSS hacks
 - Clean component imports
 - Proper toast singleton with handler cleanup
 - Simplified input overlay management
+- labs-card variant="welcome" for empty state
+
+**Issues Found & Fixed**:
+1. **Input card buttons not working** - Changed event listeners from submit/cancel to save/close to match component API
+2. **Empty state inconsistency** - Replaced div with labs-card variant="welcome" to match design system patterns
 
 ---
 
