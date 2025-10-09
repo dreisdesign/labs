@@ -116,17 +116,18 @@ function renderAll() {
 
 function createTodoItem(item) {
     const li = document.createElement('labs-list-item');
+    li.setAttribute('variant', 'task');
     if (item.checked) li.setAttribute('checked', '');
     if (item.archived) li.setAttribute('archived', '');
 
     // Checkbox in control slot
-    const checkbox = document.createElement('labs-icon');
+    const checkbox = document.createElement('labs-checkbox');
     checkbox.setAttribute('slot', 'control');
-    checkbox.setAttribute('name', item.checked ? 'check_box' : 'check_box_outline_blank');
+    if (item.checked) checkbox.setAttribute('checked', '');
     li.appendChild(checkbox);
 
     // Todo text in content slot
-    const content = document.createElement('span');
+    const content = document.createElement('div');
     content.setAttribute('slot', 'content');
     content.textContent = item.text || '';
     li.appendChild(content);
@@ -223,6 +224,9 @@ window.addEventListener('DOMContentLoaded', () => {
         footer.addEventListener('add', () => toggleInputOverlay(true));
 
         footer.addEventListener('reset-all', () => {
+            // Don't reset if no items
+            if (store.items.length === 0) return;
+
             if (_isResetting) return;
             _isResetting = true;
 
