@@ -127,22 +127,25 @@ window.addEventListener('DOMContentLoaded', () => {
     } else {
         console.error('Footer not found!');
     }
-    footer.addEventListener('reset-all', () => {
-        const backup = [...store.items];
-        const count = backup.length;
-        store.items = [];
-        store.save();
-        renderAll();
-
-        const toast = getToast();
-        toast.setAttribute('variant', 'destructive');
-        toast.show(`${count} ${count === 1 ? 'entry' : 'entries'} deleted`, { actionText: 'Undo', duration: 5000 });
-
-        const handleAction = () => {
-            store.items = backup;
+    if (footer) {
+        footer.addEventListener('reset-all', () => {
+            const backup = [...store.items];
+            const count = backup.length;
+            console.log('Reset-all: deleting', count, 'entries');
+            store.items = [];
             store.save();
             renderAll();
-        };
-        toast.addEventListener('action', handleAction, { once: true });
-    });
+
+            const toast = getToast();
+            toast.setAttribute('variant', 'destructive');
+            toast.show(`${count} ${count === 1 ? 'entry' : 'entries'} deleted`, { actionText: 'Undo', duration: 5000 });
+
+            const handleAction = () => {
+                store.items = backup;
+                store.save();
+                renderAll();
+            };
+            toast.addEventListener('action', handleAction, { once: true });
+        });
+    }
 });
