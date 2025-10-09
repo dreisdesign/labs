@@ -83,7 +83,7 @@ Add new tokens below as needed. Promote component-specific tokens to general if 
   --font-weight-button: 600;
   --line-height-button: 1.2;
 
-  --font-size-card-header: 1.125rem;
+  --font-size-card-header: 1.5rem;
   --font-weight-card-header: 600;
   --line-height-card-header: 1.2;
   --font-size-card-desc: 1rem;
