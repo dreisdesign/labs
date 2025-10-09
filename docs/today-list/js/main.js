@@ -36,17 +36,17 @@ function getToast() {
 
 function showUndoToast(message, onUndo) {
     const toast = getToast();
-    
+
     if (_currentUndoHandler) {
         toast.removeEventListener('action', _currentUndoHandler);
         _currentUndoHandler = null;
     }
-    
+
     _currentUndoHandler = () => {
         onUndo();
         _currentUndoHandler = null;
     };
-    
+
     toast.setAttribute('variant', 'destructive');
     toast.show(message, { actionText: 'Undo', duration: 5000 });
     toast.addEventListener('action', _currentUndoHandler, { once: true });
@@ -59,9 +59,9 @@ let _isResetting = false;
 function toggleInputOverlay(open = true) {
     const overlay = document.getElementById('input-overlay');
     const inputCard = overlay?.querySelector('labs-input-card');
-    
+
     if (!overlay || !inputCard) return;
-    
+
     if (open) {
         overlay.setAttribute('open', '');
         inputCard.setAttribute('value', '');
@@ -109,7 +109,7 @@ function createTodoItem(item) {
     const li = document.createElement('labs-list-item');
     if (item.checked) li.setAttribute('checked', '');
     if (item.archived) li.setAttribute('archived', '');
-    
+
     // Checkbox in control slot
     const checkbox = document.createElement('labs-icon');
     checkbox.setAttribute('slot', 'control');
@@ -172,7 +172,7 @@ function renderArchivedSection() {
     if (!archivedSection) return;
 
     const archivedItems = store.items.filter(item => item.archived);
-    
+
     if (archivedItems.length === 0) {
         archivedSection.innerHTML = '';
         return;
@@ -212,7 +212,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const footer = document.querySelector('labs-footer-with-settings');
     if (footer) {
         footer.addEventListener('add', () => toggleInputOverlay(true));
-        
+
         footer.addEventListener('reset-all', () => {
             if (_isResetting) return;
             _isResetting = true;
@@ -239,7 +239,7 @@ window.addEventListener('DOMContentLoaded', () => {
     // Wire up input overlay
     const inputOverlay = document.getElementById('input-overlay');
     const inputCard = inputOverlay?.querySelector('labs-input-card');
-    
+
     if (inputCard) {
         inputCard.addEventListener('submit', (e) => {
             const text = e.detail?.value?.trim();

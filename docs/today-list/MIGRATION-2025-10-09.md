@@ -59,16 +59,16 @@ Refactor the Today-List app from a complex 796-line implementation to a clean, m
 
 ## Migration Strategy
 
-### Phase 1: Template Foundation ✅ 
+### Phase 1: Template Foundation ✅ COMPLETE
 **Goal**: Create clean HTML structure from footer-test + Tracker patterns
 **Time Estimate**: 30 minutes
 
 **Tasks**:
 1. ✅ Backup current files (.backup)
-2. ⬜ Create new `index.html` based on footer-test
-3. ⬜ Update title to "Labs: Today-List"
-4. ⬜ Keep `today-list-*` localStorage keys
-5. ⬜ Add Today-List specific components:
+2. ✅ Create new `index.html` based on footer-test
+3. ✅ Update title to "Labs: Today-List"
+4. ✅ Keep `today-list-*` localStorage keys
+5. ✅ Add Today-List specific components:
    - labs-template-header-wrapped
    - labs-metric-card (for item count)
    - labs-list-item (with checkbox support)
@@ -77,21 +77,31 @@ Refactor the Today-List app from a complex 796-line implementation to a clean, m
    - labs-footer-with-settings
    - labs-toast
    - labs-input-card (for adding items)
-6. ⬜ Set up basic layout (no custom CSS)
-7. ⬜ Test that template loads correctly
+   - labs-overlay
+   - labs-details
+6. ✅ Set up basic layout (no custom CSS)
+7. ✅ Test that template loads correctly
 
 **Checkpoint**:
-- [ ] Template loads with design system
-- [ ] Theme switching works
-- [ ] Footer visible and functional
-- [ ] Settings overlay accessible
-- [ ] No console errors
+- [x] Template loads with design system
+- [x] Theme switching works
+- [x] Footer visible and functional
+- [x] Settings overlay accessible
+- [x] No console errors
 
 **Expected Outcome**:
 - HTML: <150 lines
 - Zero CSS hacks or `!important`
 - Clean slot-based rendering
 - All design system components loading correctly
+
+**Results**:
+- HTML: 144 lines (under 150 ✓)
+- JavaScript: 269 lines (down from 796)
+- Zero CSS hacks
+- Clean component imports
+- Proper toast singleton with handler cleanup
+- Simplified input overlay management
 
 ---
 
