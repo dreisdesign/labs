@@ -48,8 +48,10 @@ class LabsMetricCard extends HTMLElement {
   attributeChangedCallback() { this.render(); }
   connectedCallback() { this.render(); }
   render() {
-    const label = this.getAttribute('label') || 'Metric Label';
-    const value = this.getAttribute('value') || '42';
+    // Support both attributes and slots
+    const label = this.getAttribute('label') || '';
+    const value = this.getAttribute('value') || '';
+
     this.shadowRoot.innerHTML = `
         <style>
           :host {
@@ -59,6 +61,7 @@ class LabsMetricCard extends HTMLElement {
             box-shadow: var(--card-elevation, none);
             padding: var(--space-lg, 1.5rem);
             text-align: center;
+            border: 1px solid color-mix(in srgb, var(--color-on-surface) 6%, transparent);
           }
           
           .metric-label {
@@ -74,11 +77,29 @@ class LabsMetricCard extends HTMLElement {
             font-size: var(--font-size-metric-display, 2rem);
             font-weight: var(--font-weight-metric, 800);
             line-height: var(--line-height-metric, 1.2);
-          color: var(--color-on-surface, #fff);
+            color: var(--color-on-surface, #fff);
+          }
+          
+          ::slotted([slot="label"]) {
+            display: block;
+            font-size: var(--font-size-metric-label, 0.875rem);
+            font-weight: var(--font-weight-metric, 800);
+            line-height: var(--line-height-metric, 1.2);
+            color: var(--color-on-surface-variant, var(--color-on-surface, #666));
+            margin-bottom: var(--space-xs, 4px);
+            text-transform: uppercase;
+          }
+          
+          ::slotted([slot="value"]) {
+            display: block;
+            font-size: var(--font-size-metric-display, 2rem);
+            font-weight: var(--font-weight-metric, 800);
+            line-height: var(--line-height-metric, 1.2);
+            color: var(--color-on-surface, #fff);
           }
         </style>
-        <div class="metric-label">${label}</div>
-        <div class="metric-value">${value}</div>
+        ${label ? `<div class="metric-label">${label}</div>` : '<slot name="label"></slot>'}
+        ${value ? `<div class="metric-value">${value}</div>` : '<slot name="value"></slot>'}
       `;
   }
 }
