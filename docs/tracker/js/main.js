@@ -129,16 +129,19 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     if (footer) {
         footer.addEventListener('reset-all', () => {
+            console.log('Reset-all event fired. Current items:', store.items.length);
             const backup = [...store.items];
             const count = backup.length;
-            console.log('Reset-all: deleting', count, 'entries');
+            console.log('Backup created with', count, 'entries:', backup);
             store.items = [];
             store.save();
             renderAll();
 
             const toast = getToast();
             toast.setAttribute('variant', 'destructive');
-            toast.show(`${count} ${count === 1 ? 'entry' : 'entries'} deleted`, { actionText: 'Undo', duration: 5000 });
+            const message = `${count} ${count === 1 ? 'entry' : 'entries'} deleted`;
+            console.log('Showing toast with message:', message);
+            toast.show(message, { actionText: 'Undo', duration: 5000 });
 
             const handleAction = () => {
                 store.items = backup;
