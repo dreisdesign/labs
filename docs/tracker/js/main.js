@@ -1,162 +1,118 @@
+// Tracker App - Simplified with Design System
+import { applyTheme } from '../../design-system/utils/theme.js';
+import { formatHuman } from '../../design-system/utils/date-format.js';
 
-let formatHuman = (ts) => ts;
-const isProd = location.hostname.includes('github.io');
-const dateFormatPath = isProd
-    ? '/labs/design-system/utils/date-format.js'
-    : '../../design-system/utils/date-format.js';
-
-let formatHumanReady = import(dateFormatPath).then(mod => {
-    formatHuman = mod.formatHuman;
-});
-
-/* tracker module: provide a factory to create isolated tracker instances */
 const STORAGE_KEY = 'tracker-items';
 
-export function createTracker({ metricRootId = 'metric-root', listRootId = 'list-root' } = {}) {
-    const store = {
-        items: [],
-        load() {
-            try {
-                const raw = localStorage.getItem(STORAGE_KEY);
-                if (raw) this.items = JSON.parse(raw) || [];
-                else this.items = [];
-            } catch (e) {
-                console.warn('Failed to load tracker items from storage:', e);
-                this.items = [];
-            }
-        },
-        save() {
-            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(this.items)); }
-            catch (e) { console.warn('Failed to save tracker items to storage:', e); }
+// Data store
+const store = {
+    items: [],
+    load() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            this.items = raw ? JSON.parse(raw) : [];
+        } catch (e) {
+            console.warn('Failed to load tracker items:', e);
+            this.items = [];
         }
-    };
-
-    function handleTrack() {
-        store.items.unshift({ ts: Date.now(), note: '' });
-        store.save();
-        renderAll();
-    }
-
-    function renderMetric(root) {
-        root.innerHTML = '';
-        const card = document.createElement('labs-card');
-        card.setAttribute('variant', 'metric');
-        const label = document.createElement('div');
-        label.className = 'metric-label';
-        label.style.cssText = 'font-size: var(--metric-label-size, 0.875rem); font-weight: var(--metric-label-weight, 800); line-height: var(--metric-label-line-height, 1.2); color: var(--color-on-surface); margin-bottom: var(--space-md, 1rem); text-align: center; width: 100%;';
-        label.textContent = 'Entries';
-        const value = document.createElement('div');
-        value.className = 'metric-value';
-        value.style.cssText = 'font-size: var(--metric-value-size, 2rem); font-weight: var(--metric-value-weight, 800); line-height: var(--metric-value-line-height, 1.2); color: var(--color-primary); text-align: center; width: 100%;';
-        value.textContent = store.items.length;
-        card.appendChild(label);
-        card.appendChild(value);
-        root.appendChild(card);
-    } async function renderList(root) {
-        root.innerHTML = '';
-        const list = document.createElement('div');
-        list.style.display = 'flex';
-        list.style.flexDirection = 'column';
-        list.style.gap = '8px';
-        list.style.width = '100%';
-        list.style.boxSizing = 'border-box';
-        list.style.alignItems = 'stretch';
-
-        if (store.items.length === 0) {
-            const empty = document.createElement('div');
-            empty.className = 'empty';
-            empty.style.color = 'var(--color-on-surface-variant)';
-            empty.textContent = 'No entries — press Track to add one.';
-            list.appendChild(empty);
-            root.appendChild(list);
-            return;
+    },
+    save() {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(this.items));
+        } catch (e) {
+            console.warn('Failed to save tracker items:', e);
         }
-
-        await formatHumanReady;
-        store.items.forEach(item => {
-            const li = document.createElement('labs-list-item');
-            // Use text-only variant and put the time string in the content slot
-            // so the timestamp is the primary label (matches the Timestamp story)
-            li.setAttribute('variant', 'text-only');
-            try {
-                li.setAttribute('value', item.note || '');
-            } catch (e) { }
-
-            const controlIcon = document.createElement('labs-icon');
-            controlIcon.slot = 'control';
-            controlIcon.setAttribute('name', 'check');
-            controlIcon.setAttribute('aria-hidden', 'true');
-            li.appendChild(controlIcon);
-
-            const contentEl = document.createElement('div');
-            contentEl.slot = 'content';
-            contentEl.className = 'item-content';
-            try {
-                contentEl.textContent = formatHuman(item.ts);
-            } catch (e) {
-                try { contentEl.textContent = new Date(item.ts).toLocaleString(); }
-                catch (e2) { contentEl.textContent = (new Date(item.ts)).toISOString(); }
-            }
-            li.appendChild(contentEl);
-
-            const overflow = document.createElement('labs-dropdown');
-            overflow.slot = 'actions';
-            overflow.setAttribute('aria-label', 'More actions');
-            overflow.setAttribute('only', 'delete');
-
-            overflow.addEventListener('remove', (e) => {
-                const removed = store.items.find(x => x.ts === item.ts);
-                store.items = store.items.filter(x => x.ts !== item.ts);
-                store.save();
-                renderAll();
-                try {
-                    if (!document.body.querySelector('labs-toast')) {
-                        const t = document.createElement('labs-toast');
-                        document.body.appendChild(t);
-                    }
-                    const toast = document.body.querySelector('labs-toast');
-                    if (toast) toast.setAttribute('data-variant', 'destructive');
-                    if (toast && typeof toast.show === 'function') {
-                        toast.show('Entry deleted', { actionText: 'Undo', duration: 5000 });
-                        const onAction = () => {
-                            if (removed) store.items.unshift(removed);
-                            store.save();
-                            toast.removeEventListener('action', onAction);
-                            renderAll();
-                        };
-                        toast.addEventListener('action', onAction, { once: true });
-                    }
-                } catch (e) { console.warn('Toast unavailable', e); }
-            });
-
-            li.appendChild(overflow);
-            list.appendChild(li);
-        });
-        root.appendChild(list);
     }
+};
 
-    async function renderAll() {
-        const metricRoot = document.getElementById(metricRootId);
-        const listRoot = document.getElementById(listRootId);
-        if (metricRoot) renderMetric(metricRoot);
-        if (listRoot) await renderList(listRoot);
+// Update metric count
+function updateMetric() {
+    const metricCard = document.getElementById('tracker-metric');
+    const valueSlot = metricCard?.querySelector('[slot="value"]');
+    if (valueSlot) {
+        valueSlot.textContent = store.items.length;
     }
-
-    async function resetAll() {
-        store.items = [];
-        store.save();
-        await renderAll();
-    }
-
-    function init() {
-        store.load();
-        customElements.whenDefined('labs-card').then(() => {
-            renderAll();
-        });
-    }
-
-    const api = { handleTrack, resetAll, init };
-    return api;
 }
 
-export default createTracker;
+// Render all entries
+function renderList() {
+    const listContainer = document.getElementById('entry-list');
+    if (!listContainer) return;
+
+    listContainer.innerHTML = '';
+
+    if (store.items.length === 0) {
+        const empty = document.createElement('div');
+        empty.style.color = 'var(--color-on-surface-variant)';
+        empty.style.textAlign = 'center';
+        empty.style.padding = 'var(--space-lg)';
+        empty.textContent = 'No entries — press Track to add one.';
+        listContainer.appendChild(empty);
+        return;
+    }
+
+    store.items.forEach(item => {
+        const li = document.createElement('labs-list-item');
+        li.setAttribute('variant', 'text-only');
+
+        // Timestamp in content slot
+        const content = document.createElement('span');
+        content.setAttribute('slot', 'content');
+        content.textContent = formatHuman(item.ts);
+        li.appendChild(content);
+
+        // Dropdown for delete action
+        const dropdown = document.createElement('labs-dropdown');
+        dropdown.setAttribute('slot', 'actions');
+        dropdown.setAttribute('only', 'delete');
+        dropdown.addEventListener('remove', () => {
+            store.items = store.items.filter(x => x.ts !== item.ts);
+            store.save();
+            renderAll();
+        });
+        li.appendChild(dropdown);
+
+        listContainer.appendChild(li);
+    });
+}
+
+// Render everything
+function renderAll() {
+    updateMetric();
+    renderList();
+}
+
+// Handle track button
+function handleTrack() {
+    store.items.unshift({ ts: Date.now(), note: '' });
+    store.save();
+    renderAll();
+}
+
+// Handle reset all
+function handleResetAll() {
+    store.items = [];
+    store.save();
+    renderAll();
+}
+
+// Initialize
+window.addEventListener('DOMContentLoaded', () => {
+    // Restore theme
+    const savedTheme = localStorage.getItem('tracker-theme') || 'light';
+    const savedFlavor = localStorage.getItem('tracker-flavor') || 'blueberry';
+    applyTheme({ flavor: savedFlavor, theme: savedTheme });
+
+    // Load data and render
+    store.load();
+    customElements.whenDefined('labs-metric-card').then(() => {
+        renderAll();
+    });
+
+    // Wire up footer events
+    const footer = document.querySelector('labs-footer-with-settings');
+    if (footer) {
+        footer.addEventListener('add', handleTrack);
+        footer.addEventListener('reset-all', handleResetAll);
+    }
+});
