@@ -148,3 +148,10 @@ For setup, usage, and contribution details, see the [migration guide](../_dev/_d
   - **Timestamp**: Explicit variant
   - **Task**: Explicit variant
 - This provides both a flexible playground and one-click access to each variant in the sidebar.
+
+### Card/Welcome Centering & Modularity (2025-10-09)
+
+- **labs-card**: Actions area is now always centered using pure flexbox. No slot wrappers or margin tricks—guaranteed robust centering for all slotted content. Only `align="center"` is supported for maximum modularity. For advanced alignment, wrap actions in a primitive container (see story comment).
+- **Storybook**: Removed obsolete `align` control from Card/Welcome story. Updated documentation to reflect new modular pattern and primitive container option for advanced use.
+
+**Modularity**: All changes follow the modularity guidelines—no external CSS, all layout logic is internal, and advanced alignment is opt-in via a documented primitive container pattern.

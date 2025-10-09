@@ -271,6 +271,21 @@
 
 ---
 
+## 2025-10-09 — Card/Welcome Centering, Modularity, and Storybook Controls Cleanup
+
+- **labs-card**: Actions area is now always centered using pure flexbox (no slot wrappers, no margin tricks). This guarantees robust, modular centering for all slotted content in the actions slot, regardless of structure.
+- **Storybook**: Removed the obsolete `align` control from the canonical Card/Welcome story. The only supported alignment is now `center` for maximum modularity and clarity. For advanced alignment, consumers can wrap actions in a primitive container (see story comment for example).
+- **labs-button**: Icon-only variant color is now always `--color-on-surface` for consistent appearance in all contexts. Disabled state uses `opacity: 0.5` for improved accessibility.
+- **labs-checkbox**: No longer forcibly disables the internal button; now matches modular button behavior and accessibility.
+- **labs-settings-card**: Added safety check to prevent reset-all action if the button is disabled.
+- **Today-List App**: Welcome card now always sets `align="center"` for empty state, ensuring the add button is perfectly centered.
+
+**Modularity**: All changes follow the modularity guidelines—no external CSS, all layout logic is internal, and advanced alignment is opt-in via a documented primitive container pattern.
+
+**Storybook**: All stories and controls are updated for clarity and parity with the new modular approach.
+
+---
+
 ## [Previous - v1.x] - Legacy System
 
 - Refactored and unified the container button system for overlays and destructive actions
