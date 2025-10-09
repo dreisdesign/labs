@@ -9,10 +9,8 @@ const store = {
     items: [],
     load() {
         try {
-            const raw = localStorage.getItem(STORAGE_KEY);
-            this.items = raw ? JSON.parse(raw) : [];
+            this.items = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
         } catch (e) {
-            console.warn('Failed to load tracker items:', e);
             this.items = [];
         }
     },
@@ -20,34 +18,28 @@ const store = {
         try {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(this.items));
         } catch (e) {
-            console.warn('Failed to save tracker items:', e);
+            console.warn('Failed to save:', e);
         }
     }
 };
 
-// Update metric count
-function updateMetric() {
-    const metricCard = document.getElementById('tracker-metric');
-    const valueSlot = metricCard?.querySelector('[slot="value"]');
-    if (valueSlot) {
-        valueSlot.textContent = store.items.length;
-    }
-}
+// Render everything
+function renderAll() {
+    // Update metric
+    const valueSlot = document.querySelector('#tracker-metric [slot="value"]');
+    if (valueSlot) valueSlot.textContent = store.items.length;
 
-// Render all entries
-function renderList() {
-    const listContainer = document.getElementById('entry-list');
-    if (!listContainer) return;
+    // Render list
+    const list = document.getElementById('entry-list');
+    if (!list) return;
 
-    listContainer.innerHTML = '';
+    list.innerHTML = '';
 
     if (store.items.length === 0) {
         const empty = document.createElement('div');
-        empty.style.color = 'var(--color-on-surface-variant)';
-        empty.style.textAlign = 'center';
-        empty.style.padding = 'var(--space-lg)';
+        empty.style.cssText = 'color:var(--color-on-surface-variant);text-align:center;padding:var(--space-lg)';
         empty.textContent = 'No entries — press Track to add one.';
-        listContainer.appendChild(empty);
+        list.appendChild(empty);
         return;
     }
 
@@ -55,13 +47,16 @@ function renderList() {
         const li = document.createElement('labs-list-item');
         li.setAttribute('variant', 'text-only');
 
-        // Timestamp in content slot
+        const icon = document.createElement('labs-icon');
+        icon.setAttribute('slot', 'control');
+        icon.setAttribute('name', 'check');
+        li.appendChild(icon);
+
         const content = document.createElement('span');
         content.setAttribute('slot', 'content');
         content.textContent = formatHuman(item.ts);
         li.appendChild(content);
 
-        // Dropdown for delete action
         const dropdown = document.createElement('labs-dropdown');
         dropdown.setAttribute('slot', 'actions');
         dropdown.setAttribute('only', 'delete');
@@ -72,47 +67,32 @@ function renderList() {
         });
         li.appendChild(dropdown);
 
-        listContainer.appendChild(li);
+        list.appendChild(li);
     });
-}
-
-// Render everything
-function renderAll() {
-    updateMetric();
-    renderList();
-}
-
-// Handle track button
-function handleTrack() {
-    store.items.unshift({ ts: Date.now(), note: '' });
-    store.save();
-    renderAll();
-}
-
-// Handle reset all
-function handleResetAll() {
-    store.items = [];
-    store.save();
-    renderAll();
 }
 
 // Initialize
 window.addEventListener('DOMContentLoaded', () => {
-    // Restore theme
-    const savedTheme = localStorage.getItem('tracker-theme') || 'light';
-    const savedFlavor = localStorage.getItem('tracker-flavor') || 'blueberry';
-    applyTheme({ flavor: savedFlavor, theme: savedTheme });
-
-    // Load data and render
-    store.load();
-    customElements.whenDefined('labs-metric-card').then(() => {
-        renderAll();
+    // Apply theme
+    applyTheme({
+        flavor: localStorage.getItem('tracker-flavor') || 'blueberry',
+        theme: localStorage.getItem('tracker-theme') || 'light'
     });
 
-    // Wire up footer events
+    // Load and render
+    store.load();
+    customElements.whenDefined('labs-metric-card').then(renderAll);
+
+    // Wire up footer
     const footer = document.querySelector('labs-footer-with-settings');
-    if (footer) {
-        footer.addEventListener('add', handleTrack);
-        footer.addEventListener('reset-all', handleResetAll);
-    }
+    footer?.addEventListener('add', () => {
+        store.items.unshift({ ts: Date.now(), note: '' });
+        store.save();
+        renderAll();
+    });
+    footer?.addEventListener('reset-all', () => {
+        store.items = [];
+        store.save();
+        renderAll();
+    });
 });
