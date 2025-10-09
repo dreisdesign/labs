@@ -247,6 +247,13 @@ class LabsSettingsCard extends HTMLElement {
       const resetBtn = this.shadowRoot.getElementById('reset-all-btn');
       if (resetBtn) {
         resetBtn.addEventListener('click', (e) => {
+          // Check if button is disabled and prevent action if so
+          if (resetBtn.hasAttribute('disabled')) {
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+          }
+
           e.preventDefault();
           const confirmed = window.confirm('Warning: This will delete all entries. Are you sure you want to continue?');
           if (confirmed) {

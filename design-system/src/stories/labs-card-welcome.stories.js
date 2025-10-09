@@ -15,6 +15,7 @@ export default {
     },
     component: 'labs-card',
     argTypes: {
+        align: { control: { type: 'inline-radio' }, options: ['left', 'center'], description: 'Content alignment' },
         title: { control: 'text', description: 'Welcome card title' },
         description: { control: 'text', description: 'Welcome card description' },
         buttonText: { control: 'text', description: 'Button text' },
@@ -26,6 +27,7 @@ export default {
         iconRight: { control: { type: 'select' }, options: ['none', ...iconsList], description: 'Icon on right side of button' },
     },
     args: {
+        align: 'left',
         title: 'Welcome to Labs!',
         description: 'Get started by exploring our design system components.',
         buttonText: 'Get Started',
@@ -38,7 +40,7 @@ export default {
     },
 };
 
-export const Default = ({ title, description, buttonText, buttonVariant, buttonSize, buttonFullwidth, buttonPill, iconLeft, iconRight }) => {
+export const Default = ({ align, title, description, buttonText, buttonVariant, buttonSize, buttonFullwidth, buttonPill, iconLeft, iconRight }) => {
     const wrapper = document.createElement('div');
     wrapper.style.display = 'flex';
     wrapper.style.flexDirection = 'column';
@@ -49,6 +51,9 @@ export const Default = ({ title, description, buttonText, buttonVariant, buttonS
 
     const card = document.createElement('labs-card');
     card.setAttribute('variant', 'welcome');
+    if (align && align === 'center') {
+        card.setAttribute('align', 'center');
+    }
 
     const header = document.createElement('h2');
     header.setAttribute('slot', 'header');

@@ -27,7 +27,7 @@ class LabsCard extends HTMLElement {
 .header{font-weight:var(--font-weight-card-header,600);margin:0 0 8px 0;color:var(--color-on-background,inherit);font-size:var(--font-size-card-header,1.125rem);line-height:var(--line-height-card-header,1.2);}
 .description{margin:0 0 12px 0;line-height:var(--line-height-card-desc,1.4);color:var(--color-on-surface,inherit);font-size:var(--font-size-card-desc,1rem);}
 .media{margin-bottom:12px;}
-.actions{display:flex;gap:8px;align-items:center;}
+  .actions{display:flex;gap:8px;align-items:center;justify-content:center;}
 
 /* Ensure slotted content inherits proper styling */
 ::slotted(*) {
@@ -35,12 +35,53 @@ class LabsCard extends HTMLElement {
   font-family: inherit;
 }
 
+/* Center slotted buttons in welcome card */
+:host[variant="welcome"][align="center"] ::slotted(*) {
+  margin: 0 auto;
+}
+
 :host[variant="welcome"] .card{padding:calc(var(--card-padding)*1.25);}
+
+/* Welcome card with centered alignment */
+:host[variant="welcome"][align="center"] .card {
+  text-align: center;
+}
+:host[variant="welcome"][align="center"] .header {
+  text-align: center;
+}
+:host[variant="welcome"][align="center"] .description {
+  text-align: center;
+}
+:host[variant="welcome"][align="center"] .actions {
+  justify-content: center;
+}
+/* Robustly center slotted actions in flex container */
+:host[variant="welcome"][align="center"] .actions > ::slotted(*) {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+:host[variant="welcome"][align="center"] .actions > ::slotted(div) > * {
+  margin-left: auto;
+  margin-right: auto;
+}
+/* Center slotted elements within their wrappers */
+:host[variant="welcome"][align="center"] .header slot,
+:host[variant="welcome"][align="center"] .description slot {
+  display: block;
+  text-align: center;
+}
+
 :host[variant="metric"] .card {
-  padding: var(--space-lg, 24px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    actionsWrap.appendChild(slotActions);
+        
+      headerWrap.appendChild(slotHeader);
+      mediaWrap.appendChild(slotMedia);
+      descWrap.appendChild(slotBody);
+      wrapper.appendChild(headerWrap);
+      wrapper.appendChild(mediaWrap);
+      wrapper.appendChild(descWrap);
+      wrapper.appendChild(actionsWrap);
   text-align: center;
 }
 
@@ -62,6 +103,14 @@ class LabsCard extends HTMLElement {
   font-weight: var(--font-weight-metric);
   line-height: var(--line-height-metric);
   color: var(--color-primary);
+}
+
+/* Modular centering for any slotted actions content */
+:host[variant="welcome"][align="center"] .actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 `;
     const headerWrap = document.createElement('div'); headerWrap.className = 'header'; headerWrap.setAttribute('part', 'header');

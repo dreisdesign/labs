@@ -122,8 +122,9 @@ class LabsButton extends HTMLElement {
         }
         
         /* Disabled state - reduced opacity, no pointer, no interactions */
-        :host([disabled]) button {
-          opacity: 0.3;
+        :host([disabled]) button,
+        button[disabled] {
+          opacity: 0.5;
           cursor: default;
           pointer-events: none;
         }
@@ -179,15 +180,12 @@ class LabsButton extends HTMLElement {
           color: var(--on-error, #fff);
           border: none;
         }
-      /* Icon-only variant — use theme-aware settings icon color so icons adapt in dark mode. Prefer
-        --settings-icon-color, then --color-on-surface (so it matches secondary-with-icon), then
-        finally --color-primary as a last resort. */
+      /* Icon-only variant — use color-on-surface for consistent icon color across all contexts */
       :host([variant="icon"]) button {
        background: none;
-       /* Prefer the canonical text/icon color for surface (fully opaque) so icon-only matches
-         the secondary-with-icon appearance; fall back to --settings-icon-color (which may be
-         semi-transparent) and finally --color-primary. */
-       color: var(--color-on-surface, var(--settings-icon-color, var(--color-primary)));
+       /* Use --color-on-surface as primary color so icon-only buttons (including checkboxes)
+          have consistent color. This ensures checkboxes match the surface text color. */
+       color: var(--color-on-surface, #333);
           border: none;
           padding: var(--button-icon-padding, 0.5em);
           min-width: fit-content;

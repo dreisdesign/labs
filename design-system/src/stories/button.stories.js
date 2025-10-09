@@ -86,29 +86,65 @@ export const Default = {
 
 export const Primary = {
   name: 'Primary',
-  render: () => `
+  args: {
+    variant: 'primary',
+    size: 'medium',
+    disabled: false,
+    pill: false,
+    text: 'Primary'
+  },
+  render: (args) => `
     <div style="background: none; box-shadow: none; padding: 0; border: none;">
-      <labs-button variant="primary">Primary</labs-button>
+      <labs-button 
+        variant="${args.variant}"
+        ${args.disabled ? 'disabled' : ''}
+        ${args.size ? `size="${args.size}"` : ''}
+        ${args.pill ? 'pill' : ''}
+      >${args.text}</labs-button>
     </div>
   `,
 };
 
 export const Secondary = {
   name: 'Secondary',
-  render: () => `
+  args: {
+    variant: 'secondary',
+    size: 'medium',
+    disabled: false,
+    pill: false,
+    text: 'Secondary'
+  },
+  render: (args) => `
     <div style="background: none; box-shadow: none; padding: 0; border: none;">
-      <labs-button variant="secondary">Secondary</labs-button>
+      <labs-button 
+        variant="${args.variant}"
+        ${args.disabled ? 'disabled' : ''}
+        ${args.size ? `size="${args.size}"` : ''}
+        ${args.pill ? 'pill' : ''}
+      >${args.text}</labs-button>
     </div>
   `,
 };
 
 export const WithLeftIcon = {
   name: 'With Left Icon',
-  render: () => `
+  args: {
+    variant: 'primary',
+    size: 'medium',
+    disabled: false,
+    pill: false,
+    text: 'With Left Icon'
+  },
+  render: (args) => `
     <div style="background: none; box-shadow: none; padding: 0; border: none;">
-      <labs-button variant="primary">
+      <labs-button 
+        variant="${args.variant}"
+        ${args.disabled ? 'disabled' : ''}
+        ${args.size ? `size="${args.size}"` : ''}
+        ${args.pill ? 'pill' : ''}
+      >
         <labs-icon slot="icon-left" name="add"></labs-icon>
-        With Left Icon
+        ${args.text}
       </labs-button>
     </div>
   `,
@@ -116,10 +152,22 @@ export const WithLeftIcon = {
 
 export const WithRightIcon = {
   name: 'With Right Icon',
-  render: () => `
+  args: {
+    variant: 'primary',
+    size: 'medium',
+    disabled: false,
+    pill: false,
+    text: 'With Right Icon'
+  },
+  render: (args) => `
     <div style="background: none; box-shadow: none; padding: 0; border: none;">
-      <labs-button variant="primary">
-        With Right Icon
+      <labs-button 
+        variant="${args.variant}"
+        ${args.disabled ? 'disabled' : ''}
+        ${args.size ? `size="${args.size}"` : ''}
+        ${args.pill ? 'pill' : ''}
+      >
+        ${args.text}
         <labs-icon slot="icon-right" name="edit"></labs-icon>
       </labs-button>
     </div>
@@ -129,18 +177,42 @@ export const WithRightIcon = {
 
 export const Destructive = {
   name: 'Destructive',
-  render: () => `
+  args: {
+    variant: 'destructive',
+    size: 'medium',
+    disabled: false,
+    pill: false,
+    text: 'Destructive'
+  },
+  render: (args) => `
     <div style="background: none; box-shadow: none; padding: 0; border: none;">
-      <labs-button variant="destructive">Destructive</labs-button>
+      <labs-button 
+        variant="${args.variant}"
+        ${args.disabled ? 'disabled' : ''}
+        ${args.size ? `size="${args.size}"` : ''}
+        ${args.pill ? 'pill' : ''}
+      >${args.text}</labs-button>
     </div>
   `,
 };
 
 export const Transparent = {
   name: 'Transparent',
-  render: () => `
+  args: {
+    variant: 'transparent',
+    size: 'medium',
+    disabled: false,
+    pill: false,
+    text: 'Transparent'
+  },
+  render: (args) => `
     <div style="background: none; box-shadow: none; padding: 0; border: none;">
-      <labs-button variant="transparent">Transparent</labs-button>
+      <labs-button 
+        variant="${args.variant}"
+        ${args.disabled ? 'disabled' : ''}
+        ${args.size ? `size="${args.size}"` : ''}
+        ${args.pill ? 'pill' : ''}
+      >${args.text}</labs-button>
     </div>
   `,
 };

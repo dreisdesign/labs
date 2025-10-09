@@ -107,7 +107,7 @@ class LabsCheckbox extends HTMLElement {
           }
         }
       </style>
-      <labs-button variant="icon" aria-hidden="true" tabindex="-1" disabled>
+      <labs-button variant="icon" aria-hidden="true" tabindex="-1">
         <labs-icon slot="icon-left" name="${icon}" width="20" height="20"></labs-icon>
       </labs-button>
       <slot style="display:none"></slot>

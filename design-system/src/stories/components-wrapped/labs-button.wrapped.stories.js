@@ -28,8 +28,8 @@ export const Add = {
 export const ResetAllData = {
     name: 'Reset all data',
     render: () => `
-    <labs-button pill variant="destructive">
-      <labs-icon slot="icon-left" name="delete_forever"></labs-icon>
+    <labs-button variant="destructive" size="large" style="gap:10px;">
+      <labs-icon slot="icon-left" name="delete" width="20" height="20" color="var(--color-on-error)"></labs-icon>
       Reset All Data
     </labs-button>
   `,
