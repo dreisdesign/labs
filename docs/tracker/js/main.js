@@ -23,19 +23,24 @@ const store = {
     }
 };
 
+// Get or create toast (singleton)
+let _toastInstance = null;
+function getToast() {
+    if (!_toastInstance) {
+        _toastInstance = document.createElement('labs-toast');
+        document.body.appendChild(_toastInstance);
+    }
+    return _toastInstance;
+}
+
 // Show undo toast
 function showUndoToast(onUndo) {
-    let toast = document.body.querySelector('labs-toast');
-    if (!toast) {
-        toast = document.createElement('labs-toast');
-        document.body.appendChild(toast);
-    }
+    const toast = getToast();
     toast.setAttribute('variant', 'destructive');
     toast.show('Entry deleted', { actionText: 'Undo', duration: 5000 });
-    
+
     const handleAction = () => {
         onUndo();
-        toast.removeEventListener('action', handleAction);
     };
     toast.addEventListener('action', handleAction, { once: true });
 }
@@ -112,30 +117,31 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Wire up footer
     const footer = document.querySelector('labs-footer-with-settings');
-    footer?.addEventListener('add', () => {
-        store.items.unshift({ ts: Date.now(), note: '' });
-        store.save();
-        renderAll();
-    });
-    footer?.addEventListener('reset-all', () => {
+    if (footer) {
+        footer.addEventListener('add', (e) => {
+            console.log('Add event received:', e);
+            store.items.unshift({ ts: Date.now(), note: '' });
+            store.save();
+            renderAll();
+        });
+    } else {
+        console.error('Footer not found!');
+    }
+    footer.addEventListener('reset-all', () => {
         const backup = [...store.items];
+        const count = backup.length;
         store.items = [];
         store.save();
         renderAll();
-        
-        let toast = document.body.querySelector('labs-toast');
-        if (!toast) {
-            toast = document.createElement('labs-toast');
-            document.body.appendChild(toast);
-        }
+
+        const toast = getToast();
         toast.setAttribute('variant', 'destructive');
-        toast.show(`${backup.length} entries deleted`, { actionText: 'Undo', duration: 5000 });
-        
+        toast.show(`${count} ${count === 1 ? 'entry' : 'entries'} deleted`, { actionText: 'Undo', duration: 5000 });
+
         const handleAction = () => {
             store.items = backup;
             store.save();
             renderAll();
-            toast.removeEventListener('action', handleAction);
         };
         toast.addEventListener('action', handleAction, { once: true });
     });
