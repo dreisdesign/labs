@@ -81,7 +81,9 @@ function toggleInputOverlay(open = true) {
         overlay.setAttribute('open', '');
         inputCard.setAttribute('value', '');
         setTimeout(() => {
-            inputCard.shadowRoot?.querySelector('input, textarea')?.focus();
+            const inputEl = inputCard.shadowRoot?.querySelector('input, textarea');
+            if (inputEl) inputEl.value = '';
+            inputEl?.focus();
         }, 100);
     } else {
         overlay.removeAttribute('open');
@@ -114,7 +116,7 @@ function renderAll() {
 
         const header = document.createElement('div');
         header.setAttribute('slot', 'header');
-        header.textContent = 'Welcome!';
+        header.textContent = 'Welcome to Today-List';
         card.appendChild(header);
 
         const body = document.createElement('div');
@@ -126,7 +128,7 @@ function renderAll() {
         addButton.setAttribute('slot', 'actions');
         addButton.setAttribute('variant', 'primary');
         addButton.setAttribute('pill', '');
-        addButton.innerHTML = '<labs-icon slot="icon-left" name="add"></labs-icon>Add Task';
+        addButton.innerHTML = '<labs-icon slot="icon-left" name="add"></labs-icon>Add First Task';
         addButton.addEventListener('click', () => toggleInputOverlay(true));
         card.appendChild(addButton);
 
@@ -295,6 +297,11 @@ window.addEventListener('DOMContentLoaded', () => {
                 store.save();
                 renderAll();
             }
+            // Always clear the input field after save
+            setTimeout(() => {
+                const inputEl = inputCard.shadowRoot?.querySelector('input, textarea');
+                if (inputEl) inputEl.value = '';
+            }, 50);
             toggleInputOverlay(false);
         });
 
