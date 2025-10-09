@@ -2,6 +2,10 @@
 
 class LabsButton extends HTMLElement {
 
+  static get observedAttributes() {
+    return ['disabled'];
+  }
+
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
@@ -12,6 +16,23 @@ class LabsButton extends HTMLElement {
     console.log('[labs-button] connectedCallback');
     // Force a re-render after initial connection to catch late style application
     setTimeout(() => this.render(), 0);
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'disabled') {
+      this.updateDisabledState();
+    }
+  }
+
+  updateDisabledState() {
+    const button = this.shadowRoot?.querySelector('button');
+    if (button) {
+      if (this.hasAttribute('disabled')) {
+        button.setAttribute('disabled', '');
+      } else {
+        button.removeAttribute('disabled');
+      }
+    }
   }
 
   render() {
@@ -99,6 +120,14 @@ class LabsButton extends HTMLElement {
         button:focus-visible {
           box-shadow: 0 0 0 2px var(--button-focus);
         }
+        
+        /* Disabled state - reduced opacity, no pointer, no interactions */
+        :host([disabled]) button {
+          opacity: 0.3;
+          cursor: default;
+          pointer-events: none;
+        }
+        
         /* Hover effects for primary variant */
         button:hover {
           background: color-mix(in srgb, var(--color-primary) 85%, black);
@@ -240,6 +269,9 @@ class LabsButton extends HTMLElement {
         <slot name="icon-right"></slot>
       </button>
     `;
+
+    // Update disabled state after render
+    this.updateDisabledState();
   }
 }
 
