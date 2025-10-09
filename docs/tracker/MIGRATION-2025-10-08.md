@@ -116,6 +116,7 @@ Refactor the Tracker app from a custom implementation with CSS hacks to a clean,
 - Toast positioned above footer (no blocking)
 - Duplicate events prevented with debounce
 - Full undo functionality on delete and reset-all
+- Undo handler cleanup prevents state stacking
 
 ---
 
@@ -228,6 +229,14 @@ li.appendChild(content);
 - Don't manually create complex DOM structures
 - Don't fight shadow DOM encapsulation
 - Don't hardcode colors/spacing
+
+### Critical Bugs Fixed 🐛
+
+**Issue 6: Undo Handler Stacking**
+- **Symptom**: After reset-all → add item → delete item → undo, ALL items would restore (not just the deleted one)
+- **Root Cause**: Toast event listeners were accumulating without cleanup. Each `showUndoToast()` call added a new 'action' listener, and clicking undo would trigger all stacked handlers
+- **Solution**: Track current undo handler with `_currentUndoHandler` variable, remove old handler before adding new one, clear reference after use
+- **Result**: Each undo operation now only restores its own specific state
 
 ---
 
