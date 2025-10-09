@@ -33,6 +33,9 @@ function getToast() {
     return _toastInstance;
 }
 
+// Debounce flag for reset-all to prevent duplicate events
+let _isResetting = false;
+
 // Show undo toast
 function showUndoToast(onUndo) {
     const toast = getToast();
@@ -129,6 +132,13 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     if (footer) {
         footer.addEventListener('reset-all', () => {
+            // Prevent duplicate reset-all events (component fires twice)
+            if (_isResetting) {
+                console.log('Ignoring duplicate reset-all event');
+                return;
+            }
+            _isResetting = true;
+
             console.log('Reset-all event fired. Current items:', store.items.length);
             const backup = [...store.items];
             const count = backup.length;
@@ -149,6 +159,11 @@ window.addEventListener('DOMContentLoaded', () => {
                 renderAll();
             };
             toast.addEventListener('action', handleAction, { once: true });
+
+            // Reset flag after a short delay to allow for any duplicate events
+            setTimeout(() => {
+                _isResetting = false;
+            }, 100);
         });
     }
 });
