@@ -1,4 +1,3 @@
-
 # Labs Documentation Index
 
 ---
@@ -165,6 +164,14 @@ Each app contains:
 - Design system → [design-system/ROADMAP.md](design-system/ROADMAP.md)
 - Specific app → `/docs/{app}/TODO.md` or `/docs/{app}/ROADMAP.md`
 - All tasks → [todo-index.md](todo-index.md)
+
+---
+
+## Note
+
+- **Tracker and Today-List apps now use the canonical modular welcome card for empty states.**
+  - Both apps use `<labs-card variant="welcome" align="center">` with a header, description, and primary action button for a consistent, robust, and system-aligned empty state experience.
+  - This is the recommended pattern for all Labs productivity apps.
 
 ---
 

@@ -155,3 +155,10 @@ For setup, usage, and contribution details, see the [migration guide](../_dev/_d
 - **Storybook**: Removed obsolete `align` control from Card/Welcome story. Updated documentation to reflect new modular pattern and primitive container option for advanced use.
 
 **Modularity**: All changes follow the modularity guidelines—no external CSS, all layout logic is internal, and advanced alignment is opt-in via a documented primitive container pattern.
+
+### Tracker & Today-List: Canonical Welcome Card Pattern (2025-10-09)
+
+- **Tracker app** now uses the modular `labs-card` welcome card for its empty state, matching Today-List. This ensures a consistent, robust, and system-aligned empty state pattern across all Labs apps.
+- The welcome card pattern is now canonical for all Labs productivity apps: always use `<labs-card variant="welcome" align="center">` with header, description, and a primary action in the actions slot.
+
+---

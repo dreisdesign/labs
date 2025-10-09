@@ -286,6 +286,12 @@
 
 ---
 
+## 2025-10-09 — Tracker App Parity: Welcome Card Pattern
+
+- **Tracker app** now uses the modular labs-card welcome card for its empty state, matching Today-List. This is now the canonical pattern for all Labs apps: always use `<labs-card variant="welcome" align="center">` for empty states, with header, description, and a primary action button.
+
+---
+
 ## [Previous - v1.x] - Legacy System
 
 - Refactored and unified the container button system for overlays and destructive actions
