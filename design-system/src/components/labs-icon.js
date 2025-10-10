@@ -24,7 +24,6 @@ const ICON_BASE = (() => {
 const icons = {
   "add": ICON_BASE + 'add--labs-icons.svg',
   "add_circle": ICON_BASE + 'add_circle--labs-icons.svg',
-  "add_circle--labs-icons copy": ICON_BASE + 'add_circle--labs-icons copy--labs-icons.svg',
   "add_comment": ICON_BASE + 'add_comment--labs-icons.svg',
   "apps": ICON_BASE + 'apps--labs-icons.svg',
   "archive": ICON_BASE + 'archive--labs-icons.svg',
@@ -35,7 +34,6 @@ const icons = {
   "build": ICON_BASE + 'build--labs-icons.svg',
   "cancel": ICON_BASE + 'cancel--labs-icons.svg',
   "change_circle": ICON_BASE + 'change_circle--labs-icons.svg',
-  "change_circle-1": ICON_BASE + 'change_circle-1--labs-icons.svg',
   "check": ICON_BASE + 'check--labs-icons.svg',
   "check_box": ICON_BASE + 'check_box--labs-icons.svg',
   "check_box_outline_blank": ICON_BASE + 'check_box_outline_blank--labs-icons.svg',

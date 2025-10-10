@@ -14,8 +14,20 @@ const iconsListPath = path.resolve(repoRoot, "design-system/src/components/icons
 const labsIconComponentPath = path.resolve(repoRoot, "design-system/src/components/labs-icon.js");
 const iconFileSuffix = "--labs-icons.svg";
 
-// 1. Read icon files and generate names
+
+// 1. Fix all SVGs: replace any fill attribute with fill="currentColor"
 const files = fs.readdirSync(iconsDir);
+files.forEach((f) => {
+  if (!f.endsWith(iconFileSuffix)) return;
+  const svgPath = path.join(iconsDir, f);
+  let svg = fs.readFileSync(svgPath, "utf8");
+  // Replace fill="#..." or fill='...' with fill="currentColor"
+  svg = svg.replace(/fill="#([^"]*)"/gi, 'fill="currentColor"');
+  svg = svg.replace(/fill='([^']*)'/gi, 'fill="currentColor"');
+  fs.writeFileSync(svgPath, svg, "utf8");
+});
+
+// 2. Read icon files and generate names
 const iconNames = files
   .filter((f) => f.endsWith(iconFileSuffix))
   .map((f) => f.replace(iconFileSuffix, ""))

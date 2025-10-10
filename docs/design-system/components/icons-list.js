@@ -2,7 +2,6 @@
 export default [
     "add",
     "add_circle",
-    "add_circle--labs-icons copy",
     "add_comment",
     "apps",
     "archive",
@@ -13,7 +12,6 @@ export default [
     "build",
     "cancel",
     "change_circle",
-    "change_circle-1",
     "check",
     "check_box",
     "check_box_outline_blank",
