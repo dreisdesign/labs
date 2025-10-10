@@ -1,3 +1,11 @@
+# [Unreleased] - 2025-10-10
+
+### 🛡️ Icon Workflow Robustness & Automation
+- **Safe Icon Cleanup:** `scripts/cleanup-icon-dupes.js` now only deletes unsuffixed duplicates and renames unsuffixed icons, matching manual workflow.
+- **Valid Icon Object Generation:** `scripts/generate-icons-list.mjs` now only replaces the icons object in `labs-icon.js` between explicit comment markers, always quoting property names for valid JS.
+- **No More File Corruption:** The icon generation script never touches the rest of `labs-icon.js`, preventing accidental duplication or syntax errors.
+- **Fully Automated:** Running `node scripts/cleanup-icon-dupes.js && npm run rp` will safely clean, sync, and update all icons and code.
+
 # [Unreleased] - 2025-09-30
 
 ### 🚀 Major Architecture Improvements

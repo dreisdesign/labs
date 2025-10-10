@@ -185,6 +185,12 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## 📝 Recent Updates
 
+
+### October 10, 2025
+- **Icon Workflow Automation:** Icon cleanup and generation scripts now robustly enforce suffixes, quote all icon names, and only update the icons object in `labs-icon.js` between comment markers. No more file corruption or manual fixes needed.
+- **Safe Cleanup:** `cleanup-icon-dupes.js` matches manual workflow—deletes unsuffixed duplicates, renames unsuffixed icons, and never touches suffixed icons.
+- **Valid JS Generation:** All icon property names are quoted, so icons with hyphens or special characters are always valid.
+
 ### October 4, 2025
 - Fixed Storybook assets 404s (removed from .gitignore)
 - Fixed tracker date-format.js dynamic import
