@@ -1,3 +1,5 @@
+
+import '../../components/labs-footer.js';
 import '../../components/labs-button-reset-media.wrapped.js';
 import { html } from 'lit';
 
@@ -15,6 +17,6 @@ export default {
 export const ResetMedia = {
     name: 'Reset Media',
     render: () => html`
-            <labs-button-reset-media-wrapped fullwidth size="large" variant="primary"></labs-button-reset-media-wrapped>
-        `
+        <labs-button-reset-media-wrapped fullwidth size="small" variant="transparent"></labs-button-reset-media-wrapped>
+    `
 };
