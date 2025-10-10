@@ -4,6 +4,14 @@ import '../components/labs-icon.js';
 export default {
     title: '2. Components/Card/Settings',
     component: 'labs-settings-card',
+    argTypes: {
+        showReset: {
+            name: 'Reset Button',
+            control: 'boolean',
+            description: 'Show the Reset All Data button',
+            table: { category: 'Attributes' }
+        }
+    },
     parameters: {
         docs: {
             description: {
@@ -13,8 +21,10 @@ export default {
     }
 };
 
-export const Default = () => {
+export const Default = ({ showReset }) => {
     const el = document.createElement('labs-settings-card');
+    if (!showReset) el.setAttribute('hide-reset', '');
+    else el.removeAttribute('hide-reset');
     // Optionally add header, content, and footer slots for demo
     const header = document.createElement('div');
     header.slot = 'header';
@@ -28,4 +38,8 @@ export const Default = () => {
     el.appendChild(content);
     el.appendChild(footer);
     return el;
+};
+
+Default.args = {
+    showReset: true
 };
