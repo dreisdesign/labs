@@ -369,6 +369,7 @@ async function main() {
             { name: "Check if rebuild needed", value: "checkRebuild" },
             { name: "Kill all servers (ports 6006, 6007, 8000)", value: "killServers" },
             { name: "Generate icons list", value: "generateIcons" },
+            { name: "Remove unsuffixed duplicate icons (cleanup)", value: "cleanupIconDupes" },
             { name: "Run token scan", value: "tokenScan" },
             { name: "Back", value: "back" }
           ]
@@ -393,6 +394,9 @@ async function main() {
         console.log('\n🎨 Generating icons list...');
         execSync('node scripts/generate-icons-list.mjs', { stdio: 'inherit' });
         console.log('✅ Icons list generated.');
+      } else if (utilAction === "cleanupIconDupes") {
+        console.log('\n🧹 Removing unsuffixed duplicate icons...');
+        execSync('node scripts/cleanup-icon-dupes.js', { stdio: 'inherit' });
       } else if (utilAction === "tokenScan") {
         console.log('\n🔬 Running token scan...');
         execSync('npm run token-scan', { stdio: 'inherit' });
