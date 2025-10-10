@@ -1,12 +1,29 @@
 // Labs Settings Card - matches Tracker app settings overlay
 class LabsSettingsCard extends HTMLElement {
+  static get observedAttributes() {
+    return ['hide-reset'];
+  }
+
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
     this.render();
   }
 
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === 'hide-reset') this.render();
+  }
+
+  get hideReset() {
+    return this.hasAttribute('hide-reset');
+  }
+  set hideReset(val) {
+    if (val) this.setAttribute('hide-reset', '');
+    else this.removeAttribute('hide-reset');
+  }
+
   render() {
+    const hideReset = this.hideReset;
     this.shadowRoot.innerHTML = `
       <style>
         :host {
@@ -136,10 +153,12 @@ class LabsSettingsCard extends HTMLElement {
           <labs-icon name="add" slot="icon-left" width="20" height="20"></labs-icon>
           Simulate Next Day
         </labs-button>
+        ${!hideReset ? `
         <labs-button id="reset-all-btn" variant="destructive" size="large" style="gap:10px;">
           <labs-icon name="delete" slot="icon-left" width="20" height="20" color="var(--color-on-error)"></labs-icon>
           Reset All Data
         </labs-button>
+        ` : ''}
       </div>
     `;
     // Add close event for icon button (dispatches a custom event for overlay to handle)

@@ -59,6 +59,20 @@ function showUndoToast(message, onUndo) {
     toast.addEventListener('action', _currentUndoHandler, { once: true });
 }
 
+// Update reset-all button disabled state
+function updateResetButtonState() {
+    const footer = document.querySelector('labs-footer-with-settings');
+    const settingsCard = footer?.shadowRoot?.querySelector('labs-settings-card');
+    const resetButton = settingsCard?.shadowRoot?.getElementById('reset-all-btn');
+    if (resetButton) {
+        if (store.items.length === 0) {
+            resetButton.setAttribute('disabled', '');
+        } else {
+            resetButton.removeAttribute('disabled');
+        }
+    }
+}
+
 // Render everything
 function renderAll() {
     // Update metric
@@ -67,6 +81,9 @@ function renderAll() {
     if (valueSlot) {
         valueSlot.textContent = store.items.length;
     }
+
+    // Update reset-all button disabled state
+    updateResetButtonState();
 
     // Render list
     const list = document.getElementById('entry-list');
@@ -159,12 +176,16 @@ window.addEventListener('DOMContentLoaded', () => {
             store.save();
             renderAll();
         });
-    }
-    if (footer) {
         footer.addEventListener('reset-all', () => {
             // Prevent duplicate reset-all events (component fires twice)
             if (_isResetting) return;
             _isResetting = true;
+
+            // Don't reset if no items
+            if (store.items.length === 0) {
+                _isResetting = false;
+                return;
+            }
 
             const backup = [...store.items];
             const count = backup.length;
