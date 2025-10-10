@@ -2,7 +2,7 @@ import '../../components/labs-button.js';
 import '../../components/labs-icon.js';
 
 export default {
-  title: '4. Patterns/Buttons - Media/Timer',
+  title: '4. Patterns/Buttons/Timer',
   argTypes: {
     variant: {
       control: { type: 'select' },
@@ -16,9 +16,9 @@ export default {
 };
 
 const states = [
-  { label: 'Start', icon: 'play_arrow' },
-  { label: 'Pause', icon: 'pause' },
-  { label: 'Resume', icon: 'play_arrow' },
+  { label: 'Start', icon: 'play_circle' },
+  { label: 'Pause', icon: 'pause_circle' },
+  { label: 'Resume', icon: 'not_started' },
 ];
 
 export const Timer = {
@@ -28,6 +28,7 @@ export const Timer = {
   render: ({ variant }) => {
     const btn = document.createElement('labs-button');
     btn.setAttribute('variant', variant);
+    btn.setAttribute('pill', '');
     btn.setAttribute('size', 'large');
     btn.style.width = '100%';
     btn.style.justifyContent = 'flex-start';

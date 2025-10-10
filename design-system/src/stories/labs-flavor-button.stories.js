@@ -2,7 +2,7 @@
 import '../components/labs-flavor-button.js';
 
 export default {
-    title: '4. Patterns/Button - Theme/Flavor',
+    title: '4. Patterns/Buttons/Flavor',
     argTypes: {
         variant: {
             control: { type: 'select' },
