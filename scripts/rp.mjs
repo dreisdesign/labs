@@ -96,7 +96,16 @@ function tailLog(file, onLine) {
 }
 
 async function main() {
+
     try {
+        // Run sync-icons.js to check for icon filename issues and halt if any are found
+        log('🔍 Checking icon filenames (sync-icons.js)...');
+        try {
+            execSync('node scripts/sync-icons.js', { cwd: workspaceRoot, stdio: 'inherit' });
+        } catch (err) {
+            process.exit(1);
+        }
+
         log('🚀 Starting Labs development servers...');
 
         // Load previous build times
