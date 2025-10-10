@@ -28,14 +28,28 @@ This is the canonical design system for Labs apps, featuring a comprehensive two
 
 **🎯 Current Status: Production-Ready & Robust**
 
-**2025-09-16 Icon Issue Reference:**
 
-**Icon Not Showing in Dropdown (e.g. more_vert):**
-- If an icon is missing in the UI, check that its SVG filename in `design-system/icons/` ends with `--labs-icons.svg` (e.g. `more_vert--labs-icons.svg`).
+---
+
+## Icon Management Workflow (2025-10-10)
+
+**All icon SVGs in `design-system/icons/` must end with `--labs-icons.svg`.**
+
+If you see a warning about unsuffixed icons when running `npm run rp`, fix it by running:
+
+```bash
+node scripts/cleanup-icon-dupes.js && npm run rp
+```
+
+This script will automatically rename unsuffixed icons or remove duplicates, then restart the workflow. Only the source folder is affected.
+
+**Troubleshooting:**
+- If an icon is missing in the UI, check that its SVG filename ends with `--labs-icons.svg` (e.g. `more_vert--labs-icons.svg`).
 - The icon generation script (`scripts/generate-icons-list.mjs`) only includes files with this suffix.
-- After renaming, run `npm run r` to regenerate the icons map and sync all components.
+- After renaming or running the cleanup script, run `npm run rp` to sync and preview.
 - Manual copying is not required; the build system will sync files automatically.
-- This fixes issues where icons disappear after server restarts or builds.
+
+---
 
 **2025-10-07 Update:**
 - **CSS Variable Inheritance Fix:** All flavor/theme selectors now use `:root.flavor-*.theme-*` instead of `.flavor-*.theme-*`, ensuring CSS custom properties are properly inherited into shadow DOM components. Typography tokens consolidated into a single `:root` block for reliable inheritance.

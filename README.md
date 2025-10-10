@@ -19,7 +19,7 @@
 
 | App | Purpose | Live URL |
 |-----|---------|----------|
-| **🎨 Design System** | Component library & tokens | [Storybook](https://dreisdesign.github.io/labs/design-system/) |
+    | **🎨 Design System** | Component library & tokens | [Storybook](https://dreisdesign.github.io/labs/design-system/) |
 | **⏰ Focus Timer** | Pomodoro-style productivity timer | [Timer App](https://dreisdesign.github.io/labs/timer/) |
 | **📊 Daily Tracker** | Habit and activity tracking with dark mode | [Tracker App](https://dreisdesign.github.io/labs/tracker/) |
 | **📝 Daily Note** | Simple daily note-taking | [Note App](https://dreisdesign.github.io/labs/note/) |
@@ -84,6 +84,23 @@ This command:
 - Labs Homepage: http://localhost:8000
 - Apps: http://localhost:8000/{app}/ (e.g., /tracker/, /today-list/)
 
+
+### Icon Management Workflow
+
+**All icon SVGs in `design-system/icons/` must end with `--labs-icons.svg`.**
+
+If you see a warning about unsuffixed icons when running `npm run rp`, fix it by running:
+
+```bash
+node scripts/cleanup-icon-dupes.js && npm run rp
+```
+
+This will automatically rename unsuffixed icons or remove duplicates, then restart the workflow. Only the source folder is affected.
+
+If an icon is missing in the UI, check that its SVG filename ends with `--labs-icons.svg`.
+
+---
+
 ### Deployment
 
 ```bash
@@ -131,11 +148,13 @@ This builds Storybook, syncs to `docs/`, updates paths for GitHub Pages, and dep
 
 ## 📖 Documentation
 
+
 ### For Developers
 - [Development Workflow](docs/DEVELOPMENT.md) — Local setup, build process, deployment
 - [Design System README](design-system/README.md) — Component library overview
 - [Smoothie Philosophy](design-system/smoothie.md) — Design metaphor and concepts
 - [Design System Roadmap](design-system/ROADMAP.md) — Planned features
+- [Icon Workflow & Troubleshooting](#icon-management-workflow)
 
 ### For Contributors
 - [Contributing Guide](CONTRIBUTING.md) — How to contribute, PR process
