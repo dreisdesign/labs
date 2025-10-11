@@ -1,140 +1,82 @@
-// Minimal labs-card web component
 
+/**
+ * Canonical slot-driven Labs Card
+ *
+ * @slot header - Card title/header
+ * @slot close - Close icon/button
+ * @slot description - Card description text
+ * @slot input - Input field or custom input
+ * @slot actions - Action buttons (footer)
+ *
+ * @cssprop --labs-card-max-width - Maximum width of the card (default: 520px)
+ * @cssprop --labs-card-min-width - Minimum width of the card (default: 280px)
+ * @cssprop --labs-card-padding - Card padding (default: 20px 18px)
+ * @cssprop --labs-card-radius - Card border radius (default: 18px)
+ * @cssprop --labs-card-shadow - Card box-shadow (default: 0 6px 40px ...)
+ * @cssprop --color-surface - Card background color
+ * @cssprop --color-on-background - Header text color
+ * @cssprop --color-on-surface-muted - Description text color
+ * @cssprop --font-family-base - Font family
+ * @cssprop --font-size-h3 - Header font size (from tokens)
+ * @cssprop --font-size-base - Description/input font size (from tokens)
+ * @cssprop --font-weight-card-header - Header font weight
+ * @cssprop --line-height-card-header - Header line height
+ */
 class LabsCard extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
-    const wrapper = document.createElement('div');
-    wrapper.className = 'card';
+    this.render();
+  }
 
-    const slotHeader = document.createElement('slot'); slotHeader.name = 'header';
-    const slotMedia = document.createElement('slot'); slotMedia.name = 'media';
-    const slotBody = document.createElement('slot'); // default slot
-    const slotActions = document.createElement('slot'); slotActions.name = 'actions';
-
-    const style = document.createElement('style');
-    style.textContent = `
-/* Include metric tokens directly in shadow DOM */
-:host {
-  --font-size-metric-display: var(--font-size-display, 2rem);
-  --font-size-metric-label: 0.875rem;
-  --font-weight-metric: 800;
-  --line-height-metric: 1.2;
-}
-
-:host{display:block;--card-padding:var(--space-md,16px);font-family:var(--font-family-base,inherit);}
-.card{background:var(--color-surface,#fff);color:var(--color-on-surface);border-radius:var(--radius-lg,8px);padding:var(--card-padding);box-shadow:var(--card-elevation,none);border:1px solid color-mix(in srgb,var(--color-on-surface) 6%,transparent);}
-.header{font-weight:var(--font-weight-card-header,600);margin:0 0 8px 0;color:var(--color-on-background,inherit);font-size:var(--font-size-card-header,1.125rem);line-height:var(--line-height-card-header,1.2);}
-.description{margin:0 0 12px 0;line-height:var(--line-height-card-desc,1.4);color:var(--color-on-surface,inherit);font-size:var(--font-size-card-desc,1rem);}
-.media{margin-bottom:12px;}
-  .actions{display:flex;gap:8px;align-items:center;justify-content:center;}
-
-/* Ensure slotted content inherits proper styling */
-::slotted(*) {
-  color: inherit;
-  font-family: inherit;
-}
-
-/* Center slotted buttons in welcome card */
-:host[variant="welcome"][align="center"] ::slotted(*) {
-  margin: 0 auto;
-}
-
-:host[variant="welcome"] .card{padding:calc(var(--card-padding)*1.25);}
-
-/* Welcome card with centered alignment */
-:host[variant="welcome"][align="center"] .card {
-  text-align: center;
-}
-:host[variant="welcome"][align="center"] .header {
-  text-align: center;
-}
-:host[variant="welcome"][align="center"] .description {
-  text-align: center;
-}
-:host[variant="welcome"][align="center"] .actions {
-  justify-content: center;
-}
-/* Robustly center slotted actions in flex container */
-:host[variant="welcome"][align="center"] .actions > ::slotted(*) {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-:host[variant="welcome"][align="center"] .actions > ::slotted(div) > * {
-  margin-left: auto;
-  margin-right: auto;
-}
-/* Center slotted elements within their wrappers */
-:host[variant="welcome"][align="center"] .header slot,
-:host[variant="welcome"][align="center"] .description slot {
-  display: block;
-  text-align: center;
-}
-
-:host[variant="metric"] .card {
-    actionsWrap.appendChild(slotActions);
-        
-      headerWrap.appendChild(slotHeader);
-      mediaWrap.appendChild(slotMedia);
-      descWrap.appendChild(slotBody);
-      wrapper.appendChild(headerWrap);
-      wrapper.appendChild(mediaWrap);
-      wrapper.appendChild(descWrap);
-      wrapper.appendChild(actionsWrap);
-  text-align: center;
-}
-
-:host[variant="metric"] .description {
-  display: contents;
-}
-
-/* Use ::slotted() to directly style metric elements */
-:host[variant="metric"] ::slotted(.metric-label) {
-  font-size: var(--font-size-metric-label);
-  font-weight: var(--font-weight-metric);
-  line-height: var(--line-height-metric);
-  color: var(--color-on-surface-variant);
-  margin-bottom: var(--space-xs);
-}
-
-:host[variant="metric"] ::slotted(.metric-value) {
-  font-size: var(--font-size-metric-display);
-  font-weight: var(--font-weight-metric);
-  line-height: var(--line-height-metric);
-  color: var(--color-primary);
-}
-
-/* Modular centering for any slotted actions content */
-:host[variant="welcome"][align="center"] .actions {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-`;
-    const headerWrap = document.createElement('div'); headerWrap.className = 'header'; headerWrap.setAttribute('part', 'header');
-    const descWrap = document.createElement('div'); descWrap.className = 'description'; descWrap.setAttribute('part', 'body');
-    const mediaWrap = document.createElement('div'); mediaWrap.className = 'media'; mediaWrap.setAttribute('part', 'media');
-    const actionsWrap = document.createElement('div'); actionsWrap.className = 'actions'; actionsWrap.setAttribute('part', 'actions');
-
-    headerWrap.appendChild(slotHeader);
-    mediaWrap.appendChild(slotMedia);
-    descWrap.appendChild(slotBody);
-    actionsWrap.appendChild(slotActions);
-
-    wrapper.appendChild(headerWrap);
-    wrapper.appendChild(mediaWrap);
-    wrapper.appendChild(descWrap);
-    wrapper.appendChild(actionsWrap);
-
-    this.shadowRoot.appendChild(style);
-    this.shadowRoot.appendChild(wrapper);
+  render() {
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host {
+          display: block;
+          max-width: var(--labs-card-max-width, 520px);
+          min-width: var(--labs-card-min-width, 280px);
+          margin: 0 auto;
+          background: var(--color-surface, #fff);
+          border-radius: var(--labs-card-radius, 18px);
+          box-shadow: var(--labs-card-shadow, 0 6px 40px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.04));
+          padding: var(--labs-card-padding, 20px 18px);
+          font-family: var(--font-family-base, system-ui, sans-serif);
+          position: relative;
+        }
+        .header-row {
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+        }
+        .header {
+          margin: 0;
+          font-size: var(--font-size-h3, 1.25rem);
+          font-weight: var(--font-weight-card-header, 600);
+          line-height: var(--line-height-card-header, 1.2);
+          color: var(--color-on-background, inherit);
+        }
+        .description {
+          margin-top: 8px;
+          color: var(--color-on-surface-muted, #666);
+          font-size: var(--font-size-base, 1rem);
+        }
+        .input-row { margin-top: 14px; }
+        .actions { display: flex; gap: 10px; margin-top: 16px; justify-content: flex-end; }
+        ::slotted([slot="header"]) { font-size: inherit; font-weight: inherit; }
+        ::slotted([slot="close"]) { margin-left: 8px; }
+  ::slotted([slot="description"]) { margin-top: 8px; color: var(--color-on-surface-muted, #666); font-size: var(--font-size-base, 1rem); }
+    ::slotted([slot="input"]) { margin-top: 14px; display: block; font-size: var(--font-size-base, 1rem); }
+        ::slotted([slot="actions"]) { display: flex; gap: 10px; margin-top: 16px; justify-content: flex-end; }
+      </style>
+      <div class="header-row">
+        <div class="header"><slot name="header"></slot></div>
+        <slot name="close"></slot>
+      </div>
+      <slot name="description"></slot>
+      <slot name="input"></slot>
+      <slot name="actions"></slot>
+    `;
   }
 }
-
-if (!customElements.get('labs-card')) {
-  customElements.define('labs-card', LabsCard);
-}
-
-export default LabsCard;
+customElements.define('labs-card', LabsCard);

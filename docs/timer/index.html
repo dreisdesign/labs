@@ -8,22 +8,60 @@
 
   <!-- Design System Tokens -->
   <link rel="stylesheet" href="../design-system/tokens/colors.css">
-  <link rel="stylesheet" href="../design-system/tokens/spacing.css">
   <link rel="stylesheet" href="../design-system/tokens/typography.css">
-  <link rel="stylesheet" href="../design-system/tokens/border-radius.css">
-  <link rel="stylesheet" href="../design-system/tokens/shadows.css">
   <link rel="stylesheet" href="../design-system/styles/flavors.css">
 
   <!-- Components -->
   <script type="module" src="../design-system/components/labs-container.js"></script>
   <script type="module" src="../design-system/components/labs-footer-media-controls.js"></script>
-  <script type="module" src="../design-system/components/labs-template-header.wrapped.js"></script>
+  <script type="module" src="../design-system/components/labs-warning-card.js"></script>
+  <script type="module" src="../design-system/components/labs-warning-overlay.js"></script>
+  <script type="module" src="../design-system/components/labs-toast.js"></script>
 
-  <!-- Theme/flavor setup (optional, can be expanded) -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-family-base, system-ui, sans-serif);
+      background: var(--color-surface, #f5f5f5);
+      color: var(--color-on-surface, #222);
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .app {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    .timer-display {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(4rem, 25vw, 25rem);
+      font-weight: 900;
+      line-height: 1;
+      padding: 2rem;
+    }
+
+    @media (min-width: 640px) {
+      .timer-display {
+        font-size: clamp(4rem, 20vw, 20rem);
+      }
+    }
+  </style>
+
   <script>
     (function () {
       var root = document.documentElement;
-      var flavor = localStorage.getItem('timer-flavor') || 'blueberry';
+      var flavor = localStorage.getItem('timer-flavor') || 'strawberry';
       var theme = localStorage.getItem('timer-theme') || 'light';
       root.classList.remove('flavor-blueberry', 'flavor-strawberry', 'flavor-vanilla');
       root.classList.remove('theme-light', 'theme-dark');
@@ -32,41 +70,27 @@
       root.setAttribute('data-color-scheme', theme);
     })();
   </script>
-
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      background: var(--color-background);
-      color: var(--color-on-surface);
-      font-family: var(--font-family-base);
-    }
-
-    labs-container {
-      flex: 1;
-      display: block;
-      max-width: 600px;
-      margin: 0 auto;
-      width: 100%;
-    }
-
-    labs-footer-media-controls {
-      margin-top: auto;
-    }
-  </style>
 </head>
 
 <body>
-  <labs-container padding-md>
-    <labs-template-header-wrapped>
-      <span slot="title">Focus Timer</span>
-    </labs-template-header-wrapped>
-    <!-- Timer UI will go here in the next step -->
+  <labs-container fullbleed>
+    <div class="app">
+      <div class="timer-display" id="timerDisplay">25:00</div>
+    </div>
   </labs-container>
-  <labs-footer-media-controls elevated></labs-footer-media-controls>
+  <labs-footer-media-controls mode="timer" elevated></labs-footer-media-controls>
+  <labs-warning-overlay id="resetWarning" style="display:none;">
+    <labs-icon name="warning" slot="icon"></labs-icon>
+    <span slot="header">Reset Timer?</span>
+    <span>This will reset the timer to 25:00. Are you sure?</span>
+    <div slot="actions">
+      <labs-button id="resetConfirm" variant="destructive">Okay</labs-button>
+      <labs-button id="resetCancel" variant="secondary">Cancel</labs-button>
+    </div>
+  </labs-warning-overlay>
+  <labs-toast id="undoToast" style="display:none;">Timer reset. <span slot="action">Undo</span></labs-toast>
+
+  <script type="module" src="timer.js"></script>
 </body>
 
 </html>

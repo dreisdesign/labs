@@ -1,39 +1,157 @@
-// docs/timer/timer.js
-// Modular Timer logic for Focus Timer app
-// All DOM queries and logic should target the new modular layout
-
-export class PomodoroTimer {
-    constructor(options = {}) {
-        this.workDuration = options.workDuration || 25 * 60; // seconds
-        this.breakDuration = options.breakDuration || 5 * 60; // seconds
-        this.currentTime = this.workDuration;
+// Focus Timer - Clean and Simple
+class FocusTimer {
+    constructor() {
+        // Timer state
+        this.currentTime = 25 * 60; // Start at 25:00 (in seconds)
         this.isRunning = false;
-        this.isWorkSession = true;
-        this.hasStarted = false;
         this.interval = null;
-        this.elements = {};
+        this.lastTime = null; // For undo
+
+        // Get DOM elements
+        this.display = document.getElementById('timerDisplay');
+        this.footer = document.querySelector('labs-footer-media-controls');
+        this.overlay = document.getElementById('resetWarning');
+        this.toast = document.getElementById('undoToast');
+        this.resetConfirm = document.getElementById('resetConfirm');
+        this.resetCancel = document.getElementById('resetCancel');
+
+        // Initialize
+        this.updateDisplay();
+        this.setupEvents();
     }
 
-    mount(container) {
-        // Query and store all needed elements from the container
-        this.elements.status = container.querySelector('#status');
-        this.elements.workTime = container.querySelector('#workTime');
-        this.elements.breakTime = container.querySelector('#breakTime');
-        this.elements.workProgress = container.querySelector('#workProgress');
-        this.elements.breakProgress = container.querySelector('#breakProgress');
-        this.elements.workCircle = container.querySelector('#workCircle');
-        this.elements.breakCircle = container.querySelector('#breakCircle');
-        // Footer controls will be wired up separately
+    setupEvents() {
+        if (!this.footer) return;
+
+        // Timer mode: Start → Pause ↔ Resume
+        // The button label tells us what will happen on the NEXT click
+        this.footer.addEventListener('media-action', (e) => {
+            const buttonLabel = e.detail.label;
+
+            if (buttonLabel === 'Pause') {
+                // Button shows "Pause" - timer is running, ready to be paused
+                this.start();
+            } else if (buttonLabel === 'Resume') {
+                // Button shows "Resume" - timer is paused, ready to be resumed
+                this.pause();
+            }
+        });
+
+        // Listen for reset button
+        this.footer.addEventListener('reset-media', () => {
+            this.showResetWarning();
+        });
+
+        // Timer display click/tap toggles the same as the button
+        if (this.display) {
+            this.display.addEventListener('click', () => {
+                // Simulate a click on the footer button
+                if (this.footer && this.footer.shadowRoot) {
+                    const btn = this.footer.shadowRoot.getElementById('media-btn');
+                    if (btn) btn.click();
+                }
+            });
+        }
+
+        // Overlay confirm/cancel
+        if (this.resetConfirm) {
+            this.resetConfirm.addEventListener('click', () => {
+                this.hideResetWarning();
+                this.doResetWithUndo();
+            });
+        }
+        if (this.resetCancel) {
+            this.resetCancel.addEventListener('click', () => {
+                this.hideResetWarning();
+            });
+        }
+        if (this.overlay) {
+            this.overlay.addEventListener('close', () => {
+                this.hideResetWarning();
+            });
+        }
+        // Toast undo
+        if (this.toast) {
+            this.toast.addEventListener('click', (e) => {
+                if (e.target && e.target.slot === 'action') {
+                    this.undoReset();
+                }
+            });
+        }
+    }
+
+    showResetWarning() {
+        if (this.overlay) this.overlay.style.display = '';
+    }
+    hideResetWarning() {
+        if (this.overlay) this.overlay.style.display = 'none';
+    }
+    doResetWithUndo() {
+        this.lastTime = this.currentTime;
+        this.reset();
+        if (this.toast) {
+            this.toast.style.display = '';
+            setTimeout(() => {
+                if (this.toast) this.toast.style.display = 'none';
+            }, 4000);
+        }
+    }
+    undoReset() {
+        if (this.lastTime != null) {
+            this.currentTime = this.lastTime;
+            this.updateDisplay();
+            this.lastTime = null;
+        }
+        if (this.toast) this.toast.style.display = 'none';
+    }
+
+    start() {
+        if (this.isRunning) return;
+
+        this.isRunning = true;
+        this.interval = setInterval(() => {
+            this.currentTime--;
+            this.updateDisplay();
+
+            // When we hit -5:00, reset to 25:00
+            if (this.currentTime === -300) { // -5:00 in seconds
+                this.reset();
+            }
+        }, 1000);
+    }
+
+    pause() {
+        this.isRunning = false;
+        if (this.interval) {
+            clearInterval(this.interval);
+            this.interval = null;
+        }
+    }
+
+    reset() {
+        this.pause();
+        this.currentTime = 25 * 60; // Reset to 25:00
         this.updateDisplay();
     }
 
-    // Timer logic methods (start, pause, reset, etc.) will be added here
     updateDisplay() {
-        // Placeholder: update timer display logic
+        const isNegative = this.currentTime < 0;
+        const absTime = Math.abs(this.currentTime);
+        const minutes = Math.floor(absTime / 60);
+        const seconds = absTime % 60;
+        const timeString = `${isNegative ? '-' : ''}${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+        if (this.display) {
+            this.display.textContent = timeString;
+        }
     }
 }
 
-// Usage example (after DOM is ready):
-// import { PomodoroTimer } from './timer.js';
-// const timer = new PomodoroTimer();
-// timer.mount(document.querySelector('labs-container'));
+// Initialize when ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        window.timer = new FocusTimer();
+    });
+} else {
+    window.timer = new FocusTimer();
+}
