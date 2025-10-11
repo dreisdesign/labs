@@ -70,6 +70,13 @@ export const Typography = {
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);"><span style="font-size:var(--font-size-display); font-weight:var(--font-weight-heading);">Display</span></td>
             </tr>
             <tr>
+              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">--font-size-base</td>
+              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">${getComputedStyle(document.documentElement).getPropertyValue('--font-size-base').trim()}</td>
+              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">400</td>
+              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">1.5</td>
+              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);"><span style="font-size:var(--font-size-base);">Base text <span style='color:#888;font-size:0.95em;'>(canonical)</span></span></td>
+            </tr>
+            <tr>
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">--font-size-body-xs</td>
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">${getComputedStyle(document.documentElement).getPropertyValue('--font-size-body-xs').trim()}</td>
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">400</td>
@@ -81,7 +88,7 @@ export const Typography = {
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">${getComputedStyle(document.documentElement).getPropertyValue('--font-size-entry-text').trim()}</td>
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">400</td>
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">1.5</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);"><span style="font-size:var(--font-size-entry-text);">Entry text</span></td>
+              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);"><span style="font-size:var(--font-size-entry-text);">Entry text <span style='color:#888;font-size:0.95em;'>(alias: <b>--font-size-base</b>)</span></span></td>
             </tr>
             <tr>
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">--font-size-entry-meta</td>
@@ -95,7 +102,7 @@ export const Typography = {
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">${getComputedStyle(document.documentElement).getPropertyValue('--font-size-button').trim()}</td>
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">600</td>
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">1.2</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);"><span style="font-size:var(--font-size-button); font-weight:var(--font-weight-button); line-height:var(--line-height-button);">Button text</span></td>
+              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);"><span style="font-size:var(--font-size-button); font-weight:var(--font-weight-button); line-height:var(--line-height-button);">Button text <span style='color:#888;font-size:0.95em;'>(alias: <b>--font-size-base</b>)</span></span></td>
             </tr>
             <tr>
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">--font-size-card-header</td>
@@ -109,7 +116,7 @@ export const Typography = {
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">${getComputedStyle(document.documentElement).getPropertyValue('--font-size-card-desc').trim()}</td>
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">400</td>
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">1.4</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);"><span style="font-size:var(--font-size-card-desc); line-height:var(--line-height-card-desc);">Card description</span></td>
+              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);"><span style="font-size:var(--font-size-card-desc); line-height:var(--line-height-card-desc);">Card description <span style='color:#888;font-size:0.95em;'>(alias: <b>--font-size-base</b>)</span></span></td>
             </tr>
             <tr>
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">--font-size-toast</td>
@@ -130,7 +137,7 @@ export const Typography = {
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">${getComputedStyle(document.documentElement).getPropertyValue('--font-size-input').trim()}</td>
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">400</td>
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">1.4</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);"><span style="font-size:var(--font-size-input);">Input text</span></td>
+              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);"><span style="font-size:var(--font-size-input);">Input text <span style='color:#888;font-size:0.95em;'>(alias: <b>--font-size-base</b>)</span></span></td>
             </tr>
             <tr>
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">--font-size-footer</td>
@@ -144,7 +151,7 @@ export const Typography = {
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">${getComputedStyle(document.documentElement).getPropertyValue('--font-size-overlay').trim()}</td>
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">400</td>
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">1.5</td>
-              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);"><span style="font-size:var(--font-size-overlay); line-height:var(--line-height-overlay);">Overlay text</span></td>
+              <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);"><span style="font-size:var(--font-size-overlay); line-height:var(--line-height-overlay);">Overlay text <span style='color:#888;font-size:0.95em;'>(alias: <b>--font-size-base</b>)</span></span></td>
             </tr>
             <tr>
               <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">--font-size-small</td>
