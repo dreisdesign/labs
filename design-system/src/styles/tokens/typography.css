@@ -3,30 +3,54 @@
  Labs Design System — Typography Tokens Reference
 --------------------------------------------------
 
-| Token Name               | Usage/Role         | Example Value      |
-|--------------------------|--------------------|--------------------|
-| --font-family-base       | All text           | system-ui, ...     |
-| --font-family-mono       | Code/monospace     | SFMono-Regular,... |
-| --font-size-base         | Body text          | 1rem               |
-| --font-size-body-xs      | Extra small text   | 12px               |
-| --font-size-small        | Secondary text     | 0.875rem           |
-| --font-size-large        | Large body text    | 1.1rem             |
-| --font-size-h1           | H1 headings        | 1.75rem            |
-| --font-size-h2           | H2 headings        | 1.5rem             |
-| --font-size-h3           | H3 headings        | 1.25rem            |
-| --font-size-entry-text   | Entry text         | 1rem               |
-| --font-size-entry-meta   | Entry meta/info    | 0.75rem            |
-| --font-size-button       | Button text        | 1rem               |
-| --font-size-label        | Form labels        | 0.875rem           |
-| --font-size-caption      | Captions/tooltips  | 0.75rem            |
-| --font-size-badge        | Badges/tags        | 0.75rem            |
-| --font-weight-normal     | Normal text        | 400                |
-| --font-weight-semibold   | Emphasis           | 600                |
-| --font-weight-bold       | Strong emphasis    | 800                |
-| --font-weight-heading    | Headings           | 800                |
-| --font-weight-label      | Labels             | 600                |
-| --line-height-base       | Body text          | 1.5                |
-| --line-height-heading    | Headings           | 1.2                |
+| Token Name               | Font Size | Weight | Line Height | Usage/Role         |
+|--------------------------|-----------|--------|-------------|--------------------|
+| --font-family-base       |           |        |             | All text           |
+| --font-family-mono       |           |        |             | Code/monospace     |
+| --font-size-tiny         | 0.6rem    |        |             | Tiny text/captions |
+| --font-size-body-xs      | 12px      |        |             | Extra small text   |
+| --font-size-small        | 0.875rem  |        |             | Secondary text     |
+| --font-size-base         | 1rem      | 400    | 1.5         | Body text          |
+| --font-size-large        | 1.1rem    |        |             | Large body text    |
+| --font-size-h3           | 1.25rem   | 600    | 1.3         | H3 headings        |
+| --font-size-h2           | 1.5rem    | 700    | 1.25        | H2 headings        |
+| --font-size-h1           | 3rem      | 800    | 1.2         | H1 headings        |
+| --font-size-display      | 2rem      | 800    | 1.1         | Display headings   |
+| --font-size-metric-display| 3rem     | 800    | 1.2         | Metric display     |
+| --font-size-metric-label | 0.875rem  | 800    | 1.2         | Metric label       |
+| --font-weight-normal     |           | 400    |             | Normal text        |
+| --font-weight-semibold   |           | 600    |             | Emphasis           |
+| --font-weight-bold       |           | 800    |             | Strong emphasis    |
+| --font-weight-heading    |           | 800    |             | Headings           |
+| --font-weight-label      |           | 600    |             | Labels             |
+| --line-height-base       |           |        | 1.5         | Body text          |
+| --line-height-heading    |           |        | 1.2         | Headings           |
+| --font-size-sm           | 0.875rem  |        |             | Alias: small       |
+| --font-size-lg           | 1.25rem   |        |             | Alias: h3          |
+| --font-size-xxl          | 3rem      |        |             | Alias: h1          |
+| --font-size-entry-text   | 1rem      |        |             | Entry text         |
+| --font-size-entry-meta   | 12px      |        |             | Entry meta/info    |
+| --font-size-button       | 1rem      | 600    | 1.2         | Button text        |
+| --font-weight-button     |           | 600    |             | Button weight      |
+| --line-height-button     |           |        | 1.2         | Button line height |
+| --font-size-card-header  | 1.5rem    | 600    | 1.2         | Card header        |
+| --font-weight-card-header|           | 600    |             | Card header weight |
+| --line-height-card-header|           |        | 1.2         | Card header lh     |
+| --font-size-card-desc    | 1rem      |        | 1.4         | Card description   |
+| --line-height-card-desc  |           |        | 1.4         | Card desc lh       |
+| --font-size-toast        | 0.95rem   |        | 1.3         | Toast text         |
+| --line-height-toast      |           |        | 1.3         | Toast lh           |
+| --font-size-toast-action | 0.9rem    | 600    |             | Toast action       |
+| --font-weight-toast-action|          | 600    |             | Toast action weight|
+| --font-size-badge        | 0.75rem   | 500    | 1.2         | Badges/tags        |
+| --font-weight-badge      |           | 500    |             | Badge weight       |
+| --line-height-badge      |           |        | 1.2         | Badge lh           |
+| --font-size-input        | 1rem      |        | 1.4         | Input text         |
+| --line-height-input      |           |        | 1.4         | Input lh           |
+| --font-size-footer       | 0.9rem    |        | 1.4         | Footer text        |
+| --line-height-footer     |           |        | 1.4         | Footer lh          |
+| --font-size-overlay      | 1rem      |        | 1.5         | Overlay text       |
+| --line-height-overlay    |           |        | 1.5         | Overlay lh         |
 
 Add new tokens below as needed. Promote component-specific tokens to general if reused.
 --------------------------------------------------
@@ -34,21 +58,19 @@ Add new tokens below as needed. Promote component-specific tokens to general if 
 
 /* Labs Design System - Typography Tokens (merged :root) */
 :root {
+  /* Font families */
   --font-family-base: "Source Sans 3", "Segoe UI", Arial, sans-serif;
+  --font-family-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
-  /* Font Size Scale */
+  /* Font size scale (smallest to largest, general first) */
   --font-size-tiny: 0.6rem;
   /* 9.6px - Captions, hints */
+  --font-size-body-xs: 12px;
+  /* Extra small text */
   --font-size-small: 0.875rem;
   /* 14px - Secondary text */
   --font-size-base: 1rem;
   /* 16px - Body text */
-  --font-size-sm: 0.875rem;
-  /* 14px */
-  --font-size-lg: 1.25rem;
-  /* 20px */
-  --font-size-display: 2rem;
-  /* for large headings used in docs */
   --font-size-large: 1.1rem;
   /* 17.6px - Large body text */
   --font-size-h3: 1.25rem;
@@ -57,62 +79,52 @@ Add new tokens below as needed. Promote component-specific tokens to general if 
   /* 24px - H2 headings */
   --font-size-h1: 3rem;
   /* 48px - H1 headings, app title */
+  --font-size-display: 2rem;
+  /* For large headings used in docs */
 
-  /* Legacy aliases for backward compatibility */
-  --font-size-sm: var(--font-size-small);
-  --font-size-lg: var(--font-size-h3);
-  --font-size-xxl: var(--font-size-h1);
-
-  /* Font Weights */
+  /* Font weights (general first) */
   --font-weight-normal: 400;
   --font-weight-semibold: 600;
   --font-weight-bold: 800;
   --font-weight-heading: 800;
-  --font-weight-regular: 400;
+  --font-weight-label: 600;
   --font-weight-regular: var(--font-weight-normal);
 
-  /* Small extra tokens used in stories/components */
-  --font-size-body-xs: 12px;
+  /* Line heights (general first) */
+  --line-height-base: 1.5;
+  --line-height-heading: 1.2;
 
-  /* Today List specific (can be promoted to general if reused) */
+  /* Aliases for backward compatibility */
+  --font-size-sm: var(--font-size-small);
+  --font-size-lg: var(--font-size-h3);
+  --font-size-xxl: var(--font-size-h1);
+
+  /* Component/legacy tokens (keep at end, promote to general if reused) */
   --font-size-entry-text: var(--font-size-base, 1rem);
   --font-size-entry-meta: var(--font-size-body-xs, 12px);
-
-  /* Component-specific typography tokens */
   --font-size-button: 1rem;
   --font-weight-button: 600;
   --line-height-button: 1.2;
-
   --font-size-card-header: 1.5rem;
   --font-weight-card-header: 600;
   --line-height-card-header: 1.2;
   --font-size-card-desc: 1rem;
   --line-height-card-desc: 1.4;
-
   --font-size-toast: 0.95rem;
   --line-height-toast: 1.3;
   --font-size-toast-action: 0.9rem;
   --font-weight-toast-action: 600;
-
   --font-size-badge: 0.75rem;
   --font-weight-badge: 500;
   --line-height-badge: 1.2;
-
   --font-size-input: 1rem;
   --line-height-input: 1.4;
-
   --font-size-footer: 0.9rem;
   --line-height-footer: 1.4;
-
   --font-size-overlay: 1rem;
   --line-height-overlay: 1.5;
-
-  /* Metric display tokens (for cards, dashboards, etc.) */
   --font-size-metric-display: var(--font-size-h1, 3rem);
   --font-size-metric-label: 0.875rem;
   --font-weight-metric: 800;
   --line-height-metric: 1.2;
-
-  /* Line heights */
-  --line-height-base: 1.5;
 }

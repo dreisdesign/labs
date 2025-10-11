@@ -68,6 +68,11 @@ class LabsFooterMediaControls extends HTMLElement {
         this._onResetClick = this._onResetClick.bind(this);
         this._onSettingsClick = this._onSettingsClick.bind(this);
         this._onCardClose = this._onCardClose.bind(this);
+
+        // Check for mode attribute: 'timer' uses Start → Pause ↔ Resume pattern
+        this._mode = this.getAttribute('mode') || 'cycle';
+
+        // All modes use the same 3 states, but timer mode has different cycling logic
         this._mediaStates = [
             { label: 'Start', icon: 'play_circle' },
             { label: 'Pause', icon: 'pause_circle' },
@@ -108,7 +113,22 @@ class LabsFooterMediaControls extends HTMLElement {
     }
 
     _onMediaClick() {
-        this._mediaState = (this._mediaState + 1) % this._mediaStates.length;
+        if (this._mode === 'timer') {
+            // Timer mode: Start → Pause ↔ Resume
+            // State 0 (Start) → State 1 (Pause)
+            // State 1 (Pause) → State 2 (Resume)
+            // State 2 (Resume) → State 1 (Pause)
+            if (this._mediaState === 0) {
+                this._mediaState = 1; // Start → Pause
+            } else if (this._mediaState === 1) {
+                this._mediaState = 2; // Pause → Resume
+            } else {
+                this._mediaState = 1; // Resume → Pause
+            }
+        } else {
+            // Default mode: cycle through all states
+            this._mediaState = (this._mediaState + 1) % this._mediaStates.length;
+        }
         this._updateMediaButton();
         this.dispatchEvent(new CustomEvent('media-action', { detail: this._mediaStates[this._mediaState], bubbles: true }));
     }
