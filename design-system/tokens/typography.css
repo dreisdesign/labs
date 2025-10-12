@@ -7,9 +7,9 @@
 |--------------------------|-----------|--------|-------------|--------------------|
 | --font-family-base       |           |        |             | All text           |
 | --font-family-mono       |           |        |             | Code/monospace     |
-| --font-size-tiny         | 0.6rem    |        |             | Tiny text/captions |
-| --font-size-body-xs      | 12px      |        |             | Extra small text   |
-| --font-size-small        | 0.875rem  |        |             | Secondary text     |
+| --font-size-xxs          | 0.6rem    |        |             | Extra extra small (captions) |
+| --font-size-xs           | 0.75rem   |        |             | Extra small text   |
+| --font-size-sm           | 0.875rem  |        |             | Small/secondary text |
 | --font-size-base         | 1rem      | 400    | 1.5         | Body text          |
 | --font-size-large        | 1.1rem    |        |             | Large body text    |
 | --font-size-h3           | 1.25rem   | 600    | 1.3         | H3 headings        |
@@ -38,8 +38,8 @@
 | --line-height-card-header|           |        | 1.2         | Card header lh     |
 | --font-size-card-desc    | 1rem      |        | 1.4         | Card description   |
 | --line-height-card-desc  |           |        | 1.4         | Card desc lh       |
-| --font-size-toast        | 0.95rem   |        | 1.3         | Toast text         |
-| --line-height-toast      |           |        | 1.3         | Toast lh           |
+| --font-size-toast        | 1rem      |        | 1.3         | Toast text (alias: --font-size-base) |
+| --line-height-toast      |           |        | 1.5         | Toast lh (alias: --line-height-base) |
 | --font-size-toast-action | 0.9rem    | 600    |             | Toast action       |
 | --font-weight-toast-action|          | 600    |             | Toast action weight|
 | --font-size-badge        | 0.75rem   | 500    | 1.2         | Badges/tags        |
@@ -47,8 +47,8 @@
 | --line-height-badge      |           |        | 1.2         | Badge lh           |
 | --font-size-input        | 1rem      |        | 1.4         | Input text         |
 | --line-height-input      |           |        | 1.4         | Input lh           |
-| --font-size-footer       | 0.9rem    |        | 1.4         | Footer text        |
-| --line-height-footer     |           |        | 1.4         | Footer lh          |
+| --font-size-footer       | 1rem      |        | 1.4         | Footer text (alias: --font-size-base) |
+| --line-height-footer     |           |        | 1.5         | Footer lh (alias: --line-height-base) |
 | --font-size-overlay      | 1rem      |        | 1.5         | Overlay text       |
 | --line-height-overlay    |           |        | 1.5         | Overlay lh         |
 
@@ -63,12 +63,12 @@ Add new tokens below as needed. Promote component-specific tokens to general if 
   --font-family-mono: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
   /* Font size scale (smallest to largest, general first) */
-  --font-size-tiny: 0.6rem;
+  --font-size-xxs: 0.6rem;
   /* 9.6px - Captions, hints */
-  --font-size-body-xs: 12px;
-  /* Extra small text */
-  --font-size-small: 0.875rem;
-  /* 14px - Secondary text */
+  --font-size-xs: 0.75rem;
+  /* 12px - Extra small text */
+  --font-size-sm: 0.875rem;
+  /* 14px - Small/secondary text */
   --font-size-base: 1rem;
   /* 16px - Body text */
   --font-size-large: 1.1rem;
@@ -95,36 +95,42 @@ Add new tokens below as needed. Promote component-specific tokens to general if 
   --line-height-heading: 1.2;
 
   /* Aliases for backward compatibility */
-  --font-size-sm: var(--font-size-small);
+  --font-size-tiny: var(--font-size-xxs);
+  /* deprecated alias */
+  --font-size-body-xs: var(--font-size-xs);
+  /* deprecated alias */
+  --font-size-small: var(--font-size-sm);
+  /* deprecated alias */
   --font-size-lg: var(--font-size-h3);
   --font-size-xxl: var(--font-size-h1);
 
   /* Component/legacy tokens (keep at end, promote to general if reused) */
-  --font-size-entry-text: var(--font-size-base, 1rem);
-  --font-size-entry-meta: var(--font-size-body-xs, 12px);
-  --font-size-button: 1rem;
+  --font-size-entry-text: var(--font-size-base);
+  --font-size-entry-meta: var(--font-size-xs, 0.75rem);
+  --font-size-button: var(--font-size-base);
   --font-weight-button: 600;
   --line-height-button: 1.2;
   --font-size-card-header: 1.5rem;
   --font-weight-card-header: 600;
   --line-height-card-header: 1.2;
-  --font-size-card-desc: 1rem;
+  --font-size-card-desc: var(--font-size-base);
   --line-height-card-desc: 1.4;
-  --font-size-toast: 0.95rem;
-  --line-height-toast: 1.3;
-  --font-size-toast-action: 0.9rem;
+  --font-size-toast: var(--font-size-base);
+  --line-height-toast: var(--line-height-base);
+  --font-size-toast-action: var(--font-size-base);
   --font-weight-toast-action: 600;
-  --font-size-badge: 0.75rem;
+  --font-size-badge: var(--font-size-xs);
   --font-weight-badge: 500;
   --line-height-badge: 1.2;
-  --font-size-input: 1rem;
+  --font-size-input: var(--font-size-base);
+  --font-size-overlay: var(--font-size-base);
   --line-height-input: 1.4;
-  --font-size-footer: 0.9rem;
-  --line-height-footer: 1.4;
+  --font-size-footer: var(--font-size-base);
+  --line-height-footer: var(--line-height-base);
   --font-size-overlay: 1rem;
   --line-height-overlay: 1.5;
   --font-size-metric-display: var(--font-size-h1, 3rem);
-  --font-size-metric-label: 0.875rem;
+  --font-size-metric-label: var(--font-size-base);
   --font-weight-metric: 800;
   --line-height-metric: 1.2;
 }

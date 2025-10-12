@@ -41,8 +41,8 @@ export const IconsGrid = {
         /* Icon color follows the provided arg or falls back to the theme on-surface color */
         .icon { display: block; width: ${size}px; height: ${size}px; color: ${color}; }
         /* Name / usage text should use on-surface so it contrasts with the card surface */
-        .name { font-size: var(--font-size-small, 0.875rem); font-weight: 500; color: var(--color-on-surface, #374151); margin-top: 0.5rem; }
-        .usage { font-size: var(--font-size-small, 0.875rem); color: var(--color-on-surface, #6b7280); font-family: monospace; margin-top: 0.25rem; word-break: break-word; hyphens: none; max-width: 100%; overflow-wrap: break-word; white-space: pre-wrap; }
+  .name { font-size: var(--font-size-sm, 0.875rem); font-weight: 500; color: var(--color-on-surface, #374151); margin-top: 0.5rem; }
+  .usage { font-size: var(--font-size-sm, 0.875rem); color: var(--color-on-surface, #6b7280); font-family: monospace; margin-top: 0.25rem; word-break: break-word; hyphens: none; max-width: 100%; overflow-wrap: break-word; white-space: pre-wrap; }
         @media (max-width: 768px) { .grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem; } .card { padding: 0.75rem; min-height: 120px; } }
         @media (max-width: 480px) { .grid { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.5rem; } .card { padding: 0.5rem; min-height: 100px; } .usage { font-size: 0.75rem; } .container { padding: 1rem; } }
       </style>

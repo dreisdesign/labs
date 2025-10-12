@@ -37,8 +37,8 @@
 
 ### **✅ Previous Pattern Buttons Enhancements** 
 - **✅ Active Badge Position:** Moved "ACTIVE" badge from top-right to top-left to avoid overlap with hover icons
-- **✅ Badge Font Size:** Increased from `font-size-tiny` (0.625rem) to `font-size-body-xs` (0.75rem) 
-- **✅ Configuration Text Size:** Increased from `font-size-tiny` to `font-size-small` (0.875rem) for better readability
+- **✅ Badge Font Size:** Increased from `font-size-tiny` (deprecated, now `font-size-xxs`) to `font-size-body-xs` (deprecated, now `font-size-xs`) 
+- **✅ Configuration Text Size:** Increased from `font-size-tiny` (deprecated, now `font-size-xxs`) to `font-size-small` (deprecated, now `font-size-sm`) for better readability
 - **✅ Developer Guide Organization:** Moved to top of page in collapsible `<details>` element
 - **✅ Design System Token Usage:** Removed hardcoded color fallbacks, using only design system tokens
 

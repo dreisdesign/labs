@@ -27,7 +27,7 @@ Files / areas to scan (initial pass)
 
 Canonical token suggestions (example)
 
-- font-size tokens: `--font-size-display`, `--font-size-h1`, `--font-size-h2`, `--font-size-h3`, `--font-size-large`, `--font-size-base`, `--font-size-small`, `--font-size-tiny`, `--font-size-caption`, `--font-size-label`, `--font-size-toast`, `--font-size-badge`, `--font-size-input`, `--font-size-footer`, `--font-size-overlay`, `--font-size-entry-text`, `--font-size-entry-meta`, `--font-size-button`, `--font-size-card-header`, `--font-size-card-desc`, `--font-size-body-xs`
+- font-size tokens: `--font-size-display`, `--font-size-h1`, `--font-size-h2`, `--font-size-h3`, `--font-size-large`, `--font-size-base`, `--font-size-sm` (alias: `--font-size-small`), `--font-size-xxs` (alias: `--font-size-tiny`), `--font-size-xs` (alias: `--font-size-body-xs`), `--font-size-caption`, `--font-size-label`, `--font-size-toast`, `--font-size-badge`, `--font-size-input`, `--font-size-footer`, `--font-size-overlay`, `--font-size-entry-text`, `--font-size-entry-meta`, `--font-size-button`, `--font-size-card-header`, `--font-size-card-desc`
 - font-weight tokens: `--font-weight-heading`, `--font-weight-strong`, `--font-weight-regular`, `--font-weight-medium`
 - line-height tokens: `--line-height-heading`, `--line-height-base`, `--line-height-tight`, `--line-height-relaxed`
 

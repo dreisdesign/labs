@@ -29,9 +29,16 @@ class LabsBadge extends HTMLElement {
   white-space: nowrap;
 }
 
+:host([variant="primary"]) .badge {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  border: none;
+}
+
 :host([variant="secondary"]) .badge {
-  background: var(--color-secondary, #6c757d);
-  color: var(--color-on-secondary, #fff);
+  background: transparent;
+  color: var(--color-on-surface);
+  border: 1px solid var(--color-outline, var(--color-primary));
 }
 
 :host([variant="success"]) .badge {
