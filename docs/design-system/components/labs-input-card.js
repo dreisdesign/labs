@@ -31,7 +31,7 @@ class LabsInputCard extends HTMLElement {
         :host { display: block; max-width: 420px; margin: 0 auto; }
         textarea { width:100%; box-sizing:border-box; padding:12px 14px; border-radius:10px; border:1px solid var(--color-outline, #e6e6ea); font-size:1rem; font-family: inherit; resize: vertical; min-height: 60px; }
         .btn-transparent labs-button { background: transparent; box-shadow: none; }
-        labs-button:not([variant="icon"]) { min-width: 92px; }
+        labs-button { min-width: 92px; }
       </style>
     `;
 
