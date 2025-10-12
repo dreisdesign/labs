@@ -3,7 +3,10 @@ import '../components/labs-badge.js';
 
 export default {
   title: '0. Tokens/Typography',
-  parameters: { viewMode: 'docs' }
+  parameters: {
+    viewMode: 'docs',
+    options: { panelPosition: 'bottom' }
+  }
 };
 
 export const Typography = {
@@ -14,18 +17,19 @@ export const Typography = {
 
     // Helper function to create table row
     const row = (token, sizeToken, weightToken, lhToken, usage, isCanonical = false) => {
+      const aliasMatch = usage.match(/\(alias: (--font-size-[^\)]+)\)/);
+      const aliasBadge = aliasMatch ? `<labs-badge variant="secondary" text="${aliasMatch[1]}" style="margin-left:8px;"></labs-badge>` : '';
       const tokenName = isCanonical ? `<strong>${token}</strong>` : token;
       const badge = isCanonical ? '<labs-badge variant="primary" text="main" style="margin-left:8px;"></labs-badge>' : '';
       const weight = weightToken ? `var(${weightToken})` : '400';
       const lineHeight = lhToken ? `var(${lhToken})` : '1.5';
 
-      // Replace alias text with badges
-      let formattedUsage = usage
-        .replace(/\(alias: (--font-size-[^\)]+)\)/g, '<labs-badge variant="secondary" text="$1" style="margin-left:8px;"></labs-badge>');
+      // Remove alias badge from usage cell
+      let formattedUsage = usage.replace(/\s*\(alias: (--font-size-[^\)]+)\)/, '');
 
       return `
         <tr>
-          <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">${tokenName}${badge}</td>
+          <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">${tokenName}${badge}${aliasBadge}</td>
           <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">${getVal(sizeToken)}</td>
           <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">${weightToken ? getVal(weightToken) : '400'}</td>
           <td style="border:1px solid var(--color-outline, #ccc); padding:6px 10px; color:var(--color-on-surface);">${lhToken ? getVal(lhToken) : '1.5'}</td>
