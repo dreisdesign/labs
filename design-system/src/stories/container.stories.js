@@ -8,7 +8,7 @@ export default {
   parameters: {
     docs: {
       description: {
-        component: 'Demonstrates the `labs-container` element and its layout sizes: `small` (50vw), `medium` (60vw), `large` (70vw), and `fill` (100vw). All use consistent 2rem padding on desktop, 1rem on mobile.'
+        component: 'Demonstrates the `labs-container` element and its layout sizes: `small` (max-width: 50%), `medium` (max-width: 60%), `large` (max-width: 70%), and `fill` (100vw). All use consistent 2rem padding on desktop, 1rem on mobile.'
       }
     }
   },
@@ -30,7 +30,7 @@ export const Demo = {
     const { layout, maxWidth, settingsIcon } = args;
     const attr = layout === 'small' ? 'small' : layout === 'medium' ? 'medium' : layout === 'large' ? 'large' : layout === 'fill' ? 'fill' : '';
     const style = maxWidth ? `style="--app-container-max:${maxWidth};"` : '';
-    const widthLabel = layout === 'small' ? '50vw' : layout === 'medium' ? '60vw' : layout === 'large' ? '70vw' : layout === 'fill' ? '100vw' : '60vw (default)';
+    const widthLabel = layout === 'small' ? 'max-width: 50%' : layout === 'medium' ? 'max-width: 60%' : layout === 'large' ? 'max-width: 70%' : layout === 'fill' ? '100vw' : 'max-width: 60% (default)';
     return `
       <style>
         html,body { height:100%; margin:0; padding:0; }

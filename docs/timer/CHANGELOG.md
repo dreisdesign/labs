@@ -236,7 +236,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Circle Sizing Algorithm**: Removed height constraints, letting `aspect-ratio: 1` handle perfect circles
 - **iOS Detection Refinement**: More precise media queries target only phone-sized devices for safe area adjustments
-- **Viewport Utilization**: Large circles increased from `min(50vh, 70vw, 50vmin)` to `min(80vh, 45vw)` in landscape
+- **Viewport Utilization**: Large circles increased from `min(50vh, max-width: 70%, 50vmin)` to `min(80vh, 45vw)` in landscape
 - **Layout Optimization**: Horizontal layout with improved spacing and proportions for wide screens
 
 ## [2.1.0] - 2025-05-27
