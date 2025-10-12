@@ -30,6 +30,7 @@
   <!-- Design system components for header controls -->
   <script type="module" src="design-system/components/labs-icon.js"></script>
   <script type="module" src="design-system/components/labs-button.js"></script>
+  <script type="module" src="design-system/components/labs-badge.js"></script>
 
   <style>
     :root {
@@ -238,7 +239,7 @@
 
 <body>
   <header class="page-header" style="margin-bottom:1.5rem;">
-    <h1 style="display:flex;align-items:center;gap:0.5rem;">Labs <span class="labs-badge" aria-hidden="true">beta</span>
+    <h1 style="display:flex;align-items:center;gap:0.5rem;">Labs <labs-badge text="beta" variant="warning"></labs-badge>
     </h1>
     <div class="header-controls" style="display:flex; align-items:center; gap:0.75rem;">
       <span style="font-size:0.95rem;color:var(--text);">Powered by</span>
@@ -296,9 +297,8 @@
         <div class="project-info">
           <h2>Focus Timer</h2>
           <p>
-            A minimal, distraction-free Pomodoro timer for focused work sessions. Features a bold numeric countdown,
-            modular overlays for reset confirmation, and seamless theme support. Optimized for desktop and mobile, with
-            installable PWA and offline support.
+            Minimal Pomodoro timer for focused work sessions. Features a bold numeric countdown, modular overlays, and
+            seamless theming.
           </p>
           <span class="project-link">Open App →</span>
         </div>
@@ -321,7 +321,7 @@
           <h2>DailyNote</h2>
           <p>
             A simple note-taking app that clears at the end of each day.
-            Perfect for daily thoughts, tasks, or reminders.
+            Perfect for daily thoughts, tasks, or reminders. Features full-screen bold text.
           </p>
           <span class="project-link">Open App →</span>
         </div>
