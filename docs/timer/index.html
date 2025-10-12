@@ -40,8 +40,18 @@
       width: 100vw;
     }
 
-    .timer-display {
+    .timer-group {
       flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 0;
+      height: calc(100vh - 72px);
+      /* Offset for footer height (adjust if needed) */
+    }
+
+    .timer-display {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -49,12 +59,24 @@
       font-weight: 900;
       line-height: 1;
       padding: 2rem;
+      /* margin-top removed for perfect centering */
+      margin-bottom: 0.5rem;
     }
 
     @media (min-width: 640px) {
       .timer-display {
         font-size: clamp(4rem, 20vw, 20rem);
       }
+    }
+
+    .break-hint {
+      text-align: center;
+      font-size: var(--font-size-large, 1.1rem);
+      color: var(--color-on-surface, #222);
+      margin-top: -1.5rem;
+      margin-bottom: 2.5rem;
+      letter-spacing: 0.01em;
+      user-select: none;
     }
   </style>
 
@@ -75,7 +97,10 @@
 <body>
   <labs-container fullbleed>
     <div class="app">
-      <div class="timer-display" id="timerDisplay">25:00</div>
+      <div class="timer-group">
+        <div class="timer-display" id="timerDisplay">25:00</div>
+        <div class="break-hint">Next: 5:00 break</div>
+      </div>
     </div>
   </labs-container>
   <labs-footer-media-controls mode="timer" elevated></labs-footer-media-controls>
