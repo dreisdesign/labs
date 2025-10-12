@@ -11,7 +11,6 @@ class FocusTimer {
         this.display = document.getElementById('timerDisplay');
         this.footer = document.querySelector('labs-footer-media-controls');
         this.overlay = document.getElementById('resetWarning');
-        this.toast = document.getElementById('undoToast');
         this.resetConfirm = document.getElementById('resetConfirm');
         this.resetCancel = document.getElementById('resetCancel');
 
@@ -71,13 +70,6 @@ class FocusTimer {
             });
         }
         // Toast undo
-        if (this.toast) {
-            this.toast.addEventListener('click', (e) => {
-                if (e.target && e.target.slot === 'action') {
-                    this.undoReset();
-                }
-            });
-        }
     }
 
     showResetWarning() {
@@ -89,12 +81,6 @@ class FocusTimer {
     doResetWithUndo() {
         this.lastTime = this.currentTime;
         this.reset();
-        if (this.toast) {
-            this.toast.style.display = '';
-            setTimeout(() => {
-                if (this.toast) this.toast.style.display = 'none';
-            }, 4000);
-        }
     }
     undoReset() {
         if (this.lastTime != null) {
@@ -102,7 +88,13 @@ class FocusTimer {
             this.updateDisplay();
             this.lastTime = null;
         }
-        if (this.toast) this.toast.style.display = 'none';
+    }
+    updateResetButtonVisibility() {
+        if (!this.footer) return;
+        const resetBtn = this.footer.shadowRoot && this.footer.shadowRoot.getElementById('reset-btn');
+        if (resetBtn) {
+            resetBtn.style.display = (this.currentTime === 25 * 60) ? 'none' : '';
+        }
     }
 
     start() {
@@ -144,6 +136,7 @@ class FocusTimer {
         if (this.display) {
             this.display.textContent = timeString;
         }
+        this.updateResetButtonVisibility();
     }
 }
 
