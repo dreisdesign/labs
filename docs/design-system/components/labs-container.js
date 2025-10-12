@@ -5,36 +5,34 @@ template.innerHTML = `
     :host {
       display: block;
       width: 100%;
-      max-width: 400px;
+      max-width: 600px;
       box-sizing: border-box;
       margin-left: auto;
       margin-right: auto;
-      padding-left: var(--grid-container-padding-sm);
-      padding-right: var(--grid-container-padding-sm);
+      padding-left: 2rem;
+      padding-right: 2rem;
     }
-    @media (min-width: 640px) {
-      :host {
-        max-width: 500px;
-      }
+    :host([small]) {
+      max-width: 400px;
     }
-    :host([padding-md]) {
-      padding-left: var(--grid-container-padding-md, 20px);
-      padding-right: var(--grid-container-padding-md, 20px);
+    :host([medium]) {
+      max-width: 600px;
     }
-    :host([padding-lg]) {
-      padding-left: var(--grid-container-padding-lg, 24px);
-      padding-right: var(--grid-container-padding-lg, 24px);
+    :host([large]) {
+      max-width: 800px;
     }
-    :host([fullbleed]) {
+    :host([fill]) {
       max-width: 100vw;
-      padding-left: 0;
-      padding-right: 0;
     }
     @media (max-width: var(--container-mobile-breakpoint, 640px)) {
-      :host {
+      :host,
+      :host([small]),
+      :host([medium]),
+      :host([large]),
+      :host([fill]) {
         max-width: 100vw;
-        padding-left: var(--container-mobile-padding, 12px);
-        padding-right: var(--container-mobile-padding, 12px);
+        padding-left: 1rem;
+        padding-right: 1rem;
       }
     }
   </style>

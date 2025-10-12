@@ -7,7 +7,14 @@
 - Persistent footer, responsive layout
 - See `docs/timer/README.md` for layout and logic details
 
+
 # Component Usage Guide (2025-10)
+
+## Card & Button Alignment (2025-10-12)
+
+- **Card header/close alignment:** The canonical `labs-card` now uses `flex: 1` on the header, ensuring the close button is always right-aligned. No extra wrapper or manual spacing needed.
+- **Icon-only button sizing:** When using `variant="icon"` on a `labs-button` (e.g., for close icons), the button will size naturally. Only non-icon buttons (like Save/Cancel) get a `min-width: 92px` for consistent action sizing. No need to override min-width for icon buttons.
+
 
 ## Recent Refactors & Modularity
 

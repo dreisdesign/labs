@@ -112,16 +112,16 @@ function renderAll() {
     if (activeItems.length === 0) {
         const card = document.createElement('labs-card');
         card.setAttribute('variant', 'welcome');
-        card.setAttribute('align', 'center');
 
         const header = document.createElement('div');
         header.setAttribute('slot', 'header');
         header.textContent = 'Welcome to Today-List';
         card.appendChild(header);
 
-        const body = document.createElement('div');
-        body.textContent = 'Add your first task to get started.';
-        card.appendChild(body);
+        const desc = document.createElement('div');
+        desc.setAttribute('slot', 'description');
+        desc.textContent = 'Add your first task to get started.';
+        card.appendChild(desc);
 
         // Add button in actions slot
         const addButton = document.createElement('labs-button');

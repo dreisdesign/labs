@@ -34,8 +34,8 @@ class LabsCard extends HTMLElement {
       <style>
         :host {
           display: block;
-          max-width: var(--labs-card-max-width, 520px);
-          min-width: var(--labs-card-min-width, 280px);
+          width: 100%;
+          box-sizing: border-box;
           margin: 0 auto;
           background: var(--color-surface, #fff);
           border-radius: var(--labs-card-radius, 18px);
@@ -44,10 +44,16 @@ class LabsCard extends HTMLElement {
           font-family: var(--font-family-base, system-ui, sans-serif);
           position: relative;
         }
+        :host([variant="welcome"]) {
+          text-align: center;
+        }
         .header-row {
           display:flex;
           align-items:center;
           justify-content:space-between;
+        }
+        :host([variant="welcome"]) .header-row {
+          justify-content: center;
         }
         .header {
           margin: 0;
@@ -55,6 +61,10 @@ class LabsCard extends HTMLElement {
           font-weight: var(--font-weight-card-header, 600);
           line-height: var(--line-height-card-header, 1.2);
           color: var(--color-on-background, inherit);
+          flex: 1;
+        }
+        :host([variant="welcome"]) .header {
+          width: 100%;
         }
         .description {
           margin-top: 8px;
@@ -62,12 +72,15 @@ class LabsCard extends HTMLElement {
           font-size: var(--font-size-base, 1rem);
         }
         .input-row { margin-top: 14px; }
-        .actions { display: flex; gap: 10px; margin-top: 16px; justify-content: flex-end; }
+        .actions { display: flex; gap: 10px; margin-top: 16px; justify-content: center; }
+        :host([variant="welcome"]) .actions {
+          justify-content: flex-end;
+        }
         ::slotted([slot="header"]) { font-size: inherit; font-weight: inherit; }
         ::slotted([slot="close"]) { margin-left: 8px; }
-  ::slotted([slot="description"]) { margin-top: 8px; color: var(--color-on-surface-muted, #666); font-size: var(--font-size-base, 1rem); }
-    ::slotted([slot="input"]) { margin-top: 14px; display: block; font-size: var(--font-size-base, 1rem); }
-        ::slotted([slot="actions"]) { display: flex; gap: 10px; margin-top: 16px; justify-content: flex-end; }
+        ::slotted([slot="description"]) { margin-top: 8px; color: var(--color-on-surface-muted, #666); font-size: var(--font-size-base, 1rem); }
+        ::slotted([slot="input"]) { margin-top: 14px; display: block; font-size: var(--font-size-base, 1rem); }
+        ::slotted([slot="actions"]) { display: flex; gap: 10px; margin-top: 16px; justify-content: center; }
       </style>
       <div class="header-row">
         <div class="header"><slot name="header"></slot></div>

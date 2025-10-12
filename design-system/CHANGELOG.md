@@ -1,4 +1,11 @@
 
+
+# v2.4.8 – 2025-10-12
+
+### 🛠 Card & Button Alignment
+- **Card header/close alignment:** `.header` now uses `flex: 1` to ensure close button is always right-aligned, regardless of content.
+- **Icon-only button sizing:** `labs-input-card` now applies `min-width: 92px` only to non-icon buttons, so close buttons size naturally.
+
 # v2.4.7 – 2025-10-12
 
 ### 🆕 Component & Token Refactors
