@@ -23,7 +23,14 @@ class LabsWarningOverlay extends HTMLElement {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0,0,0,0.18);
+}
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 0;
 }
 .overlay {
   display: flex;
@@ -31,12 +38,16 @@ class LabsWarningOverlay extends HTMLElement {
   justify-content: center;
   width: 100vw;
   height: 100vh;
+  z-index: 1;
 }
 labs-warning-card {
   min-width: 320px;
   max-width: 90vw;
 }
 `;
+        const backdrop = document.createElement('div');
+        backdrop.className = 'backdrop';
+        this.shadowRoot.append(style, backdrop, overlay);
         this.shadowRoot.append(style, overlay);
     }
     connectedCallback() {
