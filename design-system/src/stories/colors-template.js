@@ -169,7 +169,7 @@ export function renderColors(opts = {}) {
   const html = `
     <div style="width:100%; display:flex; justify-content:center;">
       <div style="max-width:1200px; padding:20px; font-family:var(--font-family-base); color:var(--color-on-background); background:var(--color-surface);">
-        <div class="tokens-doc-root ${flavorClass}" ${dataAttr}>
+        <div class="tokens-doc-root ${flavorClass}" ${dataAttr} data-flavor-root>
       <style>
   .tokens-doc-root{padding:16px 40px;font-family:var(--font-family-base);}
 
@@ -318,11 +318,14 @@ export function renderColors(opts = {}) {
 
   // Add click-to-copy for swatches (main and text swatch)
   setTimeout(() => {
+    // Find the local root for this table (flavor isolation)
+    const root = document.querySelector('.tokens-doc-root[data-flavor-root]') || document.documentElement;
+
     document.querySelectorAll('.swatch-thumb, .swatch-thumb-text').forEach(el => {
       el.addEventListener('click', function (e) {
         const v = el.getAttribute('data-var');
         if (!v) return;
-        let val = getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+        let val = getComputedStyle(root).getPropertyValue(v).trim();
         if (!val) val = v;
         navigator.clipboard.writeText(val);
         el.style.outline = '2px solid #007aff';
@@ -334,35 +337,14 @@ export function renderColors(opts = {}) {
     document.querySelectorAll('.list-resolved').forEach(el => {
       const varName = el.getAttribute('data-var');
       if (varName) {
-        const computedValue = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+        const computedValue = getComputedStyle(root).getPropertyValue(varName).trim();
         el.textContent = computedValue || 'unset';
       }
     });
 
-    // Resolve base tokens and text colors dynamically based on active flavor
-    // Prefer synchronous data-flavor attribute (set early in preview-head) for robust detection
-    const df = document.documentElement.getAttribute('data-flavor');
-    const flavorClass = Array.from(document.documentElement.classList).find(c => c.indexOf('flavor-') === 0);
-    let flavor = df || (flavorClass ? flavorClass.replace('flavor-', '') : 'blueberry');
-
-    // Fallback: parse flavor from URL globals param (handles encoded forms)
-    if (!df && !flavorClass) {
-      try {
-        const url = new URL(window.location.href);
-        const globalsRaw = url.searchParams.get('globals') || '';
-        const decoded = decodeURIComponent(globalsRaw || '');
-        try {
-          if (decoded && (decoded[0] === '{' || decoded.indexOf('"flavor"') !== -1)) {
-            const parsed = JSON.parse(decoded);
-            if (parsed && parsed.flavor) flavor = parsed.flavor;
-          }
-        } catch (e) { }
-        if (!flavor || flavor === 'blueberry') {
-          const m = decoded.match(/flavor:([^,&\}\"]+)/) || globalsRaw.match(/flavor:([^,&\}\"]+)/) || globalsRaw.match(/flavor%3A([^,&\}\"]+)/i);
-          if (m && m[1]) flavor = decodeURIComponent(m[1]);
-        }
-      } catch (e) { }
-    }
+    // Use the local flavor class for mapping
+    const flavorClass = Array.from(root.classList).find(c => c.indexOf('flavor-') === 0);
+    let flavor = flavorClass ? flavorClass.replace('flavor-', '') : 'blueberry';
 
     // helper to build palette token name for flavor
     const p = (flav, stop) => `--palette-${flav}-${stop}`;

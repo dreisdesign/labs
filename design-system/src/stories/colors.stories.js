@@ -3,7 +3,15 @@ import { renderColors } from './colors-template';
 
 // Extract the JavaScript logic from the template
 function executeColorLogic() {
-  function getRaw(n, el) { try { if (el && el.nodeType === 1) return getComputedStyle(el).getPropertyValue(n).trim() } catch (e) { } return getComputedStyle(document.documentElement).getPropertyValue(n).trim() }
+  // Always resolve tokens using the local .tokens-doc-root (flavor container) for isolation
+  function getFlavorRoot() {
+    return document.querySelector('.tokens-doc-root[data-flavor-root]') || document.documentElement;
+  }
+  function getRaw(n, el) {
+    const root = getFlavorRoot();
+    try { if (el && el.nodeType === 1) return getComputedStyle(el).getPropertyValue(n).trim() } catch (e) { }
+    return getComputedStyle(root).getPropertyValue(n).trim();
+  }
   function resolveToken(n, seen, el) { seen = seen || []; var r = getRaw(n, el); if (!r) return { chain: [n], value: 'unset' }; r = r.trim(); if (r.indexOf('var(') === 0) { var i = r.slice(4, -1).trim(); var p = i.split(/,(.+)/).map(function (s) { return s && s.trim() }).filter(Boolean); var ref = p[0]; var fb = p[1] || null; if (!ref || seen.indexOf(ref) !== -1 || ref === n) return { chain: [n, ref], value: fb || r }; var nx = resolveToken(ref, seen.concat([n]), el); return { chain: [n].concat(nx.chain), value: nx.value } } return { chain: [n], value: r } }
 
   function parseColor(s) { if (!s) return null; s = s.trim(); try { if (s.indexOf('rgb') === 0) { var nums = s.replace(/[rgba()]/g, '').split(',').map(function (x) { return parseFloat(x.trim()) }); return { r: nums[0], g: nums[1], b: nums[2], a: nums[3] || 1 } } if (s[0] === '#') { var hex = s.slice(1); if (hex.length === 3) hex = hex.split('').map(function (c) { return c + c }).join(''); var bigint = parseInt(hex, 16); return { r: (bigint >> 16) & 255, g: (bigint >> 8) & 255, b: bigint & 255, a: 1 } } } catch (e) { } return null }
@@ -59,8 +67,9 @@ function executeColorLogic() {
     document.querySelectorAll('.polaroid-card').forEach(function (c) {
       var v = c.getAttribute('data-var');
       try {
-        var ctx = c; while (ctx && ctx !== document.documentElement) { if (ctx.classList && Array.from(ctx.classList).some(function (cl) { return cl.indexOf('flavor-') === 0 || cl.indexOf('theme-') === 0 })) break; ctx = ctx.parentElement }
-        var res = v ? resolveToken(v, undefined, ctx || document.documentElement) : null;
+        var root = getFlavorRoot();
+        var ctx = c; while (ctx && ctx !== root) { if (ctx.classList && Array.from(ctx.classList).some(function (cl) { return cl.indexOf('flavor-') === 0 || cl.indexOf('theme-') === 0 })) break; ctx = ctx.parentElement }
+        var res = v ? resolveToken(v, undefined, ctx || root) : null;
         // No visual updates needed for polaroids as they use CSS variables directly
       } catch (e) {
         console.error('Error resolving polaroid token:', v, e);
@@ -75,7 +84,8 @@ function executeColorLogic() {
 
       try {
         var ctx = el;
-        while (ctx && ctx !== document.documentElement) {
+        var root = getFlavorRoot();
+        while (ctx && ctx !== root) {
           if (ctx.classList && Array.from(ctx.classList).some(function (cl) {
             return cl.indexOf('flavor-') === 0 || cl.indexOf('theme-') === 0;
           })) break;
@@ -104,17 +114,17 @@ function executeColorLogic() {
             // Resolve the palette token directly (palette tokens are global anchors)
             var mapped = neutralMap[v];
             try {
-              var mappedRes = resolveToken(mapped, undefined, document.documentElement);
-              res = { chain: [v, mapped], value: mappedRes && mappedRes.value ? mappedRes.value : (getComputedStyle(document.documentElement).getPropertyValue(mapped).trim() || 'unset') };
+              var mappedRes = resolveToken(mapped, undefined, root);
+              res = { chain: [v, mapped], value: mappedRes && mappedRes.value ? mappedRes.value : (getComputedStyle(root).getPropertyValue(mapped).trim() || 'unset') };
             } catch (e) {
               res = { chain: [v, mapped], value: getComputedStyle(document.documentElement).getPropertyValue(mapped).trim() || 'unset' };
             }
           } else {
             // fallback to normal resolution if token not in the neutral map
-            res = resolveToken(v, undefined, document.documentElement);
+            res = resolveToken(v, undefined, root);
           }
         } else {
-          res = resolveToken(v, undefined, ctx || document.documentElement);
+          res = resolveToken(v, undefined, ctx || root);
         }
         var displayVal = res.value;
 
@@ -163,7 +173,7 @@ function executeColorLogic() {
                   if (set && Array.isArray(set.palette)) {
                     set.palette.forEach(function (tok) {
                       try {
-                        var val = getComputedStyle(document.documentElement).getPropertyValue(tok).trim();
+                        var val = getComputedStyle(getFlavorRoot()).getPropertyValue(tok).trim();
                         if (val && val !== 'unset') {
                           var hex = normalizeHex(colorToHex(val) || val);
                           if (hex) colorToTokenMap[hex.toLowerCase()] = tokenNameToLabel(tok);
@@ -177,7 +187,7 @@ function executeColorLogic() {
                 ['--palette-base-100', '--palette-base-500', '--palette-base-800', '--palette-green-500', '--palette-yellow-500', '--palette-red-500',
                   '--palette-blueberry-300', '--palette-vanilla-300', '--palette-strawberry-300'].forEach(function (tok) {
                     try {
-                      var v = getComputedStyle(document.documentElement).getPropertyValue(tok).trim();
+                      var v = getComputedStyle(getFlavorRoot()).getPropertyValue(tok).trim();
                       if (v && v !== 'unset') {
                         var h = normalizeHex(colorToHex(v) || v);
                         if (h) colorToTokenMap[h.toLowerCase()] = tokenNameToLabel(tok);
@@ -255,7 +265,7 @@ function executeColorLogic() {
             if (v.startsWith('--color-')) {
               var baseKey = v.replace(/^--color-/, '');
               var onVar = '--color-on-' + baseKey;
-              var onRes = resolveToken(onVar, undefined, ctx || document.documentElement);
+              var onRes = resolveToken(onVar, undefined, ctx || getFlavorRoot());
               if (onRes.value && onRes.value !== 'unset') {
                 onVal = onRes.value;
                 tokenName = onVar; // Show the token name
@@ -264,7 +274,7 @@ function executeColorLogic() {
 
             // Fallback to --color-on-background for non-primary tokens
             if (!onVal && !v.includes('primary')) {
-              var onBgRes = resolveToken('--color-on-background', undefined, ctx || document.documentElement);
+              var onBgRes = resolveToken('--color-on-background', undefined, ctx || getFlavorRoot());
               if (onBgRes.value && onBgRes.value !== 'unset') {
                 onVal = onBgRes.value;
                 tokenName = '--color-on-background';
@@ -371,8 +381,9 @@ function executeColorLogic() {
       try {
         var card = span.closest('.polaroid-card');
         if (!card) return;
+        var root = getFlavorRoot();
         var ctx = card;
-        while (ctx && ctx !== document.documentElement) {
+        while (ctx && ctx !== root) {
           if (ctx.classList && Array.from(ctx.classList).some(function (cl) {
             return cl.indexOf('flavor-') === 0 || cl.indexOf('theme-') === 0;
           })) break;
@@ -383,7 +394,7 @@ function executeColorLogic() {
         if (!varName) return;
 
         // Get the background color
-        var bgRes = resolveToken(varName, undefined, ctx || document.documentElement);
+        var bgRes = resolveToken(varName, undefined, ctx || root);
         var bgVal = bgRes.value;
 
         if (bgVal && bgVal !== 'unset') {
@@ -409,16 +420,16 @@ function executeColorLogic() {
             var onVar = '--color-on-' + baseKey;
 
             // Try the on-color token first
-            var onRes = resolveToken(onVar, undefined, ctx || document.documentElement);
+            var onRes = resolveToken(onVar, undefined, ctx || root);
             onVal = onRes.value;
 
             // If no specific on-color token, use fallbacks
             if (!onVal || onVal === 'unset') {
               if (varName.includes('primary')) {
-                onVal = resolveToken('--color-on-primary', undefined, ctx || document.documentElement).value;
+                onVal = resolveToken('--color-on-primary', undefined, ctx || root).value;
               }
               if (!onVal || onVal === 'unset') {
-                onVal = resolveToken('--color-on-background', undefined, ctx || document.documentElement).value;
+                onVal = resolveToken('--color-on-background', undefined, ctx || root).value;
               }
             }
 
