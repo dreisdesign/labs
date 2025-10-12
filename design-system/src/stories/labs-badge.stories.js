@@ -2,19 +2,25 @@ import '../components/labs-badge.js';
 
 export default {
   title: '2. Components/Badge',
+  component: 'labs-badge',
   argTypes: {
     variant: {
-      control: { type: 'select', options: ['', 'primary', 'secondary', 'success', 'warning', 'error'] }
+      control: { type: 'select' },
+      options: ['', 'primary', 'secondary', 'success', 'warning', 'error'],
+      description: 'Badge variant style'
     },
-    text: { control: 'text' }
+    text: {
+      control: 'text',
+      description: 'Badge text content'
+    }
   }
 };
 
 export const Default = ({ variant = '', text = 'Badge' } = {}) => {
   const el = document.createElement('labs-badge');
   if (variant) el.setAttribute('variant', variant);
-  el.textContent = text;
+  el.setAttribute('text', text);
   return el;
 };
 
-Default.args = { variant: '', text: 'Badge' };
+Default.args = { variant: 'primary', text: 'Badge' };

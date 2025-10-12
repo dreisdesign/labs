@@ -15,13 +15,13 @@ export const Typography = {
     // Helper function to create table row
     const row = (token, sizeToken, weightToken, lhToken, usage, isCanonical = false) => {
       const tokenName = isCanonical ? `<strong>${token}</strong>` : token;
-      const badge = isCanonical ? '<labs-badge variant="primary" style="margin-left:8px;">main</labs-badge>' : '';
+      const badge = isCanonical ? '<labs-badge variant="primary" text="main" style="margin-left:8px;"></labs-badge>' : '';
       const weight = weightToken ? `var(${weightToken})` : '400';
       const lineHeight = lhToken ? `var(${lhToken})` : '1.5';
 
       // Replace alias text with badges
       let formattedUsage = usage
-        .replace(/\(alias: (--font-size-[^\)]+)\)/g, '<labs-badge variant="secondary" style="margin-left:8px;">$1</labs-badge>');
+        .replace(/\(alias: (--font-size-[^\)]+)\)/g, '<labs-badge variant="secondary" text="$1" style="margin-left:8px;"></labs-badge>');
 
       return `
         <tr>

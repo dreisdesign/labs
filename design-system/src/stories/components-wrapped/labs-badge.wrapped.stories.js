@@ -1,41 +1,62 @@
 import '../../components/labs-badge.js';
 
 export default {
-    title: '3. Components (Wrapped)/Badge',
-    component: 'labs-badge',
+  title: '3. Components (Wrapped)/Badge',
+  component: 'labs-badge',
+  argTypes: {
+    text: {
+      control: 'text',
+      description: 'Badge text content'
+    }
+  }
 };
 
 export const Success = {
-    name: 'Success',
-    render: () => `
-    <labs-badge variant="success">Success</labs-badge>
+  name: 'Success',
+  args: {
+    text: 'Success'
+  },
+  render: (args) => `
+    <labs-badge variant="success" text="${args.text}"></labs-badge>
   `,
 };
 
 export const Warning = {
-    name: 'Warning',
-    render: () => `
-    <labs-badge variant="warning">Warning</labs-badge>
+  name: 'Warning',
+  args: {
+    text: 'Warning'
+  },
+  render: (args) => `
+    <labs-badge variant="warning" text="${args.text}"></labs-badge>
   `,
 };
 
 export const Error = {
-    name: 'Error',
-    render: () => `
-    <labs-badge variant="error">Error</labs-badge>
+  name: 'Error',
+  args: {
+    text: 'Error'
+  },
+  render: (args) => `
+    <labs-badge variant="error" text="${args.text}"></labs-badge>
   `,
 };
 
 export const Secondary = {
-    name: 'Secondary',
-    render: () => `
-    <labs-badge variant="secondary">Secondary</labs-badge>
+  name: 'Secondary',
+  args: {
+    text: 'Secondary'
+  },
+  render: (args) => `
+    <labs-badge variant="secondary" text="${args.text}"></labs-badge>
   `,
 };
 
 export const Primary = {
-    name: 'Primary (Default)',
-    render: () => `
-    <labs-badge>Primary</labs-badge>
+  name: 'Primary (Default)',
+  args: {
+    text: 'Primary'
+  },
+  render: (args) => `
+    <labs-badge text="${args.text}"></labs-badge>
   `,
 };
