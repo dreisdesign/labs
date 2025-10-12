@@ -20,7 +20,7 @@
 | App | Purpose | Live URL |
 |-----|---------|----------|
     | **🎨 Design System** | Component library & tokens | [Storybook](https://dreisdesign.github.io/labs/design-system/) |
-| **⏰ Focus Timer** | Minimal, distraction-free Pomodoro timer with bold numeric countdown, modular overlays for reset confirmation, and seamless theme support. Optimized for desktop and mobile, with installable PWA and offline support. | [Timer App](https://dreisdesign.github.io/labs/timer/) |
+| **⏰ Focus Timer** | Minimal, distraction-free Pomodoro timer with bold numeric countdown, modular overlays for reset confirmation, and seamless theme support. Optimized for desktop and mobile, with installable PWA and offline support.<br>• Vertically centered layout using flexbox<br>• `.timer-group` uses `margin-bottom` for footer offset (not `.break-hint`)<br>• Dynamic header and break text update based on timer state<br>• Uses design system tokens for all typography and color<br>• [See Timer README](docs/timer/README.md) for layout and logic details | [Timer App](https://dreisdesign.github.io/labs/timer/) |
 | **📊 Daily Tracker** | Habit and activity tracking with dark mode | [Tracker App](https://dreisdesign.github.io/labs/tracker/) |
 | **📝 Daily Note** | Simple daily note-taking | [Note App](https://dreisdesign.github.io/labs/note/) |
 | **✅ Today List** | Daily task checklist | [Today List](https://dreisdesign.github.io/labs/today-list/) |

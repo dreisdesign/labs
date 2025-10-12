@@ -44,9 +44,6 @@
 ```
 
 ### Best Practices
-- Always use section numbers in `title` fields for new stories.
-- Update section numbers if you reorganize or add new categories.
-- Keep this file in sync with `.github/instructions/github-copilot-expert.instructions.md`.
 
 ## Storybook Story Types and Naming (List Item Example)
 
@@ -59,10 +56,16 @@
 | Wrapped canonical component story  | stories/      | labs-list-item-task.stories.js             | Components (Wrapped)    | List Item - Task     |
 
 - The canonical story exposes all controls and variants for the base component.
-- Each wrapped story demonstrates a real-world usage/variant with only relevant controls.
+### Timer App
 
-## Canonical Story Controls
-- `variant`: Switches between `text-only`, `timestamp`, and `task` variants.
+- `/docs/timer/index.html` — Main HTML and layout
+- `/docs/timer/timer.js` — Timer logic and state
+- Uses design system tokens for all typography and color
+- Vertically centered layout using flexbox
+- `.timer-group` uses `margin-bottom` for footer offset (not `.break-hint`)
+- Dynamic header and break text update based on timer state
+- Persistent footer, responsive layout
+- See `docs/timer/README.md` for full layout and logic details
 - `text`: Content for the list item.
 - `timestamp`: ISO string for timestamp variant.
 - `checked`: Only shown for the `task` variant; controls the checked state of the checkbox.

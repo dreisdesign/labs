@@ -1,3 +1,11 @@
+# Timer App
+
+- Uses design system tokens for all typography and color
+- Vertically centered layout using flexbox
+- `.timer-group` uses `margin-bottom` for footer offset (not `.break-hint`)
+- Dynamic header and break text update based on timer state
+- Persistent footer, responsive layout
+- See `docs/timer/README.md` for layout and logic details
 
 # Component Usage Guide (2025-10)
 
