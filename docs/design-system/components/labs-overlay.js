@@ -56,7 +56,8 @@ class LabsOverlay extends HTMLElement {
           border-radius: 12px;
           box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
           max-width: 90vw;
-          width: 100%;
+          min-width: 320px;
+          width: auto;
           box-sizing: border-box;
           max-height: 90vh;
           overflow: auto;
