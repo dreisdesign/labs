@@ -451,10 +451,12 @@
     });
   </script>
   <script>
-    // Always set design system link to ../design-system/ at runtime
+    // Set design system link based on environment
     window.addEventListener('DOMContentLoaded', function () {
       var link = document.getElementById('smoothieLink');
-      if (link) link.href = '../design-system/';
+      if (!link) return;
+      var isGithubPages = window.location.hostname === 'dreisdesign.github.io' && window.location.pathname.startsWith('/labs');
+      link.href = isGithubPages ? '../design-system/' : '../design-system/';
     });
   </script>
   <script>
