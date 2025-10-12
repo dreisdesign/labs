@@ -450,25 +450,7 @@
       console.log("PWA install prompt available");
     });
   </script>
-  <script>
-    (function () {
-      var link = document.getElementById('smoothieLink');
-      if (!link) return;
-      var localUrl = 'http://localhost:6006/';
-      var publicUrl = '../design-system/';
-      try {
-        var host = window.location.hostname;
-        // prefer local when viewing docs on localhost or when port 6006 is present
-        if (host === 'localhost' || host === '127.0.0.1' || window.location.port === '6006') {
-          link.href = localUrl;
-        } else {
-          link.href = publicUrl;
-        }
-      } catch (e) {
-        link.href = publicUrl;
-      }
-    })();
-  </script>
+  <!-- Design system link is now always ../design-system/ for both local and deployed environments -->
   <script>
     (function () {
       const root = document.documentElement;
