@@ -193,6 +193,18 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 ---
 ## 🏁 Quick Start
 
+---
+
+## 🔗 Design System Link Workflow
+
+**For the Labs homepage (`docs/index.html`):**
+
+- Always commit with `href="../design-system/"` for the design system link. This ensures local preview works out of the box.
+- The deploy/build script (run with `--github` or as part of `npm run d`) will automatically rewrite this link to `href="/labs/design-system/"` for GitHub Pages.
+- **Never commit the deploy output** with `/labs/design-system/` — only the local-friendly `../design-system/`.
+
+This ensures the link is always correct in both local and deployed environments, with no manual changes needed.
+
 
 ### October 10, 2025
 - **Icon Workflow Automation:** Icon cleanup and generation scripts now robustly enforce suffixes, quote all icon names, and only update the icons object in `labs-icon.js` between comment markers. No more file corruption or manual fixes needed.
