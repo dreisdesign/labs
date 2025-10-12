@@ -450,7 +450,13 @@
       console.log("PWA install prompt available");
     });
   </script>
-  <!-- Design system link is now always ../design-system/ for both local and deployed environments -->
+  <script>
+    // Always set design system link to ../design-system/ at runtime
+    window.addEventListener('DOMContentLoaded', function () {
+      var link = document.getElementById('smoothieLink');
+      if (link) link.href = '../design-system/';
+    });
+  </script>
   <script>
     (function () {
       const root = document.documentElement;
