@@ -1,4 +1,12 @@
-# Component Usage Guide
+
+# Component Usage Guide (2025-10)
+
+## Recent Refactors & Modularity
+
+- **Overlay/Warning Overlay:** Now fully modular, with robust blur/backdrop and centering. Use `<labs-overlay>` or `<labs-warning-overlay>` for all modal/confirmation needs. See Storybook for usage patterns.
+- **Badge, Card, Input, Settings:** Refactored for modularity, improved slot/attribute API, and Storybook documentation. See examples for new usage.
+- **Toast Component:** `<labs-toast>` is still available for general use, but is no longer used in the timer app (reset confirmation is now handled by overlay only).
+
 
 This guide documents key learnings, best practices, and gotchas when using the Labs Design System components.
 

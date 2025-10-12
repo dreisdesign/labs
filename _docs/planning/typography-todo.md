@@ -1,20 +1,23 @@
-# Typography audit & consolidation — TODO
+
+# Typography audit & consolidation — COMPLETE (as of v2.4.7, 2025-10-12)
 
 Goal
 
 - Audit all font-size / font-weight / line-height tokens and usages, consolidate into a minimal, consistent token set, then apply tokens systematically across the design system and docs.
 
-Quick checklist (high level)
 
-```markdown
-- [ ] Step 1: Inventory — find all typography tokens and inline font styles used across the repo
-- [ ] Step 2: Gap analysis — compare inventory to the desired canonical token set and identify missing/duplicate tokens
-- [ ] Step 3: Propose canonical token set — create `tokens/typography.css` (or update existing) with agreed names and values
-- [ ] Step 4: Migrate usages — replace inline styles and ad-hoc sizes with token references across components, stories, and docs
-- [ ] Step 5: Test & validate — run Storybook, docs build, and smoke-check pages for visual regressions and 404s
-- [ ] Step 6: Cleanup & docs — remove deprecated tokens, update Storybook token table, and add migration notes to README/TODO
-- [ ] Step 7: Final QA — automated lint/type checks, visual spot-checks (HMR/Storybook) and a small accessibility check for text scale/contrast
-```
+## ✅ All steps complete
+
+- All typography tokens have been inventoried, normalized, and consolidated into `tokens/typography.css`.
+- All usages migrated to canonical tokens across components, stories, and docs.
+- Storybook and docs are up to date; visual and lint checks passed.
+- Deprecated tokens removed; migration notes and changelog updated.
+
+# Typography audit & consolidation — ARCHIVED
+
+All work for the typography token audit and migration is complete as of v2.4.7 (2025-10-12).
+
+This file has been archived. See `_dev/_documents/legacy/documentation/TODO-archive-2025-10.md` for the full completion record.
 
 Files / areas to scan (initial pass)
 

@@ -1,4 +1,12 @@
-# [Unreleased] - 2025-10-10
+
+
+# v2.4.7 – 2025-10-12
+
+### 🆕 Major UI & Component Refactors
+- **Timer App:** Reset button now only appears when timer is not at 25:00. Undo toast removed for a simpler, more focused UI.
+- **Overlay/Warning Overlay:** Modularized and improved with robust blur/backdrop and centering. All overlays now use a consistent, accessible pattern.
+- **Badge, Card, Input, Settings Components:** Refactored for full modularity, improved slot/attribute API, and better Storybook documentation.
+- **Icon & Token Workflow:** Icon scripts and design tokens have been normalized for reliability and easier maintenance.
 
 ### 🛡️ Icon Workflow Robustness & Automation
 - **Safe Icon Cleanup:** `scripts/cleanup-icon-dupes.js` now only deletes unsuffixed duplicates and renames unsuffixed icons, matching manual workflow.
@@ -380,7 +388,7 @@ See `TODO.md` for all current in-progress and planned work.
 ## 📈 v1.0.0 - Initial Release (2024)
 
 ### 🎯 **Core Applications**
-- **Focus Timer** - Pomodoro-style productivity timer
+- **Focus Timer** - Minimal, distraction-free Pomodoro timer with bold numeric countdown, modular overlays for reset confirmation, and seamless theme support. Optimized for desktop and mobile, with installable PWA and offline support.
 - **Daily Tracker** - Habit and activity tracking
 - **Daily Note** - Simple daily note-taking
 - **Today List** - Daily task management

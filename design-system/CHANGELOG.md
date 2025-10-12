@@ -1,3 +1,12 @@
+
+# v2.4.7 – 2025-10-12
+
+### 🆕 Component & Token Refactors
+- **Overlay/Warning Overlay:** Modularized, with robust blur/backdrop and centering. Consistent, accessible overlay pattern across all apps.
+- **Badge, Card, Input, Settings:** Refactored for modularity, improved slot/attribute API, and Storybook documentation.
+- **Token Normalization:** Typography and color tokens consolidated and normalized for reliability and easier maintenance.
+- **Icon Workflow:** Icon scripts improved for safe, reliable icon management.
+
 # [Unreleased] - 2025-10-04
 
 ### Documentation

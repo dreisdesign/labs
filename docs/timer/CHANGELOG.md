@@ -312,7 +312,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Automatic session switching between work and break
   - Play/pause/reset controls
 - **Visual Design**:
-  - Two circular progress indicators (work and break)
+  - Bold numeric countdown timer display
   - 5:1 size ratio between large work circle and small break circle
   - Perfect 1:1 aspect ratio circles maintained on all screen sizes
   - Minimalist, distraction-free interface
@@ -322,7 +322,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Mobile-optimized touch targets and spacing
   - Viewport-based scaling using `vmin` units
 - **Audio Integration**:
-  - 25-minute focus music track during work sessions
+  - Modular overlays for reset confirmation
   - Automatic play/pause with session state
   - Silent break periods for mental rest
 - **Technical Implementation**:

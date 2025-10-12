@@ -1,20 +1,10 @@
-## Toast Component
+## Component Refactors & Modularity (2025-10)
 
-`<labs-toast>` is the canonical Labs Design System toast/notification overlay. It supports three action button variants:
+- **Overlay/Warning Overlay:** Now fully modular, with robust blur/backdrop and centering. All overlays use a consistent, accessible pattern. See Storybook for usage.
+- **Badge, Card, Input, Settings:** Refactored for modularity, improved slot/attribute API, and Storybook documentation. See COMPONENT-USAGE.md for details.
+- **Toast Component:** `<labs-toast>` is still available for general use, but is no longer used in the timer app (reset confirmation is now handled by overlay only).
 
-- `primary` (default)
-- `secondary`
-- `destructive`
-
-Set the variant via the `variant` attribute:
-
-```html
-<labs-toast variant="destructive"></labs-toast>
-```
-
-The `danger` variant is not supported (use `destructive` for error/alert actions).
-
-See Storybook for live demos and controls.
+---
 # Labs Design System
 
 > **Production-Ready Component Library with Complete Token Architecture**

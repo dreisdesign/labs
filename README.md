@@ -1,6 +1,6 @@
 # 🧪 Labs
 
-> **Latest release:** v2.4.6 — Service Worker & Docs Stability (2025-09-21) • [Release Notes](_docs/releases/release-2025-09-21.md) • [Changelog](CHANGELOG.md)
+> **Latest release:** v2.4.7 — Major UI & Component Refactors (2025-10-12) • [Changelog](CHANGELOG.md)
 
 > **Modular design system and productivity apps built with Web Components**
 
@@ -20,7 +20,7 @@
 | App | Purpose | Live URL |
 |-----|---------|----------|
     | **🎨 Design System** | Component library & tokens | [Storybook](https://dreisdesign.github.io/labs/design-system/) |
-| **⏰ Focus Timer** | Pomodoro-style productivity timer | [Timer App](https://dreisdesign.github.io/labs/timer/) |
+| **⏰ Focus Timer** | Minimal, distraction-free Pomodoro timer with bold numeric countdown, modular overlays for reset confirmation, and seamless theme support. Optimized for desktop and mobile, with installable PWA and offline support. | [Timer App](https://dreisdesign.github.io/labs/timer/) |
 | **📊 Daily Tracker** | Habit and activity tracking with dark mode | [Tracker App](https://dreisdesign.github.io/labs/tracker/) |
 | **📝 Daily Note** | Simple daily note-taking | [Note App](https://dreisdesign.github.io/labs/note/) |
 | **✅ Today List** | Daily task checklist | [Today List](https://dreisdesign.github.io/labs/today-list/) |
@@ -183,7 +183,15 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ---
 
-## 📝 Recent Updates
+## 🆕 Recent Highlights (2025-10)
+
+- **Timer App:** Reset button now only appears when timer is not at 25:00. Undo toast has been removed for a simpler, more focused UI.
+- **Overlay/Warning Overlay:** Modularized and improved with robust blur/backdrop and centering. All overlays now use a consistent, accessible pattern.
+- **Badge, Card, Input, Settings Components:** Refactored for full modularity, improved slot/attribute API, and better Storybook documentation.
+- **Icon & Token Workflow:** Icon scripts and design tokens have been normalized for reliability and easier maintenance.
+
+---
+## 🏁 Quick Start
 
 
 ### October 10, 2025

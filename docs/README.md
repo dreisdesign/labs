@@ -5,7 +5,7 @@ Welcome to the Labs suite of productivity web applications and design system.
 ## 🌐 Live Apps
 
 - [Labs Homepage](https://dreisdesign.github.io/labs/)
-- [Focus Timer](https://dreisdesign.github.io/labs/timer/)
+- [Focus Timer](https://dreisdesign.github.io/labs/timer/) — Minimal, distraction-free Pomodoro timer with bold numeric countdown, modular overlays for reset confirmation, and seamless theme support. Optimized for desktop and mobile, with installable PWA and offline support.
 - [Daily Tracker](https://dreisdesign.github.io/labs/tracker/)
 - [Daily Note](https://dreisdesign.github.io/labs/note/)
 - [Today List](https://dreisdesign.github.io/labs/today-list/)
