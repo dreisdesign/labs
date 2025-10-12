@@ -108,6 +108,12 @@ filesToProcess.forEach((filePath) => {
   let content = fs.readFileSync(filePath, 'utf8');
   const original = content;
 
+  // In local mode, skip all rewrites for docs/index.html
+  if (mode === 'local' && filePath.endsWith('docs/index.html')) {
+    console.log('Skipped ALL rewrites for docs/index.html in local mode');
+    return;
+  }
+
   // Special handling for the design system link in docs/index.html
   if (filePath.endsWith('docs/index.html')) {
     if (mode === 'github') {
