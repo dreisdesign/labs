@@ -16,6 +16,7 @@ export default {
 
 export const Default = () => {
     const card = document.createElement('labs-card');
+    card.setAttribute('variant', 'welcome');
     card.style.maxWidth = '420px';
 
     const header = document.createElement('span');
@@ -31,7 +32,7 @@ export const Default = () => {
     // icon.style.fontSize = '2rem';
     // card.appendChild(icon);
 
-    const desc = document.createElement('span');
+    const desc = document.createElement('div');
     desc.slot = 'description';
     desc.textContent = 'Get started by exploring our design system components.';
     card.appendChild(desc);

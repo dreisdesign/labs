@@ -57,7 +57,7 @@ When creating web components, always include layout attributes:
 :host([fullwidth]) button {
   display: flex !important;
   width: 100% !important;
-  justify-content: flex-end;
+  justify-content: center;
 }
 ```
 
