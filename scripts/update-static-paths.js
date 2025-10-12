@@ -116,13 +116,8 @@ filesToProcess.forEach((filePath) => {
         /(<a[^>]+id=["']smoothieLink["'][^>]+href=")[^"]*("[^>]*>)/,
         '$1/labs/design-system/$2'
       );
-    } else if (mode === 'local' || mode === 'public') {
-      // Set to ../design-system/ for local/public
-      content = content.replace(
-        /(<a[^>]+id=["']smoothieLink["'][^>]+href=")[^"]*("[^>]*>)/,
-        '$1../design-system/$2'
-      );
     }
+    // In local/public mode, do NOT rewrite the smoothieLink at all
   }
 
   // Check if this is a tracker JS file - tracker JS manages its own production paths via isProd checks
