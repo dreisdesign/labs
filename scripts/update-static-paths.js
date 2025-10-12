@@ -108,10 +108,20 @@ filesToProcess.forEach((filePath) => {
   let content = fs.readFileSync(filePath, 'utf8');
   const original = content;
 
-  // In local mode, skip all rewrites for docs/index.html
-  if (mode === 'local' && filePath.endsWith('docs/index.html')) {
-    console.log('Skipped ALL rewrites for docs/index.html in local mode');
-    return;
+  // Special handling for the design system link in docs/index.html
+  if (filePath.endsWith('docs/index.html')) {
+    if (mode === 'github') {
+      // Set to /labs/design-system/ for GitHub Pages
+      const before = content;
+      content = content.replace(
+        /(<a[^>]+id=["']smoothieLink["'][^>]+href=")[^"]*("[^>]*>)/,
+        '$1/labs/design-system/$2'
+      );
+      if (content !== before) {
+        console.log('Rewrote smoothieLink to /labs/design-system/ in docs/index.html (github mode)');
+      }
+    }
+    // In local/public mode, do NOT rewrite the smoothieLink at all
   }
 
   // Special handling for the design system link in docs/index.html
