@@ -112,12 +112,18 @@ filesToProcess.forEach((filePath) => {
   if (filePath.endsWith('docs/index.html')) {
     if (mode === 'github') {
       // Set to /labs/design-system/ for GitHub Pages
+      const before = content;
       content = content.replace(
         /(<a[^>]+id=["']smoothieLink["'][^>]+href=")[^"]*("[^>]*>)/,
         '$1/labs/design-system/$2'
       );
+      if (content !== before) {
+        console.log('Rewrote smoothieLink to /labs/design-system/ in docs/index.html (github mode)');
+      }
+    } else if (mode === 'local' || mode === 'public') {
+      // In local/public mode, never rewrite the smoothieLink at all
+      console.log('Skipped rewriting smoothieLink in docs/index.html (local/public mode)');
     }
-    // In local/public mode, do NOT rewrite the smoothieLink at all
   }
 
   // Check if this is a tracker JS file - tracker JS manages its own production paths via isProd checks
