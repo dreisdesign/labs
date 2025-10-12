@@ -108,6 +108,23 @@ filesToProcess.forEach((filePath) => {
   let content = fs.readFileSync(filePath, 'utf8');
   const original = content;
 
+  // Special handling for the design system link in docs/index.html
+  if (filePath.endsWith('docs/index.html')) {
+    if (mode === 'github') {
+      // Set to /labs/design-system/ for GitHub Pages
+      content = content.replace(
+        /(<a[^>]+id=["']smoothieLink["'][^>]+href=")[^"]*("[^>]*>)/,
+        '$1/labs/design-system/$2'
+      );
+    } else if (mode === 'local' || mode === 'public') {
+      // Set to ../design-system/ for local/public
+      content = content.replace(
+        /(<a[^>]+id=["']smoothieLink["'][^>]+href=")[^"]*("[^>]*>)/,
+        '$1../design-system/$2'
+      );
+    }
+  }
+
   // Check if this is a tracker JS file - tracker JS manages its own production paths via isProd checks
   const isTrackerJsFile = filePath.includes(path.join('docs', 'tracker', 'js'));
 
