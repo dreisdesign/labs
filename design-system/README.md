@@ -1,3 +1,15 @@
+## 🆕 Dropdown Restore Menu Item (2025-10-13)
+
+The `<labs-dropdown>` component now supports a "Restore" menu item for archived tasks. When the `archived` attribute is present, the dropdown menu will show "Restore" (with a history icon) instead of "Archive". This enables robust task management and clear UX for restoring archived items.
+
+**Usage:**
+```html
+<labs-dropdown archived slot="actions"></labs-dropdown>
+```
+This will show a dropdown menu with "Restore" and "Delete" options. Listen for the `restore` event to handle restoration logic in your app.
+
+See [COMPONENT-USAGE.md](./COMPONENT-USAGE.md) for full details and usage patterns.
+
 ## Component Refactors & Modularity (2025-10)
 
 - **Overlay/Warning Overlay:** Now fully modular, with robust blur/backdrop and centering. All overlays use a consistent, accessible pattern. See Storybook for usage.

@@ -1,3 +1,31 @@
+# Dropdown Menu Items: Archive, Restore, Delete (2025-10-13)
+
+The `<labs-dropdown>` component now supports a "Restore" menu item for archived tasks. When the `archived` attribute is present, the dropdown menu will show "Restore" (with a history icon) instead of "Archive". This enables robust task management and clear UX for restoring archived items.
+
+**Menu Item Logic:**
+- If `archived` attribute is present: show **Restore** (history icon)
+- If not archived: show **Archive** (archive icon)
+- Always shows **Delete** (delete_forever icon) unless restricted by the `only` attribute
+
+**Usage Example:**
+```html
+<labs-dropdown archived slot="actions"></labs-dropdown>
+```
+This will show a dropdown menu with "Restore" and "Delete" options. Listen for the `restore` event to handle restoration logic in your app.
+
+**Customization:**
+- Use the `only` attribute to restrict menu items (e.g., `only="delete"`)
+- The menu is fully modular and uses Shadow DOM for encapsulation
+- All icons are from the Labs icon set and are themeable
+
+**Modularity Statement:**
+<labs-dropdown> is fully modular, with all menu logic, icons, and event wiring self-contained. No external CSS or dependencies are required beyond the documented component imports. The menu adapts to the `archived` attribute and is robust in all parent contexts.
+
+**Benefits:**
+- Clear, accessible menu for task actions
+- Robust handling of archived/restored state
+- Fully themeable and modular
+
 # Timer App
 
 - Uses design system tokens for all typography and color
