@@ -14,6 +14,7 @@ export default {
     },
     argTypes: {
         variant: { control: { type: 'select' }, options: ['text-only', 'timestamp', 'task'], description: 'Variant of the list item' },
+        state: { control: { type: 'select' }, options: ['', 'archived'], description: 'State of the list item (e.g., archived)' },
         text: { control: 'text', description: 'Text content for the list item' },
         timestamp: { control: 'text', description: 'Timestamp (ISO string)' },
         checked: {
@@ -24,18 +25,21 @@ export default {
     },
     args: {
         variant: 'text-only',
+        state: '',
         text: 'Sample item',
         timestamp: '',
         checked: false,
     },
 };
 
-export const Default = ({ variant, text, timestamp, checked }) => {
+
+export const Default = ({ variant, state, text, timestamp, checked }) => {
     const item = document.createElement('labs-list-item');
     item.setAttribute('variant', variant);
     item.innerHTML = '';
     item.removeAttribute('timestamp');
     item.removeAttribute('checked');
+    if (state) item.setAttribute('state', state); else item.removeAttribute('state');
 
     // TEXT-ONLY variant: match wrapped story
     if (variant === 'text-only') {

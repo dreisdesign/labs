@@ -148,7 +148,7 @@ function createTodoItem(item) {
     const li = document.createElement('labs-list-item');
     li.setAttribute('variant', 'task');
     if (item.checked) li.setAttribute('checked', '');
-    if (item.archived) li.setAttribute('archived', '');
+    if (item.archived) li.setAttribute('state', 'archived');
 
     // Checkbox in control slot
     const checkbox = document.createElement('labs-checkbox');
@@ -219,21 +219,17 @@ function renderArchivedSection() {
     }
 
     // Create collapsible details for archived items
-    archivedSection.innerHTML = `
-        <labs-details>
-            <span slot="summary">
-                <labs-icon name="chevron_right"></labs-icon>
-                Archived (${archivedItems.length})
-            </span>
-            <div slot="content" id="archived-list"></div>
-        </labs-details>
-    `;
-
-    const archivedList = archivedSection.querySelector('#archived-list');
+    archivedSection.innerHTML = '';
+    const details = document.createElement('labs-details');
+    const summary = document.createElement('span');
+    summary.slot = 'summary';
+    summary.innerHTML = `<labs-icon name="chevron_right"></labs-icon> Archived (${archivedItems.length})`;
+    details.appendChild(summary);
     archivedItems.forEach(item => {
         const li = createTodoItem(item);
-        archivedList.appendChild(li);
+        details.appendChild(li);
     });
+    archivedSection.appendChild(details);
 }
 
 // Initialize
