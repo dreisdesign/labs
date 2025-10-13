@@ -218,6 +218,28 @@ function renderArchivedSection() {
         return;
     }
 
+    // Group archived items by date (YYYY-MM-DD)
+    const groups = {};
+    const today = new Date();
+    const todayStr = today.toDateString();
+    archivedItems.forEach(item => {
+        // Use item.date if available, else fallback to item.timestamp or today
+        let dateObj;
+        if (item.date) {
+            dateObj = new Date(item.date);
+        } else if (item.timestamp) {
+            dateObj = new Date(item.timestamp);
+        } else {
+            dateObj = today;
+        }
+        const dateStr = dateObj.toDateString();
+        if (!groups[dateStr]) groups[dateStr] = [];
+        groups[dateStr].push(item);
+    });
+
+    // Sort groups by date descending (most recent first)
+    const sortedDates = Object.keys(groups).sort((a, b) => new Date(b) - new Date(a));
+
     // Create collapsible details for archived items
     archivedSection.innerHTML = '';
     const details = document.createElement('labs-details');
@@ -225,9 +247,21 @@ function renderArchivedSection() {
     summary.slot = 'summary';
     summary.innerHTML = `<labs-icon name="chevron_right"></labs-icon> Archived (${archivedItems.length})`;
     details.appendChild(summary);
-    archivedItems.forEach(item => {
-        const li = createTodoItem(item);
-        details.appendChild(li);
+
+    sortedDates.forEach(dateStr => {
+        const group = groups[dateStr];
+        // Heading: Today or date string
+        const heading = document.createElement('div');
+        heading.style.fontWeight = 'bold';
+        heading.style.margin = '16px 0 4px 0';
+        heading.style.fontSize = '1rem';
+        heading.style.textAlign = 'center';
+        heading.textContent = (dateStr === todayStr) ? 'Today' : dateStr;
+        details.appendChild(heading);
+        group.forEach(item => {
+            const li = createTodoItem(item);
+            details.appendChild(li);
+        });
     });
     archivedSection.appendChild(details);
 }
