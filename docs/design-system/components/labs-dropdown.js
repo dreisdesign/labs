@@ -220,6 +220,7 @@ class LabsDropdown extends HTMLElement {
         const onlyRaw = this.getAttribute('only') || '';
         const only = onlyRaw.split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
         const showArchive = only.length === 0 || only.includes('archive');
+        const showRestore = only.includes('restore') || this.hasAttribute('archived');
         const showDelete = only.length === 0 || only.includes('delete');
         menu.innerHTML = `
             <style>
@@ -241,7 +242,11 @@ class LabsDropdown extends HTMLElement {
                 .labs-dropdown-menu labs-button + labs-button { margin-top: 6px; }
                 .labs-dropdown-menu labs-button[variant="destructive"] labs-icon { color: var(--color-on-error, #fff); }
             </style>
-            ${showArchive ? `<labs-button id="archiveBtn" variant="secondary" size="small" fullwidth role="menuitem" tabindex="-1">
+            ${showRestore ? `<labs-button id="restoreBtn" variant="secondary" size="small" fullwidth role="menuitem" tabindex="-1">
+                <labs-icon slot="icon-left" name="history" width="20" height="20"></labs-icon>
+                Restore
+            </labs-button>` : ''}
+            ${!showRestore && showArchive ? `<labs-button id="archiveBtn" variant="secondary" size="small" fullwidth role="menuitem" tabindex="-1">
                 <labs-icon slot="icon-left" name="archive" width="20" height="20"></labs-icon>
                 Archive
             </labs-button>` : ''}
@@ -263,6 +268,13 @@ class LabsDropdown extends HTMLElement {
         if (archiveBtn) archiveBtn.addEventListener('click', (e) => {
             e.preventDefault(); e.stopPropagation();
             this.dispatchEvent(new CustomEvent('archive', { bubbles: true, composed: true }));
+            this._close();
+        });
+
+        const restoreBtn = menu.querySelector('#restoreBtn');
+        if (restoreBtn) restoreBtn.addEventListener('click', (e) => {
+            e.preventDefault(); e.stopPropagation();
+            this.dispatchEvent(new CustomEvent('restore', { bubbles: true, composed: true }));
             this._close();
         });
 
