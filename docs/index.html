@@ -391,6 +391,14 @@
 
   <!-- Service Worker Registration -->
   <script>
+    // Dynamically set the Storybook link for local vs GitHub Pages
+    (function () {
+      var smoothieLink = document.getElementById('smoothieLink');
+      if (smoothieLink) {
+        var isGhPages = window.location.pathname.includes('/labs/');
+        smoothieLink.href = isGhPages ? '../design-system/' : 'design-system/';
+      }
+    })();
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", async () => {
         // Avoid registering the service worker during local development
