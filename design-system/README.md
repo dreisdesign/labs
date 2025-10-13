@@ -1,12 +1,17 @@
 ## 🆕 Dropdown Restore Menu Item (2025-10-13)
 
-The `<labs-dropdown>` component now supports a "Restore" menu item for archived tasks. When the `archived` attribute is present, the dropdown menu will show "Restore" (with a history icon) instead of "Archive". This enables robust task management and clear UX for restoring archived items.
+**Unified Dropdown Pattern (2025-10-13):**
+All tasks—today, archived, and past—now use the `<labs-dropdown>` component in the right slot for actions. This ensures a consistent, modular UI for Archive, Restore, and Delete actions across all days and task states in Today-List and similar apps.
 
 **Usage:**
-```html
-<labs-dropdown archived slot="actions"></labs-dropdown>
+```javascript
+const dropdown = document.createElement('labs-dropdown');
+dropdown.setAttribute('slot', 'actions');
+if (item.archived) dropdown.setAttribute('archived', '');
+if (isPast) dropdown.setAttribute('only', 'restore,delete');
+else dropdown.setAttribute('only', item.archived ? 'archive,delete' : 'archive,delete');
 ```
-This will show a dropdown menu with "Restore" and "Delete" options. Listen for the `restore` event to handle restoration logic in your app.
+Attach event listeners for `archive`, `restore`, and `remove` as needed.
 
 See [COMPONENT-USAGE.md](./COMPONENT-USAGE.md) for full details and usage patterns.
 

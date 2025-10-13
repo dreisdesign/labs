@@ -1,6 +1,27 @@
 # Dropdown Menu Items: Archive, Restore, Delete (2025-10-13)
 
-The `<labs-dropdown>` component now supports a "Restore" menu item for archived tasks. When the `archived` attribute is present, the dropdown menu will show "Restore" (with a history icon) instead of "Archive". This enables robust task management and clear UX for restoring archived items.
+**Unified Dropdown Pattern (2025-10-13):**
+All tasks—today, archived, and past—now use the `<labs-dropdown>` component in the right slot for actions. This ensures a consistent, modular UI for Archive, Restore, and Delete actions across all days and task states.
+
+**Menu Item Logic:**
+- **Today, not archived:** Archive, Delete
+- **Today, archived:** Restore, Delete
+- **Past days:** Restore to today, Delete
+
+**Usage Example:**
+```javascript
+const dropdown = document.createElement('labs-dropdown');
+dropdown.setAttribute('slot', 'actions');
+if (item.archived) dropdown.setAttribute('archived', '');
+if (isPast) dropdown.setAttribute('only', 'restore,delete');
+else dropdown.setAttribute('only', item.archived ? 'archive,delete' : 'archive,delete');
+```
+Attach event listeners for `archive`, `restore`, and `remove` as needed.
+
+**Benefits:**
+- Consistent dropdown UI for all tasks
+- Modular, themeable, and accessible
+- No direct icon buttons—actions are always in the dropdown
 
 **Menu Item Logic:**
 - If `archived` attribute is present: show **Restore** (history icon)

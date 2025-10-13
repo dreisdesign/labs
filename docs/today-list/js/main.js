@@ -309,113 +309,100 @@ function createTodoItem(item, isPast = false) {
     content.textContent = item.text || '';
     li.appendChild(content);
 
-    // Actions slot - different for past vs today items
-    const isTodayActive = !isPast && !item.archived;
+    // Use labs-dropdown for all tasks (today, archived, and past)
+    const dropdown = document.createElement('labs-dropdown');
+    dropdown.setAttribute('slot', 'actions');
+
+    // Set archived attribute if item is archived (changes Archive → Restore)
+    if (item.archived) {
+        dropdown.setAttribute('archived', '');
+    }
+
+    // For past items, show only restore and delete; for today, show archive/restore and delete
     if (isPast) {
-        // Past items: show "restore to today" and "delete" buttons
-        const restoreButton = document.createElement('labs-button');
-        restoreButton.setAttribute('slot', 'actions');
-        restoreButton.setAttribute('variant', 'icon');
-        restoreButton.setAttribute('aria-label', 'Restore to today');
-        restoreButton.innerHTML = '<labs-icon slot="icon-left" name="history"></labs-icon>';
-
-        restoreButton.addEventListener('click', (e) => {
-            e.stopPropagation();
-            // Create a copy of the item with today's timestamp
-            const newItem = {
-                id: Date.now().toString(),
-                text: item.text,
-                checked: false,
-                archived: false,
-                timestamp: Date.now()
-            };
-            store.items.unshift(newItem);
-            store.save();
-            renderAll();
-            showUndoToast('Task restored to today', () => {
-                store.items = store.items.filter(x => x.id !== newItem.id);
-                store.save();
-                renderAll();
-            });
-        });
-        li.appendChild(restoreButton);
-
-        // Delete button for past items
-        const deleteButton = document.createElement('labs-button');
-        deleteButton.setAttribute('slot', 'actions');
-        deleteButton.setAttribute('variant', 'icon');
-        deleteButton.setAttribute('aria-label', 'Delete task');
-        deleteButton.innerHTML = '<labs-icon slot="icon-left" name="delete_forever"></labs-icon>';
-
-        deleteButton.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const removedItem = { ...item };
-            const removedIndex = store.items.findIndex(x => x.id === item.id);
-            store.items = store.items.filter(x => x.id !== item.id);
-            store.save();
-            renderAll();
-            showUndoToast('Task deleted', () => {
-                store.items.splice(removedIndex, 0, removedItem);
-                store.save();
-                renderAll();
-            });
-        });
-        li.appendChild(deleteButton);
-
-        // Make past items read-only (no click to toggle)
-        li.style.cursor = 'default';
+        dropdown.setAttribute('only', 'restore,delete');
     } else {
-        // Today's items: dropdown with archive/delete options
-        const dropdown = document.createElement('labs-dropdown');
-        dropdown.setAttribute('slot', 'actions');
-
-        // Set archived attribute if item is archived (changes Archive → Restore)
-        if (item.archived) {
-            dropdown.setAttribute('archived', '');
-        }
-
         dropdown.setAttribute('only', item.archived ? 'archive,delete' : 'archive,delete');
+    }
 
-        // Attach click handler only for today’s active (not archived) items
-        if (isTodayActive) {
-            li.addEventListener('click', (e) => {
-                if (e.target.closest('labs-dropdown')) return;
-                item.checked = !item.checked;
+    // Attach click handler only for today’s active (not archived) items
+    const isTodayActive = !isPast && !item.archived;
+    if (isTodayActive) {
+        li.addEventListener('click', (e) => {
+            if (e.target.closest('labs-dropdown')) return;
+            item.checked = !item.checked;
+            store.save();
+            renderAll();
+        });
+    }
+
+    // Restore handler for past items or archived today
+    if (isPast || item.archived) {
+        dropdown.addEventListener('restore', () => {
+            if (isPast) {
+                // Restore to today (copy)
+                const newItem = {
+                    id: Date.now().toString(),
+                    text: item.text,
+                    checked: false,
+                    archived: false,
+                    timestamp: Date.now()
+                };
+                store.items.unshift(newItem);
                 store.save();
                 renderAll();
-            });
-        }
+                showUndoToast('Task restored to today', () => {
+                    store.items = store.items.filter(x => x.id !== newItem.id);
+                    store.save();
+                    renderAll();
+                });
+            } else {
+                // Restore archived today
+                const idx = store.items.findIndex(x => x.id === item.id);
+                const wasArchived = item.archived;
+                item.archived = false;
+                store.save();
+                renderAll();
+                showUndoToast('Task restored', () => {
+                    store.items[idx].archived = wasArchived;
+                    store.save();
+                    renderAll();
+                });
+            }
+        });
+    }
 
-        // Archive/Restore handler
-        dropdown.addEventListener(item.archived ? 'restore' : 'archive', () => {
+    // Archive handler for today’s active (not archived) items
+    if (!isPast && !item.archived) {
+        dropdown.addEventListener('archive', () => {
             const idx = store.items.findIndex(x => x.id === item.id);
             const wasArchived = item.archived;
-            item.archived = !item.archived;
+            item.archived = true;
             store.save();
             renderAll();
-            showUndoToast(`Task ${wasArchived ? 'restored' : 'archived'}`, () => {
+            showUndoToast('Task archived', () => {
                 store.items[idx].archived = wasArchived;
                 store.save();
                 renderAll();
             });
         });
+    }
 
-        // Delete handler
-        dropdown.addEventListener('remove', () => {
-            const removedItem = { ...item };
-            const removedIndex = store.items.findIndex(x => x.id === item.id);
-            store.items = store.items.filter(x => x.id !== item.id);
+    // Delete handler (all cases)
+    dropdown.addEventListener('remove', () => {
+        const removedItem = { ...item };
+        const removedIndex = store.items.findIndex(x => x.id === item.id);
+        store.items = store.items.filter(x => x.id !== item.id);
+        store.save();
+        renderAll();
+        showUndoToast('Task deleted', () => {
+            store.items.splice(removedIndex, 0, removedItem);
             store.save();
             renderAll();
-            showUndoToast('Task deleted', () => {
-                store.items.splice(removedIndex, 0, removedItem);
-                store.save();
-                renderAll();
-            });
         });
+    });
 
-        li.appendChild(dropdown);
-    }
+    li.appendChild(dropdown);
 
     return li;
 }
