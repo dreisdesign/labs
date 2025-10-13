@@ -90,26 +90,69 @@ function toggleInputOverlay(open = true) {
     }
 }
 
+// Helper: Check if a timestamp is from today
+function isToday(timestamp) {
+    const today = new Date();
+    const date = new Date(timestamp);
+    return today.toDateString() === date.toDateString();
+}
+
+// Helper: Get date string for grouping
+function getDateString(timestamp) {
+    return new Date(timestamp).toDateString();
+}
+
+// Helper: Format date for display
+function formatDateLabel(dateStr) {
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    if (dateStr === today.toDateString()) return 'Today';
+    if (dateStr === yesterday.toDateString()) return 'Yesterday';
+
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-US', {
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+    });
+}
+
 // Render everything
 function renderAll() {
-    // Update metric (count active items only)
-    const activeItems = store.items.filter(item => !item.archived);
+    // Update metric (count TODAY'S active items only)
+    const todayActiveItems = store.items.filter(item => !item.archived && isToday(item.timestamp));
     const metricCard = document.getElementById('todo-metric');
     const valueSlot = metricCard?.querySelector('[slot="value"]');
     if (valueSlot) {
-        valueSlot.textContent = activeItems.length;
+        valueSlot.textContent = todayActiveItems.length;
     }
 
     // Update reset-all button disabled state
     updateResetButtonState();
 
-    // Render active list
+    // Render today's section
+    renderTodaySection();
+
+    // Render past days section
+    renderPastDaysSection();
+}
+
+// Render Today's tasks (always visible)
+function renderTodaySection() {
     const list = document.getElementById('todo-list');
     if (!list) return;
 
     list.innerHTML = '';
 
-    if (activeItems.length === 0) {
+    const todayItems = store.items.filter(item => isToday(item.timestamp));
+    const todayActive = todayItems.filter(item => !item.archived);
+    const todayArchived = todayItems.filter(item => item.archived);
+
+    // Show welcome card if no tasks today
+    if (todayItems.length === 0) {
         const card = document.createElement('labs-card');
         card.setAttribute('variant', 'welcome');
 
@@ -123,7 +166,6 @@ function renderAll() {
         desc.textContent = 'Add your first task to get started.';
         card.appendChild(desc);
 
-        // Add button in actions slot
         const addButton = document.createElement('labs-button');
         addButton.setAttribute('slot', 'actions');
         addButton.setAttribute('variant', 'primary');
@@ -133,18 +175,117 @@ function renderAll() {
         card.appendChild(addButton);
 
         list.appendChild(card);
-    } else {
-        activeItems.forEach(item => {
-            const li = createTodoItem(item);
-            list.appendChild(li);
-        });
+        return;
     }
 
-    // Render archived section
-    renderArchivedSection();
+    // Render today's active tasks
+    todayActive.forEach(item => {
+        const li = createTodoItem(item, false); // false = not from past
+        list.appendChild(li);
+    });
+
+    // Render today's archived tasks in collapsed <details>
+    if (todayArchived.length > 0) {
+        const details = document.createElement('labs-details');
+        const summaryText = document.createTextNode(`Archived (${todayArchived.length})`);
+        details.appendChild(summaryText);
+
+        const contentWrapper = document.createElement('div');
+        contentWrapper.setAttribute('slot', 'content');
+        contentWrapper.style.display = 'flex';
+        contentWrapper.style.flexDirection = 'column';
+        contentWrapper.style.gap = 'var(--space-sm)';
+
+        todayArchived.forEach(item => {
+            const li = createTodoItem(item, false);
+            contentWrapper.appendChild(li);
+        });
+
+        details.appendChild(contentWrapper);
+        list.appendChild(details);
+    }
 }
 
-function createTodoItem(item) {
+// Render past days section (each day in collapsed <details>)
+function renderPastDaysSection() {
+    const archivedSection = document.getElementById('archived-section');
+    if (!archivedSection) return;
+
+    archivedSection.innerHTML = '';
+
+    // Get all items NOT from today
+    const pastItems = store.items.filter(item => !isToday(item.timestamp));
+
+    if (pastItems.length === 0) {
+        return;
+    }
+
+    // Group by date
+    const groups = {};
+    pastItems.forEach(item => {
+        const dateStr = getDateString(item.timestamp);
+        if (!groups[dateStr]) {
+            groups[dateStr] = { active: [], archived: [] };
+        }
+        if (item.archived) {
+            groups[dateStr].archived.push(item);
+        } else {
+            groups[dateStr].active.push(item);
+        }
+    });
+
+    // Sort dates descending (most recent first)
+    const sortedDates = Object.keys(groups).sort((a, b) => new Date(b) - new Date(a));
+
+    // Create <details> for each past day
+    sortedDates.forEach(dateStr => {
+        const group = groups[dateStr];
+        const totalCount = group.active.length + group.archived.length;
+
+        const details = document.createElement('labs-details');
+
+        // Summary: "Yesterday — 4 tasks" or "Fri Oct 10 2025 — 4 tasks"
+        const summaryText = document.createTextNode(
+            `${formatDateLabel(dateStr)} — ${totalCount} ${totalCount === 1 ? 'task' : 'tasks'}`
+        );
+        details.appendChild(summaryText);
+
+        // Content wrapper
+        const contentWrapper = document.createElement('div');
+        contentWrapper.setAttribute('slot', 'content');
+        contentWrapper.style.display = 'flex';
+        contentWrapper.style.flexDirection = 'column';
+        contentWrapper.style.gap = 'var(--space-sm)';
+
+        // Render active tasks first
+        group.active.forEach(item => {
+            const li = createTodoItem(item, true); // true = from past
+            contentWrapper.appendChild(li);
+        });
+
+        // Add subtle separator if both active and archived exist
+        if (group.active.length > 0 && group.archived.length > 0) {
+            const separator = document.createElement('div');
+            separator.style.height = '1px';
+            separator.style.background = 'var(--color-outline)';
+            separator.style.margin = 'var(--space-xs) 0';
+            separator.style.opacity = '0.3';
+            contentWrapper.appendChild(separator);
+        }
+
+        // Render archived tasks (slightly muted)
+        group.archived.forEach(item => {
+            const li = createTodoItem(item, true);
+            li.style.opacity = '0.7';
+            contentWrapper.appendChild(li);
+        });
+
+        details.appendChild(contentWrapper);
+        archivedSection.appendChild(details);
+    });
+}
+
+function createTodoItem(item, isPast = false) {
     const li = document.createElement('labs-list-item');
     li.setAttribute('variant', 'task');
     if (item.checked) li.setAttribute('checked', '');
@@ -162,108 +303,91 @@ function createTodoItem(item) {
     content.textContent = item.text || '';
     li.appendChild(content);
 
-    // Actions dropdown
-    const dropdown = document.createElement('labs-dropdown');
-    dropdown.setAttribute('slot', 'actions');
-    dropdown.setAttribute('only', item.archived ? 'restore,delete' : 'archive,delete');
+    // Actions slot - different for past vs today items
+    if (isPast) {
+        // Past items: only show "restore to today" button with history icon
+        const restoreButton = document.createElement('labs-button');
+        restoreButton.setAttribute('slot', 'actions');
+        restoreButton.setAttribute('variant', 'icon');
+        restoreButton.setAttribute('aria-label', 'Restore to today');
+        restoreButton.innerHTML = '<labs-icon slot="icon-left" name="history"></labs-icon>';
 
-    // Checkbox toggle handler
-    li.addEventListener('click', (e) => {
-        if (e.target.closest('labs-dropdown')) return;
-        item.checked = !item.checked;
-        store.save();
-        renderAll();
-    });
+        restoreButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            // Create a copy of the item with today's timestamp
+            const newItem = {
+                id: Date.now().toString(),
+                text: item.text,
+                checked: false,
+                archived: false,
+                timestamp: Date.now()
+            };
+            store.items.unshift(newItem);
+            store.save();
+            renderAll();
+            showUndoToast('Task restored to today', () => {
+                store.items = store.items.filter(x => x.id !== newItem.id);
+                store.save();
+                renderAll();
+            });
+        });
 
-    // Archive/Restore handler
-    dropdown.addEventListener(item.archived ? 'restore' : 'archive', () => {
-        const idx = store.items.findIndex(x => x.id === item.id);
-        const wasArchived = item.archived;
-        item.archived = !item.archived;
-        store.save();
-        renderAll();
-        showUndoToast(`Task ${wasArchived ? 'restored' : 'archived'}`, () => {
-            store.items[idx].archived = wasArchived;
+        li.appendChild(restoreButton);
+
+        // Make past items read-only (no click to toggle)
+        li.style.cursor = 'default';
+    } else {
+        // Today's items: dropdown with archive/delete options
+        const dropdown = document.createElement('labs-dropdown');
+        dropdown.setAttribute('slot', 'actions');
+
+        // Set archived attribute if item is archived (changes Archive → Restore)
+        if (item.archived) {
+            dropdown.setAttribute('archived', '');
+        }
+
+        dropdown.setAttribute('only', item.archived ? 'archive,delete' : 'archive,delete');
+
+        // Checkbox toggle handler (only for today's items)
+        li.addEventListener('click', (e) => {
+            if (e.target.closest('labs-dropdown')) return;
+            item.checked = !item.checked;
             store.save();
             renderAll();
         });
-    });
 
-    // Delete handler
-    dropdown.addEventListener('remove', () => {
-        const removedItem = { ...item };
-        const removedIndex = store.items.findIndex(x => x.id === item.id);
-        store.items = store.items.filter(x => x.id !== item.id);
-        store.save();
-        renderAll();
-        showUndoToast('Task deleted', () => {
-            store.items.splice(removedIndex, 0, removedItem);
+        // Archive/Restore handler
+        dropdown.addEventListener(item.archived ? 'restore' : 'archive', () => {
+            const idx = store.items.findIndex(x => x.id === item.id);
+            const wasArchived = item.archived;
+            item.archived = !item.archived;
             store.save();
             renderAll();
+            showUndoToast(`Task ${wasArchived ? 'restored' : 'archived'}`, () => {
+                store.items[idx].archived = wasArchived;
+                store.save();
+                renderAll();
+            });
         });
-    });
 
-    li.appendChild(dropdown);
-    return li;
-}
+        // Delete handler
+        dropdown.addEventListener('remove', () => {
+            const removedItem = { ...item };
+            const removedIndex = store.items.findIndex(x => x.id === item.id);
+            store.items = store.items.filter(x => x.id !== item.id);
+            store.save();
+            renderAll();
+            showUndoToast('Task deleted', () => {
+                store.items.splice(removedIndex, 0, removedItem);
+                store.save();
+                renderAll();
+            });
+        });
 
-function renderArchivedSection() {
-    const archivedSection = document.getElementById('archived-section');
-    if (!archivedSection) return;
-
-    const archivedItems = store.items.filter(item => item.archived);
-
-    if (archivedItems.length === 0) {
-        archivedSection.innerHTML = '';
-        return;
+        li.appendChild(dropdown);
     }
 
-    // Group archived items by date (YYYY-MM-DD)
-    const groups = {};
-    const today = new Date();
-    const todayStr = today.toDateString();
-    archivedItems.forEach(item => {
-        // Use item.date if available, else fallback to item.timestamp or today
-        let dateObj;
-        if (item.date) {
-            dateObj = new Date(item.date);
-        } else if (item.timestamp) {
-            dateObj = new Date(item.timestamp);
-        } else {
-            dateObj = today;
-        }
-        const dateStr = dateObj.toDateString();
-        if (!groups[dateStr]) groups[dateStr] = [];
-        groups[dateStr].push(item);
-    });
-
-    // Sort groups by date descending (most recent first)
-    const sortedDates = Object.keys(groups).sort((a, b) => new Date(b) - new Date(a));
-
-    // Create collapsible details for archived items
-    archivedSection.innerHTML = '';
-    const details = document.createElement('labs-details');
-    const summary = document.createElement('span');
-    summary.slot = 'summary';
-    summary.innerHTML = `<labs-icon name="chevron_right"></labs-icon> Archived (${archivedItems.length})`;
-    details.appendChild(summary);
-
-    sortedDates.forEach(dateStr => {
-        const group = groups[dateStr];
-        // Heading: Today or date string
-        const heading = document.createElement('div');
-        heading.style.fontWeight = 'bold';
-        heading.style.margin = '16px 0 4px 0';
-        heading.style.fontSize = '1rem';
-        heading.style.textAlign = 'center';
-        heading.textContent = (dateStr === todayStr) ? 'Today' : dateStr;
-        details.appendChild(heading);
-        group.forEach(item => {
-            const li = createTodoItem(item);
-            details.appendChild(li);
-        });
-    });
-    archivedSection.appendChild(details);
+    return li;
 }
 
 // Initialize

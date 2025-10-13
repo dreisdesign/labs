@@ -10,15 +10,24 @@ class LabsDetails extends HTMLElement {
       this.shadowRoot.innerHTML = `
         <style>
           :host { display:block; width:100%; }
-          details { width:100%; border:1px solid var(--color-surface-variant, #e6e7e8); border-radius:12px; padding:0; box-sizing:border-box; background:var\(--color-surface-variant, #fff\); \}
-          summary \{ list-style:none; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; padding:8px 12px; font-weight:600; }
-          summary labs-icon { transition: transform 0.2s ease; }
-          details[open] summary labs-icon { transform: rotate(90deg); }
+          details { width:100%; border:1.5px solid var(--color-on-surface); border-radius:var(--radius-lg); padding:0; box-sizing:border-box; background:var(--color-surface-variant); }
+          summary { list-style:none; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; padding:8px 12px; font-weight:600; }
+          summary labs-icon {
+            transition: transform 0.2s ease;
+            color: var(--color-on-surface);
+            font-size: 1.25em;
+          }
+          details[open] summary labs-icon {
+            transform: rotate(90deg);
+          }
           .content { padding:8px 12px 12px 12px; }
         </style>
         <details>
-          <summary><slot name="summary"></slot></summary>
-          <div class="content"><slot></slot></div>
+          <summary>
+            <labs-icon name="keyboard_arrow_right"></labs-icon>
+            <span class="summary-text"><slot></slot></span>
+          </summary>
+          <div class="content"><slot name="content"></slot></div>
         </details>
       `;
     }

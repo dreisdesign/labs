@@ -736,8 +736,16 @@ if (typeof HTMLElement !== 'undefined') {
         });
       }
 
-      // Render archived items grouped by date
+      // Render archived items inside a single labs-details accordion
       if (archivedItems.length > 0) {
+        const details = document.createElement('labs-details');
+        details.setAttribute('variant', 'secondary');
+        const summary = document.createElement('span');
+        summary.slot = 'summary';
+        summary.textContent = `Archived (${archivedItems.length})`;
+        details.appendChild(summary);
+
+        // Group archived items by date
         const archivedGroups = {};
         archivedItems.forEach(item => {
           const dateKey = this._formatTimestamp(item.createdAt);
@@ -765,8 +773,9 @@ if (typeof HTMLElement !== 'undefined') {
 
           dateSection.appendChild(dateTitle);
           dateSection.appendChild(dateList);
-          this._archivedSection.appendChild(dateSection);
+          details.appendChild(dateSection);
         });
+        this._archivedSection.appendChild(details);
       }
     }
 

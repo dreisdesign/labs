@@ -1,3 +1,19 @@
+// Story: With Archived List Item in labs-details
+export const WithArchivedListItem = () => {
+    const details = document.createElement('labs-details');
+    details.append('Archived');
+    const archivedItem = document.createElement('labs-list-item');
+    archivedItem.setAttribute('variant', 'text-only');
+    archivedItem.setAttribute('state', 'archived');
+    archivedItem.innerHTML = '<span slot="content">Archived item</span>';
+    // Place the archived item in the details content slot
+    const contentDiv = document.createElement('div');
+    contentDiv.setAttribute('slot', 'content');
+    contentDiv.appendChild(archivedItem);
+    details.appendChild(contentDiv);
+    return details;
+};
+WithArchivedListItem.storyName = 'With Archived List Item';
 import '../components/labs-list-item.js';
 import '../components/labs-checkbox.js';
 import '../components/labs-icon.js';
