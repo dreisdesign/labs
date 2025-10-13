@@ -120,25 +120,16 @@ filesToProcess.forEach((filePath) => {
       if (content !== before) {
         console.log('Rewrote smoothieLink to /labs/design-system/ in docs/index.html (github mode)');
       }
-    }
-    // In local/public mode, do NOT rewrite the smoothieLink at all
-  }
-
-  // Special handling for the design system link in docs/index.html
-  if (filePath.endsWith('docs/index.html')) {
-    if (mode === 'github') {
-      // Set to /labs/design-system/ for GitHub Pages
+    } else if (mode === 'local' || mode === 'public') {
+      // In local/public mode, set to relative path
       const before = content;
       content = content.replace(
         /(<a[^>]+id=["']smoothieLink["'][^>]+href=")[^"]*("[^>]*>)/,
-        '$1/labs/design-system/$2'
+        '$1design-system/$2'
       );
       if (content !== before) {
-        console.log('Rewrote smoothieLink to /labs/design-system/ in docs/index.html (github mode)');
+        console.log('Rewrote smoothieLink to design-system/ in docs/index.html (local mode)');
       }
-    } else if (mode === 'local' || mode === 'public') {
-      // In local/public mode, never rewrite the smoothieLink at all
-      console.log('Skipped rewriting smoothieLink in docs/index.html (local/public mode)');
     }
   }
 
@@ -146,7 +137,10 @@ filesToProcess.forEach((filePath) => {
   const isTrackerJsFile = filePath.includes(path.join('docs', 'tracker', 'js'));
 
   // Conservative common fixes applied regardless of mode
-  content = content.replace(/(["'`])\.\.\/design-system\//g, "$1/design-system/");
+  // But skip smoothieLink - it's handled specially above
+  if (!filePath.endsWith('docs/index.html')) {
+    content = content.replace(/(["'`])\.\.\/design-system\//g, "$1/design-system/");
+  }
   content = content.replace(/\/labs\/labs\//g, '/labs/');
 
   // Targeted auto-fix for known broken dynamic import path used by tracker
