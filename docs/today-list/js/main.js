@@ -187,7 +187,7 @@ function renderTodaySection() {
     // Render today's archived tasks in collapsed <details>
     if (todayArchived.length > 0) {
         const details = document.createElement('labs-details');
-        const summaryText = document.createTextNode(`Archived (${todayArchived.length})`);
+        const summaryText = document.createTextNode(`Today — ${todayArchived.length} archived ${todayArchived.length === 1 ? 'task' : 'tasks'}`);
         details.appendChild(summaryText);
 
         const contentWrapper = document.createElement('div');
@@ -266,10 +266,11 @@ function renderPastDaysSection() {
         // Add subtle separator if both active and archived exist
         if (group.active.length > 0 && group.archived.length > 0) {
             const separator = document.createElement('div');
-            separator.style.height = '1px';
+            separator.style.height = '0.5px';
             separator.style.background = 'var(--color-outline)';
-            separator.style.margin = 'var(--space-xs) 0';
-            separator.style.opacity = '0.3';
+            separator.style.margin = 'var(--space-2xs) 0';
+            separator.style.opacity = '0.15';
+            separator.style.borderRadius = '1px';
             contentWrapper.appendChild(separator);
         }
 
@@ -295,6 +296,11 @@ function createTodoItem(item, isPast = false) {
     const checkbox = document.createElement('labs-checkbox');
     checkbox.setAttribute('slot', 'control');
     if (item.checked) checkbox.setAttribute('checked', '');
+    // Disable checkbox for archived or past items
+    if (item.archived || isPast) {
+        checkbox.setAttribute('disabled', '');
+        checkbox.style.pointerEvents = 'none';
+    }
     li.appendChild(checkbox);
 
     // Todo text in content slot
@@ -304,8 +310,9 @@ function createTodoItem(item, isPast = false) {
     li.appendChild(content);
 
     // Actions slot - different for past vs today items
+    const isTodayActive = !isPast && !item.archived;
     if (isPast) {
-        // Past items: only show "restore to today" button with history icon
+        // Past items: show "restore to today" and "delete" buttons
         const restoreButton = document.createElement('labs-button');
         restoreButton.setAttribute('slot', 'actions');
         restoreButton.setAttribute('variant', 'icon');
@@ -331,8 +338,29 @@ function createTodoItem(item, isPast = false) {
                 renderAll();
             });
         });
-
         li.appendChild(restoreButton);
+
+        // Delete button for past items
+        const deleteButton = document.createElement('labs-button');
+        deleteButton.setAttribute('slot', 'actions');
+        deleteButton.setAttribute('variant', 'icon');
+        deleteButton.setAttribute('aria-label', 'Delete task');
+        deleteButton.innerHTML = '<labs-icon slot="icon-left" name="delete_forever"></labs-icon>';
+
+        deleteButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const removedItem = { ...item };
+            const removedIndex = store.items.findIndex(x => x.id === item.id);
+            store.items = store.items.filter(x => x.id !== item.id);
+            store.save();
+            renderAll();
+            showUndoToast('Task deleted', () => {
+                store.items.splice(removedIndex, 0, removedItem);
+                store.save();
+                renderAll();
+            });
+        });
+        li.appendChild(deleteButton);
 
         // Make past items read-only (no click to toggle)
         li.style.cursor = 'default';
@@ -348,13 +376,15 @@ function createTodoItem(item, isPast = false) {
 
         dropdown.setAttribute('only', item.archived ? 'archive,delete' : 'archive,delete');
 
-        // Checkbox toggle handler (only for today's items)
-        li.addEventListener('click', (e) => {
-            if (e.target.closest('labs-dropdown')) return;
-            item.checked = !item.checked;
-            store.save();
-            renderAll();
-        });
+        // Attach click handler only for today’s active (not archived) items
+        if (isTodayActive) {
+            li.addEventListener('click', (e) => {
+                if (e.target.closest('labs-dropdown')) return;
+                item.checked = !item.checked;
+                store.save();
+                renderAll();
+            });
+        }
 
         // Archive/Restore handler
         dropdown.addEventListener(item.archived ? 'restore' : 'archive', () => {
