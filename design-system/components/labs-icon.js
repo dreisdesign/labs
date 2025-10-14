@@ -1,6 +1,7 @@
 
 // Dynamic icon loading - Vite-friendly approach
-// Use the correct base path for dev, static, and GitHub Pages
+// Use the correct base path for both local dev and GitHub Pages
+// Icons are served under design-system/icons/ for local dev, icons/ for Storybook
 const ICON_BASE = (() => {
   const path = window.location.pathname;
   const hostname = window.location.hostname;
@@ -10,12 +11,7 @@ const ICON_BASE = (() => {
     return "/labs/design-system/icons/";
   }
 
-  // Static Storybook output (opened via file:// or served from a subdir)
-  if (path.includes('storybook-static') || path.startsWith('/design-system/storybook-static') || path.startsWith('/labs/design-system/storybook-static')) {
-    return './icons/';
-  }
-
-  // Local Storybook dev server (iframe.html or storybook context)
+  // Local Storybook development - use relative path (be very specific)
   if (path.includes('iframe.html') || (path.includes('storybook') && window.parent !== window)) {
     return "/icons/";
   }
