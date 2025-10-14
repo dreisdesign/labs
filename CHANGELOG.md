@@ -1,3 +1,5 @@
+### Fixed
+- [design-system] Robust icon path logic in labs-icon.js: now supports static Storybook output (./icons/), dev server (/icons/), local dev (/design-system/icons/), and GitHub Pages (/labs/design-system/icons/). Fixes icon 404s in static builds.
 
 
 # v2.4.8 – 2025-10-13

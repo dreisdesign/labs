@@ -1,4 +1,3 @@
-
 # Labs Design System — Development & Storybook Conventions
 
 ## Storybook Section Numbering & Navigation Order
@@ -75,6 +74,18 @@
   - **Text Only:** `<span slot="content">`
   - **Timestamp:** `<labs-icon slot="control">`, `<div slot="content">`
   - **Task:** `<labs-checkbox slot="control">`, `<div slot="content">`, `<labs-dropdown slot="actions">`
+
+---
+
+### Icon Path Logic (Static, Dev, GitHub Pages)
+
+Icons are served under:
+- `/design-system/icons/` for local dev
+- `/icons/` for Storybook dev server
+- `./icons/` for static Storybook output
+- `/labs/design-system/icons/` for GitHub Pages
+
+If icons are missing in Storybook static output, ensure `labs-icon.js` uses a relative path (`./icons/`) for static builds. The icon loader now auto-detects static, dev, and GitHub Pages environments.
 
 ## Storybook Testing Links
 

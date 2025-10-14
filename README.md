@@ -101,6 +101,18 @@ If an icon is missing in the UI, check that its SVG filename ends with `--labs-i
 
 ---
 
+### Icon Path Logic (Static, Dev, GitHub Pages)
+
+Icons are served under:
+- `/design-system/icons/` for local dev
+- `/icons/` for Storybook dev server
+- `./icons/` for static Storybook output
+- `/labs/design-system/icons/` for GitHub Pages
+
+If icons are missing in Storybook static output, ensure `labs-icon.js` uses a relative path (`./icons/`) for static builds. The icon loader now auto-detects static, dev, and GitHub Pages environments.
+
+---
+
 ### Deployment
 
 ```bash
