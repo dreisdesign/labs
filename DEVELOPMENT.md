@@ -84,11 +84,22 @@
 
 **For the Labs homepage (`docs/index.html`):**
 
-- Always commit with `href="../design-system/"` for the design system link. This ensures local preview works out of the box.
-- The deploy/build script (run with `--github` or as part of `npm run d`) will automatically rewrite this link to `href="/labs/design-system/"` for GitHub Pages.
-- **Never commit the deploy output** with `/labs/design-system/` — only the local-friendly `../design-system/`.
+The Storybook logo link (`#smoothieLink`) requires special handling to work in both local and production environments:
 
-This ensures the link is always correct in both local and deployed environments, with no manual changes needed.
+- **Local development:** Uses `href="design-system/"` (relative path)
+- **GitHub Pages:** Uses `href="/labs/design-system/"` (absolute path with repo prefix)
+
+The `scripts/update-static-paths.js` script automatically handles this conversion:
+- **Local mode** (`npm run rp`): Sets the link to `design-system/`
+- **GitHub mode** (`npm run d`): Sets the link to `/labs/design-system/`
+- **Pre-commit hook**: Runs in local mode to ensure committed files use local paths
+
+**Important:** 
+- Never manually edit the `#smoothieLink` href to include `/labs/` — the build script handles it
+- The link is protected from generic path replacements that might strip the `/labs/` prefix
+- Always commit with the local-relative path; deployment automatically converts it
+
+This ensures the link works correctly in both environments without manual intervention.
 1. **List Item — Default (Canonical):** `http://localhost:6006/?path=/story/components-list-item--default`
    - **Controls:** `variant`, `text`, `timestamp`, `checked` (only for task)
    - **Visual:** Matches wrapped stories for each variant

@@ -1,5 +1,12 @@
 
 
+# v2.4.8 – 2025-10-13
+
+### 🐛 Bug Fixes
+- **SmoothieLink Path Handling:** Fixed issue where `/labs/` prefix was being stripped from the Storybook logo link on the Labs homepage during deployment. The `update-static-paths.js` script now properly handles the `#smoothieLink` element separately from generic path replacements, ensuring it works correctly both locally (`design-system/`) and on GitHub Pages (`/labs/design-system/`).
+
+---
+
 # v2.4.7 – 2025-10-12
 
 ### 🆕 Major UI & Component Refactors

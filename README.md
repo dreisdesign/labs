@@ -1,6 +1,6 @@
 # 🧪 Labs
 
-> **Latest release:** v2.4.7 — Major UI & Component Refactors (2025-10-12) • [Changelog](CHANGELOG.md)
+> **Latest release:** v2.4.8 — SmoothieLink Path Fix (2025-10-13) • [Changelog](CHANGELOG.md)
 
 > **Modular design system and productivity apps built with Web Components**
 
