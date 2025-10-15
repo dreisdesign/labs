@@ -1,3 +1,48 @@
+## 🛡️ Icon Management Workflow (2025-10-15)
+
+All icon SVGs in `design-system/icons/` **must** end with `--labs-icons.svg`. This is enforced by both the sync and cleanup scripts.
+
+**Automated Cleanup:**
+- Run `node scripts/cleanup-icon-dupes.js && npm run rp` to automatically rename unsuffixed icons or remove unsuffixed duplicates.
+- The cleanup script only operates on the source folder (`design-system/icons/`), never on build or destination folders.
+
+**Sync Script Safety:**
+- The sync script (`sync-icons.js`) only checks for filename issues (missing suffix or duplicates) and halts with a clear message if any are found.
+- No files are renamed or deleted by the sync script; all changes are made explicitly via the cleanup utility.
+
+**Manual Intervention Required:**
+- If the sync script halts, it prints the exact command to run for cleanup.
+- This ensures no accidental data loss and keeps the workflow safe and user-driven.
+
+**Duplicate Handling:**
+- The cleanup script renames unsuffixed icons if no suffixed version exists, or deletes the unsuffixed file if a suffixed version is present.
+- Only suffixed icons are allowed in the source directory.
+
+**Workflow Integration:**
+- The cleanup utility is available in the Utilities submenu for easy access.
+- The `rp` script halts before starting servers if icon issues are detected, preventing wasted build time.
+
+**Troubleshooting:**
+- If icons are missing or not appearing, always check for correct suffixes and run the cleanup utility.
+- If syntax errors appear in `labs-icon.js` after running the icon generation script, check for duplicate or malformed code blocks (especially duplicate `ICON_BASE` declarations or unquoted object keys).
+
+---
+
+### Common Pitfalls & FAQ
+
+- **Q: Why does the sync script halt and print a cleanup command?**
+    - **A:** To prevent accidental data loss and ensure all icons are correctly suffixed before syncing. All destructive actions are isolated to the cleanup utility, never in the sync script.
+
+- **Q: Why aren't my icons showing up?**
+    - **A:** Check that all icon filenames end with `--labs-icons.svg` and run the cleanup utility if needed.
+
+- **Q: Why do I see syntax errors in labs-icon.js after running icon generation?**
+    - **A:** This can happen if the icon generation script merges or appends icon definitions incorrectly. Check for duplicate or malformed code blocks, especially duplicate `ICON_BASE` declarations or unquoted object keys.
+
+- **Q: How do I safely clean up icons?**
+    - **A:** Always use `node scripts/cleanup-icon-dupes.js` to rename or remove unsuffixed icons. Never delete icons manually unless you are certain they are not needed.
+
+---
 # 🧪 Labs
 
 > **Latest release:** v2.4.8 — SmoothieLink Path Fix (2025-10-13) • [Changelog](CHANGELOG.md)
