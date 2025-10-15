@@ -8,6 +8,7 @@ const path = require('path');
 const ICON_SUFFIX = '--labs-icons.svg';
 const iconsSrc = path.join(__dirname, '../design-system/icons');
 const docsIconsDest = path.join(__dirname, '../docs/design-system/icons');
+const docsRootIconsDest = path.join(__dirname, '../docs/icons');
 const storybookIconsDest = path.join(__dirname, '../design-system/storybook-static/icons');
 
 function getIconIssues(srcDir) {
@@ -75,6 +76,7 @@ if (issues.length > 0) {
 
 console.log('✅ All icon filenames are valid. Proceeding with sync...\n');
 copyIcons(iconsSrc, docsIconsDest, 'docs/design-system/icons');
+copyIcons(iconsSrc, docsRootIconsDest, 'docs/icons');
 copyIcons(iconsSrc, storybookIconsDest, 'storybook-static/icons');
 
 // Also sync icons-list.js and labs-icon.js from src/components to docs/design-system/components

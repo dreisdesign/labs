@@ -133,6 +133,16 @@ filesToProcess.forEach((filePath) => {
     }
   }
 
+  // Local mode: rewrite /icons/ to /design-system/icons/ and /vite-inject-mocker-entry.js to relative
+  if (mode === 'local') {
+    // Rewrite /icons/ to /design-system/icons/
+    content = content.replace(/(["'`])\/icons\//g, "$1/design-system/icons/");
+    // Rewrite src="/vite-inject-mocker-entry.js" to src="./vite-inject-mocker-entry.js"
+    content = content.replace(/src=["']\/vite-inject-mocker-entry\.js["']/g, 'src="./vite-inject-mocker-entry.js"');
+    // Rewrite href="/vite-inject-mocker-entry.js" to href="./vite-inject-mocker-entry.js"
+    content = content.replace(/href=["']\/vite-inject-mocker-entry\.js["']/g, 'href="./vite-inject-mocker-entry.js"');
+  }
+
   // Check if this is a tracker JS file - tracker JS manages its own production paths via isProd checks
   const isTrackerJsFile = filePath.includes(path.join('docs', 'tracker', 'js'));
 

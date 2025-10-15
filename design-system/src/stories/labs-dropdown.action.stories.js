@@ -2,7 +2,7 @@
 import '../components/labs-dropdown.js';
 
 export default {
-    title: '2. Components/Dropdown (Wrapped)',
+    title: '3. Components (Wrapped)/Dropdown',
     component: 'labs-dropdown',
     parameters: {
         docs: {
