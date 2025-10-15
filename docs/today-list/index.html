@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+    <!-- List Section Component -->
+    <script type="module" src="../design-system/components/labs-list-section.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -66,15 +68,8 @@
             display: block;
         }
 
-        .todo-list {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-sm);
+        labs-list-section {
             margin-top: var(--space-md);
-        }
-
-        .archived-section {
-            margin-top: var(--space-lg);
         }
 
         labs-metric-card {
@@ -105,14 +100,14 @@
         </labs-metric-card>
 
         <!-- Active todos -->
-        <div class="todo-list" id="todo-list">
+        <labs-list-section id="todo-list">
             <!-- Active todo items will be inserted here -->
-        </div>
+        </labs-list-section>
 
         <!-- Archived todos (collapsible) -->
-        <div class="archived-section" id="archived-section">
+        <labs-list-section id="archived-section">
             <!-- Archived items will be inserted here if any exist -->
-        </div>
+        </labs-list-section>
     </labs-container>
 
     <labs-footer-with-settings elevated></labs-footer-with-settings>
