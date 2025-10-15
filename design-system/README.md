@@ -187,3 +187,11 @@ For setup, usage, and contribution details, see the [migration guide](../_dev/_d
 - The welcome card pattern is now canonical for all Labs productivity apps: always use `<labs-card variant="welcome" align="center">` with header, description, and a primary action in the actions slot.
 
 ---
+
+## 📝 Spacing Pattern for List Sections (2025-10-15)
+
+- All grouped list items (today, archived, past) in both the design system stories and the Today List app now use `gap: var(--space-md)` for vertical spacing.
+- No margin is set on individual `<labs-list-item>` elements; spacing is handled solely by the section's gap for modularity and consistency.
+- This pattern ensures perfect parity between Storybook demos and live app behavior.
+
+---

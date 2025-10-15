@@ -16,7 +16,7 @@ export default {
 };
 
 export const TodayAndArchived = () => `
-  <labs-list-section>
+  <labs-list-section style="display: flex; flex-direction: column; gap: var(--space-md);">
     <labs-list-item variant="task">
       <labs-checkbox slot="control"></labs-checkbox>
       <span slot="content">Buy groceries</span>
@@ -33,10 +33,10 @@ export const TodayAndArchived = () => `
       <labs-dropdown slot="actions"></labs-dropdown>
     </labs-list-item>
   </labs-list-section>
-  <labs-details style="margin-top: var(--space-md);">
+  <labs-details style="margin-top: var(--space-lg);">
     Archived — 3 tasks
     <div slot="content">
-      <labs-list-section>
+      <labs-list-section style="display: flex; flex-direction: column; gap: var(--space-lg);">
         <labs-list-item variant="task" state="archived">
           <labs-checkbox slot="control" checked disabled></labs-checkbox>
           <span slot="content">Archived: Lunch break</span>

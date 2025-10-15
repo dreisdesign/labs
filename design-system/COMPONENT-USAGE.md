@@ -312,6 +312,16 @@ taskList.appendChild(item);
 - Avoids timing issues with shadow DOM projection
 - Matches Storybook story patterns (reference implementation)
 
+---
+
+## 📝 Spacing Pattern for List Sections (2025-10-15)
+
+- All grouped list items (today, archived, past) in both the design system stories and the Today List app now use `gap: var(--space-md)` for vertical spacing.
+- No margin is set on individual `<labs-list-item>` elements; spacing is handled solely by the section's gap for modularity and consistency.
+- This pattern ensures perfect parity between Storybook demos and live app behavior.
+
+---
+
 ## Common Gotchas
 
 ### 1. Missing Component Dependencies
