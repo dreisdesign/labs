@@ -263,17 +263,6 @@ function renderPastDaysSection() {
             contentWrapper.appendChild(li);
         });
 
-        // Add subtle separator if both active and archived exist
-        if (group.active.length > 0 && group.archived.length > 0) {
-            const separator = document.createElement('div');
-            separator.style.height = '0.5px';
-            separator.style.background = 'var(--color-outline)';
-            separator.style.margin = 'var(--space-2xs) 0';
-            separator.style.opacity = '0.15';
-            separator.style.borderRadius = '1px';
-            contentWrapper.appendChild(separator);
-        }
-
         // Render archived tasks (slightly muted)
         group.archived.forEach(item => {
             const li = createTodoItem(item, true);

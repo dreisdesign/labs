@@ -224,7 +224,8 @@ Each app contains:
 
 - All grouped list items (today, archived, past) in both the design system stories and the Today List app now use `gap: var(--space-md)` for vertical spacing.
 - No margin is set on individual `<labs-list-item>` elements; spacing is handled solely by the section's gap for modularity and consistency.
-- This pattern ensures perfect parity between Storybook demos and live app behavior.
+- **Manual visual dividers (e.g., `<div style="height: 0.5px; ...">`) are no longer used or needed.**
+- This pattern ensures perfect parity between Storybook demos and live app behavior, and any previous use of visual dividers is now obsolete.
 
 ---
 
