@@ -19,7 +19,17 @@ class LabsDetails extends HTMLElement {
             background:var(--color-surface-variant);
             transition: border-color 0.2s;
           }
-          summary { list-style:none; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; padding:8px 12px; font-weight:600; }
+          /* Use spacing tokens for summary row to match labs-list-item */
+          summary {
+            list-style: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-md, 16px);
+            padding: var(--space-md, 1rem) 12px;
+            font-weight: 600;
+          }
           summary labs-icon {
             transition: transform 0.2s ease;
             color: var(--color-on-surface);

@@ -201,4 +201,9 @@ For setup, usage, and contribution details, see the [migration guide](../_dev/_d
 - This is the canonical pattern for all grouped/archived sections in both the app and stories.
 - The border color is token-driven and will update with the theme/flavor.
 
+## 🟦 Details Summary Row Sizing (2025-10-15)
+
+- The summary row of `<labs-details>` uses vertical padding from the `--space-md` token (`1rem`, `16px`) for perfect alignment with list items.
+- This ensures modular, themeable sizing and visual consistency across all contexts.
+
 ---
