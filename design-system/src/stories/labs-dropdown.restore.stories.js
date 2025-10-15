@@ -1,7 +1,7 @@
 import { html } from 'lit-html';
 
 export default {
-    title: 'Components/Dropdown/Restore Action',
+    title: '2. Components/Dropdown/Restore Action',
     component: 'labs-dropdown',
     parameters: {
         controls: { hideNoControlsWarning: true },

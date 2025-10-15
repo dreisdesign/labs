@@ -1,37 +1,85 @@
+
 import '../components/labs-dropdown.js';
 
 export default {
-    title: '2. Components/Dropdown/Actions',
+    title: '2. Components/Dropdown (Wrapped)',
     component: 'labs-dropdown',
     parameters: {
         docs: {
             description: {
-                component: 'Atomic dropdown actions: Archive Only, Delete Only, Restore Only.'
+                component: 'Wrapped dropdown: each story is a fixed, real-world combo. Always open.'
             }
         }
     }
 };
 
-export const ArchiveOnly = () => {
+
+
+
+
+// Archive
+export const Archive = () => {
+    const item = document.createElement('labs-list-item');
+    item.setAttribute('value', 'Archive');
     const dd = document.createElement('labs-dropdown');
+    dd.setAttribute('slot', 'actions');
     dd.setAttribute('only', 'archive');
     dd.setAttribute('open', '');
-    return dd;
+    item.appendChild(dd);
+    return item;
 };
-ArchiveOnly.storyName = 'Archive Only';
+Archive.storyName = '1: Archive';
 
-export const DeleteOnly = () => {
+// Delete
+export const Delete = () => {
+    const item = document.createElement('labs-list-item');
+    item.setAttribute('value', 'Delete');
     const dd = document.createElement('labs-dropdown');
+    dd.setAttribute('slot', 'actions');
     dd.setAttribute('only', 'delete');
     dd.setAttribute('open', '');
-    return dd;
+    item.appendChild(dd);
+    return item;
 };
-DeleteOnly.storyName = 'Delete Only';
+Delete.storyName = '1: Delete';
 
-export const RestoreOnly = () => {
+// Restore
+export const Restore = () => {
+    const item = document.createElement('labs-list-item');
+    item.setAttribute('value', 'Restore (archived)');
+    item.setAttribute('archived', '');
     const dd = document.createElement('labs-dropdown');
+    dd.setAttribute('slot', 'actions');
     dd.setAttribute('only', 'restore');
     dd.setAttribute('open', '');
-    return dd;
+    item.appendChild(dd);
+    return item;
 };
-RestoreOnly.storyName = 'Restore Only';
+Restore.storyName = '1: Restore';
+
+// Archive + Delete
+export const ArchiveDelete = () => {
+    const item = document.createElement('labs-list-item');
+    item.setAttribute('value', 'Archive + Delete');
+    const dd = document.createElement('labs-dropdown');
+    dd.setAttribute('slot', 'actions');
+    dd.setAttribute('only', 'archive,delete');
+    dd.setAttribute('open', '');
+    item.appendChild(dd);
+    return item;
+};
+ArchiveDelete.storyName = '2: Archive + Delete';
+
+// Restore + Delete
+export const RestoreDelete = () => {
+    const item = document.createElement('labs-list-item');
+    item.setAttribute('value', 'Restore + Delete (archived)');
+    item.setAttribute('archived', '');
+    const dd = document.createElement('labs-dropdown');
+    dd.setAttribute('slot', 'actions');
+    dd.setAttribute('only', 'restore,delete');
+    dd.setAttribute('open', '');
+    item.appendChild(dd);
+    return item;
+};
+RestoreDelete.storyName = '2: Restore + Delete';
