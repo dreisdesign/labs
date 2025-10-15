@@ -1,5 +1,18 @@
 
 
+## v2.4.9 – 2025-10-15
+
+- **Dropdown & List Item Storybook Refactor:**
+	- Refactored dropdown/list item Storybook stories for reliability and modularity
+	- Removed redundant/legacy dropdown stories (combos, patterns, wrapped)
+	- Canonical dropdown story now uses radio control for allowed combos only
+	- Wrapped/contextual stories now always include delete button and match real usage
+	- Fixed slotting/import issues for reliable rendering in all stories
+- **Documentation:**
+	- Updated COMPONENT-USAGE.md and README.md with new Storybook structure, slotting/import best practices, allowed combos, and migration notes
+	- All documentation now matches the current codebase and Storybook organization
+
+
 # v2.4.8 – 2025-10-12
 
 ### 🛠 Card & Button Alignment

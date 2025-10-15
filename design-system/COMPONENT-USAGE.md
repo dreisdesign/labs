@@ -1,3 +1,39 @@
+# Storybook: Dropdown, List Item, and Slotting Patterns (2025-10-14)
+
+- **Dropdown canonical story**: All allowed action combos (Delete, Archive, Restore, Delete+Archive, Delete+Restore) are selectable via a radio control. No forbidden combos possible.
+- **Dropdown wrapped stories**: Each allowed combo is a fixed, non-configurable story, always open, in a real list item context.
+- **Dropdown contextual patterns**: Real-world usage in list items, with state-driven logic (active, archived, restored). All contextual stories now always include the delete button.
+- **Slotting reliability**: Always use programmatic creation and import for slotting. Never rely on static HTML for slotted dropdowns in stories—use the canonical import pattern for reliable slotting.
+- **Migration note**: Legacy combos and patterns stories have been removed. Use the new canonical and wrapped stories for all reference and documentation.
+
+### Slotting & Import Best Practices
+
+- Always use programmatic creation and import for slotting dropdowns into list items in stories. Example:
+  ```js
+  import '../components/labs-dropdown.js';
+  const dropdown = document.createElement('labs-dropdown');
+  dropdown.setAttribute('slot', 'actions');
+  // ...set attributes as needed
+  listItem.appendChild(dropdown);
+  ```
+- Never use static HTML for slotted dropdowns in stories—this can result in unreliable slotting and rendering in Storybook.
+- Always import the canonical component file directly in the story file.
+
+### Allowed Dropdown Combos
+
+- Only the following dropdown action combos are allowed:
+  - Delete
+  - Archive
+  - Restore
+  - Delete + Archive
+  - Delete + Restore
+- All other combos are forbidden and not available in controls.
+
+### Migration Notes
+
+- All legacy dropdown combos and patterns stories have been removed.
+- Use the new canonical and wrapped stories for all reference and documentation.
+- See this file for updated usage patterns and best practices.
 # Dropdown Menu Items: Archive, Restore, Delete (2025-10-13)
 
 **Unified Dropdown Pattern (2025-10-13):**
