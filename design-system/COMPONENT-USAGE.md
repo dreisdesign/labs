@@ -321,6 +321,12 @@ taskList.appendChild(item);
 - **Manual visual dividers (e.g., `<div style="height: 0.5px; ...">`) are no longer used or needed.**
 - This pattern ensures perfect parity between Storybook demos and live app behavior, and any previous use of visual dividers is now obsolete.
 
+## 🟦 Details Section Border Pattern (2025-10-15)
+
+- All `<labs-details>` components (used for section grouping, archives, etc.) now use a border of `1.5px solid var(--color-primary-lighter)` by default.
+- This is the canonical pattern for all grouped/archived sections in both the app and stories.
+- The border color is token-driven and will update with the theme/flavor.
+
 ---
 
 ## Common Gotchas

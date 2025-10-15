@@ -10,7 +10,15 @@ class LabsDetails extends HTMLElement {
       this.shadowRoot.innerHTML = `
         <style>
           :host { display:block; width:100%; }
-          details { width:100%; border:1.5px solid var(--color-on-surface); border-radius:var(--radius-lg); padding:0; box-sizing:border-box; background:var(--color-surface-variant); }
+          details {
+            width:100%;
+            border:1.5px solid var(--color-primary-lighter);
+            border-radius:var(--radius-lg);
+            padding:0;
+            box-sizing:border-box;
+            background:var(--color-surface-variant);
+            transition: border-color 0.2s;
+          }
           summary { list-style:none; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; padding:8px 12px; font-weight:600; }
           summary labs-icon {
             transition: transform 0.2s ease;

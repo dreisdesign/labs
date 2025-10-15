@@ -187,6 +187,7 @@ function renderTodaySection() {
     // Render today's archived tasks in collapsed <details>
     if (todayArchived.length > 0) {
         const details = document.createElement('labs-details');
+        details.setAttribute('archived', '');
         const summaryText = document.createTextNode(`Today — ${todayArchived.length} archived ${todayArchived.length === 1 ? 'task' : 'tasks'}`);
         details.appendChild(summaryText);
 
@@ -239,10 +240,12 @@ function renderPastDaysSection() {
 
     // Create <details> for each past day
     sortedDates.forEach(dateStr => {
+
         const group = groups[dateStr];
         const totalCount = group.active.length + group.archived.length;
 
         const details = document.createElement('labs-details');
+        details.setAttribute('archived', '');
 
         // Summary: "Yesterday — 4 tasks" or "Fri Oct 10 2025 — 4 tasks"
         const summaryText = document.createTextNode(
