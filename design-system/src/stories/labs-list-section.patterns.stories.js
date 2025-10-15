@@ -33,7 +33,7 @@ export const TodayAndArchived = () => `
       <labs-dropdown slot="actions"></labs-dropdown>
     </labs-list-item>
   </labs-list-section>
-  <labs-details style="margin-top: var(--space-lg);">
+  <labs-details style="margin-top: var(--space-md);">
     Archived — 3 tasks
     <div slot="content">
       <labs-list-section>
