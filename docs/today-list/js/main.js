@@ -194,7 +194,7 @@ function renderTodaySection() {
         contentWrapper.setAttribute('slot', 'content');
         contentWrapper.style.display = 'flex';
         contentWrapper.style.flexDirection = 'column';
-        contentWrapper.style.gap = 'var(--space-sm)';
+        contentWrapper.style.gap = 'var(--space-md)';
 
         todayArchived.forEach(item => {
             const li = createTodoItem(item, false);
@@ -255,7 +255,7 @@ function renderPastDaysSection() {
         contentWrapper.setAttribute('slot', 'content');
         contentWrapper.style.display = 'flex';
         contentWrapper.style.flexDirection = 'column';
-        contentWrapper.style.gap = 'var(--space-sm)';
+        contentWrapper.style.gap = 'var(--space-md)';
 
         // Render active tasks first
         group.active.forEach(item => {
