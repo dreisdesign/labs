@@ -1,3 +1,48 @@
+## 🛡️ Icon Management Workflow (2025-10-15)
+
+All icon SVGs in `design-system/icons/` **must** end with `--labs-icons.svg`. This is enforced by both the sync and cleanup scripts.
+
+**Automated Cleanup:**
+- Run `node scripts/cleanup-icon-dupes.js && npm run rp` to automatically rename unsuffixed icons or remove unsuffixed duplicates.
+- The cleanup script only operates on the source folder (`design-system/icons/`), never on build or destination folders.
+
+**Sync Script Safety:**
+- The sync script (`sync-icons.js`) only checks for filename issues (missing suffix or duplicates) and halts with a clear message if any are found.
+- No files are renamed or deleted by the sync script; all changes are made explicitly via the cleanup utility.
+
+**Manual Intervention Required:**
+- If the sync script halts, it prints the exact command to run for cleanup.
+- This ensures no accidental data loss and keeps the workflow safe and user-driven.
+
+**Duplicate Handling:**
+- The cleanup script renames unsuffixed icons if no suffixed version exists, or deletes the unsuffixed file if a suffixed version is present.
+- Only suffixed icons are allowed in the source directory.
+
+**Workflow Integration:**
+- The cleanup utility is available in the Utilities submenu for easy access.
+- The `rp` script halts before starting servers if icon issues are detected, preventing wasted build time.
+
+**Troubleshooting:**
+- If icons are missing or not appearing, always check for correct suffixes and run the cleanup utility.
+- If syntax errors appear in `labs-icon.js` after running the icon generation script, check for duplicate or malformed code blocks (especially duplicate `ICON_BASE` declarations or unquoted object keys).
+
+---
+
+### Common Pitfalls & FAQ
+
+- **Q: Why does the sync script halt and print a cleanup command?**
+  - **A:** To prevent accidental data loss and ensure all icons are correctly suffixed before syncing. All destructive actions are isolated to the cleanup utility, never in the sync script.
+
+- **Q: Why aren't my icons showing up?**
+  - **A:** Check that all icon filenames end with `--labs-icons.svg` and run the cleanup utility if needed.
+
+- **Q: Why do I see syntax errors in labs-icon.js after running icon generation?**
+  - **A:** This can happen if the icon generation script merges or appends icon definitions incorrectly. Check for duplicate or malformed code blocks, especially duplicate `ICON_BASE` declarations or unquoted object keys.
+
+- **Q: How do I safely clean up icons?**
+  - **A:** Always use `node scripts/cleanup-icon-dupes.js` to rename or remove unsuffixed icons. Never delete icons manually unless you are certain they are not needed.
+
+---
 ## 🆕 Dropdown Restore Menu Item (2025-10-13)
 
 **Unified Dropdown Pattern (2025-10-13):**
@@ -17,16 +62,11 @@ See [COMPONENT-USAGE.md](./COMPONENT-USAGE.md) for full details and usage patter
 
 ## Component Refactors & Modularity (2025-10)
 
-- **Overlay/Warning Overlay:** Now fully modular, with robust blur/backdrop and centering. All overlays use a consistent, accessible pattern. See Storybook for usage.
-- **Badge, Card, Input, Settings:** Refactored for modularity, improved slot/attribute API, and Storybook documentation. See COMPONENT-USAGE.md for details.
-- **Toast Component:** `<labs-toast>` is still available for general use, but is no longer used in the timer app (reset confirmation is now handled by overlay only).
 
----
 # Labs Design System
 
 > **Production-Ready Component Library with Complete Token Architecture**
 
----
 
 ## Overview
 
@@ -36,7 +76,6 @@ This is the canonical design system for Labs apps, featuring a comprehensive two
 **🎯 Current Status: Production-Ready & Robust**
 
 
----
 
 ## Icon Management Workflow (2025-10-10)
 
@@ -51,66 +90,31 @@ node scripts/cleanup-icon-dupes.js && npm run rp
 This script will automatically rename unsuffixed icons or remove duplicates, then restart the workflow. Only the source folder is affected.
 
 **Troubleshooting:**
-- If an icon is missing in the UI, check that its SVG filename ends with `--labs-icons.svg` (e.g. `more_vert--labs-icons.svg`).
-- The icon generation script (`scripts/generate-icons-list.mjs`) only includes files with this suffix.
-- After renaming or running the cleanup script, run `npm run rp` to sync and preview.
-- Manual copying is not required; the build system will sync files automatically.
 
----
 
 **2025-10-07 Update:**
-- **CSS Variable Inheritance Fix:** All flavor/theme selectors now use `:root.flavor-*.theme-*` instead of `.flavor-*.theme-*`, ensuring CSS custom properties are properly inherited into shadow DOM components. Typography tokens consolidated into a single `:root` block for reliable inheritance.
-- **Modular Header Component:** `labs-template-header.wrapped.js` uses design tokens (`--font-size-h1`, `--font-weight-heading`, `--color-on-surface`, `--space-lg`, `--space-md`) with proper `:host` styling, `.header-title` class, and internal padding for spacing. Fully modular and reusable.
-- **DevTools Note:** Chrome DevTools may show inherited CSS custom properties as "not defined" in hover tooltips, but they resolve correctly (verify via Computed tab).
-- Vanilla dark mode now uses the correct primary (500) and background (900) palette stops for full flavor consistency. Footer and button colors are now consistent across all themes.
 
 **2025-09-05 Update:**
-- All icons in Labs apps and demos must use the `<labs-icon>` component and the design system icon set (see `src/components/labs-icon.js`).
-- Inlined SVGs are not allowed in app or demo markup; all icons are loaded dynamically from the icon set for consistency and maintainability.
-- Theme and flavor toggles in all apps are now fully consistent with Storybook and the design system.
-- ✅ Complete semantic token system with "on-" text color pairings
-- ✅ Three-flavor theming (Vanilla, Blueberry, Strawberry) with light/dark modes
-- ✅ WCAG AA accessibility compliance across all combinations
-- ✅ Strategic Storybook documentation with Base column and reorganized Colors story
-- ✅ Robust Colors story: all tokens and flavors now display correct base mapping and theme-driven polaroid labels
 
----
 
 
 ## Storybook Story Grouping (2025-10-08)
 
 Labs uses a standardized, nested Storybook organization:
-
-- **Canonical components:** `2. Components/Component/Variant` (e.g. Card/Metric, Card/Welcome)
-- **Wrapped components:** `3. Components (Wrapped)/Component/Variant` (e.g. List Item/Task, List Item/Text Only, Card/Metric, Card/Welcome, Template/Header, Template/Footer, Input Card)
 - **Patterns:** `4. Patterns/Group/Pattern` (e.g. Button - Theme/Appearance, Button - Theme/Flavor)
 
 This structure ensures all stories are easy to find and maintain. See `STORYBOOK_SITEMAP.md` for the current index.
-
-- **[Component Usage Guide](./COMPONENT-USAGE.md)** — Best practices, dependencies, and common gotchas when using Labs components
-- **[Modularity Guidelines](../.github/instructions/Modularity.instructions.md)** — Development principles for component design
 - **Wrapped Header:** See `src/components/labs-template-header.wrapped.js` for the canonical modular header wrapper for Storybook and test/demo use.
-
 ---
 
 ## Key Docs & Links
 
  - **Note:** Small UI parity fixes (icon-only button color and Global colors story rendering) were applied on 2025-08-31 — see `CHANGELOG.md` Unreleased section.
-## � Modular Container & Header Token Usage (2025-10-02)
-- `<labs-container>` is now the canonical way to wrap app content, providing mobile-first max-width and grid token-based padding.
-- Headers in all apps use design system tokens (`--font-size-h1`, `--font-weight-heading`) for font size and weight.
 - Tracker and Today-list now use the same header/date/metric card structure for true design system parity.
 - `<labs-header>` component now supports `center` and `show-subtitle` attributes for flexible layout and Storybook controls.
-- Storybook story for labs-header includes boolean controls for centering and subtitle visibility.
-- Tracker markup fixed: header, metric card, and list root are now properly wrapped in container/main/section for correct rendering.
-- **[📐 Modularity Guidelines](../.github/instructions/Modularity.instructions.md)** — Development principles
-
----
-
 ## Structure
 
 - `src/components/` — Modular UI components (Button, Icon, Overlay, etc.)
-- `src/tokens/` — Design tokens (colors, typography, spacing)
 - `.storybook/` — Storybook config
 - `storybook-static/` — Static build output
 
