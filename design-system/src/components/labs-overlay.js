@@ -53,7 +53,7 @@ class LabsOverlay extends HTMLElement {
           font-family: var(--font-family-base, system-ui, sans-serif);
           font-size: var(--font-size-overlay, 1rem);
           line-height: var(--line-height-overlay, 1.5);
-          border-radius: 12px;
+          border-radius: var(--radius-xl, 16px);
           box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
           max-width: 90vw;
           min-width: 320px;
@@ -71,7 +71,7 @@ class LabsOverlay extends HTMLElement {
         :host([transparent]) .overlay-content {
           background: transparent;
           box-shadow: none;
-          border-radius: 0;
+          border-radius: var(--radius-none, 0);
           max-height: 95vh;
         }
 
@@ -112,14 +112,14 @@ class LabsOverlay extends HTMLElement {
           }
 
           .overlay-content {
-            border-radius: 8px;
+            border-radius: var(--radius-lg, 8px);
             max-width: 100%;
           }
 
           :host([size="full"]) .overlay-content {
             max-width: 100%;
             max-height: 100%;
-            border-radius: 0;
+            border-radius: var(--radius-none, 0);
           }
         }
 

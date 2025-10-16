@@ -28,7 +28,7 @@
 .tokens-card {
   background: var(--color-surface, #fafbfc);
   border: 1px solid var(--color-primary-25, #eee);
-  border-radius: 8px;
+  border-radius: var(--radius-lg, 8px);
   overflow: hidden;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;

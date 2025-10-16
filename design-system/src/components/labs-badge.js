@@ -25,7 +25,7 @@ class LabsBadge extends HTMLElement {
       background: var(--color-primary);
       color: var(--color-on-primary);
       border: none;
-      border-radius: var(--badge-radius, 6px);
+  border-radius: var(--radius-badge, 9999px);
       padding: var(--badge-padding, 0.25em 0.75em);
       min-width: 2em;
       min-height: 1.5em;

@@ -35,7 +35,7 @@ export const Demo = {
       <style>
         html,body { height:100%; margin:0; padding:0; }
         .page { min-height:100vh; background: var(--color-background, #f6f7f9); padding: 24px 0; }
-        .demo-card { background: var(--color-surface, #fff); padding: 16px; border-radius: 10px; box-shadow: var(--elevation-1, none); }
+  .demo-card { background: var(--color-surface, #fff); padding: 16px; border-radius: var(--radius-lg, 8px); box-shadow: var(--elevation-1, none); }
       </style>
       <div class="page">
         <labs-container ${attr} ${style}>

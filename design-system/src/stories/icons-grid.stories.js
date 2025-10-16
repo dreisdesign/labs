@@ -36,7 +36,7 @@ export const IconsGrid = {
         /* Title uses on-background so it remains readable against the page background */
         .title { text-align: center; margin-bottom: 2rem; font-size: 1.5rem; font-weight: 600; color: var(--color-on-background, #1f2937); }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; max-width: 1200px; margin: 0 auto; }
-  .card { background: var(--color-surface); border: 1px solid #e5e7eb; border-radius: 8px; padding: 1rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; min-height: 140px; justify-content: center; transition: all 0.2s ease; word-wrap: break-word; overflow-wrap: break-word; }
+  .card { background: var(--color-surface); border: 1px solid #e5e7eb; border-radius: var(--radius-lg, 8px); padding: 1rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; min-height: 140px; justify-content: center; transition: all 0.2s ease; word-wrap: break-word; overflow-wrap: break-word; }
         .card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); border-color: #3b82f6; }
         /* Icon color follows the provided arg or falls back to the theme on-surface color */
         .icon { display: block; width: ${size}px; height: ${size}px; color: ${color}; }

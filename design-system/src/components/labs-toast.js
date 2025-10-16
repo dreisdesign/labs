@@ -59,11 +59,11 @@ class LabsToast extends HTMLElement {
 
     const style = document.createElement('style');
     style.textContent = `:host{position:fixed;left:50%;bottom:var(--toast-bottom,24px);transform:translateX(-50%);z-index:9999;display:block;font-family:var(--font-family-base, inherit)}
-.toast{display:flex;align-items:center;gap:12px;min-width:200px;max-width:640px;padding:12px 16px;border-radius:10px;background:var(--color-surface,#fff);color:var(--color-on-surface);box-shadow:var(--elevation-1, 0 6px 20px rgba(0,0,0,.12));border:1px solid color-mix(in srgb, var(--color-on-surface) 6%, transparent);opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .18s ease,transform .18s ease}
+.toast{display:flex;align-items:center;gap:12px;min-width:200px;max-width:640px;padding:12px 16px;border-radius:var(--radius-lg, 8px);background:var(--color-surface,#fff);color:var(--color-on-surface);box-shadow:var(--elevation-1, 0 6px 20px rgba(0,0,0,.12));border:1px solid color-mix(in srgb, var(--color-on-surface) 6%, transparent);opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .18s ease,transform .18s ease}
 .toast.show{opacity:1;pointer-events:auto;transform:translateY(0)}
 .message{flex:1;font-size:var(--font-size-toast, 0.95rem);line-height:var(--line-height-toast, 1.3)}
 .actions{display:flex;align-items:center;gap:8px}
-.action{background:transparent;border:0;padding:6px 10px;border-radius:8px;color:var(--color-primary);cursor:pointer;font-weight:var(--font-weight-toast-action, 600);font-size:var(--font-size-toast-action, 0.9rem)}
+.action{background:transparent;border:0;padding:6px 10px;border-radius:var(--radius-md, 4px);color:var(--color-primary);cursor:pointer;font-weight:var(--font-weight-toast-action, 600);font-size:var(--font-size-toast-action, 0.9rem)}
 .action.primary{background:var(--color-primary);color:var(--color-on-primary);border:none;}
 .action.primary:hover{background:color-mix(in srgb, var(--color-primary) 85%, black);}
 .action.secondary{background:transparent;color:var(--color-on-surface);border:1px solid var(--color-outline, var(--color-primary));}
@@ -71,7 +71,7 @@ class LabsToast extends HTMLElement {
 .action.destructive{background:var(--color-error, #b5005a);color:var(--on-error, #fff);border:none;}
 .action.destructive:hover{background:color-mix(in srgb, var(--color-error, #b5005a) 90%, black);}
 .action:focus{outline:2px solid color-mix(in srgb, var(--color-primary, var(--color-accent, var(--color-on-surface))) 20%, transparent);outline-offset:2px}
-.close{background:transparent;border:0;padding:6px 8px;border-radius:8px;color:var(--color-on-surface);cursor:pointer}
+.close{background:transparent;border:0;padding:6px 8px;border-radius:var(--radius-md, 4px);color:var(--color-on-surface);cursor:pointer}
 /* Hover + focus visual affordances for close button inside shadow DOM */
 .close:hover{background-color:var(--color-primary-25, rgba(0,0,0,0.06));}
 .close:focus{outline:2px solid color-mix(in srgb, var(--color-primary, var(--color-accent, var(--color-on-surface))) 20%, transparent);outline-offset:2px}

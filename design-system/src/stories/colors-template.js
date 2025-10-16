@@ -175,7 +175,7 @@ export function renderColors(opts = {}) {
 
   /* Responsive grid of compact polaroids */
   .polaroid-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:16px}
-  details.flavor-column{margin-bottom:12px;border-radius:8px;padding:8px;border:1px solid rgba(0,0,0,0.04);background:var(--color-surface);color:var(--color-on-surface);transition:background 0.2s,color 0.2s}
+  details.flavor-column{margin-bottom:12px;border-radius:var(--radius-lg,8px);padding:8px;border:1px solid rgba(0,0,0,0.04);background:var(--color-surface);color:var(--color-on-surface);transition:background 0.2s,color 0.2s}
   /* Force the Global details to use the neutral base palette (Base 100/800) via semantic tokens
      so we render using --color-surface / --color-on-surface while remaining flavor-agnostic. */
   details.flavor-column.flavor-global{
@@ -189,9 +189,9 @@ export function renderColors(opts = {}) {
   details.flavor-column summary::-webkit-details-marker{display:none}
   details.flavor-column summary h3{font-size:15px;display:inline}
 
-  .polaroid-card{border-radius:8px;padding:10px;border:1px solid var(--palette-base-500, var(--color-outline));background:var(--color-surface,#FBFBFD);}
+  .polaroid-card{border-radius:var(--radius-lg,8px);padding:10px;border:1px solid var(--palette-base-500, var(--color-outline));background:var(--color-surface,#FBFBFD);}
   /* Make the swatch a square (1:1) so color area is consistent */
-  .card-swatch{width:100%;min-width:64px;min-height:64px;aspect-ratio:1/1;border-radius:8px;background-size:cover;margin-bottom:10px;position:relative;display:flex;align-items:center;justify-content:center;background:var(--color-surface,#FBFBFD);}
+  .card-swatch{width:100%;min-width:64px;min-height:64px;aspect-ratio:1/1;border-radius:var(--radius-lg,8px);background-size:cover;margin-bottom:10px;position:relative;display:flex;align-items:center;justify-content:center;background:var(--color-surface,#FBFBFD);}
   .swatch-text{
     font-weight:700;
     font-size:16px;
@@ -254,7 +254,7 @@ export function renderColors(opts = {}) {
     align-items:center;
     justify-content:center;
     width:40px;height:40px;
-    border-radius:8px;
+  border-radius:var(--radius-lg,8px);
     border:2px solid rgba(0,0,0,0.08) !important;
     font-size:16px;
     font-weight:700;
@@ -266,11 +266,11 @@ export function renderColors(opts = {}) {
     border-color: rgba(0,0,0,0.28) !important;
   }
   /* Let the text sample inherit theme text color; background remains the swatch color when inside .swatch-thumb */
-  .swatch-thumb-text { color: var(--color-on-surface); background: transparent; display:inline-flex; align-items:center; justify-content:center; width:100%; height:100%; border-radius:6px; }
+  .swatch-thumb-text { color: var(--color-on-surface); background: transparent; display:inline-flex; align-items:center; justify-content:center; width:100%; height:100%; border-radius:var(--radius-md,4px); }
   .resolve-chain{font-size:11px;color:var(--color-on-surface, rgba(28,27,31,0.6));margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   /* Contrast cell visual states (JS will place a .contrast-badge inside the cell) */
   .list-contrast{transition:background 0.18s, color 0.18s; text-align:center}
-  .contrast-badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;line-height:1;min-width:36px}
+  .contrast-badge{display:inline-block;padding:2px 8px;border-radius:var(--radius-full,9999px);font-size:12px;line-height:1;min-width:36px}
   .palette-heading {
     font-size:14px;
     color:inherit;

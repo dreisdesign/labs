@@ -42,7 +42,7 @@ export const Default = {
       gap: 1rem;
       padding: 2rem;
       background: var(--color-surface);
-      border-radius: 8px;
+  border-radius: var(--radius-lg, 8px);
       border: 1px solid var(--color-primary-25);
       min-width: ${size + 32}px;
       min-height: ${size + 32}px;
@@ -77,7 +77,7 @@ export const Default = {
     code.style.cssText = `
   background: var(--color-surface);
       padding: 0.5rem;
-      border-radius: 4px;
+  border-radius: var(--radius-md, 4px);
       font-size: 0.75rem;
       color: var(--color-on-background);
     `;

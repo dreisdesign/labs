@@ -28,7 +28,7 @@ class LabsFooter extends HTMLElement {
           backdrop-filter: blur(25px);
           -webkit-backdrop-filter: blur(16px);
           border-top: 0.75px solid rgba(255, 255, 255, 0.5);
-          border-radius: 100px 100px 0 0;
+          border-radius: var(--radius-full, 9999px) var(--radius-full, 9999px) var(--radius-none, 0) var(--radius-none, 0);
           color: var(--color-on-surface, #1b1c1f);
           font-family: var(--font-family-base, system-ui, sans-serif);
           font-size: var(--font-size-footer, 0.9rem);
@@ -108,7 +108,7 @@ class LabsFooter extends HTMLElement {
         :host([full-width]) .footer {
           width: 95%;
           margin: 0 auto;
-          border-radius: 100px 100px 0 0;
+          border-radius: var(--radius-full, 9999px) var(--radius-full, 9999px) var(--radius-none, 0) var(--radius-none, 0);
         }
 
         /* Elevated variant */

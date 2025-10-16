@@ -128,7 +128,7 @@ if (typeof HTMLElement !== 'undefined') {
             background: #007AFF;
             color: white;
             padding: 2px 6px;
-            border-radius: 4px;
+            border-radius: var(--radius-md, 4px);
             font-size: 10px;
             margin-left: 8px;
           }

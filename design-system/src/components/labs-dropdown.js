@@ -207,7 +207,7 @@ class LabsDropdown extends HTMLElement {
         menu.style.cssText = `
             position: absolute;
             background: var(--color-surface, #fff);
-            border-radius: var(--labs-card-radius, 12px);
+            border-radius: var(--radius-card, 8px);
             box-shadow: var(--labs-card-shadow, 0 6px 26px rgba(0,0,0,0.12));
             padding: 8px;
             min-width: fit-content;

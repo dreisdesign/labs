@@ -95,7 +95,7 @@ export const ThemeDemo = {
           </labs-button>
         </div>
 
-        <div style="background: var(--color-surface); padding: 1.5rem; border-radius: 8px; margin: 1rem 0; border: 1px solid var(--color-primary); transition: all 0.2s;">
+  <div style="background: var(--color-surface); padding: 1.5rem; border-radius: var(--radius-lg, 8px); margin: 1rem 0; border: 1px solid var(--color-primary); transition: all 0.2s;">
           <h3 style="color: var(--color-on-surface); margin-top: 0;">Surface Component</h3>
           <p style="color: var(--color-on-surface);">This surface uses semantic tokens and adapts automatically to theme changes.</p>
           <labs-button pill variant="primary">Surface Button</labs-button>
