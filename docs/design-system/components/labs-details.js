@@ -13,7 +13,7 @@ class LabsDetails extends HTMLElement {
           details {
             width:100%;
             border:1.5px solid var(--color-primary-lighter);
-            border-radius:var(--radius-lg);
+            border-radius:var(--radius-card, 8px);
             padding:0;
             box-sizing:border-box;
             background:var(--color-surface-variant);

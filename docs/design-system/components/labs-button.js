@@ -104,7 +104,7 @@ class LabsButton extends HTMLElement {
           background: var(--color-primary);
           color: var(--color-on-primary);
           border: none;
-          border-radius: var(--button-radius, 6px);
+          border-radius: var(--radius-button, 9999px);
           padding: var(--button-padding, 0.5em 1.25em);
           cursor: pointer;
           transition: background 0.15s, color 0.15s, box-shadow 0.15s, transform 0.1s;
@@ -192,7 +192,7 @@ class LabsButton extends HTMLElement {
           min-height: 2.5em;
           width: 2.5em;
           height: 2.5em;
-          border-radius: 50%;
+          border-radius: var(--radius-full, 9999px);
           box-shadow: none;
           aspect-ratio: 1 / 1;
         }

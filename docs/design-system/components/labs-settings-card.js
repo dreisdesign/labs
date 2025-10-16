@@ -31,7 +31,7 @@ class LabsSettingsCard extends HTMLElement {
           max-width: 340px;
           margin: 0 auto;
           background: var(--color-surface, #fff);
-          border-radius: 18px;
+          border-radius: var(--radius-xl, 16px);
           box-shadow: 0 4px 32px rgba(0,0,0,0.10), 0 1.5px 4px rgba(0,0,0,0.04);
           padding: 28px 24px 20px 24px;
           font-family: var(--font-family-base, system-ui, sans-serif);
@@ -56,7 +56,7 @@ class LabsSettingsCard extends HTMLElement {
           height: 40px;
           min-width: 40px;
           min-height: 40px;
-          border-radius: 50%;
+          border-radius: var(--radius-full, 9999px);
           position: static;
           background: inherit;
           box-shadow: none;

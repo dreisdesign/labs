@@ -144,17 +144,11 @@ For setup, usage, and contribution details, see the [migration guide](../_dev/_d
 ## 🆕 Recent UX & Component Improvements
 
 ### Archive/Restore Logic for List Items
-- List items (`<labs-list-item>`) now visually distinguish between normal, archived, and restored (inactive) states.
-- The archive button icon changes to a history icon when archived, and becomes inactive (faded) when restored.
-- See the new Storybook story: `List Item/Archived` for a live demo of all states.
 
 ### List Item — Timestamp & Centered Content
-- The `labs-list-item` component now supports a refined `timestamp`/`text-only` presentation where the control (checkmark) and action slots match sizing, and the content is centered.
+ The card border radius is set via the `--radius-card` design token (default: 0.5rem, 8px).
 - For timestamp-driven lists (like Tracker), prefer using `variant="text-only"` or `variant="timestamp"` so the left (control) slot is constrained to a 40×32 container and the icon itself is kept to a 20px height for visual parity with action buttons.
 - The `content` slot is wrapped in a `.text` container that flex-grows and centers its text, which is ideal for timestamp-only rows and empty states.
-
-### Input Card & Destructive Button UX
-- Input cards now have `autocomplete="off"` for better browser UX.
 - Destructive button icons (e.g., delete/reset) now always use the correct error color in all themes.
 
 ### Dropdown Portal Architecture (2025-09-30)
@@ -206,4 +200,34 @@ For setup, usage, and contribution details, see the [migration guide](../_dev/_d
 - The summary row of `<labs-details>` uses vertical padding from the `--space-md` token (`1rem`, `16px`) for perfect alignment with list items.
 - This ensures modular, themeable sizing and visual consistency across all contexts.
 
----
+## Canonical Border-Radius Tokens (2025-10-16)
+
+All components now use a standardized set of border-radius tokens for modularity and theme consistency:
+
+| Token            | Value   | Semantic Usage         |
+|------------------|---------|-----------------------|
+| --radius-none    | 0       | No rounding           |
+| --radius-sm      | 2px     | Small controls        |
+| --radius-md      | 4px     | Inputs, overlays      |
+| --radius-lg      | 8px     | Cards, modals         |
+| --radius-xl      | 16px    | List items, details   |
+| --radius-full    | 9999px  | Pills, badges         |
+| --radius-card    | 8px     | Cards                 |
+| --radius-modal   | 8px     | Modals                |
+| --radius-button  | 4px     | Buttons               |
+| --radius-badge   | 9999px  | Badges                |
+| --radius-input   | 4px     | Inputs                |
+
+All previous hardcoded border-radius values have been replaced with these tokens. See Storybook `Tokens / Common / Border Radius` for a visual reference.
+
+**Migration Note:** All components, stories, and styles now use only these tokens. For details, see the audit in the changelog and Storybook.
+
+## Task Pattern Story Fix (2025-10-16)
+
+The canonical Task Pattern story for `<labs-list-item>` is now available in Storybook at:
+
+`/story/4-patterns-list-item-task-pattern--active-today`
+
+- Exports proper story functions and imports `labs-list-item.js` for reliable indexing.
+- Use this story to verify the "Active (Today)" pattern and related variants.
+- See `design-system/src/stories/labs-list-item.task-pattern.stories.js` for implementation.

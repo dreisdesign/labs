@@ -100,6 +100,27 @@ This will show a dropdown menu with "Restore" and "Delete" options. Listen for t
 - **Card header/close alignment:** The canonical `labs-card` now uses `flex: 1` on the header, ensuring the close button is always right-aligned. No extra wrapper or manual spacing needed.
 - **Icon-only button sizing:** When using `variant="icon"` on a `labs-button` (e.g., for close icons), the button will size naturally. Only non-icon buttons (like Save/Cancel) get a `min-width: 92px` for consistent action sizing. No need to override min-width for icon buttons.
 
+## Canonical Border-Radius Tokens (2025-10-16)
+
+All components now use a standardized set of border-radius tokens for modularity and theme consistency:
+
+| Token            | Value   | Semantic Usage         |
+|------------------|---------|-----------------------|
+| --radius-none    | 0       | No rounding           |
+| --radius-sm      | 2px     | Small controls        |
+| --radius-md      | 4px     | Inputs, overlays      |
+| --radius-lg      | 8px     | Cards, modals         |
+| --radius-xl      | 16px    | List items, details   |
+| --radius-full    | 9999px  | Pills, badges         |
+| --radius-card    | 8px     | Cards                 |
+| --radius-modal   | 8px     | Modals                |
+| --radius-button  | 4px     | Buttons               |
+| --radius-badge   | 9999px  | Badges                |
+| --radius-input   | 4px     | Inputs                |
+
+All previous hardcoded border-radius values have been replaced with these tokens. See Storybook `Tokens / Common / Border Radius` for a visual reference.
+
+**Migration Note:** All components, stories, and styles now use only these tokens. For details, see the audit in the changelog and Storybook.
 
 ## Recent Refactors & Modularity
 
@@ -279,6 +300,16 @@ Three named slots for composition:
   <labs-dropdown slot="actions"></labs-dropdown>      <!-- Right: actions menu -->
 </labs-list-item>
 ```
+
+### Task Pattern Story Fix (2025-10-16)
+
+The canonical Task Pattern story for `<labs-list-item>` is now available in Storybook at:
+
+`/story/4-patterns-list-item-task-pattern--active-today`
+
+- Exports proper story functions and imports `labs-list-item.js` for reliable indexing.
+- Use this story to verify the "Active (Today)" pattern and related variants.
+- See `design-system/src/stories/labs-list-item.task-pattern.stories.js` for implementation.
 
 ### Programmatic Creation (Recommended)
 

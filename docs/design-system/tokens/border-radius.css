@@ -1,29 +1,17 @@
 /* Labs Design System - Border Radius Tokens */
 
 :root {
-    /* Base radius scale */
+    /* Canonical border-radius scale */
     --radius-none: 0;
-    --radius-sm: 0.125rem;
-    /* 2px */
-    --radius-base: 0.25rem;
-    /* 4px */
-    --radius-md: 0.375rem;
-    /* 6px */
-    --radius-lg: 0.5rem;
-    /* 8px */
-    --radius-xl: 0.75rem;
-    /* 12px */
-    --radius-2xl: 1rem;
-    /* 16px */
-    --radius-3xl: 1.5rem;
-    /* 24px */
+    --radius-sm: 2px;
+    --radius-md: 4px;
+    --radius-lg: 8px;
+    --radius-xl: 16px;
     --radius-full: 9999px;
-    /* Fully rounded */
-
-    /* Semantic radius tokens */
-    --radius-button: var(--radius-full);
+    /* Semantic aliases for components */
     --radius-card: var(--radius-lg);
     --radius-modal: var(--radius-xl);
-    --radius-input: var(--radius-md);
+    --radius-button: var(--radius-full);
     --radius-badge: var(--radius-full);
+    --radius-input: var(--radius-md);
 }
