@@ -160,6 +160,8 @@ const preview = {
     options: {
       // Controls panel on the right
       panelPosition: 'right',
+      // Set About page as default landing page
+      defaultStory: 'about--about',
       // Alphabetical grouping: sort by title (group/subgroup) then story name.
       storySort: (a, b) => {
         const aTitle = a.title || '';
