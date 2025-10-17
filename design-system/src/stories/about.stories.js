@@ -106,4 +106,3 @@ export const About = () => {
   }, 0);
   return container;
 };
-};
