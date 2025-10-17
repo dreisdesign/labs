@@ -61,12 +61,15 @@
     <span slot="value" id="noteContent">No note yet</span>
   </labs-metric-card>
 
-  <!-- Edit overlay -->
+  <!-- Edit overlay - using textarea like Today-List pattern -->
   <labs-overlay id="editOverlay">
     <div style="padding: var(--space-md);">
       <h2>Edit Note</h2>
+      <!-- Simple textarea - not labs-input-card for multiline (Today-List pattern) -->
       <textarea id="noteTextArea" placeholder="Enter your note..." 
-                style="width: 100%; min-height: 150px;"></textarea>
+                style="width: 100%; min-height: 150px; padding: var(--space-sm); 
+                       border: 1px solid var(--color-outline); border-radius: var(--radius-md);
+                       font-family: var(--font-family-base); font-size: var(--font-size-body);"></textarea>
       <div style="display: flex; gap: var(--space-md); margin-top: var(--space-md);">
         <labs-button id="cancelBtn">Cancel</labs-button>
         <labs-button id="saveBtn" variant="primary">Save</labs-button>
@@ -78,6 +81,7 @@
   <labs-overlay id="labelOverlay">
     <div style="padding: var(--space-md);">
       <h2>Edit Label</h2>
+      <!-- Use labs-input-card for single-line label (Today-List pattern) -->
       <labs-input-card id="labelInput" placeholder="Enter label..."></labs-input-card>
       <div style="display: flex; gap: var(--space-md); margin-top: var(--space-md);">
         <labs-button id="resetLabelBtn">Reset</labs-button>
@@ -89,6 +93,7 @@
 
 <labs-footer-with-settings elevated></labs-footer-with-settings>
 
+<!-- Toast for undo (Today-List pattern) -->
 <labs-toast id="undoToast">
   <span slot="message">Note cleared</span>
   <labs-button slot="action" size="small">Undo</labs-button>
@@ -96,6 +101,12 @@
 
 <script type="module" src="./js/main.js"></script>
 ```
+
+**Key points from Today-List app**:
+- Use plain `<textarea>` for multiline text input (inside overlay)
+- Use `labs-input-card` for single-line inputs (like label)
+- Toast with undo button for destructive actions
+- Overlays wrap custom content
 
 ### JavaScript Template
 

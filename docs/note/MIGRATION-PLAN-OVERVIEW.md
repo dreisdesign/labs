@@ -67,9 +67,9 @@ Phase 4: Polish & Testing (30 min)
 ```
 
 ### Reference Templates
-1. **Primary**: `/docs/footer-test/index.html` (209 lines, zero hacks)
-2. **Tracker Pattern**: `/docs/tracker/` (successful migration)
-3. **Today-List Pattern**: `/docs/today-list/` (successful migration)
+1. **Primary**: `/docs/today-list/` (successful migration with similar features: textarea, overlays, undo, settings)
+2. **Layout Template**: `/docs/footer-test/index.html` (209 lines, zero hacks)
+3. **Alternative**: `/docs/tracker/` (simpler app for comparison)
 
 ---
 

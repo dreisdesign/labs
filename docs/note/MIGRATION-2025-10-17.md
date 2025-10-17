@@ -11,9 +11,9 @@
 Refactor the Note app from a custom implementation (440 lines JS + 292 lines HTML with custom CSS) to a clean, modular design system implementation based on the footer-test reference page and proven Tracker/Today-List migration patterns.
 
 ### Reference Implementations
-- **Primary**: `docs/footer-test/index.html` (209 lines, zero hacks)
-- **Pattern Source 1**: `docs/tracker/` (successful migration, 97 HTML + 98 JS lines)
-- **Pattern Source 2**: `docs/today-list/` (successful migration, uses design system extensively)
+- **Primary**: `docs/today-list/` (successful migration, has textarea, undo, overlays, all similar features)
+- **Layout Template**: `docs/footer-test/index.html` (209 lines, zero hacks)
+- **Alternative Pattern**: `docs/tracker/` (simpler app for comparison)
 - **Process Guide**: `_dev/_documents/APP-MIGRATION-PROCESS.md`
 - **Quality**: Production-ready, fully modular
 
@@ -53,12 +53,22 @@ Refactor the Note app from a custom implementation (440 lines JS + 292 lines HTM
 | Button styling | Custom classes | Design system button | `labs-button` |
 | Icons | Custom SVG/CSS | Icon library | `labs-icon` |
 
-### Key Differences from Tracker
-- **Text input**: Note needs textarea/text-area for note content (not just metadata like Tracker)
-- **Label customization**: Note allows custom label text (Tracker doesn't)
-- **Daily reset**: Note auto-resets at midnight (Tracker shows all entries)
-- **Undo on clear**: Note needs undo for cleared note (Tracker deletes permanently)
-- **State display**: Note shows "No note yet" vs "Add/Edit" button state (simpler than Tracker)
+### Key Differences from Today-List
+
+| Aspect | Today-List | Note | Difference |
+|--------|-----------|------|-----------|
+| **Input** | Textarea for adding items | Textarea for note content | Same pattern ✓ |
+| **Overlays** | labs-overlay for input | labs-overlay for edit | Same pattern ✓ |
+| **Undo** | Toast with undo button | Toast with undo button | Same pattern ✓ |
+| **List items** | Multiple items, collapsible | Single note | Simpler UI |
+| **Label** | Section headers | Customizable note title | Custom label storage |
+| **Daily reset** | Archive old items | Auto-clear at midnight | Custom logic needed |
+| **State display** | Metric card with count | Metric card with note | Different slot content |
+
+**Bottom line**: Today-List is the better reference implementation. The Note app is essentially a simplified Today-List with:
+- Single note instead of multiple items
+- Custom label storage
+- Daily reset at midnight instead of archiving
 
 ---
 
@@ -253,23 +263,31 @@ Refactor the Note app from a custom implementation (440 lines JS + 292 lines HTM
 
 ---
 
-## Lessons from Tracker & Today-List Migrations
+## Lessons from Today-List & Tracker Migrations
 
-1. **Component Slots Pattern**: Always use slots for content insertion (cleaner than manual DOM creation)
-2. **Footer Events**: Wire up `add`, `reset-all`, and `flavor-changed` events from footer component
-3. **Theme Utils**: Use design system `applyTheme()` instead of custom theme logic
-4. **Toast Positioning**: Position toast above footer with `--toast-bottom: 120px`
-5. **Data Store**: Keep localStorage structure but simplify the store object
-6. **Undo Pattern**: Show toast with undo button on destructive actions
-7. **Empty State**: Use conditional rendering for empty vs. filled states
-8. **CSS Variables**: Reference design tokens instead of hardcoding values
+### From Today-List (Most Relevant)
+1. **Textarea in Overlay**: Use `<textarea>` directly in overlay (not labs-input-card for multiline)
+2. **Input-Card Pattern**: labs-input-card works for single-line inputs (label edit)
+3. **Overlay Content**: Keep overlay content simple, just textarea + buttons
+4. **Footer Events**: Wire up `add`, `reset-all` events from footer
+5. **Toast Pattern**: Show toast with undo button for destructive actions
+6. **Metric Card**: Use slots for dynamic content display
+7. **Daily Logic**: Implement daily reset with localStorage + date comparison
+
+### From Tracker (Additional Patterns)
+1. **Component Slots**: Always use slots for content insertion (cleaner than manual DOM)
+2. **Theme Utils**: Use design system `applyTheme()` instead of custom theme logic
+3. **Toast Positioning**: Position toast above footer with `--toast-bottom: 120px`
+4. **Data Store**: Keep localStorage structure but simplify the store object
+5. **CSS Variables**: Reference design tokens instead of hardcoding values
 
 ---
 
 ## References
 
-- **Tracker Migration**: `/docs/tracker/MIGRATION-2025-10-08.md` (completed)
-- **Today-List Migration**: `/docs/today-list/MIGRATION-2025-10-09.md` (completed)
+- **Today-List Migration**: `/docs/today-list/MIGRATION-2025-10-09.md` (primary reference - has similar features)
+- **Today-List App Code**: `/docs/today-list/index.html` and `/docs/today-list/js/main.js` (copy patterns)
+- **Tracker Migration**: `/docs/tracker/MIGRATION-2025-10-08.md` (reference for comparison)
 - **Footer Test Reference**: `/docs/footer-test/index.html` (209 lines, zero hacks)
 - **App Migration Guide**: `/_dev/_documents/APP-MIGRATION-PROCESS.md`
 - **Design System README**: `/design-system/README.md`

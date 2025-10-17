@@ -167,23 +167,25 @@ Reduction: 82% smaller! 5x more maintainable
 
 ## Reference Implementations Used
 
-### 1. **footer-test** (209 lines, zero hacks)
-- Primary reference template
-- Clean component hierarchy
+### 1. **Today-List** (Primary Reference - Most Relevant)
+- Has textarea for multiline text input (same as Note needs)
+- Overlay pattern for adding/editing content
+- Undo pattern with toast
+- Settings menu with theme/flavor/reset
+- Daily logic with localStorage
+- **Best for**: Understanding how to implement textarea, overlays, undo toast
+
+### 2. **footer-test** (Layout Reference)
+- Clean component hierarchy (209 lines)
 - Proper early theme initialization
 - Responsive layout pattern
+- **Best for**: HTML structure and design system integration
 
-### 2. **Tracker Migration** (Oct 8, 2025)
-- Successfully reduced from 283 to ~180 lines
-- Proven 4-phase pattern
-- Complete feature parity
-- Zero custom CSS
-
-### 3. **Today-List Migration** (Oct 9, 2025)
-- More complex implementation
-- Proven component combinations
-- Complex feature set (add, check, archive, restore)
-- Undo pattern with toast
+### 3. **Tracker** (Alternative Reference)
+- Simpler implementation for comparison
+- Clean data store pattern
+- Proven theme/flavor system
+- **Best for**: Understanding basic design system patterns
 
 ---
 

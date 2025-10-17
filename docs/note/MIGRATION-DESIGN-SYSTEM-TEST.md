@@ -35,18 +35,22 @@
 - Theme application (light/dark colors)
 - Responsive sizing
 
-### 3. **User Input & Overlays**
+### 3. **User Input & Overlays** (Following Today-List Pattern)
 ```html
 <labs-overlay open>
-  <!-- Can contain labs-input-card or custom textarea -->
-  <textarea> or <labs-input-card multiline>
+  <!-- Plain textarea for multiline content (Today-List pattern) -->
+  <textarea id="noteTextArea"></textarea>
+  
+  <!-- OR labs-input-card for single-line input (label edit) -->
+  <labs-input-card id="labelInput"></labs-input-card>
 </labs-overlay>
 ```
 
 **What we're testing**:
 - Overlay open/close behavior
 - Overlay scroll locking
-- labs-input-card for text input (if multiline supported)
+- Plain textarea styling with design tokens (Today-List approach)
+- labs-input-card for single-line inputs
 - Overlay with custom content
 
 ### 4. **Actions & Feedback**
@@ -64,7 +68,7 @@
 **What we're testing**:
 - Button variants for different actions
 - Toast positioning (above footer)
-- Toast with action button
+- Toast with action button (Today-List pattern)
 - Button click handling
 
 ### 5. **Theme System**
