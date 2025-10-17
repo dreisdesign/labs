@@ -19,23 +19,28 @@ export const About = () => {
     container.innerHTML = `
     <h1>Labs Design System &amp; Smoothie Philosophy</h1>
     <p>
-      <strong>Labs</strong> is a modular design system and suite of productivity apps built with vanilla JavaScript, Web Components, and CSS custom properties.<br>
-      All components are fully modular, themeable, and use Shadow DOM for encapsulation.<br>
-      Supports three theme flavors (Vanilla, Blueberry, Strawberry) with light/dark modes and WCAG AA color contrast.
+      <strong>Labs</strong> is a production-ready design system and suite of productivity apps built with vanilla JavaScript, Web Components, and CSS custom properties.<br>
+      All 30+ components are fully modular, themeable, and use Shadow DOM for encapsulation. <strong>Status: v2.4.9 • Production-Ready &amp; Robust</strong><br>
+      Supports three theme flavors (Vanilla, Blueberry, Strawberry) with light/dark modes and WCAG AA color contrast compliance.
     </p>
     <hr />
     <h2>Key Features</h2>
     <ul>
-      <li><strong>Design System:</strong> Modular Web Components, canonical design tokens, semantic variants, Storybook documentation.</li>
-      <li><strong>Apps:</strong> Focus Timer, Daily Tracker, Daily Note, Today List, Pad, Labs Homepage.</li>
-      <li><strong>Technical Stack:</strong> Web Components, Lit, Storybook v9.1.7, Vite, GitHub Pages.</li>
-      <li><strong>Development Workflow:</strong> <code>npm run rp</code> for local dev, hot module reload, automatic icon generation.</li>
-      <li><strong>Recent Improvements:</strong> Canonical border-radius tokens, modular overlays, refactored components, icon workflow automation, Storybook grouping.</li>
+      <li><strong>Component Library:</strong> 30+ modular Web Components including Button, Card, Dropdown, List-Item, Header, Footer, Input, Overlay, Toast, Settings, and more.</li>
+      <li><strong>Design System:</strong> Canonical two-layer token architecture, semantic color system, wrapped component patterns, and Storybook documentation (nested: Canonical, Wrapped, Patterns).</li>
+      <li><strong>Apps:</strong> Six production apps — Focus Timer, Daily Tracker, Daily Note, Today List, Pad (drawing), Labs Homepage — all using the design system.</li>
+      <li><strong>Technical Stack:</strong> Vanilla Web Components, Storybook v9+, Vite, Vitest, GitHub Pages | <strong>Design System v2.4.9</strong>.</li>
+      <li><strong>Development Workflow:</strong> <code>npm run menu</code> for guided local dev or <code>npm run rp</code> for quick preview. HMR enabled, auto icon generation &amp; sync, pre-commit path fixes.</li>
+      <li><strong>2025 Q3/Q4 Architecture:</strong> Dropdown Portal System (navigation-aware, no clipping), Mobile-First Container System (responsive tokens), Modular Component Refactors (Badge, Card, Input, Settings, Overlays), Storybook organization improvements.</li>
     </ul>
     <hr />
     <h2>Smoothie Design System Philosophy</h2>
-    <p>A simple, modular approach to UI components.</p>
-    <h3>Example: Smoothie Config Table</h3>
+    <p><strong>Think of Labs as a smoothie bar.</strong> Each component is a smoothie recipe, each prop is an ingredient, and each variant is a signature menu item. This metaphor helps us design modular, scalable UI that's easy to understand and combine.</p>
+    <h3>Quick Example</h3>
+    <pre style="background: var(--color-surface-variant); padding: 1rem; border-radius: 0.5rem; overflow-x: auto;"><code>&lt;labs-button variant="primary" fullwidth&gt;Save&lt;/labs-button&gt;
+&lt;labs-card variant="metric"&gt;42 items tracked&lt;/labs-card&gt;
+&lt;labs-dropdown archived slot="actions"&gt;&lt;/labs-dropdown&gt;</code></pre>
+    <h3>The Smoothie Config Table</h3>
     <table border="1" cellpadding="4">
       <thead>
         <tr>
@@ -88,15 +93,17 @@ export const About = () => {
     <hr />
     <h2>Documentation &amp; Contribution</h2>
     <ul>
-      <li><a href="../README.md" target="_blank">Main README</a> — Project overview</li>
-      <li><a href="../DOCUMENTATION.md" target="_blank">Documentation Index</a> — Navigation guide</li>
-      <li><a href="../design-system/README.md" target="_blank">Design System README</a> — Component library overview</li>
-      <li><a href="../design-system/COMPONENT-USAGE.md" target="_blank">Component Usage Guide</a></li>
-      <li><a href="../design-system/ROADMAP.md" target="_blank">Design System Roadmap</a></li>
-      <li><a href="../CONTRIBUTING.md" target="_blank">Contributing Guide</a></li>
-      <li><a href="../todo-index.md" target="_blank">Global TODO Index</a></li>
-      <li>Component docs: e.g., <a href="src/components/labs-button/BUTTON-DOCS.md" target="_blank">Button Docs</a></li>
-      <li>See <a href="src/styles/COLORS-DOCS.md" target="_blank">Color Tokens &amp; Theming Guide</a> for implementation details</li>
+      <li><a href="../README.md" target="_blank">Main README</a> — Project overview and quick start</li>
+      <li><a href="../DOCUMENTATION.md" target="_blank">Documentation Index</a> — Complete navigation guide</li>
+      <li><a href="../STORYBOOK_SITEMAP.md" target="_blank">Storybook Sitemap</a> — Auto-generated component story index</li>
+      <li><a href="../design-system/README.md" target="_blank">Design System README</a> — Component library overview &amp; status</li>
+      <li><a href="../design-system/smoothie.md" target="_blank">Smoothie Philosophy</a> — Design system metaphor &amp; concepts</li>
+      <li><a href="../design-system/COMPONENT-USAGE.md" target="_blank">Component Usage Guide</a> — Patterns &amp; best practices</li>
+      <li><a href="../design-system/ROADMAP.md" target="_blank">Design System Roadmap</a> — Planned features &amp; enhancements</li>
+      <li><a href="../CONTRIBUTING.md" target="_blank">Contributing Guide</a> — How to contribute &amp; commit standards</li>
+      <li><a href="../CHANGELOG.md" target="_blank">Changelog</a> — Repository version history</li>
+      <li><a href="../design-system/CHANGELOG.md" target="_blank">Design System Changelog</a> — Design system version history</li>
+      <li><a href="../todo-index.md" target="_blank">Global TODO Index</a> — Project-wide task tracking</li>
     </ul>
     <hr />
     <i>Designed by Dan Reis in Somerville — Last updated October 2025</i>
