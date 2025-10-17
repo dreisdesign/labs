@@ -5,10 +5,9 @@ export default {
       test: "todo"
     },
     options: {
-      // Set About page as default landing page for Labs homepage Storybook
-      defaultStory: 'about--about',
       // Simple, stable alphabetical sorting for story groups and stories.
       // Sort first by full title (group/subgroup), then by story name.
+      // About story will appear first alphabetically so it loads by default
       storySort: (a, b) => {
         const aTitle = (a[1] && a[1].title) || (a[1] && a[1].kind) || '';
         const bTitle = (b[1] && b[1].title) || (b[1] && b[1].kind) || '';
