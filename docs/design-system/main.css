@@ -141,7 +141,7 @@ a:focus {
 .settings-overlay .overlay-content {
   background-color: var(--color-surface);
   padding: 20px;
-  border-radius: 12px;
+  border-radius: var(--radius-xl, 16px);
   box-shadow: var(--shadow-overlay);
   width: 90%;
   max-width: 400px;
@@ -173,7 +173,7 @@ a:focus {
   background: none;
   border: none;
   cursor: pointer;
-  border-radius: 50%;
+  border-radius: var(--radius-full, 9999px);
   transition: background-color 0.2s;
   width: 3rem;
   height: 3rem;
