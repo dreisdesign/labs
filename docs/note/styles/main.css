@@ -31,6 +31,12 @@ labs-container {
   flex-direction: column;
 }
 
+/* Footer positioning at bottom */
+labs-footer-with-settings {
+  margin-top: auto;
+  flex-shrink: 0;
+}
+
 /* Remove default form element styling */
 textarea,
 input {
@@ -43,4 +49,19 @@ input {
 :focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
+}
+
+/* Content area styling */
+labs-metric-card {
+  flex-shrink: 0;
+}
+
+/* Overlays should not affect layout */
+labs-overlay {
+  flex-shrink: 0;
+}
+
+/* Toast should not affect flex layout */
+labs-toast {
+  flex-shrink: 0;
 }
