@@ -1,291 +1,207 @@
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <!-- Early theme application to prevent flash -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="icon" href="favicon.ico">
+  <title>Labs: Note</title>
+
   <script>
-    // IIFE to apply theme immediately before anything else loads
+    // Set flavor/theme classes as early as possible for CSS tokens
     (function () {
-      try {
-        // Apply theme
-        var darkModePreference = localStorage.getItem("darkMode");
-        if (
-          darkModePreference === "true" ||
-          (darkModePreference === null &&
-            window.matchMedia("(prefers-color-scheme: dark)").matches)
-        ) {
-          document.documentElement.classList.add("dark-mode");
-        }
-
-        // Set button text based on note existence
-        var savedNote = localStorage.getItem("dailyNote");
-        var savedNoteDate = localStorage.getItem("noteDate");
-        var now = new Date();
-        var today =
-          now.getFullYear() +
-          "-" +
-          String(now.getMonth() + 1).padStart(2, "0") +
-          "-" +
-          String(now.getDate()).padStart(2, "0");
-
-        // Will update button text when DOM is ready
-        window.hasExistingNote = savedNote && savedNoteDate === today;
-      } catch (e) {
-        console.error("Error applying theme:", e);
-      }
+      var root = document.documentElement;
+      var flavor = localStorage.getItem('note-flavor') || 'blueberry';
+      var theme = localStorage.getItem('note-theme') || 'light';
+      root.classList.remove('flavor-blueberry', 'flavor-strawberry', 'flavor-vanilla');
+      root.classList.remove('theme-light', 'theme-dark');
+      root.classList.add('flavor-' + flavor);
+      root.classList.add('theme-' + theme);
+      root.setAttribute('data-color-scheme', theme);
     })();
   </script>
+
+  <!-- Design System Tokens -->
+  <link rel="stylesheet" href="../design-system/tokens/colors.css">
+  <link rel="stylesheet" href="../design-system/tokens/spacing.css">
+  <link rel="stylesheet" href="../design-system/tokens/typography.css">
+  <link rel="stylesheet" href="../design-system/tokens/border-radius.css">
+  <link rel="stylesheet" href="../design-system/tokens/shadows.css">
+  <link rel="stylesheet" href="../design-system/styles/flavors.css">
+
+  <!-- Components -->
+  <script type="module" src="../design-system/components/labs-container.js"></script>
+  <script type="module" src="../design-system/components/labs-footer-with-settings.js"></script>
+  <script type="module" src="../design-system/components/labs-template-header.wrapped.js"></script>
+  <script type="module" src="../design-system/components/labs-metric-card.js"></script>
+  <script type="module" src="../design-system/components/labs-overlay.js"></script>
+  <script type="module" src="../design-system/components/labs-button.js"></script>
+  <script type="module" src="../design-system/components/labs-toast.js"></script>
+
+  <!-- Note App Logic -->
+  <script type="module" src="./js/main.js"></script>
+
   <style>
-    /* Critical styles to prevent flash during page load */
-    html.dark-mode,
-    html.dark-mode body {
-      background-color: rgb(18, 18, 18) !important;
-      color: rgb(255, 255, 255) !important;
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--color-background);
+      color: var(--color-on-surface);
+      font-family: var(--font-family-base);
     }
 
-    /* Apply dark mode to critical elements to prevent flash */
-    html.dark-mode .metric-card {
-      background-color: rgb(30, 30, 30) !important;
-      color: rgb(255, 255, 255) !important;
+    labs-container {
+      flex: 1;
+      display: block;
     }
 
-    /* Apply dark mode to note content */
-    html.dark-mode .note-content {
-      color: rgb(149, 117, 205) !important;
+    labs-metric-card {
+      margin-bottom: var(--space-md);
+      cursor: pointer;
     }
 
-    html.dark-mode .version-number {
-      color: rgb(255, 255, 255) !important;
+    labs-footer-with-settings {
+      margin-top: auto;
     }
 
-    /* Hide body content until CSS is fully loaded to prevent FOUC */
-    .js-loading body {
-      visibility: hidden;
+    /* Position toast above the footer */
+    labs-toast {
+      --toast-bottom: 120px;
+    }
+
+    /* Overlay styling */
+    .overlay-content {
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .overlay-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-sm);
+    }
+
+    .overlay-header h2 {
+      margin: 0;
+      font-size: var(--font-size-h2);
+    }
+
+    .overlay-buttons {
+      display: flex;
+      gap: var(--space-md);
+      margin-top: var(--space-md);
+    }
+
+    /* Textarea styling with design tokens */
+    textarea {
+      width: 100%;
+      min-height: 150px;
+      padding: var(--space-sm);
+      border: 1px solid var(--color-outline, #ccc);
+      border-radius: var(--radius-md);
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-body);
+      color: var(--color-on-surface);
+      background: var(--color-surface);
+      resize: vertical;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: var(--color-primary);
+    }
+
+    .label-input {
+      width: 100%;
+      padding: var(--space-sm);
+      border: 1px solid var(--color-outline, #ccc);
+      border-radius: var(--radius-md);
+      font-family: var(--font-family-base);
+      font-size: var(--font-size-body);
+      color: var(--color-on-surface);
+      background: var(--color-surface);
+      box-sizing: border-box;
+    }
+
+    .label-input:focus {
+      outline: none;
+      border-color: var(--color-primary);
     }
   </style>
-  <script>
-    // Add js-loading class to prevent FOUC
-    document.documentElement.classList.add("js-loading");
-
-    // Remove loading class when DOM is ready to show content
-    document.addEventListener("DOMContentLoaded", function () {
-      document.documentElement.classList.remove("js-loading");
-    });
-  </script>
-
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="description" content="DailyNote - A simple note that clears at the end of each day" />
-  <title>DailyNote</title>
-
-  <!-- Favicons -->
-  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-
-  <!-- Web App Manifest -->
-  <link rel="manifest" href="manifest.json" />
-
-  <!-- PWA Meta Tags -->
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Daily Note" />
-
-  <!-- Theme Color - Controls browser UI elements like address bar -->
-  <meta name="theme-color" id="theme-color-meta" content="#202F48" />
-  <script>
-    // Update theme-color meta immediately
-    if (
-      localStorage.getItem("darkMode") === "true" ||
-      (localStorage.getItem("darkMode") === null &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
-      document
-        .getElementById("theme-color-meta")
-        .setAttribute("content", "#202F48");
-    }
-  </script>
-
-  <link rel="stylesheet" href="styles/main.css?v=2.0.1" />
-  <!-- Prevent iOS from resizing fonts -->
-  <meta name="format-detection" content="telephone=no" />
 </head>
 
 <body>
-  <!-- Skip to content link for keyboard users -->
-  <a href="#mainContent" class="skip-to-content">Skip to content</a>
+  <labs-container>
+    <!-- Header -->
+    <labs-template-header-wrapped class="header">
+      <h1>Note</h1>
+    </labs-template-header-wrapped>
 
-  <!-- Version number (top right) -->
-  <div class="version-number">v1.0.4</div>
-
-  <div class="app">
-    <!-- Main note card (similar to metric card) -->
-    <div class="metric-card" id="noteCard">
-      <div class="metric-label-container" id="noteLabelContainer">
-        <h2 class="metric-label">Today's Note</h2>
-        <div class="edit-label-icon" id="editLabelIcon"></div>
+    <!-- Metric Card (Daily note summary) -->
+    <labs-metric-card id="metricCard" class="note-card">
+      <div slot="label">Daily Note for</div>
+      <div slot="value" id="noteContent">
+        <span class="placeholder">Tap to add a note...</span>
       </div>
-      <div class="note-content" id="noteContent">
-        <p id="noteText">No note yet</p>
+      <div slot="extra" id="noteLabel"></div>
+    </labs-metric-card>
+
+    <!-- Edit Note Overlay -->
+    <labs-overlay id="editNoteOverlay" heading="Edit Note" role="dialog">
+      <div class="overlay-content">
+        <textarea id="noteTextarea" placeholder="Write your note here..."></textarea>
       </div>
-    </div>
-
-    <!-- Main content area -->
-    <div id="mainContent" class="custom-scrollbar"></div>
-
-    <!-- Bottom buttons wrapper (similar to tracker) -->
-    <div class="bottom-buttons-wrapper" id="bottomButtonsWrapper">
-      <div class="bottom-buttons">
-        <!-- Add Note Button (center) -->
-        <button class="track-button track-button--footer" id="addNoteButton">
-          <span class="track-button-text">+ Add</span>
-        </button>
-
-        <!-- Settings Button (right) -->
-        <button class="bottom-button-base settings-button" id="settingsButton" aria-label="Settings">
-          <span class="settings-icon"></span>
-        </button>
+      <div class="overlay-buttons" slot="actions">
+        <labs-button id="saveBtnFromOverlay" variant="primary">Save</labs-button>
+        <labs-button id="resetBtnFromOverlay" variant="destructive">Clear</labs-button>
       </div>
-    </div>
-  </div>
+    </labs-overlay>
 
-  <!-- Note Overlay (for adding/editing notes) -->
-  <div class="overlay hidden" id="noteOverlay">
-    <div class="overlay-content">
-      <div class="overlay-header">
-        <h2>Edit Note</h2>
-        <button class="close-button" id="closeOverlay" aria-label="Close">
-          <span class="close-icon"></span>
-        </button>
+    <!-- Edit Label Overlay -->
+    <labs-overlay id="editLabelOverlay" heading="Edit Label" role="dialog">
+      <div class="overlay-content">
+        <input id="labelInput" type="text" placeholder="Enter label (optional)" class="label-input" />
       </div>
-      <div class="overlay-body">
-        <textarea class="comment-textarea" id="noteTextArea" placeholder="Today's Note (default)"></textarea>
-        <div class="comment-actions">
-          <button class="comment-button delete-comment cancel" id="cancelNote">
-            Cancel
-          </button>
-          <button class="comment-button save-comment" id="saveNote">
-            Save
-          </button>
-        </div>
+      <div class="overlay-buttons" slot="actions">
+        <labs-button id="saveLabelBtn" variant="primary">Save</labs-button>
       </div>
-    </div>
-  </div>
+    </labs-overlay>
 
-  <!-- Settings Overlay -->
-  <div class="overlay hidden" id="settingsOverlay">
-    <div class="overlay-content">
-      <div class="overlay-header">
-        <h2>Settings</h2>
-        <button class="close-button" id="closeSettingsOverlay" aria-label="Close">
-          <span class="close-icon"></span>
-        </button>
-      </div>
-      <div class="overlay-body">
-        <!-- All Apps button -->
-        <button class="settings-item" id="allAppsButton">
-          <div class="settings-item-icon-container">
-            <span class="all-apps-icon"></span>
-          </div>
-          <span>All Apps</span>
-        </button>
+    <!-- Footer with Settings -->
+    <labs-footer-with-settings id="footer">
+      <labs-button id="addNoteBtn" slot="add-button" variant="primary">+ Add note</labs-button>
+    </labs-footer-with-settings>
 
-        <!-- Theme Toggle -->
-        <button class="settings-item" id="menuThemeToggle">
-          <div class="settings-item-icon-container">
-            <span class="theme-icon"></span>
-          </div>
-          <span id="menuThemeText">Turn off dark mode</span>
-        </button>
-
-        <!-- Clear Note -->
-        <button class="settings-item settings-item-reset" id="clearNoteButton">
-          <div class="settings-item-icon-container">
-            <span class="reset-icon"></span>
-          </div>
-          <span>Clear Note</span>
-        </button>
-
-        <!-- Refresh Button (mobile only) -->
-        <button class="settings-item mobile-only" id="refreshButton">
-          <div class="settings-item-icon-container">
-            <span class="refresh-icon"></span>
-          </div>
-          <span>Refresh</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Label Edit Overlay -->
-  <div class="overlay hidden" id="labelEditOverlay">
-    <div class="overlay-content">
-      <div class="overlay-header">
-        <h2>Edit Label</h2>
-        <button class="close-button" id="closeLabelEditButton" aria-label="Close">
-          <span class="close-icon"></span>
-        </button>
-      </div>
-      <div class="overlay-body">
-        <input type="text" id="labelEditInput" class="label-edit-input" placeholder="Enter label name..." />
-        <div class="label-edit-actions">
-          <button class="comment-button delete-comment" id="resetLabelButton">
-            Reset
-          </button>
-          <button class="comment-button save-comment" id="saveLabelButton">
-            Save
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Undo button -->
-  <button class="undo-button hidden" id="undoButton">
-    Note cleared. <strong>Undo</strong>
-  </button>
-
-  <script src="js/main.js?v=2.0.1"></script>
+    <!-- Toast for Undo -->
+    <labs-toast id="undoToast" timeout="5000">
+      <span id="toastMessage"></span>
+      <labs-button id="undoBtn" slot="action" variant="secondary" text-only>Undo</labs-button>
+    </labs-toast>
+  </labs-container>
 
   <!-- Service Worker Registration -->
   <script>
+    // Head check to ensure SW exists before registering
     if ("serviceWorker" in navigator) {
-      window.addEventListener("load", async () => {
-        const host = window.location.hostname;
-        const port = window.location.port;
-        if (host === 'localhost' || host === '127.0.0.1' || port === '8000' || port === '6006') {
-          console.log('Skipping service worker registration in local dev environment.');
-          return;
-        }
-
-        const swUrl = './sw.js?v=2.0.1';
-        try {
-          const head = await fetch(swUrl, { method: 'HEAD' });
-          if (!head.ok) {
-            console.log('SW script not found (skipping registration):', head.status);
-            return;
-          }
-        } catch (e) {
-          console.log('SW script HEAD check failed (skipping registration):', e);
-          return;
-        }
-
-        try {
-          const registration = await navigator.serviceWorker.register(swUrl);
-          console.log('SW registered: ', registration);
-        } catch (registrationError) {
-          console.log('SW registration failed: ', registrationError);
-        }
-      });
+      fetch("sw.js", { method: "HEAD" })
+        .then(() => {
+          navigator.serviceWorker
+            .register("sw.js")
+            .catch(function (error) {
+              console.log("Service Worker registration failed:", error);
+            });
+        })
+        .catch(() => {
+          console.log("Service Worker file not found at sw.js");
+        });
     }
-
-    // PWA Install Prompt
-    let deferredPrompt;
-    window.addEventListener("beforeinstallprompt", (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      console.log("PWA install prompt available");
-    });
   </script>
 </body>
 
