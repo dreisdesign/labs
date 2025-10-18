@@ -34,9 +34,12 @@
   <script type="module" src="../design-system/components/labs-container.js"></script>
   <script type="module" src="../design-system/components/labs-footer-with-settings.js"></script>
   <script type="module" src="../design-system/components/labs-template-header.wrapped.js"></script>
-  <script type="module" src="../design-system/components/labs-metric-card.js"></script>
-  <script type="module" src="../design-system/components/labs-overlay.js"></script>
+  <script type="module" src="../design-system/components/labs-card.js"></script>
   <script type="module" src="../design-system/components/labs-button.js"></script>
+  <script type="module" src="../design-system/components/labs-icon.js"></script>
+  <script type="module" src="../design-system/components/labs-checkbox.js"></script>
+  <script type="module" src="../design-system/components/labs-overlay.js"></script>
+  <script type="module" src="../design-system/components/labs-input-card.js"></script>
   <script type="module" src="../design-system/components/labs-toast.js"></script>
 
   <!-- Note App Logic -->
@@ -56,12 +59,22 @@
 
     labs-container {
       flex: 1;
-      display: block;
+      display: flex;
+      flex-direction: column;
     }
 
-    labs-metric-card {
-      margin-bottom: var(--space-md);
-      cursor: pointer;
+    .note-display-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: auto;
+      padding: var(--space-md);
+    }
+
+    labs-input-card {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
     }
 
     labs-footer-with-settings {
@@ -72,107 +85,20 @@
     labs-toast {
       --toast-bottom: 120px;
     }
-
-    /* Overlay styling */
-    .overlay-content {
-      padding: var(--space-md);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-md);
-    }
-
-    .overlay-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: var(--space-sm);
-    }
-
-    .overlay-header h2 {
-      margin: 0;
-      font-size: var(--font-size-h2);
-    }
-
-    .overlay-buttons {
-      display: flex;
-      gap: var(--space-md);
-      margin-top: var(--space-md);
-    }
-
-    /* Textarea styling with design tokens */
-    textarea {
-      width: 100%;
-      min-height: 150px;
-      padding: var(--space-sm);
-      border: 1px solid var(--color-outline, #ccc);
-      border-radius: var(--radius-md);
-      font-family: var(--font-family-base);
-      font-size: var(--font-size-body);
-      color: var(--color-on-surface);
-      background: var(--color-surface);
-      resize: vertical;
-    }
-
-    textarea:focus {
-      outline: none;
-      border-color: var(--color-primary);
-    }
-
-    .label-input {
-      width: 100%;
-      padding: var(--space-sm);
-      border: 1px solid var(--color-outline, #ccc);
-      border-radius: var(--radius-md);
-      font-family: var(--font-family-base);
-      font-size: var(--font-size-body);
-      color: var(--color-on-surface);
-      background: var(--color-surface);
-      box-sizing: border-box;
-    }
-
-    .label-input:focus {
-      outline: none;
-      border-color: var(--color-primary);
-    }
   </style>
 </head>
 
 <body>
   <labs-container>
-    <!-- Header -->
+    <!-- Header with current date -->
     <labs-template-header-wrapped class="header">
-      <h1>Note</h1>
+      <span slot="title" id="current-date">Today</span>
     </labs-template-header-wrapped>
 
-    <!-- Metric Card (Daily note summary) -->
-    <labs-metric-card id="metricCard" class="note-card">
-      <div slot="label">Daily Note for</div>
-      <div slot="value" id="noteContent">
-        <span class="placeholder">Tap to add a note...</span>
-      </div>
-      <div slot="extra" id="noteLabel"></div>
-    </labs-metric-card>
-
-    <!-- Edit Note Overlay -->
-    <labs-overlay id="editNoteOverlay" heading="Edit Note" role="dialog">
-      <div class="overlay-content">
-        <textarea id="noteTextarea" placeholder="Write your note here..."></textarea>
-      </div>
-      <div class="overlay-buttons" slot="actions">
-        <labs-button id="saveBtnFromOverlay" variant="primary">Save</labs-button>
-        <labs-button id="resetBtnFromOverlay" variant="destructive">Clear</labs-button>
-      </div>
-    </labs-overlay>
-
-    <!-- Edit Label Overlay -->
-    <labs-overlay id="editLabelOverlay" heading="Edit Label" role="dialog">
-      <div class="overlay-content">
-        <input id="labelInput" type="text" placeholder="Enter label (optional)" class="label-input" />
-      </div>
-      <div class="overlay-buttons" slot="actions">
-        <labs-button id="saveLabelBtn" variant="primary">Save</labs-button>
-      </div>
-    </labs-overlay>
+    <!-- Note display area -->
+    <div class="note-display-area">
+      <labs-input-card id="noteInputCard" slot="content"></labs-input-card>
+    </div>
 
     <!-- Toast for Undo -->
     <labs-toast id="undoToast"></labs-toast>
@@ -199,6 +125,19 @@
           console.log("Service Worker file not found at sw.js");
         });
     }
+
+    // Set current date in header
+    document.addEventListener('DOMContentLoaded', function () {
+      var dateEl = document.getElementById('current-date');
+      if (dateEl) {
+        var now = new Date();
+        dateEl.textContent = now.toLocaleDateString(undefined, {
+          weekday: 'short',
+          month: 'short',
+          day: 'numeric'
+        });
+      }
+    });
   </script>
 </body>
 
