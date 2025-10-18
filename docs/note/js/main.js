@@ -44,18 +44,28 @@ const editLabelOverlay = document.getElementById('editLabelOverlay');
 const labelInput = document.getElementById('labelInput');
 const footer = document.getElementById('footer');
 const undoToast = document.getElementById('undoToast');
-const toastMessage = document.getElementById('toastMessage');
-const undoBtn = document.getElementById('undoBtn');
 const saveBtnFromOverlay = document.getElementById('saveBtnFromOverlay');
 const resetBtnFromOverlay = document.getElementById('resetBtnFromOverlay');
 const saveLabelBtn = document.getElementById('saveLabelBtn');
 
 // Initialize
 window.addEventListener('DOMContentLoaded', () => {
+  cleanupOldNotes();
   loadNote();
   loadLabel();
   setupEventListeners();
 });
+
+// Clean up notes from previous days
+function cleanupOldNotes() {
+  const today = new Date().toISOString().split('T')[0];
+  const keys = Object.keys(localStorage);
+  keys.forEach(key => {
+    if (key.startsWith('note-') && key !== `note-${today}` && key !== 'note-label' && key !== 'note-flavor' && key !== 'note-theme') {
+      localStorage.removeItem(key);
+    }
+  });
+}
 
 // Load note from localStorage and update display
 function loadNote() {
@@ -98,8 +108,8 @@ function setupEventListeners() {
   noteLabel.addEventListener('click', openEditLabelOverlay);
   saveLabelBtn.addEventListener('click', saveLabel);
 
-  // Undo button
-  undoBtn.addEventListener('click', undoClear);
+  // Toast undo action
+  undoToast.addEventListener('action', undoClear);
 }
 
 // Edit note overlay
@@ -138,7 +148,6 @@ function undoClear() {
   currentNote = lastClearedNote;
   store.saveNote(currentNote);
   updateNoteDisplay();
-  undoToast.close();
 }
 
 // Edit label overlay
@@ -158,6 +167,5 @@ function saveLabel() {
 
 // Toast notification
 function showUndoToast(message) {
-  toastMessage.textContent = message;
-  undoToast.open();
+  undoToast.show(message, { actionText: 'Undo', duration: 5000 });
 }
