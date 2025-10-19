@@ -88,6 +88,19 @@
       --toast-bottom: 120px;
     }
   </style>
+
+  <script>
+    // Hide the add button from the footer once it's loaded
+    document.addEventListener('DOMContentLoaded', function () {
+      const footer = document.getElementById('footer');
+      if (footer && footer.shadowRoot) {
+        const addBtn = footer.shadowRoot.getElementById('add-btn');
+        if (addBtn) {
+          addBtn.style.display = 'none';
+        }
+      }
+    });
+  </script>
 </head>
 
 <body>
