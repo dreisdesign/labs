@@ -2,6 +2,43 @@
 
 All notable changes to the DailyNote app will be documented in this file.
 
+## [5.0.0] - 2025-10-19
+
+### 🎨 Major UI/UX Improvements
+- **Expand/Collapse Button**: Click the expand button (↗️) to maximize the note for distraction-free writing. Icon toggles to collapse (↙️) when expanded
+- **Fullscreen Mode**: Note card expands to fill entire viewport, textarea grows to fill available space
+- **Two-Line Header**: Date now displays on two semantic lines (no `<br>` tags) - "Today is [day]" on line 1, "[date]" on line 2
+- **Centered Layout**: Header and note card now centered together on page for unified visual hierarchy
+
+### ✨ New Features
+- **State Persistence**: Expanded state saved to localStorage and restored on page refresh
+- **Auto-Save**: Text auto-saves with 500ms debounce on input (no more manual save button)
+- **Timestamp Tracking**: "Last edited" timestamp updates automatically on each save
+- **Proper Flex Layout**: Card and textarea properly fill available vertical space when expanded
+
+### 🏗️ Architecture Changes
+- **Design System Integration**: Now uses Labs design system components (container, card, button, icon) instead of custom styling
+- **Web Components**: Custom `<note-input-card>` component with Shadow DOM encapsulation
+- **Enhanced Container**: Container component now supports `fill` attribute for fullscreen layouts with `height: 100vh`
+- **Improved Card Component**: Card's input slot now properly supports flex-grow for vertical expansion
+
+### 🔧 Technical Improvements
+- **Event-Driven Architecture**: Component emits `autosave`, `expanded-changed`, and `reset` events
+- **Modular Component API**: Public methods: `setValue()`, `getValue()`, `focus()`, `setTimestamp()`, `toggleExpanded()`
+- **State Management**: Proper localStorage handling with daily cleanup and expanded state persistence
+- **CSS Custom Properties**: Full use of design system tokens for colors, spacing, typography
+
+### 📚 Documentation
+- Comprehensive README with feature list and usage guide
+- New COMPONENT.md with complete API documentation
+- Updated CHANGELOG with version history
+
+### 🧹 Cleanup
+- Removed test-daily-reset.js and test-storage.js (old migration artifacts)
+- Removed migration documentation files
+- Removed index.html backup file
+- Consolidated core test suite to test-functionality.js
+
 ## [Unreleased]
 
 ### Added

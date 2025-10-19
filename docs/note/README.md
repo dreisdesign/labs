@@ -1,56 +1,158 @@
-# DailyNote
+# Daily Note App
 
----
-## 🛠️ Development Workflow & AI Chat Policy
+A simple yet powerful note-taking app that clears at the end of each day. Perfect for daily thoughts, tasks, or reminders.
 
-For development, use the menu-driven workflow for consistency and automation:
+## ✨ Features
 
-```bash
-echo "1" | npm run menu
+### Core Functionality
+- **Single note interface** that resets daily at midnight
+- **Auto-save** with 500ms debounce on text input
+- **Fullscreen expand/collapse** button to maximize note editing space
+- **Last edited timestamp** tracking with persistent state
+- **Undo functionality** for accidentally cleared notes
+- **Note label customization** (persistent across sessions)
+
+### Appearance & Theming
+- **Dark mode support** with system preference detection
+- **Multiple color themes** (Blueberry, Strawberry, Vanilla)
+- **Responsive design** for mobile and desktop
+- **Accessible header** with two-line date formatting (semantic CSS line breaks)
+
+### Technical Features
+- **Progressive Web App (PWA)** with service worker
+- **iOS home screen installation** support
+- **State persistence** across browser sessions
+- **Keyboard accessibility** improvements
+- **Design system integration** with Labs components
+
+## 🚀 Getting Started
+
+Simply open `index.html` in your browser to use the app locally.
+
+### Installation as PWA
+1. Open the app in a supported browser
+2. Tap the "Install" or "Add to Home Screen" option
+3. The app will work offline and appear as a native app
+
+## 📝 Usage
+
+### Basic Note Taking
+1. Start typing directly in the note card to auto-save
+2. The timestamp updates automatically on each save
+3. Your note persists until midnight
+
+### Expand View
+1. Click the expand button (↗️) in the top-right corner
+2. Note card fills the entire screen for distraction-free writing
+3. The expanded state persists on page refresh
+4. Click collapse button (↙️) to return to normal view
+
+### Customization
+- Click the settings icon to:
+  - Toggle dark/light mode
+  - Change color theme (Blueberry, Strawberry, Vanilla)
+  - Reset today's note manually
+
+### Undo
+- If you accidentally clear your note, click "Undo" in the toast notification
+- The cleared note is restored (within the undo window)
+
+## 🏗️ Architecture
+
+### Component Structure
+```
+docs/note/
+├── index.html              # Main app shell
+├── components/
+│   └── note-input-card.js  # Custom web component for note editing
+├── js/
+│   └── main.js             # Application logic and state management
+└── styles/
+    └── [design system tokens]
 ```
 
-See [Development Workflow Instructions](../../.github/instructions/development-workflow.instructions.md) for the latest workflow and AI Chat task continuation policy. All contributors should follow the explicit options and completion logic described there.
+### Key Technologies
+- **Web Components** with Shadow DOM encapsulation
+- **Design System** (Labs components: container, card, button, icon, etc.)
+- **localStorage** for state persistence
+- **Service Worker** for PWA functionality
+- **Vanilla JavaScript** (no frameworks)
 
----
+## 📦 Component API
 
-A simple note-taking app that clears at the end of each day. Perfect for daily thoughts, tasks, or reminders.
+### `<note-input-card>`
 
-## Features
+#### Attributes
+- `expanded` - Set when card is in fullscreen mode
 
-- Single note interface that resets daily
-- Dark mode support with system preference detection
-- Responsive design for mobile and desktop
-- Customizable note label
-- Undo functionality for cleared notes
-- Settings menu with theme toggle and note reset
-- iOS PWA support for home screen installation
-- Keyboard accessibility improvements
+#### Methods
+- `setValue(text)` - Set the textarea value
+- `getValue()` - Get the textarea value
+- `focus()` - Focus the textarea
+- `setTimestamp(date)` - Update the displayed timestamp
+- `toggleExpanded()` - Toggle expanded state
 
-## Getting Started
+#### Events
+- `autosave` - Fired when text auto-saves (debounced 500ms)
+- `reset` - Fired when reset button clicked
+- `expanded-changed` - Fired when expand/collapse toggled with `{ expanded: boolean }` detail
 
-Simply open the `index.html` file in your browser to use the app locally.
+#### CSS Custom Properties
+All styling uses design system tokens (colors, spacing, typography, etc.)
 
-## Usage
+## 🔄 Data Persistence
 
-1. Click "Add Note" or the note card to create/edit your daily note
-2. Click on "Today's Note" label to customize it
-3. The note persists until midnight, after which it clears automatically
-4. Access settings to toggle dark mode or clear your note manually
-5. If you clear your note accidentally, use the Undo button to restore it
+### localStorage Keys
+- `note-YYYY-MM-DD` - Today's note text
+- `note-YYYY-MM-DD-lastEdited` - Last edit timestamp
+- `note-expanded` - Current expanded state (true/false)
+- `note-label` - Custom note label
+- `note-flavor` - Current theme (blueberry, strawberry, vanilla)
+- `note-theme` - Light/dark mode preference
+- `note-reset-enabled` - Whether reset feature is enabled
 
-## Changelog
+### Daily Cleanup
+Old notes from previous days are automatically cleaned up on load to save storage.
 
-See [CHANGELOG.md](CHANGELOG.md) for a detailed history of changes.
+## 🌐 Browser Support
 
-## Browser Support
+- ✅ Chrome (latest)
+- ✅ Firefox (latest)
+- ✅ Safari (latest)
+- ✅ Edge (latest)
+- ✅ iOS Safari (PWA support)
+- ✅ Chrome for Android (PWA support)
 
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-- iOS Safari
-- Chrome for Android
+## 🧪 Testing
 
-## Credits
+Run the functionality test suite:
+```bash
+node test-functionality.js
+```
 
-This app uses styles and components adapted from the Tracker app.
+Tests cover:
+- Data store methods and persistence
+- Event listener setup
+- Component API availability
+- Undo functionality
+- localStorage management
+
+## 📋 Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
+
+### Latest (v5.0.0)
+- ✨ Expand/collapse fullscreen button
+- ✨ State persistence across sessions
+- ✨ Two-line semantic header date
+- ✨ Proper flex layout for vertical fill
+- 🔄 Design system component integration (container, card, button, icon)
+- 📱 Full responsive and PWA support
+
+## 🤝 Contributing
+
+See [../../CONTRIBUTING.md](../../CONTRIBUTING.md) for contribution guidelines.
+
+## 📄 License
+
+This project is part of the Labs repository. See [LICENSE](../../LICENSE) for details.
