@@ -86,6 +86,11 @@
       justify-content: center;
     }
 
+    .date-line-1,
+    .date-line-2 {
+      display: block;
+    }
+
     note-input-card {
       width: 100%;
       max-width: 600px;
@@ -128,7 +133,10 @@
     <div class="note-display-area">
       <!-- Header with current date -->
       <labs-template-header-wrapped class="header">
-        <span slot="title" id="current-date">Today</span>
+        <span slot="title" id="current-date">
+          <span class="date-line-1">Today is Sunday</span>
+          <span class="date-line-2">Oct 19, 2025</span>
+        </span>
       </labs-template-header-wrapped>
 
       <note-input-card id="noteInputCard"></note-input-card>
@@ -164,12 +172,18 @@
       var dateEl = document.getElementById('current-date');
       if (dateEl) {
         var now = new Date();
-        dateEl.textContent = 'Today is ' + now.toLocaleDateString(undefined, {
-          weekday: 'long',
+        var weekday = now.toLocaleDateString(undefined, { weekday: 'long' });
+        var date = now.toLocaleDateString(undefined, {
           month: 'short',
           day: 'numeric',
           year: 'numeric'
         });
+
+        var line1 = dateEl.querySelector('.date-line-1');
+        var line2 = dateEl.querySelector('.date-line-2');
+
+        if (line1) line1.textContent = 'Today is ' + weekday;
+        if (line2) line2.textContent = date;
       }
     });
   </script>
