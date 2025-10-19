@@ -17,29 +17,35 @@ class NoteInputCard extends HTMLElement {
     render() {
         this.shadowRoot.innerHTML = `
       <labs-card>
-        <div slot="header" class="card-header">
-          <span class="timestamp" id="timestamp">—</span>
-          <span class="label">Note</span>
-        </div>
+        <span slot="header">Daily Note</span>
+        <labs-button id="closeBtn" slot="close" variant="icon" aria-label="Delete note">
+          <labs-icon name="delete" slot="icon-left" width="24" height="24"></labs-icon>
+        </labs-button>
         <div slot="input">
           <textarea id="cardInput" placeholder="Write your note here..." autocomplete="off"></textarea>
+        </div>
+        <div slot="actions" class="card-footer">
+          <span class="last-edited-label">Last edited</span>
+          <span class="timestamp" id="timestamp">—</span>
         </div>
       </labs-card>
       <style>
         :host { display: block; max-width: 600px; margin: 0 auto; }
-        .card-header {
+        .card-footer {
           display: flex;
-          justify-content: space-between;
           align-items: center;
-          width: 100%;
+          gap: 8px;
+          font-size: 0.75rem;
+          justify-content: flex-start;
+        }
+        .last-edited-label {
+          font-size: 0.75rem;
+          color: var(--color-on-surface-variant, #666);
+          font-weight: 500;
         }
         .timestamp {
-          font-size: var(--font-size-display, 0.875rem);
+          font-size: 0.75rem;
           color: var(--color-on-surface-variant, #666);
-        }
-        .label {
-          font-size: var(--font-size-display, 1rem);
-          font-weight: var(--font-weight-bold, 700);
         }
         textarea { 
           width:100%; 
@@ -54,6 +60,14 @@ class NoteInputCard extends HTMLElement {
         }
       </style>
     `;
+
+        // Close/Delete button handler
+        const closeBtn = this.shadowRoot.getElementById('closeBtn');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                this.dispatchEvent(new CustomEvent('reset', { bubbles: true, composed: true }));
+            });
+        }
 
         // Auto-save handler on input
         const input = this.shadowRoot.getElementById('cardInput');

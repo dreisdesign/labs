@@ -145,10 +145,11 @@
       var dateEl = document.getElementById('current-date');
       if (dateEl) {
         var now = new Date();
-        dateEl.textContent = now.toLocaleDateString(undefined, {
-          weekday: 'short',
+        dateEl.textContent = 'Today is ' + now.toLocaleDateString(undefined, {
+          weekday: 'long',
           month: 'short',
-          day: 'numeric'
+          day: 'numeric',
+          year: 'numeric'
         });
       }
     });

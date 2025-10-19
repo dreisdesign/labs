@@ -19,6 +19,14 @@ const store = {
   saveNote(text) {
     const today = new Date().toISOString().split('T')[0];
     localStorage.setItem(`note-${today}`, text);
+    // Update last edited time
+    localStorage.setItem(`note-${today}-lastEdited`, new Date().toISOString());
+  },
+
+  getLastEditedTime() {
+    const today = new Date().toISOString().split('T')[0];
+    const timestamp = localStorage.getItem(`note-${today}-lastEdited`);
+    return timestamp ? new Date(timestamp) : null;
   },
 
   isResetEnabled() {
@@ -70,16 +78,18 @@ function updateNoteDisplay() {
     noteInputCard.setValue(currentNote);
   }
 
-  // Update timestamp to current time
+  // Update timestamp to last edited time
   if (noteInputCard && noteInputCard.setTimestamp) {
-    noteInputCard.setTimestamp(new Date());
+    const lastEdited = store.getLastEditedTime();
+    noteInputCard.setTimestamp(lastEdited || new Date());
   }
 }
 
 // Setup event listeners
 function setupEventListeners() {
-  // Input card events - listen for auto-save instead of manual save
+  // Input card events - listen for auto-save and reset
   noteInputCard.addEventListener('autosave', onAutoSave);
+  noteInputCard.addEventListener('reset', clearAllNotes);
 
   // Footer events
   footer.addEventListener('reset-all', clearAllNotes);
