@@ -15,9 +15,8 @@
  * @cssprop --labs-expandable-card-min-width - Min width (default: 280px)
  * @cssprop --labs-expandable-card-padding - Card padding (default: 20px 18px)
  * @cssprop --labs-expandable-card-expanded-padding - Padding when expanded (default: 24px 32px)
- * @cssprop --labs-expandable-card-transition - Transition duration (default: 200ms)
- * @cssprop --color-surface - Card background
- * @cssprop --color-on-background - Header text color
+ * @color-surface - Card background
+ * @color-on-background - Header text color
  */
 class LabsExpandableCard extends HTMLElement {
     constructor() {
@@ -43,7 +42,6 @@ class LabsExpandableCard extends HTMLElement {
           font-family: var(--font-family-base, system-ui, sans-serif);
           position: relative;
           max-width: var(--labs-expandable-card-max-width, 520px);
-          transition: all var(--labs-expandable-card-transition, 200ms) ease-in-out;
         }
 
         /* Expanded state: fullscreen mode */
