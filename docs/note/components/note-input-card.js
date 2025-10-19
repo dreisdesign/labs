@@ -40,6 +40,19 @@ class NoteInputCard extends HTMLElement {
         :host([expanded]) { 
           max-width: none !important;
           width: 100%;
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+        }
+        
+        labs-card {
+          width: 100%;
+        }
+        
+        :host([expanded]) labs-card {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
         }
         
         .card-footer {
@@ -68,6 +81,12 @@ class NoteInputCard extends HTMLElement {
           font-family: inherit; 
           resize: vertical; 
           min-height: 200px;
+        }
+        
+        :host([expanded]) textarea {
+          min-height: auto;
+          flex: 1;
+          resize: none;
         }
       </style>
     `;
