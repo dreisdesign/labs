@@ -37,10 +37,10 @@
   <script type="module" src="../design-system/components/labs-card.js"></script>
   <script type="module" src="../design-system/components/labs-button.js"></script>
   <script type="module" src="../design-system/components/labs-icon.js"></script>
-  <script type="module" src="../design-system/components/labs-checkbox.js"></script>
-  <script type="module" src="../design-system/components/labs-overlay.js"></script>
-  <script type="module" src="../design-system/components/labs-input-card.js"></script>
   <script type="module" src="../design-system/components/labs-toast.js"></script>
+
+  <!-- Note App Components -->
+  <script type="module" src="./components/note-input-card.js"></script>
 
   <!-- Note App Logic -->
   <script type="module" src="./js/main.js"></script>
@@ -71,7 +71,7 @@
       padding: var(--space-md);
     }
 
-    labs-input-card {
+    note-input-card {
       width: 100%;
       max-width: 600px;
       margin: 0 auto;
@@ -97,7 +97,7 @@
 
     <!-- Note display area -->
     <div class="note-display-area">
-      <labs-input-card id="noteInputCard" slot="content"></labs-input-card>
+      <note-input-card id="noteInputCard"></note-input-card>
     </div>
 
     <!-- Toast for Undo -->

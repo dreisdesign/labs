@@ -65,10 +65,9 @@ function loadNote() {
 
 // Update note display
 function updateNoteDisplay() {
-  // Update input card textarea with current note
-  const textarea = noteInputCard.shadowRoot?.querySelector('textarea');
-  if (textarea) {
-    textarea.value = currentNote;
+  // Update input card with current note using component method
+  if (noteInputCard && noteInputCard.setValue) {
+    noteInputCard.setValue(currentNote);
   }
 }
 
@@ -76,12 +75,12 @@ function updateNoteDisplay() {
 function setupEventListeners() {
   // Input card events
   noteInputCard.addEventListener('save', onNoteSave);
-  noteInputCard.addEventListener('close', onNoteClose);
 
   // Footer events
   footer.addEventListener('add', () => {
-    const textarea = noteInputCard.shadowRoot?.querySelector('textarea');
-    if (textarea) textarea.focus();
+    if (noteInputCard && noteInputCard.focus) {
+      noteInputCard.focus();
+    }
   });
   footer.addEventListener('reset-all', clearAllNotes);
   footer.addEventListener('flavor-changed', (e) => {
@@ -95,32 +94,29 @@ function setupEventListeners() {
 // Handle note save from input card
 function onNoteSave(e) {
   const newText = e.detail?.value || '';
+  const trimmedText = newText.trim();
 
-  if (newText !== currentNote) {
-    if (newText.trim() === '' && currentNote !== '') {
-      // User cleared the note
-      lastClearedNote = currentNote;
-      currentNote = '';
-      store.saveNote('');
-      updateNoteDisplay();
-      showUndoToast('Note cleared');
-    } else if (newText.trim()) {
-      // User entered new text
-      currentNote = newText.trim();
-      store.saveNote(currentNote);
-      updateNoteDisplay();
-    } else {
-      // User tried to save empty text - just update display
-      updateNoteDisplay();
-    }
+  console.log('onNoteSave called with:', { newText, trimmedText, currentNote });
+
+  if (!trimmedText) {
+    // User tried to save empty text - don't save, just reload
+    console.log('Empty text - not saving');
+    updateNoteDisplay(); // Reload current note
+    return;
   }
+
+  // Always save non-empty text that the user submitted
+  // (They explicitly clicked save, so we should respect that)
+  console.log('Saving new text:', trimmedText);
+  currentNote = trimmedText;
+  store.saveNote(currentNote);
+
+  // Show visual feedback that note was saved
+  undoToast.show('Note saved', { duration: 2000 });
+  updateNoteDisplay();
 }
 
-// Handle note close/cancel from input card
-function onNoteClose(e) {
-  // Reload the note in case user cancelled
-  loadNote();
-} function clearAllNotes() {
+function clearAllNotes() {
   lastClearedNote = currentNote;
   currentNote = '';
   store.saveNote('');
