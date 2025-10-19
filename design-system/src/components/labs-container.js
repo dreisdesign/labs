@@ -23,6 +23,9 @@ template.innerHTML = `
     }
     :host([fill]) {
       max-width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
     @media (max-width: var(--container-mobile-breakpoint, 640px)) {
       :host,
