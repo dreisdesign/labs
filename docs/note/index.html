@@ -32,7 +32,7 @@
 
   <!-- Components -->
   <script type="module" src="../design-system/components/labs-container.js"></script>
-  <script type="module" src="../design-system/components/labs-footer-with-settings.js"></script>
+  <script type="module" src="../design-system/components/labs-footer.js"></script>
   <script type="module" src="../design-system/components/labs-template-header.wrapped.js"></script>
   <script type="module" src="../design-system/components/labs-card.js"></script>
   <script type="module" src="../design-system/components/labs-button.js"></script>
@@ -88,19 +88,6 @@
       --toast-bottom: 120px;
     }
   </style>
-
-  <script>
-    // Hide the add button from the footer once it's loaded
-    document.addEventListener('DOMContentLoaded', function () {
-      const footer = document.getElementById('footer');
-      if (footer && footer.shadowRoot) {
-        const addBtn = footer.shadowRoot.getElementById('add-btn');
-        if (addBtn) {
-          addBtn.style.display = 'none';
-        }
-      }
-    });
-  </script>
 </head>
 
 <body>
@@ -119,9 +106,28 @@
     <labs-toast id="undoToast"></labs-toast>
   </labs-container>
 
-  <!-- Footer with Settings -->
-  <labs-footer-with-settings id="footer">
-  </labs-footer-with-settings>
+  <!-- Footer with Icon Buttons -->
+  <labs-footer id="footer">
+    <!-- Left: Reset button -->
+    <labs-button slot="left" id="resetBtn" size="large" variant="icon" aria-label="Clear all notes">
+      <labs-icon slot="icon-left" name="delete"></labs-icon>
+    </labs-button>
+
+    <!-- Center: Theme and Flavor buttons -->
+    <div slot="center" style="display: flex; gap: 8px;">
+      <labs-button id="themeBtn" size="large" variant="icon" aria-label="Toggle theme">
+        <labs-icon slot="icon-left" name="bedtime"></labs-icon>
+      </labs-button>
+      <labs-button id="flavorBtn" size="large" variant="icon" aria-label="Change color theme">
+        <labs-icon slot="icon-left" name="colors"></labs-icon>
+      </labs-button>
+    </div>
+
+    <!-- Right: All Apps button -->
+    <labs-button slot="right" id="allAppsBtn" size="large" variant="icon" aria-label="View all apps">
+      <labs-icon slot="icon-left" name="apps"></labs-icon>
+    </labs-button>
+  </labs-footer>
 
   <!-- Service Worker Registration -->
   <script>

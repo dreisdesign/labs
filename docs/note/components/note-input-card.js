@@ -1,6 +1,6 @@
 /**
  * Note Input Card - Customized for Note app
- * Based on labs-input-card but without close button
+ * Based on labs-card with close button to clear note
  */
 
 import '../../design-system/components/labs-card.js';
@@ -18,6 +18,9 @@ class NoteInputCard extends HTMLElement {
         this.shadowRoot.innerHTML = `
       <labs-card>
         <span slot="header">Daily Note</span>
+        <labs-button slot="close" id="closeBtn" variant="icon" aria-label="Clear note">
+          <labs-icon slot="icon-left" name="close"></labs-icon>
+        </labs-button>
         <div slot="input">
           <textarea id="cardInput" placeholder="Write your note here..." autocomplete="off"></textarea>
         </div>
@@ -37,6 +40,15 @@ class NoteInputCard extends HTMLElement {
         }
       </style>
     `;
+
+        // Close button handler
+        const closeBtn = this.shadowRoot.getElementById('closeBtn');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                console.log('NoteInputCard: Close button clicked');
+                this.dispatchEvent(new CustomEvent('clear', { bubbles: true, composed: true }));
+            });
+        }
 
         // Auto-save handler on input
         const input = this.shadowRoot.getElementById('cardInput');

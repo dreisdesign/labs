@@ -73,14 +73,20 @@ function updateNoteDisplay() {
 
 // Setup event listeners
 function setupEventListeners() {
-  // Input card events - listen for auto-save instead of manual save
+  // Input card events - listen for auto-save and clear
   noteInputCard.addEventListener('autosave', onAutoSave);
+  noteInputCard.addEventListener('clear', clearAllNotes);
 
-  // Footer events
-  footer.addEventListener('reset-all', clearAllNotes);
-  footer.addEventListener('flavor-changed', (e) => {
-    // Flavor change handled by footer component
-  });
+  // Footer button events
+  const resetBtn = document.getElementById('resetBtn');
+  const themeBtn = document.getElementById('themeBtn');
+  const flavorBtn = document.getElementById('flavorBtn');
+  const allAppsBtn = document.getElementById('allAppsBtn');
+
+  if (resetBtn) resetBtn.addEventListener('click', clearAllNotes);
+  if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
+  if (flavorBtn) flavorBtn.addEventListener('click', toggleFlavor);
+  if (allAppsBtn) allAppsBtn.addEventListener('click', goToAllApps);
 
   // Toast undo action
   undoToast.addEventListener('action', undoClear);
@@ -128,4 +134,32 @@ function undoClear() {
 // Toast notification
 function showUndoToast(message) {
   undoToast.show(message, { actionText: 'Undo', duration: 5000 });
+}
+
+// Toggle between light and dark theme
+function toggleTheme() {
+  const currentTheme = localStorage.getItem('note-theme') || 'light';
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  localStorage.setItem('note-theme', newTheme);
+  document.documentElement.setAttribute('data-color-scheme', newTheme);
+  document.documentElement.classList.remove('theme-light', 'theme-dark');
+  document.documentElement.classList.add('theme-' + newTheme);
+  console.log('Theme toggled to:', newTheme);
+}
+
+// Cycle through flavor options
+function toggleFlavor() {
+  const flavors = ['blueberry', 'strawberry', 'vanilla'];
+  const currentFlavor = localStorage.getItem('note-flavor') || 'blueberry';
+  const currentIndex = flavors.indexOf(currentFlavor);
+  const nextFlavor = flavors[(currentIndex + 1) % flavors.length];
+  localStorage.setItem('note-flavor', nextFlavor);
+  document.documentElement.classList.remove('flavor-blueberry', 'flavor-strawberry', 'flavor-vanilla');
+  document.documentElement.classList.add('flavor-' + nextFlavor);
+  console.log('Flavor changed to:', nextFlavor);
+}
+
+// Navigate to all apps page
+function goToAllApps() {
+  window.location.href = '../index.html';
 }
