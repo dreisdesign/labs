@@ -35,6 +35,14 @@ const store = {
 
   setResetEnabled(enabled) {
     localStorage.setItem('note-reset-enabled', enabled ? 'true' : 'false');
+  },
+
+  isExpanded() {
+    return localStorage.getItem('note-expanded') === 'true';
+  },
+
+  setExpanded(expanded) {
+    localStorage.setItem('note-expanded', expanded ? 'true' : 'false');
   }
 };
 
@@ -59,7 +67,7 @@ function cleanupOldNotes() {
   const today = new Date().toISOString().split('T')[0];
   const keys = Object.keys(localStorage);
   keys.forEach(key => {
-    if (key.startsWith('note-') && key !== `note-${today}` && key !== 'note-label' && key !== 'note-flavor' && key !== 'note-theme' && key !== 'note-reset-enabled') {
+    if (key.startsWith('note-') && key !== `note-${today}` && key !== 'note-label' && key !== 'note-flavor' && key !== 'note-theme' && key !== 'note-reset-enabled' && key !== 'note-expanded') {
       localStorage.removeItem(key);
     }
   });
@@ -69,6 +77,7 @@ function cleanupOldNotes() {
 function loadNote() {
   currentNote = store.getNote();
   updateNoteDisplay();
+  restoreExpandedState();
 }
 
 // Update note display
@@ -150,9 +159,26 @@ function onExpandedChanged(e) {
     if (e.detail.expanded) {
       displayArea.classList.add('expanded');
       container.setAttribute('fill', '');
+      store.setExpanded(true);
     } else {
       displayArea.classList.remove('expanded');
       container.removeAttribute('fill');
+      store.setExpanded(false);
+    }
+  }
+}
+
+// Restore expanded state from localStorage
+function restoreExpandedState() {
+  if (store.isExpanded() && noteInputCard) {
+    // Set the component to expanded state
+    noteInputCard.setAttribute('expanded', '');
+    // Trigger the expanded change in the layout
+    const displayArea = document.querySelector('.note-display-area');
+    const container = document.querySelector('labs-container');
+    if (displayArea && container) {
+      displayArea.classList.add('expanded');
+      container.setAttribute('fill', '');
     }
   }
 }
