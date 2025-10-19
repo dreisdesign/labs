@@ -90,6 +90,7 @@ function setupEventListeners() {
   // Input card events - listen for auto-save and reset
   noteInputCard.addEventListener('autosave', onAutoSave);
   noteInputCard.addEventListener('reset', clearAllNotes);
+  noteInputCard.addEventListener('expanded-changed', onExpandedChanged);
 
   // Footer events
   footer.addEventListener('reset-all', clearAllNotes);
@@ -138,6 +139,22 @@ function undoClear() {
   currentNote = lastClearedNote;
   store.saveNote(currentNote);
   updateNoteDisplay();
+}
+
+// Handle expand/collapse toggle
+function onExpandedChanged(e) {
+  const displayArea = document.querySelector('.note-display-area');
+  const container = document.querySelector('labs-container');
+
+  if (displayArea && container) {
+    if (e.detail.expanded) {
+      displayArea.classList.add('expanded');
+      container.setAttribute('fill', '');
+    } else {
+      displayArea.classList.remove('expanded');
+      container.removeAttribute('fill');
+    }
+  }
 }
 
 // Toast notification

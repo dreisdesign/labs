@@ -11,6 +11,7 @@ class NoteInputCard extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
+        this.isExpanded = false;
         this.render();
     }
 
@@ -18,8 +19,8 @@ class NoteInputCard extends HTMLElement {
         this.shadowRoot.innerHTML = `
       <labs-card>
         <span slot="header">Daily Note</span>
-        <labs-button id="closeBtn" slot="close" variant="icon" aria-label="Delete note">
-          <labs-icon name="delete" slot="icon-left" width="24" height="24"></labs-icon>
+        <labs-button id="expandBtn" slot="close" variant="icon" aria-label="Expand note">
+          <labs-icon name="expand_content" slot="icon-left" width="24" height="24"></labs-icon>
         </labs-button>
         <div slot="input">
           <textarea id="cardInput" placeholder="Write your note here..." autocomplete="off"></textarea>
@@ -30,21 +31,31 @@ class NoteInputCard extends HTMLElement {
         </div>
       </labs-card>
       <style>
-        :host { display: block; max-width: 600px; margin: 0 auto; }
+        :host { 
+          display: block; 
+          max-width: 600px; 
+          margin: 0 auto;
+        }
+        
+        :host([expanded]) { 
+          max-width: none !important;
+          width: 100%;
+        }
+        
         .card-footer {
           display: flex;
           align-items: center;
           gap: 8px;
-          font-size: 0.75rem;
+          font-size: var(--font-size-base-text, 0.875rem);
           justify-content: flex-start;
         }
         .last-edited-label {
-          font-size: 0.75rem;
+          font-size: var(--font-size-base-text, 0.875rem);
           color: var(--color-on-surface-variant, #666);
           font-weight: 500;
         }
         .timestamp {
-          font-size: 0.75rem;
+          font-size: var(--font-size-base-text, 0.875rem);
           color: var(--color-on-surface-variant, #666);
         }
         textarea { 
@@ -61,11 +72,11 @@ class NoteInputCard extends HTMLElement {
       </style>
     `;
 
-        // Close/Delete button handler
-        const closeBtn = this.shadowRoot.getElementById('closeBtn');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => {
-                this.dispatchEvent(new CustomEvent('reset', { bubbles: true, composed: true }));
+        // Expand/Collapse button handler
+        const expandBtn = this.shadowRoot.getElementById('expandBtn');
+        if (expandBtn) {
+            expandBtn.addEventListener('click', () => {
+                this.toggleExpanded();
             });
         }
 
@@ -118,6 +129,27 @@ class NoteInputCard extends HTMLElement {
                 hour12: true
             });
         }
+    }
+
+    // Toggle expanded state
+    toggleExpanded() {
+        this.isExpanded = !this.isExpanded;
+        const expandBtn = this.shadowRoot.getElementById('expandBtn');
+        const icon = expandBtn?.querySelector('labs-icon');
+
+        if (this.isExpanded) {
+            this.setAttribute('expanded', '');
+            if (icon) icon.setAttribute('name', 'collapse_content');
+        } else {
+            this.removeAttribute('expanded');
+            if (icon) icon.setAttribute('name', 'expand_content');
+        }
+
+        this.dispatchEvent(new CustomEvent('expanded-changed', {
+            detail: { expanded: this.isExpanded },
+            bubbles: true,
+            composed: true
+        }));
     }
 }
 
