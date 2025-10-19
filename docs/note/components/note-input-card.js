@@ -53,6 +53,16 @@ class NoteInputCard extends HTMLElement {
           display: flex;
           flex-direction: column;
           height: 100%;
+          flex: 1;
+          flex-grow: 1;
+        }
+        
+        /* Make the input slot flex and grow */
+        ::slotted([slot="input"]) {
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+          flex-grow: 1;
         }
         
         .card-footer {
@@ -86,6 +96,7 @@ class NoteInputCard extends HTMLElement {
         :host([expanded]) textarea {
           min-height: auto;
           flex: 1;
+          flex-grow: 1;
           resize: none;
         }
       </style>
