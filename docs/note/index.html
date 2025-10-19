@@ -107,25 +107,20 @@
   </labs-container>
 
   <!-- Footer with Icon Buttons -->
-  <labs-footer id="footer">
-    <!-- Left: Reset button -->
-    <labs-button slot="left" id="resetBtn" size="large" variant="icon" aria-label="Clear all notes">
-      <labs-icon slot="icon-left" name="delete"></labs-icon>
-    </labs-button>
-
+  <labs-footer id="footer" elevated>
     <!-- Center: Theme and Flavor buttons -->
     <div slot="center" style="display: flex; gap: 8px;">
       <labs-button id="themeBtn" size="large" variant="icon" aria-label="Toggle theme">
-        <labs-icon slot="icon-left" name="bedtime"></labs-icon>
+        <labs-icon slot="icon-left" name="bedtime" width="28" height="28"></labs-icon>
       </labs-button>
       <labs-button id="flavorBtn" size="large" variant="icon" aria-label="Change color theme">
-        <labs-icon slot="icon-left" name="colors"></labs-icon>
+        <labs-icon slot="icon-left" name="colors" width="28" height="28"></labs-icon>
       </labs-button>
     </div>
 
     <!-- Right: All Apps button -->
     <labs-button slot="right" id="allAppsBtn" size="large" variant="icon" aria-label="View all apps">
-      <labs-icon slot="icon-left" name="apps"></labs-icon>
+      <labs-icon slot="icon-left" name="apps" width="28" height="28"></labs-icon>
     </labs-button>
   </labs-footer>
 

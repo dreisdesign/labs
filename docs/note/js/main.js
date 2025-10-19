@@ -78,12 +78,10 @@ function setupEventListeners() {
   noteInputCard.addEventListener('clear', clearAllNotes);
 
   // Footer button events
-  const resetBtn = document.getElementById('resetBtn');
   const themeBtn = document.getElementById('themeBtn');
   const flavorBtn = document.getElementById('flavorBtn');
   const allAppsBtn = document.getElementById('allAppsBtn');
 
-  if (resetBtn) resetBtn.addEventListener('click', clearAllNotes);
   if (themeBtn) themeBtn.addEventListener('click', toggleTheme);
   if (flavorBtn) flavorBtn.addEventListener('click', toggleFlavor);
   if (allAppsBtn) allAppsBtn.addEventListener('click', goToAllApps);
