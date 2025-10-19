@@ -21,6 +21,9 @@ class NoteInputCard extends HTMLElement {
         <div slot="input">
           <textarea id="cardInput" placeholder="Write your note here..." autocomplete="off"></textarea>
         </div>
+        <div slot="actions" style="display:flex;gap:10px;justify-content:flex-end;">
+          <labs-button id="saveBtn" variant="primary">Save</labs-button>
+        </div>
       </labs-card>
       <style>
         :host { display: block; max-width: 600px; margin: 0 auto; }
@@ -35,22 +38,25 @@ class NoteInputCard extends HTMLElement {
           resize: vertical; 
           min-height: 200px;
         }
+        labs-button { min-width: 92px; }
       </style>
     `;
 
-        // Auto-save handler on input
+        // Save handler
+        const save = this.shadowRoot.getElementById('saveBtn');
         const input = this.shadowRoot.getElementById('cardInput');
-        if (input) {
-            let saveTimeout;
-            input.addEventListener('input', () => {
-                // Clear any pending save
-                clearTimeout(saveTimeout);
-                // Debounce save - wait 500ms after user stops typing
-                saveTimeout = setTimeout(() => {
-                    const value = input.value.trim();
-                    console.log('NoteInputCard: Auto-saving:', value);
-                    this.dispatchEvent(new CustomEvent('autosave', { detail: { value }, bubbles: true, composed: true }));
-                }, 500);
+        if (save && input) {
+            const doSave = () => {
+                const value = input.value.trim();
+                console.log('NoteInputCard: Emitting save event with value:', value);
+                this.dispatchEvent(new CustomEvent('save', { detail: { value }, bubbles: true, composed: true }));
+            };
+            save.addEventListener('click', () => doSave());
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                    e.preventDefault();
+                    doSave();
+                }
             });
         }
     }

@@ -73,10 +73,15 @@ function updateNoteDisplay() {
 
 // Setup event listeners
 function setupEventListeners() {
-  // Input card events - listen for auto-save instead of manual save
-  noteInputCard.addEventListener('autosave', onAutoSave);
+  // Input card events
+  noteInputCard.addEventListener('save', onNoteSave);
 
   // Footer events
+  footer.addEventListener('add', () => {
+    if (noteInputCard && noteInputCard.focus) {
+      noteInputCard.focus();
+    }
+  });
   footer.addEventListener('reset-all', clearAllNotes);
   footer.addEventListener('flavor-changed', (e) => {
     // Flavor change handled by footer component
@@ -86,29 +91,29 @@ function setupEventListeners() {
   undoToast.addEventListener('action', undoClear);
 }
 
-// Handle auto-save from input card (triggered on input with debounce)
-function onAutoSave(e) {
+// Handle note save from input card
+function onNoteSave(e) {
   const newText = e.detail?.value || '';
   const trimmedText = newText.trim();
 
-  console.log('onAutoSave called with:', { newText, trimmedText, currentNote });
+  console.log('onNoteSave called with:', { newText, trimmedText, currentNote });
 
   if (!trimmedText) {
-    // Empty text - clear the note
-    if (currentNote !== '') {
-      console.log('Clearing note (empty text)');
-      currentNote = '';
-      store.saveNote(currentNote);
-    }
+    // User tried to save empty text - don't save, just reload
+    console.log('Empty text - not saving');
+    updateNoteDisplay(); // Reload current note
     return;
   }
 
-  // Only save if text changed
-  if (trimmedText !== currentNote) {
-    console.log('Saving auto-save text:', trimmedText);
-    currentNote = trimmedText;
-    store.saveNote(currentNote);
-  }
+  // Always save non-empty text that the user submitted
+  // (They explicitly clicked save, so we should respect that)
+  console.log('Saving new text:', trimmedText);
+  currentNote = trimmedText;
+  store.saveNote(currentNote);
+
+  // Show visual feedback that note was saved
+  undoToast.show('Note saved', { duration: 2000 });
+  updateNoteDisplay();
 }
 
 function clearAllNotes() {
