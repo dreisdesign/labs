@@ -104,7 +104,34 @@ function setupEventListeners() {
   // Footer events
   footer.addEventListener('reset-all', clearAllNotes);
   footer.addEventListener('flavor-changed', (e) => {
-    // Flavor change handled by footer component
+    // Save flavor to localStorage when settings card flavor changes
+    const flavor = e.detail?.flavor;
+    if (flavor) {
+      localStorage.setItem('note-flavor', flavor);
+    }
+    // Also save current theme
+    const isDark = document.documentElement.classList.contains('theme-dark');
+    localStorage.setItem('note-theme', isDark ? 'dark' : 'light');
+  });
+
+  // Watch for theme changes and persist to localStorage
+  const observer = new MutationObserver(() => {
+    const isDark = document.documentElement.classList.contains('theme-dark');
+    const isLight = document.documentElement.classList.contains('theme-light');
+    if (isDark || isLight) {
+      localStorage.setItem('note-theme', isDark ? 'dark' : 'light');
+    }
+    // Also watch for flavor changes
+    const flavorClass = Array.from(document.documentElement.classList).find(c => c.startsWith('flavor-'));
+    if (flavorClass) {
+      const flavor = flavorClass.replace('flavor-', '');
+      localStorage.setItem('note-flavor', flavor);
+    }
+  });
+
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['class']
   });
 
   // Toast undo action

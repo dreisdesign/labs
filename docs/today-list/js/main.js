@@ -440,6 +440,37 @@ window.addEventListener('DOMContentLoaded', () => {
                 _isResetting = false;
             }, 100);
         });
+
+        // Save flavor to localStorage when settings card flavor changes
+        footer.addEventListener('flavor-changed', (e) => {
+            const flavor = e.detail?.flavor;
+            if (flavor) {
+                localStorage.setItem('today-list-flavor', flavor);
+            }
+            // Also save current theme
+            const isDark = document.documentElement.classList.contains('theme-dark');
+            localStorage.setItem('today-list-theme', isDark ? 'dark' : 'light');
+        });
+
+        // Watch for theme changes and persist to localStorage
+        const observer = new MutationObserver(() => {
+            const isDark = document.documentElement.classList.contains('theme-dark');
+            const isLight = document.documentElement.classList.contains('theme-light');
+            if (isDark || isLight) {
+                localStorage.setItem('today-list-theme', isDark ? 'dark' : 'light');
+            }
+            // Also watch for flavor changes
+            const flavorClass = Array.from(document.documentElement.classList).find(c => c.startsWith('flavor-'));
+            if (flavorClass) {
+                const flavor = flavorClass.replace('flavor-', '');
+                localStorage.setItem('today-list-flavor', flavor);
+            }
+        });
+
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
     }
 
     // Wire up input overlay
