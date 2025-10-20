@@ -82,6 +82,9 @@ class PadDrawing {
 
         // Reconfigure context after resize
         this.updateDrawingStyle();
+
+        // Redraw all strokes to prevent clearing on resize
+        this.redrawAllStrokes();
     }
 
     setupEventListeners() {
