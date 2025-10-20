@@ -5,6 +5,14 @@
 
 ## Outstanding Tasks
 
+- [ ] **Flavor & Theme Persistence (Root Cause Fix)**
+  - [ ] **labs-flavor-button hardcodes 'tracker-' keys**: The component saves to `localStorage.setItem('tracker-flavor')` and `localStorage.setItem('tracker-theme')` regardless of which app is using it. This broke theme/flavor persistence in Pad, Note, and Today List apps.
+    - **Workaround applied**: Each app now listens to `flavor-changed` events and saves to app-specific keys (e.g., `pad-flavor`, `note-flavor`, `today-list-flavor`)
+    - **Proper fix**: Make labs-flavor-button and labs-settings-card configurable to accept an app identifier (e.g., `app="pad"`) so they save to the correct keys automatically
+    - **Files affected**: 
+      - `design-system/src/components/labs-flavor-button.js` (lines 85-90)
+      - `design-system/src/components/labs-settings-card.js` (lines 232-235)
+
 - [ ] **Storybook Wrapped Stories**
   - [ ] Encapsulate and add (wrapped) component stories for the following components (real-world usage in '3. Components (Wrapped)'):
     - labs-badge
