@@ -44,8 +44,11 @@ class PadDrawing {
         // Configure drawing context
         this.updateDrawingStyle();
 
-        // Listen for theme changes to update drawing color
-        document.addEventListener('themeChanged', () => this.updateDrawingStyle());
+        // Listen for theme changes to update drawing color and redraw
+        document.addEventListener('themeChanged', () => {
+            this.updateDrawingStyle();
+            this.redrawAllStrokes();
+        });
     }
 
     updateDrawingStyle() {
@@ -362,6 +365,8 @@ export function initializeApp() {
         const isLight = document.documentElement.classList.contains('theme-light');
         if (isDark || isLight) {
             localStorage.setItem('pad-theme', isDark ? 'dark' : 'light');
+            // Redraw canvas when theme changes to update colors
+            pad.redrawAllStrokes();
         }
         // Also watch for flavor changes
         const flavorClass = Array.from(document.documentElement.classList).find(c => c.startsWith('flavor-'));
