@@ -1,6 +1,16 @@
 ### Fixed
 - [design-system] Robust icon path logic in labs-icon.js: now supports static Storybook output (./icons/), dev server (/icons/), local dev (/design-system/icons/), and GitHub Pages (/labs/design-system/icons/). Fixes icon 404s in static builds.
 
+# [Unreleased] - 2025-10-20
+
+### 🐛 Bug Fixes
+- **Theme & Flavor Persistence (All Apps):** Fixed issue where theme and flavor selection would not persist after page refresh in Pad, Note, and Today List apps. Root cause: `labs-flavor-button` and `labs-settings-card` components hardcoded `tracker-flavor` and `tracker-theme` localStorage keys, while other apps loaded from app-specific keys (e.g., `pad-flavor`, `note-flavor`). **Workaround:** Each affected app now listens to `flavor-changed` events and uses `MutationObserver` to watch for theme/flavor class changes, ensuring proper persistence to app-specific keys. **Design System Issue:** Documented in TODO.md for proper fix (making components configurable with app identifier parameter).
+- **Pad App Drawing Logic:** Completed PadDrawing class with touch/pointer event handling, pressure sensitivity (Apple Pencil support), high-DPI canvas scaling, and localStorage persistence.
+- **Pad App UI:** Canvas outline styling using design tokens, footer Clear All button with electric_bolt icon and destructive variant, confirmation dialog for destructive action.
+
+### 🎨 New Features
+- **Pad App (v2 Migration):** Completely redesigned Pad app from monolithic v1 to modular v2 using design system components (Header, Footer, Container, Button, Icon). Full drawing functionality with pressure-sensitive line width (2px-8px), quadratic curve smoothing, theme-aware color, and localStorage persistence.
+
 
 # v2.4.8 – 2025-10-13
 
