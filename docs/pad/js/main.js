@@ -77,9 +77,8 @@ class PadDrawing {
         // Scale the drawing context to match device pixel ratio
         this.ctx.scale(dpr, dpr);
 
-        // Set display size (CSS pixels)
-        this.canvas.style.width = rect.width + 'px';
-        this.canvas.style.height = rect.height + 'px';
+        // Don't set display size via style - let CSS handle it with width/height: 100%
+        // This allows the canvas to be responsive and fill its container properly
 
         // Reconfigure context after resize
         this.updateDrawingStyle();
