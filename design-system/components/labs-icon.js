@@ -45,6 +45,7 @@ const icons = {
   "delete": ICON_BASE + 'delete--labs-icons.svg',
   "delete_forever": ICON_BASE + 'delete_forever--labs-icons.svg',
   "edit": ICON_BASE + 'edit--labs-icons.svg',
+  "electric_bolt": ICON_BASE + 'electric_bolt--labs-icons.svg',
   "expand_content": ICON_BASE + 'expand_content--labs-icons.svg',
   "forward_circle": ICON_BASE + 'forward_circle--labs-icons.svg',
   "genres": ICON_BASE + 'genres--labs-icons.svg',

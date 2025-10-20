@@ -23,6 +23,7 @@ export default [
     "delete",
     "delete_forever",
     "edit",
+    "electric_bolt",
     "expand_content",
     "forward_circle",
     "genres",
