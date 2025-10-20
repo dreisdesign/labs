@@ -143,7 +143,7 @@
             addBtn.appendChild(text);
 
             // Update button styling if needed
-            addBtn.setAttribute('variant', 'destructive');
+            addBtn.setAttribute('variant', 'secondary');
 
             // Listen for the click and show confirmation
             addBtn.addEventListener('click', (e) => {
@@ -156,6 +156,12 @@
             });
           }
         }, 100);
+
+        // Hide the reset all data button from settings overlay since it's now in the footer
+        const settingsCard = footer.shadowRoot.querySelector('labs-settings-card');
+        if (settingsCard) {
+          settingsCard.setAttribute('hide-reset', '');
+        }
       }
     });
   </script>

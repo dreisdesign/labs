@@ -17,6 +17,18 @@ class PadDrawing {
         this.currentStroke = [];
         this.strokes = [];
 
+        // Pan/zoom state
+        this.panX = 0;
+        this.panY = 0;
+        this.zoom = 1;
+        this.minZoom = 0.5;
+        this.maxZoom = 3;
+        this.isPanning = false;
+        this.panStartX = 0;
+        this.panStartY = 0;
+        this.panStartPanX = 0;
+        this.panStartPanY = 0;
+
         this.setupCanvas();
         this.setupEventListeners();
 
@@ -47,6 +59,14 @@ class PadDrawing {
     redrawAllStrokes() {
         // Clear canvas
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Save context state before applying transforms
+        this.ctx.save();
+
+        // Apply pan and zoom transforms
+        this.ctx.translate(this.panX, this.panY);
+        this.ctx.scale(this.zoom, this.zoom);
+
         // Redraw all strokes with current color
         const color = getComputedStyle(document.documentElement)
             .getPropertyValue('--color-on-background').trim() || '#1B1C1F';
@@ -64,6 +84,9 @@ class PadDrawing {
             }
             this.ctx.stroke();
         }
+
+        // Restore context state
+        this.ctx.restore();
     }
 
     resizeCanvas() {
@@ -98,6 +121,9 @@ class PadDrawing {
         this.canvas.addEventListener('pointermove', (e) => this.handlePointerMove(e));
         this.canvas.addEventListener('pointerup', (e) => this.handlePointerUp(e));
 
+        // Wheel event for zooming
+        this.canvas.addEventListener('wheel', (e) => this.handleWheel(e));
+
         // Prevent default behaviors
         this.canvas.addEventListener('touchstart', (e) => e.preventDefault());
         this.canvas.addEventListener('touchmove', (e) => e.preventDefault());
@@ -125,9 +151,17 @@ class PadDrawing {
             touchType = e.pointerType || 'touch';
         }
 
+        // Convert screen coordinates to canvas coordinates accounting for pan/zoom
+        let x = clientX - rect.left;
+        let y = clientY - rect.top;
+
+        // Reverse the pan and zoom transforms to get original canvas coordinates
+        x = (x - this.panX) / this.zoom;
+        y = (y - this.panY) / this.zoom;
+
         return {
-            x: clientX - rect.left,
-            y: clientY - rect.top,
+            x: x,
+            y: y,
             force: force,
             touchType: touchType
         };
@@ -193,6 +227,76 @@ class PadDrawing {
         this.strokes = [];
     }
 
+    handleWheel(e) {
+        // Zoom with Ctrl/Cmd + scroll
+        if (e.ctrlKey || e.metaKey) {
+            e.preventDefault();
+            const zoomSpeed = 0.1;
+            const oldZoom = this.zoom;
+            this.zoom -= e.deltaY * zoomSpeed / 100;
+            this.zoom = Math.max(this.minZoom, Math.min(this.maxZoom, this.zoom));
+
+            // Zoom towards mouse position
+            const rect = this.canvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+
+            // Adjust pan to zoom towards mouse
+            this.panX -= mouseX * (this.zoom - oldZoom) / oldZoom;
+            this.panY -= mouseY * (this.zoom - oldZoom) / oldZoom;
+
+            this.redrawAllStrokes();
+        }
+        // Pan with middle mouse button (or Space + drag, handled in pointer events)
+    }
+
+    handlePointerDown(e) {
+        // Middle mouse button for panning
+        if (e.button === 1) {
+            e.preventDefault();
+            this.isPanning = true;
+            this.panStartX = e.clientX;
+            this.panStartY = e.clientY;
+            this.panStartPanX = this.panX;
+            this.panStartPanY = this.panY;
+            return;
+        }
+
+        // Only handle drawing if no touch events are active
+        if (e.pointerType !== 'touch' || !('ontouchstart' in window)) {
+            const point = this.getPointFromEvent(e);
+            this.startDrawing(point);
+        }
+    }
+
+    handlePointerMove(e) {
+        // Handle panning
+        if (this.isPanning) {
+            const dx = e.clientX - this.panStartX;
+            const dy = e.clientY - this.panStartY;
+            this.panX = this.panStartPanX + dx;
+            this.panY = this.panStartPanY + dy;
+            this.redrawAllStrokes();
+            return;
+        }
+
+        if (e.pointerType !== 'touch' || !('ontouchstart' in window)) {
+            const point = this.getPointFromEvent(e);
+            this.continueDrawing(point);
+        }
+    }
+
+    handlePointerUp(e) {
+        if (e.button === 1) {
+            this.isPanning = false;
+            return;
+        }
+
+        if (e.pointerType !== 'touch' || !('ontouchstart' in window)) {
+            this.endDrawing();
+        }
+    }
+
     // Touch event handlers
     handleTouchStart(e) {
         const point = this.getPointFromEvent(e);
@@ -206,28 +310,6 @@ class PadDrawing {
 
     handleTouchEnd(e) {
         this.endDrawing();
-    }
-
-    // Pointer event handlers (fallback)
-    handlePointerDown(e) {
-        // Only handle if no touch events are active
-        if (e.pointerType !== 'touch' || !('ontouchstart' in window)) {
-            const point = this.getPointFromEvent(e);
-            this.startDrawing(point);
-        }
-    }
-
-    handlePointerMove(e) {
-        if (e.pointerType !== 'touch' || !('ontouchstart' in window)) {
-            const point = this.getPointFromEvent(e);
-            this.continueDrawing(point);
-        }
-    }
-
-    handlePointerUp(e) {
-        if (e.pointerType !== 'touch' || !('ontouchstart' in window)) {
-            this.endDrawing();
-        }
     }
 
     // Save and restore drawing functionality
