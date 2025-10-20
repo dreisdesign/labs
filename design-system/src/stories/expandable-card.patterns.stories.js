@@ -73,7 +73,7 @@ export const NoteEditorWithTimestamp = () => {
         timestamp.textContent = `Last edited ${time}`;
         saveStatus.textContent = 'Saving...';
         saveStatus.style.opacity = '0.7';
-        
+
         // Simulate auto-save after 500ms
         setTimeout(() => {
             saveStatus.textContent = 'Saved';
