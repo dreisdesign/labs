@@ -257,6 +257,40 @@ export function initializeApp() {
 
     // Redraw all strokes on theme change
     document.addEventListener('themeChanged', () => pad.redrawAllStrokes());
+
+    // Handle flavor changes from settings card
+    const footer = document.querySelector('labs-footer-with-settings');
+    if (footer) {
+        footer.addEventListener('flavor-changed', (e) => {
+            const flavor = e.detail?.flavor;
+            if (flavor) {
+                localStorage.setItem('pad-flavor', flavor);
+            }
+            // Also save current theme
+            const isDark = document.documentElement.classList.contains('theme-dark');
+            localStorage.setItem('pad-theme', isDark ? 'dark' : 'light');
+        });
+    }
+
+    // Watch for theme changes and persist to localStorage
+    const observer = new MutationObserver(() => {
+        const isDark = document.documentElement.classList.contains('theme-dark');
+        const isLight = document.documentElement.classList.contains('theme-light');
+        if (isDark || isLight) {
+            localStorage.setItem('pad-theme', isDark ? 'dark' : 'light');
+        }
+        // Also watch for flavor changes
+        const flavorClass = Array.from(document.documentElement.classList).find(c => c.startsWith('flavor-'));
+        if (flavorClass) {
+            const flavor = flavorClass.replace('flavor-', '');
+            localStorage.setItem('pad-flavor', flavor);
+        }
+    });
+
+    observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class']
+    });
 }
 
 // Auto-initialize when DOM is ready
