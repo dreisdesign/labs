@@ -48,12 +48,13 @@
   <script type="module" src="./js/main.js"></script>
 
   <style>
-    body {
+    * {
       margin: 0;
       padding: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
+      box-sizing: border-box;
+    }
+
+    body {
       background: var(--color-background);
       color: var(--color-on-surface);
       font-family: var(--font-family-base);
@@ -61,10 +62,12 @@
     }
 
     labs-container[fill] {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: var(--footer-height, 80px);
+      z-index: 1;
     }
 
     /* Canvas container fills remaining space */
@@ -96,7 +99,11 @@
     }
 
     labs-footer-with-settings {
-      flex-shrink: 0;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
     }
 
     /* Safe area support for notched devices */
@@ -104,6 +111,11 @@
       labs-container[fill] {
         padding-left: max(0, env(safe-area-inset-left));
         padding-right: max(0, env(safe-area-inset-right));
+        padding-bottom: max(0, env(safe-area-inset-bottom));
+      }
+
+      labs-footer-with-settings {
+        padding-bottom: max(0, env(safe-area-inset-bottom));
       }
     }
   </style>
