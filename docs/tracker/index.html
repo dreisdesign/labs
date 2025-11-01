@@ -59,6 +59,9 @@
         labs-container {
             flex: 1;
             display: block;
+            /* allow internal scrolling when content is taller than the viewport */
+            min-height: 0;
+            overflow: auto;
         }
 
         .entry-list {

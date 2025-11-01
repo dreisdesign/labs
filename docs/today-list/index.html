@@ -66,6 +66,9 @@
         labs-container {
             flex: 1;
             display: block;
+            /* allow the container to scroll internally; keeps footer fixed at viewport bottom */
+            min-height: 0;
+            overflow: auto;
         }
 
         labs-list-section {
