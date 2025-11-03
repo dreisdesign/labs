@@ -45,7 +45,7 @@ All icon SVGs in `design-system/icons/` **must** end with `--labs-icons.svg`. Th
 ---
 # 🧪 Labs
 
-> **Latest release:** v2.4.8 — SmoothieLink Path Fix (2025-10-13) • [Changelog](CHANGELOG.md)
+> **Latest release:** v2.4.9 — iOS Footer Sticky Positioning (2025-11-03) • [Changelog](CHANGELOG.md)
 
 > **Modular design system and productivity apps built with Web Components**
 

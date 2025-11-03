@@ -130,14 +130,25 @@ Notes:
 ### Technical Structure
 
 - **Header**: Day of week and date (e.g., "Tuesday, July 19, 2025")
-- **Layout**: Fixed container, no scrolling required
-- **Footer**: Settings button with consistent styling from other apps
+- **Layout**: Responsive flexbox with sticky footer, allows internal scrolling on long lists
+- **Footer**: Settings button with consistent styling from other apps; stays visible during scroll
 - **Overlay System**: Edit note overlay for individual item editing (from Note app)
 - **Theming**: Full light/dark mode support with toggle
 - **Settings Menu**: Consistent with Tracker/Note apps (theme toggle, all apps link)
 - **Persistence**: localStorage for same-day persistence
-- **Responsive Design**: CSS Grid/Flexbox for reliable layout
+- **Responsive Design**: CSS Grid/Flexbox for reliable layout with iOS-friendly viewport
 - **Accessibility**: Proper checkbox semantics and keyboard navigation
+
+### Layout Technical Details
+
+The app uses a modern flexbox layout with:
+- **Viewport Height**: `100dvh` (dynamic viewport height) instead of `100vh` for proper Safari URL bar handling
+- **Footer Positioning**: `position: sticky; bottom: 0;` to keep the footer visible while scrolling
+- **Container Scrolling**: Main container has `min-height: 0; overflow: auto;` to allow internal scrolling when list exceeds viewport
+- **This pattern works seamlessly on:**
+  - Desktop browsers (Chrome, Firefox, Safari, Edge)
+  - iOS Safari with dynamic URL bar
+  - iPad with long task lists
 
 ## 🏗️ Technical Architecture
 

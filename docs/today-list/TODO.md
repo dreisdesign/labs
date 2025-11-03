@@ -2,9 +2,15 @@
 
 Last reviewed: 2025-09-01
 
-Last updated: 2025-09-15 (commit 76e1b47)
+Last updated: 2025-11-03 (layout fix deployed)
 
 Priority order: MVP requirements first. Anything not marked MVP has been moved to `docs/today-list/ROADMAP.md` for future planning.
+
+## Completed - Layout & Responsiveness ✅
+
+- ✅ **iOS Footer Sticky Positioning (November 2025)**: Fixed issue where footer would scroll off-screen on iPad/iPhone when list content exceeded viewport height. Implemented: `100dvh` for viewport height, `position: sticky; bottom: 0;` for footer, `min-height: 0; overflow: auto;` for internal container scrolling. Tested on iOS Safari (real device and emulation).
+
+## MVP Requirements
 
 1) Add item
   - Two-line input (default rows=2), Ctrl/Cmd+Enter to save (updated)

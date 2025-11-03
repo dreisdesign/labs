@@ -18,6 +18,9 @@ Goal: Rebuild the Tracker app using the Smoothie Design System template.
 - ✅ Migrated old tracker to `_archive`
 - ✅ New implementation in `docs/tracker/`
 
+### Layout Fixes (November 2025)
+- ✅ **iOS Footer Sticky Positioning**: Fixed issue where footer would scroll off-screen on iPad/iPhone. Implemented: `100dvh` for viewport height, `position: sticky; bottom: 0;` for footer, `min-height: 0; overflow: auto;` for internal container scrolling. Tested on iOS Safari (real device and emulation).
+
 ## Outstanding Tasks
 
 ### Behavior & Patterns

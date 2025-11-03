@@ -78,6 +78,17 @@ docs/note/
 - **Service Worker** for PWA functionality
 - **Vanilla JavaScript** (no frameworks)
 
+### Layout Technical Details
+
+The app uses a modern flexbox layout with:
+- **Viewport Height**: `100dvh` (dynamic viewport height) instead of `100vh` for proper Safari URL bar handling
+- **Footer Positioning**: `position: sticky; bottom: 0;` to keep the footer visible while scrolling
+- **Container Scrolling**: Main container has `min-height: 0; overflow: auto;` to allow internal scrolling
+- **This pattern works seamlessly on:**
+  - Desktop browsers (Chrome, Firefox, Safari, Edge)
+  - iOS Safari with dynamic URL bar
+  - iPad with long notes
+
 ## 📦 Component API
 
 ### `<note-input-card>`

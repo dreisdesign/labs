@@ -1,3 +1,11 @@
+# v2.4.9 – 2025-11-03
+
+### 🐛 Bug Fixes
+- **iOS Footer Sticky Positioning (Tracker, Note, Today List):** Fixed issue where footer would scroll off-screen on iPad and iPhone when list content exceeded viewport height. Root cause: combination of `100vh` (doesn't account for Safari dynamic URL bar), `position: fixed` (conflicts with URL bar), and internal container overflow. **Solution:** Replaced `100vh` with `100dvh` (dynamic viewport height), applied `position: sticky; bottom: 0;` to footer, and added `min-height: 0; overflow: auto;` to main container for internal scrolling. Footer now sticks to scroll container boundary while content scrolls internally. Tested and verified on iOS Safari (real device and DevTools emulation).
+- **npm Vulnerabilities:** Fixed 2 security vulnerabilities (1 moderate, 1 high) in design-system via `npm audit fix`. Updated package-lock.json for clean production build.
+
+---
+
 ### Fixed
 - [design-system] Robust icon path logic in labs-icon.js: now supports static Storybook output (./icons/), dev server (/icons/), local dev (/design-system/icons/), and GitHub Pages (/labs/design-system/icons/). Fixes icon 404s in static builds.
 
