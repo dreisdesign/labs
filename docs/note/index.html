@@ -65,6 +65,8 @@
       /* ensure the main container doesn't push the footer off-screen; allow internal scrolling */
       min-height: 0;
       overflow: auto;
+      /* add bottom padding to keep content above the fixed footer */
+      padding-bottom: 100px;
     }
 
     .note-display-area {
@@ -107,7 +109,11 @@
     }
 
     labs-footer-with-settings {
-      margin-top: auto;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
     }
 
     /* Position toast above the footer */
