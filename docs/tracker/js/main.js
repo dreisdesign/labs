@@ -4,6 +4,24 @@ import { formatHuman } from '../../design-system/utils/date-format.js';
 
 const STORAGE_KEY = 'tracker-items';
 
+// Helper to get date string (YYYY-MM-DD) from timestamp
+function getDateString(timestamp) {
+    const date = new Date(timestamp);
+    return date.toISOString().slice(0, 10);
+}
+
+// Helper to get today's date string
+function getTodayString() {
+    return new Date().toISOString().slice(0, 10);
+}
+
+// Helper to format date for display (e.g., "Nov 9")
+function formatDateDisplay(dateString) {
+    const date = new Date(dateString + 'T00:00:00');
+    const opts = { month: 'short', day: 'numeric' };
+    return date.toLocaleDateString(undefined, opts);
+}
+
 // Data store
 const store = {
     items: [],
@@ -20,6 +38,42 @@ const store = {
         } catch (e) {
             console.warn('Failed to save:', e);
         }
+    },
+    // Get items grouped by date
+    getItemsByDate() {
+        const grouped = {};
+        this.items.forEach(item => {
+            const dateStr = getDateString(item.ts);
+            if (!grouped[dateStr]) {
+                grouped[dateStr] = [];
+            }
+            grouped[dateStr].push(item);
+        });
+        return grouped;
+    },
+    // Get today's items
+    getTodayItems() {
+        const today = getTodayString();
+        return this.items.filter(item => getDateString(item.ts) === today);
+    },
+    // Get previous days totals (excluding today)
+    getPreviousDayTotals() {
+        const today = getTodayString();
+        const grouped = this.getItemsByDate();
+        const totals = [];
+        
+        Object.keys(grouped)
+            .filter(dateStr => dateStr !== today)
+            .sort((a, b) => b.localeCompare(a)) // Most recent first
+            .forEach(dateStr => {
+                totals.push({
+                    date: dateStr,
+                    count: grouped[dateStr].length,
+                    displayDate: formatDateDisplay(dateStr)
+                });
+            });
+        
+        return totals;
     }
 };
 
@@ -75,11 +129,13 @@ function updateResetButtonState() {
 
 // Render everything
 function renderAll() {
-    // Update metric
+    const todayItems = store.getTodayItems();
+    
+    // Update metric to show today's count
     const metricCard = document.getElementById('tracker-metric');
     const valueSlot = metricCard?.querySelector('[slot="value"]');
     if (valueSlot) {
-        valueSlot.textContent = store.items.length;
+        valueSlot.textContent = todayItems.length;
     }
 
     // Update reset-all button disabled state
@@ -91,6 +147,7 @@ function renderAll() {
 
     list.innerHTML = '';
 
+    // If no items at all
     if (store.items.length === 0) {
         const card = document.createElement('labs-card');
         card.setAttribute('variant', 'welcome');
@@ -121,7 +178,60 @@ function renderAll() {
         return;
     }
 
-    store.items.forEach(item => {
+    // If no items today but have previous days
+    if (todayItems.length === 0 && store.items.length > 0) {
+        const card = document.createElement('labs-card');
+        card.setAttribute('variant', 'welcome');
+        card.setAttribute('align', 'center');
+
+        const header = document.createElement('div');
+        header.setAttribute('slot', 'header');
+        header.textContent = 'Start Today!';
+        card.appendChild(header);
+
+        const desc = document.createElement('div');
+        desc.textContent = 'Track your first entry for today.';
+        card.appendChild(desc);
+
+        const addBtn = document.createElement('labs-button');
+        addBtn.setAttribute('slot', 'actions');
+        addBtn.setAttribute('variant', 'primary');
+        addBtn.setAttribute('pill', '');
+        addBtn.innerHTML = '<labs-icon slot="icon-left" name="add"></labs-icon>Track first entry';
+        addBtn.addEventListener('click', () => {
+            store.items.unshift({ ts: Date.now(), note: '' });
+            store.save();
+            renderAll();
+        });
+        card.appendChild(addBtn);
+
+        list.appendChild(card);
+    }
+
+    // Display previous day totals
+    const previousDays = store.getPreviousDayTotals();
+    if (previousDays.length > 0) {
+        previousDays.forEach(dayTotal => {
+            const listItem = document.createElement('labs-list-item');
+            listItem.setAttribute('variant', 'text-only');
+            listItem.style.opacity = '0.7';
+
+            const icon = document.createElement('labs-icon');
+            icon.setAttribute('slot', 'control');
+            icon.setAttribute('name', 'check');
+            listItem.appendChild(icon);
+
+            const content = document.createElement('span');
+            content.setAttribute('slot', 'content');
+            content.textContent = `${dayTotal.displayDate} tracked items: ${dayTotal.count}`;
+            listItem.appendChild(content);
+
+            list.appendChild(listItem);
+        });
+    }
+
+    // Display today's items
+    todayItems.forEach(item => {
         const li = document.createElement('labs-list-item');
         li.setAttribute('variant', 'text-only');
 
