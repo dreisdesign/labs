@@ -24,35 +24,14 @@ scripts/                    ← Build automation (rp.mjs, menu.mjs, etc.)
 
 Every component follows this structure:
 
-```javascript
-class LabsComponentName extends HTMLElement {
-  constructor() {
-    super();
-    this.attachShadow({ mode: 'open' });
-    this.render();
-  }
-
-  render() {
-    this.shadowRoot.innerHTML = `
-      <style>
-        :host {
-          /* Component styling with CSS custom property defaults */
-          --component-bg: var(--color-surface, #fff);
-          --component-padding: 1rem;
-          display: inline-block;
-        }
-        /* All styles self-contained in shadow DOM */
-      </style>
-      <div class="wrapper"><slot></slot></div>
-    `;
-  }
-}
-customElements.define('labs-component-name', LabsComponentName);
-```
+- **Shadow DOM**: Use `attachShadow({ mode: 'open' })` for encapsulation
+- **Self-contained styles**: All CSS in shadow DOM with CSS custom properties
+- **Render method**: Set `shadowRoot.innerHTML` with styles and template
+- **Slot usage**: Include `<slot></slot>` for content projection
 
 **Key principles:**
 - **Self-contained styling**: All CSS in shadow DOM, no external dependencies
-- **CSS custom properties**: Always use `var(--token, fallback)` for theming
+- **CSS custom properties**: Always use CSS variables with fallbacks for theming
 - **Component attributes**: Use semantic attributes (`fullwidth`, `variant="metric"`) instead of external CSS targeting
 - **Shadow DOM encapsulation**: Prevents style conflicts, ensures modularity
 
