@@ -21,9 +21,13 @@
             root.setAttribute('data-color-scheme', theme);
         })();
 
-        // Cache buster timestamp - runs immediately
+        // Cache buster timestamp - runs immediately [v6]
         window.__TRACKER_DEPLOY_TIME__ = new Date().toISOString();
         console.log('🚀 Tracker page load at:', window.__TRACKER_DEPLOY_TIME__);
+        // Force console visibility
+        if (window.__TRACKER_DEPLOY_TIME__) {
+            console.log('✅ Deploy timestamp set successfully');
+        }
     </script>
 
     <!-- Design System Tokens -->
