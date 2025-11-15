@@ -4,6 +4,19 @@ import { formatHuman } from '../../design-system/utils/date-format.js';
 
 const STORAGE_KEY = 'tracker-items';
 
+// Cache buster - display build timestamp
+(function () {
+    const now = new Date();
+    const timestamp = now.toISOString();
+    const meta = document.getElementById('build-timestamp');
+    if (meta) {
+        meta.setAttribute('data-timestamp', timestamp);
+        console.log('🔄 Tracker loaded at:', timestamp);
+    }
+    // Also expose via window for manual verification
+    window.__TRACKER_BUILD_TIME__ = timestamp;
+})();
+
 // Helper to get date string (YYYY-MM-DD) from timestamp using local timezone
 function getDateString(timestamp) {
     const date = new Date(timestamp);
