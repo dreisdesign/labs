@@ -47,6 +47,17 @@
 
     <!-- Cache buster & build timestamp -->
     <meta id="build-timestamp" data-timestamp="2025-11-15T00:00:00Z">
+    <script>
+        // Immediate timestamp display (before modules load)
+        (function() {
+            const now = new Date().toISOString();
+            window.__TRACKER_INIT_TIME__ = now;
+            console.log('✅ Tracker init at:', now);
+            // Store in meta tag
+            const meta = document.getElementById('build-timestamp');
+            if (meta) meta.setAttribute('data-timestamp', now);
+        })();
+    </script>
 
     <!-- Register Tracker Service Worker -->
     <script>
