@@ -4,18 +4,7 @@ import { formatHuman } from '../../design-system/utils/date-format.js';
 
 const STORAGE_KEY = 'tracker-items';
 
-// Cache buster - display build timestamp
-(function () {
-    const now = new Date();
-    const timestamp = now.toISOString();
-    const meta = document.getElementById('build-timestamp');
-    if (meta) {
-        meta.setAttribute('data-timestamp', timestamp);
-        console.log('🔄 Tracker loaded at:', timestamp);
-    }
-    // Also expose via window for manual verification
-    window.__TRACKER_BUILD_TIME__ = timestamp;
-})();
+// ...existing code...
 
 // Helper to get date string (YYYY-MM-DD) from timestamp using local timezone
 function getDateString(timestamp) {
@@ -357,29 +346,4 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// DEBUG: Add test data for simulating yesterday's entries
-window.addTestData = function (daysBack = 1, count = 5) {
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - daysBack);
-    const yesterdayDateStr = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, '0')}-${String(yesterday.getDate()).padStart(2, '0')}`;
-
-    // Create timestamps for yesterday at random times
-    for (let i = 0; i < count; i++) {
-        const randomHour = Math.floor(Math.random() * 24);
-        const randomMin = Math.floor(Math.random() * 60);
-        const testDate = new Date(yesterdayDateStr + 'T00:00:00');
-        testDate.setHours(randomHour, randomMin);
-        store.items.push({ ts: testDate.getTime(), note: '' });
-    }
-
-    store.save();
-    renderAll();
-    console.log(`✅ Added ${count} test entries for ${daysBack} day(s) ago`);
-};
-
-window.addTestMultipleDays = function () {
-    window.addTestData(1, 5); // Yesterday: 5 entries
-    window.addTestData(3, 8); // 3 days ago: 8 entries
-    window.addTestData(7, 3); // 7 days ago: 3 entries
-    console.log('✅ Added test data for multiple days');
-};
+// ...existing code...
