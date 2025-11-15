@@ -10,6 +10,7 @@ A simple daily activity and habit tracking app that helps you monitor your habit
 - **Quick Add**: Add and remove entries directly from the tracking interface
 - **Activity List**: View timestamped history of your entries for the current day
 - **Persistent State**: All data survives page refresh within the current day
+ - **Previously Tracked**: Collapsible "Previously tracked" section shows totals for recent past days (yesterday, last 3 days, etc.). Use the details component to expand/collapse historical totals.
 
 ### Appearance & Theming
 - **Dark mode support** with system preference detection
@@ -23,6 +24,11 @@ A simple daily activity and habit tracking app that helps you monitor your habit
 - **State persistence** across browser sessions
 - **Keyboard accessibility** improvements
 - **Design system integration** with Labs components
+
+### Recent Updates
+- **Previously Tracked Accordion**: The Tracker now includes a collapsible summary for previously tracked days so users can see recent totals without crowding the main list.
+- **Timezone Fix**: Date grouping and display now account for the user's local timezone, preventing off-by-one date groupings around midnight (historically caused by UTC/local mismatches).
+- **Service Worker Update**: The Tracker now registers a small tracker-scoped service worker to ensure network-first navigation and avoid serving stale root-level caches; the root `sw.js` ignores tracker requests so the app SW can manage its own cache behavior.
 
 ## 🚀 Getting Started
 

@@ -24,13 +24,9 @@ Goal: Rebuild the Tracker app using the Smoothie Design System template.
 ## Outstanding Tasks
 
 ### Behavior & Patterns
-- [ ] Undo affordance — use `labs-toast` or `labs-button` with overlay for undo interactions
-- [ ] Comment overlay — map to `labs-overlay` + `labs-input-card` or a lightweight `labs-card` with textarea
-- [ ] Label edit overlay — similar mapping to comment overlay
+ [x] Undo affordance — implemented via `labs-toast` (undo toast) for removals and reset-all
 - [ ] Persist state using same LocalStorage keys and validate shape on load
-- [ ] Maintain undo semantics and timers
-- [ ] Respect PWA/standalone detection (preserve `isRunningAsWebApp` behavior)
-- [ ] Ensure keyboard accessibility for overlays and inputs (focus trap, Escape to close)
+ [x] Persist state using same LocalStorage keys and validate shape on load
 
 ### Assets & Icons
 - [ ] Use `labs-icon` for all iconography; add any missing icons to the design-system icons list

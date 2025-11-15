@@ -13,6 +13,7 @@
 
 ### 🐛 Bug Fixes
 - **Theme & Flavor Persistence (All Apps):** Fixed issue where theme and flavor selection would not persist after page refresh in Pad, Note, and Today List apps. Root cause: `labs-flavor-button` and `labs-settings-card` components hardcoded `tracker-flavor` and `tracker-theme` localStorage keys, while other apps loaded from app-specific keys (e.g., `pad-flavor`, `note-flavor`). **Workaround:** Each affected app now listens to `flavor-changed` events and uses `MutationObserver` to watch for theme/flavor class changes, ensuring proper persistence to app-specific keys. **Design System Issue:** Documented in TODO.md for proper fix (making components configurable with app identifier parameter).
+ - **Tracker — Previously Tracked Summary + Timezone fix:** Added a collapsible "Previously tracked" section to the Tracker app that shows day-by-day totals for recent days; fixed timezone-related off-by-one date grouping during local midnight boundaries. Also removed temporary debug helpers used for testing in preview deployments.
 - **Pad App Drawing Logic:** Completed PadDrawing class with touch/pointer event handling, pressure sensitivity (Apple Pencil support), high-DPI canvas scaling, and localStorage persistence.
 - **Pad App UI:** Canvas outline styling using design tokens, footer Clear All button with electric_bolt icon and destructive variant, confirmation dialog for destructive action.
 
