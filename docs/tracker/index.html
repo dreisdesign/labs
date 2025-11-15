@@ -20,6 +20,10 @@
             root.classList.add('theme-' + theme);
             root.setAttribute('data-color-scheme', theme);
         })();
+
+        // Cache buster timestamp - runs immediately
+        window.__TRACKER_DEPLOY_TIME__ = new Date().toISOString();
+        console.log('🚀 Tracker page load at:', window.__TRACKER_DEPLOY_TIME__);
     </script>
 
     <!-- Design System Tokens -->
@@ -44,20 +48,6 @@
 
     <!-- Tracker Logic -->
     <script type="module" src="./js/main.js"></script>
-
-    <!-- Cache buster & build timestamp -->
-    <meta id="build-timestamp" data-timestamp="2025-11-15T00:00:00Z">
-    <script>
-        // Immediate timestamp display (before modules load)
-        (function () {
-            const now = new Date().toISOString();
-            window.__TRACKER_INIT_TIME__ = now;
-            console.log('✅ Tracker init at:', now);
-            // Store in meta tag
-            const meta = document.getElementById('build-timestamp');
-            if (meta) meta.setAttribute('data-timestamp', now);
-        })();
-    </script>
 
     <!-- Register Tracker Service Worker -->
     <script>

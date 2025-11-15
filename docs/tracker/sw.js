@@ -1,7 +1,7 @@
 // Tracker App Service Worker
 // Network-first for HTML, cache-first for assets
 
-const CACHE_NAME = 'tracker-v3';
+const CACHE_NAME = 'tracker-v4';
 const PRECACHE_URLS = [
     './index.html',
     './js/main.js'
