@@ -45,6 +45,14 @@
     <!-- Tracker Logic -->
     <script type="module" src="./js/main.js"></script>
 
+    <!-- Register Tracker Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js', { scope: './' })
+                .catch(err => console.warn('Tracker SW registration failed:', err));
+        }
+    </script>
+
     <style>
         body {
             margin: 0;
