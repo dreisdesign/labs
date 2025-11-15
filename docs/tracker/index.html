@@ -28,6 +28,15 @@
         // Force console visibility
         if (window.__TRACKER_DEPLOY_TIME__) {
             console.log('✅ Deploy timestamp set successfully');
+            // Display in badge when DOM is ready
+            document.addEventListener('DOMContentLoaded', function () {
+                const badge = document.getElementById('deploy-badge');
+                if (badge) {
+                    const time = new Date(window.__TRACKER_DEPLOY_TIME__);
+                    badge.textContent = 'v' + time.getTime().toString().slice(-4);
+                    badge.title = window.__TRACKER_DEPLOY_TIME__;
+                }
+            }, { once: true });
         }
     </script>
 
@@ -112,6 +121,8 @@
     <labs-container small>
         <labs-template-header-wrapped>
             <span slot="title">Tracker</span>
+            <small id="deploy-badge"
+                style="position: absolute; right: 1rem; top: 0.5rem; font-size: 0.7rem; opacity: 0.6; font-family: monospace;"></small>
         </labs-template-header-wrapped>
 
         <labs-metric-card id="tracker-metric">
