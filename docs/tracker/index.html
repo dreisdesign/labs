@@ -66,7 +66,7 @@
     <!-- Register Tracker Service Worker -->
     <script>
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./sw.js', { scope: './' })
+            navigator.serviceWorker.register('./sw.js?v=10', { scope: './' })
                 .catch(err => console.warn('Tracker SW registration failed:', err));
         }
     </script>
@@ -119,8 +119,8 @@
 
 <body>
     <labs-container small>
-        <labs-template-header-wrapped>
-            <span slot="title">Tracker (v8)</span>
+        <labs-template-header-wrapped style="background: blue;">
+            <span slot="title">Tracker (v10)</span>
             <small id="deploy-badge"
                 style="position: absolute; right: 1rem; top: 0.5rem; font-size: 0.7rem; opacity: 0.6; font-family: monospace;"></small>
         </labs-template-header-wrapped>
