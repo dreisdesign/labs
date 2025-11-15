@@ -15,7 +15,7 @@ self.addEventListener('activate', event => {
   );
 });
 
-const CACHE_NAME = 'labs-static-v2';
+const CACHE_NAME = 'labs-static-v3';
 const PRECACHE_URLS = [
   '/labs/',
   '/labs/index.html',
@@ -26,6 +26,12 @@ const PRECACHE_URLS = [
 
 self.addEventListener('fetch', event => {
   const req = event.request;
+  const url = new URL(req.url);
+
+  // If the request is for the tracker app, ignore it and let the tracker's own SW handle it.
+  if (url.pathname.startsWith('/labs/tracker/')) {
+    return;
+  }
 
   // Always respondWith a promise that resolves to a Response.
   event.respondWith((async () => {

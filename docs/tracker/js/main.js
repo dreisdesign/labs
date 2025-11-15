@@ -4,6 +4,44 @@ import { formatHuman } from '../../design-system/utils/date-format.js';
 
 const STORAGE_KEY = 'tracker-items';
 
+// Cache buster - display build timestamp
+(function () {
+    const now = new Date();
+    const timestamp = now.toISOString();
+    const meta = document.getElementById('build-timestamp');
+    if (meta) {
+        meta.setAttribute('data-timestamp', timestamp);
+        console.log('🔄 Tracker loaded at:', timestamp);
+    }
+    // Also expose via window for manual verification
+    window.__TRACKER_BUILD_TIME__ = timestamp;
+})();
+
+// Helper to get date string (YYYY-MM-DD) from timestamp using local timezone
+function getDateString(timestamp) {
+    const date = new Date(timestamp);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+// Helper to get today's date string using local timezone
+function getTodayString() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+// Helper to format date for display (e.g., "Nov 9")
+function formatDateDisplay(dateString) {
+    const date = new Date(dateString + 'T00:00:00');
+    const opts = { month: 'short', day: 'numeric' };
+    return date.toLocaleDateString(undefined, opts);
+}
+
 // Data store
 const store = {
     items: [],
@@ -20,6 +58,42 @@ const store = {
         } catch (e) {
             console.warn('Failed to save:', e);
         }
+    },
+    // Get items grouped by date
+    getItemsByDate() {
+        const grouped = {};
+        this.items.forEach(item => {
+            const dateStr = getDateString(item.ts);
+            if (!grouped[dateStr]) {
+                grouped[dateStr] = [];
+            }
+            grouped[dateStr].push(item);
+        });
+        return grouped;
+    },
+    // Get today's items
+    getTodayItems() {
+        const today = getTodayString();
+        return this.items.filter(item => getDateString(item.ts) === today);
+    },
+    // Get previous days totals (excluding today)
+    getPreviousDayTotals() {
+        const today = getTodayString();
+        const grouped = this.getItemsByDate();
+        const totals = [];
+
+        Object.keys(grouped)
+            .filter(dateStr => dateStr !== today)
+            .sort((a, b) => b.localeCompare(a)) // Most recent first
+            .forEach(dateStr => {
+                totals.push({
+                    date: dateStr,
+                    count: grouped[dateStr].length,
+                    displayDate: formatDateDisplay(dateStr)
+                });
+            });
+
+        return totals;
     }
 };
 
@@ -36,7 +110,6 @@ function getToast() {
 }
 
 // Debounce flag for reset-all to prevent duplicate events
-let _isResetting = false;
 
 // Show undo toast - cleans up previous handler first
 function showUndoToast(message, onUndo) {
@@ -75,11 +148,13 @@ function updateResetButtonState() {
 
 // Render everything
 function renderAll() {
-    // Update metric
+    const todayItems = store.getTodayItems();
+
+    // Update metric to show today's count
     const metricCard = document.getElementById('tracker-metric');
     const valueSlot = metricCard?.querySelector('[slot="value"]');
     if (valueSlot) {
-        valueSlot.textContent = store.items.length;
+        valueSlot.textContent = todayItems.length;
     }
 
     // Update reset-all button disabled state
@@ -91,6 +166,7 @@ function renderAll() {
 
     list.innerHTML = '';
 
+    // If no items at all
     if (store.items.length === 0) {
         const card = document.createElement('labs-card');
         card.setAttribute('variant', 'welcome');
@@ -121,7 +197,38 @@ function renderAll() {
         return;
     }
 
-    store.items.forEach(item => {
+    // If no items today but have previous days
+    if (todayItems.length === 0 && store.items.length > 0) {
+        const card = document.createElement('labs-card');
+        card.setAttribute('variant', 'welcome');
+        card.setAttribute('align', 'center');
+
+        const header = document.createElement('div');
+        header.setAttribute('slot', 'header');
+        header.textContent = 'Start Today!';
+        card.appendChild(header);
+
+        const desc = document.createElement('div');
+        desc.textContent = 'Track your first entry for today.';
+        card.appendChild(desc);
+
+        const addBtn = document.createElement('labs-button');
+        addBtn.setAttribute('slot', 'actions');
+        addBtn.setAttribute('variant', 'primary');
+        addBtn.setAttribute('pill', '');
+        addBtn.innerHTML = '<labs-icon slot="icon-left" name="add"></labs-icon>Track first entry';
+        addBtn.addEventListener('click', () => {
+            store.items.unshift({ ts: Date.now(), note: '' });
+            store.save();
+            renderAll();
+        });
+        card.appendChild(addBtn);
+
+        list.appendChild(card);
+    }
+
+    // Display today's items
+    todayItems.forEach(item => {
         const li = document.createElement('labs-list-item');
         li.setAttribute('variant', 'text-only');
 
@@ -154,6 +261,48 @@ function renderAll() {
 
         list.appendChild(li);
     });
+
+    // Display end-of-day summary using collapsible details section
+    const previousDays = store.getPreviousDayTotals();
+    if (previousDays.length > 0) {
+        const detailsSection = document.createElement('labs-details');
+        detailsSection.setAttribute('archived', '');
+        detailsSection.style.marginTop = 'var(--space-md)';
+
+        // Header text: "Previously tracked"
+        const header = document.createTextNode('Previously tracked');
+        detailsSection.appendChild(header);
+
+        // Content section with summaries
+        const contentDiv = document.createElement('div');
+        contentDiv.setAttribute('slot', 'content');
+        contentDiv.style.display = 'flex';
+        contentDiv.style.flexDirection = 'column';
+        contentDiv.style.gap = 'var(--space-sm)';
+
+        previousDays.forEach(dayTotal => {
+            // Check if it's yesterday
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            const yesterdayStr = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, '0')}-${String(yesterday.getDate()).padStart(2, '0')}`;
+
+            const label = dayTotal.date === yesterdayStr ? 'Yesterday' : dayTotal.displayDate;
+            const summaryText = `${label}: ${dayTotal.count} Total`;
+
+            const summaryItem = document.createElement('div');
+            summaryItem.style.padding = 'var(--space-sm) var(--space-md)';
+            summaryItem.style.textAlign = 'center';
+            summaryItem.style.color = 'var(--color-on-surface)';
+            summaryItem.style.fontSize = 'var(--font-size-large)';
+            summaryItem.style.opacity = '0.7';
+            summaryItem.textContent = summaryText;
+
+            contentDiv.appendChild(summaryItem);
+        });
+
+        detailsSection.appendChild(contentDiv);
+        list.appendChild(detailsSection);
+    }
 }
 
 // Initialize
@@ -207,3 +356,30 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// DEBUG: Add test data for simulating yesterday's entries
+window.addTestData = function (daysBack = 1, count = 5) {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - daysBack);
+    const yesterdayDateStr = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, '0')}-${String(yesterday.getDate()).padStart(2, '0')}`;
+
+    // Create timestamps for yesterday at random times
+    for (let i = 0; i < count; i++) {
+        const randomHour = Math.floor(Math.random() * 24);
+        const randomMin = Math.floor(Math.random() * 60);
+        const testDate = new Date(yesterdayDateStr + 'T00:00:00');
+        testDate.setHours(randomHour, randomMin);
+        store.items.push({ ts: testDate.getTime(), note: '' });
+    }
+
+    store.save();
+    renderAll();
+    console.log(`✅ Added ${count} test entries for ${daysBack} day(s) ago`);
+};
+
+window.addTestMultipleDays = function () {
+    window.addTestData(1, 5); // Yesterday: 5 entries
+    window.addTestData(3, 8); // 3 days ago: 8 entries
+    window.addTestData(7, 3); // 7 days ago: 3 entries
+    console.log('✅ Added test data for multiple days');
+};
