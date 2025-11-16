@@ -207,3 +207,126 @@ export const TimestampMultiple = () => {
     }
     return wrapper;
 };
+// --- Drag & Drop Demo ---
+export const DragDropReorderable = () => {
+    const wrapper = document.createElement('div');
+    wrapper.style.display = 'flex';
+    wrapper.style.flexDirection = 'column';
+    wrapper.style.gap = '12px';
+    wrapper.style.width = '100%';
+    wrapper.style.maxWidth = '600px';
+    wrapper.style.margin = '0 auto';
+    wrapper.style.padding = '20px';
+
+    const instruction = document.createElement('div');
+    instruction.style.fontSize = '0.9em';
+    instruction.style.color = 'var(--color-on-surface-variant, #666)';
+    instruction.style.marginBottom = '12px';
+    instruction.textContent = 'Drag items to reorder (try dragging one item over another)';
+    wrapper.appendChild(instruction);
+
+    let items = [
+        { id: '1', text: 'Buy groceries' },
+        { id: '2', text: 'Write documentation' },
+        { id: '3', text: 'Review pull requests' },
+        { id: '4', text: 'Fix bug in labs-button' },
+        { id: '5', text: 'Update design tokens' }
+    ];
+
+    // Load saved order from localStorage
+    const savedOrder = localStorage.getItem('drag-drop-order');
+    if (savedOrder) {
+        try {
+            const order = JSON.parse(savedOrder);
+            items = order;
+        } catch (e) {
+            console.error('Failed to load saved order:', e);
+        }
+    }
+
+    let draggedElement = null;
+
+    const renderItems = () => {
+        // Remove all item elements (keep instruction)
+        const itemElements = wrapper.querySelectorAll('labs-list-item');
+        itemElements.forEach(el => el.remove());
+
+        // Render items in current order
+        items.forEach(data => {
+            const item = document.createElement('labs-list-item');
+            item.setAttribute('data-id', data.id);
+            item.draggable = true;
+            item.style.userSelect = 'none';
+
+            const checkbox = document.createElement('labs-checkbox');
+            checkbox.setAttribute('slot', 'control');
+
+            const content = document.createElement('div');
+            content.setAttribute('slot', 'content');
+            content.textContent = data.text;
+
+            item.appendChild(checkbox);
+            item.appendChild(content);
+            wrapper.appendChild(item);
+
+            // Native drag events on the custom element
+            item.addEventListener('dragstart', (e) => {
+                draggedElement = item;
+                item.setAttribute('dragging', '');
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/plain', data.id);
+                console.log('Started dragging:', data.id, data.text);
+            });
+
+            item.addEventListener('dragend', (e) => {
+                item.removeAttribute('dragging');
+                item.removeAttribute('drag-over');
+                draggedElement = null;
+                console.log('Ended drag:', data.id);
+            });
+
+            item.addEventListener('dragover', (e) => {
+                if (e.dataTransfer.types.includes('text/plain')) {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    if (item !== draggedElement) {
+                        item.setAttribute('drag-over', '');
+                    }
+                }
+            });
+
+            item.addEventListener('dragleave', (e) => {
+                item.removeAttribute('drag-over');
+            });
+
+            item.addEventListener('drop', (e) => {
+                e.preventDefault();
+                item.removeAttribute('drag-over');
+                if (draggedElement && draggedElement !== item) {
+                    const draggedId = e.dataTransfer.getData('text/plain');
+                    console.log('Dropped:', draggedId, 'onto:', data.id);
+
+                    // Find indices and reorder
+                    const draggedIndex = items.findIndex(i => i.id === draggedId);
+                    const targetIndex = items.findIndex(i => i.id === data.id);
+
+                    if (draggedIndex !== -1 && targetIndex !== -1) {
+                        // Remove dragged item
+                        const [movedItem] = items.splice(draggedIndex, 1);
+                        // Insert at target position
+                        items.splice(targetIndex, 0, movedItem);
+
+                        // Save to localStorage
+                        localStorage.setItem('drag-drop-order', JSON.stringify(items));
+
+                        // Re-render
+                        renderItems();
+                    }
+                }
+            });
+        });
+    };
+
+    renderItems();
+    return wrapper;
+};

@@ -30,7 +30,7 @@ class LabsListItem extends HTMLElement {
 
 
   static get observedAttributes() {
-    return ['value', 'checked', 'archived', 'restored', 'timestamp', 'date', 'variant', 'state'];
+    return ['value', 'checked', 'archived', 'restored', 'timestamp', 'date', 'variant', 'state', 'draggable'];
   }
 
   attributeChangedCallback(name, oldV, newV) {
@@ -64,6 +64,19 @@ class LabsListItem extends HTMLElement {
           :host([state="archived"]) {
             opacity: 0.5;
             pointer-events: auto;
+          }
+          /* Drag-drop states for reorderable lists */
+          :host([draggable]) .row { cursor: grab; transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1); }
+          :host([draggable]:active) .row { cursor: grabbing; }
+          :host([dragging]) .row { 
+            opacity: 0.5; 
+            transform: scale(0.98);
+            background: var(--color-surface-variant, #f5f5f5);
+          }
+          :host([drag-over]) .row { 
+            background: color-mix(in srgb, var(--color-primary) 12%, var(--color-surface));
+            border-color: var(--color-primary, #6200ea);
+            box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--color-primary) 20%, transparent);
           }
           .row { display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:var(--radius-xl, 16px); background:var(--color-surface, #fff); border:1px solid color-mix(in srgb,var(--color-on-surface) 6%,transparent); width:100%; box-sizing:border-box; min-width:0; min-height:60px; overflow: hidden; }
           .text { flex-grow:1; font-size:1rem; color:var(--color-on-surface, #111); word-break:break-word; min-width:0; text-align: center; }
