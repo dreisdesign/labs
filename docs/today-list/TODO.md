@@ -1,60 +1,76 @@
-# Today List — TODO (MVP requirements)
+# Today List — TODO
 
-Last reviewed: 2025-09-01
+**Last reviewed**: November 16, 2025  
+**Current branch**: `feature/today-list-improvement`  
+**Migration status**: Phase 1 complete (Oct 9, 2025)
 
-Last updated: 2025-11-03 (layout fix deployed)
+Priority order: Design system first (enables app features), then app improvements.
 
-Priority order: MVP requirements first. Anything not marked MVP has been moved to `docs/today-list/ROADMAP.md` for future planning.
+## Current Features ✅
 
-## Completed - Layout & Responsiveness ✅
+- ✅ Add item via input overlay
+- ✅ Persist items to localStorage with JSON serialization
+- ✅ Display list with basic metadata (timestamps)
+- ✅ Mark complete/unmark with checkbox toggle
+- ✅ Archive items with undo toast
+- ✅ Restore items from archive
+- ✅ Delete items with undo toast
+- ✅ Empty state with welcome card (`labs-card` variant="welcome")
+- ✅ iOS footer sticky positioning (100dvh fix)
+- ✅ Light/dark theme support with 3 flavor variants
+- ✅ Design system token usage (no hardcoded colors)
 
-- ✅ **iOS Footer Sticky Positioning (November 2025)**: Fixed issue where footer would scroll off-screen on iPad/iPhone when list content exceeded viewport height. Implemented: `100dvh` for viewport height, `position: sticky; bottom: 0;` for footer, `min-height: 0; overflow: auto;` for internal container scrolling. Tested on iOS Safari (real device and emulation).
+## Priority Features (Next Sprint)
 
-## MVP Requirements
+### Design System Foundation (do first, enables others)
 
-1) Add item
-  - Two-line input (default rows=2), Ctrl/Cmd+Enter to save (updated)
-  - Trim empty values and ignore duplicates (optional)
-  - Status: Input overlay implemented; clicking Add opens input, Save appends items to the demo list in `index.html`.
+1. **Badge contrast fix** 🎨  
+   - Location: `design-system/src/components/labs-badge.js`
+   - Impact: Fixes accessibility on Labs homepage beta badge
+   - Status: ⬜ Not started
 
-2) Persist items
-  - Persist list to `localStorage` as JSON
-  - Provide simple migration/fallback for corrupt data (reset to empty)
+2. **Button completion animation** ✨  
+   - Location: `design-system/src/components/labs-button.js`
+   - Add optional `animate()` method for task-complete and task-created states
+   - Reusable across all apps
+   - Status: ⬜ Not started
 
-3) Display list
-  - Render items in a mobile-first list
-  - Show basic metadata (createdAt rendered via `Intl.DateTimeFormat`)
+3. **List item drag-drop support** 🔄  
+   - Location: `design-system/src/components/labs-list-item.js`
+   - Add `draggable` attribute support
+   - Add CSS states for drag visual feedback
+   - Status: ⬜ Not started
 
-4) Mark complete / unmark
-  - Toggle completion state and persist
+### App Implementation (Today List)
 
-5) Edit item
-  - Inline edit or edit modal; save on Enter
+4. **Auto-focus keyboard on "Add New Item"** ⌨️  
+   - Location: `docs/today-list/js/main.js` → `toggleInputOverlay()`
+   - Currently has structure; refine focus timing
+   - Status: ⬜ Not started
 
-6) Delete with undo
-  - Soft-delete behavior with undo toast (5–8s)
-  - Status: Demo wiring added to `index.html` using `labs-toast` for Undo actions on archive/delete.
+5. **Left-align list item text on mobile** 📱  
+   - Location: `design-system/src/components/labs-list-item.js`
+   - Add media query or CSS custom property for mobile alignment
+   - Status: ⬜ Not started
 
-New implementation tasks:
-- [ ] Add `labs-list-item` component (single-row with checkbox, text, archive, delete) — implemented in `design-system/src/components/labs-list-item.js` and docs copy exists. Needs tests and Storybook story.
-- [ ] Add Icon select control to Icon-Only Button story (ensure `icons-list` used); small story update needed.
+6. **Drag & drop reorder items** 🔄  
+   - Location: `docs/today-list/js/main.js`
+   - Reorder array on drop, persist to localStorage
+   - Depends on #2–3 from design system
+   - Status: ⬜ Not started
 
-Notes about recent UI changes:
-- Settings overlay now uses `transparent` mode so the overlay provides backdrop only and the settings card supplies the visible surface (fixes double-wrapping). Mirrored to docs and stories in commit `76e1b47`.
-- Input card default width increased (max-width ~520px) and host set to `width:100%` to allow full overlay content width when used in overlays. See `design-system/src/components/labs-input-card.js`.
+## Completed Migrations & Refactors
 
-7) Empty-state
-  - Show a `Welcome Card` (use `labs-card` when available) with header, description and primary Add CTA
+- ✅ **Phase 1 (Oct 9, 2025)**: Template foundation from design system
+  - HTML reduced from 281 → 138 lines
+  - Removed custom styling and layout hacks
+  - Implemented `labs-footer-with-settings` overlay
+  - Full migration details in archived docs
 
---
+- ✅ **iOS layout fix (Nov 2025)**: `100dvh` viewport, sticky footer
 
-Non-MVP / Roadmap
+## Related Documentation
 
-All non-MVP items (components, extended behaviors, timeline features) were moved to `docs/today-list/ROADMAP.md` for prioritization and scheduling.
-
-Link: `docs/today-list/ROADMAP.md`
-
-If you want me to, I can now:
-- scaffold the `docs/today-list/README.md` MVP section (recommended), or
-- scaffold the `today-list` app files (component + stories) with basic behavior.
-- draft the `labs-card` spec prior to implementing the Welcome Card.
+- **Long-term roadmap**: `docs/today-list/ROADMAP.md`
+- **Process guide**: `_dev/_documents/APP-MIGRATION-PROCESS.md`
+- **Design system**: `design-system/src/components/`
