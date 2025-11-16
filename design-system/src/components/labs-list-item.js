@@ -26,6 +26,18 @@ class LabsListItem extends HTMLElement {
         this.render();
       }
     });
+
+    // Update text alignment on mobile
+    this._updateMobileAlignment();
+    window.addEventListener('resize', () => this._updateMobileAlignment());
+  }
+
+  _updateMobileAlignment() {
+    const isMobile = window.innerWidth <= 640;
+    const textEl = this.shadowRoot?.querySelector('.text');
+    if (textEl && this.getAttribute('variant') === 'text-only') {
+      textEl.style.textAlign = isMobile ? 'left' : 'center';
+    }
   }
 
 
@@ -40,6 +52,7 @@ class LabsListItem extends HTMLElement {
     if (name === 'checked') this._checked = this.hasAttribute('checked');
     if (name === 'variant') this.shadowRoot.innerHTML = '';
     if (name === 'state') this.render();
+    if (name === 'variant') this._updateMobileAlignment();
     this.render();
   }
 
@@ -79,9 +92,7 @@ class LabsListItem extends HTMLElement {
             box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--color-primary) 20%, transparent);
           }
           .row { display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:var(--radius-xl, 16px); background:var(--color-surface, #fff); border:1px solid color-mix(in srgb,var(--color-on-surface) 6%,transparent); width:100%; box-sizing:border-box; min-width:0; min-height:60px; overflow: hidden; }
-          .text { flex-grow:1; font-size:1rem; color:var(--color-on-surface, #111); word-break:break-word; min-width:0; text-align: center; }
-          .actions { display:flex; gap:0; align-items:center; flex: 0 0 auto; min-width:0; width:auto; min-height:32px; margin-right:0 !important; }
-          .text { flex:1; font-size:1rem; color:var(--color-on-surface, #111); word-break:break-word; min-width:0; }
+          .text { flex:1; font-size:1rem; color:var(--color-on-surface, #111); word-break:break-word; min-width:0; text-align: var(--list-item-text-align, left); }
           .timestamp { font-size:0.75rem; color:var(--color-on-surface-variant, #666); margin-left:6px; }
           .badge { font-size:0.625rem; padding:4px 8px; border-radius:var(--radius-badge, 9999px); background:var(--color-surface-secondary, #f1f3f4); color:var(--color-on-surface); margin-left:8px; }
           .actions { display:flex; gap:8px; align-items:center; flex: 0 0 auto; min-width:40px; min-height:32px; }
@@ -136,9 +147,11 @@ class LabsListItem extends HTMLElement {
           :host([variant="text-only"]) .row:has(:not([slot="actions"])) .text {
             margin-right: auto;
             margin-left: auto;
-            text-align: center;
+            text-align: var(--list-item-text-align, center);
           }
-          :host([variant="text-only"]) .text { font-weight: var(--font-weight-semibold, 600); }
+          :host([variant="text-only"]) .text {
+            font-weight: var(--font-weight-semibold, 600);
+          }
           :host([variant="text-only"]) .timestamp { margin-left: 0; margin-top: 2px; font-size: 0.75rem; }
           :host([variant="text-only"]) ::slotted([slot="control"]),
           :host([variant="text-only"]) ::slotted([slot="actions"]) {
