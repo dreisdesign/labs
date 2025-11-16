@@ -24,6 +24,46 @@ class LabsButton extends HTMLElement {
     }
   }
 
+  /**
+   * Plays a completion animation on the button.
+   * Useful for visual feedback when a task is completed.
+   * @param {string} type - Animation type: 'success' (default), 'created', or 'custom'
+   * @param {number} duration - Animation duration in milliseconds (default: 600)
+   */
+  animate(type = 'success', duration = 600) {
+    const button = this.shadowRoot?.querySelector('button');
+    if (!button) return;
+
+    // Create keyframes based on animation type
+    const keyframes = {
+      success: [
+        { transform: 'scale(1)', opacity: 1 },
+        { transform: 'scale(1.1)', opacity: 1, offset: 0.5 },
+        { transform: 'scale(0.95)', opacity: 1, offset: 0.85 },
+        { transform: 'scale(1)', opacity: 1 }
+      ],
+      created: [
+        { transform: 'scale(0.8) rotate(-5deg)', opacity: 0 },
+        { transform: 'scale(1.05) rotate(5deg)', opacity: 1, offset: 0.6 },
+        { transform: 'scale(1) rotate(0deg)', opacity: 1 }
+      ],
+      pulse: [
+        { transform: 'scale(1)', opacity: 1 },
+        { transform: 'scale(1.15)', opacity: 0.8, offset: 0.5 },
+        { transform: 'scale(1)', opacity: 1 }
+      ]
+    };
+
+    const animationKeyframes = keyframes[type] || keyframes.success;
+
+    // Play animation
+    button.animate(animationKeyframes, {
+      duration,
+      easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+      fill: 'forwards'
+    });
+  }
+
   updateDisabledState() {
     const button = this.shadowRoot?.querySelector('button');
     if (button) {
