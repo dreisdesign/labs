@@ -80,11 +80,15 @@ function toggleInputOverlay(open = true) {
     if (open) {
         overlay.setAttribute('open', '');
         inputCard.setAttribute('value', '');
-        setTimeout(() => {
+        // Use requestAnimationFrame for optimal timing after DOM update
+        requestAnimationFrame(() => {
             const inputEl = inputCard.shadowRoot?.querySelector('input, textarea');
             if (inputEl) inputEl.value = '';
-            inputEl?.focus();
-        }, 100);
+            // Second frame ensures layout is complete
+            requestAnimationFrame(() => {
+                inputEl?.focus();
+            });
+        });
     } else {
         overlay.removeAttribute('open');
     }
