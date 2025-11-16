@@ -109,6 +109,8 @@
   --color-warning: var(--palette-yellow-500);
   --color-on-warning: var(--color-on-surface);
   /* On Warning: use surface text color for high contrast on yellow #FFB300 background */
+  --color-warning-text: #1B1C1F;
+  /* Warning Text: dark text for accessibility on yellow badges */
   --color-error: var(--palette-red-500);
   --color-on-error: #fff;
   /* On Error: white text for high contrast on red #D32F2F background */
