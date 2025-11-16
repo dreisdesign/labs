@@ -182,9 +182,13 @@ function renderTodaySection() {
         return;
     }
 
-    // Render today's active tasks
-    todayActive.forEach(item => {
+    // Render today's active tasks with drag-drop support
+    todayActive.forEach((item, index) => {
         const li = createTodoItem(item, false); // false = not from past
+        li.setAttribute('draggable', 'true');
+        li.setAttribute('data-index', index);
+
+        setupDragHandlers(li, item, index, todayActive);
         list.appendChild(li);
     });
 
@@ -401,6 +405,86 @@ function createTodoItem(item, isPast = false) {
     li.appendChild(dropdown);
 
     return li;
+}
+
+// Drag-drop reordering for today's active items
+let draggedItemIndex = null;
+let draggedItemId = null;
+
+function setupDragHandlers(li, item, index, todayActive) {
+    li.addEventListener('dragstart', (e) => {
+        draggedItemIndex = index;
+        draggedItemId = item.id;
+        li.setAttribute('dragging', '');
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', item.id);
+    });
+
+    li.addEventListener('dragend', () => {
+        li.removeAttribute('dragging');
+        document.querySelectorAll('[data-index]').forEach(el => el.removeAttribute('drag-over'));
+        draggedItemIndex = null;
+        draggedItemId = null;
+    });
+
+    li.addEventListener('dragover', (e) => {
+        if (draggedItemIndex === null) return;
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        li.setAttribute('drag-over', '');
+    });
+
+    li.addEventListener('dragleave', () => {
+        li.removeAttribute('drag-over');
+    });
+
+    li.addEventListener('drop', (e) => {
+        if (draggedItemId === null) return;
+        e.preventDefault();
+        e.stopPropagation();
+
+        const todayItemsInStore = store.items.filter(
+            storeItem => !storeItem.archived && isToday(storeItem.timestamp)
+        );
+
+        const draggedId = draggedItemId;
+        const targetId = item.id;
+
+        if (!draggedId || !targetId || draggedId === targetId) {
+            return;
+        }
+
+        const draggedIdx = todayItemsInStore.findIndex(it => it.id === draggedId);
+        if (draggedIdx === -1) return;
+
+        const dropIndex = Number(li.getAttribute('data-index'));
+        if (Number.isNaN(dropIndex)) return;
+
+        const [draggedItem] = todayItemsInStore.splice(draggedIdx, 1);
+
+        let insertIdx = dropIndex;
+        if (draggedIdx < dropIndex) {
+            insertIdx = dropIndex;
+        }
+
+        if (insertIdx < 0) {
+            insertIdx = 0;
+        }
+
+        if (insertIdx > todayItemsInStore.length) {
+            insertIdx = todayItemsInStore.length;
+        }
+
+        todayItemsInStore.splice(insertIdx, 0, draggedItem);
+
+        // Update the master store.items array
+        const otherItems = store.items.filter(
+            storeItem => storeItem.archived || !isToday(storeItem.timestamp)
+        );
+        store.items = [...todayItemsInStore, ...otherItems];
+        store.save();
+        renderAll();
+    });
 }
 
 // Initialize

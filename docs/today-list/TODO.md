@@ -27,37 +27,37 @@ Priority order: Design system first (enables app features), then app improvement
 1. **Badge contrast fix** 🎨  
    - Location: `design-system/src/components/labs-badge.js`
    - Impact: Fixes accessibility on Labs homepage beta badge
-   - Status: ⬜ Not started
+   - Status: ✅ Completed
 
 2. **Button completion animation** ✨  
    - Location: `design-system/src/components/labs-button.js`
    - Add optional `animate()` method for task-complete and task-created states
    - Reusable across all apps
-   - Status: ⬜ Not started
+   - Status: ✅ Completed
 
 3. **List item drag-drop support** 🔄  
    - Location: `design-system/src/components/labs-list-item.js`
    - Add `draggable` attribute support
    - Add CSS states for drag visual feedback
-   - Status: ⬜ Not started
+   - Status: ✅ Completed
 
 ### App Implementation (Today List)
 
 4. **Auto-focus keyboard on "Add New Item"** ⌨️  
    - Location: `docs/today-list/js/main.js` → `toggleInputOverlay()`
-   - Currently has structure; refine focus timing
-   - Status: ⬜ Not started
+   - Refined focus timing via `requestAnimationFrame` after overlay opens
+   - Status: ✅ Completed
 
 5. **Left-align list item text on mobile** 📱  
    - Location: `design-system/src/components/labs-list-item.js`
-   - Add media query or CSS custom property for mobile alignment
-   - Status: ⬜ Not started
+   - Updated mobile alignment handling via inline style adjustments
+   - Status: ✅ Completed
 
 6. **Drag & drop reorder items** 🔄  
    - Location: `docs/today-list/js/main.js`
-   - Reorder array on drop, persist to localStorage
+   - Fully reorder array on drop, persist to localStorage, and rerender
    - Depends on #2–3 from design system
-   - Status: ⬜ Not started
+   - Status: ✅ Completed
 
 ## Completed Migrations & Refactors
 

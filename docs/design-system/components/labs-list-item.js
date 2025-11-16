@@ -30,6 +30,22 @@ class LabsListItem extends HTMLElement {
     // Update text alignment on mobile
     this._updateMobileAlignment();
     window.addEventListener('resize', () => this._updateMobileAlignment());
+
+    // Forward drag events from shadow DOM .row to host element so drag handlers work
+    const row = this.shadowRoot?.querySelector('.row');
+    if (row) {
+      ['dragstart', 'drag', 'dragend', 'dragover', 'dragleave', 'drop'].forEach(event => {
+        row.addEventListener(event, (e) => {
+          this.dispatchEvent(new DragEvent(e.type, {
+            bubbles: true,
+            cancelable: true,
+            dataTransfer: e.dataTransfer,
+            clientX: e.clientX,
+            clientY: e.clientY
+          }));
+        });
+      });
+    }
   }
 
   _updateMobileAlignment() {

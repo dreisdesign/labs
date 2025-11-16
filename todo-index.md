@@ -1,6 +1,6 @@
 # Labs Project — Master TODO Index
 
-**Last updated**: November 16, 2025  
+**Last updated**: November 16, 2025 (Items #1–3 complete)
 **Current branch**: `feature/today-list-improvement`
 
 This is the canonical project-wide checklist. Area-specific TODOs are in each app's directory.
@@ -14,38 +14,41 @@ This is the canonical project-wide checklist. Area-specific TODOs are in each ap
 
 ### Design System Foundation (Do First — Enables Others)
 
-- [ ] **1. Badge contrast fix** 🎨  
+- [x] **1. Badge contrast fix** 🎨  
   - File: `design-system/src/components/labs-badge.js`
   - Impact: Fixes accessibility on Labs homepage beta badge
   - Priority: HIGH (blocks nothing, fixes a11y)
+  - ✅ COMPLETED: Commit 13f3d593
 
-- [ ] **2. Button completion animation** ✨  
+- [x] **2. Button completion animation** ✨  
   - File: `design-system/src/components/labs-button.js`
   - Add optional `animate()` method for task-complete and task-created states
   - Reusable across all apps
   - Priority: MEDIUM (enables feature #6)
+  - ✅ COMPLETED: Commit 13f3d593 — animate() method + 3 animation types (success/created/pulse)
 
-- [ ] **3. List item drag-drop support** 🔄  
+- [x] **3. List item drag-drop support** 🔄  
   - File: `design-system/src/components/labs-list-item.js`
   - Add `draggable` attribute support
   - Add CSS states for drag visual feedback
   - Priority: MEDIUM (enables feature #6)
+  - ✅ COMPLETED: Commit 7602b531 — draggable attribute with CSS states + Storybook demo with localStorage persistence
 
 ### Today List App Features
 
-- [ ] **4. Auto-focus keyboard on "Add New Item"** ⌨️  
+- [x] **4. Auto-focus keyboard on "Add New Item"** ⌨️  
   - File: `docs/today-list/js/main.js` → `toggleInputOverlay()`
-  - Refine focus timing
+  - Refined focus timing via `requestAnimationFrame` after overlay opens
   - Priority: LOW (polish)
 
-- [ ] **5. Left-align list item text on mobile** 📱  
+- [x] **5. Left-align list item text on mobile** 📱  
   - File: `design-system/src/components/labs-list-item.js`
-  - Add media query or CSS custom property for mobile alignment
+  - Added inline style adjustment for mobile alignment
   - Priority: MEDIUM
 
-- [ ] **6. Drag & drop reorder items** 🔄  
+- [x] **6. Drag & drop reorder items** 🔄  
   - File: `docs/today-list/js/main.js`
-  - Reorder array on drop, persist to localStorage
+  - Reorder array on drop, persist to localStorage, rerender instantly
   - Depends on: #2–3
   - Priority: MEDIUM (feature request)
 
