@@ -49,7 +49,7 @@
     <script type="module" src="../design-system/components/labs-details.js"></script>
 
     <!-- Today-List Logic -->
-    <script type="module" src="./js/main.js?v=3"></script>
+    <script type="module" src="./js/main.js?v=4"></script>
 
     <style>
         body {
@@ -73,6 +73,22 @@
 
         labs-list-section {
             margin-top: var(--space-md);
+        }
+
+        labs-list-item[data-drop-animating] {
+            animation: today-list-drop 220ms ease-out;
+        }
+
+        @keyframes today-list-drop {
+            from {
+                opacity: 0.45;
+                transform: translateY(6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         labs-metric-card {
