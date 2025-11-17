@@ -188,9 +188,20 @@ function renderTodaySection() {
         li.setAttribute('draggable', 'true');
         li.setAttribute('data-index', index);
 
+        if (pendingDropAnimation) {
+            li.style.animation = 'none';
+            requestAnimationFrame(() => {
+                li.style.animation = 'today-list-drop 220ms ease-out';
+            });
+        }
+
         setupDragHandlers(li, item, index, todayActive);
         list.appendChild(li);
     });
+
+    if (pendingDropAnimation) {
+        pendingDropAnimation = false;
+    }
 
     // Render today's archived tasks in collapsed <details>
     if (todayArchived.length > 0) {
@@ -410,6 +421,7 @@ function createTodoItem(item, isPast = false) {
 // Drag-drop reordering for today's active items
 let draggedItemIndex = null;
 let draggedItemId = null;
+let pendingDropAnimation = false;
 
 function setupDragHandlers(li, item, index, todayActive) {
     li.addEventListener('dragstart', (e) => {
@@ -483,7 +495,20 @@ function setupDragHandlers(li, item, index, todayActive) {
         );
         store.items = [...todayItemsInStore, ...otherItems];
         store.save();
+        pendingDropAnimation = true;
         renderAll();
+    });
+}
+
+function triggerDropAnimation() {
+    const listSection = document.getElementById('todo-list');
+    if (!listSection) return;
+
+    listSection.setAttribute('data-drop-animating', '');
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            listSection.removeAttribute('data-drop-animating');
+        });
     });
 }
 
