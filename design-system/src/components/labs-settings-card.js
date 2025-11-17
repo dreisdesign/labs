@@ -246,20 +246,17 @@ class LabsSettingsCard extends HTMLElement {
       updateLabel();
       slot.appendChild(btn);
 
-      // Ensure a flavor button is present (large) — use labs-flavor-button so label reflects current flavor
-      import('../components/labs-flavor-button.js').then(() => {
-        const flavorBtn = document.createElement('labs-flavor-button');
-        // compute initial human-friendly label from document class
-        const flavorClass = Array.from(document.documentElement.classList).find(c => c && c.startsWith('flavor-'));
-        const flavorKey = flavorClass ? flavorClass.replace('flavor-', '') : 'blueberry';
-        const flavorLabel = flavorKey.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
-        flavorBtn.setAttribute('label', flavorLabel);
-        if (!this.shadowRoot.getElementById('flavor-btn')) slot.appendChild(flavorBtn);
-        // When flavor cycles, re-render label on settings card if needed
-        flavorBtn.addEventListener('cycle-flavor', (e) => {
-          // Bubble up a convenience event so overlays or stories can react
-          this.dispatchEvent(new CustomEvent('flavor-changed', { detail: e.detail, bubbles: true, composed: true }));
-        });
+      // Ensure a flavor selector is present — use labs-flavor-selector for dropdown UX
+      import('../components/labs-flavor-selector.js').then(() => {
+        if (!this.shadowRoot.getElementById('flavor-selector')) {
+          const flavorSelector = document.createElement('labs-flavor-selector');
+          flavorSelector.id = 'flavor-selector';
+          slot.appendChild(flavorSelector);
+          // Bubble up flavor-changed event from selector
+          flavorSelector.addEventListener('flavor-changed', (e) => {
+            this.dispatchEvent(new CustomEvent('flavor-changed', { detail: e.detail, bubbles: true, composed: true }));
+          });
+        }
       }).catch(() => { });
 
       // Wire reset button to dispatch a confirmed reset event
