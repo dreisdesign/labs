@@ -1,7 +1,7 @@
 # Labs Project — Master TODO Index
 
-**Last updated**: November 16, 2025 (Items #1–3 complete)
-**Current branch**: `feature/today-list-improvement`
+**Last updated**: November 17, 2025 (Flavor selector complete!)
+**Current branch**: `main`
 
 This is the canonical project-wide checklist. Area-specific TODOs are in each app's directory.
 
@@ -64,12 +64,12 @@ This is the canonical project-wide checklist. Area-specific TODOs are in each ap
   - Priority: MEDIUM (a11y + UX)
   - Scope: All apps (timer, tracker, today-list, note, pad)
 
-- [ ] **Flavor selector UX improvement** 🎨  
-  - Current: Button that cycles through flavors
-  - Goal: Dropdown or radio select
-  - Files: `labs-footer-with-settings.js` and/or new flavor selector component
-  - Decision needed: Dropdown vs. Radio select?
+- [x] **Flavor selector UX improvement** 🎨  
+  - Current: Dropdown with direct selection (replaces cycling button)
+  - Files: `design-system/src/components/labs-flavor-selector.js`, `labs-settings-card.js`
+  - Implementation: Portal-based menu with smart positioning (avoids overflow scroll)
   - Priority: MEDIUM (UX improvement)
+  - ✅ COMPLETED: Commit d9980eaf — New dropdown component with portal positioning
 
 ### Design System — Component Updates
 
