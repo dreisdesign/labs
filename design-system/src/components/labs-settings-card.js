@@ -144,10 +144,7 @@ class LabsSettingsCard extends HTMLElement {
         </labs-button>
       </div>
       <div class="settings-list">
-        <labs-button id="all-apps-btn" variant="secondary" size="large" style="gap:10px;">
-          <labs-icon name="apps" slot="icon-left"></labs-icon>
-          All Apps
-        </labs-button>
+        <div id="apps-selector-slot"></div>
         <div id="appearance-btn-slot"></div>
         <labs-button id="simulate-next-btn" variant="secondary" size="large" style="gap:10px; display:none;">
           <labs-icon name="add" slot="icon-left" width="20" height="20"></labs-icon>
@@ -168,36 +165,16 @@ class LabsSettingsCard extends HTMLElement {
         this.dispatchEvent(new CustomEvent('close', { bubbles: true, composed: true }));
       });
     }
-    // Wire All Apps button to open the local dev server only when the current page is local.
-    // On production/docs sites, open the repo-scoped public URL immediately (no fetch attempt).
-    const allAppsBtn = this.shadowRoot.getElementById('all-apps-btn');
-    if (allAppsBtn) {
-      const localUrl = 'http://localhost:8000/';
-      // Repo-scoped fallback to open All Apps on the live docs site
-      const publicUrl = '/labs/';
-      const isLocalHostPage = typeof window !== 'undefined' && (window.location && (window.location.hostname.includes('localhost') || window.location.hostname === '127.0.0.1'));
-      const openPreferLocal = async () => {
-        if (!isLocalHostPage) {
-          // Don't attempt to probe localhost from production — just open the public site.
-          window.open(publicUrl, '_blank');
-          return;
+    // Wire All Apps selector to display dropdown menu
+    const appsSlot = this.shadowRoot.getElementById('apps-selector-slot');
+    if (appsSlot) {
+      import('../components/labs-apps-selector.js').then(() => {
+        if (!this.shadowRoot.getElementById('apps-selector')) {
+          const appsSelector = document.createElement('labs-apps-selector');
+          appsSelector.id = 'apps-selector';
+          appsSlot.appendChild(appsSelector);
         }
-        // Try a quick fetch to detect local server. Use no-cors so we don't get blocked by CORS.
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 600);
-        try {
-          await fetch(localUrl, { mode: 'no-cors', signal: controller.signal });
-          window.open(localUrl, '_blank');
-        } catch (e) {
-          window.open(publicUrl, '_blank');
-        } finally {
-          clearTimeout(timeout);
-        }
-      };
-      allAppsBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        openPreferLocal();
-      });
+      }).catch(() => { });
     }
     // Inline theme toggle button logic for shadow DOM compatibility
     const slot = this.shadowRoot.getElementById('appearance-btn-slot');
