@@ -10,6 +10,12 @@
     <link rel="icon" href="favicon.ico">
     <title>Labs: Today-List</title>
 
+    <!-- Early Theme Injection -->
+    <script type="module">
+        import { ThemeManager } from '../design-system/utils/theme-manager.js';
+        ThemeManager.init('today-list');
+    </script>
+
     <script>
         // Set flavor/theme classes as early as possible for CSS tokens
         (function () {
