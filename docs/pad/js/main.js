@@ -1,3 +1,8 @@
+import { StorageAPI } from '../../design-system/utils/storage-api.js';
+
+// Initialize storage
+const storage = new StorageAPI('pad');
+
 /**
  * Pad App - Main Drawing Canvas Logic
  * Handles canvas initialization, drawing, theme changes, and clear functionality
@@ -318,7 +323,7 @@ class PadDrawing {
     // Save and restore drawing functionality
     saveDrawing() {
         try {
-            localStorage.setItem('padDrawing', JSON.stringify(this.strokes));
+            storage.setJSON('drawing', this.strokes);
         } catch (e) {
             console.warn('Could not save drawing:', e);
         }
@@ -326,9 +331,9 @@ class PadDrawing {
 
     restoreDrawing() {
         try {
-            const saved = localStorage.getItem('padDrawing');
+            const saved = storage.getJSON('drawing');
             if (saved) {
-                this.strokes = JSON.parse(saved);
+                this.strokes = saved;
                 this.redrawAllStrokes();
             }
         } catch (e) {
@@ -343,43 +348,10 @@ export function initializeApp() {
     const pad = new PadDrawing();
 
     // Redraw all strokes on theme change
-    document.addEventListener('themeChanged', () => pad.redrawAllStrokes());
+    document.addEventListener('theme-changed', () => pad.redrawAllStrokes());
 
-    // Handle flavor changes from settings card
-    const footer = document.querySelector('labs-footer-with-settings');
-    if (footer) {
-        footer.addEventListener('flavor-changed', (e) => {
-            const flavor = e.detail?.flavor;
-            if (flavor) {
-                localStorage.setItem('pad-flavor', flavor);
-            }
-            // Also save current theme
-            const isDark = document.documentElement.classList.contains('theme-dark');
-            localStorage.setItem('pad-theme', isDark ? 'dark' : 'light');
-        });
-    }
-
-    // Watch for theme changes and persist to localStorage
-    const observer = new MutationObserver(() => {
-        const isDark = document.documentElement.classList.contains('theme-dark');
-        const isLight = document.documentElement.classList.contains('theme-light');
-        if (isDark || isLight) {
-            localStorage.setItem('pad-theme', isDark ? 'dark' : 'light');
-            // Redraw canvas when theme changes to update colors
-            pad.redrawAllStrokes();
-        }
-        // Also watch for flavor changes
-        const flavorClass = Array.from(document.documentElement.classList).find(c => c.startsWith('flavor-'));
-        if (flavorClass) {
-            const flavor = flavorClass.replace('flavor-', '');
-            localStorage.setItem('pad-flavor', flavor);
-        }
-    });
-
-    observer.observe(document.documentElement, {
-        attributes: true,
-        attributeFilter: ['class']
-    });
+    // Note: ThemeManager handles persistence of flavor/theme automatically.
+    // We only need to listen for redraws.
 }
 
 // Auto-initialize when DOM is ready

@@ -205,14 +205,28 @@ class LabsSettingsCard extends HTMLElement {
         const flavorClass = Array.from(root.classList).find(c => c.startsWith('flavor-'));
         const flavor = flavorClass ? flavorClass.replace('flavor-', '') : 'vanilla';
         const theme = isDark ? 'light' : 'dark';
-        import('../utils/theme.js').then(({ applyTheme }) => {
-          applyTheme({ flavor, theme });
-          // Persist theme and current flavor to localStorage for reload persistence
-          try {
-            localStorage.setItem('tracker-theme', theme);
-            localStorage.setItem('tracker-flavor', flavor);
-          } catch (e) { }
+
+        // Use ThemeManager if available (preferred), otherwise fall back to direct DOM manipulation
+        import('../utils/theme-manager.js').then(({ ThemeManager }) => {
+          if (ThemeManager.appName) {
+            ThemeManager.setTheme(theme);
+          } else {
+            // Fallback for apps not using ThemeManager yet (e.g. Tracker)
+            import('../utils/theme.js').then(({ applyTheme }) => {
+              applyTheme({ flavor, theme });
+              try {
+                localStorage.setItem('tracker-theme', theme);
+                localStorage.setItem('tracker-flavor', flavor);
+              } catch (e) { }
+            });
+          }
           updateLabel();
+        }).catch(() => {
+          // Fallback if ThemeManager import fails
+          import('../utils/theme.js').then(({ applyTheme }) => {
+            applyTheme({ flavor, theme });
+            updateLabel();
+          });
         });
       };
       // Keep the visible label in sync with external theme changes
@@ -229,8 +243,19 @@ class LabsSettingsCard extends HTMLElement {
           const flavorSelector = document.createElement('labs-flavor-selector');
           flavorSelector.id = 'flavor-selector';
           slot.appendChild(flavorSelector);
-          // Bubble up flavor-changed event from selector
+          // Bubble up flavor-changed event from selector and persist via ThemeManager
           flavorSelector.addEventListener('flavor-changed', (e) => {
+            const newFlavor = e.detail.flavor;
+            import('../utils/theme-manager.js').then(({ ThemeManager }) => {
+              if (ThemeManager.appName) {
+                ThemeManager.setFlavor(newFlavor);
+              } else {
+                // Fallback persistence for legacy apps
+                try {
+                  localStorage.setItem('tracker-flavor', newFlavor);
+                } catch (err) { }
+              }
+            });
             this.dispatchEvent(new CustomEvent('flavor-changed', { detail: e.detail, bubbles: true, composed: true }));
           });
         }

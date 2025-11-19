@@ -9,22 +9,10 @@
   <link rel="icon" type="image/x-icon" href="../favicon.ico">
   <link rel="manifest" href="../manifest.json">
 
-  <script>
-    (function () {
-      const root = document.documentElement;
-      const flavor = localStorage.getItem('pad-flavor') || 'vanilla';
-      const theme = localStorage.getItem('pad-theme') || 'light';
-      root.classList.remove('flavor-blueberry', 'flavor-strawberry', 'flavor-vanilla');
-      root.classList.remove('theme-light', 'theme-dark');
-      root.classList.add('flavor-' + flavor);
-      root.classList.add('theme-' + theme);
-      root.setAttribute('data-color-scheme', theme);
-      const themeColorMeta = document.querySelector('meta[name="theme-color"]');
-      const bgColor = theme === 'dark' ? '#1B1C1F' : '#FBFBFD';
-      if (themeColorMeta) {
-        themeColorMeta.setAttribute('content', bgColor);
-      }
-    })();
+  <!-- Early Theme Injection -->
+  <script type="module">
+    import { ThemeManager } from '../design-system/utils/theme-manager.js';
+    ThemeManager.init('pad');
   </script>
 
   <meta name="theme-color" content="#FBFBFD">
