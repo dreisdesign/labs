@@ -9,6 +9,12 @@
   <link rel="icon" href="favicon.ico">
   <title>Focus Timer</title>
 
+  <!-- Early Theme Injection -->
+  <script type="module">
+    import { ThemeManager } from '../design-system/utils/theme-manager.js';
+    ThemeManager.init('timer');
+  </script>
+
   <!-- Design System Tokens -->
   <link rel="stylesheet" href="../design-system/tokens/colors.css">
   <link rel="stylesheet" href="../design-system/tokens/typography.css">
