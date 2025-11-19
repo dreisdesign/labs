@@ -3,28 +3,28 @@
 
 
 const baseRadiusTokens = [
-    { name: '--radius-none', value: '0' },
-    { name: '--radius-sm', value: '2px' },
-    { name: '--radius-md', value: '4px' },
-    { name: '--radius-lg', value: '8px' },
-    { name: '--radius-xl', value: '16px' },
-    { name: '--radius-full', value: '9999px' },
+  { name: '--radius-none', value: '0' },
+  { name: '--radius-sm', value: '2px' },
+  { name: '--radius-md', value: '4px' },
+  { name: '--radius-lg', value: '8px' },
+  { name: '--radius-xl', value: '16px' },
+  { name: '--radius-full', value: '9999px' },
 ];
 
 const semanticRadiusTokens = [
-    { name: '--radius-card', value: 'var(--radius-lg)', usage: 'Cards, Details, Metric Card' },
-    { name: '--radius-modal', value: 'var(--radius-xl)', usage: 'Modals, Overlays' },
-    { name: '--radius-button', value: 'var(--radius-full)', usage: 'Buttons, Icon Buttons' },
-    { name: '--radius-badge', value: 'var(--radius-full)', usage: 'Badges, Pills' },
-    { name: '--radius-input', value: 'var(--radius-md)', usage: 'Inputs, Text Fields' },
+  { name: '--radius-card', value: 'var(--radius-lg)', usage: 'Cards, Details, Metric Card' },
+  { name: '--radius-modal', value: 'var(--radius-xl)', usage: 'Modals, Overlays' },
+  { name: '--radius-button', value: 'var(--radius-full)', usage: 'Buttons, Icon Buttons' },
+  { name: '--radius-badge', value: 'var(--radius-full)', usage: 'Badges, Pills' },
+  { name: '--radius-input', value: 'var(--radius-md)', usage: 'Inputs, Text Fields' },
 ];
 
 export default {
-    title: '0. Tokens / Common / Border Radius',
+  title: '0. Tokens / Common / Border Radius',
 };
 
 export const AllBorderRadiusTokens = () => {
-    return `
+  return `
     <style>
       .radius-demo-section {
         margin-bottom: 2.5rem;
@@ -60,25 +60,27 @@ export const AllBorderRadiusTokens = () => {
         border-collapse: collapse;
         margin-top: 2.5rem;
         font-size: 0.98rem;
+        color: var(--color-on-surface, #222);
       }
       .radius-table th, .radius-table td {
-        border: 1px solid #e0e0e0;
+        border: 1px solid var(--color-outline, #e0e0e0);
         padding: 0.5rem 0.75rem;
         text-align: left;
       }
       .radius-table th {
-        background: #f8f8fa;
-        color: #333;
+        background: var(--color-surface-variant, #f8f8fa);
+        color: var(--color-on-surface, #333);
         font-weight: 600;
       }
       .radius-table code {
         font-size: 0.97em;
-        background: #f3f3f3;
+        background: var(--color-surface-variant, #f3f3f3);
+        color: var(--color-on-surface, #333);
         padding: 1px 4px;
         border-radius: 3px;
       }
       .radius-table .usage {
-        color: #666;
+        color: var(--color-on-surface-variant, #666);
         font-size: 0.93em;
       }
     </style>

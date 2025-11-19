@@ -1,22 +1,22 @@
 import { createThemeToggleButton } from '../components/ThemeToggle.js';
 
 export default {
-    title: 'About',
-    parameters: {
-        viewMode: 'docs',
-        docs: {
-            description: {
-                story: `
+  title: '0. About',
+  parameters: {
+    viewMode: 'docs',
+    docs: {
+      description: {
+        story: `
           Unified About page for Labs and Smoothie Design System.
         `,
-            },
-        },
+      },
     },
+  },
 };
 
 export const About = () => {
-    const container = document.createElement('div');
-    container.innerHTML = `
+  const container = document.createElement('div');
+  container.innerHTML = `
     <h1>Labs Design System &amp; Smoothie Philosophy</h1>
     <p>
       <strong>Labs</strong> is a production-ready design system and suite of productivity apps built with vanilla JavaScript, Web Components, and CSS custom properties.<br>
@@ -108,8 +108,8 @@ export const About = () => {
     <hr />
     <i>Designed by Dan Reis in Somerville — Last updated October 2025</i>
   `;
-    setTimeout(() => {
-        createThemeToggleButton({ parent: container });
-    }, 0);
-    return container;
+  setTimeout(() => {
+    createThemeToggleButton({ parent: container });
+  }, 0);
+  return container;
 };
