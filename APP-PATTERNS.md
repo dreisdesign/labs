@@ -1,6 +1,6 @@
 # Labs Apps — Patterns & Audit
 
-**Last Updated**: November 18, 2025  
+**Last Updated**: November 19, 2025  
 **Scope**: Code patterns across all 5 production apps (Timer, Tracker, Today List, Note, Pad)
 
 ---
@@ -8,44 +8,76 @@
 ## 📋 Audit Summary
 
 ### Apps Overview
-| App | Flavor/Theme Storage | Content Storage | Early Theme Injection | Components Loaded |
+| App | Flavor/Theme Persistence | Content Storage | ThemeManager | Status |
 |-----|-----|-----|-----|-----|
-| **Timer** | ❌ None | N/A | ✅ Yes | ~10 design system + core |
-| **Tracker** | ✅ `tracker-{flavor,theme}` | `tracker-items` (JSON) | ✅ Yes | ~10 design system |
-| **Today List** | ✅ `today-list-{flavor,theme}` | `today-list-items` (JSON) | ✅ Yes | ~14 design system |
-| **Note** | ✅ `note-{flavor,theme}` | `note-YYYY-MM-DD` (text), `note-*-lastEdited` (ISO), `note-reset-enabled`, `note-expanded` | ✅ Yes | ~7 design system |
-| **Pad** | ✅ `pad-{flavor,theme}` | `padDrawing` (JSON strokes) | ✅ Yes | ~8 design system |
+| **Timer** | ✅ `timer-{flavor,theme}` | N/A | ✅ Active | 🟢 Ready |
+| **Tracker** | ✅ `tracker-{flavor,theme}` | `tracker-items` (JSON) | ✅ Active | 🟢 Ready |
+| **Today List** | ✅ `today-list-{flavor,theme}` | `today-list-items` (JSON) | ✅ Active | 🟢 Ready |
+| **Note** | ✅ `note-{flavor,theme}` | `note-YYYY-MM-DD` (text), `note-*-lastEdited` (ISO) | ✅ Active | 🟢 Ready |
+| **Pad** | ✅ `pad-{flavor,theme}` | `padDrawing` (JSON strokes) | ✅ Active | 🟢 Ready |
 
 ---
 
-## 🎨 Flavor & Theme Persistence Pattern
+## 🎨 Theme & Flavor Persistence Pattern (v2: ThemeManager)
 
-### Current State: Duplicated in Every App
+### ✅ IMPLEMENTED: Unified ThemeManager Architecture
 
-Each app has identical early theme injection code in `<head>`:
+All apps now use a centralized `ThemeManager` utility for consistent theme/flavor persistence.
 
+#### How It Works
+
+**1. Early Initialization** (in `<head>` before DOM renders)
 ```javascript
-<script>
-  (function () {
-    var root = document.documentElement;
-    var flavor = localStorage.getItem('{APP}-flavor') || 'blueberry';
-    var theme = localStorage.getItem('{APP}-theme') || 'light';
-    root.classList.remove('flavor-blueberry', 'flavor-strawberry', 'flavor-vanilla');
-    root.classList.remove('theme-light', 'theme-dark');
-    root.classList.add('flavor-' + flavor);
-    root.classList.add('theme-' + theme);
-    root.setAttribute('data-color-scheme', theme);
-  })();
+<script type="module">
+  import { ThemeManager } from '../design-system/utils/theme-manager.js';
+  ThemeManager.init('app-name'); // e.g., 'timer', 'tracker', 'pad'
 </script>
 ```
 
-**Problem**: 
-- Duplicated in all 5 apps (`docs/{app}/index.html`)
-- Inconsistent app identifiers: `timer` (none), `tracker`, `today-list`, `note`, `pad`
-- Changes must be made in 5 places
-- If design system changes theme mechanism, all 5 apps must be updated
+**2. Automatic Theme/Flavor Restoration**
+- `ThemeManager.init(appName)` reads stored preferences from localStorage
+- Uses app-specific keys: `{appName}-flavor` and `{appName}-theme`
+- Applies classes to document root before page render (no flash)
+- Falls back to defaults: `vanilla` flavor, `light` theme
 
-**Solution**: Move to shared utility or standardized template
+**3. Flavor/Theme Changes** (via settings UI)
+- User changes flavor in `labs-flavor-selector` component
+- `labs-settings-card.js` intercepts the `flavor-changed` event
+- Calls `ThemeManager.setFlavor(newFlavor)` → persists to localStorage
+- Theme toggle similarly calls `ThemeManager.setTheme(newTheme)`
+- Both emit custom events that bubble for parent apps to listen to
+
+#### Benefits
+✅ **Centralized**: Single source of truth (ThemeManager utility)  
+✅ **Consistent**: All apps use identical pattern  
+✅ **Modular**: Components (`labs-settings-card`) automatically use ThemeManager  
+✅ **App-Scoped**: Each app has isolated storage namespace  
+✅ **No Flash**: Theme applied before DOM renders  
+✅ **Backward Compatible**: Falls back to legacy `tracker-*` keys if needed  
+
+#### Implementation Files
+
+| File | Purpose | Location |
+|------|---------|----------|
+| `ThemeManager` | Core singleton for init, setFlavor, setTheme | `design-system/src/utils/theme-manager.js` |
+| `labs-settings-card.js` | Intercepts flavor/theme changes, calls ThemeManager | `design-system/src/components/labs-settings-card.js` |
+| `labs-flavor-selector.js` | Dropdown UI for flavor selection | `design-system/src/components/labs-flavor-selector.js` |
+| App HTML (`index.html`) | Initializes ThemeManager for app-specific keys | `docs/{app}/index.html` (lines 11-16) |
+
+#### Setup Checklist for New Apps
+
+To add ThemeManager to a new app:
+
+1. Add to `docs/{app}/index.html` after `<title>`:
+   ```javascript
+   <script type="module">
+     import { ThemeManager } from '../design-system/utils/theme-manager.js';
+     ThemeManager.init('{app-name}'); // e.g., 'timer', 'my-app'
+   </script>
+   ```
+
+2. Include `labs-footer-with-settings` component (if your app has settings)
+3. No other code needed! `labs-settings-card.js` automatically calls `ThemeManager.setFlavor()` and `ThemeManager.setTheme()`
 
 ---
 
