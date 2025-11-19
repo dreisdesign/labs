@@ -1,3 +1,30 @@
+# v2.5.0 – 2025-11-18
+
+### 🎨 Today List Sprint - Complete
+**All 6 items completed this week** — comprehensive improvements to design system + Today List app.
+
+#### Design System Enhancements
+- **Badge Contrast Fix:** Improved visual accessibility of warning badge variant on Labs homepage
+- **Button Animation Support:** Added optional `animate()` method with 3 types: `success` (checkmark), `created` (plus), `pulse` (infinite). Reusable across all apps for task completions and state changes
+- **List Item Drag-Drop Support:** Added `draggable` attribute support with visual CSS states for dragging, drop zones, and feedback. Persists to localStorage in Storybook demo
+
+#### Today List App Features  
+- **Auto-Focus on Input:** Refined keyboard focus timing using `requestAnimationFrame` when "Add New Item" overlay opens for instant typing experience
+- **Mobile Text Alignment:** Left-aligned list item text on mobile devices for improved readability
+- **Drag & Drop Reorder:** Full reorder functionality with instant re-render and localStorage persistence
+
+#### New Portal-Based Components
+- **Flavor Selector Dropdown:** Replaced cycling button with dropdown UI. Portal-based menu with smart viewport positioning (below-preferred, above-fallback). Users can now directly select themes without cycling
+- **Apps Selector Dropdown:** New component showing all 6 available apps (Timer, Tracker, Today List, Note, Pad, Design System) with direct navigation links. Portal-based positioning, opens in new tabs, closes on selection. Removed duplicate "Notes" app (older version)
+
+### 🔧 Integration & Testing
+- Flavor selector integrated into `labs-settings-card.js` with automatic localStorage persistence
+- Apps selector integrated into `labs-settings-card.js` for unified settings experience
+- Both selectors tested locally and deployed to GitHub Pages
+- Storybook stories created for both new components
+
+---
+
 # v2.4.9 – 2025-11-03
 
 ### 🐛 Bug Fixes

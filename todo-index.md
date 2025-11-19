@@ -1,6 +1,6 @@
 # Labs Project — Master TODO Index
 
-**Last updated**: November 17, 2025 (Flavor selector complete!)
+**Last updated**: November 18, 2025 (Flavor selector & apps selector complete!)
 **Current branch**: `main`
 
 This is the canonical project-wide checklist. Area-specific TODOs are in each app's directory.
@@ -70,6 +70,13 @@ This is the canonical project-wide checklist. Area-specific TODOs are in each ap
   - Implementation: Portal-based menu with smart positioning (avoids overflow scroll)
   - Priority: MEDIUM (UX improvement)
   - ✅ COMPLETED: Commit d9980eaf — New dropdown component with portal positioning
+
+- [x] **Apps selector dropdown** 🗂️  
+  - Creates dropdown showing all 6 apps (Timer, Tracker, Today List, Note, Pad, Design System)
+  - Files: `design-system/src/components/labs-apps-selector.js`, `labs-settings-card.js`
+  - Implementation: Portal-based menu with smart positioning; removed duplicate "Notes" app
+  - Priority: MEDIUM (UX improvement)
+  - ✅ COMPLETED: Commit 36b4df7c — Removed duplicate Notes app, deployed
 
 ### Design System — Component Updates
 
@@ -156,6 +163,42 @@ This is the canonical project-wide checklist. Area-specific TODOs are in each ap
 - [ ] **Home TODO** (`docs/home/TODO.md`)
   - Evaluate app card pattern status
   - Update acceptance criteria if changed
+
+---
+
+## 🚀 Next Sprint: Design System App Consolidation
+
+**Focus**: Consolidate repeated app patterns into design system layer  
+**Goal**: Single source of truth for flavor/theme persistence, component initialization
+
+### Phase 1: Audit & Documentation (1–2 hours)
+
+- [ ] **1. Review app code for repeated patterns** 📋
+  - Audit: Note, Pad, Timer, Tracker, Today List localStorage/persistence patterns
+  - Document: Which components each app loads
+  - Output: `APP-PATTERNS.md` with audit results
+
+- [ ] **2. Create app developer guidelines** 📖
+  - Document standard component list for all apps
+  - Define localStorage key naming convention
+  - Create HTML boilerplate template
+
+### Phase 2: Design System Consolidation (2–3 hours)
+
+- [ ] **3. Centralize flavor/theme persistence** 🎨
+  - Move early theme injection logic from each app to utility
+  - Create `theme-manager.js` or extend `labs-settings-card.js`
+  - Test across all 5 apps
+
+- [ ] **4. Standardize storage key naming** 🔑
+  - Define convention: `{app}-{feature}` (e.g., `note-flavor`, `pad-theme`)
+  - Create storage utility helper if needed
+  - Update all apps to use convention
+
+- [ ] **5. Create app loader/boilerplate** 🏗️
+  - Optional: Helper that auto-loads standard components
+  - Or: Document the standard `<head>` template
+  - Test with one app before rolling out
 
 ---
 
