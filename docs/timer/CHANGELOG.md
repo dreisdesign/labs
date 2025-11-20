@@ -8,10 +8,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # Version 3.0 Powered by Smoothie
 
-
 ---
 
 ## [Unreleased]
+
+## [3.0.1] - 2025-11-19 - ThemeManager Integration
+
+### 🔧 Technical Improvements
+- **ThemeManager v2 Integration**: Unified app-specific theme/flavor persistence
+  - Storage keys: `timer-flavor`, `timer-theme`
+  - Seamless persistence across app restarts
+  - Centralized singleton utility replaces per-app boilerplate
+
+### 🎨 Features Maintained
+- All v3.0.0 features fully functional with new persistence layer
+- Timer functionality, styling, and responsive behavior unchanged
 
 ## [3.0.0] - 2025-06-09
 

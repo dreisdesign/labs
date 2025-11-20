@@ -1,14 +1,10 @@
 # Pad App TODOs
 
-## Current Status (last-reviewed: 2025-10-20)
-- ✅ **V2.0 Complete** — Full redesign with design system integration
-  - Header/Footer/Container structure (matches Note, Today List, Tracker apps)
-  - Touch + Pointer event handling (iPad/Apple Pencil support)
-  - Pressure-sensitive line width (2px-8px)
-  - Smooth quadratic curve rendering
-  - localStorage persistence of drawings
-  - Theme/flavor support with persistent colors
-  - Clear All button with confirmation dialog in footer
+**Last reviewed**: November 19, 2025  
+**Status**: V2.0 complete with design system integration  
+**See**: `CHANGELOG.md` for completed work (v2.0.1)
+
+---
 
 ## Design System Integration Opportunities
 
@@ -25,7 +21,3 @@
 - [ ] Save/Export drawings (PNG, SVG)
 - [ ] Settings panel (persistence preferences, export formats)
 - [ ] Drawing metadata (creation date, last edited, etc.)
-
-## Known Issues & Fixes
-- ✅ Theme/flavor persistence fixed (2025-10-20) — Now saves to `pad-flavor` and `pad-theme` localStorage keys
-- See `DESIGN-SYSTEM-INTEGRATION.md` for full integration analysis and roadmap

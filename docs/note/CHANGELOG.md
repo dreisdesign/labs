@@ -2,6 +2,20 @@
 
 All notable changes to the DailyNote app will be documented in this file.
 
+## [5.1.0] - 2025-11-19 - ThemeManager Integration
+
+### 🔧 Technical Improvements
+- **ThemeManager v2 Integration**: Unified app-specific theme/flavor persistence
+  - Storage keys: `note-flavor`, `note-theme`
+  - Seamless persistence across app restarts
+  - Centralized singleton utility eliminates per-app boilerplate
+
+### 🎨 Features Maintained
+- All v5.0.0 features fully functional with new persistence layer
+- Expand/collapse, auto-save, timestamp tracking all operational
+
+---
+
 ## [5.0.0] - 2025-10-19
 
 ### 🎨 Major UI/UX Improvements

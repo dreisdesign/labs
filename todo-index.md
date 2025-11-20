@@ -1,276 +1,53 @@
 # Labs Project — Master TODO Index
 
-**Last updated**: November 18, 2025 (Flavor selector & apps selector complete!)
+**Last updated**: November 19, 2025  
 **Current branch**: `main`
 
-This is the canonical project-wide checklist. Area-specific TODOs are in each app's directory.
+This is the **canonical index** pointing to area-specific TODOs and changelogs. All detailed task tracking lives in appropriate locations—**not here**.
 
 ---
 
-## 🚀 Active Sprint: Today List Improvements
+## 📋 Active TODOs by Area
 
-**Branch**: `feature/today-list-improvement`  
-**Focus**: Design system enhancements + app features
+### **Design System**
+- **Detailed tasks**: `design-system/TODO.md`
+- **Changelog**: `design-system/CHANGELOG.md`
 
-### Design System Foundation (Do First — Enables Others)
+### **Today List App**
+- **Detailed tasks**: `docs/today-list/TODO.md`
+- **Changelog**: `docs/today-list/CHANGELOG.md`
+- **Roadmap**: `docs/today-list/ROADMAP.md`
 
-- [x] **1. Badge contrast fix** 🎨  
-  - File: `design-system/src/components/labs-badge.js`
-  - Impact: Fixes accessibility on Labs homepage beta badge
-  - Priority: HIGH (blocks nothing, fixes a11y)
-  - ✅ COMPLETED: Commit 13f3d593
+### **Tracker App**
+- **Detailed tasks**: `docs/tracker/TODO.md`
+- **Changelog**: `docs/tracker/CHANGELOG.md`
 
-- [x] **2. Button completion animation** ✨  
-  - File: `design-system/src/components/labs-button.js`
-  - Add optional `animate()` method for task-complete and task-created states
-  - Reusable across all apps
-  - Priority: MEDIUM (enables feature #6)
-  - ✅ COMPLETED: Commit 13f3d593 — animate() method + 3 animation types (success/created/pulse)
+### **Pad App**
+- **Detailed tasks**: `docs/pad/TODO.md`
+- **Changelog**: `docs/pad/CHANGELOG.md`
 
-- [x] **3. List item drag-drop support** 🔄  
-  - File: `design-system/src/components/labs-list-item.js`
-  - Add `draggable` attribute support
-  - Add CSS states for drag visual feedback
-  - Priority: MEDIUM (enables feature #6)
-  - ✅ COMPLETED: Commit 7602b531 — draggable attribute with CSS states + Storybook demo with localStorage persistence
+### **Note App**
+- **Changelog**: `docs/note/CHANGELOG.md`
 
-### Today List App Features
+### **Timer App**
+- **Changelog**: `docs/timer/CHANGELOG.md`
 
-- [x] **4. Auto-focus keyboard on "Add New Item"** ⌨️  
-  - File: `docs/today-list/js/main.js` → `toggleInputOverlay()`
-  - Refined focus timing via `requestAnimationFrame` after overlay opens
-  - Priority: LOW (polish)
-
-- [x] **5. Left-align list item text on mobile** 📱  
-  - File: `design-system/src/components/labs-list-item.js`
-  - Added inline style adjustment for mobile alignment
-  - Priority: MEDIUM
-
-- [x] **6. Drag & drop reorder items** 🔄  
-  - File: `docs/today-list/js/main.js`
-  - Reorder array on drop, persist to localStorage, rerender instantly
-  - Depends on: #2–3
-  - Priority: MEDIUM (feature request)
+### **Home (Index Page)**
+- **Detailed tasks**: `docs/home/TODO.md`
 
 ---
 
-## 📊 Cross-App Improvements
+## 🔗 Supporting Documentation
 
-### All Apps — Quality & UX
-
-- [ ] **Tooltips on hover**  
-  - Add `<title>` or `aria-label` to all interactive elements
-  - Consider `labs-tooltip` component if needed
-  - Priority: MEDIUM (a11y + UX)
-  - Scope: All apps (timer, tracker, today-list, note, pad)
-
-- [x] **Flavor selector UX improvement** 🎨  
-  - Current: Dropdown with direct selection (replaces cycling button)
-  - Files: `design-system/src/components/labs-flavor-selector.js`, `labs-settings-card.js`
-  - Implementation: Portal-based menu with smart positioning (avoids overflow scroll)
-  - Priority: MEDIUM (UX improvement)
-  - ✅ COMPLETED: Commit d9980eaf — New dropdown component with portal positioning
-
-- [x] **Apps selector dropdown** 🗂️  
-  - Creates dropdown showing all 6 apps (Timer, Tracker, Today List, Note, Pad, Design System)
-  - Files: `design-system/src/components/labs-apps-selector.js`, `labs-settings-card.js`
-  - Implementation: Portal-based menu with smart positioning; removed duplicate "Notes" app
-  - Priority: MEDIUM (UX improvement)
-  - ✅ COMPLETED: Commit 36b4df7c — Removed duplicate Notes app, deployed
-
-### Design System — Component Updates
-
-- [ ] **Update "disabled" label to "inactive/active"** 🏷️  
-  - File: `design-system/src/stories/labs-button.stories.js` and component
-  - Context: "Disabled" is negative framing; "inactive" is more semantic
-  - Scope: Button component, all related stories
-  - Priority: LOW (terminology)
-
-### Documentation & Marketing
-
-- [ ] **About page (Storybook)** 📖  
-  - Recover and update Storybook "About" section
-  - Create elevated first impression
-  - Priority: MEDIUM (visibility)
+- **APP-PATTERNS.md** — Design system integration patterns & ThemeManager setup
+- **DEVELOPMENT.md** — Development workflow & server management
+- **Migration Patterns** — `_dev/_documents/APP-MIGRATION-PROCESS.md`
 
 ---
 
-## 💾 Today List — Extended Features (Future)
+## 📌 Convention
 
-- [ ] **Export as CSV** 📥  
-  - Export completed tasks with dates
-  - Pattern: Add export button to settings menu
-  - Priority: LOW (future sprint)
-
-- [ ] **Tags, Sort by date/tag** 🏷️  
-  - Add optional tags to items
-  - Implement filtering/sorting
-  - Data structure: `{ text, timestamp, tags: ['work', 'review'] }`
-  - Priority: LOW (future sprint)
-
----
-
-## 🏗️ Design System — Ongoing
-
-### Component Gaps & Enhancements
-- [ ] `labs-input` — range slider for brush size / controls
-- [ ] `labs-tooltip` — hover tooltips for all interactive elements
-- [ ] `labs-dropdown-flavor` or flavor selector component
-- [ ] `labs-sortable-list` — drag-drop support for lists
-
-### Documentation
-- [ ] Update component migration patterns guide
-- [ ] Add design system integration best practices
-- [ ] Document flavor selector UX pattern
-
----
-
-## 📦 Cleanup & Maintenance
-
-### Archive Old Migration Docs ✅ Preparing
-
-**Today List**:
-- ✅ Archived: `_archive/MIGRATION-2025-10-09.md` (Oct 9 Phase 1 migration complete)
-
-**Tracker**:
-- [ ] Archive: `MIGRATION-2025-10-08.md` → `_archive/` (Oct 8 Phase 4 migration complete)
-
-**Note App**:
-- [ ] Archive all migration planning docs to `_archive/`:
-  - `MIGRATION-2025-10-17.md`
-  - `MIGRATION-DESIGN-SYSTEM-TEST.md`
-  - `MIGRATION-FINAL-SUMMARY.md`
-  - `MIGRATION-PLAN-OVERVIEW.md`
-  - `MIGRATION-QUICK-REFERENCE.md`
-
-**Pad App**:
-- [ ] Archive: `DESIGN-SYSTEM-INTEGRATION.md` → `_archive/` (reference only, no active work)
-- [ ] Archive: `index-v1-original.html` → `_archive/` (historical reference)
-
-**Design System**:
-- [ ] Review & archive: `docs/footer-test/` (reference template, minimal content)
-
-### Review Completed Work
-
-- [ ] **Tracker TODO** (`docs/tracker/TODO.md`)
-  - Mark completed migration items as ✅
-  - Keep outstanding tasks (storybook, smoke tests)
-
-- [ ] **Pad TODO** (`docs/pad/TODO.md`)
-  - Mark V2.0 complete items
-  - Keep design system integration opportunities
-
-- [ ] **Home TODO** (`docs/home/TODO.md`)
-  - Evaluate app card pattern status
-  - Update acceptance criteria if changed
-
----
-
-## 🚀 Next Sprint: Design System App Consolidation
-
-**Focus**: Consolidate repeated app patterns into design system layer  
-**Goal**: Single source of truth for flavor/theme persistence, component initialization
-
-### Phase 1: Audit & Documentation (1–2 hours)
-
-- [ ] **1. Review app code for repeated patterns** 📋
-  - Audit: Note, Pad, Timer, Tracker, Today List localStorage/persistence patterns
-  - Document: Which components each app loads
-  - Output: `APP-PATTERNS.md` with audit results
-
-- [ ] **2. Create app developer guidelines** 📖
-  - Document standard component list for all apps
-  - Define localStorage key naming convention
-  - Create HTML boilerplate template
-
-### Phase 2: Design System Consolidation (2–3 hours)
-
-- [ ] **3. Centralize flavor/theme persistence** 🎨
-  - Move early theme injection logic from each app to utility
-  - Create `theme-manager.js` or extend `labs-settings-card.js`
-  - Test across all 5 apps
-
-- [ ] **4. Standardize storage key naming** 🔑
-  - Define convention: `{app}-{feature}` (e.g., `note-flavor`, `pad-theme`)
-  - Create storage utility helper if needed
-  - Update all apps to use convention
-
-- [ ] **5. Create app loader/boilerplate** 🏗️
-  - Optional: Helper that auto-loads standard components
-  - Or: Document the standard `<head>` template
-  - Test with one app before rolling out
-
----
-
-## 📋 App-Specific TODOs
-
-Each app has its own TODO file with detailed priorities:
-
-- `docs/tracker/TODO.md` — Layout fixes ✅, storybook/tests ⬜
-- `docs/today-list/TODO.md` — Current sprint items (see above)
-- `docs/pad/TODO.md` — Design system integration roadmap
-- `docs/home/TODO.md` — App card pattern / grid layout
-- `docs/note/TODO.md` — (Check if migration is tracked)
-
----
-
-## 🎯 Strategy for This Sprint
-
-### Phase 1: Quick Wins (1–2 hours)
-1. Archive old migration docs (cleanup)
-2. Fix badge contrast (design system, high impact)
-3. Review all TODO files and mark completed work ✅
-
-### Phase 2: Design System Features (2–4 hours)
-4. Button animation support
-5. List item drag-drop CSS prep
-
-### Phase 3: App Features (2–3 hours)
-6. Today List improvements (drag-drop reorder, auto-focus, mobile alignment)
-
-### Phase 4: Cross-App (1–2 hours)
-7. Tooltip implementation pattern
-8. Flavor selector UX decision & prototyping
-
----
-
-## 🚦 Blocking Dependencies
-
-```
-Badge contrast fix (#1)
-    ↓
-    └─→ Unblocked (no dependencies)
-
-Button animation (#2)
-    ↓
-    └─→ List drag-drop (#3)
-        ↓
-        └─→ Today List drag-drop (#6)
-
-Flavor selector UX (#8)
-    ↓
-    └─→ Design decision needed (dropdown vs. radio)
-
-Tooltips (#7)
-    ↓
-    └─→ Parallel: Can work on all apps simultaneously
-```
-
----
-
-## 📅 Timeline
-
-- **Today (Nov 16)**: Archive docs, review TODOs, plan sprint
-- **This week**: Badge fix + button animation
-- **Next week**: List drag-drop + Today List features
-- **Following**: Cross-app improvements (tooltips, flavor UX)
-
----
-
-## 🔗 Related Documentation
-
-- **Today List**: `docs/today-list/TODO.md` and `docs/today-list/ROADMAP.md`
-- **Tracker**: `docs/tracker/TODO.md`
-- **Pad**: `docs/pad/TODO.md`
-- **Design System**: `design-system/README.md`
-- **Migration Patterns**: `_dev/_documents/APP-MIGRATION-PROCESS.md`
+- ✅ **All completed work** → Recorded in respective `CHANGELOG.md`
+- 📝 **Active/pending tasks** → Tracked in app-specific `TODO.md`
+- 🎯 **Cross-app initiatives** → Coordinated via `APP-PATTERNS.md` and commit messages
+- 🏗️ **Design system roadmap** → `design-system/TODO.md` and `design-system/ROADMAP.md`

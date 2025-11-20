@@ -1,5 +1,43 @@
 
 
+
+## v2.5.0 – 2025-11-19 - ThemeManager Unified Persistence & UX Improvements
+
+### 🎨 New Features
+- **ThemeManager v2**: Centralized singleton utility for unified app-specific flavor/theme persistence
+  - Eliminates hardcoded 'tracker-' keys issue across all components
+  - All apps now use pattern: `{app}-flavor`, `{app}-theme` for localStorage
+  - Single source of truth for app persistence logic
+- **Flavor Selector Dropdown**: Portal-based dropdown replacing cycling button pattern
+  - Smart positioning to avoid viewport overflow
+  - Consistent UX across all 5 apps (Timer, Tracker, Today List, Note, Pad)
+- **Apps Selector Dropdown**: Portal-based menu showing all 6 apps
+  - Quick navigation between apps from any app's settings
+  - Removed duplicate "Notes" app entry
+
+### ✨ Component Improvements
+- **Button Animation Support**: New `animate()` method for completion feedback
+  - Three animation types: `success`, `created`, `pulse`
+  - Reusable across all apps for task-complete/task-created states
+  - Storybook demonstration with real-world usage
+- **List Item Drag-Drop**: Full `draggable` attribute support with CSS visual states
+  - Mobile-responsive text alignment fixes
+  - Keyboard auto-focus timing via `requestAnimationFrame`
+  - localStorage persistence demonstration in Storybook
+- **Badge Contrast Fix**: Improved accessibility for warning variant on Labs homepage
+
+### 🔧 Technical
+- **Storage API**: Formalized localStorage helper utility for consistent key naming
+- **App Pattern Documentation**: APP-PATTERNS.md with setup checklist and implementation examples
+- Updated `labs-settings-card.js` to integrate ThemeManager for automatic persistence
+
+### 🚀 Deployment
+- All 5 apps (Timer, Tracker, Today List, Note, Pad) now use unified ThemeManager
+- Backward compatible: existing localStorage keys migrated automatically
+- GitHub Pages deployment with all design system assets synchronized
+
+---
+
 ## v2.4.9 – 2025-10-15
 
 - **Dropdown & List Item Storybook Refactor:**
