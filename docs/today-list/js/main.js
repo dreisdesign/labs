@@ -83,15 +83,13 @@ function exportAsCSV() {
     // CSV headers matching expectation: Date, Status (Completed Y/N), Item Text
     const headers = ['Date', 'Status', 'Item Text'];
 
-    // CSV rows
+    // CSV rows — use same date label as the accordion UI
     const rows = items.map(item => {
-        const date = new Date(item.timestamp);
-        // Use ISO timestamp so Google Sheets recognizes it reliably
-        const iso = date.toISOString();
+        const dateLabel = formatDateLabel(getDateString(item.timestamp));
         const status = item.checked ? 'Y' : 'N';
         // Escape quotes by doubling them, wrap in quotes to preserve commas/newlines
         const text = `"${(item.text || '').replace(/"/g, '""')}"`;
-        return `${iso},${status},${text}`;
+        return `${dateLabel},${status},${text}`;
     });
 
     const csv = [headers.join(','), ...rows].join('\n');
