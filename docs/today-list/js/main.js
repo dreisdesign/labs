@@ -85,7 +85,9 @@ function exportAsCSV() {
 
     // CSV rows — use same date label as the accordion UI
     const rows = items.map(item => {
-        const dateLabel = formatDateLabel(getDateString(item.timestamp));
+        let dateLabel = formatDateLabel(getDateString(item.timestamp));
+        // Escape quotes in date label and wrap in quotes so commas don't split columns
+        dateLabel = `"${(dateLabel || '').replace(/"/g, '""')}"`;
         const status = item.checked ? 'Y' : 'N';
         // Escape quotes by doubling them, wrap in quotes to preserve commas/newlines
         const text = `"${(item.text || '').replace(/"/g, '""')}"`;
