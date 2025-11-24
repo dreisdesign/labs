@@ -72,30 +72,28 @@ function updateResetButtonState() {
 
 // Export items as CSV
 function exportAsCSV() {
-    // Filter: only completed items
-    const completed = store.items.filter(item => item.checked);
+    // Export all items (includes completed and active)
+    const items = store.items || [];
 
-    if (completed.length === 0) {
-        getToast().show('No completed items to export', { variant: 'secondary', duration: 3000 });
+    if (items.length === 0) {
+        getToast().show('No items to export', { variant: 'secondary', duration: 3000 });
         return;
     }
 
-    // CSV headers
-    const headers = ['Task', 'Completed Date', 'Time'];
+    // CSV headers matching expectation: Date, Status (Completed Y/N), Item Text
+    const headers = ['Date', 'Status', 'Item Text'];
 
     // CSV rows
-    const rows = completed.map(item => {
+    const rows = items.map(item => {
         const date = new Date(item.timestamp);
-        const dateStr = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-        const timeStr = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-
-        // Escape commas and quotes in text
-        const text = `"${item.text.replace(/"/g, '""')}"`;
-
-        return `${text},${dateStr},${timeStr}`;
+        // Use ISO timestamp so Google Sheets recognizes it reliably
+        const iso = date.toISOString();
+        const status = item.checked ? 'Y' : 'N';
+        // Escape quotes by doubling them, wrap in quotes to preserve commas/newlines
+        const text = `"${(item.text || '').replace(/"/g, '""')}"`;
+        return `${iso},${status},${text}`;
     });
 
-    // Combine and create blob
     const csv = [headers.join(','), ...rows].join('\n');
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
@@ -109,7 +107,7 @@ function exportAsCSV() {
     link.click();
     document.body.removeChild(link);
 
-    getToast().show(`Exported ${completed.length} completed task(s)`, { duration: 3000 });
+    getToast().show(`Exported ${items.length} item(s)`, { duration: 3000 });
 }
 
 // Input overlay management
