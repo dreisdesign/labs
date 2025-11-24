@@ -70,6 +70,48 @@ function updateResetButtonState() {
     }
 }
 
+// Export items as CSV
+function exportAsCSV() {
+    // Filter: only completed items
+    const completed = store.items.filter(item => item.checked);
+
+    if (completed.length === 0) {
+        getToast().show('No completed items to export', { variant: 'secondary', duration: 3000 });
+        return;
+    }
+
+    // CSV headers
+    const headers = ['Task', 'Completed Date', 'Time'];
+
+    // CSV rows
+    const rows = completed.map(item => {
+        const date = new Date(item.timestamp);
+        const dateStr = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        const timeStr = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+
+        // Escape commas and quotes in text
+        const text = `"${item.text.replace(/"/g, '""')}"`;
+
+        return `${text},${dateStr},${timeStr}`;
+    });
+
+    // Combine and create blob
+    const csv = [headers.join(','), ...rows].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+
+    // Download
+    link.setAttribute('href', url);
+    link.setAttribute('download', `today-list-${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    getToast().show(`Exported ${completed.length} completed task(s)`, { duration: 3000 });
+}
+
 // Input overlay management
 function toggleInputOverlay(open = true) {
     const overlay = document.getElementById('input-overlay');
@@ -584,6 +626,23 @@ window.addEventListener('DOMContentLoaded', () => {
             attributes: true,
             attributeFilter: ['class']
         });
+        // Add a simple Export CSV button (POC).
+        // This creates a floating button in the page corner and wires it to exportAsCSV().
+        try {
+            const exportBtn = document.createElement('labs-button');
+            exportBtn.setAttribute('variant', 'secondary');
+            exportBtn.setAttribute('pill', '');
+            exportBtn.textContent = 'Export CSV';
+            exportBtn.style.position = 'fixed';
+            exportBtn.style.right = '16px';
+            exportBtn.style.bottom = '84px';
+            exportBtn.style.zIndex = '9999';
+            exportBtn.style.boxShadow = 'var(--elevation-2, 0 4px 8px rgba(0,0,0,0.12))';
+            exportBtn.addEventListener('click', exportAsCSV);
+            document.body.appendChild(exportBtn);
+        } catch (err) {
+            console.warn('Export button injection failed:', err);
+        }
     }
 
     // Wire up input overlay
