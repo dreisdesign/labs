@@ -8,9 +8,12 @@ This TODO focuses on remaining work for the list item and dropdown components.
 - [ ] Update Storybook docs and examples for both components
 - [ ] Update `design-system/CHANGELOG.md` when Phase 4 work completes
 
-### Phase 5 — Container System Extensions
-- [ ] Create `labs-container` web component for programmatic container patterns
-- [ ] Document container design system approach and usage patterns in Storybook
+### Phase 5 — Container System Extensions ✅ COMPLETE
+- [x] Create `labs-container` web component for programmatic container patterns
+- [x] Document container design system approach and usage patterns in Storybook
+
+> **Completed**: `labs-container` component created with `small/medium/large/fill` attributes.
+> Storybook story at `1. Foundations/Container`. See changelog v2.1.7.
 
 ## Completed (Moved to CHANGELOG)
 
@@ -35,13 +38,15 @@ This TODO focuses on remaining work for the list item and dropdown components.
 
 ## Container Pattern Migration (2025-09-20)
 
-## Container Pattern Migration (2025-09-20)
+## Container Pattern Migration (2025-09-20) ✅ COMPLETE
 
 **Make Today-List and Tracker more modular / share more components:**
-- [ ] Extract a canonical container pattern (`labs-container`) or ensure `.container-responsive` is implemented as a documented shared pattern.
-- [ ] Replace app-specific container divs with the shared container in both `docs/today-list/*` and `docs/tracker/*`.
-- [ ] Align the main app container markup and tokens so spacing, max-width and padding are consistent across demos.
-- [ ] Create small Storybook examples demonstrating the shared container + list-item patterns together.
+- [x] Extract a canonical container pattern (`labs-container`) or ensure `.container-responsive` is implemented as a documented shared pattern.
+- [x] Replace app-specific container divs with the shared container in both `docs/today-list/*` and `docs/tracker/*`.
+- [x] Align the main app container markup and tokens so spacing, max-width and padding are consistent across demos.
+- [x] Create small Storybook examples demonstrating the shared container + list-item patterns together.
+
+> **Completed**: All apps now use `labs-container` with consistent sizing attributes.
 
 ## Timing & Priority Guidance
 
@@ -55,14 +60,15 @@ This TODO focuses on remaining work for the list item and dropdown components.
   - Keep each step small and independently commit-able (tokens -> component -> migration -> docs).
   - Rebuild Storybook after the docs step to catch any visual regressions early.
 
-Migration checklist (short actionable items)
+Migration checklist (short actionable items) ✅ COMPLETE
 
-- [ ] Create branch `feature/container-pattern` and implement token docs update.
-- [ ] Create branch `feature/labs-container` if you decide on a web component; otherwise skip and use tokens + utility classes.
-  - **Recommendation:** prefer tokens + utility classes (`.container-responsive`, `--app-container-max`) as the first step; implement `labs-container` only if programmatic control is later required.
-- [ ] Replace container markup in `docs/today-list/index.html` and `docs/tracker/index.html` with the shared pattern and test on mobile widths.
-- [ ] Add a Storybook story `layout-container--app-pattern` showing metric + list-item combos.
-- [ ] Run unit tests and Vitest DOM tests after migration and before deploying docs.
+- [x] Create branch `feature/container-pattern` and implement token docs update.
+- [x] Create `labs-container` web component with `small/medium/large/fill` attributes.
+- [x] Replace container markup in `docs/today-list/index.html` and `docs/tracker/index.html` with the shared pattern and test on mobile widths.
+- [x] Add a Storybook story `1. Foundations/Container` showing container variants.
+- [x] Run unit tests and Vitest DOM tests after migration and before deploying docs.
+
+> **Completed**: All migration work done. See changelog v2.1.7 entries.
 
 Notes on timing and coordination
 

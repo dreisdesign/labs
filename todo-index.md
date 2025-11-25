@@ -1,6 +1,6 @@
 # Labs Project — Master TODO Index
 
-**Last updated**: November 19, 2025  
+**Last updated**: November 25, 2025  
 **Current branch**: `main`
 
 This is the **canonical index** pointing to area-specific TODOs and changelogs. All detailed task tracking lives in appropriate locations—**not here**.
