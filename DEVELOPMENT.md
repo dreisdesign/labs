@@ -1,126 +1,177 @@
-# Labs Design System — Development & Storybook Conventions
+# Labs Development Guide
 
-## Storybook Section Numbering & Navigation Order
+> Complete workflow for local development, build, and deployment
 
-0. Tokens
-1. Foundations
-2. Components
-3. Components (Wrapped)
-4. Patterns
+---
 
-### Example Navigation
-```
-0. Tokens/Colors
-0. Tokens/Spacing
-0. Tokens/Typography
-1. Foundations/Theme System
-1. Foundations/Icons
-1. Foundations/Container
-2. Components/Button
-2. Components/Card - Welcome
-2. Components/Card - Metric
-2. Components/List Item
-2. Components/Dropdown
-2. Components/Checkbox
-2. Components/Badge
-2. Components/Overlay
-2. Components/Input
-2. Components/Toast
-2. Components/Header
-2. Components/Input Card
-3. Components (Wrapped)/Card - Welcome
-3. Components (Wrapped)/Card - Metric
-3. Components (Wrapped)/List Item - Text Only
-3. Components (Wrapped)/List Item - Timestamp
-3. Components (Wrapped)/List Item - Task
-3. Components (Wrapped)/Template - Footer
-4. Patterns/Buttons
-4. Patterns/Buttons/Appearance
-4. Patterns/Buttons/Icon Only
-4. Patterns/Dropdown
-4. Patterns/Cards/Settings Card
-4. Patterns/Toast
+## 🚀 Quick Start
+
+```bash
+# Start both development servers
+npm run rp
+
+# Or use interactive menu
+npm run menu
 ```
 
-### Best Practices
-
-## Storybook Story Types and Naming (List Item Example)
-
-| Type                              | Directory      | List Item (File Name)                      | Storybook Directory      | Storybook Title      |
-|------------------------------------|---------------|--------------------------------------------|-------------------------|----------------------|
-| Canonical component                | components/   | labs-list-item.js                          | —                       | —                    |
-| Canonical component story          | stories/      | labs-list-item.stories.js                  | Components              | List Item            |
-| Wrapped canonical component story  | stories/      | labs-list-item-text-only.stories.js        | Components (Wrapped)    | List Item - Text Only|
-| Wrapped canonical component story  | stories/      | labs-list-item-timestamp.stories.js        | Components (Wrapped)    | List Item - Timestamp|
-| Wrapped canonical component story  | stories/      | labs-list-item-task.stories.js             | Components (Wrapped)    | List Item - Task     |
-
-- The canonical story exposes all controls and variants for the base component.
-### Timer App
-
-- `/docs/timer/index.html` — Main HTML and layout
-- `/docs/timer/timer.js` — Timer logic and state
-- Uses design system tokens for all typography and color
-- Vertically centered layout using flexbox
-- `.timer-group` uses `margin-bottom` for footer offset (not `.break-hint`)
-- Dynamic header and break text update based on timer state
-- Persistent footer, responsive layout
-- See `docs/timer/README.md` for full layout and logic details
-- `text`: Content for the list item.
-- `timestamp`: ISO string for timestamp variant.
-- `checked`: Only shown for the `task` variant; controls the checked state of the checkbox.
-
-## Visual & Slot Parity
-- The canonical story for `labs-list-item` now matches the structure and slot usage of the wrapped stories:
-  - **Text Only:** `<span slot="content">`
-  - **Timestamp:** `<labs-icon slot="control">`, `<div slot="content">`
-  - **Task:** `<labs-checkbox slot="control">`, `<div slot="content">`, `<labs-dropdown slot="actions">`
+**Development URLs:**
+- **Storybook:** http://localhost:6006
+- **Labs Homepage:** http://localhost:8000
+- **Apps:** http://localhost:8000/{app}/ (tracker, today-list, note, pad, timer)
 
 ---
 
-### Icon Path Logic (Static, Dev, GitHub Pages)
+## 📦 Common Commands
 
-Icons are served under:
-- `/design-system/icons/` for local dev
-- `/icons/` for Storybook dev server
-- `./icons/` for static Storybook output
-- `/labs/design-system/icons/` for GitHub Pages
-
-If icons are missing in Storybook static output, ensure `labs-icon.js` uses a relative path (`./icons/`) for static builds. The icon loader now auto-detects static, dev, and GitHub Pages environments.
-
-## Storybook Testing Links
+| Command | Purpose |
+|---------|---------|
+| `npm run rp` | Start dev servers + open browsers |
+| `npm run menu` | Interactive development menu |
+| `npm run d` | Deploy to GitHub Pages |
+| `npm run storybook` | Storybook only (port 6006) |
 
 ---
 
-## 🔗 Design System Link Workflow
+## 🔄 Development Workflow
 
-**For the Labs homepage (`docs/index.html`):**
+### Editing Components
+1. Edit files in `design-system/src/components/`
+2. Changes auto-reload in Storybook (HMR)
+3. Run `npm run rp` to sync to `docs/` for app testing
+4. Deploy when ready: `npm run d`
 
-The Storybook logo link (`#smoothieLink`) requires special handling to work in both local and production environments:
-
-- **Local development:** Uses `href="design-system/"` (relative path)
-- **GitHub Pages:** Uses `href="/labs/design-system/"` (absolute path with repo prefix)
-
-The `scripts/update-static-paths.js` script automatically handles this conversion:
-- **Local mode** (`npm run rp`): Sets the link to `design-system/`
-- **GitHub mode** (`npm run d`): Sets the link to `/labs/design-system/`
-- **Pre-commit hook**: Runs in local mode to ensure committed files use local paths
-
-**Important:** 
-- Never manually edit the `#smoothieLink` href to include `/labs/` — the build script handles it
-- The link is protected from generic path replacements that might strip the `/labs/` prefix
-- Always commit with the local-relative path; deployment automatically converts it
-
-This ensures the link works correctly in both environments without manual intervention.
-1. **List Item — Default (Canonical):** `http://localhost:6006/?path=/story/components-list-item--default`
-   - **Controls:** `variant`, `text`, `timestamp`, `checked` (only for task)
-   - **Visual:** Matches wrapped stories for each variant
-2. **List Item — Text Only:** `http://localhost:6006/?path=/story/components-wrapped-list-item-text-only--default`
-   - **Controls:** `text`
-3. **List Item — Timestamp:** `http://localhost:6006/?path=/story/components-wrapped-list-item-timestamp--default`
-   - **Controls:** `icon`
-4. **List Item — Task:** `http://localhost:6006/?path=/story/components-wrapped-list-item-task--default`
-   - **Controls:** `text`, `checked`
+### Editing Apps
+1. Edit files in `docs/{app}/` (HTML, JS, CSS)
+2. View at http://localhost:8000/{app}/
+3. Deploy when ready: `npm run d`
 
 ---
 
-Refer to `.github/instructions/github-copilot-expert.instructions.md` for the full conventions and patterns.
+## 🎨 Icon Management
+
+**All icon SVGs must end with `--labs-icons.svg`.**
+
+If you see a warning about unsuffixed icons:
+
+```bash
+node scripts/cleanup-icon-dupes.js && npm run rp
+```
+
+**Icon paths by environment:**
+| Environment | Path |
+|-------------|------|
+| Local dev | `/design-system/icons/` |
+| Storybook dev | `/icons/` |
+| Storybook static | `./icons/` |
+| GitHub Pages | `/labs/design-system/icons/` |
+
+The icon loader auto-detects the environment.
+
+---
+
+## 📤 Deployment
+
+```bash
+npm run d
+```
+
+**What it does:**
+1. Pre-build checks (icons, assets)
+2. Builds static Storybook
+3. Syncs files to `docs/`
+4. Fixes paths for GitHub Pages
+5. Commits and pushes to `main`
+6. GitHub Pages deploys (~30 seconds)
+
+**Deployed sites:**
+- https://dreisdesign.github.io/labs/design-system/
+- https://dreisdesign.github.io/labs/
+
+---
+
+## 🗂️ Path Management
+
+The `scripts/update-static-paths.js` handles path conversion:
+
+| Mode | Trigger | Paths |
+|------|---------|-------|
+| `--local` | `npm run rp` | Relative (`../design-system/`) |
+| `--github` | `npm run d` | Absolute (`/labs/design-system/`) |
+| `--auto` | Deploy | Auto-detect environment |
+
+**Pre-commit hook** automatically runs `--local` mode to ensure committed files use local-friendly paths.
+
+---
+
+## 📁 Source → Docs Sync
+
+The sync script copies files from source to production:
+
+| Source | Destination |
+|--------|-------------|
+| `design-system/src/components/*.js` | `docs/design-system/components/` |
+| `design-system/src/styles/tokens/*.css` | `docs/design-system/tokens/` |
+| `design-system/src/utils/*.js` | `docs/design-system/utils/` |
+| `design-system/icons/` | `docs/design-system/icons/` |
+
+**Important:** Always edit in `src/`, not `docs/`. The sync may overwrite `docs/` files.
+
+---
+
+## 📚 Storybook Conventions
+
+### Story Organization
+```
+0. Tokens        — Colors, Spacing, Typography
+1. Foundations   — Theme System, Icons, Container
+2. Components    — Button, Card, List Item, etc.
+3. Wrapped       — Real-world usage examples
+4. Patterns      — Multi-component patterns
+```
+
+### Story Naming
+| Type | Directory | Example File | Storybook Path |
+|------|-----------|--------------|----------------|
+| Canonical | stories/ | `labs-button.stories.js` | Components/Button |
+| Wrapped | stories/ | `labs-button.wrapped.stories.js` | Components (Wrapped)/Button |
+
+---
+
+## 🔧 Troubleshooting
+
+### 404 Errors for Assets
+1. Check if files exist in `docs/design-system/`
+2. Run `npm run rp` to reset paths
+3. Hard-refresh browser (Cmd+Shift+R)
+
+### Icons Not Showing
+1. Verify SVG ends with `--labs-icons.svg`
+2. Run `node scripts/cleanup-icon-dupes.js`
+3. Run `npm run rp`
+
+### Port Already in Use
+```bash
+# Kill process on port 6006
+lsof -ti:6006 | xargs kill -9
+
+# Or use the menu
+echo "1" | npm run menu
+```
+
+### Storybook Won't Start
+1. Check for port conflicts
+2. Delete `.cache` folders
+3. Run `npm install` in design-system/
+
+---
+
+## 📖 Related Documentation
+
+- [README.md](README.md) — Project overview
+- [CONTRIBUTING.md](CONTRIBUTING.md) — How to contribute
+- [design-system/README.md](design-system/README.md) — Component library
+- [APP-PATTERNS.md](APP-PATTERNS.md) — ThemeManager integration
+
+---
+
+**Last updated:** November 25, 2025

@@ -1,0 +1,126 @@
+# Labs Design System — Development & Storybook Conventions
+
+## Storybook Section Numbering & Navigation Order
+
+0. Tokens
+1. Foundations
+2. Components
+3. Components (Wrapped)
+4. Patterns
+
+### Example Navigation
+```
+0. Tokens/Colors
+0. Tokens/Spacing
+0. Tokens/Typography
+1. Foundations/Theme System
+1. Foundations/Icons
+1. Foundations/Container
+2. Components/Button
+2. Components/Card - Welcome
+2. Components/Card - Metric
+2. Components/List Item
+2. Components/Dropdown
+2. Components/Checkbox
+2. Components/Badge
+2. Components/Overlay
+2. Components/Input
+2. Components/Toast
+2. Components/Header
+2. Components/Input Card
+3. Components (Wrapped)/Card - Welcome
+3. Components (Wrapped)/Card - Metric
+3. Components (Wrapped)/List Item - Text Only
+3. Components (Wrapped)/List Item - Timestamp
+3. Components (Wrapped)/List Item - Task
+3. Components (Wrapped)/Template - Footer
+4. Patterns/Buttons
+4. Patterns/Buttons/Appearance
+4. Patterns/Buttons/Icon Only
+4. Patterns/Dropdown
+4. Patterns/Cards/Settings Card
+4. Patterns/Toast
+```
+
+### Best Practices
+
+## Storybook Story Types and Naming (List Item Example)
+
+| Type                              | Directory      | List Item (File Name)                      | Storybook Directory      | Storybook Title      |
+|------------------------------------|---------------|--------------------------------------------|-------------------------|----------------------|
+| Canonical component                | components/   | labs-list-item.js                          | —                       | —                    |
+| Canonical component story          | stories/      | labs-list-item.stories.js                  | Components              | List Item            |
+| Wrapped canonical component story  | stories/      | labs-list-item-text-only.stories.js        | Components (Wrapped)    | List Item - Text Only|
+| Wrapped canonical component story  | stories/      | labs-list-item-timestamp.stories.js        | Components (Wrapped)    | List Item - Timestamp|
+| Wrapped canonical component story  | stories/      | labs-list-item-task.stories.js             | Components (Wrapped)    | List Item - Task     |
+
+- The canonical story exposes all controls and variants for the base component.
+### Timer App
+
+- `/docs/timer/index.html` — Main HTML and layout
+- `/docs/timer/timer.js` — Timer logic and state
+- Uses design system tokens for all typography and color
+- Vertically centered layout using flexbox
+- `.timer-group` uses `margin-bottom` for footer offset (not `.break-hint`)
+- Dynamic header and break text update based on timer state
+- Persistent footer, responsive layout
+- See `docs/timer/README.md` for full layout and logic details
+- `text`: Content for the list item.
+- `timestamp`: ISO string for timestamp variant.
+- `checked`: Only shown for the `task` variant; controls the checked state of the checkbox.
+
+## Visual & Slot Parity
+- The canonical story for `labs-list-item` now matches the structure and slot usage of the wrapped stories:
+  - **Text Only:** `<span slot="content">`
+  - **Timestamp:** `<labs-icon slot="control">`, `<div slot="content">`
+  - **Task:** `<labs-checkbox slot="control">`, `<div slot="content">`, `<labs-dropdown slot="actions">`
+
+---
+
+### Icon Path Logic (Static, Dev, GitHub Pages)
+
+Icons are served under:
+- `/design-system/icons/` for local dev
+- `/icons/` for Storybook dev server
+- `./icons/` for static Storybook output
+- `/labs/design-system/icons/` for GitHub Pages
+
+If icons are missing in Storybook static output, ensure `labs-icon.js` uses a relative path (`./icons/`) for static builds. The icon loader now auto-detects static, dev, and GitHub Pages environments.
+
+## Storybook Testing Links
+
+---
+
+## 🔗 Design System Link Workflow
+
+**For the Labs homepage (`docs/index.html`):**
+
+The Storybook logo link (`#smoothieLink`) requires special handling to work in both local and production environments:
+
+- **Local development:** Uses `href="design-system/"` (relative path)
+- **GitHub Pages:** Uses `href="/labs/design-system/"` (absolute path with repo prefix)
+
+The `scripts/update-static-paths.js` script automatically handles this conversion:
+- **Local mode** (`npm run rp`): Sets the link to `design-system/`
+- **GitHub mode** (`npm run d`): Sets the link to `/labs/design-system/`
+- **Pre-commit hook**: Runs in local mode to ensure committed files use local paths
+
+**Important:** 
+- Never manually edit the `#smoothieLink` href to include `/labs/` — the build script handles it
+- The link is protected from generic path replacements that might strip the `/labs/` prefix
+- Always commit with the local-relative path; deployment automatically converts it
+
+This ensures the link works correctly in both environments without manual intervention.
+1. **List Item — Default (Canonical):** `http://localhost:6006/?path=/story/components-list-item--default`
+   - **Controls:** `variant`, `text`, `timestamp`, `checked` (only for task)
+   - **Visual:** Matches wrapped stories for each variant
+2. **List Item — Text Only:** `http://localhost:6006/?path=/story/components-wrapped-list-item-text-only--default`
+   - **Controls:** `text`
+3. **List Item — Timestamp:** `http://localhost:6006/?path=/story/components-wrapped-list-item-timestamp--default`
+   - **Controls:** `icon`
+4. **List Item — Task:** `http://localhost:6006/?path=/story/components-wrapped-list-item-task--default`
+   - **Controls:** `text`, `checked`
+
+---
+
+Refer to `.github/instructions/github-copilot-expert.instructions.md` for the full conventions and patterns.
