@@ -14,7 +14,6 @@
   - [ ] "Disabled" terminology — Update to "inactive/active" (less negative)
   - [ ] `labs-input` range slider — For brush size controls
   - [ ] `labs-sortable-list` — Enhanced drag-drop support (note: `labs-list-item` supports drag-drop, but no dedicated sortable wrapper)
-  - [x] ~~`labs-container` web component~~ — Complete (see `1. Foundations/Container` in Storybook)
 
 - [ ] **Storybook & Documentation**
   - [ ] Wrapped component stories — Ensure all components have real-world usage examples
