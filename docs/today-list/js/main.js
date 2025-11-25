@@ -1,5 +1,6 @@
 // Today-List App - Simplified with Design System
 import { applyTheme } from '../../design-system/utils/theme.js';
+import { formatHuman } from '../../design-system/utils/date-format.js';
 
 const STORAGE_KEY = 'today-list-items-v2';
 
@@ -80,18 +81,19 @@ function exportAsCSV() {
         return;
     }
 
-    // CSV headers matching expectation: Date, Status (Completed Y/N), Item Text
-    const headers = ['Date', 'Status', 'Item Text'];
+    // CSV headers matching expectation: Timestamp, Status, Item Text
+    const headers = ['Timestamp', 'Status', 'Item Text'];
 
-    // CSV rows — use same date label as the accordion UI
+    // CSV rows
     const rows = items.map(item => {
-        let dateLabel = formatDateLabel(getDateString(item.timestamp));
-        // Escape quotes in date label and wrap in quotes so commas don't split columns
-        dateLabel = `"${(dateLabel || '').replace(/"/g, '""')}"`;
-        const status = item.checked ? 'Y' : 'N';
+        // Format timestamp to match Tracker app (human readable)
+        let timestamp = item.timestamp ? formatHuman(item.timestamp) : '';
+        timestamp = `"${(timestamp || '').replace(/"/g, '""')}"`;
+
+        const status = item.checked ? 'Completed' : '';
         // Escape quotes by doubling them, wrap in quotes to preserve commas/newlines
         const text = `"${(item.text || '').replace(/"/g, '""')}"`;
-        return `${dateLabel},${status},${text}`;
+        return `${timestamp},${status},${text}`;
     });
 
     const csv = [headers.join(','), ...rows].join('\n');
@@ -107,7 +109,9 @@ function exportAsCSV() {
     link.click();
     document.body.removeChild(link);
 
-    getToast().show(`Exported ${items.length} item(s)`, { duration: 3000 });
+    const toast = getToast();
+    toast.setAttribute('variant', 'secondary');
+    toast.show('All items have been exported as a CSV', { actionText: null, duration: 3000 });
 }
 
 // Input overlay management
@@ -625,19 +629,33 @@ window.addEventListener('DOMContentLoaded', () => {
             attributeFilter: ['class']
         });
         // Add a simple Export CSV button (POC).
-        // This creates a floating button in the page corner and wires it to exportAsCSV().
+        // This injects the button into the footer's actions slot.
         try {
-            const exportBtn = document.createElement('labs-button');
-            exportBtn.setAttribute('variant', 'secondary');
-            exportBtn.setAttribute('pill', '');
-            exportBtn.textContent = 'Export CSV';
-            exportBtn.style.position = 'fixed';
-            exportBtn.style.right = '16px';
-            exportBtn.style.bottom = '84px';
-            exportBtn.style.zIndex = '9999';
-            exportBtn.style.boxShadow = 'var(--elevation-2, 0 4px 8px rgba(0,0,0,0.12))';
-            exportBtn.addEventListener('click', exportAsCSV);
-            document.body.appendChild(exportBtn);
+            const footer = document.querySelector('labs-footer-with-settings');
+            if (footer) {
+                const exportBtn = document.createElement('labs-button');
+                exportBtn.setAttribute('slot', 'left');
+                exportBtn.setAttribute('variant', 'icon');
+                exportBtn.setAttribute('size', 'large');
+                exportBtn.setAttribute('aria-label', 'Export CSV');
+                exportBtn.style.paddingLeft = '12px';
+                exportBtn.innerHTML = '<labs-icon slot="icon-left" name="download" width="28" height="28"></labs-icon>';
+                exportBtn.addEventListener('click', exportAsCSV);
+                footer.appendChild(exportBtn);
+            } else {
+                // Fallback if footer not found
+                const exportBtn = document.createElement('labs-button');
+                exportBtn.setAttribute('variant', 'secondary');
+                exportBtn.setAttribute('pill', '');
+                exportBtn.textContent = 'Export CSV';
+                exportBtn.style.position = 'fixed';
+                exportBtn.style.right = '16px';
+                exportBtn.style.bottom = '84px';
+                exportBtn.style.zIndex = '9999';
+                exportBtn.style.boxShadow = 'var(--elevation-2, 0 4px 8px rgba(0,0,0,0.12))';
+                exportBtn.addEventListener('click', exportAsCSV);
+                document.body.appendChild(exportBtn);
+            }
         } catch (err) {
             console.warn('Export button injection failed:', err);
         }

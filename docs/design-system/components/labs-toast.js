@@ -101,7 +101,14 @@ class LabsToast extends HTMLElement {
 
   show(text, { actionText = 'Undo', duration = 5000 } = {}) {
     this._message.textContent = text;
-    this._actionBtn.textContent = actionText;
+
+    if (actionText) {
+      this._actionBtn.textContent = actionText;
+      this._actionBtn.style.display = '';
+    } else {
+      this._actionBtn.style.display = 'none';
+    }
+
     this._container.classList.add('show');
     this._clearTimeout();
     if (duration > 0) this._timeout = setTimeout(() => this.hide(), duration);

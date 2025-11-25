@@ -23,10 +23,12 @@ template.innerHTML = `
   </style>
 
   <labs-footer id="footer">
+    <slot name="left" slot="left"></slot>
     <div slot="center">
       <labs-button id="add-btn" pill size="large" variant="primary"><labs-icon slot="icon-left" name="add"></labs-icon>Add</labs-button>
     </div>
     <div slot="right" style="display:flex;align-items:center;gap:8px;">
+      <slot name="actions"></slot>
       <labs-button id="settings-btn" variant="icon" aria-label="Settings" size="large" style="padding-right:12px;">
         <labs-icon id="settings-icon" slot="icon-left" name="settings" width="28" height="28"></labs-icon>
       </labs-button>

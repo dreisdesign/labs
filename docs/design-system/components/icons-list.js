@@ -22,6 +22,8 @@ export default [
     "content_copy",
     "delete",
     "delete_forever",
+    "download",
+    "download_2",
     "edit",
     "electric_bolt",
     "expand_content",

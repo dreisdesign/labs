@@ -1,5 +1,13 @@
+## v2.6.0 – 2025-11-24 - Footer Slots & Toast Improvements
 
+### ✨ Component Improvements
+- **Footer with Settings**: Added `left` and `actions` slots for greater flexibility
+  - Allows injecting custom buttons (like Export) into the footer layout
+- **Toast**: Added support for optional action button
+  - Passing `actionText: null` now hides the action button for purely informational toasts
+- **Icons**: Added `download` and `download_2` icons to the system
 
+---
 
 ## v2.5.0 – 2025-11-19 - ThemeManager Unified Persistence & UX Improvements
 

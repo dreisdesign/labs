@@ -9,7 +9,6 @@
 ## Next Steps
 
 See `ROADMAP.md` for future features:
-- CSV export for completed tasks
 - Tags and sorting by date/tag
 - Search functionality
 - Multi-session collaboration ideas

@@ -4,6 +4,16 @@ All notable changes to the Today List app will be documented in this file.
 
 ---
 
+## [1.2.0] - 2025-11-24 - CSV Export
+
+### ✨ New Features
+- **CSV Export**: Export all tasks (active and completed) to a CSV file
+  - Includes timestamp, status (Completed/Blank), and task text
+  - Accessible via new "Export" button in the footer
+  - Uses human-readable timestamp format matching Tracker app
+
+---
+
 ## [1.1.0] - 2025-11-19 - Drag-Drop, Animation & ThemeManager
 
 ### ✨ New Features
