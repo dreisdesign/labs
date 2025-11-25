@@ -44,6 +44,8 @@ const icons = {
   "content_copy": ICON_BASE + 'content_copy--labs-icons.svg',
   "delete": ICON_BASE + 'delete--labs-icons.svg',
   "delete_forever": ICON_BASE + 'delete_forever--labs-icons.svg',
+  "download": ICON_BASE + 'download--labs-icons.svg',
+  "download_2": ICON_BASE + 'download_2--labs-icons.svg',
   "edit": ICON_BASE + 'edit--labs-icons.svg',
   "electric_bolt": ICON_BASE + 'electric_bolt--labs-icons.svg',
   "expand_content": ICON_BASE + 'expand_content--labs-icons.svg',
