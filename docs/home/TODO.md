@@ -1,18 +1,20 @@
-# Labs Home — App Cards Grid
+# Labs Home — TODO
 
-**Last updated**: November 19, 2025
+**Last reviewed**: November 26, 2025
 
-Goal: Update Labs home to use the design system App Card pattern and a two-column responsive grid.
+---
 
-Pattern: App Card — icon left, text (title, description, link) right.
+## App Cards Grid Update
 
-## Acceptance Criteria
-- App cards render in a responsive two-column grid on desktop and single column on narrow screens.
-- App card uses a `labs-card` variant (or a documented pattern) with a left slot for the icon and right content area for title/description/link.
-- Labs home uses `.container-responsive` and token-driven spacing.
+Migrate Labs home to use the design system App Card pattern and responsive grid.
 
-## Tasks
-- [ ] Create `design-system` story demonstrating App Card pattern (`layout-app-cards.stories.js`)
-- [ ] Add `app-card` variant pattern to `labs-card` (minimal API)
-- [ ] Update `docs/index.html` (Labs home) to use the App Card grid and `.container-responsive`
+**Acceptance Criteria:**
+- App cards render in responsive two-column grid (desktop) / single column (mobile)
+- Uses `labs-card` variant with left slot for icon
+- Uses `.container-responsive` and token-driven spacing
+
+**Tasks:**
+- [ ] Create App Card pattern story (`layout-app-cards.stories.js`)
+- [ ] Add `app-card` variant to `labs-card`
+- [ ] Update `docs/index.html` with App Card grid
 - [ ] Visual smoke test and Storybook build

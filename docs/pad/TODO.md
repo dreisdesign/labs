@@ -1,23 +1,20 @@
-# Pad App TODOs
+# Pad — TODO
 
-**Last reviewed**: November 19, 2025  
-**Status**: V2.0 complete with design system integration  
-**See**: `CHANGELOG.md` for completed work (v2.0.1)
+**Last reviewed**: November 26, 2025  
+**Status**: v2.0 complete with design system integration  
+**See**: `CHANGELOG.md` (v2.0.1)
 
 ---
 
-## Design System Integration Opportunities
+## Design System Integration (Phase 1)
 
-### Phase 1 — Ready to Implement
-- [ ] Brush size slider using `labs-input` (range input variant)
-- [ ] Color palette selector using `labs-overlay` modal
-- [ ] Toast notifications replacing confirm dialogs (use `labs-toast`)
+- [ ] Brush size slider — Use `labs-input` range variant
+- [ ] Color palette selector — Use `labs-overlay` modal
+- [ ] Toast notifications — Replace confirm dialogs with `labs-toast`
 
-### Phase 2 — Core Features
-- [ ] Undo/Redo functionality with button states
+## Future Enhancements (Phase 2+)
+
+- [ ] Undo/Redo functionality
 - [ ] Keyboard shortcuts (Cmd+Z, Cmd+Shift+Z)
-
-### Phase 3 — Polish & Export
 - [ ] Save/Export drawings (PNG, SVG)
-- [ ] Settings panel (persistence preferences, export formats)
-- [ ] Drawing metadata (creation date, last edited, etc.)
+- [ ] Drawing metadata (creation date, last edited)

@@ -1,20 +1,28 @@
 
 # Design System TODO
 
-**Last updated**: November 25, 2025  
-**Status**: Core architecture improvements complete.  
-**See**: `CHANGELOG.md` for completed work (v2.6.0 - Nov 24, 2025)
+**Last updated**: November 26, 2025  
+**Status**: Core architecture complete. See `CHANGELOG.md` (v2.6.0).
 
 ---
 
-## Outstanding Tasks
+## Outstanding Component Gaps
 
-- [ ] **Component Gaps**
-  - [ ] Tooltips on hover — Add to all interactive elements
-  - [ ] "Disabled" terminology — Update to "inactive/active" (less negative)
-  - [ ] `labs-input` range slider — For brush size controls
-  - [ ] `labs-sortable-list` — Enhanced drag-drop support (note: `labs-list-item` supports drag-drop, but no dedicated sortable wrapper)
+- [ ] **Tooltips** — Add hover tooltips to all interactive elements
+- [ ] **Disabled state terminology** — Update to "inactive/active" (less negative)
+- [ ] **Input range slider** — For Pad brush size controls
+- [ ] **Sortable list** — Enhanced drag-drop support (note: `labs-list-item` supports drag-drop)
 
-- [ ] **Storybook & Documentation**
-  - [ ] Wrapped component stories — Ensure all components have real-world usage examples
+## Documentation & Integration
+
+- [ ] **Wrapped component stories** — Ensure all components have real-world usage examples
+- [ ] **Storybook docs** — Document slot-driven APIs and recommended patterns
+
+---
+
+## Related Work
+
+- **Component development roadmap** — See `ROADMAP.md`
+- **List item + dropdown work** — See `TODO-list-item-dropdown.md` (reference)
+- **App-specific tasks** — See `/docs/{app}/TODO.md`
   - [ ] About page (Storybook) — Recover and update the "About" section
