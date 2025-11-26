@@ -63,13 +63,23 @@ labs/
 
 ## 📖 Documentation
 
+### Getting Started
 | Topic | File |
 |-------|------|
 | Development workflow | [DEVELOPMENT.md](DEVELOPMENT.md) |
-| Design system overview | [design-system/README.md](design-system/README.md) |
-| App integration patterns | [APP-PATTERNS.md](APP-PATTERNS.md) |
 | Contributing guidelines | [CONTRIBUTING.md](CONTRIBUTING.md) |
 | Task tracking | [todo-index.md](todo-index.md) |
+
+### Design System
+| Topic | File |
+|-------|------|
+| Component library | [design-system/README.md](design-system/README.md) |
+| Design philosophy | [design-system/smoothie.md](design-system/smoothie.md) |
+| Roadmap | [design-system/ROADMAP.md](design-system/ROADMAP.md) |
+| App patterns | [design-system/APP-PATTERNS.md](design-system/APP-PATTERNS.md) |
+
+### App Documentation
+Each app in `/docs/{app}/` contains: `README.md`, `CHANGELOG.md`, `TODO.md`
 
 ---
 
