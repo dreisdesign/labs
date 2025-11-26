@@ -19,11 +19,7 @@ node scripts/update-static-paths.js --auto || true
 cp -r design-system/storybook-static/* docs/design-system/
 
 
-# 4. Sync design system files using dev-sync script
-echo "📦 Syncing design system files..."
-./scripts/dev-sync.sh
-
-# Ensure all CSS stylesheets are always copied for production
+# 4. Ensure all CSS stylesheets are always copied for production
 mkdir -p docs/design-system/styles
 cp design-system/src/styles/*.css docs/design-system/styles/ 2>/dev/null || true
 
