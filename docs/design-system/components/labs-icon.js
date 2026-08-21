@@ -6,14 +6,20 @@ const ICON_BASE = (() => {
   const path = window.location.pathname;
   const hostname = window.location.hostname;
 
-  // GitHub Pages production - always use full path
+  // GitHub Pages production (dreisdesign.github.io)
   if (hostname === 'dreisdesign.github.io') {
     return "/labs/design-system/icons/";
   }
 
-  // Local Storybook development - use relative path (be very specific)
+  // GitHub Pages production (mindcubby.com)
+  if (hostname === 'mindcubby.com') {
+    return "/labs/design-system/icons/";
+  }
+
+  // Storybook iframe (local dev OR static deployment)
+  // Use relative path so it works at any URL depth
   if (path.includes('iframe.html') || (path.includes('storybook') && window.parent !== window)) {
-    return "/icons/";
+    return "./icons/";
   }
 
   // Default for other local development
